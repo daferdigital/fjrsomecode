@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="Pedidos">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="Co_cli" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Co_ven" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Co_us" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="comentario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="renglones" type="tns:ArrayOfRenglonesArticulo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfRenglonesArticulo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="RenglonesArticulo" type="tns:RenglonesArticulo" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="RenglonesArticulo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Co_art" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Precio" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="Cantidad" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="Descuento" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="EsIva" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="PedidosResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="PedidosResult" type="tns:MensajeDevuelto" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="MensajeDevuelto">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="IdDocumento" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Mensaje" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Fecha" type="s:dateTime" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="Cobros">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="co_cli" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="co_ven" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="co_us" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="num_doc" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="comentario" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="renglones" type="tns:RenglonesCobros" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="RenglonesCobros">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Referencia" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Fec_cob" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="Tip_Pag" type="tns:TipoPago" />
+          <s:element minOccurs="0" maxOccurs="1" name="Cod_cue" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="TipoPago">
+        <s:restriction base="s:string">
+          <s:enumeration value="Cheque" />
+          <s:enumeration value="Deposito" />
+          <s:enumeration value="Transferencia" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="CobrosResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CobrosResult" type="tns:MensajeDevuelto" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ActualizarStock">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="co_art" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="cantidad" type="s:double" />
+            <s:element minOccurs="1" maxOccurs="1" name="tipoActStock" type="tns:TipoActualizarStock" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:simpleType name="TipoActualizarStock">
+        <s:restriction base="s:string">
+          <s:enumeration value="Sumar" />
+          <s:enumeration value="Restar" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="ActualizarStockResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ActualizarStockResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ActualizarStockAlmacen">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="co_art" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="co_alma" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="cantidad" type="s:double" />
+            <s:element minOccurs="1" maxOccurs="1" name="tipoActStock" type="tns:TipoActualizarStock" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ActualizarStockAlmacenResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ActualizarStockAlmacenResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="StockUnico">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="co_art" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="StockUnicoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="StockUnicoResult" type="tns:ArticuloStock" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArticuloStock">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Co_art" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Canditad" type="s:double" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="StockUnicoAlmacen">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="co_art" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="co_alma" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="StockUnicoAlmacenResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="StockUnicoAlmacenResult" type="tns:ArticuloStock" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="StockLista">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="co_art" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="StockListaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="StockListaResult" type="tns:ArrayOfArticuloStock" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfArticuloStock">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ArticuloStock" type="tns:ArticuloStock" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="StockListaAlmacen">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="co_art" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="co_alma" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="StockListaAlmacenResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="StockListaAlmacenResult" type="tns:ArrayOfArticuloStock" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="StockListaFecha">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="co_art" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="fecha" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="StockListaFechaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="StockListaFechaResult" type="tns:ArrayOfArticuloStock" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="StockListaAlmacenFecha">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="co_art" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="co_alma" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="fecha" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="StockListaAlmacenFechaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="StockListaAlmacenFechaResult" type="tns:ArrayOfArticuloStock" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="PedidosSoapIn">
+    <wsdl:part name="parameters" element="tns:Pedidos" />
+  </wsdl:message>
+  <wsdl:message name="PedidosSoapOut">
+    <wsdl:part name="parameters" element="tns:PedidosResponse" />
+  </wsdl:message>
+  <wsdl:message name="CobrosSoapIn">
+    <wsdl:part name="parameters" element="tns:Cobros" />
+  </wsdl:message>
+  <wsdl:message name="CobrosSoapOut">
+    <wsdl:part name="parameters" element="tns:CobrosResponse" />
+  </wsdl:message>
+  <wsdl:message name="ActualizarStockSoapIn">
+    <wsdl:part name="parameters" element="tns:ActualizarStock" />
+  </wsdl:message>
+  <wsdl:message name="ActualizarStockSoapOut">
+    <wsdl:part name="parameters" element="tns:ActualizarStockResponse" />
+  </wsdl:message>
+  <wsdl:message name="ActualizarStockAlmacenSoapIn">
+    <wsdl:part name="parameters" element="tns:ActualizarStockAlmacen" />
+  </wsdl:message>
+  <wsdl:message name="ActualizarStockAlmacenSoapOut">
+    <wsdl:part name="parameters" element="tns:ActualizarStockAlmacenResponse" />
+  </wsdl:message>
+  <wsdl:message name="StockUnicoSoapIn">
+    <wsdl:part name="parameters" element="tns:StockUnico" />
+  </wsdl:message>
+  <wsdl:message name="StockUnicoSoapOut">
+    <wsdl:part name="parameters" element="tns:StockUnicoResponse" />
+  </wsdl:message>
+  <wsdl:message name="StockUnicoAlmacenSoapIn">
+    <wsdl:part name="parameters" element="tns:StockUnicoAlmacen" />
+  </wsdl:message>
+  <wsdl:message name="StockUnicoAlmacenSoapOut">
+    <wsdl:part name="parameters" element="tns:StockUnicoAlmacenResponse" />
+  </wsdl:message>
+  <wsdl:message name="StockListaSoapIn">
+    <wsdl:part name="parameters" element="tns:StockLista" />
+  </wsdl:message>
+  <wsdl:message name="StockListaSoapOut">
+    <wsdl:part name="parameters" element="tns:StockListaResponse" />
+  </wsdl:message>
+  <wsdl:message name="StockListaAlmacenSoapIn">
+    <wsdl:part name="parameters" element="tns:StockListaAlmacen" />
+  </wsdl:message>
+  <wsdl:message name="StockListaAlmacenSoapOut">
+    <wsdl:part name="parameters" element="tns:StockListaAlmacenResponse" />
+  </wsdl:message>
+  <wsdl:message name="StockListaFechaSoapIn">
+    <wsdl:part name="parameters" element="tns:StockListaFecha" />
+  </wsdl:message>
+  <wsdl:message name="StockListaFechaSoapOut">
+    <wsdl:part name="parameters" element="tns:StockListaFechaResponse" />
+  </wsdl:message>
+  <wsdl:message name="StockListaAlmacenFechaSoapIn">
+    <wsdl:part name="parameters" element="tns:StockListaAlmacenFecha" />
+  </wsdl:message>
+  <wsdl:message name="StockListaAlmacenFechaSoapOut">
+    <wsdl:part name="parameters" element="tns:StockListaAlmacenFechaResponse" />
+  </wsdl:message>
+  <wsdl:portType name="SyncWSSoap">
+    <wsdl:operation name="Pedidos">
+      <wsdl:input message="tns:PedidosSoapIn" />
+      <wsdl:output message="tns:PedidosSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Cobros">
+      <wsdl:input message="tns:CobrosSoapIn" />
+      <wsdl:output message="tns:CobrosSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ActualizarStock">
+      <wsdl:input message="tns:ActualizarStockSoapIn" />
+      <wsdl:output message="tns:ActualizarStockSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ActualizarStockAlmacen">
+      <wsdl:input message="tns:ActualizarStockAlmacenSoapIn" />
+      <wsdl:output message="tns:ActualizarStockAlmacenSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="StockUnico">
+      <wsdl:input message="tns:StockUnicoSoapIn" />
+      <wsdl:output message="tns:StockUnicoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="StockUnicoAlmacen">
+      <wsdl:input message="tns:StockUnicoAlmacenSoapIn" />
+      <wsdl:output message="tns:StockUnicoAlmacenSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="StockLista">
+      <wsdl:input message="tns:StockListaSoapIn" />
+      <wsdl:output message="tns:StockListaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="StockListaAlmacen">
+      <wsdl:input message="tns:StockListaAlmacenSoapIn" />
+      <wsdl:output message="tns:StockListaAlmacenSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="StockListaFecha">
+      <wsdl:input message="tns:StockListaFechaSoapIn" />
+      <wsdl:output message="tns:StockListaFechaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="StockListaAlmacenFecha">
+      <wsdl:input message="tns:StockListaAlmacenFechaSoapIn" />
+      <wsdl:output message="tns:StockListaAlmacenFechaSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SyncWSSoap" type="tns:SyncWSSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Pedidos">
+      <soap:operation soapAction="http://tempuri.org/Pedidos" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Cobros">
+      <soap:operation soapAction="http://tempuri.org/Cobros" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActualizarStock">
+      <soap:operation soapAction="http://tempuri.org/ActualizarStock" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActualizarStockAlmacen">
+      <soap:operation soapAction="http://tempuri.org/ActualizarStockAlmacen" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StockUnico">
+      <soap:operation soapAction="http://tempuri.org/StockUnico" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StockUnicoAlmacen">
+      <soap:operation soapAction="http://tempuri.org/StockUnicoAlmacen" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StockLista">
+      <soap:operation soapAction="http://tempuri.org/StockLista" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StockListaAlmacen">
+      <soap:operation soapAction="http://tempuri.org/StockListaAlmacen" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StockListaFecha">
+      <soap:operation soapAction="http://tempuri.org/StockListaFecha" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StockListaAlmacenFecha">
+      <soap:operation soapAction="http://tempuri.org/StockListaAlmacenFecha" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="SyncWSSoap12" type="tns:SyncWSSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Pedidos">
+      <soap12:operation soapAction="http://tempuri.org/Pedidos" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Cobros">
+      <soap12:operation soapAction="http://tempuri.org/Cobros" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActualizarStock">
+      <soap12:operation soapAction="http://tempuri.org/ActualizarStock" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActualizarStockAlmacen">
+      <soap12:operation soapAction="http://tempuri.org/ActualizarStockAlmacen" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StockUnico">
+      <soap12:operation soapAction="http://tempuri.org/StockUnico" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StockUnicoAlmacen">
+      <soap12:operation soapAction="http://tempuri.org/StockUnicoAlmacen" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StockLista">
+      <soap12:operation soapAction="http://tempuri.org/StockLista" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StockListaAlmacen">
+      <soap12:operation soapAction="http://tempuri.org/StockListaAlmacen" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StockListaFecha">
+      <soap12:operation soapAction="http://tempuri.org/StockListaFecha" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StockListaAlmacenFecha">
+      <soap12:operation soapAction="http://tempuri.org/StockListaAlmacenFecha" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SyncWS">
+    <wsdl:port name="SyncWSSoap" binding="tns:SyncWSSoap">
+      <soap:address location="http://localhost:1056/SyncWS.asmx" />
+    </wsdl:port>
+    <wsdl:port name="SyncWSSoap12" binding="tns:SyncWSSoap12">
+      <soap12:address location="http://localhost:1056/SyncWS.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
