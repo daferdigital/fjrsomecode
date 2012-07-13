@@ -16,7 +16,7 @@
     <link href="<%= siteBean.getRootSiteURL() %>/resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
     <link href="<%= siteBean.getRootSiteURL() %>/resources/css/primefaces.css" rel="stylesheet" type="text/css" />
     <link href="<%= siteBean.getRootSiteURL() %>/resources/css/bluesky/skin.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="<%= siteBean.getRootSiteURL() %>/js/jquery-1.3.2.min.js"></script>
+    <script type="text/javascript" src="<%= siteBean.getRootSiteURL() %>/js/jquery-1.7.1.js"></script>
     <script type="text/javascript" src="<%= siteBean.getRootSiteURL() %>/js/ajaxCalls.js"></script>
 </head>
 <body>
