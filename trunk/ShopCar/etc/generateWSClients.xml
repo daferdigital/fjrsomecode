@@ -3,7 +3,7 @@
 	<taskdef name="wsimport" classname="com.sun.tools.ws.ant.WsImport" />
 	
 	<target name="generate">
-	    <wsimport wsdl="http://localhost:8080/ShopCar/wsdls/SyncWS.wsdl"
+	    <wsimport wsdl="../WebContent/wsdls/SyncWS.wsdl"
 	              destdir="./WebContent/WEB-INF/classes"
 	              sourcedestdir="./src"
 	              keep="true"
