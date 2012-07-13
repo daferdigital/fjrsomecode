@@ -5,17 +5,17 @@
 %>
 
 <jsp:include page="../includes/header.jsp"></jsp:include>
-    
+
     <div id="contenido">
         <div id="principal">
             <input name="j_idt30" value="j_idt30" type="hidden">
-            <div id="j_idt30:j_idt31" class="ui-accordion ui-widget ui-helper-reset ui-hidden-container" role="tablist">
-                <h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-state-active ui-corner-top" role="tab" aria-expanded="true">
+            <div id="" class="ui-accordion ui-widget ui-helper-reset ui-hidden-container">
+                <h3 id="productos_header" class="ui-accordion-header ui-helper-reset ui-state-default ui-state-active ui-corner-top" role="tab" aria-expanded="true">
                     <span class="ui-icon ui-icon-triangle-1-s"></span>
                     <a href="#" tabindex="-1">Productos</a>
                 </h3>
                 
-                <div id="j_idt30:j_idt31:j_idt32" class="ui-accordion-content ui-helper-reset ui-widget-content" role="tabpanel" aria-hidden="false">
+                <div id="productos" class="ui-accordion-content ui-helper-reset ui-widget-content" role="tabpanel" aria-hidden="false">
                     <table>
 	                    <tr>
 	                        <td><img id="j_idt30:j_idt31:j_idt34" src="<%= siteBean.getRootSiteURL() %>/images/miidea.jpg" alt="" /></td>
@@ -59,5 +59,18 @@
     </div>
     
     <div style="clear: both;"></div>
-    
+
+<script type="text/javascript">
+    $("#productos_header").click(function () {
+    	if($("#productos_header").attr('title') == null){
+    		$("#productos_header").attr('title', 'click');
+    		$("#productos").fadeOut('3000');
+    	}else{
+    		$("#productos_header").attr('title', null);
+    		$("#productos").fadeIn('3000');
+    	}
+        
+    });
+</script>
+
 <jsp:include page="../includes/footer.jsp"></jsp:include>
