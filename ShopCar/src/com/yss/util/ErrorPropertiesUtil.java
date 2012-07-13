@@ -1,0 +1,62 @@
+package com.yss.util;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.Properties;
+
+/**
+ * 
+ * Class: ErrorPropertiesUtil
+ * Creation Date: 05/07/2012
+ * (c) 2012
+ *
+ * @author T&T
+ *
+ */
+public final class ErrorPropertiesUtil {
+	private static long lastModified = 0;
+	private static Properties props = new Properties();
+	private static String propsDirPath;
+	
+	private ErrorPropertiesUtil() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	/**
+	 * inicializado desde el init del servlet
+	 * @param propsDirPath
+	 */
+	public static void setPropsDirPath(String propsDirPath) {
+		ErrorPropertiesUtil.propsDirPath = propsDirPath;
+	}
+	
+	private static void tryLoadPropsContent(){
+		try {
+			File propsError = new File(propsDirPath
+					+ File.separator + "erroresMsgs.properties");
+			
+			if(propsError.lastModified() > lastModified){
+				//debemos leer de nuevo e archivo de propiedades
+				synchronized (props) {
+					props.load(new FileInputStream(propsError));
+				}
+			
+				lastModified = propsError.lastModified();
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	
+	/**
+	 * 
+	 * @param errorKey
+	 * @return
+	 */
+	public static String getPropertyValue(String errorKey){
+		tryLoadPropsContent();
+		
+		return props.getProperty(errorKey, errorKey);
+	}
+}
