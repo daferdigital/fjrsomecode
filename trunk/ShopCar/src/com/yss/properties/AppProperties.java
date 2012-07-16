@@ -18,6 +18,23 @@ public final class AppProperties {
 	private static Properties props = new Properties();
 	private static String propsDirPath;
 	
+	public static enum AppPropertyNames{
+		APP_pagingRecordsNumber("pagingRecordsNumber"),
+		APP_wsdlUrlProfitWS("wsdlUrlProfitWS");
+		
+		private String value;
+		
+		private AppPropertyNames(String value){
+			this.value = value;
+		}
+		
+		@Override
+		public String toString() {
+			// TODO Auto-generated method stub
+			return value;
+		}
+	}
+	
 	private AppProperties() {
 		// TODO Auto-generated constructor stub
 	}
@@ -48,29 +65,30 @@ public final class AppProperties {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 	
 	/**
 	 * 
-	 * @param errorKey
+	 * @param propertyName
 	 * @return
 	 */
-	public static String getPropertyValue(String errorKey){
+	public static String getPropertyValue(AppPropertyNames propertyName){
 		tryLoadPropsContent();
 		
-		return props.getProperty(errorKey, errorKey);
+		return props.getProperty(propertyName.value, propertyName.value);
 	}
 	
 	/**
 	 * 
-	 * @param errorKey
+	 * @param propertyName
 	 * @param defaultValue
 	 * @return
 	 */
-	public static String getPropertyValue(String errorKey, String defaultValue){
+	public static String getPropertyValue(AppPropertyNames propertyName, String defaultValue){
 		tryLoadPropsContent();
 		
-		return props.getProperty(errorKey, defaultValue);
+		return props.getProperty(propertyName.value, defaultValue);
 	}
 }

@@ -16,6 +16,7 @@ import com.yss.controller.AppConstant;
 import com.yss.controller.AppController;
 import com.yss.controller.AppControllerImpl;
 import com.yss.javabeans.view.SiteBean;
+import com.yss.properties.AppProperties;
 import com.yss.properties.MessagesProperties;
 import com.yss.util.DBUtil;
 import com.yss.util.ServletUtil;
@@ -77,6 +78,7 @@ public class AppServlet extends HttpServlet{
 			logger.info("Controller implementation was started");
 			
 			MessagesProperties.setPropsDirPath(getServletContext().getRealPath("/properties"));
+			AppProperties.setPropsDirPath(getServletContext().getRealPath("/properties"));
 			logger.info(method + "Completada la carga del servlet en "
 					+ (System.currentTimeMillis() - t0) + " ms.");
 		} catch (Throwable e) {
@@ -138,6 +140,8 @@ public class AppServlet extends HttpServlet{
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		final String action = request.getParameter(ServletUtil.ACTION);
+		request.setAttribute(AppConstant.T0_REQUEST,
+				System.currentTimeMillis());
 		
 		//verificamos si hay sesion de usuario
 		//para saber si es permitido ejecutar la solicitud del usuario conectado

@@ -38,7 +38,8 @@ public final class ProductoDAO {
 	 */
 	public static ProductoDTO getProductoById(String idProducto){
 		final String method = "getProductoById(" + idProducto + "): ";
-		final String query = "SELECT l.idlinea, l.nombre, m.idMarca, m.marca, p.Descripcion "
+		final String query = "SELECT l.idlinea, l.nombre, m.idMarca, m.marca, p.Descripcion, "
+				+ "p.precio1, p.precio2, p.precio3, p.precio4, p.precio5 "
 				+ "FROM producto p "
 				+ "LEFT OUTER JOIN linea l ON p.idLinea = l.idLinea "
 				+ "LEFT OUTER JOIN marca m ON p.idMarca = m.idMarca "
@@ -65,6 +66,11 @@ public final class ProductoDAO {
 				producto.setIdMarca(rs.getInt(3));
 				producto.setMarca(rs.getString(4));
 				producto.setDescripcion(rs.getString(5));
+				producto.setPrecio1(rs.getDouble(6));
+				producto.setPrecio2(rs.getDouble(7));
+				producto.setPrecio3(rs.getDouble(8));
+				producto.setPrecio4(rs.getDouble(9));
+				producto.setPrecio5(rs.getDouble(10));
 			}
 		} catch (Exception e) {
 			// TODO: handle exception

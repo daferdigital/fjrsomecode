@@ -16,6 +16,7 @@ public class ClienteDTO {
 	private String contacto;
 	private String telefono;
 	private String fax;
+	private String precioA;
 	
 	public ClienteDTO() {
 		// TODO Auto-generated constructor stub
@@ -67,5 +68,13 @@ public class ClienteDTO {
 
 	public void setFax(String fax) {
 		this.fax = fax;
+	}
+	
+	public String getPrecioA() {
+		return precioA;
+	}
+	
+	public void setPrecioA(String precioA) {
+		this.precioA = precioA;
 	}
 }

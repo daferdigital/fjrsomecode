@@ -19,6 +19,8 @@ public final class AppConstant {
 	
 	public static final String ACTION = "action";
 	
+	public static final String T0_REQUEST = "t0Request";
+	
 	public static final int ROL_ADMIN_VALUE = 1;
 	public static final int ROL_VENDEDOR_VALUE = 2;
 	public static final int ROL_CLIENTE_VALUE = 3;
@@ -44,4 +46,5 @@ public final class AppConstant {
 	public static final String PARAM_DESC_PRODUCTO = "paramDescProducto";
 	public static final String PARAM_LINEA_PRODUCTO = "paramLineaProducto";
 	public static final String PARAM_MARCA_PRODUCTO = "paramMarcaProducto";
+	public static final String PARAM_CANTIDAD_PRODUCTO = "paramCantidadProducto";
 }

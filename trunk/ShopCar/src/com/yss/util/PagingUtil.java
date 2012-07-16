@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.yss.controller.AppConstant;
 import com.yss.javabeans.view.SiteBean;
 import com.yss.properties.AppProperties;
+import com.yss.properties.AppProperties.AppPropertyNames;
 
 /**
  * 
@@ -74,7 +75,7 @@ public final class PagingUtil {
 		StringBuilder footerTR = new StringBuilder();
 		
 		//vemos la cantidad de elementos a dibujar por pagina
-		int maxRecordsPerPage = Integer.parseInt(AppProperties.getPropertyValue("pagingRecordsNumber", "20"));
+		int maxRecordsPerPage = Integer.parseInt(AppProperties.getPropertyValue(AppPropertyNames.APP_pagingRecordsNumber, "20"));
 		
 		//calculamos el total de paginas involucradas
 		int pagesInvolved = (totalRecords / maxRecordsPerPage) 
