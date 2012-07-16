@@ -42,4 +42,4 @@
     }
 %>
 
-<!-- Fin modulosRol1.jsp  -->
+<!-- Fin modulosRol1.jsp (Administrador) -->

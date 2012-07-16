@@ -103,10 +103,13 @@
     			tmp = iterCliente.next();
 %>
                 <tr>
-			        <td class="" style="min-width:5%; text-align:center">
+			        <td class="" style="min-width:8%; text-align:center">
 			            <a href="#" onclick="addProductInShopCar('<%= tmp.getIdProducto() %>')">
-			                <img border="0" src="<%= siteBean.getRootSiteURL() %>/images/icons/shopCar.jpg" />
+			                <img border="0" id="img_<%= tmp.getIdProducto() %>" src="<%= siteBean.getRootSiteURL() %>/images/icons/shopCar.jpg" />
                         </a>
+                        &nbsp;
+                        <input type="text" id="cantidad_<%= tmp.getIdProducto() %>" name="cantidad_<%= tmp.getIdProducto() %>" 
+                            onkeypress="return justAllowNumbers(event);" size="5" value="1" />
 			        </td>
 			        <td class="" style="min-width:15%; max-width:15%">
 			            <%= tmp.getIdProducto() %>

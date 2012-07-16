@@ -18,6 +18,8 @@
 </h3>
 
 <script type="text/javascript">
+    //actualizamos la cuenta de elementos al momento de ingresar al listado de productos
+    //para mostrarle al usuario si tenia productos previamente incluidos
     updateElementsShopCarCount(<%=shopCar.getShopCarSize()%>);
 </script>
 

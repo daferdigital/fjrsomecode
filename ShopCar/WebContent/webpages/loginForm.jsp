@@ -26,4 +26,7 @@
     </table>
     </form>
     
+    <script>
+        document.getElementById("<%=AppConstant.PARAM_LOGIN%>").focus();
+    </script>
 <jsp:include page="../includes/footer.jsp"></jsp:include>

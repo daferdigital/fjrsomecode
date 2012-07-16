@@ -28,12 +28,12 @@
                     </table>
                 </div>
                 
-                <h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all">
+                <h3 id="about_us_header" class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all">
                     <span class="ui-icon ui-icon-triangle-1-e"></span>
                     <a href="#" tabindex="-1">Acerca de nosotros</a>
                 </h3>
                 
-                <div id="acercaDeContent" class="ui-accordion-content ui-helper-reset ui-widget-content ui-helper-hidden">
+                <div id="about_us_content" class="ui-accordion-content ui-helper-reset ui-widget-content ui-helper-hidden">
                     Informacion de acerca de...
                 </div>
             </div>
@@ -44,14 +44,14 @@
             <div id="j_idt44:pnl" class="ui-panel ui-widget ui-widget-content ui-corner-all">
                 <div id="j_idt44:pnl_header" class="ui-panel-titlebar ui-widget-header ui-corner-all">
                     <span class="ui-panel-title">Detalle del carrito</span>
-                    <a href="javascript:void(0)" class="ui-panel-titlebar-icon ui-corner-all ui-state-default">
+                    <a id="closeDiv" href="#" class="ui-panel-titlebar-icon ui-corner-all ui-state-default">
                         <span id="j_idt44:pnl_closer" class="ui-icon ui-icon-closethick"></span>
                     </a>
-                    <a href="javascript:void(0)" class="ui-panel-titlebar-icon ui-corner-all ui-state-default">
+                    <a id="hideDiv" href="#" class="ui-panel-titlebar-icon ui-corner-all ui-state-default">
                         <span id="j_idt44:pnl_toggler" class="ui-icon ui-icon-minusthick"></span>
                     </a>
                 </div>
-                <div id="j_idt44:pnl_content" class="ui-panel-content ui-widget-content">
+                <div id="j_idt44_pnl_content" class="ui-panel-content ui-widget-content">
                     Indicar aqui la descripcion del carrito
                 </div>
             </div>
@@ -62,14 +62,37 @@
 
 <script type="text/javascript">
     $("#productos_header").click(function () {
-    	if($("#productos_header").attr('title') == null){
-    		$("#productos_header").attr('title', 'click');
-    		$("#productos").fadeOut('3000');
+    	if($("#productos_header > span").attr('class') == "ui-icon ui-icon-triangle-1-s"){
+    		$("#productos_header > span").attr("class", "ui-icon ui-icon-triangle-1-e");
+    		$("#productos").fadeOut(500);
     	}else{
-    		$("#productos_header").attr('title', null);
-    		$("#productos").fadeIn('3000');
+    		$("#productos_header > span").attr("class", "ui-icon ui-icon-triangle-1-s");
+            $("#productos").fadeIn(2000);
     	}
-        
+    });
+    
+    $("#about_us_header").click(function () {
+        if($("#about_us_header > span").attr('class') == "ui-icon ui-icon-triangle-1-s"){
+            $("#about_us_header > span").attr("class", "ui-icon ui-icon-triangle-1-e");
+            $("#about_us_content").fadeOut(500);
+        }else{
+            $("#about_us_header > span").attr("class", "ui-icon ui-icon-triangle-1-s");
+            $("#about_us_content").fadeIn(2000);
+        }
+    });
+    
+    $("#closeDiv").click(function () {
+    	$("#secundario").fadeOut(500);
+    });
+    
+    $("#hideDiv").click(function () {
+        if($("#hideDiv > span").attr("class") == "ui-icon ui-icon-minusthick"){
+        	$("#hideDiv > span").attr("class", "ui-icon ui-icon-plusthick");
+        	$("#j_idt44_pnl_content").fadeOut(500);
+        } else {
+        	$("#hideDiv > span").attr("class", "ui-icon ui-icon-minusthick");
+        	$("#j_idt44_pnl_content").fadeIn(2000);
+        }
     });
 </script>
 

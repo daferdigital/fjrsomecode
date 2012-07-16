@@ -6,6 +6,10 @@ body{
     margin: 10px;
 }
 
+a {
+	text-decoration: none;
+}
+
 .mainContainer {
     margin: 0 auto;
     width: 1200px;
