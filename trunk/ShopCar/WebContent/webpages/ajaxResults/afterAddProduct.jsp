@@ -4,6 +4,6 @@
     pageEncoding="ISO-8859-1"%>
 <%
     ShopCarDTO shopCar = (ShopCarDTO) request.getAttribute(AppConstant.ATT_SHOP_CAR_DTO);
-    //siplemente voy a escribir para el ajax la cantidad de elementos en el carrito
+    //simplemente voy a escribir para el ajax la cantidad de elementos en el carrito
 %>
 <b>(<%=shopCar.getShopCarSize()%>)</b>

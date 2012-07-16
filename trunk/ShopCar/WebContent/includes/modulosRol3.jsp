@@ -1,4 +1,4 @@
-<!-- Inicio modulosRol2.jsp (Vendedores) -->
+<!-- Inicio modulosRol3.jsp (Clientes) -->
 <%@page import="com.yss.dto.LoginDTO"%>
 <%@page import="com.yss.javabeans.view.UserSiteBean"%>
 <%@page import="com.yss.controller.AppConstant"%>
@@ -38,4 +38,4 @@
     }
 %>
 
-<!-- Fin modulosRol2.jsp  -->
+<!-- Fin modulosRol3.jsp (clientes) -->

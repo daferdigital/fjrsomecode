@@ -137,7 +137,7 @@ function showProductListIfAcceptClient(clienteId, clientName){
  */
 function updateElementsShopCarCount(newCount){
 	if(document.getElementById("numberOfElementsInShopCar") != null){
-    	document.getElementById("numberOfElementsInShopCar").innerHTML = "(" + newCount + ")";
+    	document.getElementById("numberOfElementsInShopCar").innerHTML = "<b>(" + newCount + ")</b>";
     }
 }
 
@@ -145,8 +145,13 @@ function addProductInShopCar(idProducto){
 	//COMO ESTO ES JAVASCRIPT NO TENGO ACCESO A LAS CONSTANTES JAVA
 	//TOCA CABLEAR
 	
+	$("#img_" + idProducto).effect("shake", { times:2 }, 200);
+	
 	//APPConstant.PARAM_ID_PRODUCTO
 	var urlToCall = "servlet?action=addProductToShopCar&paramIdProducto=" + idProducto;
+	//APPConstant.PARAM_CANTIDAD_PRODUCTO
+	urlToCall += "&paramCantidadProducto=" + document.getElementById("cantidad_" + idProducto).value;
+	
 	var ajaxObject = getAjaxObj();
 	
 	ajaxObject.onreadystatechange=function(){
