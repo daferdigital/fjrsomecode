@@ -9,6 +9,7 @@ import com.yss.controller.AppConstant;
 import com.yss.controller.AppController;
 import com.yss.dao.ClienteDAO;
 import com.yss.dao.ProductoDAO;
+import com.yss.dao.StockProfitDAO;
 import com.yss.dto.ClienteDTO;
 import com.yss.dto.ErrorMessageDTO;
 import com.yss.dto.ListPageResultDTO;
@@ -51,6 +52,7 @@ public class ShopCarHandler {
 			//no hay sesion previa
 			//debemos ir al inicio
 			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue("mustStartSession"));
+			logger.error("No hay session previa en el sistema, llevamos al usuario a la pagina de login");
 			controller.forward(erroresDTO, request, response, "/webpages/loginForm.jsp");
 			return;
 		}
@@ -124,6 +126,7 @@ public class ShopCarHandler {
 			//no hay sesion previa
 			//debemos ir al inicio
 			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue("mustStartSession"));
+			logger.error("No hay session previa en el sistema, llevamos al usuario a la pagina de login");
 			controller.forward(erroresDTO, request, response, "/webpages/loginForm.jsp");
 			return;
 		}
@@ -149,6 +152,11 @@ public class ShopCarHandler {
 			
 			logger.info(method + "No se encontro informacion del cliente, redirigimos a -> " + pageToforward);
 			controller.forward(erroresDTO, request, response, pageToforward);
+			return;
+		} else if (cliente.getPrecioA() == null){
+			//el cliente existe, pero no tiene precio configurado.
+			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue("clientDoesntHaveAPrice"));
+			controller.forward(erroresDTO, request, response, "/webpages/onlyInfo.jsp");
 			return;
 		}
 		
@@ -228,6 +236,7 @@ public class ShopCarHandler {
 			//no hay sesion previa
 			//debemos ir al inicio
 			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue("mustStartSession"));
+			logger.error("No hay session previa en el sistema, llevamos al usuario a la pagina de login");
 			controller.forward(erroresDTO, request, response, "/webpages/loginForm.jsp");
 			return;
 		}
@@ -237,15 +246,58 @@ public class ShopCarHandler {
 			producto = ProductoDAO.getProductoById(idProducto);
 		}
 		if(producto != null){
-			shopCar.addProductToCar(producto, 1);
-			logger.info(method + "Agregado con exito producto ["
-					+ producto.getIdProducto() + ", " + producto.getDescripcion() + "] al carrito");
+			//intentamos convertir la cantidad recibida por parametro
+			int cantidad = 1;
+			try {
+				cantidad = Integer.parseInt(request.getParameter(AppConstant.PARAM_CANTIDAD_PRODUCTO));
+			} catch (Exception e) {
+				logger.warn(method + "La cantidad indicada no es numerica, colocamos por defecto 1 unidad.");
+			}
+			if(StockProfitDAO.checkStockExistance(idProducto, cantidad)){
+				shopCar.addProductToCar(producto, cantidad);
+				logger.info(method + "Agregado con exito producto ["
+						+ producto.getIdProducto() + ", " + producto.getDescripcion() + ", " + cantidad + "] al carrito");
+			}else{
+				shopCar.addProductToCar(producto, cantidad);
+				logger.warn(method + "No hay suficiente Stock para suplir el producto ["
+						+ producto.getIdProducto() + ", " + producto.getDescripcion() + ", " + cantidad + "]");
+			}
+			
 		}
 		
 		request.setAttribute(AppConstant.ATT_SHOP_CAR_DTO, shopCar);
 		request.getSession().setAttribute(AppConstant.ATT_SHOP_CAR_DTO, shopCar);
 		
 		controller.forward(erroresDTO, request, response, "/webpages/ajaxResults/afterAddProduct.jsp");
+		return;
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @param controller
+	 * @throws Exception
+	 */
+	public static void viewCurrentShopCar(HttpServletRequest request,
+			HttpServletResponse response, AppController controller)
+	throws Exception{
+		ErrorMessageDTO erroresDTO = new ErrorMessageDTO();
+		LoginDTO loginDTO = (LoginDTO) request.getSession().getAttribute(AppConstant.ATT_BEAN_USER_VIEW);
+		ShopCarDTO shopCar = (ShopCarDTO) request.getSession().getAttribute(AppConstant.ATT_SHOP_CAR_DTO);
+		
+		if(loginDTO == null){
+			//no hay sesion previa
+			//debemos ir al inicio
+			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue("mustStartSession"));
+			logger.error("No hay session previa en el sistema, llevamos al usuario a la pagina de login");
+			controller.forward(erroresDTO, request, response, "/webpages/loginForm.jsp");
+			return;
+		}
+		
+		request.setAttribute(AppConstant.ATT_SHOP_CAR_DTO, shopCar);
+		
+		controller.forward(erroresDTO, request, response, "/webpages/ordenCompra/viewCurrentOrder.jsp");
 		return;
 	}
 }

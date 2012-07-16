@@ -38,8 +38,9 @@ public final class ClienteDAO {
 	 */
 	public static ClienteDTO getClienteById(String idCliente){
 		final String method = "getClienteById(" + idCliente + "): ";
-		final String query = "SELECT rif, nombre, contacto, conTelefono, conFax "
+		final String query = "SELECT c.rif, c.nombre, c.contacto, c.conTelefono, c.conFax, ct.precio_a "
 				+ "FROM cliente c "
+				+ "LEFT OUTER JOIN clientetipo ct ON c.tipocliente = ct.tipocliente "
 				+ "WHERE c.idcliente = ?";
 		
 		long t0 = System.currentTimeMillis();
@@ -63,6 +64,7 @@ public final class ClienteDAO {
 				cliente.setContacto(rs.getString(3));
 				cliente.setTelefono(rs.getString(4));
 				cliente.setFax(rs.getString(5));
+				cliente.setPrecioA(rs.getString(6));
 			}
 		} catch (Exception e) {
 			// TODO: handle exception

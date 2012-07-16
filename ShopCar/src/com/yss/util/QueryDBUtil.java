@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 
 import com.sun.rowset.CachedRowSetImpl;
 import com.yss.properties.AppProperties;
+import com.yss.properties.AppProperties.AppPropertyNames;
 
 /**
  * 
@@ -93,7 +94,7 @@ public final class QueryDBUtil {
 	public static CachedRowSet getRecordsByPage(Logger logger, Connection con, String query, int pageToGet){
 		//sustituimos el select .... from por select count(*) from
 		final String method = "getRecordsByPage(): ";
-		int maxRecordsPerPage = Integer.parseInt(AppProperties.getPropertyValue("pagingRecordsNumber", "20"));
+		int maxRecordsPerPage = Integer.parseInt(AppProperties.getPropertyValue(AppPropertyNames.APP_pagingRecordsNumber, "20"));
 		
 		int minIndex = (pageToGet - 1) * maxRecordsPerPage;
 		int maxIndex = pageToGet * maxRecordsPerPage;

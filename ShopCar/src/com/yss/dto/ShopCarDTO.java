@@ -1,6 +1,8 @@
 package com.yss.dto;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -61,5 +63,9 @@ public class ShopCarDTO {
 	
 	public ProductoDTO getProductFromCar(String idProducto){
 		return productos.get(idProducto);
+	}
+	
+	public Collection<ProductoDTO> getProductList(){
+		return productos.values();
 	}
 }

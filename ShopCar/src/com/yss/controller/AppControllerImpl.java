@@ -57,13 +57,15 @@ public class AppControllerImpl implements AppController{
 	public void forward(ErrorMessageDTO erroresDTO, HttpServletRequest request,
 			HttpServletResponse response, String jspHandler) {
 		try {
+			Long t0Request = (Long) request.getAttribute(AppConstant.T0_REQUEST);
 			if(erroresDTO != null && erroresDTO.getErrorMessages().size() > 0){
 				//tengo errores que mostrar
 				request.setAttribute(AppConstant.ATT_ERRORES_MSGS, erroresDTO);
 			}
 			
 			servletContext.getRequestDispatcher(jspHandler).forward(request, response);
-			appLogger.info("forwarded to: " + jspHandler);
+			appLogger.info("forwarded to: " + jspHandler 
+					+ " (" + (System.currentTimeMillis() - t0Request) + " ms.)");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			appLogger.error("Error trying to reach " + jspHandler
