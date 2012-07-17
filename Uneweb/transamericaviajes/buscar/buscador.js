@@ -328,6 +328,7 @@ function llenarFechaConValorParticular(valueToSearch){
 			//encontramos el valor
 			document.getElementById(allDates[i].title).className = "";
 			allDates[i].style.display = "";
+			document.getElementById("span" + allDates[i].title).style.display = "none";
 		}
 	}
 }
@@ -361,6 +362,7 @@ function llenarFechaConValorParticularV2(valuesToSearch){
 			if(! existOption){
 				document.getElementById(allDates[i].title).className = "disabled";
 				allDates[i].style.display = "none";
+				document.getElementById("span" + allDates[i].title).style.display = "";
 			}
 		}
 	}
