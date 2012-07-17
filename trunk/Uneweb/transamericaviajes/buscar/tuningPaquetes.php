@@ -522,8 +522,8 @@ function getDivDiasInfo($keysComboFecha, $arregloComboFecha){
 						//como cambiamos de checkbox a a-href, usaremos el atributo class del elemento a para saber si tiene el foco del click o no
 						//y el title para su valor.
 						"<a name=\"date\" title=\"$key1\" href=\"#dateHID$key1\" onclick=\"javascript:doLabelClick(this, '".$key1."'); return false;\">$i</a>".
+						"<span id=\"span$key1\" style=\"display: none;\">$i</span>".
 						//"<input name=\"date\" value=\"$key1\" type=\"checkbox\" onclick=doLabelClick(this) />".
-						
 						"</label>
 						</li>";
 					}
