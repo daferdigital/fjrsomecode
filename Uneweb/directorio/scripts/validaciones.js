@@ -15,9 +15,9 @@ function prepareOficios(selectOficios){
 	document.getElementById('tipoTmp').value = tmpValues;
 }
 
-function MM_validateForm() { //v4.0
+function MM_validateForm2() { //v4.0
   if (document.getElementById){
-    var i,p,nm,test,num,min,max,errors='',args=MM_validateForm.arguments;
+    var i,p,nm,test,num,min,max,errors='',args=MM_validateForm2.arguments;
     
     for (i=0; i<(args.length-2); i+=3) {
         test=args[i+2]; 
@@ -58,7 +58,9 @@ function MM_validateForm() { //v4.0
     if (errors) {
     	alert('Los siguientes errores han ocurrido:\n'+errors);
 	}
-	document.MM_returnValue = (errors == '');
+	
+    document.MM_returnValue = (errors == '');
+    return document.MM_returnValue;
   }
 }
 
