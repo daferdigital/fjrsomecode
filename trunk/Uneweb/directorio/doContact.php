@@ -2,9 +2,11 @@
 	session_start();
 	include "conexion.php";
 	
-	$adminMail = "correo del administrador";
+	$adminMail = "contacto@gentedeoficio.com";
 	$subject = "Han solicitado tus servicios";
+	$header = "From: " . $adminMail . "\r\n"; //optional headerfields
 	$message = "";
+	
 	
 	if (isset($_REQUEST['submitContact'])) {
 		//validamos el captcha
@@ -24,14 +26,18 @@
 					
 					$messageToEspecialist = "La persona: ".$_REQUEST['nombre']." ha solicitado tus servicios.".
 							"\n\n".
-							"Desde la direccion : ".$_REQUEST['direccion'].
+							"Este es su correo -> ".$_SESSION['loggedUser']['correo'].
 							"\n\n".
-							"Para la fecha: ".$_REQUEST['dateValue'].
+							"Y este es su telefono -> ".$_SESSION['loggedUser']['telefono'].
 							"\n\n".
+						//	"Desde la direccion : ".$_REQUEST['direccion'].
+						//	"\n\n".
+						//	"Para la fecha: ".$_REQUEST['dateValue'].
+						//	"\n\n".
 							"La solicitud es la siguiente: ".$_REQUEST['descSolicitud'].
 							"\n\n".
-							"El codigo de esta solicitud es: ".$_REQUEST['codSolicitud'].
-							"\n\n".
+						//	"El codigo de esta solicitud es: ".$_REQUEST['codSolicitud'].
+						//	"\n\n".
 							"NOTA: El usuario tiene un mes para calificarte por este servicio.";
 
 					$messageToVisitante = "Haz solicitado los servicios de: ".$row['nombre'].
@@ -50,8 +56,8 @@
 					"\n\n".
 					"NOTA: Tiene un mes para calificar este servicio.";
 					
-					if(mail($row['correo'], $subject, $messageToEspecialist)
-							&& mail($_SESSION['loggedUser']['correo'], $subject, $messageToVisitante)){
+					if(mail($row['correo'], $subject, $messageToEspecialist, $header)
+							&& mail($_SESSION['loggedUser']['correo'], $subject, $messageToVisitante, $header)){
 						//registramos la solicitud de servicio
 						$query = "INSERT INTO servicio_contactado (id, fecha_servicio, descripcion, id_solicitante, id_especialista)
 						VALUES (".$_REQUEST['codSolicitud'].", '".
@@ -65,7 +71,7 @@
 												
 						echo '<script language="javascript">alert("El correo fue enviado de manera exitosa."); window.location="asociese2.php"</script>';
 					}else{
-						echo '<script language="javascript">alert("Disculpe no se pudo enviar el correo intente de nuevo."); window.location="contacto.php"</script>';
+						echo '<script language="javascript">alert("Disculpe no se pudo enviar el correo intente de nuevo."); window.location="contactForm.php"</script>';
 					}
 				} else {
 					echo '<script language="javascript">alert("Disculpe no se encontro informacion sobre el servicio solicitado."); window.location="asociese2.php"</script>';
@@ -74,7 +80,7 @@
 				echo '<script language="javascript">alert("Disculpe no ha seleccionado el servicio que desea solicitar."); window.location="asociese2.php"</script>';
 			}
 		} else {
-			echo '<script language="javascript">alert("El codigo de validacion no es correcto, intente de nuevo."); window.location="contacto.php"</script>';
+			echo '<script language="javascript">alert("El codigo de validacion no es correcto, intente de nuevo."); window.location="contactForm.php"</script>';
 		}
 	}
 ?>
