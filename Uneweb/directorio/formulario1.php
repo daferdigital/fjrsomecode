@@ -196,7 +196,8 @@ body {
          
  		<table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
        		<tr>
-         		<td height="293" colspan="2" valign="top"><form action="" method="post" enctype="multipart/form-data" name="miForm" id="miForm" onsubmit="prepareOficios(document.getElementById('tipo')); MM_validateForm('security_code', 'Codigo de validacion', 'R', 'compania','Empresa','R','rif','Cedula/RIF','R','direccion','Direccion','R','telefono','Telefono','R','correo','Correo (E-mail)','RisEmail','estado','Estado','R','ciudad','Ciudad','R','nombre','Nombre','R','cedula','Cedula/RIF','R','cargo','Cargo','R','telf','Telefono','R','email','Correo (E-mail)','R');return document.MM_returnValue">
+         		<td height="293" colspan="2" valign="top">
+         		<form action="" method="post" enctype="multipart/form-data" name="miForm" id="miForm" onsubmit="prepareOficios(document.getElementById('tipo')); MM_validateForm2('nombre','Nombre','R','rif','Cedula/RIF','R','cedula','Cedula/RIF','R','tipoTmp','Area de Servicio','R','familia','Descripcion del servicio','R','direccion','Direccion','R','telefono','Telefono','R','telf','Telefono','R','municipio','Municipio','R','security_code','Codigo de validacion','R');return document.MM_returnValue">
          		  <table width="553" border="0" align="center">
          		    <tr>
          		      <td colspan="2" bgcolor="#CCCCCC" class="txt1">Llene los datos para registrarse en el Directorio de Proveedores<br /></td>
@@ -217,8 +218,7 @@ body {
        		      </tr>
          		    <tr>
          		      <td class="txt1">
-         		      		::: Oficio
-         		      		<br />
+         		      		::: Area de servicio<br />
          		      		<span class="none" style="font-size: 11px; font-weight: normal;">
          		      			Para indicar varios oficios presione la tecla Control (Ctrl) 
          		      			y haga click en el nombre del oficio que desea seleccionar
@@ -240,7 +240,7 @@ body {
 					</td>
        		      </tr>
          		    <tr>
-         		      <td class="txt1">::: Productos que vende </td>
+         		      <td class="txt1">::: Descripci&oacute;n de servicios y/o productos</td>
          		      <td><label>
          		        <textarea name="familia" id="familia" cols="45" rows="5"></textarea>
        		        </label></td>
@@ -306,7 +306,8 @@ body {
        		        </span></td>
        		      </tr>
          		  <tr>
-         		      <td><span class="txt1">:::</span> Leer: <span class="txt1">:::</span> Terminos y condiciones <br /></td>
+         		      <td><span class="txt1">:::</span> Leer:<br />
+	                <a href="http://www.webinteligente.com.ve/gentedeoficio/seccion2.php?id=7&amp;mira=142&amp;s=23">Terminos y condiciones </a><br /></td>
          		      <td><p>
          		        <label>
          		            <input name="terminos" type="radio" id="terminos_0" value="Acepto" checked="checked" />
