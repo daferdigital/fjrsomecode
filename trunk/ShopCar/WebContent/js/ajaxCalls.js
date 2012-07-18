@@ -30,6 +30,30 @@ function getAjaxObj(){
 	return ajaxObject;
 }
 
+function showErrorAfterAjaxCall(innerHTML){
+	//obtenemos el tamaño de la pantalla
+	var screenW = screen.width;
+	var screenH = screen.height;
+	
+	var container = document.getElementById("ajaxErrorContainer");
+	container.style.width = screenW + "px";
+	container.style.height = screenH + "px";
+	
+	var innerDiv = document.getElementById("ajaxErrorValues");
+	innerDiv.innerHTML = innerHTML;
+	innerDiv.style.height = document.getElementById("errorContainer").style.height + "px";
+	innerDiv.style.left = ((screenW - 450) / 2) + "px";
+	innerDiv.style.top = ((screenH - 110) / 2) + "px";
+	
+	//antes de mostrar los errores, debemos acomodarlos en el centro de la pantalla
+	innerDiv.style.display = "block";
+	container.style.display = "block";
+	
+	var errors = document.getElementById("errorContainer");
+	//errors.style.width = "450px";
+	
+}
+
 /**
  * Verificamos si la tecla presionada es un ENTER
  * @param e
@@ -145,7 +169,7 @@ function addProductInShopCar(idProducto){
 	//COMO ESTO ES JAVASCRIPT NO TENGO ACCESO A LAS CONSTANTES JAVA
 	//TOCA CABLEAR
 	
-	$("#img_" + idProducto).effect("shake", { times:2 }, 200);
+	$("#img_" + idProducto).effect("shake", { times:1 }, 200);
 	
 	//APPConstant.PARAM_ID_PRODUCTO
 	var urlToCall = "servlet?action=addProductToShopCar&paramIdProducto=" + idProducto;
@@ -158,13 +182,21 @@ function addProductInShopCar(idProducto){
 		if(ajaxObject.readyState == 4){
 			if(ajaxObject.status == 200){
 				//la llamada termino ok
-				//inyectamos la respuesta
-				document.getElementById("numberOfElementsInShopCar").innerHTML = ajaxObject.responseText;
+				//inyectamos la respuesta si no hubo error obteniendola
+				var textAjaxResponse = ajaxObject.responseText;
+				var indexOf = textAjaxResponse.indexOf("errorContainer");
+				
+				if(indexOf > -1){
+					//tengo un div, veo si es de la clase error
+					showErrorAfterAjaxCall(textAjaxResponse);
+				} else {
+					document.getElementById("numberOfElementsInShopCar").innerHTML = textAjaxResponse;
+				}
+				
+				document.getElementById("loadingCape").style.display = "none";
 			} else {
 				alert(mensajeErrorAjaxInvocacion);
 			}
-			
-			document.getElementById("loadingCape").style.display = "none";
 		}
 	};
 	

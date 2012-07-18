@@ -23,6 +23,10 @@
 </head>
 <body>
 
+<div id="ajaxErrorContainer">
+</div>
+<div id="ajaxErrorValues"></div>
+
 <table class="mainContainer">
     <tr>
         <td colspan="2">

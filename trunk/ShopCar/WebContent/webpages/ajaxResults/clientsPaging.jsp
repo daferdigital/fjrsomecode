@@ -96,7 +96,7 @@
 			        <td class="" style="min-width:5%; text-align:center">
 			            <a href="#<%= AppConstant.PARAM_RIF_CLIENTE %>" id="link_<%= AppConstant.PARAM_RIF_CLIENTE %>" 
 			                onclick="showProductListIfAcceptClient('<%=tmp.getIdCliente()%>', '<%=tmp.getRazonSocial()%>')">
-			                <img border="0" src="<%= siteBean.getRootSiteURL() %>/images/icons/shopCar.jpg" />
+			                <img onmouseover="swapImage(this, '<%= siteBean.getRootSiteURL() %>/images/icons/shopCar.jpg')" onmouseout="swapImage(this, '<%= siteBean.getRootSiteURL() %>/images/icons/shopCar_off.jpg')" border="0" src="<%= siteBean.getRootSiteURL() %>/images/icons/shopCar_off.jpg" />
                         </a>
 			        </td>
 			        <td class="" style="min-width:15%; max-width:15%">

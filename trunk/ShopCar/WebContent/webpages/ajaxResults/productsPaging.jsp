@@ -21,11 +21,11 @@
     String marcaProductToSearch = UtilText.emptyIfNull((String) request.getAttribute(AppConstant.PARAM_MARCA_PRODUCTO));    
 %>
 
-<div id="loadingCape">
-    <img src="<%= siteBean.getRootSiteURL() %>/images/cargando.gif" width="80px" height="80px"/>
-</div>
-
 <div id="infoContainer">
+    <div id="loadingCape">
+        <img src="<%= siteBean.getRootSiteURL() %>/images/cargando.gif" width="80px" height="80px"/>
+    </div>
+    
 <table class="listTable">
     <tr>
         <td class="headerTD" style="min-width:5; max-width:5%">
@@ -105,7 +105,7 @@
                 <tr>
 			        <td class="" style="min-width:8%; text-align:center">
 			            <a href="#" onclick="addProductInShopCar('<%= tmp.getIdProducto() %>')">
-			                <img border="0" id="img_<%= tmp.getIdProducto() %>" src="<%= siteBean.getRootSiteURL() %>/images/icons/shopCar.jpg" />
+			                <img onmouseover="swapImage(this, '<%= siteBean.getRootSiteURL() %>/images/icons/shopCar.jpg')" onmouseout="swapImage(this, '<%= siteBean.getRootSiteURL() %>/images/icons/shopCar_off.jpg')" border="0" id="img_<%= tmp.getIdProducto() %>" src="<%= siteBean.getRootSiteURL() %>/images/icons/shopCar_off.jpg" />
                         </a>
                         &nbsp;
                         <input type="text" id="cantidad_<%= tmp.getIdProducto() %>" name="cantidad_<%= tmp.getIdProducto() %>" 

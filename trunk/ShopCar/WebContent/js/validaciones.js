@@ -1,3 +1,15 @@
+
+/**
+ * Funcion javascript para hacer swaping entre imagenes (on/off)
+ * @param imgElement
+ * @param srcTo
+ */
+function swapImage(imgElement, srcTo){
+	if(imgElement != null){
+		imgElement.src = srcTo;
+	}
+}
+
 /**
  * Verificamos si la tecla presionada es un ENTER
  * @param e
