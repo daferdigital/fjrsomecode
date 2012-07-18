@@ -237,7 +237,7 @@ public class ShopCarHandler {
 			//debemos ir al inicio
 			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue("mustStartSession"));
 			logger.error("No hay session previa en el sistema, llevamos al usuario a la pagina de login");
-			controller.forward(erroresDTO, request, response, "/webpages/loginForm.jsp");
+			controller.forward(erroresDTO, request, response, "/webpages/ajaxResults/showAjaxErrors.jsp");
 			return;
 		}
 		
@@ -253,14 +253,15 @@ public class ShopCarHandler {
 			} catch (Exception e) {
 				logger.warn(method + "La cantidad indicada no es numerica, colocamos por defecto 1 unidad.");
 			}
-			if(StockProfitDAO.checkStockExistance(idProducto, cantidad)){
+			if(StockProfitDAO.checkStockExistance(erroresDTO, idProducto, cantidad)){
 				shopCar.addProductToCar(producto, cantidad);
 				logger.info(method + "Agregado con exito producto ["
 						+ producto.getIdProducto() + ", " + producto.getDescripcion() + ", " + cantidad + "] al carrito");
 			}else{
-				shopCar.addProductToCar(producto, cantidad);
 				logger.warn(method + "No hay suficiente Stock para suplir el producto ["
 						+ producto.getIdProducto() + ", " + producto.getDescripcion() + ", " + cantidad + "]");
+				controller.forward(erroresDTO, request, response, "/webpages/ajaxResults/showAjaxErrors.jsp");
+				return;
 			}
 			
 		}

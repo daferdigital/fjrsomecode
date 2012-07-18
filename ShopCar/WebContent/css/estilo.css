@@ -111,13 +111,13 @@ a {
     padding: 10px;
     font-weight: bold;
     font-size: 14;
-    
 }
 
 .errorContainer {
 	border: 1px;
 	border-color: red;
 	border-style: solid;
+	background-color: white;
 }
 
 .errorContainer ul li{
@@ -126,6 +126,22 @@ a {
 	font-weight: bold;
 }
 
+.errorContainer div {
+	width: 100%;
+	text-align: right;
+}
+
+.errorContainer div a{
+	color: red;
+    text-decoration: none;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.errorContainer div a:HOVER{
+    text-decoration: underline;
+    font-weight: bolder;
+}
 
 .listTable, #pagingValues table{
     border: 1px;
@@ -185,4 +201,23 @@ a {
     text-align: center;
     vertical-align: middle;
     display: none;
+}
+
+#ajaxErrorContainer{
+	display: none;
+	z-index: 1;
+    position: absolute;
+    opacity:0.3;
+    filter:alpha(opacity=30);
+    background-color:#000000;
+}
+
+#ajaxErrorValues{
+	display: none;
+    z-index: 1000;
+    position: absolute;
+    width: 450px;
+    background-color:#FFFFFF;
+    opacity:1;
+    filter:alpha(opacity=100);
 }
