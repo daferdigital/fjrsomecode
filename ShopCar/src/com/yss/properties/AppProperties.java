@@ -52,16 +52,16 @@ public final class AppProperties {
 	 */
 	private static void tryLoadPropsContent(){
 		try {
-			File propsError = new File(propsDirPath
+			File propsFile = new File(propsDirPath
 					+ File.separator + "application.properties");
 			
-			if(propsError.lastModified() > lastModified){
+			if(propsFile.lastModified() > lastModified){
 				//debemos leer de nuevo e archivo de propiedades
 				synchronized (props) {
-					props.load(new FileInputStream(propsError));
+					props.load(new FileInputStream(propsFile));
 				}
 				
-				lastModified = propsError.lastModified();
+				lastModified = propsFile.lastModified();
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -78,6 +78,17 @@ public final class AppProperties {
 		tryLoadPropsContent();
 		
 		return props.getProperty(propertyName.value, propertyName.value);
+	}
+	
+	/**
+	 * 
+	 * @param propertyName
+	 * @return
+	 */
+	public static String getPropertyValue(String propertyName){
+		tryLoadPropsContent();
+		
+		return props.getProperty(propertyName, propertyName);
 	}
 	
 	/**
