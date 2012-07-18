@@ -59,10 +59,15 @@ public class ShopCarHandler {
 		
 		//verificamos si el usuario es cliente o vendedor
 		if(AppConstant.ROL_VENDEDOR_VALUE == loginDTO.getIdRol()){
-			//este usuario es vendedor, lo dirigimos a la pagina donde debe indicar los clientes
-			//y eliminamos de sesion cualquier carrito previo
-			request.getSession().removeAttribute(AppConstant.ATT_SHOP_CAR_DTO);
-			controller.forward(null, request, response, "/webpages/ordenCompra/compraVendedorPaso1.jsp");
+			//este usuario es vendedor, 
+			//si no existe un carrito previo lo dirigimos a la pagina donde debe indicar los clientes
+			//si existe carrito previo lo llevamos a la pagina de productos
+			if(request.getSession().getAttribute(AppConstant.ATT_SHOP_CAR_DTO) == null){
+				controller.forward(null, request, response, "/webpages/ordenCompra/compraVendedorPaso1.jsp");
+			}else{
+				selectProductsToCar(request, response, controller);
+			}
+			
 			return;
 		} else if(AppConstant.ROL_CLIENTE_VALUE == loginDTO.getIdRol()){
 			//este usuario es cliente, lo dirigimos a la pagina donde debe indicar los productos

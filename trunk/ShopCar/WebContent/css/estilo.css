@@ -131,16 +131,12 @@ a {
 	text-align: right;
 }
 
-.errorContainer div a{
-	color: red;
-    text-decoration: none;
-    margin-right: 10px;
+.errorContainer div input{
+    background-color: red;
+    color: white;
     font-weight: bold;
-}
-
-.errorContainer div a:HOVER{
-    text-decoration: underline;
-    font-weight: bolder;
+    font-size: 14px;
+    margin-right: 10px;
 }
 
 .listTable, #pagingValues table{

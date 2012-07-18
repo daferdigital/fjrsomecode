@@ -30,4 +30,8 @@ public final class ErrorMessageDTO {
 	public void addErrorMessage(String errorMessage) {
 		errorMessages.add(errorMessage);
 	}
+	
+	public int getErrorCount(){
+		return errorMessages.size();
+	}
 }
