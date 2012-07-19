@@ -11,7 +11,7 @@
         	Iterator<String> errorIter = errores.getErrorMessages().iterator();
     %>
         <div id="errorContainer" class="errorContainer">
-            <div><input id="errorContainerClose" type="button" value="[X]" title="Click para cerrar"/></div>
+            <div><input id="errorContainerClose" type="button" value="[X]" title="Click para cerrar" onclick="hideErrors()"/></div>
             <ul>
     <%
         	while(errorIter.hasNext()){
@@ -21,16 +21,6 @@
         	}
     %>
             </ul>
-            
-            <script type="text/javascript">
-                //colocamos aqui todos los contenedores posibles donde pueden estar los errores
-                //para ocultar todos los elementos relacionados de una vez
-                $("#errorContainerClose").click (function(){
-                	$("#errorContainer").fadeOut(700);
-                	$("#ajaxErrorValues").fadeOut(700);
-                	$("#ajaxErrorContainer").fadeOut(700);
-                });
-            </script>
         </div>
     <%
         }

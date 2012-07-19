@@ -23,9 +23,9 @@
 </head>
 <body>
 
-<div id="ajaxErrorContainer">
+<div id="ajaxMsgsContainer">
 </div>
-<div id="ajaxErrorValues"></div>
+<div id="ajaxMsgsValues"></div>
 
 <table class="mainContainer">
     <tr>

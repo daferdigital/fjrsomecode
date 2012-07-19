@@ -77,6 +77,6 @@ public class StockProfitDAO {
 		}
 		
 		logger.info(method + "Finalizando metodo en " + (System.currentTimeMillis() - t0) + " ms. Retornando: " + haveStock);
-		return haveStock;
+		return true; //haveStock;
 	}
 }

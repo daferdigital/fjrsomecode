@@ -9,20 +9,19 @@
 
 <jsp:include page="../../includes/header.jsp"></jsp:include>
 
-<script>
-    function refreshOrder(){
-    	//iteramos en los productos, sus cantidades y totales menos descuentos
-    	var index = 0;
-    	
-    }
-</script>
-
 <%
     SiteBean siteBean = (SiteBean) request.getAttribute(AppConstant.ATT_BEAN_SITE);
     LoginDTO loginDTO = (LoginDTO) request.getSession().getAttribute(AppConstant.ATT_BEAN_USER_VIEW);
     ShopCarDTO shopCar = (ShopCarDTO) request.getAttribute(AppConstant.ATT_SHOP_CAR_DTO);
     int colSpan = 3;
 %>
+
+<div id="infoContainer">
+    <div id="loadingCape">
+        <h3>Su solicitud esta siendo procesada, espere por favor.</h3>
+        <br />
+        <img src="<%= siteBean.getRootSiteURL() %>/images/cargando.gif" width="80px" height="80px"/>
+    </div>
 
 <%
     //verificamos si existe un carrito en este punto
@@ -70,9 +69,11 @@
             <td class="headerTD">Descripci&oacute;n Producto</td>
             <td class="headerTD" width="25%">
                 Cantidad &nbsp;
+                <!-- 
                 <a href="javascript:refreshOrder()" title="Haga click para refrescar el total del carrito.">
                     <img src="<%= siteBean.getRootSiteURL() %>/images/icons/refresh.png" border="0"/>
                 </a>
+                 -->
             </td>
             <td class="headerTD">Precio Unitario</td>
             <%
@@ -93,14 +94,20 @@
             	ProductoDTO tmp = carItems.next();
         %>
         <tr>
-            <td><%=tmp.getIdProducto()%></td>
+            <td>
+                <input type="hidden" name="idProducto_<%=itemNumber%>" value="<%=tmp.getIdProducto()%>"/>
+                <%=tmp.getIdProducto()%>
+            </td>
             <td><%=tmp.getDescripcion()%></td>
             <td>
                 &nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="text"  name="cantidad_<%=itemNumber%>" onkeypress="return justAllowNumbers(event);" value="<%=tmp.getCantidadEnCarrito()%>"/>
+                <input type="text"  id="cantidad_<%=itemNumber%>" name="cantidad_<%=itemNumber%>" onkeypress="return justAllowNumbers(event);" onkeyup="setTotalOfCar();" value="<%=tmp.getCantidadEnCarrito()%>"/>
                 &nbsp;&nbsp;&nbsp;&nbsp;
             </td>
-            <td><%=tmp.getPriceOfClient(Integer.parseInt(shopCar.getCliente().getPrecioA().trim()))%></td>
+            <td>
+                <input type="hidden" id="precio_<%=itemNumber%>" name="precio_<%=itemNumber%>" value="<%=tmp.getPriceOfClient(Integer.parseInt(shopCar.getCliente().getPrecioA().trim()))%>"/>
+                <%=tmp.getPriceOfClient(Integer.parseInt(shopCar.getCliente().getPrecioA().trim()))%>
+            </td>
         
             <%
                 if(AppConstant.ROL_VENDEDOR_VALUE == loginDTO.getIdRol()){
@@ -108,7 +115,7 @@
             %>
             <td>
                 &nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="text" name="descuento_<%=itemNumber%>" value="0"/>
+                <input type="text" id="descuento_<%=itemNumber%>" name="descuento_<%=itemNumber%>" onkeypress="return allowCharactersToNumberDouble(this.value, event);" onkeyup="setTotalOfCar();" value="0"/>
                 &nbsp;&nbsp;&nbsp;&nbsp;
             </td>
         </tr>
@@ -123,10 +130,21 @@
             <td align="right" colspan="<%=colSpan%>"><b>Total: </b></td>
             <td align="center"><span id="totalPriceOrder"></span></td>
         </tr>
+        <tr>
+            <td align="center" colspan="<%=colSpan + 1%>">
+                <input type="button" value="Pre-Ordenar" onclick="doPreOrder()"/>
+                &nbsp;
+                <input type="button" value="Descartar Orden" onclick="discardShopOrder()"/>
+            </td>
+        </tr>
     </table>
     
+    <script>
+        setTotalOfCar();
+    </script>
     <%
     }
 %>
+</div>
 
 <jsp:include page="../../includes/footer.jsp"></jsp:include>
