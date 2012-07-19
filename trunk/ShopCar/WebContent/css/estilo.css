@@ -6,6 +6,12 @@ body{
     margin: 10px;
 }
 
+input:[type=button], input[type=submit] {
+   background: #BED6F8;
+   font-size: 12px;
+   font-family: Verdana, "Verdana CE";
+}
+
 a {
 	text-decoration: none;
 }
@@ -139,6 +145,31 @@ a {
     margin-right: 10px;
 }
 
+#msgsAjaxContainer {
+    border: 1px;
+    border-color: blue;
+    border-style: solid;
+    background-color: white;
+}
+
+#msgsAjaxContainer ul li{
+    color: black;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+#msgsAjaxContainer div {
+    width: 100%;
+    text-align: right;
+}
+
+#msgsAjaxContainer div input{
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
 .listTable, #pagingValues table{
     border: 1px;
     border-color: #59B4D4;
@@ -199,7 +230,7 @@ a {
     display: none;
 }
 
-#ajaxErrorContainer{
+#ajaxMsgsContainer{
 	display: none;
 	z-index: 1;
     position: absolute;
@@ -208,7 +239,7 @@ a {
     background-color:#000000;
 }
 
-#ajaxErrorValues{
+#ajaxMsgsValues{
 	display: none;
     z-index: 1000;
     position: absolute;

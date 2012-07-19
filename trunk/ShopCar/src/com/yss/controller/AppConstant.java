@@ -32,7 +32,8 @@ public final class AppConstant {
 	public static final String ATT_PAGING_RESULTS = "attPagingResults";
 	public static final String ATT_CLIENTE_DTO = "attClienteDTO";
 	public static final String ATT_SHOP_CAR_DTO = "attShopCarDTO";
-	
+	public static final String ATT_REDIRECT_TO_WELCOME = "attRedirectToWelcome";
+
 	//constantes asociadas a la paginacion
 	public static final String PAGING_PAGE_NUMBER = "pagingPageNumber";
 	

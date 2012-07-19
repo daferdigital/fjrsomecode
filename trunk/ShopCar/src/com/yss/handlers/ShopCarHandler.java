@@ -124,6 +124,7 @@ public class ShopCarHandler {
 		final String method = "selectProductsToCar(): ";
 		ErrorMessageDTO erroresDTO = new ErrorMessageDTO();
 		LoginDTO loginDTO = (LoginDTO) request.getSession().getAttribute(AppConstant.ATT_BEAN_USER_VIEW);
+		ShopCarDTO shopCarDTO = (ShopCarDTO) request.getSession().getAttribute(AppConstant.ATT_SHOP_CAR_DTO);
 		ClienteDTO cliente = null;
 		String vendedor = "WEB";
 		
@@ -141,9 +142,16 @@ public class ShopCarHandler {
 			//no tengo cliente en sesion, intento cargarlo.
 			cliente = ClienteDAO.getClienteById(loginDTO.getIdClienteRelated());
 		}else if((AppConstant.ROL_VENDEDOR_VALUE == loginDTO.getIdRol()) && (cliente == null)){
-			//no tengo cliente en sesion, intento cargarlo.
 			vendedor = loginDTO.getIdUsuario();
-			cliente = ClienteDAO.getClienteById(request.getParameter(AppConstant.PARAM_ID_CLIENTE));
+			
+			//si el vendedor tiene carrito aun en session quiere decir que ya tiene cliente
+			if(shopCarDTO != null){
+				//tengo cliente en el carrito que esta en sesion, intento cargarlo.
+				cliente = shopCarDTO.getCliente();
+			}else{
+				//no tengo cliente en sesion, intento cargarlo.
+				cliente = ClienteDAO.getClienteById(request.getParameter(AppConstant.PARAM_ID_CLIENTE));
+			}
 		}
 		
 		if(cliente == null){
@@ -170,12 +178,12 @@ public class ShopCarHandler {
 			request.getSession().setAttribute(AppConstant.ATT_CLIENTE_DTO, cliente);
 		}
 		
-		if(request.getSession().getAttribute(AppConstant.ATT_SHOP_CAR_DTO) == null){
-			ShopCarDTO shopCar = new ShopCarDTO();
-			shopCar.setCliente(cliente);
-			shopCar.setNombreVendedor(vendedor);
+		if(shopCarDTO == null){
+			shopCarDTO = new ShopCarDTO();
+			shopCarDTO.setCliente(cliente);
+			shopCarDTO.setNombreVendedor(vendedor);
 			
-			request.getSession().setAttribute(AppConstant.ATT_SHOP_CAR_DTO, shopCar);
+			request.getSession().setAttribute(AppConstant.ATT_SHOP_CAR_DTO, shopCarDTO);
 		}
 		
 		request.setAttribute(AppConstant.ATT_CLIENTE_DTO, cliente);
@@ -304,6 +312,125 @@ public class ShopCarHandler {
 		request.setAttribute(AppConstant.ATT_SHOP_CAR_DTO, shopCar);
 		
 		controller.forward(erroresDTO, request, response, "/webpages/ordenCompra/viewCurrentOrder.jsp");
+		return;
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @param controller
+	 * @throws Exception
+	 */
+	public static void storeShopCar(HttpServletRequest request,
+			HttpServletResponse response, AppController controller)
+	throws Exception{
+		final String method = "storeShopCar(): ";
+		ErrorMessageDTO erroresDTO = new ErrorMessageDTO();
+		LoginDTO loginDTO = (LoginDTO) request.getSession().getAttribute(AppConstant.ATT_BEAN_USER_VIEW);
+		ShopCarDTO shopCar = (ShopCarDTO) request.getSession().getAttribute(AppConstant.ATT_SHOP_CAR_DTO);
+		
+		if(loginDTO == null){
+			//no hay sesion previa
+			//debemos ir al inicio
+			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue("mustStartSession"));
+			logger.error(method + "No hay session previa en el sistema para esta peticion");
+			controller.forward(erroresDTO, request, response, "/webpages/ajaxResults/showAjaxErrors.jsp");
+			return;
+		}
+		
+		if(shopCar == null){
+			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue("preOrderDoesntExists"));
+			logger.error(method + "Este usuario no posee una orden de compra en session");
+			controller.forward(erroresDTO, request, response, "/webpages/ajaxResults/showAjaxErrors.jsp");
+			return;
+		}
+		
+		//tenemos sesion y carrito, validamos nuevamente el stock
+		int i = 0;
+		boolean mustContinue = true;
+		
+		while(mustContinue){
+			String codProducto = request.getParameter("idProducto_" + i);
+			
+			if(codProducto != null){
+				//tenemos producto, revisamos la cantidad
+				String cantidad = request.getParameter("cantidad_" + i);
+				int cantidadRequerida = 0;
+				try {
+					cantidadRequerida = Integer.parseInt(cantidad);
+					StockProfitDAO.checkStockExistance(erroresDTO, codProducto, cantidadRequerida);
+				} catch (NumberFormatException e) {
+					// TODO: handle exception
+					//la cantidad para este producto no es numerica, debemos indicarlo
+					erroresDTO.addErrorMessage("Cantidad no numerica producto " + codProducto);
+				}
+			} else {
+				mustContinue = false;
+			}
+			
+			i++;
+		}
+		
+		if(erroresDTO.getErrorCount() == 0){
+			//todo el proceso de validacion de carrito fue exitoso
+			//lo almacenamos en la base de datos
+			
+		} else {
+			controller.forward(erroresDTO, request, response, "/webpages/ajaxResults/showAjaxErrors.jsp");
+			return;
+		}
+		
+		erroresDTO.addErrorMessage("Su solicitud fue procesada con exito.");
+		request.getSession().setAttribute(AppConstant.ATT_SHOP_CAR_DTO, null);
+		request.setAttribute(AppConstant.ATT_REDIRECT_TO_WELCOME, true);
+		request.setAttribute(AppConstant.ATT_ERRORES_MSGS, erroresDTO);
+		
+		logger.error(method + "Fue procesada con exito la orden de compra que estaba en session.");
+		
+		controller.forward(erroresDTO, request, response, "/webpages/ajaxResults/showAjaxInfoMsgs.jsp");
+		return;
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @param controller
+	 * @throws Exception
+	 */
+	public static void discardShopOrder(HttpServletRequest request,
+			HttpServletResponse response, AppController controller)
+	throws Exception{
+		final String method = "discardShopOrder(): ";
+		ErrorMessageDTO erroresDTO = new ErrorMessageDTO();
+		LoginDTO loginDTO = (LoginDTO) request.getSession().getAttribute(AppConstant.ATT_BEAN_USER_VIEW);
+		ShopCarDTO shopCar = (ShopCarDTO) request.getSession().getAttribute(AppConstant.ATT_SHOP_CAR_DTO);
+		
+		if(loginDTO == null){
+			//no hay sesion previa
+			//debemos ir al inicio
+			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue("mustStartSession"));
+			logger.error(method + "No hay session previa en el sistema para esta peticion");
+			controller.forward(erroresDTO, request, response, "/webpages/ajaxResults/showAjaxErrors.jsp");
+			return;
+		}
+		
+		if(shopCar == null){
+			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue("preOrderDoesntExists"));
+			logger.error(method + "Este usuario no posee una orden de compra en session");
+			controller.forward(erroresDTO, request, response, "/webpages/ajaxResults/showAjaxErrors.jsp");
+			return;
+		}
+		
+		erroresDTO.addErrorMessage("Su solicitud fue procesada con exito.");
+		request.getSession().setAttribute(AppConstant.ATT_SHOP_CAR_DTO, null);
+		request.setAttribute(AppConstant.ATT_REDIRECT_TO_WELCOME, true);
+		request.setAttribute(AppConstant.ATT_ERRORES_MSGS, erroresDTO);
+		
+		logger.error(method + "Fue descartado con exito la orden de compra que estaba en session.");
+		
+		controller.forward(erroresDTO, request, response, "/webpages/ajaxResults/showAjaxInfoMsgs.jsp");
 		return;
 	}
 }

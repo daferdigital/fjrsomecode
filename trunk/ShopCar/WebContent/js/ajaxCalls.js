@@ -30,28 +30,33 @@ function getAjaxObj(){
 	return ajaxObject;
 }
 
-function showErrorAfterAjaxCall(innerHTML){
+/**
+ * funcion para mostrar como una ventana, el resultado de una operacion ajax.
+ * @param innerHTML
+ */
+function showMsgsAfterAjaxCall(innerHTML){
 	//obtenemos el tamaño de la pantalla
 	var screenW = screen.width;
 	var screenH = screen.height;
 	
-	var container = document.getElementById("ajaxErrorContainer");
+	var container = document.getElementById("ajaxMsgsContainer");
 	container.style.width = screenW + "px";
 	container.style.height = screenH + "px";
 	
-	var innerDiv = document.getElementById("ajaxErrorValues");
+	var innerDiv = document.getElementById("ajaxMsgsValues");
 	innerDiv.innerHTML = innerHTML;
-	innerDiv.style.height = document.getElementById("errorContainer").style.height + "px";
+	
+	var msgsContainer = document.getElementById("errorContainer");
+	if(msgsContainer == null){
+		msgsContainer = document.getElementById("msgsAjaxContainer");
+	}
+	innerDiv.style.height = msgsContainer.style.height + "px";
 	innerDiv.style.left = ((screenW - 450) / 2) + "px";
 	innerDiv.style.top = ((screenH - 110) / 2) + "px";
 	
 	//antes de mostrar los errores, debemos acomodarlos en el centro de la pantalla
 	innerDiv.style.display = "block";
 	container.style.display = "block";
-	
-	var errors = document.getElementById("errorContainer");
-	//errors.style.width = "450px";
-	
 }
 
 /**
@@ -165,6 +170,11 @@ function updateElementsShopCarCount(newCount){
     }
 }
 
+/**
+ * funcion a invocar para agregar productos en la orden de compra actual.
+ * 
+ * @param idProducto
+ */
 function addProductInShopCar(idProducto){
 	//COMO ESTO ES JAVASCRIPT NO TENGO ACCESO A LAS CONSTANTES JAVA
 	//TOCA CABLEAR
@@ -192,6 +202,79 @@ function addProductInShopCar(idProducto){
 				} else {
 					document.getElementById("numberOfElementsInShopCar").innerHTML = textAjaxResponse;
 				}
+				
+				document.getElementById("loadingCape").style.display = "none";
+			} else {
+				alert(mensajeErrorAjaxInvocacion);
+			}
+		}
+	};
+	
+	//colocamos la capa de "cargando"
+	document.getElementById("loadingCape").style.display = "block";
+	
+	ajaxObject.open("POST", urlToCall);
+	ajaxObject.send(null);
+}
+
+/**
+ * funcion a invocar para agregar productos en la orden de compra actual.
+ * 
+ * @param idProducto
+ */
+function doPreOrder(){
+	//COMO ESTO ES JAVASCRIPT NO TENGO ACCESO A LAS CONSTANTES JAVA
+	//TOCA CABLEAR
+	
+	//APPConstant.PARAM_ID_PRODUCTO
+	var urlToCall = "servlet?action=storeShopCar";//&paramIdProducto=" + idProducto;
+	//APPConstant.PARAM_CANTIDAD_PRODUCTO
+	//urlToCall += "&paramCantidadProducto=" + document.getElementById("cantidad_" + idProducto).value;
+	
+	var ajaxObject = getAjaxObj();
+	
+	ajaxObject.onreadystatechange=function(){
+		if(ajaxObject.readyState == 4){
+			if(ajaxObject.status == 200){
+				//la llamada termino ok
+				//inyectamos la respuesta si no hubo error obteniendola
+				//alert(ajaxObject.responseText);
+				showMsgsAfterAjaxCall(ajaxObject.responseText);
+				
+				document.getElementById("loadingCape").style.display = "none";
+			} else {
+				alert(mensajeErrorAjaxInvocacion);
+			}
+		}
+	};
+	
+	//colocamos la capa de "cargando"
+	document.getElementById("loadingCape").style.display = "block";
+	
+	ajaxObject.open("POST", urlToCall);
+	ajaxObject.send(null);
+}
+
+/**
+ * funcion a invocar para agregar productos en la orden de compra actual.
+ * 
+ * @param idProducto
+ */
+function discardShopOrder(){
+	//COMO ESTO ES JAVASCRIPT NO TENGO ACCESO A LAS CONSTANTES JAVA
+	//TOCA CABLEAR
+	
+	//APPConstant.PARAM_ID_PRODUCTO
+	var urlToCall = "servlet?action=discardShopOrder";
+	
+	var ajaxObject = getAjaxObj();
+	
+	ajaxObject.onreadystatechange=function(){
+		if(ajaxObject.readyState == 4){
+			if(ajaxObject.status == 200){
+				//la llamada termino ok
+				//inyectamos la respuesta si no hubo error obteniendola
+				showMsgsAfterAjaxCall(ajaxObject.responseText);
 				
 				document.getElementById("loadingCape").style.display = "none";
 			} else {
