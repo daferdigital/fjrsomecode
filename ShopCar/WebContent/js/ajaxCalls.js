@@ -228,8 +228,40 @@ function doPreOrder(){
 	
 	//APPConstant.PARAM_ID_PRODUCTO
 	var urlToCall = "servlet?action=storeShopCar";//&paramIdProducto=" + idProducto;
-	//APPConstant.PARAM_CANTIDAD_PRODUCTO
-	//urlToCall += "&paramCantidadProducto=" + document.getElementById("cantidad_" + idProducto).value;
+	
+	var i = 0;
+	var mustContinue = true;
+	
+	while(mustContinue){
+		var idProduct = document.getElementById("idProducto_" + i);
+		var cantidad = 0;
+		var precio = 0;
+		var descuento = 0;
+		
+		if(idProduct != null){
+			//tenemos cantidad para este indice, entonces obtenemos el precio y el descuento para el calculo
+			cantidad = document.getElementById("cantidad_" + i);
+			
+			//el precio nunca deberia ser nulo, el descuento si
+			precio = document.getElementById("precio_" + i).value;
+			
+			descuento = document.getElementById("descuento_" + i);
+			if(descuento == null){
+				descuento = 0;
+			}else {
+				descuento = descuento.value; 
+			}
+			
+			urlToCall += "&idProducto_" + i + "=" + idProduct.value;
+			urlToCall += "&cantidad_" + i + "=" + cantidad.value;
+			urlToCall += "&precio_" + i + "=" + precio;
+			urlToCall += "&descuento_" + i + "=" + descuento;
+		} else {
+			mustContinue = false;
+		}
+		
+		i++;
+	}
 	
 	var ajaxObject = getAjaxObj();
 	

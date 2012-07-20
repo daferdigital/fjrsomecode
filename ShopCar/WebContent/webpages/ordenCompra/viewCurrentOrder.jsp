@@ -95,7 +95,7 @@
         %>
         <tr>
             <td>
-                <input type="hidden" name="idProducto_<%=itemNumber%>" value="<%=tmp.getIdProducto()%>"/>
+                <input type="hidden" id="idProducto_<%=itemNumber%>" name="idProducto_<%=itemNumber%>" value="<%=tmp.getIdProducto()%>"/>
                 <%=tmp.getIdProducto()%>
             </td>
             <td><%=tmp.getDescripcion()%></td>

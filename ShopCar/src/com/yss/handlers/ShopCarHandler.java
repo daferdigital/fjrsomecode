@@ -330,6 +330,7 @@ public class ShopCarHandler {
 		LoginDTO loginDTO = (LoginDTO) request.getSession().getAttribute(AppConstant.ATT_BEAN_USER_VIEW);
 		ShopCarDTO shopCar = (ShopCarDTO) request.getSession().getAttribute(AppConstant.ATT_SHOP_CAR_DTO);
 		
+		logger.info(request.getParameterMap());
 		if(loginDTO == null){
 			//no hay sesion previa
 			//debemos ir al inicio
