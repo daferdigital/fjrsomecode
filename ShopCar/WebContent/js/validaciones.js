@@ -8,7 +8,7 @@ function hideErrors(mustRedirectToWelcomePage){
 	$("#ajaxMsgsContainer").fadeOut(700);
 	
 	if(mustRedirectToWelcomePage){
-		window.location = "servlet?action=showHome";
+		window.location = "servlet?action=redirectToPage&paramPageToRedirect=/webpages/welcome.jsp";
 	}
 }
 

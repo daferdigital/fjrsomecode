@@ -9,6 +9,7 @@ import com.yss.dao.LoginDAO;
 import com.yss.dto.ErrorMessageDTO;
 import com.yss.dto.LoginDTO;
 import com.yss.properties.MessagesProperties;
+import com.yss.properties.MessagesProperties.MsgPropertyNames;
 
 /**
  * En esta clase debemos almacenar los actions que vamos a permitir ejecutar
@@ -53,6 +54,19 @@ public final class SiteBaseHandler {
 	}
 	
 	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @param controller
+	 * @throws Exception
+	 */
+	public static void redirectToPage(HttpServletRequest request,
+			HttpServletResponse response, AppController controller)
+	throws Exception{
+		String page = request.getParameter(AppConstant.PARAM_PAGE_TO_REDIRECT);
+		controller.forward(null, request, response, page);
+	}
+	/**
 	 * Ejecutamos la accion de login
 	 * 
 	 * @param request
@@ -69,9 +83,9 @@ public final class SiteBaseHandler {
 		ErrorMessageDTO erroresDTO = new ErrorMessageDTO();
 		
 		if(login == null || "".equals(login)){
-			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue("login.isEmpty"));
+			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue(MsgPropertyNames.MSG_loginIsEmpty));
 			if(password == null || "".equals(password)){
-				erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue("password.isEmpty"));
+				erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue(MsgPropertyNames.MSG_passwordIsEmpty));
 			}
 			
 			controller.forward(erroresDTO, request, response, "/webpages/loginForm.jsp");
@@ -81,7 +95,7 @@ public final class SiteBaseHandler {
 		LoginDTO loginDTO = LoginDAO.checkIfCredentialsAreValid(erroresDTO, login, password);
 		
 		if(loginDTO == null){
-			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue("credentials.notCorrect"));
+			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue(MsgPropertyNames.MSG_credentialsNotCorrect));
 			controller.forward(erroresDTO, request, response, "/webpages/loginForm.jsp");
 			return;
 		}else{
