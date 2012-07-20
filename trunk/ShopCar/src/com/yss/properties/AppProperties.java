@@ -18,9 +18,19 @@ public final class AppProperties {
 	private static Properties props = new Properties();
 	private static String propsDirPath;
 	
+	/**
+	 * Este enum debe estar en concordancia con el contenido de los keys en el archivo de propiedades.
+	 * 
+	 */
 	public static enum AppPropertyNames{
 		APP_pagingRecordsNumber("pagingRecordsNumber"),
-		APP_wsdlUrlProfitWS("wsdlUrlProfitWS");
+		APP_wsdlUrlProfitWS("wsdlUrlProfitWS"),
+		APP_EMAIL_SMTP_HOST("email.smtp.host"),
+		APP_EMAIL_SMTP_PORT("email.smtp.port"),
+		APP_EMAIL_PROTOCOL("email.protocol"),
+		APP_EMAIL_AUTH_USER("email.auth.user"),
+		APP_EMAIL_AUTH_PWD("email.auth.pwd"),
+		APP_EMAIL_ENABLE_DEBUG_LOG("email.enable.debug.log");
 		
 		private String value;
 		
@@ -35,6 +45,9 @@ public final class AppProperties {
 		}
 	}
 	
+	/**
+	 * Defualt constructor
+	 */
 	private AppProperties() {
 		// TODO Auto-generated constructor stub
 	}
@@ -78,17 +91,6 @@ public final class AppProperties {
 		tryLoadPropsContent();
 		
 		return props.getProperty(propertyName.value, propertyName.value);
-	}
-	
-	/**
-	 * 
-	 * @param propertyName
-	 * @return
-	 */
-	public static String getPropertyValue(String propertyName){
-		tryLoadPropsContent();
-		
-		return props.getProperty(propertyName, propertyName);
 	}
 	
 	/**

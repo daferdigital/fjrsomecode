@@ -1,5 +1,7 @@
 package com.yss.handlers;
 
+import java.text.MessageFormat;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,6 +19,7 @@ import com.yss.dto.LoginDTO;
 import com.yss.dto.ProductoDTO;
 import com.yss.dto.ShopCarDTO;
 import com.yss.properties.MessagesProperties;
+import com.yss.properties.MessagesProperties.MsgPropertyNames;
 
 /**
  * 
@@ -51,7 +54,7 @@ public class ShopCarHandler {
 		if(loginDTO == null){
 			//no hay sesion previa
 			//debemos ir al inicio
-			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue("mustStartSession"));
+			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue(MsgPropertyNames.MSG_mustStartSession));
 			logger.error("No hay session previa en el sistema, llevamos al usuario a la pagina de login");
 			controller.forward(erroresDTO, request, response, "/webpages/loginForm.jsp");
 			return;
@@ -74,7 +77,7 @@ public class ShopCarHandler {
 			selectProductsToCar(request, response, controller);
 		} else {
 			//el rol de este usuario no le da acceso a esta funcionalidad
-			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue("operationNotAllowed"));
+			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue(MsgPropertyNames.MSG_operationNotAllowed));
 			controller.forward(erroresDTO, request, response, "/webpages/onlyInfo.jsp");
 			return;
 		}
@@ -131,7 +134,7 @@ public class ShopCarHandler {
 		if(loginDTO == null){
 			//no hay sesion previa
 			//debemos ir al inicio
-			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue("mustStartSession"));
+			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue(MsgPropertyNames.MSG_mustStartSession));
 			logger.error("No hay session previa en el sistema, llevamos al usuario a la pagina de login");
 			controller.forward(erroresDTO, request, response, "/webpages/loginForm.jsp");
 			return;
@@ -157,7 +160,7 @@ public class ShopCarHandler {
 		if(cliente == null){
 			//el cliente sigue siendo null, debo indicar error y no continuar
 			String pageToforward = "/webpages/welcome.jsp";
-			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue("notClientInSession"));
+			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue(MsgPropertyNames.MSG_notClientInSession));
 			
 			if(AppConstant.ROL_VENDEDOR_VALUE == loginDTO.getIdRol()){
 				pageToforward = "/webpages/ordenCompra/compraVendedorPaso1.jsp";
@@ -168,7 +171,7 @@ public class ShopCarHandler {
 			return;
 		} else if (cliente.getPrecioA() == null){
 			//el cliente existe, pero no tiene precio configurado.
-			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue("clientDoesntHaveAPrice"));
+			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue(MsgPropertyNames.MSG_clientDoesntHaveAPrice));
 			controller.forward(erroresDTO, request, response, "/webpages/onlyInfo.jsp");
 			return;
 		}
@@ -248,7 +251,7 @@ public class ShopCarHandler {
 		if(loginDTO == null){
 			//no hay sesion previa
 			//debemos ir al inicio
-			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue("mustStartSession"));
+			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue(MsgPropertyNames.MSG_mustStartSession));
 			logger.error("No hay session previa en el sistema, llevamos al usuario a la pagina de login");
 			controller.forward(erroresDTO, request, response, "/webpages/ajaxResults/showAjaxErrors.jsp");
 			return;
@@ -303,7 +306,7 @@ public class ShopCarHandler {
 		if(loginDTO == null){
 			//no hay sesion previa
 			//debemos ir al inicio
-			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue("mustStartSession"));
+			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue(MsgPropertyNames.MSG_mustStartSession));
 			logger.error("No hay session previa en el sistema, llevamos al usuario a la pagina de login");
 			controller.forward(erroresDTO, request, response, "/webpages/loginForm.jsp");
 			return;
@@ -334,14 +337,14 @@ public class ShopCarHandler {
 		if(loginDTO == null){
 			//no hay sesion previa
 			//debemos ir al inicio
-			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue("mustStartSession"));
+			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue(MsgPropertyNames.MSG_mustStartSession));
 			logger.error(method + "No hay session previa en el sistema para esta peticion");
 			controller.forward(erroresDTO, request, response, "/webpages/ajaxResults/showAjaxErrors.jsp");
 			return;
 		}
 		
 		if(shopCar == null){
-			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue("preOrderDoesntExists"));
+			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue(MsgPropertyNames.MSG_preOrderDoesntExists));
 			logger.error(method + "Este usuario no posee una orden de compra en session");
 			controller.forward(erroresDTO, request, response, "/webpages/ajaxResults/showAjaxErrors.jsp");
 			return;
@@ -364,7 +367,8 @@ public class ShopCarHandler {
 				} catch (NumberFormatException e) {
 					// TODO: handle exception
 					//la cantidad para este producto no es numerica, debemos indicarlo
-					erroresDTO.addErrorMessage("Cantidad no numerica producto " + codProducto);
+					erroresDTO.addErrorMessage(MessageFormat.format(
+							MessagesProperties.getPropertyValue(MsgPropertyNames.MSG_notNumericValueToProduct), codProducto));
 				}
 			} else {
 				mustContinue = false;
@@ -382,7 +386,7 @@ public class ShopCarHandler {
 			return;
 		}
 		
-		erroresDTO.addErrorMessage("Su solicitud fue procesada con exito.");
+		erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue(MsgPropertyNames.MSG_sucessfullRequest));
 		request.getSession().setAttribute(AppConstant.ATT_SHOP_CAR_DTO, null);
 		request.setAttribute(AppConstant.ATT_REDIRECT_TO_WELCOME, true);
 		request.setAttribute(AppConstant.ATT_ERRORES_MSGS, erroresDTO);
@@ -411,20 +415,20 @@ public class ShopCarHandler {
 		if(loginDTO == null){
 			//no hay sesion previa
 			//debemos ir al inicio
-			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue("mustStartSession"));
+			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue(MsgPropertyNames.MSG_mustStartSession));
 			logger.error(method + "No hay session previa en el sistema para esta peticion");
 			controller.forward(erroresDTO, request, response, "/webpages/ajaxResults/showAjaxErrors.jsp");
 			return;
 		}
 		
 		if(shopCar == null){
-			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue("preOrderDoesntExists"));
+			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue(MsgPropertyNames.MSG_preOrderDoesntExists));
 			logger.error(method + "Este usuario no posee una orden de compra en session");
 			controller.forward(erroresDTO, request, response, "/webpages/ajaxResults/showAjaxErrors.jsp");
 			return;
 		}
 		
-		erroresDTO.addErrorMessage("Su solicitud fue procesada con exito.");
+		erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue(MsgPropertyNames.MSG_sucessfullRequest));
 		request.getSession().setAttribute(AppConstant.ATT_SHOP_CAR_DTO, null);
 		request.setAttribute(AppConstant.ATT_REDIRECT_TO_WELCOME, true);
 		request.setAttribute(AppConstant.ATT_ERRORES_MSGS, erroresDTO);

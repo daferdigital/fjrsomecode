@@ -9,6 +9,7 @@ import com.yss.dto.ErrorMessageDTO;
 import com.yss.properties.AppProperties;
 import com.yss.properties.MessagesProperties;
 import com.yss.properties.AppProperties.AppPropertyNames;
+import com.yss.properties.MessagesProperties.MsgPropertyNames;
 import com.yss.util.WSPortManager;
 import com.yss.ws.client.syncws.ArrayOfArticuloStock;
 import com.yss.ws.client.syncws.ArticuloStock;
@@ -62,18 +63,18 @@ public class StockProfitDAO {
 			}
 			
 			if(! haveStock){
-				erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue("stockNotEnough"));
+				erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue(MsgPropertyNames.MSG_stockNotEnough));
 			}
 		} catch (InaccessibleWSDLException e) {
 			// TODO Auto-generated catch block
 			logger.error(method + "No se pudo establecer la conexion hacia el WS en la ruta: " 
 					+ AppProperties.getPropertyValue(AppPropertyNames.APP_wsdlUrlProfitWS), e);
-			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue("stockWSUnreachable"));
+			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue(MsgPropertyNames.MSG_stockWSUnreachable));
 		} catch (Exception e){
 			logger.error(method + "Error inesperado consumiendo WS en la ruta: " 
 					+ AppProperties.getPropertyValue(AppPropertyNames.APP_wsdlUrlProfitWS)
 					+ ". Error fue: " + e.getLocalizedMessage(), e);
-			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue("webServiceError"));
+			erroresDTO.addErrorMessage(MessagesProperties.getPropertyValue(MsgPropertyNames.MSG_webServiceError));
 		}
 		
 		logger.info(method + "Finalizando metodo en " + (System.currentTimeMillis() - t0) + " ms. Retornando: " + haveStock);

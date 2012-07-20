@@ -21,6 +21,8 @@ public final class AppConstant {
 	
 	public static final String T0_REQUEST = "t0Request";
 	
+	public static final String PARAM_PAGE_TO_REDIRECT = "paramPageToRedirect";
+	
 	public static final int ROL_ADMIN_VALUE = 1;
 	public static final int ROL_VENDEDOR_VALUE = 2;
 	public static final int ROL_CLIENTE_VALUE = 3;

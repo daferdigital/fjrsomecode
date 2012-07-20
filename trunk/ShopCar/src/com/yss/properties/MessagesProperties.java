@@ -18,6 +18,41 @@ public final class MessagesProperties {
 	private static Properties props = new Properties();
 	private static String propsDirPath;
 	
+	/**
+	 * Este enum debe estar en concordancia con el contenido de los keys en el archivo de mensajes.
+	 * 
+	 */
+	public static enum MsgPropertyNames{
+		MSG_loginIsEmpty("login.isEmpty"),
+		MSG_passwordIsEmpty("password.isEmpty"),
+		MSG_credentialsNotCorrect("credentials.notCorrect"),
+		MSG_mustStartSession("mustStartSession"),
+		MSG_operationNotAllowed("operationNotAllowed"),
+		MSG_requestAjaxThrowError("requestAjaxThrowError"),
+		MSG_requestAjaxCeroRecords("requestAjaxCeroRecords"),
+		MSG_notClientInSession("notClientInSession"),
+		MSG_clientDoesntHaveAPrice("clientDoesntHaveAPrice"),
+		MSG_webServiceError("webServiceError"),
+		MSG_stockNotEnough("stockNotEnough"),
+		MSG_stockWSUnreachable("stockWSUnreachable"),
+		MSG_preOrderDoesntExists("preOrderDoesntExists"),
+		MSG_stockNotEnoughToProduct("stockNotEnoughToProduct"),
+		MSG_sucessfullRequest("sucessfullRequest"),
+		MSG_notNumericValueToProduct("notNumericValueToProduct");
+		
+		private String value;
+		
+		private MsgPropertyNames(String value){
+			this.value = value;
+		}
+		
+		@Override
+		public String toString() {
+			// TODO Auto-generated method stub
+			return value;
+		}
+	}
+	
 	private MessagesProperties() {
 		// TODO Auto-generated constructor stub
 	}
@@ -32,16 +67,16 @@ public final class MessagesProperties {
 	
 	private static void tryLoadPropsContent(){
 		try {
-			File propsError = new File(propsDirPath
+			File propsFile = new File(propsDirPath
 					+ File.separator + "messages.properties");
 			
-			if(propsError.lastModified() > lastModified){
+			if(propsFile.lastModified() > lastModified){
 				//debemos leer de nuevo e archivo de propiedades
 				synchronized (props) {
-					props.load(new FileInputStream(propsError));
+					props.load(new FileInputStream(propsFile));
 				}
 			
-				lastModified = propsError.lastModified();
+				lastModified = propsFile.lastModified();
 			}
 			
 		} catch (Exception e) {
@@ -51,12 +86,12 @@ public final class MessagesProperties {
 	
 	/**
 	 * 
-	 * @param errorKey
+	 * @param msgKey
 	 * @return
 	 */
-	public static String getPropertyValue(String errorKey){
+	public static String getPropertyValue(MsgPropertyNames msgKey){
 		tryLoadPropsContent();
 		
-		return props.getProperty(errorKey, errorKey);
+		return props.getProperty(msgKey.value, msgKey.value);
 	}
 }
