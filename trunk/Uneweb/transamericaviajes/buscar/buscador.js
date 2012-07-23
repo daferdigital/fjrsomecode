@@ -1,3 +1,43 @@
+/**
+ * funcion para obtener de un arreglo javascript, solo aquellos elementos
+ * que se repiten la cantidad de veces indicadas en el parametro,
+ * 
+ * @param numberOfRepetitions
+ */
+Array.prototype.getRepeatedElements = function(numberOfRepetitions){
+	var repetitions = new Array();
+	var values = new Array();
+	var result = new Array();
+	var i = 0;
+	
+	//revisamos la repeticion de los elementos
+	for (i = 0; i < this.length; i++) {
+		//iteramos el arreglo, para obtener los valores
+		//e ir actualizando las repeticiones de dicho valor
+		var position = values.indexOf(this[i]);
+		
+		if(position == -1){
+			//es la primera aparicion de elemento
+			//debemos agregarlo
+			position = values.push(this[i]);
+			repetitions.push(1);
+		} else {
+			//actualizamos la repeticion
+			repetitions[position] = repetitions[position] + 1;
+		}
+	}
+
+	//tenemos el resultado, ahora sacamos los que cumplan con las repeticiones solicitadas
+	for (i = 0; i < repetitions.length; i++) {
+		if(repetitions[i] == numberOfRepetitions){
+			//este elemento se repite la cantidad de veces solicitada, debe quedar en la respuesta final
+			result.push(values[i]);
+		}
+	}
+	
+	return result;
+};
+
 function showDaysDiv(){
 	var offsetLeft = document.getElementById("fecha").offsetLeft;
 	offsetLeft -= 450;
@@ -513,12 +553,21 @@ function onChangePaquete(){
 	var arrayValues1 = null, arrayValues2 = null, arrayValues3 = null, arrayValues4 = null, arrayValues5 = null, arrayValues6 = null;
 	var esDevolucionDeFiltro = (document.getElementById("titulos").value == "0");
 	
+	if(esDevolucionDeFiltro){
+		llenarSelectVacio(document.getElementById("titulosHID"), document.getElementById("titulos"));
+	}
+	
+	arrayValues1 = onChangeSelectValues(document.getElementById("titulos"),
+			document.getElementById("titulosHID").options.length);
+	
+	/*
 	if((! esDevolucionDeFiltro) || (document.getElementById("titulos").options.length == document.getElementById("titulosHID").options.length)){
 		arrayValues1 = onChangeSelectValues(document.getElementById("titulos"),
 				document.getElementById("titulosHID").options.length);
 	}
+	*/
 	
-	if(esDevolucionDeFiltro){
+	//if(esDevolucionDeFiltro){
 		arrayValues2 = onChangeSelectValues(document.getElementById("puerto"),
 				document.getElementById("puertoHID").options.length);
 		arrayValues3 = onChangeSelectValues(document.getElementById("destinos"),
@@ -528,7 +577,7 @@ function onChangePaquete(){
 		arrayValues5 = onChangeSelectValues(document.getElementById("precio"),
 				document.getElementById("precioHID").options.length);
 		arrayValues6 = getDateValues();
-	}
+	//}
 	
 	var arrayValues = startProcessWithValues(arrayValues1, arrayValues2, arrayValues3, arrayValues4, arrayValues5, arrayValues6);
 	if(arrayValues != null){
@@ -772,13 +821,25 @@ function onChangeItinerarioCircuito(){
 
 function startProcessWithValues(arrayValues1, arrayValues2, arrayValues3, arrayValues4, arrayValues5, arrayValues6){
 	//concatenamos los arrays
-	var arrayValues = null;
+	var arrayValues = new Array();
+	var repetitions = 0;
 	
-	//alert(arrayValues1+"\n"+ arrayValues2 +"\n"+  arrayValues3 +"\n"+  arrayValues4 +"\n"+  arrayValues5);
+	alert(arrayValues1+"\n"+ arrayValues2 +"\n"+  arrayValues3 +"\n"+  arrayValues4 +"\n"+  arrayValues5);
+	
 	if(arrayValues1 != null){
+		arrayValues1 = arrayValues1.filter(function(itm,i,a){
+		    return i==a.indexOf(itm);
+		});
+		
 		arrayValues = arrayValues1;
+		repetitions ++;
 	}
 	if(arrayValues2 != null){
+		repetitions ++;
+		arrayValues2 = arrayValues2.filter(function(itm,i,a){
+		    return i==a.indexOf(itm);
+		});
+		
 		if(arrayValues == null){
 			arrayValues = arrayValues2;
 		}else{
@@ -786,6 +847,11 @@ function startProcessWithValues(arrayValues1, arrayValues2, arrayValues3, arrayV
 		}
 	}
 	if(arrayValues3 != null){
+		repetitions ++;
+		arrayValues3 = arrayValues2.filter(function(itm,i,a){
+		    return i==a.indexOf(itm);
+		});
+		
 		if(arrayValues == null){
 			arrayValues = arrayValues3;
 		}else{
@@ -793,6 +859,11 @@ function startProcessWithValues(arrayValues1, arrayValues2, arrayValues3, arrayV
 		}
 	}
 	if(arrayValues4 != null){
+		repetitions ++;
+		arrayValues4 = arrayValues4.filter(function(itm,i,a){
+		    return i==a.indexOf(itm);
+		});
+		
 		if(arrayValues == null){
 			arrayValues = arrayValues4;
 		}else{
@@ -800,6 +871,11 @@ function startProcessWithValues(arrayValues1, arrayValues2, arrayValues3, arrayV
 		}
 	}
 	if(arrayValues5 != null){
+		repetitions ++;
+		arrayValues5 = arrayValues5.filter(function(itm,i,a){
+		    return i==a.indexOf(itm);
+		});
+		
 		if(arrayValues == null){
 			arrayValues = arrayValues5;
 		}else{
@@ -807,18 +883,27 @@ function startProcessWithValues(arrayValues1, arrayValues2, arrayValues3, arrayV
 		}
 	}
 	if(arrayValues6 != null){
+		repetitions ++;
+		arrayValues6 = arrayValues6.filter(function(itm,i,a){
+		    return i==a.indexOf(itm);
+		});
+		
 		if(arrayValues == null){
 			arrayValues = arrayValues6;
 		}else{
 			arrayValues = arrayValues.concat(arrayValues6);
 		}
 	}
+	alert(repetitions + " - " + arrayValues);
 	
+	var uniqueValues = arrayValues.getRepeatedElements(repetitions);
+	/*
 	var uniqueValues = arrayValues.filter(function(itm,i,a){
 	    return i==a.indexOf(itm);
 	});
+	*/
 	
-	//alert(uniqueValues);
+	alert(uniqueValues);
 	
 	return uniqueValues;
 }
