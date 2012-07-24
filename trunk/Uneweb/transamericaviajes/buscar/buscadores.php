@@ -177,7 +177,7 @@
 		<div class="innerContent" >
 			<fieldset>
 				<label class="clearfixAlt anyMonthOption" style="display: inline-block;">
-					<input id="dateAll" value="" class="any-default selected" type="checkbox" onclick="unCheckDays()"> 
+					<input id="dateAll" value="" class="any-default selected" type="checkbox" onclick="unCheckDays()" /> 
 					<span class="labelText">
 						Cualquier d&iacute;a
 					</span>
