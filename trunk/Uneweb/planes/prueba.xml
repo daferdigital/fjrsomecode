@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<secciones>
+  <seccion>
+    <titulo>seccion1</titulo>
+    <img>img/1331079114_Twitter.png</img>
+    <dias>
+    	<dia>
+    		<title>Dia 1</title>
+    		<actividades>Actividades dia 1</actividades>
+    		<img>img/1331079114_Twitter.png</img>
+    	</dia>
+    	<dia>
+    		<title>Dia 2</title>
+    		<actividades>Actividades dia 2</actividades>
+    		<img>img/1331079114_Twitter.png</img>
+    	</dia>
+    </dias>
+  </seccion>
+  <seccion>
+    <titulo>seccion2</titulo>
+    <img>img/1331079114_Twitter.png</img>
+    <queincluye>
+   	  <item>include1</item>
+      <item>include2</item>
+    </queincluye>
+  </seccion>
+  <seccion>
+    <titulo>seccion3</titulo>
+    <img>img/1331079114_Twitter.png</img>
+    <condiciones>
+      <item>condicion1</item>
+      <item>condicion2</item>
+    </condiciones>
+    <gastos>
+      <item>gasto1</item>
+      <item>gasto2</item>
+    </gastos>
+  </seccion>
+  <seccion>
+    <titulo>seccion4</titulo>
+    <fotos>
+      <item>1331079114_Twitter.png</item>
+      <item>1331079141_Facebook.png</item>
+      <item>1331079165_YouTube.png</item>
+    </fotos>
+  </seccion>
+  <seccion>
+    <titulo>seccion 5</titulo>
+    <img/>
+    <filas>
+      <fila>
+        <ciudad>ciudad1</ciudad>
+        <hotel>hotel1</hotel>
+        <categoria>categoria1</categoria>
+      </fila>
+      <fila>
+        <ciudad>ciudad2</ciudad>
+        <hotel>hotel2</hotel>
+        <categoria>categoria2</categoria>
+      </fila>
+    </filas>
+  </seccion>
+</secciones>
