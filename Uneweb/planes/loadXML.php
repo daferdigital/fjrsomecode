@@ -125,10 +125,26 @@
                     	<ul>
                     		<?php 
                     			//iteramos sobre la informacion de las condiciones
-                    			$items = $doc->xpath('//condiciones//item');
-                    			$items = $seccion->getElementsByTagName("item");
-                    			foreach ($items as $item){
-                    				echo "<li>".$item->nodeValue."</li>";
+                    			$items = $seccion->getElementsByTagName("condiciones");
+                    			$xpath = new DOMXPath($doc);
+                    			$entries = $xpath->query("item", $items->item(0));
+                    			
+                    			foreach ($entries as $entry) {
+                    				echo "<li>$entry->nodeValue</li>";
+                    			}
+
+                    			//iteramos sobre la informacion de los gastos
+                    			$items = $seccion->getElementsByTagName("gastos");
+                    			$xpath = new DOMXPath($doc);
+                    			$entries = $xpath->query("item", $items->item(0));
+                    			
+                    			if($entries->length > 0){
+                    				echo "<li>Gastos de anulaci&oacute;n del Viaje</li>";
+                    				echo "<ul>";
+                    				foreach ($entries as $entry) {
+                    					echo "<li>$entry->nodeValue</li>";
+                    				}
+                    				echo "</ul>";
                     			}
                     		?>
                     	</ul>
