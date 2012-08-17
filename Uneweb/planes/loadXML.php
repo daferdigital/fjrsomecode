@@ -31,9 +31,16 @@
         
         <br />
         
-        <?php 
+        <?php
+        	$xmlFileName = "./xml/plan.xml";
+			$id = "";
+			if(isset($_REQUEST['id'])){
+				$xmlFileName = "./xml/plan".$_REQUEST['id'].".xml";
+				$id = $_REQUEST['id'];
+			}
+		    	
         	$doc = new DOMDocument();
-  			$doc->load('prueba.xml');
+  			$doc->load($xmlFileName);
         	
   			$secciones = $doc->getElementsByTagName("seccion");
   			$i = 1;
@@ -48,7 +55,7 @@
 						    if($seccion->getElementsByTagName("img")->item(0)->nodeValue){
 						?>
 								<hr width="100%" size="2" /> 
-								<img src="<?php echo $seccion->getElementsByTagName("img")->item(0)->nodeValue?>"/> 
+								<img src="./img/<?php echo $seccion->getElementsByTagName("img")->item(0)->nodeValue?>"/> 
 						<?php
 						    }
 						    
@@ -67,7 +74,7 @@
 						    		if($dia->getElementsByTagName("img")->item(0)->nodeValue){
 						    	?>
 						    			<div class="span3">
-						    				<img src="<?php echo $dia->getElementsByTagName("img")->item(0)->nodeValue;?>"/>
+						    				<img src="./img/<?php echo $dia->getElementsByTagName("img")->item(0)->nodeValue;?>"/>
 						    				<br />
 						    				<br />
 						    			</div>
@@ -88,7 +95,7 @@
 						    if($seccion->getElementsByTagName("img")->item(0)->nodeValue){
 						?>
 								<hr width="100%" size="2" /> 
-								<img src="<?php echo $seccion->getElementsByTagName("img")->item(0)->nodeValue?>"/> 
+								<img src="./img/<?php echo $seccion->getElementsByTagName("img")->item(0)->nodeValue?>"/> 
 						<?php
 						    }
 						?>
@@ -116,7 +123,7 @@
 						    if($seccion->getElementsByTagName("img")->item(0)->nodeValue){
 						?>
 								<hr width="100%" size="2" /> 
-								<img src="<?php echo $seccion->getElementsByTagName("img")->item(0)->nodeValue?>"/> 
+								<img src="./img/<?php echo $seccion->getElementsByTagName("img")->item(0)->nodeValue?>"/> 
 						<?php
 						    }
 						?>
@@ -140,7 +147,7 @@
                     			
                     			if($entries->length > 0){
                     				echo "<li>Gastos de anulaci&oacute;n del Viaje</li>";
-                    				echo "<ul>";
+                    				echo "<ul><br />";
                     				foreach ($entries as $entry) {
                     					echo "<li>$entry->nodeValue</li>";
                     				}
@@ -150,7 +157,58 @@
                     	</ul>
 					</div>
 		<?php
-				}
+				} else if($i == 4) {
+		?>
+					<div id="tabs-4">
+						<h3>Galeria de fotos</h3> 
+                    	<hr width="100%" size="2" /> 
+                    	
+                    	<iframe width="635" height="400" src="nivo-slider/demo/showGallery.php?id=<?php echo $id;?>" frameborder="0" allowfullscreen></iframe> 
+                    </div>
+        <?php
+        		}  else if($i == 5) {
+        ?>
+        			<div id="tabs-5">
+        				<h3> Hoteles previstos </h3> 
+                    	<?php 
+       						if($seccion->getElementsByTagName("img")->item(0)->nodeValue){
+						?>
+								<hr width="100%" size="2" /> 
+								<img src="./img/<?php echo $seccion->getElementsByTagName("img")->item(0)->nodeValue?>"/>              
+                    	<?php 
+       						}
+                    	?>
+                    
+                    	<br /> 
+                    	<br /> 
+                    
+                    	<table class="table table-bordered table-striped"> 
+                        	<thead> 
+                            	<tr> 
+                                	<th> Ciudad </th> 
+                                	<th> Hotel </th> 
+                                	<th> Categor&iacute;a </th> 
+                                </tr> 
+                        	</thead>
+                        	<tbody>
+                        	<?php 
+                        		//recorremos la informacion respectiva
+                        		$filas = $seccion->getElementsByTagName("fila");
+                        		if($filas->length > 0){
+                        			foreach ($filas as $fila){
+                        				echo "<tr>";
+                        				echo "<td>".$fila->getElementsByTagName("ciudad")->item(0)->nodeValue."</td>";
+                        				echo "<td>".$fila->getElementsByTagName("hotel")->item(0)->nodeValue."</td>";
+                        				echo "<td>".$fila->getElementsByTagName("categoria")->item(0)->nodeValue."</td>";
+                        				echo "</tr>";
+                        			}
+                        		}
+                        	?>
+                        	</tbody>
+                        </table> 
+        			</div>
+        <?php
+        		}
         		
 				$i++;
        		}

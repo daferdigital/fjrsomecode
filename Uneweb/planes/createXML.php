@@ -1,4 +1,13 @@
 <?php
+	$baseDir = "./xml";
+	mkdir($baseDir);
+	
+	$xmlFileName = "./xml/plan.xml";
+			
+	if(isset($_REQUEST['id'])){
+		$xmlFileName = "./xml/plan".$_REQUEST['id'].".xml";
+	}
+	
 	$doc = new DOMDocument();
 	$doc->formatOutput = true;
 	
@@ -20,7 +29,8 @@
 			//verificamos si existe imagen para la cabecera
 			if($_FILES["imageSeccion1"]["error"] == 0){
 				//tenemos imagen, la copiamos al directorio respectivo y almacenamos la referencia
-				$tmpNode = $doc->createElement("img", "img/".$_FILES["imageSeccion1"]["name"]);
+				$tmpNode = $doc->createElement("img", $_FILES["imageSeccion1"]["name"]);
+				move_uploaded_file($_FILES["imageSeccion1"]["tmp_name"], "./img/".$_FILES["imageSeccion1"]["name"]);
 			}else {
 				$tmpNode = $doc->createElement("img");
 			}
@@ -31,7 +41,7 @@
 				$dayTitles = $_POST['dayTitle'];
 				$dayActivities = $_POST['dayDesc'];
 				$dayImgs = $_FILES["dayImage"]["name"];
-					
+				$dayTmps = $_FILES["dayImage"]["tmp_name"];
 				reset($dayTitles);
 					
 				$subSeccionDias = $doc->createElement("dias");
@@ -41,7 +51,8 @@
 					$dia->appendChild($doc->createElement("title", $dayTitle['value']));
 					$dia->appendChild($doc->createElement("actividades", $dayActivities[$dayTitle['key']]));
 					$dia->appendChild($doc->createElement("img", $dayImgs[$dayTitle['key']]));
-				
+					move_uploaded_file($dayTmps[$dayTitle['key']], "./img/".$dayImgs[$dayTitle['key']]);
+					
 					$subSeccionDias->appendChild($dia);
 				}
 				$seccion->appendChild($subSeccionDias);
@@ -56,6 +67,7 @@
 			if($_FILES["imageSeccion2"]["error"] == 0){
 				//tenemos imagen, la copiamos al directorio respectivo y almacenamos la referencia
 				$tmpNode = $doc->createElement("img", "img/".$_FILES["imageSeccion2"]["name"]);
+				move_uploaded_file($_FILES["imageSeccion2"]["tmp_name"], "./img/".$_FILES["imageSeccion2"]["name"]);
 			}else {
 				$tmpNode = $doc->createElement("img");
 			}
@@ -85,6 +97,7 @@
 			if($_FILES["imageSeccion3"]["error"] == 0){
 				//tenemos imagen, la copiamos al directorio respectivo y almacenamos la referencia
 				$tmpNode = $doc->createElement("img", "img/".$_FILES["imageSeccion3"]["name"]);
+				move_uploaded_file($_FILES["imageSeccion3"]["tmp_name"], "./img/".$_FILES["imageSeccion3"]["name"]);
 			}else {
 				$tmpNode = $doc->createElement("img");
 			}
@@ -128,13 +141,16 @@
 			//recorremos la informacion de las fotos
 			if(isset($_FILES['fileSeccion4'])){
 				$items = $_FILES['fileSeccion4']['name'];
+				$tmpNames = $_FILES['fileSeccion4']['tmp_name'];
 				reset($items);
 					
 				$subSeccionFotos = $doc->createElement("fotos");
+				$index = 0;
 				while($item = each($items)){
 					//recorremos las fotos para crear su info
 					$tmpNode = $doc->createElement("item", $item['value']);
-				
+					move_uploaded_file($tmpNames[$index++], "./img/".$item['value']);
+					
 					$subSeccionFotos->appendChild($tmpNode);
 				}
 				$seccion->appendChild($subSeccionFotos);
@@ -149,6 +165,7 @@
 			if($_FILES["imageSeccion5"]["error"] == 0){
 				//tenemos imagen, la copiamos al directorio respectivo y almacenamos la referencia
 				$tmpNode = $doc->createElement("img", "img/".$_FILES["imageSeccion5"]["name"]);
+				move_uploaded_file($_FILES["imageSeccion5"]["tmp_name"], "./img/".$_FILES["imageSeccion5"]["name"]);
 			}else {
 				$tmpNode = $doc->createElement("img");
 			}
@@ -175,5 +192,5 @@
 		$rootNode->appendChild($seccion);
 	}
 	
-	echo $doc->save("prueba.xml");
+	echo $doc->save($xmlFileName);
 ?>
