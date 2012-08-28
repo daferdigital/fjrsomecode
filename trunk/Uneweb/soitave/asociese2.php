@@ -297,7 +297,13 @@ if(isset($_POST['buscar']) && !empty($_POST['buscar'])) {
 		$orden .= " AND LOWER(tipo) LIKE LOWER(\"%".addslashes(trim($_POST['rubro']))."%\")";
 	}
 	if($_POST['nombre'] != ""){
-		$orden .= " AND LOWER(nombre) LIKE LOWER(\"%".addslashes(trim($_POST['nombre']))."%\")";
+		//vemos si el nombre contiene espacios
+		$nombre = trim($_POST['nombre']);
+		//convertimos el nombre en un arrar
+		$items = explode(" ", $nombre);
+		foreach ($items as $item){
+			$orden .= " AND LOWER(nombre) LIKE LOWER(\"%".addslashes(trim($item))."%\")";
+		}
 	}
 	if($_POST['estado'] != "-1"){
 		$orden .= " AND LOWER(estado) LIKE LOWER(\"%".addslashes(trim($_POST['estado']))."%\")";		
@@ -310,6 +316,7 @@ if(isset($_POST['buscar']) && !empty($_POST['buscar'])) {
 		$orden .= " AND LOWER(municipio) LIKE LOWER(\"%".addslashes(trim($_POST['municipio']))."%\")";
 	}
 	*/
+	$orden .= ' ORDER BY nombre ASC';
 } else {
 	// Si se solicita orden por Alfabeto
 	if(isset($_GET['o']) && !empty($_GET['o']) && $_GET['o'] == '1'){
@@ -322,6 +329,7 @@ if(isset($_POST['buscar']) && !empty($_POST['buscar'])) {
 	}
 }
 
+//echo $orden;
 include('conexion.php');
 $cuantos = mysql_query('SELECT id FROM directorio WHERE estatus = 2 '.$orden);
 
