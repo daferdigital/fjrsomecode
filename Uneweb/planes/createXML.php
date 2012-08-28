@@ -1,7 +1,13 @@
 <?php
 	$baseDir = "./xml";
-	mkdir($baseDir);
-	mkdir("./img/");
+	
+	if(! is_dir($baseDir)){
+		mkdir($baseDir);
+	}
+	
+	if(! is_dir("./img/")){
+		mkdir("./img/");
+	}
 	
 	$xmlFileName = "./xml/plan.xml";
 			
