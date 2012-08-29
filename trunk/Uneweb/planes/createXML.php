@@ -73,7 +73,7 @@
 			//verificamos si existe imagen para la cabecera
 			if($_FILES["imageSeccion2"]["error"] == 0){
 				//tenemos imagen, la copiamos al directorio respectivo y almacenamos la referencia
-				$tmpNode = $doc->createElement("img", "img/".$_FILES["imageSeccion2"]["name"]);
+				$tmpNode = $doc->createElement("img", $_FILES["imageSeccion2"]["name"]);
 				move_uploaded_file($_FILES["imageSeccion2"]["tmp_name"], "./img/".$_FILES["imageSeccion2"]["name"]);
 			}else {
 				$tmpNode = $doc->createElement("img");
@@ -103,7 +103,7 @@
 			//verificamos si existe imagen para la cabecera
 			if($_FILES["imageSeccion3"]["error"] == 0){
 				//tenemos imagen, la copiamos al directorio respectivo y almacenamos la referencia
-				$tmpNode = $doc->createElement("img", "img/".$_FILES["imageSeccion3"]["name"]);
+				$tmpNode = $doc->createElement("img", $_FILES["imageSeccion3"]["name"]);
 				move_uploaded_file($_FILES["imageSeccion3"]["tmp_name"], "./img/".$_FILES["imageSeccion3"]["name"]);
 			}else {
 				$tmpNode = $doc->createElement("img");
@@ -171,7 +171,7 @@
 			//verificamos si existe imagen para la cabecera
 			if($_FILES["imageSeccion5"]["error"] == 0){
 				//tenemos imagen, la copiamos al directorio respectivo y almacenamos la referencia
-				$tmpNode = $doc->createElement("img", "img/".$_FILES["imageSeccion5"]["name"]);
+				$tmpNode = $doc->createElement("img", $_FILES["imageSeccion5"]["name"]);
 				move_uploaded_file($_FILES["imageSeccion5"]["tmp_name"], "./img/".$_FILES["imageSeccion5"]["name"]);
 			}else {
 				$tmpNode = $doc->createElement("img");

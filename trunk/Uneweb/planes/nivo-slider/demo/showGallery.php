@@ -16,10 +16,10 @@
             <div id="slider" class="nivoSlider">
                 <?php
                 	//creamos las imagenes respectivas
-					$xmlFileName = "./xml/plan.xml";
+					$xmlFileName = "../../xml/plan.xml";
 
 					if(isset($_REQUEST['id'])){
-						$xmlFileName = "./xml/plan".$_REQUEST['id'].".xml";
+						$xmlFileName = "../../xml/plan".$_REQUEST['id'].".xml";
 					}
 					
                 	$doc = new DOMDocument();
