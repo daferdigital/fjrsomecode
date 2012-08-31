@@ -10,11 +10,12 @@
 	}
 	
 	$xmlFileName = "./xml/plan.xml";
-			
+	$id = "";
 	if(isset($_REQUEST['id'])){
+		$id = $_REQUEST['id'];
 		$xmlFileName = "./xml/plan".$_REQUEST['id'].".xml";
 	}
-	
+		
 	$doc = new DOMDocument();
 	$doc->formatOutput = true;
 	
@@ -39,7 +40,8 @@
 				$tmpNode = $doc->createElement("img", $_FILES["imageSeccion1"]["name"]);
 				move_uploaded_file($_FILES["imageSeccion1"]["tmp_name"], "./img/".$_FILES["imageSeccion1"]["name"]);
 			}else {
-				$tmpNode = $doc->createElement("img");
+				//verificamos si exite imagen previa para esta seccion
+				$tmpNode = $doc->createElement("img", $_POST["hiddenImageSeccion1"]);
 			}
 			$seccion->appendChild($tmpNode);
 			
@@ -50,15 +52,19 @@
 				$dayImgs = $_FILES["dayImage"]["name"];
 				$dayTmps = $_FILES["dayImage"]["tmp_name"];
 				reset($dayTitles);
-					
+				
 				$subSeccionDias = $doc->createElement("dias");
 				while($dayTitle = each($dayTitles)){
 					//recorremos los dias para crear su info
 					$dia = $doc->createElement("dia");
 					$dia->appendChild($doc->createElement("title", $dayTitle['value']));
 					$dia->appendChild($doc->createElement("actividades", $dayActivities[$dayTitle['key']]));
-					$dia->appendChild($doc->createElement("img", $dayImgs[$dayTitle['key']]));
-					move_uploaded_file($dayTmps[$dayTitle['key']], "./img/".$dayImgs[$dayTitle['key']]);
+					if($dayImgs[$dayTitle['key']] != null){
+						$dia->appendChild($doc->createElement("img", $dayImgs[$dayTitle['key']]));
+						move_uploaded_file($dayTmps[$dayTitle['key']], "./img/".$dayImgs[$dayTitle['key']]);
+					} else {
+						$dia->appendChild($doc->createElement("img", $_POST['dayPrevImage'][$dayTitle['key']]));
+					}
 					
 					$subSeccionDias->appendChild($dia);
 				}
@@ -76,7 +82,7 @@
 				$tmpNode = $doc->createElement("img", $_FILES["imageSeccion2"]["name"]);
 				move_uploaded_file($_FILES["imageSeccion2"]["tmp_name"], "./img/".$_FILES["imageSeccion2"]["name"]);
 			}else {
-				$tmpNode = $doc->createElement("img");
+				$tmpNode = $doc->createElement("img", $_POST["hiddenImageSeccion2"]);
 			}
 			$seccion->appendChild($tmpNode);
 			
@@ -106,7 +112,7 @@
 				$tmpNode = $doc->createElement("img", $_FILES["imageSeccion3"]["name"]);
 				move_uploaded_file($_FILES["imageSeccion3"]["tmp_name"], "./img/".$_FILES["imageSeccion3"]["name"]);
 			}else {
-				$tmpNode = $doc->createElement("img");
+				$tmpNode = $doc->createElement("img", $_POST["hiddenImageSeccion3"]);
 			}
 			$seccion->appendChild($tmpNode);
 			
@@ -155,8 +161,12 @@
 				$index = 0;
 				while($item = each($items)){
 					//recorremos las fotos para crear su info
-					$tmpNode = $doc->createElement("item", $item['value']);
-					move_uploaded_file($tmpNames[$index++], "./img/".$item['value']);
+					if($items[$item['key']] != null){
+						$tmpNode = $doc->createElement("item", $item['value']);
+						move_uploaded_file($tmpNames[$index++], "./img/".$item['value']);
+					} else {
+						$tmpNode = $doc->createElement("item", $_POST['hiddenFileSeccion4'][$item['key']]);
+					}
 					
 					$subSeccionFotos->appendChild($tmpNode);
 				}
@@ -174,7 +184,7 @@
 				$tmpNode = $doc->createElement("img", $_FILES["imageSeccion5"]["name"]);
 				move_uploaded_file($_FILES["imageSeccion5"]["tmp_name"], "./img/".$_FILES["imageSeccion5"]["name"]);
 			}else {
-				$tmpNode = $doc->createElement("img");
+				$tmpNode = $doc->createElement("img", $_POST['hiddenImageSeccion5']);
 			}
 			$seccion->appendChild($tmpNode);
 			
@@ -201,3 +211,8 @@
 	
 	echo $doc->save($xmlFileName);
 ?>
+
+<script type="text/javascript">
+	alert("La información previamente indicada fue almacenada de manera exitosa.");
+	window.location = "../admin/modpro1.php?idno=<?php echo $id;?>";
+</script>

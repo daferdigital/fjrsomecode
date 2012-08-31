@@ -83,12 +83,12 @@
 						    	?>
 						 <?php
 						    }
-						?>
+						 ?>
 					</div>
 		<?php 
 				} else if($i == 2){
 		?>
-					<div id="tabs-2">
+					<div id="tabs-2" class="ui-tabs-hide">
 						<h3><?php echo $seccion->getElementsByTagName("titulo")->item(0)->nodeValue; ?></h3>
 						<?php 
 						    //vemos si hay imagen que agregar
@@ -116,7 +116,7 @@
 		<?php
 				} else if($i == 3){
 		?>
-					<div id="tabs-3">
+					<div id="tabs-3" class="ui-tabs-hide">
 						<h3><?php echo $seccion->getElementsByTagName("titulo")->item(0)->nodeValue; ?></h3>
 						<?php 
 						    //vemos si hay imagen que agregar
@@ -159,7 +159,7 @@
 		<?php
 				} else if($i == 4) {
 		?>
-					<div id="tabs-4">
+					<div id="tabs-4" class="ui-tabs-hide">
 						<h3>Galeria de fotos</h3> 
                     	<hr width="100%" size="2" /> 
                     	
@@ -168,7 +168,7 @@
         <?php
         		}  else if($i == 5) {
         ?>
-        			<div id="tabs-5">
+        			<div id="tabs-5" class="ui-tabs-hide">
         				<h3> Hoteles previstos </h3> 
                     	<?php 
        						if($seccion->getElementsByTagName("img")->item(0)->nodeValue){
