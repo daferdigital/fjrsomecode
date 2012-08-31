@@ -13,7 +13,7 @@ function eliminarElemento(elementId){
 /**
  * 
  */
-function addDayInfoContainer(){
+function addDayInfoContainer(dayTitle, dayActivities, dayImgName){
 	//obtenemos el nodo padre donde colocaremos el container para el nuevo dia
 	var nodoPadre = document.getElementById("daysInfo");
 	//var nextId = "dayInfoTable_" + document.getElementsByName("dayInfoTable").length;
@@ -27,12 +27,13 @@ function addDayInfoContainer(){
 		  '<table border="1" name="dayInfoTable" >'
 		+ '    <tr>'
 		+ '        <td>'
-		+ '            T&iacute;tulo del d&iacute;a: <input type="text" name="dayTitle[]"/> <br />'
-		+ '            Actividades del d&iacute;a: <textarea rows="6" cols="50" name="dayDesc[]"></textarea> <br />'
+		+ '            T&iacute;tulo del d&iacute;a: <input type="text" name="dayTitle[]" value="' + dayTitle + '"/> <br />'
+		+ '            Actividades del d&iacute;a: <textarea rows="6" cols="50" name="dayDesc[]">' + dayActivities + '</textarea> <br />'
 		+ '        </td>'
 		+ '        <td>'
 		+ '            Im&aacute;gen relacionada: <br/>'
-		+ '            <input type="file" name="dayImage[]"/>'
+		+ '            <input type="hidden" name="dayPrevImage[]" value="' + dayImgName + '"/>'
+		+ '            <input type="file" name="dayImage[]" />'
 		+ '        </td>'
 		+ '    </tr>'
 		+ '    <tr>'
@@ -49,7 +50,7 @@ function addDayInfoContainer(){
 /**
  * 
  */
-function addTextFieldSeccion2(){
+function addTextFieldSeccion2(optionValue){
 	//obtenemos el nodo padre donde colocaremos el container para el nuevo dia
 	var nodoPadre = document.getElementById("seccion2Info");
 	//var nextId = "opcionSeccion2_" + document.getElementsByName("opcionSeccion2[]").length;
@@ -59,7 +60,7 @@ function addTextFieldSeccion2(){
 	newNodo.id = nextId;
 	
 	var htmlContainerText = 
-		  'Texto de la opci&oacute;n: <input type="text" name="opcionSeccion2[]" /> &nbsp;'
+		  'Texto de la opci&oacute;n: <input type="text" name="opcionSeccion2[]" value="' + optionValue + '"/> &nbsp;'
 		+ '<input type="button" value="Eliminar" onclick="eliminarElemento(' + nextIdParam + ')"><br/>';
 	
 	newNodo.innerHTML = htmlContainerText;
@@ -69,7 +70,7 @@ function addTextFieldSeccion2(){
 /**
  * 
  */
-function addTextFieldSeccion3(){
+function addTextFieldSeccion3(optionValue){
 	//obtenemos el nodo padre donde colocaremos el container para el nuevo dia
 	var nodoPadre = document.getElementById("seccion3Info");
 	//var nextId = "opcionSeccion3_" + document.getElementsByName("opcionSeccion3[]").length;
@@ -79,7 +80,7 @@ function addTextFieldSeccion3(){
 	newNodo.id = nextId;
 	
 	var htmlContainerText = 
-		  'Texto de la opci&oacute;n: <input type="text" name="opcionSeccion3[]" /> &nbsp;'
+		  'Texto de la opci&oacute;n: <input type="text" name="opcionSeccion3[]" value="' + optionValue + '"/> &nbsp;'
 		+ '<input type="button" value="Eliminar" onclick="eliminarElemento(' + nextIdParam + ')"><br/>';
 	
 	newNodo.innerHTML = htmlContainerText;
@@ -89,7 +90,7 @@ function addTextFieldSeccion3(){
 /**
  * 
  */
-function addGastoSeccion3(){
+function addGastoSeccion3(optionValue){
 	//obtenemos el nodo padre donde colocaremos el container para el nuevo dia
 	var nodoPadre = document.getElementById("seccion3Gasto");
 	//var nextId = "gastoSeccion3_" + document.getElementsByName("gastoSeccion3[]").length;
@@ -99,7 +100,7 @@ function addGastoSeccion3(){
 	newNodo.id = nextId;
 	
 	var htmlContainerText = 
-		  'Texto del gasto: <input type="text" name="gastoSeccion3[]" /> &nbsp;'
+		  'Texto del gasto: <input type="text" name="gastoSeccion3[]" value="' + optionValue + '"/> &nbsp;'
 		+ '<input type="button" value="Eliminar" onclick="eliminarElemento(' + nextIdParam + ')"><br/>';
 	
 	newNodo.innerHTML = htmlContainerText;
@@ -109,7 +110,7 @@ function addGastoSeccion3(){
 /**
  * 
  */
-function addFileSeccion4(){
+function addFileSeccion4(pictureName){
 	//obtenemos el nodo padre donde colocaremos el container para el nuevo dia
 	var nodoPadre = document.getElementById("seccion4Info");
 	//var nextId = "fileSeccion4_" + document.getElementsByName("fileSeccion4[]").length;
@@ -120,6 +121,7 @@ function addFileSeccion4(){
 	
 	var htmlContainerText = 
 		  'Foto: <input type="file" name="fileSeccion4[]" /> &nbsp;'
+		+ '<input type="hidden" name="hiddenFileSeccion4[]" value="' + pictureName + '"/>'
 		+ '<input type="button" value="Eliminar" onclick="eliminarElemento(' + nextIdParam + ')"><br/>';
 	
 	newNodo.innerHTML = htmlContainerText;
@@ -129,7 +131,7 @@ function addFileSeccion4(){
 /**
  * 
  */
-function addRowSeccion5(){
+function addRowSeccion5(ciudadValue, hotelValue, categoriaValue){
 	//obtenemos el nodo padre donde colocaremos el container para el nuevo dia
 	var nodoPadre = document.getElementById("seccion5Info");
 	//var nextId = "seccion5Row_" + document.getElementsByName("seccion5Row").length;
@@ -142,13 +144,13 @@ function addRowSeccion5(){
 		  '<table class="table table-bordered table-striped" name="seccion5Row">'
 		+ '    <tr>'
 		+ '        <td width="200px">'
-		+ '            <input type="text" name="text1[]"/>'
+		+ '            <input type="text" name="text1[]" value="' + ciudadValue + '"/>'
 		+ '        </td>'
 		+ '        <td width="200px">'
-		+ '            <input type="text" name="text2[]"/>'
+		+ '            <input type="text" name="text2[]" value="' + hotelValue + '"/>'
 		+ '        </td>'
 		+ '        <td width="200px">'
-		+ '            <input type="text" name="text3[]"/>'
+		+ '            <input type="text" name="text3[]" value="' + categoriaValue + '"/>'
 		+ '        </td>'
 		+ '        <td width="200px">'
 		+ '            <input type="button" value="Eliminar esta fila" onclick="javascript:eliminarElemento(' + nextIdParam + ')"/>'
