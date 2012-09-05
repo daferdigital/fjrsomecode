@@ -214,5 +214,5 @@
 
 <script type="text/javascript">
 	alert("La información previamente indicada fue almacenada de manera exitosa.");
-	window.location = "../admin/modpro1.php?idno=<?php echo $id;?>";
+	window.location = "./editor.php?id=<?php echo $id;?>";
 </script>
