@@ -55,7 +55,7 @@
 						    if($seccion->getElementsByTagName("img")->item(0)->nodeValue){
 						?>
 								<hr width="100%" size="2" /> 
-								<img src="./img/<?php echo $seccion->getElementsByTagName("img")->item(0)->nodeValue?>"/> 
+								<img src="./img/<?php echo $seccion->getElementsByTagName("img")->item(0)->nodeValue?>" width="690px" height="160px"/> 
 						<?php
 						    }
 						    
@@ -74,7 +74,7 @@
 						    		if($dia->getElementsByTagName("img")->item(0)->nodeValue){
 						    	?>
 						    			<div class="span3">
-						    				<img src="./img/<?php echo $dia->getElementsByTagName("img")->item(0)->nodeValue;?>"/>
+						    				<img src="./img/<?php echo $dia->getElementsByTagName("img")->item(0)->nodeValue;?>" width="220px" height="165px"/>
 						    				<br />
 						    				<br />
 						    			</div>
@@ -95,7 +95,7 @@
 						    if($seccion->getElementsByTagName("img")->item(0)->nodeValue){
 						?>
 								<hr width="100%" size="2" /> 
-								<img src="./img/<?php echo $seccion->getElementsByTagName("img")->item(0)->nodeValue?>"/> 
+								<img src="./img/<?php echo $seccion->getElementsByTagName("img")->item(0)->nodeValue?>" width="690px" height="160px"/> 
 						<?php
 						    }
 						?>
@@ -123,7 +123,7 @@
 						    if($seccion->getElementsByTagName("img")->item(0)->nodeValue){
 						?>
 								<hr width="100%" size="2" /> 
-								<img src="./img/<?php echo $seccion->getElementsByTagName("img")->item(0)->nodeValue?>"/> 
+								<img src="./img/<?php echo $seccion->getElementsByTagName("img")->item(0)->nodeValue?>" width="690px" height="160px"/> 
 						<?php
 						    }
 						?>
@@ -163,7 +163,7 @@
 						<h3>Galeria de fotos</h3> 
                     	<hr width="100%" size="2" /> 
                     	
-                    	<iframe width="635" height="400" src="nivo-slider/demo/showGallery.php?id=<?php echo $id;?>" frameborder="0" allowfullscreen></iframe> 
+                    	<iframe width="635px" height="400px" src="nivo-slider/demo/showGallery.php?id=<?php echo $id;?>" frameborder="0" allowfullscreen></iframe> 
                     </div>
         <?php
         		}  else if($i == 5) {
@@ -174,7 +174,7 @@
        						if($seccion->getElementsByTagName("img")->item(0)->nodeValue){
 						?>
 								<hr width="100%" size="2" /> 
-								<img src="./img/<?php echo $seccion->getElementsByTagName("img")->item(0)->nodeValue?>"/>              
+								<img src="./img/<?php echo $seccion->getElementsByTagName("img")->item(0)->nodeValue?>" width="690px" height="160px"/>              
                     	<?php 
        						}
                     	?>

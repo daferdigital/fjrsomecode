@@ -30,7 +30,9 @@
                 	
                 	$items = $seccion->getElementsByTagName("item");
                 	foreach($items as $item ){
-                		echo "<img src=\"./../../img/".$item->nodeValue."\" alt=\"\" data-transition=\"slideInLeft\" />"; 
+                ?>
+                		<img src="./../../img/<?php echo $item->nodeValue;?>" alt="" data-transition="slideInLeft" width="618px" height="300px" />
+                <?php                	 
                 	}
                 ?>
             </div>
