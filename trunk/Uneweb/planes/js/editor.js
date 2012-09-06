@@ -31,7 +31,7 @@ function addDayInfoContainer(dayTitle, dayActivities, dayImgName){
 		+ '            Actividades del d&iacute;a: <textarea rows="6" cols="50" name="dayDesc[]">' + dayActivities + '</textarea> <br />'
 		+ '        </td>'
 		+ '        <td>'
-		+ '            Im&aacute;gen relacionada: <br/>'
+		+ '            Im&aacute;gen relacionada (m&aacute;ximo 220x165): <br/>'
 		+ '            <input type="hidden" name="dayPrevImage[]" value="' + dayImgName + '"/>'
 		+ '            <input type="file" name="dayImage[]" />'
 		+ '        </td>'
@@ -120,7 +120,7 @@ function addFileSeccion4(pictureName){
 	newNodo.id = nextId;
 	
 	var htmlContainerText = 
-		  'Foto: <input type="file" name="fileSeccion4[]" /> &nbsp;'
+		  'Foto (m&aacute;ximo 618x300): <input type="file" name="fileSeccion4[]" /> &nbsp;'
 		+ '<input type="hidden" name="hiddenFileSeccion4[]" value="' + pictureName + '"/>'
 		+ '<input type="button" value="Eliminar" onclick="eliminarElemento(' + nextIdParam + ')"><br/>';
 	
