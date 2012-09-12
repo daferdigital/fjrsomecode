@@ -50,7 +50,15 @@ body {
 	margin-bottom: 0px;
 }
 -->
-</style></head>
+</style>
+
+<script language="javascript" type="text/javascript">
+  function resizeIframe(obj) {
+	obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
+  }
+</script>
+
+</head>
 
 
 <body onload="<?php onloadFun(); ?>" style="<?php cargarFondo($tipoFondo);?>" <?php aplicarClase($tipoFondo);?>>
@@ -296,7 +304,7 @@ body {
 	   		     <div style="height:5px;"></div>
 	   		     <hr width="100%" size="2" />
 				<br />
-				<iframe width="720" scrolling="no" style="position: absolute; height: 100%" frameborder="0" marginheight="0" marginwidth="0" src="planes/loadXML.php?id=<?php echo $_GET[id];?>"></iframe>
+				<iframe width="720" scrolling="no"  style="position: absolute; height: 100%"  frameborder="0" marginheight="0" marginwidth="0" src="planes/loadXML.php?id=<?php echo $_GET['id'];?>" onload='javascript:resizeIframe(this);'></iframe>
 			   </div>
 			</td>
        </tr>
