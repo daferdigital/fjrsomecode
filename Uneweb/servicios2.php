@@ -52,12 +52,6 @@ body {
 -->
 </style>
 
-<script language="javascript" type="text/javascript">
-  function resizeIframe(obj) {
-	obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
-  }
-</script>
-
 </head>
 
 
@@ -304,7 +298,7 @@ body {
 	   		     <div style="height:5px;"></div>
 	   		     <hr width="100%" size="2" />
 				<br />
-				<iframe width="720" scrolling="no"  style="position: absolute; height: 100%"  frameborder="0" marginheight="0" marginwidth="0" src="planes/loadXML.php?id=<?php echo $_GET['id'];?>" onload='javascript:resizeIframe(this);'></iframe>
+				<iframe width="720" scrolling="auto"  height="700px" frameborder="0" marginheight="0" marginwidth="0" src="planes/loadXML.php?id=<?php echo $_GET['id'];?>"></iframe>
 			   </div>
 			</td>
        </tr>
