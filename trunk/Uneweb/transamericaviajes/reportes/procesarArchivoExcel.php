@@ -316,10 +316,11 @@
 				$sql = "DELETE FROM recibos WHERE id = ".($objPHPExcel->getActiveSheet()->getCell("A".$numLinea)->getValue());
 				mysql_query($sql, $dbLink);
 			//}
-			
+			/*
 			echo ($objPHPExcel->getActiveSheet()->getCell("E".$numLinea)->getValue()).", ".
 			($objPHPExcel->getActiveSheet()->getCell("K".$numLinea)->getValue()).", ".
 			($objPHPExcel->getActiveSheet()->getCell("L".$numLinea)->getValue())."<br />";
+			*/
 			
 			$sql = "INSERT INTO recibos VALUES (".
 					$objPHPExcel->getActiveSheet()->getCell("A".$numLinea)->getValue()
