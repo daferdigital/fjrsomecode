@@ -459,7 +459,7 @@ function getDivDiasInfo($keysComboFecha, $arregloComboFecha){
 				$iYear = substr($key, 0, 4);
 				$iDaysPerMonth = getDaysPerMonth($iMonth, $iYear);
 				//echo $iYear." - ".$iMonth.": ".getDaysPerMonth($iMonth, $iYear)."<br>";
-				$wValue = date("w", mktime(0,0,0,$iMonth,1,$iYear));
+				$wValue = date("w", mktime(0, 0, 0, (int) $iMonth, 1, (int) $iYear));
 				$visualStyle;
 				if($nodoDiv < 2){
 					$visualStyle = "style=\"display: block\"";
