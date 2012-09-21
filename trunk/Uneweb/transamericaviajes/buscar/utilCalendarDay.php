@@ -57,7 +57,7 @@ function getDivDiasInfo(){
 	
 	for($i = 0; $i < $mesesToPrint; $i++){
 		//revisamos los meses a imprimir
-		$mkTimeValue = mktime(0,0,0, $iMonthBase + $i, 1, $iYearBase);
+		$mkTimeValue = mktime(0, 0, 0, (int) ($iMonthBase + $i), 1, (int) $iYearBase);
 		$fechaActual = date("Y-m", $mkTimeValue);
 		$iYear = substr($fechaActual, 0, 4);
 		$iMonth = substr($fechaActual, 5, 2);
