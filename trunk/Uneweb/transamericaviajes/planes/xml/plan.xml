@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<secciones>
+  <seccion>
+    <titulo>Itinerario de prueba</titulo>
+    <img>banner2.png</img>
+    <dias>
+      <dia>
+        <title>dia 1</title>
+        <actividades>dormir</actividades>
+        <img>banner.png</img>
+      </dia>
+      <dia>
+        <title>dia 2</title>
+        <actividades>comer</actividades>
+        <img>bannercaribe1.png</img>
+      </dia>
+    </dias>
+  </seccion>
+  <seccion>
+    <titulo>Seccion2</titulo>
+    <img>corner.png</img>
+    <queincluye>
+      <item>opcion 2</item>
+    </queincluye>
+  </seccion>
+  <seccion>
+    <titulo>Seccion 3</titulo>
+    <img>1.png</img>
+    <condiciones>
+      <item>condicion 1</item>
+    </condiciones>
+    <gastos>
+      <item>gasto 1</item>
+    </gastos>
+  </seccion>
+  <seccion>
+    <titulo>Galeria de Fotos</titulo>
+    <fotos>
+      <item>imanHeader.jpg</item>
+      <item>sacop34.jpg</item>
+      <item>imanHeader - Copy.jpg</item>
+    </fotos>
+  </seccion>
+  <seccion>
+    <titulo>Hoteles</titulo>
+    <img>menuLeftItem.jpg</img>
+    <filas>
+      <fila>
+        <ciudad>caracas</ciudad>
+        <hotel>lacho</hotel>
+        <categoria>none</categoria>
+      </fila>
+    </filas>
+  </seccion>
+</secciones>
