@@ -182,9 +182,12 @@ body {
 			$terminos = addslashes(trim($_POST['terminos']));
 			//$estatus = addslashes(trim($_POST['estatus']));
 			
-			$guardar = mysql_query('INSERT INTO directorio(nombre,rif,tipo,familia,direccion,telefono,correo,estado,ciudad,municipio,website,terminos,estatus) VALUES("'.$nombre.'","'.$rif.'","'.$tipo.'","'.$familia.'","'.$direccion.'","'.$telefono.'","'.$correo.'","'.$estado.'","'.$ciudad.'","'.$municipio.'","'.$website.'","'.$terminos.'","1")');
+			mysql_query('INSERT INTO directorio(nombre,rif,tipo,familia,direccion,telefono,correo,estado,ciudad,municipio,website,terminos,estatus) VALUES("'.$nombre.'","'.$rif.'","'.$tipo.'","'.$familia.'","'.$direccion.'","'.$telefono.'","'.$correo.'","'.$estado.'","'.$ciudad.'","'.$municipio.'","'.$website.'","'.$terminos.'","1")');
 			
-			if($guardar == true) {
+			if(mysql_error()){
+				echo '<script language="javascript">alert("Un error ha ocurrido, la información no pudo ser almacenada.\n'.
+				    'El error fue: '.mysql_error().'");</script>';
+			}else {
 				echo '<script language="javascript">alert("Su registro ha sido exitoso.");</script>';
 			}
 		} else {
