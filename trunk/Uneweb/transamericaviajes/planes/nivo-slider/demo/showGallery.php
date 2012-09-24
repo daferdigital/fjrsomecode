@@ -31,7 +31,7 @@
                 	$items = $seccion->getElementsByTagName("item");
                 	foreach($items as $item ){
                 ?>
-                		<img src="./../../img/<?php echo $item->nodeValue;?>" alt="" width="618px" height="300px" />
+                		<img src="./../../img/<?php echo $item->nodeValue;?>" alt="" />
                 <?php                	 
                 	}
                 ?>
@@ -40,7 +40,7 @@
     </div>
 
     <script type="text/javascript" src="scripts/jquery-1.7.1.min.js"></script>
-    <script type="text/javascript" src="../jquery.nivo.slider.pack.js"></script>
+    <script type="text/javascript" src="../jquery.nivo.slider.js"></script>
     <script type="text/javascript">
     $(window).load(function() {
         $('#slider').nivoSlider();

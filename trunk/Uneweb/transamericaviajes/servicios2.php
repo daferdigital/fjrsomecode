@@ -298,7 +298,16 @@ body {
 	   		     <div style="height:5px;"></div>
 	   		     <hr width="100%" size="2" />
 				<br />
-				<iframe width="720" scrolling="auto"  height="700px" frameborder="0" marginheight="0" marginwidth="0" src="planes/loadXML.php?id=<?php echo $_GET['id'];?>"></iframe>
+				<?php 
+					//verificamos que el xml de este plan efectivamente exista antes de fijar el iframe
+					$xmlFileName = "./planes/xml/plan".$_GET['id'].".xml";
+					
+					if(is_file($xmlFileName)){
+				?>
+						<iframe width="720" scrolling="auto"  height="700px" frameborder="0" marginheight="0" marginwidth="0" src="planes/loadXML.php?id=<?php echo $_GET['id'];?>"></iframe>
+				<?php	
+					}
+				?>
 			   </div>
 			</td>
        </tr>
