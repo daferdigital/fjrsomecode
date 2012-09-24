@@ -12,7 +12,7 @@
  
 /* The Nivo Slider styles */
 .nivoSlider {
-	position:relative;
+	position:relative;	background-position: center;
 }
 .nivoSlider img {
 	position:absolute;

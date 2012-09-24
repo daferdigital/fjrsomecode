@@ -55,7 +55,7 @@
 						    if($seccion->getElementsByTagName("img")->item(0)->nodeValue){
 						?>
 								<hr width="100%" size="2" /> 
-								<img src="./img/<?php echo $seccion->getElementsByTagName("img")->item(0)->nodeValue?>" width="690px" height="160px"/> 
+								<img src="./img/<?php echo $seccion->getElementsByTagName("img")->item(0)->nodeValue?>" /> 
 						<?php
 						    }
 						    
@@ -74,7 +74,7 @@
 						    		if($dia->getElementsByTagName("img")->item(0)->nodeValue){
 						    	?>
 						    			<div class="span3">
-						    				<img src="./img/<?php echo $dia->getElementsByTagName("img")->item(0)->nodeValue;?>" width="220px" height="165px"/>
+						    				<img src="./img/<?php echo $dia->getElementsByTagName("img")->item(0)->nodeValue;?>" />
 						    				<br />
 						    				<br />
 						    			</div>
@@ -95,7 +95,7 @@
 						    if($seccion->getElementsByTagName("img")->item(0)->nodeValue){
 						?>
 								<hr width="100%" size="2" /> 
-								<img src="./img/<?php echo $seccion->getElementsByTagName("img")->item(0)->nodeValue?>" width="690px" height="160px"/> 
+								<img src="./img/<?php echo $seccion->getElementsByTagName("img")->item(0)->nodeValue?>" /> 
 						<?php
 						    }
 						?>
@@ -123,7 +123,7 @@
 						    if($seccion->getElementsByTagName("img")->item(0)->nodeValue){
 						?>
 								<hr width="100%" size="2" /> 
-								<img src="./img/<?php echo $seccion->getElementsByTagName("img")->item(0)->nodeValue?>" width="690px" height="160px"/> 
+								<img src="./img/<?php echo $seccion->getElementsByTagName("img")->item(0)->nodeValue?>" /> 
 						<?php
 						    }
 						?>
@@ -174,7 +174,7 @@
        						if($seccion->getElementsByTagName("img")->item(0)->nodeValue){
 						?>
 								<hr width="100%" size="2" /> 
-								<img src="./img/<?php echo $seccion->getElementsByTagName("img")->item(0)->nodeValue?>" width="690px" height="160px"/>              
+								<img src="./img/<?php echo $seccion->getElementsByTagName("img")->item(0)->nodeValue?>" />              
                     	<?php 
        						}
                     	?>

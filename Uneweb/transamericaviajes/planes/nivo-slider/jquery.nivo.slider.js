@@ -86,7 +86,7 @@
         }
         
         //Set first background
-        slider.css('background','url("'+ vars.currentImage.attr('src') +'") no-repeat');        
+        slider.css('background','url("'+ vars.currentImage.attr('src') +'") center no-repeat');        
         //Create caption
         slider.append(
             $('<div class="nivo-caption"><p></p></div>').css({ display:'none', opacity:settings.captionOpacity })
@@ -183,7 +183,7 @@
                 if($(this).hasClass('active')) return false;
                 clearInterval(timer);
                 timer = '';
-                slider.css('background','url("'+ vars.currentImage.attr('src') +'") no-repeat');                
+                slider.css('background','url("'+ vars.currentImage.attr('src') +'") center no-repeat');                
                 vars.currentSlide = $(this).attr('rel') - 1;
                 nivoRun(slider, kids, settings, 'control');
             });
@@ -323,13 +323,13 @@
 					
 			//Set current background before change
 			if(!nudge){
-				slider.css('background','url("'+ vars.currentImage.attr('src') +'") no-repeat');				slider.css('background-size','618px');
+				slider.css('background','url("'+ vars.currentImage.attr('src') +'") center no-repeat');				slider.css('background-size','618px');
 			} else {
 				if(nudge == 'prev'){
-					slider.css('background','url("'+ vars.currentImage.attr('src') +'") no-repeat');					slider.css('background-size','618px');
+					slider.css('background','url("'+ vars.currentImage.attr('src') +'") center no-repeat');					slider.css('background-size','618px');
 				}
 				if(nudge == 'next'){
-					slider.css('background','url("'+ vars.currentImage.attr('src') +'") no-repeat');					slider.css('background-size','618px');
+					slider.css('background','url("'+ vars.currentImage.attr('src') +'") center no-repeat');					slider.css('background-size','618px');
 				}
 			}
 			vars.currentSlide++;
