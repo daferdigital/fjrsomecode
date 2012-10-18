@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest android:versionCode="1" android:versionName="1.0" android:installLocation="preferExternal" package="com.ehp"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-sdk android:minSdkVersion="8" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <application android:label="@string/app_name" android:icon="@drawable/logo_icon" android:debuggable="false">
+        <activity android:label="@string/app_name" android:name=".droidsf.MainActivity" android:screenOrientation="sensorLandscape">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".droidsf.PedidoVerDetallePromocion" android:screenOrientation="sensorLandscape" />
+        <activity android:name=".droidsf.pedidos.SeleccionarLineaProducto" android:screenOrientation="sensorLandscape" android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity android:name=".droidsf.pedidos.PedidoCreacion" android:screenOrientation="sensorLandscape" />
+        <activity android:name=".droidsf.pedidos.DetalleCarrito" android:screenOrientation="sensorLandscape" />
+        <activity android:name=".droidsf.pedidos.PedidoSeleccionProducto" android:screenOrientation="sensorLandscape" android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity android:name=".droidsf.clientes.SeleccionarCliente" android:screenOrientation="sensorLandscape" android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity android:name=".droidsf.OpcionesMenuPrincial" android:screenOrientation="sensorLandscape" />
+        <activity android:name=".droidsf.pedidos.PedidosEfectuados" android:screenOrientation="sensorLandscape" />
+        <activity android:name=".droidsf.facturas.FacturasGeneradas" android:screenOrientation="sensorLandscape" />
+        <activity android:name=".droidsf.clientes.FichaCliente" android:screenOrientation="sensorLandscape" />
+        <activity android:name=".droidsf.clientes.ConsultarClientes" android:screenOrientation="sensorLandscape" />
+        <activity android:name=".droidsf.catalogo.CatalogoProductos" android:screenOrientation="sensorLandscape" />
+        <activity android:name=".droidsf.pedidos.PedidoResumen" android:screenOrientation="sensorLandscape" />
+        <activity android:theme="@android:style/Theme.Dialog" android:name=".droidsf.util.DeviceListActivity" android:screenOrientation="sensorLandscape" />
+        <activity android:theme="@android:style/Theme.Dialog" android:name=".droidsf.facturas.RegistrarCancelaciones" android:screenOrientation="sensorLandscape" />
+        <activity android:theme="@android:style/Theme.Dialog" android:name=".droidsf.catalogo.CatalogoProductosDetalle" android:screenOrientation="sensorLandscape" />
+        <activity android:theme="@android:style/Theme.Dialog" android:name=".droidsf.pedidos.ModificarEliminarArticulo" android:screenOrientation="sensorLandscape" />
+        <activity android:name=".droidsf.facturas.PagosRegistrarNuevo" android:screenOrientation="sensorLandscape" android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity android:name=".droidsf.conf.Configuracion" android:screenOrientation="sensorLandscape" />
+        <activity android:name=".droidsf.AutenticacionCuenta" android:screenOrientation="sensorLandscape" android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity android:name=".droidsf.sync.SyncActivity" android:screenOrientation="sensorLandscape" />
+        <activity android:name=".droidsf.conf.EstablecerContrasena" android:screenOrientation="sensorLandscape" />
+        <activity android:theme="@android:style/Theme.Dialog" android:name=".droidsf.dialogos.DialogoSiNo" android:screenOrientation="sensorLandscape" />
+        <activity android:name=".droidsf.facturas.SeleccionarBanco" android:screenOrientation="sensorLandscape" android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity android:name=".droidsf.pedidos.PedidosEfectuadosFiltro" android:screenOrientation="sensorLandscape" android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity android:name="com.ehp.droidsf.facturas.FacturaResumen" android:screenOrientation="sensorLandscape" android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity android:name=".droidsf.facturas.FacturasGeneradasFiltro" android:screenOrientation="sensorLandscape" android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity android:theme="@android:style/Theme.Dialog" android:name="com.ehp.droidsf.pedidos.PedidoCreacionModiicarEliminarItem" android:screenOrientation="sensorLandscape" />
+        <activity android:name=".droidsf.pedidos.PedidoModificacion" android:screenOrientation="sensorLandscape" android:windowSoftInputMode="stateAlwaysVisible" />
+        <activity android:name=".droidsf.facturas.PagosRegistrados" android:screenOrientation="sensorLandscape" />
+        <activity android:name=".droidsf.facturas.DevolucionRegistrarNuevo" android:screenOrientation="sensorLandscape" />
+        <activity android:theme="@android:style/Theme.Dialog" android:name="com.ehp.droidsf.facturas.PagosVistaImpresa" android:screenOrientation="sensorLandscape" />
+        <activity android:name="com.ehp.droidsf.facturas.PagosRegistrarComprobante" android:screenOrientation="sensorLandscape" android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity android:theme="@android:style/Theme.Dialog" android:name=".droidsf.dialogos.DialogoAceptar" android:screenOrientation="sensorLandscape" />
+        <activity android:theme="@android:style/Theme.Dialog" android:name="com.ehp.droidsf.dialogos.DialogoCapturaTexto" android:screenOrientation="sensorLandscape" />
+        <activity android:theme="@android:style/Theme.Dialog" android:name="com.ehp.droidsf.facturas.SeleccionarFecha" android:screenOrientation="sensorLandscape" />
+    </application>
+</manifest>
