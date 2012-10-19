@@ -4,6 +4,8 @@
 
 package com.ehp.droidsf;
 
+import com.ehp.R;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,7 +26,7 @@ public class Login extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f03004e);
+        setContentView(R.layout.login_layout);
         i = new Intent(this, OpcionesMenuPrincial.class);
         ((Button)findViewById(0x7f0600d9)).setOnClickListener(new _cls1());
     }

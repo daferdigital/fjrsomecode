@@ -4,6 +4,8 @@
 
 package com.ehp.droidsf;
 
+import com.ehp.R;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,7 +30,7 @@ public class PedidoSeleccionarMontoOferta extends Activity
         boolean flag = true;
         super.onCreate(bundle);
         requestWindowFeature(i);
-        setContentView(0x7f030068);
+        setContentView(R.layout.pedido_seleccionar_monto_oferta_layout);
         findViewById(0x7f060011).setOnClickListener(cancelar);
         findViewById(0x7f060012).setOnClickListener(aceptar);
         Bundle bundle1 = getIntent().getExtras();

@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+
+import com.ehp.R;
 import com.ehp.droidsf.MainActivity;
 import com.ehp.droidsf.adapters.AdapterDevoluciones;
 import com.ehp.droidsf.db.CursorDevolucionesArticulosNoDevueltos;
@@ -76,7 +78,7 @@ public class RegistrarDevoluciones extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f03007e);
+        setContentView(R.layout.registro_devoluciones_activity_layout);
         Bundle bundle1 = getIntent().getExtras();
         if(bundle1 != null)
         {

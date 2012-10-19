@@ -4,6 +4,8 @@
 
 package com.ehp.droidsf.dialogos;
 
+import com.ehp.R;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,7 +24,7 @@ public class DialogoCapturaTexto extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f030039);
+        setContentView(R.layout.dialogo_captura_texto);
         Bundle bundle1 = getIntent().getExtras();
         if(bundle1 != null)
         {

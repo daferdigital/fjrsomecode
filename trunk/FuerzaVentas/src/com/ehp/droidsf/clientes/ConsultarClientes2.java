@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.ehp.R;
 import com.ehp.droidsf.MainActivity;
 import com.ehp.droidsf.adapters.AdapterClientes;
 import com.ehp.droidsf.db.CursorClientes;
@@ -37,7 +39,7 @@ public class ConsultarClientes2 extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f03001b);
+        setContentView(R.layout.consultar_clientes_activity_layout);
         lv = (ListView)findViewById(0x7f060050);
         campoFiltro = (TextView)findViewById(0x7f060015);
         findViewById(0x7f060014).setOnClickListener(oclFiltrarPorCriterio);

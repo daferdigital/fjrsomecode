@@ -14,6 +14,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
+
+import com.ehp.R;
 import com.ehp.droidsf.MainActivity;
 import com.ehp.droidsf.PedidoVerDetallePromocion;
 import com.ehp.droidsf.clientes.FichaCliente;
@@ -341,7 +343,7 @@ public class PedidoCreacion extends Activity
         i = 0;
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f03005f);
+        setContentView(R.layout.pedido_layout);
         crearAccionesToolbar();
         rbTipoFiltroCodigo = (RadioButton)findViewById(0x7f06013d);
         rbTipoFiltroCodigo.setOnClickListener(oclBlanquear);

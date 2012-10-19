@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ehp.R;
 import com.ehp.droidsf.MainActivity;
 import com.ehp.droidsf.adapters.AdapterLineasProducto;
 import com.ehp.droidsf.db.DroidSFDatabase;
@@ -36,7 +37,7 @@ public class SeleccionarLineaProducto extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f030085);
+        setContentView(R.layout.seleccion_linea_producto_activity_layout);
         findViewById(0x7f060018).setOnClickListener(cancelar);
         findViewById(0x7f06017e).setOnClickListener(aceptar);
         findViewById(0x7f060017).setOnClickListener(limpiar);

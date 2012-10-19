@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.ehp.R;
 import com.ehp.droidsf.MainActivity;
 import com.ehp.droidsf.adapters.AdapterArticulosCarritoVistaAmpliada;
 import com.ehp.droidsf.db.*;
@@ -254,7 +256,7 @@ public class DetalleCarrito extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f030090);
+        setContentView(R.layout.ver_detalle_carrito_activity_layout);
         articulosCarrito = MainActivity.mDbHelper.getListadoArticulosCarritoPedido();
         Bundle bundle1 = getIntent().getExtras();
         if(bundle1 != null)

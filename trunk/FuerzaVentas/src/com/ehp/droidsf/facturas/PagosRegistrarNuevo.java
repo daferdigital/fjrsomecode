@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.*;
 
+import com.ehp.R;
 import com.ehp.droidsf.MainActivity;
 import com.ehp.droidsf.clientes.SeleccionarCliente;
 import com.ehp.droidsf.dialogos.DialogoSiNo;
@@ -505,7 +506,7 @@ public class PagosRegistrarNuevo extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f030078);
+        setContentView(R.layout.registrar_pagos_activity_layout);
         DBHandle.comprobanteIvaEliminar();
         findViewById(0x7f060168).setOnClickListener(oclSeleccionarCliente);
         findViewById(0x7f060018).setOnClickListener(oclRegresar);

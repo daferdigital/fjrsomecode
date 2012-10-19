@@ -10,6 +10,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+
+import com.ehp.R;
 import com.ehp.droidsf.conf.EstablecerContrasena;
 
 // Referenced classes of package com.ehp.droidsf:
@@ -55,7 +57,7 @@ public class AutenticacionCuenta extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f03004e);
+        setContentView(R.layout.login_layout);
         if(!passwordEstablecido())
             startActivity(new Intent(this, EstablecerContrasena.class));
         findViewById(0x7f0600d9).setOnClickListener(this);

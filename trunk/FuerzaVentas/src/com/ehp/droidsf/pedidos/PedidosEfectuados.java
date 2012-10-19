@@ -11,6 +11,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.*;
+
+import com.ehp.R;
 import com.ehp.droidsf.MainActivity;
 import com.ehp.droidsf.adapters.AdapterClientesConPedidos;
 import com.ehp.droidsf.adapters.AdapterPedidos;
@@ -96,7 +98,7 @@ public class PedidosEfectuados extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f03006b);
+        setContentView(R.layout.pedidos_efectuados_activity_layout);
         campoFiltroCliente = (EditText)findViewById(0x7f060015);
         campoFiltroCliente.addTextChangedListener(textWatcher);
         lv_pedidos = (ListView)findViewById(0x7f060052);

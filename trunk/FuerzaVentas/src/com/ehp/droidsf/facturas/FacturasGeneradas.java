@@ -11,6 +11,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.*;
+
+import com.ehp.R;
 import com.ehp.droidsf.MainActivity;
 import com.ehp.droidsf.facturas.adapters.AdpFacturas;
 import com.ehp.droidsf.facturas.db.DBHandle;
@@ -102,7 +104,7 @@ public class FacturasGeneradas extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f030042);
+        setContentView(R.layout.facturas_generadas_activity_layout);
         campoFiltroCliente = (EditText)findViewById(0x7f060015);
         campoFiltroCliente.addTextChangedListener(textWatcher);
         lv_facturas = (ListView)findViewById(0x7f060052);

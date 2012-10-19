@@ -4,6 +4,8 @@
 
 package com.ehp.droidsf.facturas;
 
+import com.ehp.R;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -22,7 +24,7 @@ public class SeleccionarFecha extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f030087);
+        setContentView(R.layout.seleccionar_fecha_activity_layout);
         findViewById(0x7f060018).setOnClickListener(oclRegresar);
         findViewById(0x7f06017f).setOnClickListener(oclAceptar);
     }

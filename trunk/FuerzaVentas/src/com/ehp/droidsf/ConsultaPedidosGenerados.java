@@ -10,6 +10,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
+
+import com.ehp.R;
 import com.ehp.droidsf.db.CursorClientesConPedidos;
 import com.ehp.droidsf.db.CursorEventosPedido;
 import com.ehp.droidsf.db.CursorPedidos;
@@ -161,7 +163,7 @@ public class ConsultaPedidosGenerados extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f030019);
+        setContentView(R.layout.consulta_pedidos_generados_layout);
         oclViewClientes = new _cls1();
         oclViewPedidos = new _cls2();
         olclViewPedidos = new _cls3();

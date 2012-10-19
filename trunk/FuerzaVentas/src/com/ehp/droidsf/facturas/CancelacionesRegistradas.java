@@ -4,6 +4,7 @@
 
 package com.ehp.droidsf.facturas;
 
+import com.ehp.R;
 import com.ehp.droidsf.dialogos.DialogoSiNo;
 
 import android.app.Activity;
@@ -31,7 +32,7 @@ public class CancelacionesRegistradas extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f030004);
+        setContentView(R.layout.cancelaciones_registradas_activity_layout);
         campoFiltroCliente = (EditText)findViewById(0x7f060015);
         campoFiltroCliente.addTextChangedListener(textWatcher);
         lv_cancelaciones = (ListView)findViewById(0x7f060016);

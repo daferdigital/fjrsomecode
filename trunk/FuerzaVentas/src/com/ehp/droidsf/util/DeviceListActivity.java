@@ -15,6 +15,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
+
+import com.ehp.R;
 import com.ehp.droidsf.MainActivity;
 import java.util.Iterator;
 import java.util.Set;
@@ -42,7 +44,7 @@ public class DeviceListActivity extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(5);
-        setContentView(0x7f030033);
+        setContentView(R.layout.device_list);
         setResult(0);
         ((Button)findViewById(0x7f06008f)).setOnClickListener(new _cls3());
         mPairedDevicesArrayAdapter = new ArrayAdapter(this, 0x7f030034);

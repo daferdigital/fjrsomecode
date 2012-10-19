@@ -9,6 +9,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
+
+import com.ehp.R;
 import com.ehp.droidsf.db.CursorProductosEnFactura;
 
 // Referenced classes of package com.ehp.droidsf:
@@ -65,8 +67,8 @@ public class RegistroDevoluciones extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f030053);
-        setContentView(0x7f030037);
+        setContentView(R.layout.opciones_menu_principal);
+        setContentView(R.layout.devoluciones_layout);
         Bundle bundle1 = getIntent().getExtras();
         if(bundle1 != null)
             idFactura = bundle1.getInt("FACTURA");

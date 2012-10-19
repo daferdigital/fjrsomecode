@@ -4,6 +4,8 @@
 
 package com.ehp.droidsf.pedidos;
 
+import com.ehp.R;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -24,7 +26,7 @@ public class PedidoCreacionModiicarEliminarItem extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f03005d);
+        setContentView(R.layout.pedido_creacion_modificar_eliminar);
         Bundle bundle1 = getIntent().getExtras();
         if(bundle1 != null)
         {

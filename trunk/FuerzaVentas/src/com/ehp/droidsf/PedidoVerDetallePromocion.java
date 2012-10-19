@@ -9,6 +9,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
+
+import com.ehp.R;
 import com.ehp.droidsf.db.CursorPromosDetalle;
 
 // Referenced classes of package com.ehp.droidsf:
@@ -27,7 +29,7 @@ public class PedidoVerDetallePromocion extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f030063);
+        setContentView(R.layout.pedido_promociones_detalle);
         Bundle bundle1 = getIntent().getExtras();
         int i;
         if(bundle1 != null)

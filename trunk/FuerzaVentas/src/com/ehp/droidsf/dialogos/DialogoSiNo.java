@@ -4,6 +4,8 @@
 
 package com.ehp.droidsf.dialogos;
 
+import com.ehp.R;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -22,7 +24,7 @@ public class DialogoSiNo extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f03003a);
+        setContentView(R.layout.dialogo_si_no);
         Bundle bundle1 = getIntent().getExtras();
         if(bundle1 != null)
         {
