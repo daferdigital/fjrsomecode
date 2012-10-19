@@ -4,6 +4,8 @@
 
 package com.ehp.droidsf.facturas;
 
+import com.ehp.R;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -34,7 +36,7 @@ public class FacturasGeneradasFiltro extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f030045);
+        setContentView(R.layout.facturas_generadas_filtro_activity_layout);
         ((ImageButton)findViewById(0x7f0600b1)).setOnClickListener(oclAceptar);
         ((ImageButton)findViewById(0x7f060018)).setOnClickListener(oclCancelar);
     }

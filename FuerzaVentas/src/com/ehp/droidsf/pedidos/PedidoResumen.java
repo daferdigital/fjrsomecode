@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
+
+import com.ehp.R;
 import com.ehp.droidsf.MainActivity;
 import com.ehp.droidsf.adapters.AdapterArticulosPedido;
 import com.ehp.droidsf.adapters.AdapterEventosPedido;
@@ -173,7 +175,7 @@ public class PedidoResumen extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f030091);
+        setContentView(R.layout.ver_informacion_pedido_activity_layout);
         contenido = (LinearLayout)findViewById(0x7f060002);
         findViewById(0x7f06019d).setOnClickListener(oclSincronizar);
         findViewById(0x7f06019a).setOnClickListener(oclArticulos);

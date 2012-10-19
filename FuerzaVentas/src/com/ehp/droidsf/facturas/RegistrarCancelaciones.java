@@ -11,6 +11,8 @@ import android.text.Editable;
 import android.view.View;
 import android.view.Window;
 import android.widget.*;
+
+import com.ehp.R;
 import com.ehp.droidsf.MainActivity;
 import com.ehp.droidsf.db.DroidSFDatabase;
 
@@ -52,7 +54,7 @@ public class RegistrarCancelaciones extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f03007d);
+        setContentView(R.layout.registro_cancelaciones_activity_layout);
         getWindow().setLayout(600, -2);
         Bundle bundle1 = getIntent().getExtras();
         if(bundle1 != null)

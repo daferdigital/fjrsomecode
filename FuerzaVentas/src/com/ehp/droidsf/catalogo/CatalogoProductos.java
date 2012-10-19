@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.ehp.R;
 import com.ehp.droidsf.MainActivity;
 import com.ehp.droidsf.adapters.AdapterCatalogoProductos;
 import com.ehp.droidsf.adapters.AdapterLineasProductoConocerCatalogo;
@@ -85,7 +87,7 @@ public class CatalogoProductos extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f030006);
+        setContentView(R.layout.catalogo_productos_activity_layout);
         mostrarDetalle = new Intent(this, CatalogoProductosDetalle.class);
         ListView listview = (ListView)findViewById(0x7f06001c);
         listview.setAdapter(new AdapterLineasProductoConocerCatalogo(this, getCursorLineas(), oclLineas));

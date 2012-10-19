@@ -11,6 +11,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
+
+import com.ehp.R;
 import com.ehp.droidsf.db.CursorClientesConFacturas;
 import com.ehp.droidsf.db.CursorEventosFactura;
 import com.ehp.droidsf.db.CursorFacturas;
@@ -163,7 +165,7 @@ public class ConsultaFactsGeneradas extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f030011);
+        setContentView(R.layout.consulta_facturas_generados_layout);
         oclViewClientesFacturas = new _cls1();
         oclViewFacturas = new _cls2();
         olclViewFacturas = new _cls3();

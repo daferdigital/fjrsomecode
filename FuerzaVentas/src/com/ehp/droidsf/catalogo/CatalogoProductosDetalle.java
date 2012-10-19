@@ -13,6 +13,8 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Gallery;
 import android.widget.ImageView;
+
+import com.ehp.R;
 import com.ehp.droidsf.MainActivity;
 import com.ehp.droidsf.PedidoAdaptarImagenesProducto;
 import com.ehp.droidsf.db.CursorCatalogoImagenes;
@@ -29,7 +31,7 @@ public class CatalogoProductosDetalle extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f030007);
+        setContentView(R.layout.catalogo_productos_detalle_activity_layout);
         getWindow().setLayout(650, 650);
         imageView = (ImageView)findViewById(0x7f06001f);
         int i = 0;

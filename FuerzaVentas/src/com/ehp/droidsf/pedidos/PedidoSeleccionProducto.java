@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.*;
+
+import com.ehp.R;
 import com.ehp.droidsf.MainActivity;
 import com.ehp.droidsf.PedidoAdaptarImagenesProducto;
 import com.ehp.droidsf.pedidos.db.DBHandle;
@@ -131,7 +133,7 @@ public class PedidoSeleccionProducto extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f030066);
+        setContentView(R.layout.pedido_seleccion_producto_layout);
         imageView = (ImageView)findViewById(0x7f06011c);
         ((Button)findViewById(0x7f06012e)).setOnClickListener(agregarProductoAlCarrito);
         Bundle bundle1 = getIntent().getExtras();

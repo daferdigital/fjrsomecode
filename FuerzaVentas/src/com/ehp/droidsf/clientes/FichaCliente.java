@@ -12,6 +12,8 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
+
+import com.ehp.R;
 import com.ehp.droidsf.MainActivity;
 import com.ehp.droidsf.adapters.AdapterClienteDocumentosDigitales;
 import com.ehp.droidsf.clientes.db.DBHandle;
@@ -409,7 +411,7 @@ public class FichaCliente extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f030047);
+        setContentView(R.layout.ficha_cliente_activity_layout);
         Bundle bundle1 = getIntent().getExtras();
         if(bundle1 != null)
         {

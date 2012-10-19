@@ -12,6 +12,8 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.ehp.R;
 import com.ehp.droidsf.facturas.adapters.BancosGenerales;
 import com.ehp.droidsf.facturas.adapters.BancosPrincipales;
 import com.ehp.droidsf.facturas.db.cursors.CsrBancos;
@@ -30,7 +32,7 @@ public class SeleccionarBanco extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f030077);
+        setContentView(R.layout.reg_pago_selecc_banco_actvity_layout);
         ListView listview = (ListView)findViewById(0x7f060153);
         listview.setAdapter(new BancosGenerales(this, CsrBancos.getBancos(), oclSeleccionarBanco));
         listview.setCacheColorHint(0);

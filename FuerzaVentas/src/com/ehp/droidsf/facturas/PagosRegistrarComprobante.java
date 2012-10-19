@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.ehp.R;
 import com.ehp.droidsf.MainActivity;
 import com.ehp.droidsf.facturas.db.DBHandle;
 import com.ehp.droidsf.facturas.db.cursors.CsrComprobantesIva;
@@ -44,7 +46,7 @@ public class PagosRegistrarComprobante extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f03007a);
+        setContentView(R.layout.registrar_pagos_comprobante_activity_layout);
         findViewById(0x7f06016e).setOnClickListener(oclGuardarComprobante);
         findViewById(0x7f060018).setOnClickListener(oclRegresar);
         cargarComprobantes();

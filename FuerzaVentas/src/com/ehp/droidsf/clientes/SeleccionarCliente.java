@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.ehp.R;
 import com.ehp.droidsf.MainActivity;
 import com.ehp.droidsf.adapters.AdapterClientes;
 import com.ehp.droidsf.db.CursorClientes;
@@ -55,7 +57,7 @@ public class SeleccionarCliente extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f030080);
+        setContentView(R.layout.seleccion_cliente_actvity_layout);
         lv = (ListView)findViewById(0x7f060050);
         cc = MainActivity.mDbHelper.getListadoClientes(com.ehp.droidsf.db.CursorClientes.SortBy.nombre);
         padaptc = new AdapterClientes(this, cc, oclSeleccionarCliente);

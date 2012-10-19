@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.ehp.R;
 import com.ehp.droidsf.catalogo.CatalogoProductos;
 import com.ehp.droidsf.clientes.ConsultarClientes;
 import com.ehp.droidsf.clientes.FichaCliente;
@@ -126,7 +128,7 @@ public class OpcionesMenuPrincial extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f030053);
+        setContentView(R.layout.opciones_menu_principal);
         findViewById(0x7f0600e4).setOnClickListener(this);
         findViewById(0x7f0600e6).setOnClickListener(this);
         findViewById(0x7f0600e7).setOnClickListener(this);

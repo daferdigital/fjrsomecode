@@ -13,6 +13,8 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
+
+import com.ehp.R;
 import com.ehp.droidsf.MainActivity;
 import com.ehp.droidsf.sync.HttpSync;
 
@@ -111,7 +113,7 @@ public class Configuracion extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f030009);
+        setContentView(R.layout.configuracion_ly);
         findViewById(0x7f060012).setOnClickListener(oclAceptar);
         findViewById(0x7f060011).setOnClickListener(oclCancelar);
         findViewById(0x7f060056).setOnClickListener(null);

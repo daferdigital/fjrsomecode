@@ -10,6 +10,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
+
+import com.ehp.R;
 import com.ehp.droidsf.MainActivity;
 import com.ehp.droidsf.facturas.db.DBHandle;
 import com.ehp.droidsf.facturas.db.cursors.CrsEventos;
@@ -95,7 +97,7 @@ public class FacturaResumen extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f03003c);
+        setContentView(R.layout.factura_resumen_activity_layout);
         Bundle bundle1 = getIntent().getExtras();
         if(bundle1 != null)
             factura = bundle1.getInt("FACTURA");

@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ehp.R;
 import com.ehp.droidsf.MainActivity;
 import com.ehp.droidsf.adapters.AdapterEventosFactura;
 import com.ehp.droidsf.adapters.AdapterFacturas;
@@ -87,7 +88,7 @@ public class FacturasGeneradas222 extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f030010);
+        setContentView(R.layout.consulta_facturas_generadas_activity_layout);
         findViewById(0x7f06003b).setOnClickListener(oclRegistrarCancelacion);
         findViewById(0x7f06003a).setOnClickListener(oclRegistrarDevoluciones);
         lv_eventos = (ListView)findViewById(0x7f06003c);

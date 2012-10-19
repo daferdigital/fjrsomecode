@@ -4,6 +4,8 @@
 
 package com.ehp.droidsf.pedidos;
 
+import com.ehp.R;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -25,8 +27,8 @@ public class ModificarEliminarArticulo extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f030090);
-        setContentView(0x7f030051);
+        setContentView(R.layout.ver_detalle_carrito_activity_layout);
+        setContentView(R.layout.modificar_eliminar_articulo_activity_layout);
         Bundle bundle1 = getIntent().getExtras();
         if(bundle1 != null)
         {

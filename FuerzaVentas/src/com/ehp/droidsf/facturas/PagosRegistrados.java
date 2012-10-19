@@ -12,6 +12,8 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
+
+import com.ehp.R;
 import com.ehp.droidsf.facturas.adapters.AdpPagos;
 import com.ehp.droidsf.facturas.db.DBHandle;
 import com.ehp.droidsf.facturas.db.cursors.CsrPagosRegistrados;
@@ -41,7 +43,7 @@ public class PagosRegistrados extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f030054);
+        setContentView(R.layout.pagos_registrados_activity_layout);
         campoFiltroCliente = (EditText)findViewById(0x7f060015);
         campoFiltroCliente.addTextChangedListener(textWatcher);
         lv_cancelaciones = (ListView)findViewById(0x7f060016);

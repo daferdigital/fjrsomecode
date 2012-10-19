@@ -4,6 +4,8 @@
 
 package com.ehp.droidsf;
 
+import com.ehp.R;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -70,8 +72,8 @@ public class ProductoGallerySwitch extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f030066);
-        setContentView(0x7f03005e);
+        setContentView(R.layout.pedido_seleccion_producto_layout);
+        setContentView(R.layout.pedido_gallery_switch_producto);
         Gallery gallery = (Gallery)findViewById(0x7f06010f);
         gallery.setAdapter(new ImageAdapter(this));
         gallery.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {

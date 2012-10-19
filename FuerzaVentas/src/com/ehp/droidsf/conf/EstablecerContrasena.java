@@ -8,6 +8,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+
+import com.ehp.R;
 import com.ehp.droidsf.MainActivity;
 
 public class EstablecerContrasena extends Activity
@@ -37,7 +39,7 @@ public class EstablecerContrasena extends Activity
     protected void onCreate(Bundle bundle)
     {
         super.onCreate(bundle);
-        setContentView(0x7f03003b);
+        setContentView(R.layout.establecer_contrasena_ly);
         findViewById(0x7f060012).setOnClickListener(oclAceptar);
         findViewById(0x7f060011).setOnClickListener(oclCancelar);
         String s = MainActivity.settings.getString("login", MainActivity.getDefaultLogin());

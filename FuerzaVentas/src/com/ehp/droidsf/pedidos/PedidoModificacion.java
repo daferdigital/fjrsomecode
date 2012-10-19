@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
+
+import com.ehp.R;
 import com.ehp.droidsf.*;
 import com.ehp.droidsf.adapters.AdapterCatalogoProductos;
 import com.ehp.droidsf.clientes.SeleccionarCliente;
@@ -202,7 +204,7 @@ public class PedidoModificacion extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f03005f);
+        setContentView(R.layout.pedido_layout);
         crearAccionesToolbar();
         desactivarAccionesToolbar();
         catalogoProductos = (ListView)findViewById(0x7f06001e);

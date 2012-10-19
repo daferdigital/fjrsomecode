@@ -12,6 +12,8 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
+
+import com.ehp.R;
 import com.ehp.droidsf.MainActivity;
 import com.ehp.droidsf.db.*;
 import com.ehp.droidsf.db.cursors.*;
@@ -223,7 +225,7 @@ public class SyncActivity extends Activity
     {
         super.onCreate(bundle);
         requestWindowFeature(1);
-        setContentView(0x7f03008e);
+        setContentView(R.layout.sync_activity_ly);
         mly = (LinearLayout)findViewById(0x7f06018d);
         findViewById(0x7f060011).setOnClickListener(oclCancelar);
         syncRecibirEventos();
