@@ -15,7 +15,7 @@
 			."cod_factura,comentarios,fecha_pago,id_cliente)"
 			. " VALUES('".$_POST["nombre"]."', '".$_POST["compania"]."', '".$_POST["cedula_rif"]."', '".$_POST["email"]
 			."', '".$_POST["direccion"]."', '".$_POST["telefono"]."', '".$_POST["celular"]."', '".$_POST["transaccion"]
-			."', '".$_POST["factura"]."', '".$_POST["comentarios"]."', '".$_POST["fechaPago"]."', ".$_SESSION["idCliente"].")";
+			."', '".$_POST["factura"]."', '".$_POST["comentarios"]."', '".$_POST["fechaPago"]."', ".$_SESSION["codigo"].")";
 		mysql_query($query);
 ?>
 

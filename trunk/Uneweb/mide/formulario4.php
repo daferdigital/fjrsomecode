@@ -185,7 +185,7 @@ $tipoFondo= obtenerFondo();
 	 	$totalPages;
 	 	
 	 	//obtenemos el total de registros
-	 	$query = "SELECT COUNT(*) FROM pago_registrado WHERE id_cliente=".$_SESSION["idCliente"];
+	 	$query = "SELECT COUNT(*) FROM pago_registrado WHERE id_cliente=".$_SESSION["codigo"];
 	 	$records = mysql_fetch_array(mysql_query($query));
 	 	
 	 	if($records[0] > 0){
