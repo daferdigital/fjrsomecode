@@ -167,11 +167,9 @@ $tipoFondo= obtenerFondo();
        
 
        <tr>
-
          <td  colspan="3" bgcolor="#CCCCCC" align="center"><p><br />
              <span class="txt_4">Pagos realizados</span></p>
          </td>
-
        </tr>
        <tr>
          <td height="18" colspan="3" bgcolor="#C4ECFF">&nbsp;</td>
@@ -181,7 +179,113 @@ $tipoFondo= obtenerFondo();
 	 
 	 <div style="height:30px;"></div>
 	 
+	 <?php
+	    $currentPage = isset($_GET["page"]) ? $_GET["page"] : 0; 
+	 	$pageRecords = 2;
+	 	$totalPages;
+	 	
+	 	//obtenemos el total de registros
+	 	$query = "SELECT COUNT(*) FROM pago_registrado WHERE id_cliente=".$_SESSION["idCliente"];
+	 	$records = mysql_fetch_array(mysql_query($query));
+	 	
+	 	if($records[0] > 0){
+	 		//tenemos registros
+	 		$totalPages = (int) ($records[0] / $pageRecords);
+	 		if(($records[0] % $pageRecords) > 0){
+	 			$totalPages += 1;
+	 		}
+	 		//ajustamos nuestra cuenta con indices basados en cero
+	 		$totalPages += -1;
+	 	} else {
+	 		$totalPages = -1;
+	 	}
+	 ?>
 	 
+	 <table width="95%" border="0" cellpadding="0" cellspacing="0" align="center">
+	 	<th align="center">
+	 		Factura
+	 	</th>
+	 	<th align="center">
+	 		Fecha del Pago
+	 	</th>
+	 	<th align="center">
+	 		Nombre
+	 	</th>
+	 	<th align="center">
+	 		Compa&ntilde;ia
+	 	</th>
+	 	<?php 
+	 		if($totalPages < 1){
+	 	?>
+	 		<tr style="background: #CCCCCC;">
+	 			<td colspan="4" align="center">
+	 				Disculpe no se encontraron pagos registrados en su cuenta.
+	 			</td>
+	 		</tr>
+	 	<?php
+	 		} else {
+	 			//tenemos pagos
+	 			$query = "SELECT id, cod_factura, DATE(fecha_pago) AS fecha_pago, nombre_pagador, cia_pagadora "
+	 			." FROM pago_registrado"
+	 			." WHERE id_cliente=".$_SESSION["idCliente"]
+	 			." ORDER BY fecha_pago desc, cod_factura"
+	 			." LIMIT ".($pageRecords * $currentPage).", ".($pageRecords);
+	 			
+	 			$result = mysql_query($query);
+	 			$putStyle = true;
+	 			if(mysql_num_rows($result) > 0){
+	 				//dibujamos los pagos
+	 				while($pago = mysql_fetch_array($result)){
+	 	?>
+	 					<tr align="center" <?php echo ($putStyle ? "style=\"background: #CCCCCC;\"" : "");?>>
+	 						<td><?php echo $pago["cod_factura"];?></td>
+	 						<td><?php echo $pago["fecha_pago"];?></td>
+	 						<td><?php echo $pago["nombre_pagador"];?></td>
+	 						<td><?php echo $pago["cia_pagadora"];?></td>
+	 					</tr>
+	 	<?php
+	 					$putStyle = !$putStyle;
+	 				}
+	 			} else {
+	 	?>
+	 				<tr style="background: #CCCCCC;">
+			 			<td colspan="4" align="center">
+			 				Disculpe. P&aacute;gina fuera de rango
+			 			</td>
+			 		</tr>
+	 	<?php
+	 			}
+	 		}
+	 		
+	 		mysql_close();
+	 	?>
+	 	
+	 	<tr>
+	 		<td colspan="4" align="center">
+	 		<?php 
+	 			if($currentPage > 0){
+	 		?>
+	 			<a href="formulario4.php?page=0" title="P&aacute;gina inicial"><img border="0" src="img/yearBackward_normal.gif"></img></a>
+	 			&nbsp;&nbsp;&nbsp;&nbsp;
+	 			<a href="formulario4.php?page=<?php echo $currentPage - 1;?>" title="P&aacute;gina anterior"><img border="0" src="img/monthBackward_normal.gif"></img></a>
+	 			&nbsp;&nbsp;&nbsp;&nbsp;
+	 		<?php	
+	 			}
+	 		?>
+	 		<?php 
+	 			if($currentPage < $totalPages){
+	 		?>
+	 			<a href="formulario4.php?page=<?php echo $currentPage + 1;?>" title="P&aacute;gina siguiente"><img border="0" src="img/monthForward_normal.gif"></img></a>
+	 			&nbsp;&nbsp;&nbsp;&nbsp;
+	 			<a href="formulario4.php?page=<?php echo $totalPages;?>" title="&Uacute;ltima p&aacute;gina"><img border="0" src="img/yearForward_normal.gif"></img></a>
+	 			&nbsp;&nbsp;&nbsp;&nbsp;
+	 		<?php	
+	 			}
+	 		?>
+	 			
+	 		</td>
+	 	</tr>
+	 </table>
 		
 		<!-- Espacio para el contenido -->
 	</td>
