@@ -11,7 +11,7 @@
 		." WHERE login = '".$_POST["login"]."'"
 		." AND password = '".$_POST["clave"]."'";
 		
-		$result = mysql_fetch_array(mysql_query($query));
+		$result = mysql_query($query);
 		if(mysql_error()){
 			//hubo un error ejecutando el query de consulta
 ?>
@@ -32,6 +32,7 @@
 <?php
 			} else {
 				//login exitoso
+				$result = mysql_fetch_array($result);
 				$_SESSION["loggedAsAdmin"] = "logged";
 				$_SESSION["idAdmin"] = $result["id"];
 				header("location: createMessage.php");
