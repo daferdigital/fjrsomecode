@@ -2,13 +2,14 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf.adapters;
+package com.netbong.fuerza.adapters;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import com.ehp.droidsf.db.CursorLineasProducto;
+
+import com.netbong.fuerza.db.cursores.CursorLineasProducto;
 
 public class AdapterLineasProductoConocerCatalogo extends BaseAdapter
 {

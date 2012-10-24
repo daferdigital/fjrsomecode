@@ -2,14 +2,14 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf.adapters;
+package com.netbong.fuerza.adapters;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import com.ehp.droidsf.MainActivity;
-import com.ehp.droidsf.db.CursorClientes;
+import com.netbong.fuerza.MainActivity;
+import com.netbong.fuerza.db.cursores.CursorClientes;
 
 public class AdapterClientes extends BaseAdapter
 {

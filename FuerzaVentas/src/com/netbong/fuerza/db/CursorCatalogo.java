@@ -2,7 +2,7 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf.db;
+package com.netbong.fuerza.db;
 
 import android.database.Cursor;
 import android.database.sqlite.*;

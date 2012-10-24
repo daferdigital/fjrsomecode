@@ -2,7 +2,7 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf.facturas;
+package com.netbong.fuerza.facturas;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
@@ -11,10 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 
-import com.ehp.R;
-import com.ehp.droidsf.MainActivity;
-import com.ehp.droidsf.adapters.AdapterDevoluciones;
-import com.ehp.droidsf.db.CursorDevolucionesArticulosNoDevueltos;
+import com.netbong.R;
+import com.netbong.fuerza.MainActivity;
+import com.netbong.fuerza.adapters.AdapterDevoluciones;
+import com.netbong.fuerza.db.cursores.CursorDevolucionesArticulosNoDevueltos;
 
 public class RegistrarDevoluciones extends Activity
 {

@@ -2,7 +2,7 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf.util;
+package com.netbong.fuerza.util;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -16,8 +16,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.*;
 
-import com.ehp.R;
-import com.ehp.droidsf.MainActivity;
+import com.netbong.R;
+import com.netbong.fuerza.MainActivity;
+
 import java.util.Iterator;
 import java.util.Set;
 

@@ -2,7 +2,7 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf.pedidos.sync;
+package com.netbong.fuerza.pedidos.sync;
 
 
 public class TramaPedido

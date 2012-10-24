@@ -2,12 +2,13 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf.pedidos.db.cursors;
+package com.netbong.fuerza.pedidos.db.cursors;
 
 import android.database.Cursor;
 import android.database.sqlite.*;
 import android.os.Environment;
-import com.ehp.droidsf.MainActivity;
+
+import com.netbong.fuerza.MainActivity;
 
 public class CrsProductos extends SQLiteCursor
 {

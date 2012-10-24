@@ -2,7 +2,7 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf.catalogo;
+package com.netbong.fuerza.catalogo;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,11 +14,11 @@ import android.widget.AdapterView;
 import android.widget.Gallery;
 import android.widget.ImageView;
 
-import com.ehp.R;
-import com.ehp.droidsf.MainActivity;
-import com.ehp.droidsf.PedidoAdaptarImagenesProducto;
-import com.ehp.droidsf.db.CursorCatalogoImagenes;
-import com.ehp.droidsf.db.DroidSFDatabase;
+import com.netbong.R;
+import com.netbong.fuerza.MainActivity;
+import com.netbong.fuerza.PedidoAdaptarImagenesProducto;
+import com.netbong.fuerza.db.cursores.CursorCatalogoImagenes;
+import com.netbong.fuerza.db.cursores.DroidSFDatabase;
 
 public class CatalogoProductosDetalle extends Activity
 {

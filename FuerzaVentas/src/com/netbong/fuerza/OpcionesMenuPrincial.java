@@ -2,7 +2,7 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf;
+package com.netbong.fuerza;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,17 +11,17 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.ehp.R;
-import com.ehp.droidsf.catalogo.CatalogoProductos;
-import com.ehp.droidsf.clientes.ConsultarClientes;
-import com.ehp.droidsf.clientes.FichaCliente;
-import com.ehp.droidsf.conf.Configuracion;
-import com.ehp.droidsf.facturas.FacturasGeneradas;
-import com.ehp.droidsf.facturas.PagosRegistrados;
-import com.ehp.droidsf.facturas.db.DBHandle;
-import com.ehp.droidsf.pedidos.PedidoCreacion;
-import com.ehp.droidsf.pedidos.PedidosEfectuados;
-import com.ehp.droidsf.sync.SyncActivity;
+import com.netbong.R;
+import com.netbong.fuerza.catalogo.CatalogoProductos;
+import com.netbong.fuerza.clientes.ConsultarClientes;
+import com.netbong.fuerza.clientes.FichaCliente;
+import com.netbong.fuerza.conf.Configuracion;
+import com.netbong.fuerza.facturas.FacturasGeneradas;
+import com.netbong.fuerza.facturas.PagosRegistrados;
+import com.netbong.fuerza.facturas.db.DBHandle;
+import com.netbong.fuerza.pedidos.PedidoCreacion;
+import com.netbong.fuerza.pedidos.PedidosEfectuados;
+import com.netbong.fuerza.sincronizar.SyncActivity;
 
 // Referenced classes of package com.ehp.droidsf:
 //            MainActivity

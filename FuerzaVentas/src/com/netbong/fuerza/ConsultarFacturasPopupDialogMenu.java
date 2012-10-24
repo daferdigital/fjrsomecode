@@ -2,7 +2,7 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf;
+package com.netbong.fuerza;
 
 import android.app.ListActivity;
 import android.content.Intent;
@@ -10,7 +10,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import com.ehp.droidsf.facturas.RegistrarCancelaciones;
+
+import com.netbong.fuerza.facturas.RegistrarCancelaciones;
 
 // Referenced classes of package com.ehp.droidsf:
 //            MainActivity, RegistroDevoluciones

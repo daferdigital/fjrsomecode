@@ -2,13 +2,14 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf;
+package com.netbong.fuerza;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import com.ehp.droidsf.db.CursorPedidosNoSincronizado;
+
+import com.netbong.fuerza.db.cursores.CursorPedidosNoSincronizado;
 
 public class PedidoAdaptarPedidosNoSincronizados extends BaseAdapter
 {

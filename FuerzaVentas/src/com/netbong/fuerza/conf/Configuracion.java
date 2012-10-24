@@ -2,7 +2,7 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf.conf;
+package com.netbong.fuerza.conf;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -14,9 +14,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.*;
 
-import com.ehp.R;
-import com.ehp.droidsf.MainActivity;
-import com.ehp.droidsf.sync.HttpSync;
+import com.netbong.R;
+import com.netbong.fuerza.MainActivity;
+import com.netbong.fuerza.sincronizar.HttpSync;
 
 public class Configuracion extends Activity
 {

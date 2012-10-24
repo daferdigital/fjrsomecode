@@ -2,7 +2,7 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf;
+package com.netbong.fuerza;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,8 +11,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.ehp.R;
-import com.ehp.droidsf.conf.EstablecerContrasena;
+import com.netbong.R;
+import com.netbong.fuerza.conf.EstablecerContrasena;
 
 // Referenced classes of package com.ehp.droidsf:
 //            MainActivity, OpcionesMenuPrincial

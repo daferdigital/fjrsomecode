@@ -2,15 +2,15 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf.clientes.adapters;
+package com.netbong.fuerza.clientes.adapters;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import com.ehp.droidsf.MainActivity;
-import com.ehp.droidsf.clientes.db.cursors.CrsMovimientosResumen;
+import com.netbong.fuerza.MainActivity;
+import com.netbong.fuerza.clientes.db.cursors.CrsMovimientosResumen;
 
 public class AdapterMovimientosResumen extends BaseAdapter
 {

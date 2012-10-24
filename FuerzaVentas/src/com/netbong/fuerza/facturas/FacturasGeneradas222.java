@@ -2,7 +2,7 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf.facturas;
+package com.netbong.fuerza.facturas;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,11 +13,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.ehp.R;
-import com.ehp.droidsf.MainActivity;
-import com.ehp.droidsf.adapters.AdapterEventosFactura;
-import com.ehp.droidsf.adapters.AdapterFacturas;
-import com.ehp.droidsf.db.*;
+import com.netbong.R;
+import com.netbong.fuerza.MainActivity;
+import com.netbong.fuerza.adapters.AdapterEventosFactura;
+import com.netbong.fuerza.adapters.AdapterFacturas;
+import com.netbong.fuerza.db.cursores.*;
 
 public class FacturasGeneradas222 extends Activity
 {

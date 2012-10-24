@@ -2,7 +2,7 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf.catalogo;
+package com.netbong.fuerza.catalogo;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,11 +12,11 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.ehp.R;
-import com.ehp.droidsf.MainActivity;
-import com.ehp.droidsf.adapters.AdapterCatalogoProductos;
-import com.ehp.droidsf.adapters.AdapterLineasProductoConocerCatalogo;
-import com.ehp.droidsf.db.*;
+import com.netbong.R;
+import com.netbong.fuerza.MainActivity;
+import com.netbong.fuerza.adapters.AdapterCatalogoProductos;
+import com.netbong.fuerza.adapters.AdapterLineasProductoConocerCatalogo;
+import com.netbong.fuerza.db.cursores.*;
 
 // Referenced classes of package com.ehp.droidsf.catalogo:
 //            CatalogoProductosDetalle
@@ -57,7 +57,7 @@ public class CatalogoProductos extends Activity
             crCatalogo.deactivate();
             crCatalogo.close();
         }
-        crCatalogo = CursorCatalogo.getProductos(MainActivity.mDbHelper.getWritableDatabase(), com.ehp.droidsf.db.CursorCatalogo.SortBy.nombre);
+        crCatalogo = CursorCatalogo.getProductos(MainActivity.mDbHelper.getWritableDatabase(), com.netbong.fuerza.db.cursores.CursorCatalogo.SortBy.nombre);
         return crCatalogo;
     }
 
@@ -69,7 +69,7 @@ public class CatalogoProductos extends Activity
             crCatalogo.close();
         }
         android.database.sqlite.SQLiteDatabase sqlitedatabase = MainActivity.mDbHelper.getWritableDatabase();
-        com.ehp.droidsf.db.CursorCatalogo.SortBy sortby = com.ehp.droidsf.db.CursorCatalogo.SortBy.nombre;
+        com.netbong.fuerza.db.cursores.CursorCatalogo.SortBy sortby = com.netbong.fuerza.db.cursores.CursorCatalogo.SortBy.nombre;
         Object aobj[] = new Object[1];
         aobj[0] = Integer.valueOf(i);
         crCatalogo = CursorCatalogo.getProductos(sqlitedatabase, sortby, String.format(" %d ", aobj));

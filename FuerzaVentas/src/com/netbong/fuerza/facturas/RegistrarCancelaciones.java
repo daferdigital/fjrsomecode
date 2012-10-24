@@ -2,7 +2,7 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf.facturas;
+package com.netbong.fuerza.facturas;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,9 +12,9 @@ import android.view.View;
 import android.view.Window;
 import android.widget.*;
 
-import com.ehp.R;
-import com.ehp.droidsf.MainActivity;
-import com.ehp.droidsf.db.DroidSFDatabase;
+import com.netbong.R;
+import com.netbong.fuerza.MainActivity;
+import com.netbong.fuerza.db.cursores.DroidSFDatabase;
 
 public class RegistrarCancelaciones extends Activity
     implements android.view.View.OnClickListener

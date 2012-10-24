@@ -2,12 +2,12 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf.facturas.db.cursors;
+package com.netbong.fuerza.facturas.db.cursors;
 
 import android.database.Cursor;
 import android.database.sqlite.*;
-import com.ehp.droidsf.MainActivity;
-import com.ehp.droidsf.db.DroidSFDatabase;
+import com.netbong.fuerza.MainActivity;
+import com.netbong.fuerza.db.cursores.DroidSFDatabase;
 
 public class CsrPagoRegistradoDatosFormasPago extends SQLiteCursor
 {

@@ -2,7 +2,7 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf.clientes;
+package com.netbong.fuerza.clientes;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,12 +13,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.*;
 
-import com.ehp.R;
-import com.ehp.droidsf.MainActivity;
-import com.ehp.droidsf.adapters.AdapterClienteDocumentosDigitales;
-import com.ehp.droidsf.clientes.db.DBHandle;
-import com.ehp.droidsf.clientes.db.cursors.CrsMovimientosResumen;
-import com.ehp.droidsf.db.*;
+import com.netbong.R;
+import com.netbong.fuerza.MainActivity;
+import com.netbong.fuerza.adapters.AdapterClienteDocumentosDigitales;
+import com.netbong.fuerza.clientes.db.DBHandle;
+import com.netbong.fuerza.clientes.db.cursors.CrsMovimientosResumen;
+import com.netbong.fuerza.db.cursores.*;
+
 import java.io.File;
 
 public class FichaCliente extends Activity

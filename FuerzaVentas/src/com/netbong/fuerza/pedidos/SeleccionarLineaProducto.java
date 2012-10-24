@@ -2,7 +2,7 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf.pedidos;
+package com.netbong.fuerza.pedidos;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,10 +15,10 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.ehp.R;
-import com.ehp.droidsf.MainActivity;
-import com.ehp.droidsf.adapters.AdapterLineasProducto;
-import com.ehp.droidsf.db.DroidSFDatabase;
+import com.netbong.R;
+import com.netbong.fuerza.MainActivity;
+import com.netbong.fuerza.adapters.AdapterLineasProducto;
+import com.netbong.fuerza.db.cursores.DroidSFDatabase;
 
 public class SeleccionarLineaProducto extends Activity
 {

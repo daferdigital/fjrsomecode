@@ -2,7 +2,7 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf.pedidos;
+package com.netbong.fuerza.pedidos;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -13,13 +13,13 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.*;
 
-import com.ehp.R;
-import com.ehp.droidsf.MainActivity;
-import com.ehp.droidsf.PedidoAdaptarImagenesProducto;
-import com.ehp.droidsf.pedidos.db.DBHandle;
-import com.ehp.droidsf.pedidos.db.cursors.CrsAutorizacionPrecio;
-import com.ehp.droidsf.pedidos.db.cursors.CrsCarritoItemsProductos;
-import com.ehp.droidsf.pedidos.db.cursors.CrsProductos;
+import com.netbong.R;
+import com.netbong.fuerza.MainActivity;
+import com.netbong.fuerza.PedidoAdaptarImagenesProducto;
+import com.netbong.fuerza.pedidos.db.DBHandle;
+import com.netbong.fuerza.pedidos.db.cursors.CrsAutorizacionPrecio;
+import com.netbong.fuerza.pedidos.db.cursors.CrsCarritoItemsProductos;
+import com.netbong.fuerza.pedidos.db.cursors.CrsProductos;
 
 public class PedidoSeleccionProducto extends Activity
 {

@@ -2,7 +2,7 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf;
+package com.netbong.fuerza;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
@@ -10,8 +10,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 
-import com.ehp.R;
-import com.ehp.droidsf.db.CursorPromosDetalle;
+import com.netbong.R;
+import com.netbong.fuerza.db.cursores.CursorPromosDetalle;
 
 // Referenced classes of package com.ehp.droidsf:
 //            MainActivity, PedidoAdaptarPromosDetalle

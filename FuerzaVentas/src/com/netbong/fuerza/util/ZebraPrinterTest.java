@@ -2,7 +2,7 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf.util;
+package com.netbong.fuerza.util;
 
 import android.os.Looper;
 import com.zebra.android.comm.*;

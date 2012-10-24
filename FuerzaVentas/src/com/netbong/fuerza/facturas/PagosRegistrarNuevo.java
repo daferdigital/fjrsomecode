@@ -2,7 +2,7 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf.facturas;
+package com.netbong.fuerza.facturas;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,17 +13,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.*;
 
-import com.ehp.R;
-import com.ehp.droidsf.MainActivity;
-import com.ehp.droidsf.clientes.SeleccionarCliente;
-import com.ehp.droidsf.dialogos.DialogoSiNo;
-import com.ehp.droidsf.facturas.adapters.AdpBancos;
-import com.ehp.droidsf.facturas.db.DBHandle;
-import com.ehp.droidsf.facturas.db.cursors.CrsFacturasPendientes;
-import com.ehp.droidsf.facturas.db.cursors.CsrBancos;
-import com.ehp.droidsf.facturas.db.cursors.CsrPagoRegistradoDatosCliente;
-import com.ehp.droidsf.facturas.db.cursors.CsrPagoRegistradoDatosFacturas;
-import com.ehp.droidsf.facturas.db.cursors.CsrPagoRegistradoDatosFormasPago;
+import com.netbong.R;
+import com.netbong.fuerza.MainActivity;
+import com.netbong.fuerza.clientes.SeleccionarCliente;
+import com.netbong.fuerza.dialogos.DialogoSiNo;
+import com.netbong.fuerza.facturas.adapters.AdpBancos;
+import com.netbong.fuerza.facturas.db.DBHandle;
+import com.netbong.fuerza.facturas.db.cursors.CrsFacturasPendientes;
+import com.netbong.fuerza.facturas.db.cursors.CsrBancos;
+import com.netbong.fuerza.facturas.db.cursors.CsrPagoRegistradoDatosCliente;
+import com.netbong.fuerza.facturas.db.cursors.CsrPagoRegistradoDatosFacturas;
+import com.netbong.fuerza.facturas.db.cursors.CsrPagoRegistradoDatosFormasPago;
 
 public class PagosRegistrarNuevo extends Activity
 {

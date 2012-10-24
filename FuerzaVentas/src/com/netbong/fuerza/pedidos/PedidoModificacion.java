@@ -2,7 +2,7 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf.pedidos;
+package com.netbong.fuerza.pedidos;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,13 +10,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 
-import com.ehp.R;
-import com.ehp.droidsf.*;
-import com.ehp.droidsf.adapters.AdapterCatalogoProductos;
-import com.ehp.droidsf.clientes.SeleccionarCliente;
-import com.ehp.droidsf.db.*;
-import com.ehp.droidsf.dialogos.DialogoSiNo;
-import com.ehp.droidsf.pedidos.db.DBHandle;
+import com.netbong.R;
+import com.netbong.fuerza.*;
+import com.netbong.fuerza.adapters.AdapterCatalogoProductos;
+import com.netbong.fuerza.clientes.SeleccionarCliente;
+import com.netbong.fuerza.db.cursores.*;
+import com.netbong.fuerza.dialogos.DialogoSiNo;
+import com.netbong.fuerza.pedidos.db.DBHandle;
 
 // Referenced classes of package com.ehp.droidsf.pedidos:
 //            PedidoSeleccionProducto
@@ -133,10 +133,10 @@ public class PedidoModificacion extends Activity
         if(j == -1 && i == 3){
             String s = intent.getExtras().getString("LINEAS_SELECCIONADAS");
             if(s.equalsIgnoreCase("todas")){
-                cc = MainActivity.mDbHelper.getListadoProductos(com.ehp.droidsf.db.CursorCatalogo.SortBy.nombre);
+                cc = MainActivity.mDbHelper.getListadoProductos(com.netbong.fuerza.db.cursores.CursorCatalogo.SortBy.nombre);
                 catalogoProductos.setAdapter(new AdapterCatalogoProductos(this, cc, oclDetalleProducto));
             } else {
-                cc = MainActivity.mDbHelper.getListadoProductos(com.ehp.droidsf.db.CursorCatalogo.SortBy.nombre, s);
+                cc = MainActivity.mDbHelper.getListadoProductos(com.netbong.fuerza.db.cursores.CursorCatalogo.SortBy.nombre, s);
                 catalogoProductos.setAdapter(new AdapterCatalogoProductos(this, cc, oclDetalleProducto));
             }
         }
@@ -155,7 +155,7 @@ public class PedidoModificacion extends Activity
             aobj[1] = clienteSeleccionadoNombre;
             aobj[2] = MainActivity.formatVE(clienteLimiteCredido);
             textview.setText(String.format("Cliente: %s - %s - Limite Credito Bs.: %s", aobj));
-            cc = MainActivity.mDbHelper.getListadoProductos(com.ehp.droidsf.db.CursorCatalogo.SortBy.nombre);
+            cc = MainActivity.mDbHelper.getListadoProductos(com.netbong.fuerza.db.cursores.CursorCatalogo.SortBy.nombre);
             catalogoProductos.setAdapter(new AdapterCatalogoProductos(this, cc, oclDetalleProducto));
         }
         

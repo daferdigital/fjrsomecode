@@ -2,14 +2,15 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf.facturas.adapters;
+package com.netbong.fuerza.facturas.adapters;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import com.ehp.droidsf.facturas.db.cursors.CsrBancos;
+
+import com.netbong.fuerza.facturas.db.cursors.CsrBancos;
 
 public class AdpBancos extends BaseAdapter
 {

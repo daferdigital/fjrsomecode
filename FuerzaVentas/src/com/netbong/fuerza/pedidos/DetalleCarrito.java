@@ -2,7 +2,7 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf.pedidos;
+package com.netbong.fuerza.pedidos;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,12 +13,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.ehp.R;
-import com.ehp.droidsf.MainActivity;
-import com.ehp.droidsf.adapters.AdapterArticulosCarritoVistaAmpliada;
-import com.ehp.droidsf.db.*;
-import com.ehp.droidsf.util.DeviceListActivity;
-import com.ehp.droidsf.util.ZebraPrinterTest;
+import com.netbong.R;
+import com.netbong.fuerza.MainActivity;
+import com.netbong.fuerza.adapters.AdapterArticulosCarritoVistaAmpliada;
+import com.netbong.fuerza.db.cursores.*;
+import com.netbong.fuerza.util.DeviceListActivity;
+import com.netbong.fuerza.util.ZebraPrinterTest;
 
 // Referenced classes of package com.ehp.droidsf.pedidos:
 //            ModificarEliminarArticulo
