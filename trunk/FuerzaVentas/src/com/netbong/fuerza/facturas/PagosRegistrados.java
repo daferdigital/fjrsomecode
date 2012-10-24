@@ -2,7 +2,7 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf.facturas;
+package com.netbong.fuerza.facturas;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,10 +13,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.ehp.R;
-import com.ehp.droidsf.facturas.adapters.AdpPagos;
-import com.ehp.droidsf.facturas.db.DBHandle;
-import com.ehp.droidsf.facturas.db.cursors.CsrPagosRegistrados;
+import com.netbong.R;
+import com.netbong.fuerza.facturas.adapters.AdpPagos;
+import com.netbong.fuerza.facturas.db.DBHandle;
+import com.netbong.fuerza.facturas.db.cursors.CsrPagosRegistrados;
 
 public class PagosRegistrados extends Activity
 {

@@ -2,14 +2,14 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf.clientes.db;
+package com.netbong.fuerza.clientes.db;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
-import com.ehp.droidsf.MainActivity;
-import com.ehp.droidsf.db.DroidSFDatabase;
+import com.netbong.fuerza.MainActivity;
+import com.netbong.fuerza.db.cursores.DroidSFDatabase;
 
 public class DBHandle
 {

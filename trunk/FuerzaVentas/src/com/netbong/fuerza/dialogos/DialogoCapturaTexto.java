@@ -2,9 +2,9 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf.dialogos;
+package com.netbong.fuerza.dialogos;
 
-import com.ehp.R;
+import com.netbong.R;
 
 import android.app.Activity;
 import android.content.Intent;

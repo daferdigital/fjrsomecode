@@ -2,7 +2,7 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf;
+package com.netbong.fuerza;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -10,7 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import com.ehp.droidsf.db.CursorCatalogoImagenes;
+
+import com.netbong.fuerza.db.cursores.CursorCatalogoImagenes;
 
 public class PedidoAdaptarImagenesProducto extends BaseAdapter
 {

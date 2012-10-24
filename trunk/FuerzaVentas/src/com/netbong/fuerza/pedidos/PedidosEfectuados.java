@@ -2,7 +2,7 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf.pedidos;
+package com.netbong.fuerza.pedidos;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,13 +12,13 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.*;
 
-import com.ehp.R;
-import com.ehp.droidsf.MainActivity;
-import com.ehp.droidsf.adapters.AdapterClientesConPedidos;
-import com.ehp.droidsf.adapters.AdapterPedidos;
-import com.ehp.droidsf.db.CursorClientesConPedidos;
-import com.ehp.droidsf.db.CursorPedidos;
-import com.ehp.droidsf.db.DroidSFDatabase;
+import com.netbong.R;
+import com.netbong.fuerza.MainActivity;
+import com.netbong.fuerza.adapters.AdapterClientesConPedidos;
+import com.netbong.fuerza.adapters.AdapterPedidos;
+import com.netbong.fuerza.db.cursores.CursorClientesConPedidos;
+import com.netbong.fuerza.db.cursores.CursorPedidos;
+import com.netbong.fuerza.db.cursores.DroidSFDatabase;
 
 public class PedidosEfectuados extends Activity
 {

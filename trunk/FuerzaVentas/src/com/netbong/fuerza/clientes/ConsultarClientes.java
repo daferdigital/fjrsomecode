@@ -2,7 +2,7 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf.clientes;
+package com.netbong.fuerza.clientes;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,10 +13,10 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.ehp.R;
-import com.ehp.droidsf.MainActivity;
-import com.ehp.droidsf.adapters.AdapterClientes;
-import com.ehp.droidsf.db.CursorClientes;
+import com.netbong.R;
+import com.netbong.fuerza.MainActivity;
+import com.netbong.fuerza.adapters.AdapterClientes;
+import com.netbong.fuerza.db.cursores.CursorClientes;
 
 // Referenced classes of package com.ehp.droidsf.clientes:
 //            FichaCliente
@@ -102,7 +102,7 @@ public class ConsultarClientes extends Activity
             String s = campoFiltro.getText().toString().trim();
             if(s.length() == 0)
                 s = "";
-            cc = MainActivity.mDbHelper.getListadoClientes(s, com.ehp.droidsf.db.CursorClientes.SortBy.nombre);
+            cc = MainActivity.mDbHelper.getListadoClientes(s, com.netbong.fuerza.db.cursores.CursorClientes.SortBy.nombre);
             padaptc = new AdapterClientes(ConsultarClientes.this, cc, oclVerFichaClientes);
             lv.setAdapter(padaptc);
             lv.setCacheColorHint(0);

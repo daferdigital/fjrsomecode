@@ -2,13 +2,14 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf.pedidos.sync;
+package com.netbong.fuerza.pedidos.sync;
 
 import android.os.AsyncTask;
-import com.ehp.droidsf.MainActivity;
-import com.ehp.droidsf.db.CursorSyncDatosPedido;
-import com.ehp.droidsf.pedidos.sync.exception.SyncPedidoException;
-import com.ehp.droidsf.sync.HttpSync;
+import com.netbong.fuerza.MainActivity;
+import com.netbong.fuerza.db.cursores.CursorSyncDatosPedido;
+import com.netbong.fuerza.pedidos.sync.exception.SyncPedidoException;
+import com.netbong.fuerza.sincronizar.HttpSync;
+
 import java.util.ArrayList;
 
 // Referenced classes of package com.ehp.droidsf.pedidos.sync:

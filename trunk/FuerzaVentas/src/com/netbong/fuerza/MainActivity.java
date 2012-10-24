@@ -2,7 +2,7 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf;
+package com.netbong.fuerza;
 
 import android.app.Activity;
 import android.content.*;
@@ -10,12 +10,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
 import android.widget.Toast;
-import com.ehp.droidsf.conf.Configuracion;
-import com.ehp.droidsf.db.DroidSFDatabase;
-import com.ehp.droidsf.dialogos.DialogoAceptar;
-import com.ehp.droidsf.dialogos.DialogoCapturaTexto;
-import com.ehp.droidsf.dialogos.DialogoSiNo;
-import com.ehp.droidsf.util.UnPackResource;
+import com.netbong.fuerza.conf.Configuracion;
+import com.netbong.fuerza.db.cursores.DroidSFDatabase;
+import com.netbong.fuerza.dialogos.DialogoAceptar;
+import com.netbong.fuerza.dialogos.DialogoCapturaTexto;
+import com.netbong.fuerza.dialogos.DialogoSiNo;
+import com.netbong.fuerza.util.UnPackResource;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.NumberFormat;

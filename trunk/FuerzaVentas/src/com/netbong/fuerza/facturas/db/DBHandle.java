@@ -2,20 +2,20 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf.facturas.db;
+package com.netbong.fuerza.facturas.db;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
-import com.ehp.droidsf.MainActivity;
-import com.ehp.droidsf.facturas.db.cursors.CrsEventos;
-import com.ehp.droidsf.facturas.db.cursors.CrsFactura;
-import com.ehp.droidsf.facturas.db.cursors.CsrBancos;
-import com.ehp.droidsf.facturas.db.cursors.CsrComprobantesIva;
-import com.ehp.droidsf.facturas.db.cursors.CsrFacturasGeneradas;
-import com.ehp.droidsf.facturas.db.cursors.CsrPagoRegistradoDatosCliente;
-import com.ehp.droidsf.facturas.db.cursors.CsrPagoRegistradoDatosFormasPago;
-import com.ehp.droidsf.facturas.db.cursors.CsrPagosRegistrados;
+import com.netbong.fuerza.MainActivity;
+import com.netbong.fuerza.facturas.db.cursors.CrsEventos;
+import com.netbong.fuerza.facturas.db.cursors.CrsFactura;
+import com.netbong.fuerza.facturas.db.cursors.CsrBancos;
+import com.netbong.fuerza.facturas.db.cursors.CsrComprobantesIva;
+import com.netbong.fuerza.facturas.db.cursors.CsrFacturasGeneradas;
+import com.netbong.fuerza.facturas.db.cursors.CsrPagoRegistradoDatosCliente;
+import com.netbong.fuerza.facturas.db.cursors.CsrPagoRegistradoDatosFormasPago;
+import com.netbong.fuerza.facturas.db.cursors.CsrPagosRegistrados;
 
 public class DBHandle
 {

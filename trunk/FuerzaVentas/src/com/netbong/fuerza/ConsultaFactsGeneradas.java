@@ -2,7 +2,7 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf;
+package com.netbong.fuerza;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,12 +12,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 
-import com.ehp.R;
-import com.ehp.droidsf.db.CursorClientesConFacturas;
-import com.ehp.droidsf.db.CursorEventosFactura;
-import com.ehp.droidsf.db.CursorFacturas;
-import com.ehp.droidsf.db.CursorProductosEnFactura;
-import com.ehp.droidsf.db.DroidSFDatabase;
+import com.netbong.R;
+import com.netbong.fuerza.db.cursores.CursorClientesConFacturas;
+import com.netbong.fuerza.db.cursores.CursorEventosFactura;
+import com.netbong.fuerza.db.cursores.CursorFacturas;
+import com.netbong.fuerza.db.cursores.CursorProductosEnFactura;
+import com.netbong.fuerza.db.cursores.DroidSFDatabase;
 
 // Referenced classes of package com.ehp.droidsf:
 //            MainActivity

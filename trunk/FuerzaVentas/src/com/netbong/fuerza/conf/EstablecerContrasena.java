@@ -2,15 +2,15 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf.conf;
+package com.netbong.fuerza.conf;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.ehp.R;
-import com.ehp.droidsf.MainActivity;
+import com.netbong.R;
+import com.netbong.fuerza.MainActivity;
 
 public class EstablecerContrasena extends Activity
 {

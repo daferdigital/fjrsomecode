@@ -2,7 +2,7 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf.facturas;
+package com.netbong.fuerza.facturas;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,10 +13,10 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.ehp.R;
-import com.ehp.droidsf.facturas.adapters.BancosGenerales;
-import com.ehp.droidsf.facturas.adapters.BancosPrincipales;
-import com.ehp.droidsf.facturas.db.cursors.CsrBancos;
+import com.netbong.R;
+import com.netbong.fuerza.facturas.adapters.BancosGenerales;
+import com.netbong.fuerza.facturas.adapters.BancosPrincipales;
+import com.netbong.fuerza.facturas.db.cursors.CsrBancos;
 
 public class SeleccionarBanco extends Activity
 {

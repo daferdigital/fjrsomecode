@@ -2,15 +2,15 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf.facturas.db.cursors;
+package com.netbong.fuerza.facturas.db.cursors;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.*;
 import android.view.View;
 import android.widget.*;
-import com.ehp.droidsf.MainActivity;
-import com.ehp.droidsf.db.DroidSFDatabase;
+import com.netbong.fuerza.MainActivity;
+import com.netbong.fuerza.db.cursores.DroidSFDatabase;
 
 public class FacturasPendientes extends SQLiteCursor
 {

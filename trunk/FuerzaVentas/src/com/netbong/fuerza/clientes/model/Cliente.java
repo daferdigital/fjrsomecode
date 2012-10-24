@@ -2,7 +2,7 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf.clientes.model;
+package com.netbong.fuerza.clientes.model;
 
 
 public class Cliente

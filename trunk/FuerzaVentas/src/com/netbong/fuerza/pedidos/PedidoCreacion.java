@@ -2,7 +2,7 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf.pedidos;
+package com.netbong.fuerza.pedidos;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -15,20 +15,20 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 
-import com.ehp.R;
-import com.ehp.droidsf.MainActivity;
-import com.ehp.droidsf.PedidoVerDetallePromocion;
-import com.ehp.droidsf.clientes.FichaCliente;
-import com.ehp.droidsf.clientes.SeleccionarCliente;
-import com.ehp.droidsf.clientes.db.cursors.CrsClientes;
-import com.ehp.droidsf.clientes.db.cursors.CrsMovimientosResumen;
-import com.ehp.droidsf.pedidos.adapters.AdapterCarritoProductos;
-import com.ehp.droidsf.pedidos.adapters.AdapterCatalogo;
-import com.ehp.droidsf.pedidos.db.DBHandle;
-import com.ehp.droidsf.pedidos.db.cursors.CrsCarrito;
-import com.ehp.droidsf.pedidos.db.cursors.CrsCarritoItemsProductos;
-import com.ehp.droidsf.pedidos.db.cursors.CrsPedidos;
-import com.ehp.droidsf.pedidos.db.cursors.CrsProductos;
+import com.netbong.R;
+import com.netbong.fuerza.MainActivity;
+import com.netbong.fuerza.PedidoVerDetallePromocion;
+import com.netbong.fuerza.clientes.FichaCliente;
+import com.netbong.fuerza.clientes.SeleccionarCliente;
+import com.netbong.fuerza.clientes.db.cursors.CrsClientes;
+import com.netbong.fuerza.clientes.db.cursors.CrsMovimientosResumen;
+import com.netbong.fuerza.pedidos.adapters.AdapterCarritoProductos;
+import com.netbong.fuerza.pedidos.adapters.AdapterCatalogo;
+import com.netbong.fuerza.pedidos.db.DBHandle;
+import com.netbong.fuerza.pedidos.db.cursors.CrsCarrito;
+import com.netbong.fuerza.pedidos.db.cursors.CrsCarritoItemsProductos;
+import com.netbong.fuerza.pedidos.db.cursors.CrsPedidos;
+import com.netbong.fuerza.pedidos.db.cursors.CrsProductos;
 
 // Referenced classes of package com.ehp.droidsf.pedidos:
 //            PedidoResumen

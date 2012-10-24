@@ -2,12 +2,14 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package com.ehp.droidsf.util;
+package com.netbong.fuerza.util;
 
 import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
-import com.ehp.droidsf.MainActivity;
+
+import com.netbong.fuerza.MainActivity;
+
 import java.io.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
