@@ -10,7 +10,7 @@
 		header("location: index.php");
 	}
 
-	include("admin/botonera/archivos/botonFunciones.php");
+	include("../admin/botonera/archivos/botonFunciones.php");
 
 	$linkp= "";
 			
@@ -29,24 +29,24 @@
 
 <title><?php mostrarTitulo($boton,$empresa)?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<link href="admin/botonera/css-styles/style.css" type="text/css" rel="stylesheet"/>
-<script src="admin/botonera/scripts/images.js" type="text/javascript"></script>
-<script src="Scripts/swfobject_modified.js" type="text/javascript"></script>
+<link href="../admin/botonera/css-styles/style.css" type="text/css" rel="stylesheet"/>
+<script src="../admin/botonera/scripts/images.js" type="text/javascript"></script>
+<script src="../Scripts/swfobject_modified.js" type="text/javascript"></script>
 
 <?php 
 	cargarEstilosDin();
 	if ($tipoFondo==2){ cargarDegrade2(); } 
 ?>
-	<link href="scripts/estilos.css" rel="stylesheet" type="text/css" />
+	<link href="../scripts/estilos.css" rel="stylesheet" type="text/css" />
 <!-- jQuery -->
-<script type="text/javascript" src="scripts/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="../scripts/jquery-1.4.2.min.js"></script>
 <!-- Slide -->
-<script type="text/javascript" src="scripts/jquery.cycle.all.latest.js"></script>
+<script type="text/javascript" src="../scripts/jquery.cycle.all.latest.js"></script>
 <!-- Acordion -->
-<script type="text/javascript" src="scripts/jquery.dimensions.js"></script>
-<script type="text/javascript" src="scripts/jquery.accordion.js"></script>
+<script type="text/javascript" src="../scripts/jquery.dimensions.js"></script>
+<script type="text/javascript" src="../scripts/jquery.accordion.js"></script>
 <!-- Scripts -->
-<script type="text/javascript" src="scripts/scripts.js"></script>	
+<script type="text/javascript" src="../scripts/scripts.js"></script>	
 </head>
 
 <body onload="<?php onloadFun(); ?>" style="<?php cargarFondo($tipoFondo);?>" <?php aplicarClase($tipoFondo);?>>
@@ -63,7 +63,7 @@
 					</div><br />
 
 				</td>
-                <td valign="bottom"><?php include "admin/botonera/archivos/boton_sec.php"; ?></td>
+                <td valign="bottom"><?php include "../admin/botonera/archivos/boton_sec.php"; ?></td>
             </tr>
         </table>    
 	</td>	   
@@ -78,7 +78,7 @@
                           <div class="slideshow">
                           
                           <?php
-						  include('scripts/conexion.php');
+						  include('../scripts/conexion.php');
 						  
 						  $slide = mysql_query('SELECT img,link FROM slideshow ORDER BY id DESC');
 						  while($a_slide = mysql_fetch_array($slide))
@@ -102,7 +102,7 @@
         <?php	
         
             if($orientacion==1){
-                include "admin/botonera/archivos/boton_princH.php";
+                include "../admin/botonera/archivos/boton_princH.php";
             }
             
         ?>
@@ -135,38 +135,48 @@
 
         </table>
 	 
-	 <div style="height:30px;"></div>
-	 
-	 <?php
-	    $currentPage = isset($_GET["page"]) ? $_GET["page"] : 0; 
-	 	$pageRecords = 2;
-	 	$totalPages;
-	 	
-	 	//obtenemos el total de registros
-	 	$query = "SELECT COUNT(*) FROM pago_registrado WHERE id_cliente=".$_SESSION["codigo"];
-	 	$records = mysql_fetch_array(mysql_query($query));
-	 	
-	 	if($records[0] > 0){
-	 		//tenemos registros
-	 		$totalPages = (int) ($records[0] / $pageRecords);
-	 		if(($records[0] % $pageRecords) > 0){
-	 			$totalPages += 1;
-	 		}
-	 		//ajustamos nuestra cuenta con indices basados en cero
-	 		$totalPages += -1;
-	 	} else {
-	 		$totalPages = -1;
-	 	}
-	 ?>
-	 
 	 <table width="95%" border="0" cellpadding="0" cellspacing="0" align="center">
-	 	
+	 	<tr>
+            <td width="25%" style="padding-left: 6px;">
+				Mensaje a Enviar
+			</td>
+			<td align="center" colspan="3">
+				<textarea name="comentarios" cols="40" rows="8"></textarea>
+			</td>
+		</tr>
+		<tr>
+            <td width="25%" style="padding-left: 6px;">
+				Archivos Adjuntos
+			</td>
+			<td align="center" colspan="3">
+				<input type="file" name="adjunto[]"/>
+				<input type="file" name="adjunto[]"/>
+				<input type="file" name="adjunto[]"/>
+				<input type="file" name="adjunto[]"/>
+			</td>
+		</tr>
+		<tr>
+            <td width="25%" style="padding-left: 6px;">
+				Destinatarios
+			</td>
+			<td align="center">
+				<select multiple="multiple" name="clientes" size="5">
+				</select>
+			</td>
+			<td align="center">
+				<input type="button" value="<<"/>
+			</td>
+			<td align="center">
+				<select multiple="multiple" name="destinatarios" size="5">
+				</select>
+			</td>
+		</tr>
 	 </table>
 		
 		<!-- Espacio para el contenido -->
 	</td>
     <td width="32%" valign="top" align="center">
-		<!-- Espacio para los banners -->
+		<!-- Espacio para los banners -->  
 		<div align="center">
         	<form id="form1" name="form1" method="post" action="buscar.php">
         		<div align="center">
