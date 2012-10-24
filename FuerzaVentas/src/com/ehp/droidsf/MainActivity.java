@@ -29,7 +29,7 @@ public class MainActivity extends Activity
 
     public MainActivity()
     {
-    	Log.i("MainActivity Constructor", "iNICIANDO");
+    	Log.i("MainActivity Constructor", "INICIANDO");
     }
 
     private void autenticarUsusrio()
