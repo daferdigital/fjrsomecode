@@ -4,6 +4,8 @@
 
 package com.netbong.fuerza;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.*;
 import android.os.Bundle;
@@ -115,7 +117,7 @@ public class MainActivity extends Activity
 
     public static String getDefaultLogin()
     {
-        return "crcomputacion";
+        return "netbong";
     }
 
     public static String getDefaultPassword()
@@ -167,7 +169,8 @@ public class MainActivity extends Activity
         return "8080";
     }
 
-    public static final boolean isValidEmail(CharSequence charSequence) {
+    @SuppressLint("NewApi")
+	public static final boolean isValidEmail(CharSequence charSequence) {
     	boolean bool1;
         if ((charSequence == null) || (charSequence.length() == 0)){
         	bool1 = true;
@@ -183,7 +186,8 @@ public class MainActivity extends Activity
         return bool1;
     }
 
-    public static final boolean isValidPhone(CharSequence charSequence)
+    @SuppressLint("NewApi")
+	public static final boolean isValidPhone(CharSequence charSequence)
     {
     	boolean bool1;
         if ((charSequence == null) || (charSequence.length() == 0)){

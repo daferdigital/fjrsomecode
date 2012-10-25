@@ -17,7 +17,7 @@
                 <DatePicker android:id="@id/datePicker1" android:layout_width="wrap_content" android:layout_height="wrap_content" />
             </LinearLayout>
             <TextView android:textSize="20.0dip" android:textStyle="bold" android:textColor="#ff000000" android:padding="20.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Forma de Pago:" />
-            <RadioGroup android:orientation="horizontal" android:id="@id/rg_tipo_abono" android:background="@drawable/rectangulo_redondeado_ffffff" android:padding="20.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <RadioGroup android:orientation="horizontal" android:id="@id/rg_tipo_abono"  android:padding="20.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content">
                 <RadioButton android:textColor="#ff000000" android:id="@id/rb_cheque" android:paddingRight="50.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checked="true" android:text="Cheque" />
                 <RadioButton android:textColor="#ff000000" android:id="@id/rb_deposito" android:paddingRight="50.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Deposito" />
                 <RadioButton android:textColor="#ff000000" android:id="@id/rb_transferencia" android:paddingRight="50.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Transferencia" />
