@@ -135,12 +135,13 @@
 
         </table>
 	 
+	 <form action="sendMessage.php" method="post">
 	 <table width="95%" border="0" cellpadding="0" cellspacing="0" align="center">
 	 	<tr>
             <td width="25%" style="padding-left: 6px;">
 				Mensaje a Enviar
 			</td>
-			<td align="center" colspan="3">
+			<td align="center">
 				<textarea name="comentarios" cols="40" rows="8"></textarea>
 			</td>
 		</tr>
@@ -148,31 +149,47 @@
             <td width="25%" style="padding-left: 6px;">
 				Archivos Adjuntos
 			</td>
-			<td align="center" colspan="3">
+			<td align="center">
+				<br />
 				<input type="file" name="adjunto[]"/>
+				<br />
 				<input type="file" name="adjunto[]"/>
+				<br />
 				<input type="file" name="adjunto[]"/>
+				<br />
 				<input type="file" name="adjunto[]"/>
 			</td>
 		</tr>
 		<tr>
             <td width="25%" style="padding-left: 6px;">
 				Destinatarios
+				<br />
+				Ctrl+click para seleccionar varios
 			</td>
 			<td align="center">
-				<select multiple="multiple" name="clientes" size="5">
-				</select>
-			</td>
-			<td align="center">
-				<input type="button" value="<<"/>
-			</td>
-			<td align="center">
-				<select multiple="multiple" name="destinatarios" size="5">
+				<br />
+				<input type="checkbox" value="1" name="todosClientes"/> Enviar a todos
+				<br />
+				<select multiple="multiple" name="clientes[]" size="5" style="width: 80%">
+				<?php 
+				    $query = "SELECT id, login, nombre, apellido FROM clientes ORDER BY nombre, apellido";
+				    $result = mysql_query($query);
+				    
+				    while($row = mysql_fetch_array($result)){
+				    	echo "<option value=\"".$row["id"].";".$row["login"]."\">".$row["nombre"].$row["apellido"]."</option>";
+				    }
+				?>
 				</select>
 			</td>
 		</tr>
+		<tr>
+			<td colspan="2">&nbsp;</td>
+		</tr>
+		<tr align="center">
+			<td colspan="2"><input type="button" value="Enviar Mensaje" onclick="javascript: this.form.submit()"/> </td>
+		</tr>
 	 </table>
-		
+	 </form>
 		<!-- Espacio para el contenido -->
 	</td>
     <td width="32%" valign="top" align="center">
@@ -208,6 +225,8 @@
   </tr>
 </table>
 </div>
-
+<?php 
+	mysql_close();
+?>
 </body>
 </html>
