@@ -3,7 +3,6 @@
 	
 	if(isset($_SESSION["loggedAsAdmin"]) && $_SESSION["loggedAsAdmin"] == "logged"){
 		//acceso valido al sistema
-		
 	} else {
 		session_destroy();
 		//acceso no permitido, llevamos a index
@@ -37,7 +36,7 @@
 	cargarEstilosDin();
 	if ($tipoFondo==2){ cargarDegrade2(); } 
 ?>
-	<link href="../scripts/estilos.css" rel="stylesheet" type="text/css" />
+<link href="../scripts/estilos.css" rel="stylesheet" type="text/css" />
 <!-- jQuery -->
 <script type="text/javascript" src="../scripts/jquery-1.4.2.min.js"></script>
 <!-- Slide -->
@@ -135,7 +134,7 @@
 
         </table>
 	 
-	 <form action="sendMessage.php" method="post">
+	 <form action="sendMessage.php" method="post" enctype="multipart/form-data">
 	 <table width="95%" border="0" cellpadding="0" cellspacing="0" align="center">
 	 	<tr>
             <td width="25%" style="padding-left: 6px;">
@@ -170,7 +169,7 @@
 				<br />
 				<input type="checkbox" value="1" name="todosClientes"/> Enviar a todos
 				<br />
-				<select multiple="multiple" name="clientes[]" size="5" style="width: 80%">
+				<select multiple="multiple" name="clientes[]" size="7" style="width: 80%">
 				<?php 
 				    $query = "SELECT id, login, nombre, apellido FROM clientes ORDER BY nombre, apellido";
 				    $result = mysql_query($query);
