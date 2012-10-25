@@ -7,11 +7,11 @@
         <TextView android:textAppearance="?android:textAppearanceLarge" android:textColor="#ff000000" android:layout_gravity="center_vertical" android:id="@id/tv_cliente" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:text="Aqui nombre del cliente" />
     </LinearLayout>
     <LinearLayout android:layout_width="fill_parent" android:layout_height="550.0dip" android:layout_margin="4.0dip">
-        <ScrollView android:id="@id/scrollView1" android:background="@drawable/rectangulo_redondeado_ffffff" android:layout_width="350.0dip" android:layout_height="fill_parent" android:layout_marginRight="4.0dip">
+        <ScrollView android:id="@id/scrollView1"  android:layout_width="350.0dip" android:layout_height="fill_parent" android:layout_marginRight="4.0dip">
             <LinearLayout android:orientation="vertical" android:id="@id/ly_facturas_pendientes" android:layout_width="fill_parent" android:layout_height="wrap_content" />
         </ScrollView>
         <include android:id="@id/include1" android:layout_width="400.0dip" android:layout_height="fill_parent" android:layout_marginRight="4.0dip" layout="@layout/reg_pago_captura_datos" />
-        <ScrollView android:id="@id/scrollView1" android:background="@drawable/rectangulo_redondeado_ffffff" android:layout_width="400.0dip" android:layout_height="fill_parent">
+        <ScrollView android:id="@id/scrollView1"  android:layout_width="400.0dip" android:layout_height="fill_parent">
             <LinearLayout android:orientation="vertical" android:id="@id/ly_formas_pago" android:layout_width="fill_parent" android:layout_height="fill_parent" />
         </ScrollView>
     </LinearLayout>

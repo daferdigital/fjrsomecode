@@ -21,7 +21,7 @@
             </LinearLayout>
         </LinearLayout>
         <ScrollView android:scrollbars="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
-            <LinearLayout android:id="@id/contenido" android:background="@drawable/rectangulo_redondeado_ffffff" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+            <LinearLayout android:id="@id/contenido"  android:layout_width="fill_parent" android:layout_height="wrap_content" />
         </ScrollView>
     </LinearLayout>
 </LinearLayout>

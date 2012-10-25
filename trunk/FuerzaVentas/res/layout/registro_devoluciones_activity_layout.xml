@@ -7,7 +7,7 @@
             <TextView android:textSize="20.0dip" android:textStyle="bold" android:textColor="#ffffffff" android:padding="10.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Devoluciones Registradas" android:lines="2" />
             <ListView android:id="@id/lv_dovoluciones_efectuadas" android:layout_width="300.0dip" android:layout_height="fill_parent" />
         </LinearLayout>
-        <LinearLayout android:background="@drawable/rectangulo_redondeado_ffffff" android:layout_width="fill_parent" android:layout_height="600.0dip">
+        <LinearLayout  android:layout_width="fill_parent" android:layout_height="600.0dip">
             <ScrollView android:scrollbars="vertical" android:layout_width="750.0dip" android:layout_height="wrap_content">
                 <LinearLayout android:orientation="vertical" android:id="@id/contenedor" android:layout_width="fill_parent" android:layout_height="fill_parent" />
             </ScrollView>

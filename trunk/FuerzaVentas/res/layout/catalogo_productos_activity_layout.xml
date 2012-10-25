@@ -1,12 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:background="#ffe3e7ea" android:padding="10.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent"
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <LinearLayout android:orientation="vertical" android:layout_width="200.0dip" android:layout_height="fill_parent" android:layout_marginRight="10.0dip">
-        <TextView android:textSize="20.0dip" android:textStyle="bold" android:textColor="#ff000000" android:layout_gravity="center" android:background="@drawable/rectangulo_redondeado_ffffff" android:paddingBottom="20.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Lineas" />
-        <ListView android:id="@id/lv_lineas" android:background="@drawable/rectangulo_redondeado_ffffff" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="10.0dip" />
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ffe3e7ea"
+    android:padding="10.0dip" >
+
+    <LinearLayout
+        android:layout_width="200.0dip"
+        android:layout_height="fill_parent"
+        android:layout_marginRight="10.0dip"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            
+            android:paddingBottom="20.0dip"
+            android:text="Lineas"
+            android:textColor="#ff000000"
+            android:textSize="20.0dip"
+            android:textStyle="bold" />
+
+        <ListView
+            android:id="@id/lv_lineas"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="10.0dip"
+             />
     </LinearLayout>
-    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
-        <TextView android:textSize="20.0dip" android:textStyle="bold" android:textColor="#ff000000" android:layout_gravity="center" android:id="@id/tv_linea_seleccionada" android:background="@drawable/rectangulo_redondeado_ffffff" android:paddingBottom="20.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Lineas de Productos Seleccionado" />
-        <ListView android:id="@id/lv_catalogo" android:background="@drawable/rectangulo_redondeado_ffffff" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="10.0dip" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@id/tv_linea_seleccionada"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            
+            android:paddingBottom="20.0dip"
+            android:text="Lineas de Productos Seleccionado"
+            android:textColor="#ff000000"
+            android:textSize="20.0dip"
+            android:textStyle="bold" />
+
+        <ListView
+            android:id="@id/lv_catalogo"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="10.0dip"
+             />
     </LinearLayout>
+
 </LinearLayout>
