@@ -3,7 +3,7 @@ session_start();
 
 $errorCode = 0;
 //print_r($_POST);
-print_r($_FILES);
+//print_r($_FILES);
 
 //validamos los datos recibidos
 if(isset($_POST["comentarios"]) && strlen(trim($_POST["comentarios"])) == 0){

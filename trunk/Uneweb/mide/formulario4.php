@@ -1,16 +1,8 @@
 <?php
-
 /**
  * @author David Antunes
  * @project 3WEditable - 2009
  */
-
-
-/**
- * @author David Antunes
- * @project 3WEditable - 2009
- */
-
 
 session_start(); 
 extract($_REQUEST);
@@ -215,7 +207,7 @@ $tipoFondo= obtenerFondo();
 	 		Compa&ntilde;ia
 	 	</th>
 	 	<?php 
-	 		if($totalPages < 1){
+	 		if($totalPages < 0){
 	 	?>
 	 		<tr style="background: #CCCCCC;">
 	 			<td colspan="4" align="center">

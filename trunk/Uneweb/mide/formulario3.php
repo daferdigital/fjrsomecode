@@ -176,8 +176,139 @@ $tipoFondo= obtenerFondo();
        <tr>
          <td height="18" colspan="3" bgcolor="#C4ECFF">&nbsp;</td>
        </tr>
-
         </table>
+        
+        <?php
+	    $currentPage = isset($_GET["page"]) ? $_GET["page"] : 0; 
+	 	$pageRecords = 10;
+	 	$totalPages;
+	 	
+	 	//obtenemos el total de registros
+	 	$query = "SELECT COUNT(*) FROM mensaje_clientes WHERE id_cliente=".$_SESSION["codigo"];
+	 	$records = mysql_fetch_array(mysql_query($query));
+	 	
+	 	if($records[0] > 0){
+	 		//tenemos registros
+	 		$totalPages = (int) ($records[0] / $pageRecords);
+	 		if(($records[0] % $pageRecords) > 0){
+	 			$totalPages += 1;
+	 		}
+	 		//ajustamos nuestra cuenta con indices basados en cero
+	 		$totalPages += -1;
+	 	} else {
+	 		$totalPages = -1;
+	 	}
+	 ?>
+	 
+	 <table width="95%" border="0" cellpadding="0" cellspacing="0" align="center">
+	 	<th align="center" width="20%">
+	 		Fecha del Mensaje
+	 	</th>
+	 	<th align="center" width="60%">
+	 		Mensaje
+	 	</th>
+	 	<th align="center">
+	 		Archivos Adjuntos
+	 	</th>
+	 	<?php 
+	 		if($totalPages < 0){
+	 	?>
+	 		<tr style="background: #CCCCCC;">
+	 			<td colspan="4" align="center">
+	 				Disculpe no se encontraron mensajes en su cuenta.
+	 			</td>
+	 		</tr>
+	 	<?php
+	 		} else {
+	 			//tenemos pagos
+	 			$query = "SELECT me.id, DATE(me.fecha_envio) AS fecha_envio, me.body"
+	 			." FROM mensajes me, mensaje_clientes mc"
+	 			." WHERE mc.id_cliente=".$_SESSION["codigo"]
+	 			." AND me.id = mc.id_mensaje"
+	 			." ORDER BY me.fecha_envio DESC, me.body"
+	 			." LIMIT ".($pageRecords * $currentPage).", ".($pageRecords);
+	 			
+	 			$result = mysql_query($query);
+	 			$putStyle = true;
+	 			if(mysql_num_rows($result) > 0){
+	 				//dibujamos los pagos
+	 				while($mensaje = mysql_fetch_array($result)){
+	 	?>
+	 					<tr align="center" <?php echo ($putStyle ? "style=\"background: #CCCCCC;\"" : "");?>>
+	 						<td><?php echo $mensaje["fecha_envio"];?></td>
+	 						<td><?php echo $mensaje["body"];?></td>
+	 						<td>
+	 							<?php 
+	 							$path = "./mensajes/adjuntos/".$mensaje["id"];
+	 							
+	 							if(file_exists($path)){
+	 								//directorio existe, entonces tengo adjuntos
+	 								//abrimos el directorio
+	 								if ($handle = opendir($path)) {
+	 									/* This is the correct way to loop over the directory. */
+	 									while (false !== ($entry = readdir($handle))) {
+	 										//descartamos los elementos . y .. del directorio en cuestion
+	 										if($entry != "." && $entry != ".."){	
+	 							?>
+	 										<a href="<?php echo $path."/".$entry?>" title="Descargar archivo adjunto">
+	 											<img border="0" src="attachment.png" width="24px" height="24px"/>&nbsp;<?php echo $entry;?>
+	 										</a>
+	 										<br />
+	 							<?php
+	 										}
+	 									}
+	 									
+	 									closedir($handle);
+	 								}
+	 							} else {
+	 								echo "<b>N/A</b>";
+	 							}
+	 							?>
+	 						</td>
+	 					</tr>
+	 	<?php
+	 					$putStyle = !$putStyle;
+	 				}
+	 			} else {
+	 	?>
+	 				<tr style="background: #CCCCCC;">
+			 			<td colspan="4" align="center">
+			 				Disculpe. P&aacute;gina fuera de rango
+			 			</td>
+			 		</tr>
+	 	<?php
+	 			}
+	 		}
+	 		
+	 		mysql_close();
+	 	?>
+	 	
+	 	<tr>
+	 		<td colspan="4" align="center">
+	 		<?php 
+	 			if($currentPage > 0){
+	 		?>
+	 			<a href="formulario3.php?page=0" title="P&aacute;gina inicial"><img border="0" src="img/yearBackward_normal.gif"></img></a>
+	 			&nbsp;&nbsp;&nbsp;&nbsp;
+	 			<a href="formulario3.php?page=<?php echo $currentPage - 1;?>" title="P&aacute;gina anterior"><img border="0" src="img/monthBackward_normal.gif"></img></a>
+	 			&nbsp;&nbsp;&nbsp;&nbsp;
+	 		<?php	
+	 			}
+	 		?>
+	 		<?php 
+	 			if($currentPage < $totalPages){
+	 		?>
+	 			<a href="formulario3.php?page=<?php echo $currentPage + 1;?>" title="P&aacute;gina siguiente"><img border="0" src="img/monthForward_normal.gif"></img></a>
+	 			&nbsp;&nbsp;&nbsp;&nbsp;
+	 			<a href="formulario3.php?page=<?php echo $totalPages;?>" title="&Uacute;ltima p&aacute;gina"><img border="0" src="img/yearForward_normal.gif"></img></a>
+	 			&nbsp;&nbsp;&nbsp;&nbsp;
+	 		<?php	
+	 			}
+	 		?>
+	 			
+	 		</td>
+	 	</tr>
+	 </table>
 	 
 	 <div style="height:30px;"></div>
 	 
