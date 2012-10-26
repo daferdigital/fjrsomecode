@@ -138,7 +138,7 @@
 	 <table width="95%" border="0" cellpadding="0" cellspacing="0" align="center">
 	 	<tr>
             <td width="25%" style="padding-left: 6px;">
-				Mensaje a Enviar
+				<b>Mensaje a Enviar</b>
 			</td>
 			<td align="center">
 				<textarea name="comentarios" cols="40" rows="8"></textarea>
@@ -146,7 +146,7 @@
 		</tr>
 		<tr>
             <td width="25%" style="padding-left: 6px;">
-				Archivos Adjuntos
+				<b>Archivos Adjuntos</b>
 			</td>
 			<td align="center">
 				<br />
@@ -161,7 +161,7 @@
 		</tr>
 		<tr>
             <td width="25%" style="padding-left: 6px;">
-				Destinatarios
+				<b>Destinatarios</b>
 				<br />
 				Ctrl+click para seleccionar varios
 			</td>
