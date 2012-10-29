@@ -26,8 +26,8 @@ public class CatalogoProductos extends Activity
 
     public CatalogoProductos()
     {
-        oclLineas = new _cls1();
-        oclProductos = new _cls2();
+        oclLineas = new _ControlLineas();
+        oclProductos = new _ControlProductos();
     }
 
     private void filtrarProductosPorLinea(int i, String s)
@@ -89,10 +89,14 @@ public class CatalogoProductos extends Activity
         requestWindowFeature(1);
         setContentView(R.layout.catalogo_productos_activity_layout);
         mostrarDetalle = new Intent(this, CatalogoProductosDetalle.class);
-        ListView listview = (ListView)findViewById(0x7f06001c);
+       
+        //Crear list 
+        ListView listview = (ListView)findViewById(R.id.lv_lineas);
         listview.setAdapter(new AdapterLineasProductoConocerCatalogo(this, getCursorLineas(), oclLineas));
         listview.setCacheColorHint(0);
-        ListView listview1 = (ListView)findViewById(0x7f06001e);
+        
+        //Crear Catalogo de producto @id/lv_catalogo
+        ListView listview1 = (ListView)findViewById(R.id.lv_catalogo);
         listview1.setAdapter(getAdapterCatalogoProductos());
         listview1.setCacheColorHint(0);
         listview1.setDivider(null);
@@ -108,7 +112,7 @@ public class CatalogoProductos extends Activity
 
 
 
-    private class _cls1
+    private class _ControlLineas
         implements android.view.View.OnClickListener
     {
 
@@ -122,7 +126,7 @@ public class CatalogoProductos extends Activity
 
         final CatalogoProductos this$0;
 
-        _cls1()
+        _ControlLineas()
         {
         	super();
         	this$0 = CatalogoProductos.this;
@@ -130,7 +134,7 @@ public class CatalogoProductos extends Activity
     }
 
 
-    private class _cls2
+    private class _ControlProductos
         implements android.view.View.OnClickListener
     {
 
@@ -144,7 +148,7 @@ public class CatalogoProductos extends Activity
 
         final CatalogoProductos this$0;
 
-        _cls2()
+        _ControlProductos()
         {
         	super();
         	this$0 = CatalogoProductos.this;
