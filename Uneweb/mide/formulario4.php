@@ -226,9 +226,6 @@ $tipoFondo= obtenerFondo();
 	 			$result = mysql_query($query);
 	 			$putStyle = true;
 	 			
-	 			echo "<input type=\"hidden\ name=\"numRows\" value=\"".mysql_num_rows($result)."\" />";
-	 			echo "<input type=\"hidden\ name=\"query\" value=\"".$query."\" />";
-	 			
 	 			if(mysql_num_rows($result) > 0){
 	 				//dibujamos los pagos
 	 				while($pago = mysql_fetch_array($result)){
