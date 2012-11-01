@@ -173,7 +173,7 @@ $tipoFondo= obtenerFondo();
 	 
 	 <?php
 	    $currentPage = isset($_GET["page"]) ? $_GET["page"] : 0; 
-	 	$pageRecords = 2;
+	 	$pageRecords = 10;
 	 	$totalPages;
 	 	
 	 	//obtenemos el total de registros
@@ -219,12 +219,16 @@ $tipoFondo= obtenerFondo();
 	 			//tenemos pagos
 	 			$query = "SELECT id, cod_factura, DATE(fecha_pago) AS fecha_pago, nombre_pagador, cia_pagadora "
 	 			." FROM pago_registrado"
-	 			." WHERE id_cliente=".$_SESSION["idCliente"]
+	 			." WHERE id_cliente=".$_SESSION["codigo"]
 	 			." ORDER BY fecha_pago desc, cod_factura"
-	 			." LIMIT ".($pageRecords * $currentPage).", ".($pageRecords);
+	 			." LIMIT ".($pageRecords * $currentPage).",".($pageRecords);
 	 			
 	 			$result = mysql_query($query);
 	 			$putStyle = true;
+	 			
+	 			echo "<input type=\"hidden\ name=\"numRows\" value=\"".mysql_num_rows($result)."\" />";
+	 			echo "<input type=\"hidden\ name=\"query\" value=\"".$query."\" />";
+	 			
 	 			if(mysql_num_rows($result) > 0){
 	 				//dibujamos los pagos
 	 				while($pago = mysql_fetch_array($result)){
@@ -290,8 +294,7 @@ $tipoFondo= obtenerFondo();
           			<input name="buscar" type="text" class="blue" id="buscar" />
             		<input type="submit" name="Submit" value="Buscar" />
 				</p>
-          			
-  		
+          		</div>
         	</form>
         
 			<div style="height: 20px;"></div>
