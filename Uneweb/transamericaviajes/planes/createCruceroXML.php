@@ -30,45 +30,45 @@
 		
 		if($i == 0){
 			//es la seccion del itinerario
-			//obtenemos el titulo de cabecera
-			$tmpNode = $doc->createElement("titulo", $_POST["tituloSeccion1"]);
+			$tmpNode = $doc->createElement("titulo", $_POST["tituloSeccion5"]);
 			$seccion->appendChild($tmpNode);
-			
+				
 			//verificamos si existe imagen para la cabecera
-			if($_FILES["imageSeccion1"]["error"] == 0){
+			if($_FILES["imageSeccionItinerario"]["error"] == 0){
 				//tenemos imagen, la copiamos al directorio respectivo y almacenamos la referencia
-				$tmpNode = $doc->createElement("img", $_FILES["imageSeccion1"]["name"]);
-				move_uploaded_file($_FILES["imageSeccion1"]["tmp_name"], "./img/".$_FILES["imageSeccion1"]["name"]);
+				$tmpNode = $doc->createElement("img", $_FILES["imageSeccionItinerario"]["name"]);
+				move_uploaded_file($_FILES["imageSeccionItinerario"]["tmp_name"], "./img/".$_FILES["imageSeccionItinerario"]["name"]);
 			}else {
-				//verificamos si exite imagen previa para esta seccion
-				$tmpNode = $doc->createElement("img", $_POST["hiddenImageSeccion1"]);
+				$tmpNode = $doc->createElement("img", $_POST['hiddenImageSeccionItinerario']);
 			}
 			$seccion->appendChild($tmpNode);
 			
-			//recorremos la informacion de los días
-			if(isset($_POST['dayTitle'])){
-				$dayTitles = $_POST['dayTitle'];
-				$dayActivities = $_POST['dayDesc'];
-				$dayImgs = $_FILES["dayImage"]["name"];
-				$dayTmps = $_FILES["dayImage"]["tmp_name"];
-				reset($dayTitles);
+			//verificamos si existe imagen para la cabecera
+			if($_FILES["imageNavieraItinerario"]["error"] == 0){
+				//tenemos imagen, la copiamos al directorio respectivo y almacenamos la referencia
+				$tmpNode = $doc->createElement("imgNaviera", $_FILES["imageNavieraItinerario"]["name"]);
+				move_uploaded_file($_FILES["imageNavieraItinerario"]["tmp_name"], "./img/".$_FILES["imageNavieraItinerario"]["name"]);
+			}else {
+				$tmpNode = $doc->createElement("imgNaviera", $_POST['hiddenImageNavieraItinerario']);
+			}
+			$seccion->appendChild($tmpNode);
 				
-				$subSeccionDias = $doc->createElement("dias");
-				while($dayTitle = each($dayTitles)){
-					//recorremos los dias para crear su info
-					$dia = $doc->createElement("dia");
-					$dia->appendChild($doc->createElement("title", $dayTitle['value']));
-					$dia->appendChild($doc->createElement("actividades", $dayActivities[$dayTitle['key']]));
-					if($dayImgs[$dayTitle['key']] != null){
-						$dia->appendChild($doc->createElement("img", $dayImgs[$dayTitle['key']]));
-						move_uploaded_file($dayTmps[$dayTitle['key']], "./img/".$dayImgs[$dayTitle['key']]);
-					} else {
-						$dia->appendChild($doc->createElement("img", $_POST['dayPrevImage'][$dayTitle['key']]));
-					}
+			//recorremos la informacion de las fotos
+			if(isset($_POST['text1'])){
+				$texto1 = $_POST['text1'];
+				reset($texto1);
 					
-					$subSeccionDias->appendChild($dia);
+				$subSeccionFilas = $doc->createElement("filas");
+				while($item = each($texto1)){
+					//recorremos las filas para crear su info
+					$fila = $doc->createElement("fila");
+					$fila->appendChild($doc->createElement("dia", $item['value']));
+					$fila->appendChild($doc->createElement("puerto", $_POST['text2'][$item['key']]));
+					$fila->appendChild($doc->createElement("llegada", $_POST['text3'][$item['key']]));
+					$fila->appendChild($doc->createElement("salida", $_POST['text4'][$item['key']]));
+					$subSeccionFilas->appendChild($fila);
 				}
-				$seccion->appendChild($subSeccionDias);
+				$seccion->appendChild($subSeccionFilas);
 			}
 		} else if($i == 1){
 			//es la seccion de que incluye
@@ -173,36 +173,46 @@
 				$seccion->appendChild($subSeccionFotos);
 			}
 		} else if($i == 4){
-			//es la seccion de itinerario
+			//es la seccion de destinos
 			//obtenemos el titulo de cabecera
-			$tmpNode = $doc->createElement("titulo", $_POST["tituloSeccion5"]);
+			$tmpNode = $doc->createElement("titulo", $_POST["tituloSeccion1"]);
 			$seccion->appendChild($tmpNode);
-			
+				
 			//verificamos si existe imagen para la cabecera
-			if($_FILES["imageSeccion5"]["error"] == 0){
+			if($_FILES["imageSeccion1"]["error"] == 0){
 				//tenemos imagen, la copiamos al directorio respectivo y almacenamos la referencia
-				$tmpNode = $doc->createElement("img", $_FILES["imageSeccion5"]["name"]);
-				move_uploaded_file($_FILES["imageSeccion5"]["tmp_name"], "./img/".$_FILES["imageSeccion5"]["name"]);
+				$tmpNode = $doc->createElement("img", $_FILES["imageSeccion1"]["name"]);
+				move_uploaded_file($_FILES["imageSeccion1"]["tmp_name"], "./img/".$_FILES["imageSeccion1"]["name"]);
 			}else {
-				$tmpNode = $doc->createElement("img", $_POST['hiddenImageSeccion5']);
+				//verificamos si exite imagen previa para esta seccion
+				$tmpNode = $doc->createElement("img", $_POST["hiddenImageSeccion1"]);
 			}
 			$seccion->appendChild($tmpNode);
+				
+			//recorremos la informacion de los días
+			if(isset($_POST['dayTitle'])){
+				$dayTitles = $_POST['dayTitle'];
+				$dayActivities = $_POST['dayDesc'];
+				$dayImgs = $_FILES["dayImage"]["name"];
+				$dayTmps = $_FILES["dayImage"]["tmp_name"];
+				reset($dayTitles);
 			
-			//recorremos la informacion de las fotos
-			if(isset($_POST['text1'])){
-				$texto1 = $_POST['text1'];
-				reset($texto1);
-					
-				$subSeccionFilas = $doc->createElement("filas");
-				while($item = each($texto1)){
-					//recorremos las filas para crear su info
-					$fila = $doc->createElement("fila");
-					$fila->appendChild($doc->createElement("ciudad", $item['value']));
-					$fila->appendChild($doc->createElement("hotel", $_POST['text2'][$item['key']]));
-					$fila->appendChild($doc->createElement("categoria", $_POST['text3'][$item['key']]));
-					$subSeccionFilas->appendChild($fila);
+				$subSeccionDias = $doc->createElement("dias");
+				while($dayTitle = each($dayTitles)){
+					//recorremos los dias para crear su info
+					$dia = $doc->createElement("dia");
+					$dia->appendChild($doc->createElement("title", $dayTitle['value']));
+					$dia->appendChild($doc->createElement("actividades", $dayActivities[$dayTitle['key']]));
+					if($dayImgs[$dayTitle['key']] != null){
+						$dia->appendChild($doc->createElement("img", $dayImgs[$dayTitle['key']]));
+						move_uploaded_file($dayTmps[$dayTitle['key']], "./img/".$dayImgs[$dayTitle['key']]);
+					} else {
+						$dia->appendChild($doc->createElement("img", $_POST['dayPrevImage'][$dayTitle['key']]));
+					}
+						
+					$subSeccionDias->appendChild($dia);
 				}
-				$seccion->appendChild($subSeccionFilas);
+				$seccion->appendChild($subSeccionDias);
 			}
 		}
 		

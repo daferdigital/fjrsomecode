@@ -1,7 +1,7 @@
 <?php
 
 $hostname_web = "localhost";
-$database_web = "uneweb";
+$database_web = "transamerica";
 //$username_web = "transviajes_user";
 //$password_web = "#m1.cl4v3.d4t4#";
 $username_web = "uneweb";

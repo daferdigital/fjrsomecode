@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<secciones>
+  <seccion>
+    <titulo>Itinerario</titulo>
+    <img>loading1.gif</img>
+    <imgNaviera>Documento (1).jpg</imgNaviera>
+    <filas>
+      <fila>
+        <dia>1</dia>
+        <puerto>La Guaira</puerto>
+        <llegada>Embarque</llegada>
+        <salida>12:00 m</salida>
+      </fila>
+      <fila>
+        <dia>2</dia>
+        <puerto>Pto La Cruz</puerto>
+        <llegada>3:00 pm</llegada>
+        <salida>05:00 am</salida>
+      </fila>
+    </filas>
+  </seccion>
+  <seccion>
+    <titulo>Que Incluye</titulo>
+    <img></img>
+    <queincluye>
+      <item>NADA</item>
+    </queincluye>
+  </seccion>
+  <seccion>
+    <titulo>Condiciones</titulo>
+    <img></img>
+    <condiciones>
+      <item>totongo</item>
+    </condiciones>
+    <gastos>
+      <item>morrocoya</item>
+    </gastos>
+  </seccion>
+  <seccion>
+    <titulo></titulo>
+  </seccion>
+  <seccion>
+    <titulo>Destinos Itinerario</titulo>
+    <img></img>
+    <dias>
+      <dia>
+        <title>Dia 1</title>
+        <actividades>ver destino del dia 1</actividades>
+        <img>loading.gif</img>
+      </dia>
+    </dias>
+  </seccion>
+</secciones>
