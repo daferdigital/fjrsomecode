@@ -26,7 +26,7 @@
 			<li><a href="#tabs-2">Que incluye</a></li>
 			<li><a href="#tabs-3">Condiciones</a></li>
 			<li><a href="#tabs-4">Fotos</a></li>
-			<li><a href="#tabs-5">Destinos</a></li>
+			<li><a href="#tabs-5">Hoteles</a></li>
         </ul>
         
         <br />
