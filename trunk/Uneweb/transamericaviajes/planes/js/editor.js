@@ -130,6 +130,9 @@ function addFileSeccion4(pictureName){
 
 /**
  * 
+ * @param ciudadValue
+ * @param hotelValue
+ * @param categoriaValue
  */
 function addRowSeccion5(ciudadValue, hotelValue, categoriaValue){
 	//obtenemos el nodo padre donde colocaremos el container para el nuevo dia
@@ -153,6 +156,40 @@ function addRowSeccion5(ciudadValue, hotelValue, categoriaValue){
 		+ '            <input type="text" name="text3[]" value="' + categoriaValue + '"/>'
 		+ '        </td>'
 		+ '        <td width="200px">'
+		+ '            <input type="button" value="Eliminar esta fila" onclick="javascript:eliminarElemento(' + nextIdParam + ')"/>'
+		+ '        </td>'
+		+ '    </tr>'
+		+ '</table>';
+	
+	newNodo.innerHTML = htmlContainerText;
+	nodoPadre.appendChild(newNodo);
+}
+
+function addRowItinerarioCrucero(diaValue, puertoValue, llegadaValue, salidaValue){
+	//obtenemos el nodo padre donde colocaremos el container para el nuevo dia
+	var nodoPadre = document.getElementById("seccionItinerarioCruceroInfo");
+	//var nextId = "seccion5Row_" + document.getElementsByName("seccion5Row").length;
+	var nextId = "seccionItinerarioCruceroRow_" + (idCounter ++);
+	var nextIdParam = "'" + nextId + "'";
+	var newNodo = document.createElement('div');
+	newNodo.id = nextId;
+	
+	var htmlContainerText = 
+		  '<table class="table table-bordered table-striped" name="seccion5Row">'
+		+ '    <tr>'
+		+ '        <td width="100px">'
+		+ '            <input type="text" name="text1[]" value="' + diaValue + '"/>'
+		+ '        </td>'
+		+ '        <td width="180px">'
+		+ '            <input type="text" name="text2[]" value="' + puertoValue + '"/>'
+		+ '        </td>'
+		+ '        <td width="180px">'
+		+ '            <input type="text" name="text3[]" value="' + llegadaValue + '"/>'
+		+ '        </td>'
+		+ '        <td width="180px">'
+		+ '            <input type="text" name="text4[]" value="' + salidaValue + '"/>'
+		+ '        </td>'
+		+ '        <td width="180px">'
 		+ '            <input type="button" value="Eliminar esta fila" onclick="javascript:eliminarElemento(' + nextIdParam + ')"/>'
 		+ '        </td>'
 		+ '    </tr>'
