@@ -424,11 +424,14 @@ function getDaysPerMonth($iMonth, $iYear){
 }
 
 /**
+ * Pasamos los valores de salidas y armamos el div
+ * correspondiente.
  * 
  * @param array $keysComboFecha
  * @param array $arregloComboFecha
+ * @param boolean $addOnClick
  */
-function getDivDiasInfo($keysComboFecha, $arregloComboFecha){
+function getDivDiasInfo($keysComboFecha, $arregloComboFecha, $addOnClick=true){
 	global $divDiasInfo;
 	global $monthName;
 	
@@ -460,6 +463,7 @@ function getDivDiasInfo($keysComboFecha, $arregloComboFecha){
 				$iDaysPerMonth = getDaysPerMonth($iMonth, $iYear);
 				//echo $iYear." - ".$iMonth.": ".getDaysPerMonth($iMonth, $iYear)."<br>";
 				$wValue = date("w", mktime(0, 0, 0, (int) $iMonth, 1, (int) $iYear));
+				
 				$visualStyle;
 				if($nodoDiv < 2){
 					$visualStyle = "style=\"display: block\"";
@@ -516,18 +520,25 @@ function getDivDiasInfo($keysComboFecha, $arregloComboFecha){
 						</label>
 						</li>";
 					}else{
-						$divDiasInfo .=  "<li>".
-						"<label class=\"\" id=\"$key1\">".
-						"<input id=\"dateHID$key1\" value=\"$arregloComboFecha[$key1]\" type=\"hidden\" />".
-						//como cambiamos de checkbox a a-href, usaremos el atributo class del elemento a para saber si tiene el foco del click o no
-						//y el title para su valor.
-						"<a name=\"date\" title=\"$key1\" href=\"#dateHID$key1\" onclick=\"javascript:doLabelClick(this, '".$key1."'); return false;\">$i</a>".
-						"<span id=\"span$key1\" style=\"display: none;\">$i</span>".
-						//"<input name=\"date\" value=\"$key1\" type=\"checkbox\" onclick=doLabelClick(this) />".
-						"</label>
-						</li>";
+						if($addOnClick){
+							$divDiasInfo .=  "<li>".
+									"<label class=\"\" id=\"$key1\">".
+									"<input id=\"dateHID$key1\" value=\"$arregloComboFecha[$key1]\" type=\"hidden\" />".
+									//como cambiamos de checkbox a a-href, usaremos el atributo class del elemento a para saber si tiene el foco del click o no
+									//y el title para su valor.
+									"<a name=\"date\" title=\"$key1\" href=\"#dateHID$key1\" onclick=\"javascript:doLabelClick(this, '".$key1."'); return false;\">$i</a>".
+									"<span id=\"span$key1\" style=\"display: none;\">$i</span>".
+									//"<input name=\"date\" value=\"$key1\" type=\"checkbox\" onclick=doLabelClick(this) />".
+									"</label>
+								</li>";
+						} else {
+							$divDiasInfo .=  "<li>".
+									"<label class=\"\" id=\"$key1\">".
+									$i.
+									"</label>
+								</li>";
+						}
 					}
-					
 				}
 				
 				$divDiasInfo .="				
@@ -535,10 +546,59 @@ function getDivDiasInfo($keysComboFecha, $arregloComboFecha){
 						</div>";
 				
 				$nodoDiv ++;
+			} else {
+				//echo "No strcmp";
 			}
 		}
 		
 		$divDiasInfo .= "</div>";
+	}
+}
+
+function showProgramaDivSalidasInfo($programaId){
+	//obtenemos las salidas de este programa
+	global $divDiasInfo;
+	global $arregloComboFecha;
+	global $keysComboFecha;
+	global $keysComboFechaPart2;
+	
+	$sql = "SELECT salidas FROM programas".
+	" WHERE id = ".$programaId.
+	" AND status='1'";
+	
+	$salidas = mysql_fetch_array(mysql_query($sql));
+	
+	if($salidas != null){
+		//tomamos la informacion de las fechas
+		$fechas = explode(",", $salidas["salidas"]);
+		foreach ($fechas as $diaSalida){
+			if(trim($diaSalida) != ""){
+				if(isset($arregloComboFecha["$diaSalida"])){
+					$arregloComboFecha["$diaSalida"] = $arregloComboFecha["$diaSalida"]."||".$programaId;
+				} else {
+					$arregloComboFecha["$diaSalida"] = $programaId;
+					//$keyVal = convertDateValue($diaSalida);
+					$keyVal = $diaSalida;
+					$keysComboFecha["$keyVal"] = $diaSalida;
+					$keysComboFechaPart2[] = $keyVal;
+				}
+			}
+		}
+		
+		sort($keysComboFechaPart2);
+		
+		while($values = each($keysComboFechaPart2)){
+			$keysComboFechaTmp[] = $keysComboFecha[$values[1]];
+		}
+		
+		$keysComboFecha = null;
+		$keysComboFecha = $keysComboFechaTmp;
+		
+		getDivDiasInfo($keysComboFecha, $arregloComboFecha, false);
+		
+		echo $divDiasInfo;
+	} else {
+		echo "Salidas null";
 	}
 }
 ?>

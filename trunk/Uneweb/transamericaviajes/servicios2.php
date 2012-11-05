@@ -9,6 +9,7 @@
 session_start(); 
 extract($_REQUEST);
 include("conexion.php");
+include_once("tuningPaquetes.php");
 include("admin/botonera/archivos/botonFunciones.php");
 
 $boton= obtenerBoton();
@@ -56,7 +57,7 @@ body {
 
 
 <body onload="<?php onloadFun(); ?>" style="<?php cargarFondo($tipoFondo);?>" <?php aplicarClase($tipoFondo);?>>
-    <table width="1034" border="0" align="center" cellpadding="0" cellspacing="0" style="background: <?php echo $row2[color]; ?>">
+    <table width="1034" border="0" align="center" cellpadding="0" cellspacing="0" style="background: <?php echo $row2["color"]; ?>">
   <tr>
     <td colspan="3"><table align="center" cellpadding="0" border="0" cellspacing="0" width="100%">	
 			<tr>
@@ -224,7 +225,7 @@ body {
 				
 				include "conexion.php";
 				
-				$sql="select tipo.categoria,programas.categoria from tipo,programas where programas.id='$_GET[id]' and programas.categoria=tipo.id";
+				$sql="select tipo.categoria,programas.categoria from tipo,programas where programas.id='".$_GET["id"]."' and programas.categoria=tipo.id";
 				
 				$consulta=mysql_query($sql,$conexion);
 				$fila=mysql_fetch_array($consulta); 
@@ -265,7 +266,7 @@ body {
                     <td class="txt_1"><strong style="margin-left: 6px;">
                                       
                                        &nbsp;
-                                       <?php titulosec($_GET[id]); ?>
+                                       <?php titulosec($_GET["id"]); ?>
                                     </strong></td>
                     </tr>
                 </table>
@@ -275,26 +276,25 @@ body {
 					
   <div style="height:5px;"></div>
 					<?php 
-						$sql="select * from programas where id='$_GET[id]'";
+						$sql="select * from programas where id='".$_GET["id"]."'";
 						$consulta=mysql_query($sql,$conexion); 
 						if($row= mysql_fetch_array($consulta)){
 					?>
 					
 					<p style="margin-top: 4px;">
-						<img src="<?php print "admin/".$row[foto]; ?> " width="130" height="97" hspace="10" vspace="10" align="left" style="margin-left: 0px;"/>
+						<img src="<?php print "admin/".$row["foto"]; ?> " width="130" height="97" hspace="10" vspace="10" align="left" style="margin-left: 0px;"/>
 			         <?php 
 					 	}
 					 ?>
 					</p>
 					<div style="height:5px;"></div>
-					<b>Precio desde: <?php print number_format($row[precio],2,".",".")."  USD. </b>"; ?>
-   		         <?php if($mira== 53) {?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="formulario2.php?ag=<?php echo $row[titulo]; ?>"><img src="boton_contacto.png" width="130" height="24" border="0" /></a><?php } ?>
-                  <?php if($mira== 81) {?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="formulario3.php?ac=<?php echo $row[titulo]; ?>"><img src="boton_contacto2.png" width="130" height="24" border="0" /></a><?php } ?>
-                      <?php if($mira== 70) {?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="formulario4.php?av=<?php echo $row[titulo]; ?>"><img src="boton_contacto3.png" width="130" height="24" border="0" /></a><?php } ?>
-                
-                           <?php if($mira== 80) {?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="formulario5.php?af=<?php echo $row[titulo]; ?>"><img src="boton_contacto4.png" width="130" height="24" border="0" /></a><?php } ?>
+					<b>Precio desde: <?php print number_format($row["precio"],2,".",".")."  USD."; ?> </b>
+   		         	<?php if($mira== 53) {?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="formulario2.php?ag=<?php echo $row["titulo"]; ?>"><img src="boton_contacto.png" width="130" height="24" border="0" /></a><?php } ?>
+                  	<?php if($mira== 81) {?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="formulario3.php?ac=<?php echo $row["titulo"]; ?>"><img src="boton_contacto2.png" width="130" height="24" border="0" /></a><?php } ?>
+                    <?php if($mira== 70) {?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="formulario4.php?av=<?php echo $row["titulo"]; ?>"><img src="boton_contacto3.png" width="130" height="24" border="0" /></a><?php } ?>
+                    <?php if($mira== 80) {?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="formulario5.php?af=<?php echo $row["titulo"]; ?>"><img src="boton_contacto4.png" width="130" height="24" border="0" /></a><?php } ?>
    		       <br />  
-                <?php mensajenoticiasx($_GET[id]); ?>
+                <?php mensajenoticiasx($_GET["id"]); ?>
 	   		     <div style="height:5px;"></div>
 	   		     <hr width="100%" size="2" />
 				<br />
