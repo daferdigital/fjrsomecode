@@ -29,7 +29,8 @@ $tipoFondo= obtenerFondo();
 <?php 
 	cargarEstilosDin();
 	if ($tipoFondo==2){ cargarDegrade2(); } 
-?>	
+?>
+<link href="css/estiloBuscadores.css" type="text/css" rel="stylesheet"/>
 <link href="scripts/estilos.css" rel="stylesheet" type="text/css" />
 <!-- jQuery -->
 <script type="text/javascript" src="scripts/jquery-1.4.2.min.js"></script>
@@ -41,6 +42,7 @@ $tipoFondo= obtenerFondo();
 <!-- Scripts -->
 <link rel="stylesheet" href="scripts/nivo/nivo-slider.css" type="text/css" media="screen" />
 <script type="text/javascript" src="scripts/scripts.js"></script>
+<script type="text/javascript" src="buscador.js"></script>
 
 <style type="text/css">
 <!--
@@ -296,6 +298,11 @@ body {
    		       <br />  
                 <?php mensajenoticiasx($_GET["id"]); ?>
 	   		     <div style="height:5px;"></div>
+	   		     
+	   		     <div style="height:5px;"></div>
+	   		     
+	   		     <?php echo showProgramaDivSalidasInfo($_GET["id"]); ?>
+	   		     
 	   		     <hr width="100%" size="2" />
 				<br />
 				<?php 
