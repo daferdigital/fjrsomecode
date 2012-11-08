@@ -29,6 +29,10 @@
 <title><?php mostrarTitulo($boton,$empresa)?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <link href="../admin/botonera/css-styles/style.css" type="text/css" rel="stylesheet"/>
+
+<link href="ckeditor/skins/office2003/editor.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
+
 <script src="../admin/botonera/scripts/images.js" type="text/javascript"></script>
 <script src="../Scripts/swfobject_modified.js" type="text/javascript"></script>
 
@@ -69,10 +73,7 @@
   </tr>          
   <tr>
 	<td colspan="2">
-	 
 		<div id="base">
-
-
                     <div id="slide">
                           <div class="slideshow">
                           
@@ -141,7 +142,13 @@
 				<b>Mensaje a Enviar</b>
 			</td>
 			<td align="center">
-				<textarea name="comentarios" cols="40" rows="8"></textarea>
+				<textarea name="comentarios" id="comentarios" cols="40" rows="8"></textarea>
+				<script type="text/javascript">
+				//<![CDATA[
+					// Replace the <textarea id="editor1"> with an CKEditor instance.
+					var editor = CKEDITOR.replace( 'comentarios' );
+				//]]>
+				</script>
 			</td>
 		</tr>
 		<tr>
