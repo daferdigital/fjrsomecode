@@ -2,7 +2,7 @@
 //verificamos la seccion a la que pertenece este programa para saber que editor accesar
 
 if(isset($_REQUEST['id'])){
-	include ("conexion.php");
+	include ("../conexion.php");
 	
 	$location = null;
 	$query = "SELECT seccion FROM programas WHERE id=".$_REQUEST['id'];
