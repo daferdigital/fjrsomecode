@@ -568,7 +568,7 @@ function showProgramaDivSalidasInfo($programaId){
 	
 	$salidas = mysql_fetch_array(mysql_query($sql));
 	
-	if($salidas != null){
+	if($salidas != null && $salidas["salidas"] != null && trim($salidas["salidas"]) != "" ){
 		//tomamos la informacion de las fechas
 		$fechas = explode(",", $salidas["salidas"]);
 		foreach ($fechas as $diaSalida){
@@ -598,7 +598,7 @@ function showProgramaDivSalidasInfo($programaId){
 		
 		echo $divDiasInfo;
 	} else {
-		echo "Salidas null";
+		echo "<b>Disculpe, a&uacute;n no existen salidas registradas</b>";
 	}
 }
 ?>
