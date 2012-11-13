@@ -567,6 +567,7 @@ function showProgramaDivSalidasInfo($programaId){
 	" AND status='1'";
 	
 	$salidas = mysql_fetch_array(mysql_query($sql));
+	echo $salidas["salidas"];
 	
 	if($salidas != null && $salidas["salidas"] != null && trim($salidas["salidas"]) != "" ){
 		//tomamos la informacion de las fechas

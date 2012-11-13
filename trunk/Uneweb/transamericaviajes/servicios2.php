@@ -299,9 +299,15 @@ body {
                 <?php mensajenoticiasx($_GET["id"]); ?>
 	   		     <div style="height:5px;"></div>
 	   		     
+	   		     <span id="#mes">
+				  	Salidas: 
+				  	&nbsp;&nbsp;
+				  	<a href="#mes" onclick="showPrevMont()" style="font-size: 16px; font-weight: bold;"> Mes previo &lt; </a>
+					&nbsp;&nbsp;
+					<a href="#mes" onclick="showNextMont()" style="font-size: 16px; font-weight: bold;"> Pr&oacute;ximo mes &gt; </a>
+			  	</span> 
+	   		     <?php showProgramaDivSalidasInfo($_GET["id"]); ?>
 	   		     <div style="height:5px;"></div>
-	   		     
-	   		     <?php echo showProgramaDivSalidasInfo($_GET["id"]); ?>
 	   		     
 	   		     <hr width="100%" size="2" />
 				<br />
