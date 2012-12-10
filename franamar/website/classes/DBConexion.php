@@ -5,28 +5,28 @@
 		private $dbUser = "franamar";
 		private $dbPwd = "Fr4n4m4r123";
 		
-		private $conexion;
+		public $conexion;
+		
+		function DBConexion(){
+			$this->setConnection();
+		}
 		
 		/**
-		 * Funcion para obtener la conexion a la base de datos.
+		 * Funcion para iniciar la conexion a la base de datos.
 		 * 
 		 * @return conexion
 		 */
-		private function getConexion(){
-			$this->conexion = mysql_connect($this->server, $this->dbUser, $this->dbPwd);
+		private function setConnection(){
+			$this->conexion = mysqli_connect($this->server, $this->dbUser, $this->dbPwd, $this->dataBase);
 			
-			if(mysql_error()){
+			if(mysqli_connect_error()){
 				echo "No se pudo obtener la conexion con la base de datos, el error fue: ".mysql_error();
 				die();
-			} else {
-				mysql_select_db($this->dataBase, $this->conexion);
-				if(mysql_error()){
-					echo "No se pudo accesar a la base de datos requerida, el error fue: ".mysql_error();
-					die();
-				} else {
-					return $this->conexion;
-				}
 			}
+		}
+		
+		function getConnection(){
+			return $this->conexion;
 		}
 		
 		/**

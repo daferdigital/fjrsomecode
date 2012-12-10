@@ -1,2 +1,88 @@
 @CHARSET "ISO-8859-1";
 
+body {
+	background-image: url(../images/fondoweb.png);
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
+
+body,td,th {
+	font-family: "Franklin Gothic Book";
+	font-size: 12px;
+	font-weight: bold;
+	color: #000;
+}
+
+.marfilBG {
+	background-color: #FFFACD;
+}
+
+.marfilBorder {
+	border-color: #FFFACD;
+	border-collapse: collapse;
+	border-style: solid;
+	border: thin;
+}
+
+.bodyWidth {
+	width: 1024px;
+}
+
+.franamarText {
+	color: #92D050;
+	font-weight: bold;
+	font-size: 16px;
+}
+
+.bodyTable {
+	margin-top: 20px;
+}
+
+.justContainer {
+	background-color: white;
+}
+
+.languages {
+	text-align: right;
+	vertical-align: top;
+	margin-top: 0px;
+	z-index: 20;
+}
+
+.languages > img{
+	border: 0;
+}
+
+.tdLeft {
+	vertical-align: middle;
+}
+
+.tdRigth {
+	width: 70%;
+	text-align: justify;
+	font-size: 16px;
+	font-weight: normal;
+}
+
+.staffMembers {
+	font-weight: normal;
+	font-size: 14px;
+	border: thin;
+	border-style: solid;
+	border-collapse: collapse;
+	margin-left: 15px;
+}
+
+.staffMembers > tbody > tr > td{
+	font-weight: normal;
+	font-size: 14px;
+	border: thin;
+	border-style: solid;
+	text-align: left;
+	padding: 5px;
+}
+
+.footer {
+	background-color: white;
+	text-align: center;
+}
