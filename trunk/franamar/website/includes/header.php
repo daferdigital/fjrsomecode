@@ -61,7 +61,7 @@
 				        	<a href="contacto.html">Noticias</a>
 				        </li>
 				        <li>
-				        	<a href="contacto.html">Contacto</a>
+				        	<a href="contacto.php">Contacto</a>
 				        </li>
       				</ul>
     			</div>
