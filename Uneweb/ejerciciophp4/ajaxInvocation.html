@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<title>Invocacion Ajax</title>
+	<script type="text/javascript">
+		function createXMLHTTPRequest(){
+			var xmlHTTPRequest = null;
+			
+			//revisamos si no esta definido el objeto nativamente(navegadores tipo mozilla)
+			if (typeof XMLHttpRequest == "undefined" ){
+				//Ahora revisamos si el motor es mayor o igual a MSIE 5.0 
+				//(mayor que microsoft internet explorer 5.0)
+				if(navigator.userAgent.indexOf("MSIE 5") >= 0){
+					// Si es así creamos un control activeX apartir de un objeto
+					//ActiveXObject("Microsoft.XMLHTTP")
+					xmlHTTPRequest = new ActiveXObject("Microsoft.XMLHTTP");
+				} else {
+					//si no , o si es menor a MSIE 5.0 creamos otro control activeX
+					// apartir de un objeto ActiveXObject("Msxml2.XMLHTTP")
+					xmlHTTPRequest = new ActiveXObject("Msxml2.XMLHTTP");
+				} 
+			} else {
+				// en cambio si el objeto estaba definido nativamente, solo lo instanciamos
+				xmlHTTPRequest = new XMLHttpRequest();
+			}
+			
+			return xmlHTTPRequest;
+		}
+		
+		function getClientInfo(clientId){
+			//esto podria ser una mejor manera, hay que probar 
+			//var ajaxObject =  createRequest()
+			var ajaxObject =  createXMLHTTPRequest();
+			
+			document.getElementById("myDivClient_" + clientId).style.display = "";
+			document.getElementById("myDivClient_" + clientId).innerHTML = "<img src=\"loading.gif\"/>";
+			
+			ajaxObject.onreadystatechange=function() {
+				if (ajaxObject.readyState==4 && ajaxObject.status==200) {
+					document.getElementById("myDivClient_" + clientId).innerHTML=ajaxObject.responseText;
+				}
+			}
+			
+			ajaxObject.open("POST","ajaxResult.php",true);
+			//sin la linea siguiente no podemos enviar parametros via POST, solo seria por GET
+			ajaxObject.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			ajaxObject.send("clientId="+clientId);
+		}
+	</script>
+</head>
+<body>
+	<table align="center" border="1">
+		<tr>
+			<td>
+				<a href="#" onclick="javascript:getClientInfo(1);" ><img border="0" src="menu_tree_plus.gif" title="Click para consultar"/></a> Cliente 1:
+				<div id="myDivClient_1" style="display: none"></div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<a href="#" onclick="javascript:getClientInfo(2);" ><img border="0" src="menu_tree_plus.gif" title="Click para consultar"/></a> Cliente 2:
+				<div id="myDivClient_2" style="display: none"></div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<a href="#" onclick="javascript:getClientInfo(3);" ><img border="0" src="menu_tree_plus.gif" title="Click para consultar"/></a> Cliente 3:
+				<div id="myDivClient_3" style="display: none"></div>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>

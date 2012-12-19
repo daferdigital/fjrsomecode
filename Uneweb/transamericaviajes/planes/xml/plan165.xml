@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<secciones>
+  <seccion>
+    <titulo>Tu itinerario - Madrid Par&#xED;s</titulo>
+    <img></img>
+    <dias>
+      <dia>
+        <title>D&#xED;a 1: Am&#xE9;rica - Madrid (S&#xE1;bado)</title>
+        <actividades>Salida en vuelo intercontinental hacia Madrid.</actividades>
+        <img>avio&#x301;n ida .png</img>
+      </dia>
+      <dia>
+        <title>D&#xED;a 2: Madrid (Domingo)</title>
+        <actividades>Llegada al aeropuerto internacional de Madrid, recepci&#xF3;n y traslado al hotel. Alojamiento.</actividades>
+        <img>Madrid1.jpg</img>
+      </dia>
+      <dia>
+        <title>D&#xED;a 3: Madrid (Lunes)</title>
+        <actividades>Alojamiento y desayuno. Visita panor&#xE1;mica de la ciudad con amplio recorrido a trav&#xE9;s de las m&#xE1;s importantes avenidas, plazas y edificios: Gran V&#xED;a, Cibeles, Puerta de Alcal&#xE1;, Plaza de Espa&#xF1;a, Plaza de Oriente... Resto del d&#xED;a libre para actividades personales.</actividades>
+        <img>madrid2.jpg</img>
+      </dia>
+      <dia>
+        <title>D&#xED;a 4: Madrid - Burdeos (Martes)</title>
+        <actividades>Desayuno. Salida por la regi&#xF3;n Norte de Espa&#xF1;a v&#xED;a Burgos y San Sebasti&#xE1;n hacia la frontera Francesa, y continuaci&#xF3;n del viaje por la regi&#xF3;n vin&#xED;cola de Francia hasta llegar a Burdeos capital de los Duques de Aquitania. Alojamiento.</actividades>
+        <img>burdeos1.jpg</img>
+      </dia>
+      <dia>
+        <title>D&#xED;a 5: Burdeos - Valle del Loira - Par&#xED;s (Mi&#xE9;rcoles)</title>
+        <actividades>Desayuno. Salida hacia poitiers y Tours, donde iniciaremos un breve recorrido por el Valle de Loira. Parada en Blois, considerada una de las m&#xE1;s atractivas poblaciones del Valle, gracias a su bell&#xED;simo Castillo. Continuaci&#xF3;n hasta Par&#xED;s. Llegada y alojamiento. </actividades>
+        <img>valle de loira.jpg</img>
+      </dia>
+      <dia>
+        <title>D&#xED;a 6: Par&#xED;s (Jueves)</title>
+        <actividades>Alojamiento y desayuno. Por la ma&#xF1;ana visita de la ciudad luz, recorriendo entre otros la Avenida de los Campos Eliseos, Arco de Triunfo, Torre Eiffel, Isla de la Ciudad, etc. Tarde libre. Excursi&#xF3;n opcional al Palacio de Versalles. Por la noche se ofrecer&#xE1; una excursi&#xF3;n opcional para asistir al famoso espect&#xE1;culo de \"El Lido\".</actividades>
+        <img>campos eliseos.png</img>
+      </dia>
+      <dia>
+        <title>D&#xED;a 7: Par&#xED;s (Viernes)</title>
+        <actividades>Alojamiento y desayuno. D&#xED;a libre pa disposici&#xF3;n para efectuar excursiones opcionales y continuar descubriendo esta fascinante ciudad.</actividades>
+        <img>torre eiffel.jpg</img>
+      </dia>
+      <dia>
+        <title>D&#xED;a 8: Par&#xED;s (S&#xE1;bado)</title>
+        <actividades>Desayuno y fin de nuestros servicios.</actividades>
+        <img>Paris 1.png</img>
+      </dia>
+    </dias>
+  </seccion>
+  <seccion>
+    <titulo>El precio incluye:</titulo>
+    <img>topmadridparis.png</img>
+    <queincluye>
+      <item>Traslado: Llegada a Madrid.</item>
+      <item>Autocar de lujo con gu&#xED;a acompa&#xF1;ante.</item>
+      <item>Visita con gu&#xED;a local en Madrid y Par&#xED;s.</item>
+      <item>Desayuno diario.</item>
+      <item>Seguro tur&#xED;stico.</item>
+      <item>Bolsa de viaje. </item>
+    </queincluye>
+  </seccion>
+  <seccion>
+    <titulo>Condiciones Generales</titulo>
+    <img>topmadridparis.png</img>
+    <condiciones>
+      <item>Pasaporte con vigencia m&#xED;nima de 6 meses.</item>
+      <item>Si viaja con un menor de edad solicitar los permisos correspondientes</item>
+    </condiciones>
+    <gastos>
+      <item>Una vez realizada la reserva, a partir del 8vo d&#xED;a hasta el d&#xED;a N. 31 antes de la salida: 250 USD por persona</item>
+      <item>Entre el d&#xED;a 30 y el 16 antes de la salida: 33% de gastos sobre el valor total de los servicios reservados</item>
+      <item>Entre el d&#xED;a 15 y el d&#xED;a 8 antes de la salida: 67% de gastos sobre el valor total de los servicios reservados</item>
+      <item>Dentro de los 7 d&#xED;as antes de la salida: 100% de gastos sobre el valor total de los servicios reservados</item>
+    </gastos>
+  </seccion>
+  <seccion>
+    <titulo>Galeria de Fotos</titulo>
+    <fotos>
+      <item>madrid1.jpg</item>
+      <item>madrid12.jpg</item>
+      <item>madrid13.jpg</item>
+      <item>paris 11.jpg</item>
+      <item>paris 12.jpg</item>
+      <item>paris 14.jpg</item>
+      <item>valle1.jpg</item>
+    </fotos>
+  </seccion>
+  <seccion>
+    <titulo>Hoteles previstos</titulo>
+    <img>topmadridparis.png</img>
+    <filas>
+      <fila>
+        <ciudad>Madrid</ciudad>
+        <hotel>Tryp Gran Via</hotel>
+        <categoria>Turista</categoria>
+      </fila>
+      <fila>
+        <ciudad>Burdeos</ciudad>
+        <hotel>Campanile Bordeaux / Nord Le Lac / Inter Hotel Alton</hotel>
+        <categoria>Turista</categoria>
+      </fila>
+      <fila>
+        <ciudad>Par&#xED;s</ciudad>
+        <hotel>Campanile Porte Bagnolet / Adagio Access Paris Quai d&#xB4;Ivry</hotel>
+        <categoria>Turista</categoria>
+      </fila>
+    </filas>
+  </seccion>
+</secciones>

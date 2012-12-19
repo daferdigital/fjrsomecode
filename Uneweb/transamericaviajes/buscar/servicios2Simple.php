@@ -41,6 +41,7 @@ $tipoFondo= obtenerFondo();
 <!-- Scripts -->
 <link rel="stylesheet" href="scripts/nivo/nivo-slider.css" type="text/css" media="screen" />
 <script type="text/javascript" src="scripts/scripts.js"></script>
+<script type="text/javascript" src="buscador.js"></script>
 
 <style type="text/css">
 <!--
@@ -83,17 +84,24 @@ body {
 	   		     
 	   		     <!-- info de las salidas -->
 	   		     <div style="height:5px;"></div>
+	   		     <span id="#mes">
+				  	Salidas: 
+				  	&nbsp;&nbsp;
+				  	<a href="#mes" onclick="showPrevMont()" style="font-size: 16px; font-weight: bold;"> Mes previo &lt; </a>
+					&nbsp;&nbsp;
+					<a href="#mes" onclick="showNextMont()" style="font-size: 16px; font-weight: bold;"> Pr&oacute;ximo mes &gt; </a>
+			  	</span>
 	   		     <?php echo showProgramaDivSalidasInfo($_GET["id"]); ?>
 	   		     
 	   		     <hr width="100%" size="2" />
 				<br />
 				<?php 
 					//verificamos que el xml de este plan efectivamente exista antes de fijar el iframe
-					$xmlFileName = "./planes/xml/plan".$_GET['id'].".xml";
+					$xmlFileName = "../planes/xml/plan".$_GET['id'].".xml";
 					
 					if(is_file($xmlFileName)){
 				?>
-						<iframe width="720" scrolling="auto"  height="700px" frameborder="0" marginheight="0" marginwidth="0" src="planes/loadXML.php?id=<?php echo $_GET['id'];?>"></iframe>
+						<iframe width="720" scrolling="auto"  height="700px" frameborder="0" marginheight="0" marginwidth="0" src="../planes/loadXML.php?id=<?php echo $_GET['id'];?>"></iframe>
 				<?php	
 					}
 				?>
