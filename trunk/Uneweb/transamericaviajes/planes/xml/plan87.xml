@@ -37,7 +37,16 @@
     </gastos>
   </seccion>
   <seccion>
-    <titulo></titulo>
+    <titulo>FOTOS</titulo>
+    <fotos>
+      <item>madrid1.jpg</item>
+      <item>madrid12.jpg</item>
+      <item>madrid13.jpg</item>
+      <item>paris 11.jpg</item>
+      <item>paris 12.jpg</item>
+      <item>paris 14.jpg</item>
+      <item>valle1.jpg</item>
+    </fotos>
   </seccion>
   <seccion>
     <titulo>Destinos Itinerario</titulo>

@@ -1,0 +1,1 @@
+Informacion del cliente : <?php echo $_POST["clientId"];?><br />
