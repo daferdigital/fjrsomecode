@@ -1,3 +1,6 @@
+<?php 
+	include "conexion.php";
+?>
 <style>
 <!--
 #resultadoCalculadora  {
@@ -52,7 +55,7 @@
 				document.getElementById("UpdateProgress1").style.display="none";
 				document.getElementById("UpdatePanel1").innerHTML = ajaxObject.responseText;
 				//fue modificada la estadia, debo actualizar el total final
-				getTotalInfo();
+				//getTotalInfo();
 			}
 		};
 		
@@ -78,7 +81,16 @@
 		//sin la linea siguiente no podemos enviar parametros via POST, solo seria por GET
 		ajaxObject.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
-		var params = "";
+		var params = "cantidadSemanas=" + document.getElementById("cantidadSemanas").value;
+		params += "&formaEstudio=" + document.getElementById("formaEstudio").value;
+		params += "&estadia=" + document.getElementById("estadia").value;
+
+		if(document.getElementById("UpdatePanel1").innerHTML != ""){
+			//tenemos estadia seleccionada, vemos su detalle
+			params += "&AirportPickupRequired=" + document.getElementById("AirportPickupRequired").value;
+			params += "&accommAge=" + document.getElementById("accommAge").value;
+		}
+		
 		ajaxObject.send(params);
 	}
 
@@ -108,6 +120,12 @@
 		//solo se mostraran errores cuando al menos esten 2 seleccionados
 		if(selectsVacios > 0){
 			areValids = false;
+			
+			document.getElementById("UpdatePanelFeeTable").innerHTML = "";
+			if(selectEstadia == ""){
+				document.getElementById("UpdatePanel1").innerHTML = "";
+			}
+			
 			if(selectsVacios == 1){
 				//tengo un select vacio, muestro su mensaje de error
 				if(selectFormaEstudio == ""){
@@ -129,16 +147,12 @@
 	}
 	
 	function __doPostBack(componentName){
+		if(componentName == "estadia"){
+			getEstadiaInfo();
+		}
+
 		if(validSelects()){
-			if(componentName == "formaEstudio" || componentName == "cantidadSemanas"){
-				//actualizo el total
-			}else{
-				//actualizo segun estadia
-				getEstadiaInfo();
-			}
-		} else {
-			document.getElementById("UpdatePanel1").innerHTML = "";
-			document.getElementById("UpdatePanelFeeTable").innerHTML = "";
+			getTotalInfo();
 		}
 	}
 </script>
@@ -146,18 +160,23 @@
 <div id="resultadoCalculadora">
 	<table width="90%" border="0" cellpadding="2" cellspacing="2">
 		<tr style="font-size:80%">
-			<td>Forma de estudio</td>
+			<td>Modalidad de estudio</td>
             <td>Tipo de Estadia</td>
             <td>Cantidad de Semanas</td>
         </tr>
         <tr>
             <td>
             	<select name="formaEstudio" onchange="javascript:setTimeout('__doPostBack(\'formaEstudio\')', 0)" id="formaEstudio" class="calculator-input-dropdown">
-            		<option selected="selected" value="">Forma de Estudio</option>
-					<option value="intensive">Tiempo Completo Intensivo(30 clases/semana)</option>
-					<option value="standard">Tiempo Completo (24 clases/semana)</option>
-					<option value="part-timeAM">Medio tiempo AM (17 clases/semana)</option>
-					<option value="part-timePM">Medio tiempo PM (13 clases/semana)</option>
+            		<option selected="selected" value="">Modalidad de Estudio</option>
+					<?php
+						$query = "SELECT id, descripcion FROM curso_modalidad ORDER BY id";
+						$result = mysql_query($query);
+						while ($row = mysql_fetch_array($result)){
+					?>
+						<option value="<?php echo $row["id"];?>"><?php echo $row["descripcion"];?></option>
+					<?php
+						}
+					?>
 				</select>
 			</td>
             <td>
