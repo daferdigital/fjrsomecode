@@ -1,13 +1,24 @@
+<?php 
+	include("conexion.php");
+	//obtenemos la info desde la pagina principal
+	//obtenemos el numero de semanas
+	$semanas = $_POST["cantidadSemanas"];
+	$priceByWeek = -1;
+	
+	$query = "SELECT precio FROM curso_semanas WHERE id_modalidad = ".$_POST["formaEstudio"]." AND minimo_semanas <= ".$semanas." AND maximo_semanas >= ".$semanas;
+	$row = mysql_fetch_array(mysql_query($query));
+	$priceByWeek = $row["precio"];
+?>
 <table class="calculator-result" cellspacing="0" cellpadding="5" rules="rows" border="0" id="dataGridFees" style="border-width:0px;width:85%;border-collapse:collapse;">
 	<tr style="font-weight:bold;">
 		<td>Concepto</td>
 		<td>Semanas</td>
-		<td style="width:40px;">Precio</td>
+		<td align="right" style="width:60px;">Precio</td>
 	</tr>
 	<tr>
-		<td align="left">Clases ($360/week)</td>
-		<td align="center">3</td>
-		<td align="right">$ 1080</td>
+		<td align="left">Clases ($<?php echo $priceByWeek;?>/semana)</td>
+		<td align="center"><?php echo $semanas;?></td>
+		<td align="right">$ <?php echo $semanas*$priceByWeek;?></td>
 	</tr>
 	<tr style="background-color:#FFFFCC;">
 		<td align="left">

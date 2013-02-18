@@ -8,16 +8,16 @@
 		<table id="AirportPickupRequired" title="only available with accommodation" cellspacing="3" class="calculator-input" border="0">
 			<tr>
 				<td>
-					<input id="AirportPickupRequired_0" type="radio" name="AirportPickupRequired" value="none" checked="checked">
+					<input id="AirportPickupRequired_0" type="radio" name="AirportPickupRequired" value="ninguno" checked="checked" onchange="javascript:getTotalInfo()">
 					Ninguno
 				</td>
 				<td>
-					<input id="AirportPickupRequired_1" type="radio" name="AirportPickupRequired" value="1_way">
-					Aeropuerto-Casa
+					<input id="AirportPickupRequired_1" type="radio" name="AirportPickupRequired" value="ida" onchange="javascript:getTotalInfo()">
+					Solo ida
 				</td>
 				<td>
-					<input id="AirportPickupRequired_2" type="radio" name="AirportPickupRequired" value="2_way">
-					Aeropuerto-Casa-Aeropuerto
+					<input id="AirportPickupRequired_2" type="radio" name="AirportPickupRequired" value="ida-vuelta" onchange="javascript:getTotalInfo()">
+					Ida y Vuelta
 				</td>
 			</tr>
 		</table>
@@ -26,16 +26,16 @@
 	if(($estadia == "homestay") || ($estadia == "homestay-half-board")){
 ?>
 		<br>
-		<span id="labelAccommodationAge">Your age on accommodation check-in date:</span>
+		<span id="labelAccommodationAge">Tu edad al momento del ingreso:</span>
 		<table id="accommAge" cellspacing="3" class="calculator-input" border="0">
 			<tr>
 				<td>
-					<input id="accommAge_0" type="radio" name="accommAge" value="18orOver" checked="checked">
-					<label for="accommAge_0">18 a&ntilde;os o mayor</label>
+					<input id="accommAge_0" type="radio" name="accommAge" value="18orOver" checked="checked" onchange="javascript:getTotalInfo()">
+					18 a&ntilde;os o mayor
 				</td>
 				<td>
-					<input id="accommAge_1" type="radio" name="accommAge" value="under18">
-					<label for="accommAge_1">Menos de 18 a&ntilde;os</label>
+					<input id="accommAge_1" type="radio" name="accommAge" value="under18" onchange="javascript:getTotalInfo()">
+					Menos de 18 a&ntilde;os
 				</td>
 			</tr>
 		</table>
