@@ -87,10 +87,21 @@
 
 		if(document.getElementById("UpdatePanel1").innerHTML != ""){
 			//tenemos estadia seleccionada, vemos su detalle
-			params += "&AirportPickupRequired=" + document.getElementById("AirportPickupRequired").value;
-			params += "&accommAge=" + document.getElementById("accommAge").value;
+			if(document.getElementById("AirportPickupRequired_0").checked){
+				params += "&AirportPickupRequired=" + document.getElementById("AirportPickupRequired_0").value;
+			} else if(document.getElementById("AirportPickupRequired_1").checked){
+				params += "&AirportPickupRequired=" + document.getElementById("AirportPickupRequired_1").value;
+			} else if(document.getElementById("AirportPickupRequired_2").checked){
+				params += "&AirportPickupRequired=" + document.getElementById("AirportPickupRequired_2").value;
+			}
+				
+			if(document.getElementById("accommAge_0").checked){
+				params += "&accommAge=" + document.getElementById("accommAge_0").value;
+			} else if(document.getElementById("accommAge_1").checked){
+				params += "&accommAge=" + document.getElementById("accommAge_1").value;
+			}
 		}
-		
+
 		ajaxObject.send(params);
 	}
 
