@@ -26,7 +26,7 @@ DROP TABLE IF EXISTS `curso_modalidad`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `curso_modalidad` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `key` varchar(45) NOT NULL,
+  `internal_key` varchar(45) NOT NULL,
   `descripcion` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
