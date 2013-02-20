@@ -41,7 +41,19 @@ CREATE TABLE `curso_pagos` (
 
 LOCK TABLES `curso_pagos` WRITE;
 /*!40000 ALTER TABLE `curso_pagos` DISABLE KEYS */;
-INSERT INTO `curso_pagos` VALUES (1,'AirportPickupRequired','ninguno','Ninguno','0',0),(2,'AirportPickupRequired','ida','Solo Ida','0',100),(3,'AirportPickupRequired','ida-vuelta','Ida y Vuelta','0',170),(4,'registro','registro','Registro (Cuota Ãšnica no reembolsable)','0',110),(5,'materiales','3-12','Materiales de 3-12 semanas','1',70),(6,'materiales','13+','Materiales de 13 semanas o mÃ¡s','1',140),(7,'searchRoomstay','searchRoomstay','BÃºsqueda de alojamiento (no reembolsable)','0',130),(8,'custodyLetter','custodyLetter','Carta Custodia (no reembolsable)','0',125),(9,'sendDocuments','Vancouver','Envio de documentos por curier a Vancouver (no reembolsable)','0',50),(10,'sendDocuments','Toronto','Envio de documentos por curier a Toronto (no reembolsable)','0',75),(11,'sendDocuments','Montreal','Envio de documentos por curier a Canada (no reembolsable)','0',75),(12,'roomstayAge','precio_under18','Alojamiento en casa de familia - Alumnos menores de 18 aÃ±os','1',0),(13,'roomstayAge','precio_over18','Alojamiento en casa de familia - Alumnos mayores de 18 aÃ±os','1',0);
+INSERT INTO `curso_pagos` VALUES (1,'AirportPickupRequired','ninguno','Ninguno','0',0),
+(2,'AirportPickupRequired','ida','Solo Ida','0',100),
+(3,'AirportPickupRequired','ida-vuelta','Ida y Vuelta','0',170),
+(4,'registro','registro','Registro (Cuota Única no reembolsable)','0',110),
+(5,'materiales','3-12','Materiales de 3-12 semanas','1',70),
+(6,'materiales','13+','Materiales de 13 semanas o más','1',140),
+(7,'searchRoomstay','searchRoomstay','Búsqueda de alojamiento (no reembolsable)','0',130),
+(8,'custodyLetter','custodyLetter','Carta Custodia (no reembolsable)','0',125),
+(9,'sendDocuments','Vancouver','Envio de documentos por curier a Vancouver (no reembolsable)','0',50),
+(10,'sendDocuments','Toronto','Envio de documentos por curier a Toronto (no reembolsable)','0',75),
+(11,'sendDocuments','Montreal','Envio de documentos por curier a Canada (no reembolsable)','0',75),
+(12,'roomstayAge','precio_under18','Alojamiento en casa de familia - Alumnos menores de 18 años','1',0),
+(13,'roomstayAge','precio_over18','Alojamiento en casa de familia - Alumnos mayores de 18 años','1',0);
 /*!40000 ALTER TABLE `curso_pagos` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

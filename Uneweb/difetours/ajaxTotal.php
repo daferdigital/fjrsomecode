@@ -66,8 +66,8 @@
 					$grandTotal += $arrayValues["3-12"][2];
 					echo $arrayValues["3-12"][2];
 				} else if($semanas > 12){
-					$grandTotal += $arrayValues["12+"][2];
-					echo $arrayValues["12+"][2];
+					$grandTotal += $arrayValues["13+"][2];
+					echo $arrayValues["13+"][2];
 				}
 			?>
 		</td>
