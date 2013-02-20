@@ -1,0 +1,43 @@
+@CHARSET "ISO-8859-1";
+
+body {
+	background-color: #EEEEEE;
+	margin-top: 0px;
+}
+
+td img {
+	display: block;
+}
+
+.bodyTable {
+	width: 900;
+	/*margin to center the table, not the content*/
+	margin-left:auto; 
+    margin-right:auto;
+}
+
+.estilo1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: #666666;
+}
+
+.estilo2 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	font-weight: bold;
+	color: white;
+}
+
+.smallError {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: red;
+}
+
+.loginTable{
+	margin-left:auto; 
+    margin-right:auto;
+}
