@@ -15,8 +15,8 @@
     		<blockquote>
         		<h2 align="justify">
         			Es grato  dirigirnos a usted para presentarle nuestra empresa 
-        			<span class="franamarText">FRANAMAR LOGISTICA DE CARGA, C.A.</span> la cual se est&aacute;
-        			introduciendo en el mercado pero iniciada por personal con amplia experiencia  en el &aacute;rea, 
+        			<span class="franamarText">FRANAMAR LOGISTICA DE CARGA, C.A.</span> la cual cuenta con
+        			un equipo con amplia experiencia  en el &aacute;rea, 
         			capacitado para brindar un servicio personalizado de soporte integral de log&iacute;stica 
         			a trav&eacute;s de una amplia red de agentes y proveedores estrat&eacute;gicos 
         			alrededor del mundo.

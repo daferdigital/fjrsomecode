@@ -8,7 +8,7 @@
 				<table class="staffMembers">
 					<tr>
 						<td colspan="2">
-							<b>Miembros de la Empresa:</b>
+							<b>Nuestro Equipo:</b>
 						</td>
 					</tr>
 					<tr>
@@ -16,7 +16,9 @@
 							<b>Anna Gagliardi</b>
 						</td>
 						<td>
-							Gerente de Importaciones
+							Gerente de Importaciones /
+							<br />
+							Import Manager
 						</td>
 					</tr>
 					<tr>
@@ -24,7 +26,9 @@
 							<b>Carmen Pedroza</b>
 						</td>
 						<td>
-							Gerente Comercial
+							Gerente Comercial /
+							<br />
+							Commercial Manager
 						</td>
 					</tr>
 					<tr>
@@ -32,7 +36,9 @@
 							<b>Julio Esqueda</b>
 						</td>
 						<td>
-							Administrador
+							Administrador /
+							<br />
+							Financial Manager
 						</td>
 					</tr>
 					<tr>
@@ -40,7 +46,19 @@
 							<b>Francie Marcano</b>
 						</td>
 						<td>
-							Gerente de Operaciones
+							Gerente de Operaciones /
+							<br />
+							Operations Manager
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<b>Nestor Sierra</b>
+						</td>
+						<td>
+							Coordinador /
+							<br />
+							Coordinator
 						</td>
 					</tr>
 				</table>
@@ -51,8 +69,8 @@
 			<td class="tdRigth">
 				<br />
 				Es grato dirigirnos a usted para presentarle nuestra empresa <span class="franamarText">FRANAMAR LOGISTICA DE CARGA, C.A.</span>,  
-				la cual se est&aacute; introduciendo en el mercado pero iniciada por personal con amplia experiencia en el &aacute;rea, capacitado
-				para brindar un servicio personalizado de soporte integral de logística a trav&eacute;s de
+				la cual cuenta con personal con amplia experiencia en el &aacute;rea, capacitado
+				para brindar un servicio personalizado de soporte integral de log&iacute;stica a trav&eacute;s de
 				una amplia red de agentes y proveedores estrat&eacute;gicos alrededor del mundo.
 			</td>
 		</tr>

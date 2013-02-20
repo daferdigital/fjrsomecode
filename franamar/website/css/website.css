@@ -13,6 +13,10 @@ body,td,th {
 	color: #000;
 }
 
+.headerPicture {
+	width: 220px;
+}
+
 .blanca {
 	color: white;
 }
@@ -106,7 +110,21 @@ body,td,th {
 	border-style: solid;
 	border-collapse: collapse;
 }
+
 .footer {
 	background-color: white;
 	text-align: center;
+}
+
+.enlacesInteres{
+	text-decoration: none;
+	margin-left: 40px;
+}
+
+.enlacesInteres:HOVER{
+	text-decoration: underline;	
+}
+
+.enlacesInteres > img{
+	border: 0px;
 }
