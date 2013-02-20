@@ -5,13 +5,13 @@
 	<script type="text/javascript" src="SpryAssets/SpryMenuBar.js"></script>
 	<link href="SpryAssets/SpryMenuBarHorizontal.css" rel="stylesheet" type="text/css" />
 	<link href="css/website.css" rel="stylesheet" type="text/css" />
-	<title>.:: Franamar Logistica de Carga C.A. ::.</title>
 	<link rel="shortcut icon" href="favicon.ico">
+	<title>.:: Franamar Logistica de Carga C.A. ::.</title>
 </head>
 <body>
 	<table id="bodyTable" width="1024" align="center">
 		<tr>
-			<td class="marfilBG">
+			<td width="220px" class="marfilBG">
 				<img src="images/logo.png" alt="logo" align="middle" />
     		</td>
     		<td class="marfilBG">
@@ -38,7 +38,7 @@
 				        	<a href="nosotros.php">La Empresa</a>
 				        </li>
 				        <li>
-				        	<a href="servicios.html">Transporte</a>
+				        	<a href="servicios.html">Servicios</a>
 				        	<ul>
 								<li>
 									<a href="#">Aereo</a>
@@ -49,19 +49,35 @@
 								<li>
 									<a href="#">Vial</a>
 								</li>
+								<li>
+									<a href="#">Curier</a>
+								</li>
 							</ul>
 						</li>
 						<li>
-				        	<a href="contacto.html">Conversor</a>
-				        </li>
-				        <li>
-				        	<a href="contacto.html">Asociados</a>
+				        	<a href="enlaces.php">Enlaces</a>
 				        </li>
 						<li>
 				        	<a href="contacto.html">Noticias</a>
 				        </li>
 				        <li>
 				        	<a href="contacto.php">Contacto</a>
+				        </li>
+				        <li>
+				        	<a href="#">Empleados</a>
+				        	<ul>
+								<li>
+									<a href="http://www.franamarlc.com.ve/webmail" target="_blank">
+										Webmail
+									</a>
+								</li>
+								<li>
+									<a href="#">Editor de Noticias</a>
+								</li>
+								<li>
+									<a href="#">SIG-Franamar</a>
+								</li>
+							</ul>
 				        </li>
       				</ul>
     			</div>
@@ -72,5 +88,8 @@
 				&nbsp;
 			</td>
 		</tr>
+	</table>
+	
+	<table width="1024" align="center">
 		<tr>
 			<td colspan="2">
