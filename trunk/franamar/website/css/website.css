@@ -119,6 +119,7 @@ body,td,th {
 .enlacesInteres{
 	text-decoration: none;
 	margin-left: 40px;
+	font-size: 12px;
 }
 
 .enlacesInteres:HOVER{

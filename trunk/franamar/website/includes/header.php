@@ -38,7 +38,7 @@
 				        	<a href="nosotros.php">La Empresa</a>
 				        </li>
 				        <li>
-				        	<a href="servicios.html">Servicios</a>
+				        	<a href="#">Servicios</a>
 				        	<ul>
 								<li>
 									<a href="#">Aereo</a>
@@ -58,7 +58,7 @@
 				        	<a href="enlaces.php">Enlaces</a>
 				        </li>
 						<li>
-				        	<a href="contacto.html">Noticias</a>
+				        	<a href="noticias.php">Noticias</a>
 				        </li>
 				        <li>
 				        	<a href="contacto.php">Contacto</a>

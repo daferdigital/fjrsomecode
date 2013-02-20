@@ -34,6 +34,34 @@
 					<td align="left"> <input type="text" name="subject" size="20"/> </td>
 				</tr>
 				<tr>
+					<td align="right" width="55%"> <strong>Tipo de Solicitud: </strong></td>
+					<td align="left">
+						<select name="tipoSolicitud">
+							<option value="Consulta">Consulta</option>
+							<option value="Otro">Otro</option>
+							<option value="Reclamo o Sugerencia">Reclamo o Sugerencia</option>
+							<option value="Solicitud de Estatus">Solicitud de Estatus</option>
+							<option value="Solicitud de Servicio">Solicitud de Servicio</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td align="right" width="55%">
+						<strong>
+							Documento de Embarque:
+							<br />
+							(si aplica) 
+						</strong>
+					</td>
+					<td align="left">
+						<input type="radio" name="documentoDeEmbarque" value="MAWB"> MAWB (Aereo)
+						&nbsp;&nbsp;
+						<input type="radio" name="documentoDeEmbarque" value="MBL"> MBL (Mar&iacute;timo)
+						<br />
+						<input type="text" name="documentoDeEmbarqueValue" size="20"/>
+					</td>
+				</tr>
+				<tr>
 					<td align="right" width="15%">
 			        	<p> <strong>Mensaje:</strong>&nbsp;&nbsp;</p>
 			        </td>
@@ -52,6 +80,5 @@
 		</td>
 	</tr>
 </table>
-
 
 <?php include 'includes/footer.php'; ?>
