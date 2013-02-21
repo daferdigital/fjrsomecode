@@ -41,7 +41,7 @@ CREATE TABLE `curso_estadia` (
 
 LOCK TABLES `curso_estadia` WRITE;
 /*!40000 ALTER TABLE `curso_estadia` DISABLE KEYS */;
-INSERT INTO `curso_estadia` VALUES (1,'homestay','Pensi髇 Completa',224,210,'Pensi髇 Completa (todas las comidas)'),(2,'homestay-half-board','Media Pensi髇',210,196,'Media Pensi髇 (sin almuerzo)'),(3,'roomstay','Solo estadia',0,147,'Solo Estadia (sin comidas)'),(4,'none','Ninguna',0,0,'Ninguna');
+INSERT INTO `curso_estadia` VALUES (1,'homestay','Pensi贸n Completa',224,210,'Pensi贸n Completa (todas las comidas)'),(2,'homestay-half-board','Media Pensi贸n',210,196,'Media Pensi贸n (sin almuerzo)'),(3,'roomstay','Solo estadia',0,147,'Solo Estadia (sin comidas)'),(4,'none','Ninguna',0,0,'Ninguna');
 /*!40000 ALTER TABLE `curso_estadia` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-02-18  5:45:43
+-- Dump completed on 2013-02-21  0:25:01
