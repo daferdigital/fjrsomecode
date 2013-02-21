@@ -31,6 +31,8 @@ CREATE TABLE `curso_pagos` (
   `descripcion` varchar(255) NOT NULL,
   `pago_por_semana` char(1) NOT NULL COMMENT '''1'' para indicar que este concepto debe ser pagado de manera semanal, cualquier otro valor indica que dicho concepto es un pago unico.',
   `precio` int(11) NOT NULL,
+  `es_nota` char(1) NOT NULL DEFAULT '0',
+  `orden` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -41,19 +43,7 @@ CREATE TABLE `curso_pagos` (
 
 LOCK TABLES `curso_pagos` WRITE;
 /*!40000 ALTER TABLE `curso_pagos` DISABLE KEYS */;
-INSERT INTO `curso_pagos` VALUES (1,'AirportPickupRequired','ninguno','Ninguno','0',0),
-(2,'AirportPickupRequired','ida','Solo Ida','0',100),
-(3,'AirportPickupRequired','ida-vuelta','Ida y Vuelta','0',170),
-(4,'registro','registro','Registro (Cuota Única no reembolsable)','0',110),
-(5,'materiales','3-12','Materiales de 3-12 semanas','1',70),
-(6,'materiales','13+','Materiales de 13 semanas o más','1',140),
-(7,'searchRoomstay','searchRoomstay','Búsqueda de alojamiento (no reembolsable)','0',130),
-(8,'custodyLetter','custodyLetter','Carta Custodia (no reembolsable)','0',125),
-(9,'sendDocuments','Vancouver','Envio de documentos por curier a Vancouver (no reembolsable)','0',50),
-(10,'sendDocuments','Toronto','Envio de documentos por curier a Toronto (no reembolsable)','0',75),
-(11,'sendDocuments','Montreal','Envio de documentos por curier a Canada (no reembolsable)','0',75),
-(12,'roomstayAge','precio_under18','Alojamiento en casa de familia - Alumnos menores de 18 años','1',0),
-(13,'roomstayAge','precio_over18','Alojamiento en casa de familia - Alumnos mayores de 18 años','1',0);
+INSERT INTO `curso_pagos` VALUES (1,'AirportPickupRequired','ninguno','Ninguno','0',0,'0',0),(2,'AirportPickupRequired','ida','Solo Ida','0',100,'0',0),(3,'AirportPickupRequired','ida-vuelta','Ida y Vuelta','0',170,'0',0),(4,'registro','registro','Registro (Cuota Ãšnica no reembolsable)','0',110,'0',0),(5,'materiales','3-12','Materiales de 3-12 semanas','1',70,'0',0),(6,'materiales','13+','Materiales de 13 semanas o mÃ¡s','1',140,'0',0),(7,'searchRoomstay','searchRoomstay','BÃºsqueda de alojamiento (no reembolsable)','0',130,'0',0),(8,'custodyLetter','custodyLetter','Carta Custodia (no reembolsable)','0',125,'0',0),(9,'sendDocuments','Vancouver','Envio de documentos por curier a Vancouver (no reembolsable)','0',50,'0',0),(10,'sendDocuments','Toronto','Envio de documentos por curier a Toronto (no reembolsable)','0',75,'0',0),(11,'sendDocuments','Montreal','Envio de documentos por curier a Canada (no reembolsable)','0',75,'0',0),(12,'roomstayAge','precio_under18','Alojamiento en casa de familia - Alumnos menores de 18 aÃ±os','1',0,'0',0),(13,'roomstayAge','precio_over18','Alojamiento en casa de familia - Alumnos mayores de 18 aÃ±os','1',0,'0',0);
 /*!40000 ALTER TABLE `curso_pagos` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -66,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-02-18  5:45:44
+-- Dump completed on 2013-02-21  0:25:03
