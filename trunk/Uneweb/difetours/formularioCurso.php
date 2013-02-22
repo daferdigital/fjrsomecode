@@ -52,9 +52,7 @@
 			+ '        </td>'
 			+ '        <td>'
 			+ '            <input type="hidden" name="campoEstadia' + index +'[]" value="' + id + '"/>'
-			+ '            <input type="text" name="campoEstadia' + index +'[]" value="' + internalKey + '"/>'
-			+ '        </td>'
-			+ '        <td>'
+			+ '            <input type="hidden" name="campoEstadia' + index +'[]" value="' + internalKey + '"/>'
 			+ '            <input type="text" name="campoEstadia' + index +'[]" value="' + descripcion + '"/>'
 			+ '        </td>'
 			+ '        <td>'
@@ -72,27 +70,78 @@
 		index ++;
 	}
 
-	function agregarConceptoFijo(){
+	function agregarOtroConcepto(id, descripcion, precio, semanal, grupo, internalKey){
 		var divConceptos = document.getElementById("conceptosFijos");
-
-		divConceptos.innerHTML += '<table id="conceptoFijo' + index + '">'
+		var extraInfo = "";
+		
+		if(semanal == "1"){
+			//debemos marcar el check
+			extraInfo = "checked";
+		}
+		
+		divConceptos.innerHTML += '<table id="otroConcepto' + index + '">'
 			+ '    <tr>'
 			+ '        <td>'
-			+ '            <input type="button" value="Eliminar" onclick="javascript:eliminarElemento(\'conceptoFijo'+ index +'\');" />'
+			+ '            <input type="button" value="Eliminar" onclick="javascript:eliminarElemento(\'otroConcepto'+ index +'\');" />'
 			+ '        </td>'
 			+ '        <td>'
-			+ '            <input type="text" name="conceptoFijo' + index +'[]"/>'
+			+ '            <input type="hidden" name="otroConcepto' + index +'[]" value="'+ id +'" />'
+			+ '            <input type="hidden" name="otroConcepto' + index +'[]" value="'+ grupo +'" />'
+			+ '            <input type="hidden" name="otroConcepto' + index +'[]" value="'+ internalKey +'" />'
+			+ '            <input type="text" name="otroConcepto' + index +'[]" value="'+ descripcion +'" />'
 			+ '        </td>'
 			+ '        <td>'
-			+ '            <input type="text" name="conceptoFijo' + index +'[]"/>'
+			+ '            <input type="text" name="otroConcepto' + index +'[]" value="'+ precio +'" />'
+			+ '        </td>'
+			+ '        <td width="100" align="center">'
+			+ '            <input type="checkbox" name="otroConcepto' + index +'[]" value="'+ semanal +'"' + extraInfo +' onclick="reverseValue(this)"/>'
 			+ '        </td>'
 			+ '</table>';
 		
 		index ++;
 	}
+
+	function reverseValue(checkBox){
+		if(checkBox.value == "1"){
+			checkBox.checked = false;
+			checkBox.value = "0";
+		} else {
+			checkBox.checked = true;
+			checkBox.value = "1";
+		}
+	}
+	
+	function refreshPage(destinoId){
+		window.location = "formularioCurso.php?selectDestinoId=" + destinoId;
+	}
 </script>
 
 <form action="guardarInfoFormulario.php" method="post">
+
+<div style="margin-left: auto; margin-right: auto;">
+	Indique el pa&iacute;s a ser procesado
+	
+	<select name="selectDestinoId" onchange="refreshPage(this.options[this.selectedIndex].value)">
+	    <option value="-1"> - -</option>
+<?php 
+	$query = "SELECT id, destino FROM curso_destino ORDER BY id";
+	$result = mysql_query($query);
+	while($row = mysql_fetch_array($result)){
+?>
+		<option value="<?php echo $row["id"]?>" <?php echo (isset($_GET["selectDestinoId"]) && $_GET["selectDestinoId"] == $row["id"]) ? "selected" : ""?>>
+			<?php echo $row["destino"]?>
+		</option>
+<?php
+	}
+?>
+	</select>
+</div>
+
+<?php 
+	if(isset($_GET["selectDestinoId"])){
+		$selectDestinoId = $_GET["selectDestinoId"];
+?>
+    <input type="hidden" name="destinoId" value="<?php echo $_GET["selectDestinoId"];?>"/>
 	<div align="center">
 		<table>
 			<tr>
@@ -108,7 +157,7 @@
 				<?php 
 					//colocamos las distintas modalidades de los cursos
 					$modalidadOrder = array();
-					$query = "SELECT id, descripcion FROM curso_modalidad ORDER BY id";
+					$query = "SELECT id, descripcion FROM curso_modalidad WHERE id_destino=".$selectDestinoId." ORDER BY id";
 					$result = mysql_query($query);
 					while($row = mysql_fetch_array($result)){
 				?>
@@ -117,6 +166,7 @@
 								$modalidadOrder[] = $row["id"];
 								echo $row["descripcion"];
 							?>
+							<input type="hidden" name="ordenModalidad[]" value="<?php echo $row["id"];?>"/>
 						</td>
 				<?php
 					}
@@ -131,9 +181,10 @@
 	<div align="center">
 		<?php 
 			//obtenemos los precios de los distintos tipos de cursos, si existen
-			$query = "SELECT id, minimo_semanas, maximo_semanas, precio, id_modalidad FROM curso_semanas ORDER BY minimo_semanas, id_modalidad";
+			$query = "SELECT id, minimo_semanas, maximo_semanas, precio, id_modalidad FROM curso_semanas WHERE id_destino=".$selectDestinoId." ORDER BY minimo_semanas, id_modalidad";
 			$result = mysql_query($query);
-			$ciclos = mysql_num_rows($result) / count($modalidadOrder);
+			$count = count($modalidadOrder) > 0 ? count($modalidadOrder) : 1;
+			$ciclos = mysql_num_rows($result) / $count;
 			for($i = 0; $i < $ciclos; $i++){
 				$params = "";
 				
@@ -163,11 +214,6 @@
 					&nbsp;
 				</td>
 				<td width="150">
-					Internal Key
-					<br />
-					(debe ser &uacute;nico)
-				</td>
-				<td width="150">
 					Descripci&oacute;n
 				</td>
 				<td width="150">
@@ -187,7 +233,7 @@
 	<div align="center">
 		<?php 
 			//obtenemos las estadias
-			$query = "SELECT id, internal_key, descripcion, precio_under18, precio_over18, long_desc FROM curso_estadia ORDER BY id";
+			$query = "SELECT id, internal_key, descripcion, precio_under18, precio_over18, long_desc FROM curso_estadia WHERE id_destino=".$selectDestinoId." ORDER BY id";
 			$result = mysql_query($query);
 			while($row = mysql_fetch_array($result)){
 		?>
@@ -206,21 +252,59 @@
 		<br />
 		<br />
 	</div>
-	<div id="conceptosFijos" align="center">
-	</div>
-	
-	<div id="conceptosFijos" align="center">
-		<input type="button" value="Agregar Concepto Fijo" onclick="javascript:agregarConceptoFijo();">
-		<br />
-		<br />
-	</div>
 	
 	<div align="center">
 		<fieldset>
-			<legend>legend alineado al centro</legend>
-			Este es un ejemplo de un "fieldset"	 con el legend alineado al centro
+			<legend>Otros conceptos</legend>
+				<div align="center">
+					<table>
+						<tr>
+							<td width="150">
+								&nbsp;
+							</td>
+							<td width="150">
+								Descripcion
+							</td>
+							<td width="150">
+								Precio
+							</td>
+							<td width="150">
+								Semanal?
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div id="conceptosFijos" align="center">
+					<?php
+						$query = "SELECT id, descripcion, pago_por_semana, precio, grupo, internal_key"
+		                    ." FROM curso_pagos"
+			                ." WHERE id_destino=".$selectDestinoId
+			                ." AND administrar='1'"
+						    ." ORDER BY grupo";
+						$result = mysql_query($query);
+						while($row = mysql_fetch_array($result)){
+					?>
+						<script>
+							agregarOtroConcepto('<?php echo $row["id"];?>',
+									'<?php echo $row["descripcion"];?>',
+									'<?php echo $row["precio"];?>',
+									'<?php echo $row["pago_por_semana"];?>',
+									'<?php echo $row["grupo"];?>',
+									'<?php echo $row["internal_key"];?>');
+						</script>  
+					<?php
+						} 
+					?>	
+				</div>
+				
+				<br />
+				<input type="button" value="Agregar Otro Concepto" onclick="javascript:agregarOtroConcepto('','','','0','','');">			
 		</fieldset>
 		<br /><br />
 		<input type="submit" value="Guardar informacion">
 	</div>
+<?php
+	}
+	mysql_close();
+?>
 </form>

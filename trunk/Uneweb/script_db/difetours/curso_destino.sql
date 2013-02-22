@@ -18,31 +18,27 @@ USE `difetours`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `curso_modalidad`
+-- Table structure for table `curso_destino`
 --
 
-DROP TABLE IF EXISTS `curso_modalidad`;
+DROP TABLE IF EXISTS `curso_destino`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `curso_modalidad` (
+CREATE TABLE `curso_destino` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `internal_key` varchar(45) NOT NULL,
-  `descripcion` varchar(255) NOT NULL,
-  `id_destino` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_MODALIDAD_DESTINO_idx` (`id_destino`),
-  CONSTRAINT `FK_MODALIDAD_DESTINO` FOREIGN KEY (`id_destino`) REFERENCES `curso_destino` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+  `destino` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `curso_modalidad`
+-- Dumping data for table `curso_destino`
 --
 
-LOCK TABLES `curso_modalidad` WRITE;
-/*!40000 ALTER TABLE `curso_modalidad` DISABLE KEYS */;
-INSERT INTO `curso_modalidad` (`id`, `internal_key`, `descripcion`, `id_destino`) VALUES (1,'intensive','Tiempo Completo Intensivo(30 clases/semana)',1),(2,'standard','Tiempo Completo (24 clases/semana)',1),(3,'part-timeAM','Medio tiempo AM (17 clases/semana)',1),(4,'part-timePM','Medio tiempo PM (13 clases/semana)',1);
-/*!40000 ALTER TABLE `curso_modalidad` ENABLE KEYS */;
+LOCK TABLES `curso_destino` WRITE;
+/*!40000 ALTER TABLE `curso_destino` DISABLE KEYS */;
+INSERT INTO `curso_destino` (`id`, `destino`) VALUES (1,'Canada'),(2,'USA'),(3,'Australia'),(4,'Nueva Delhi');
+/*!40000 ALTER TABLE `curso_destino` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
