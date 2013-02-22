@@ -1,10 +1,10 @@
-CREATE DATABASE  IF NOT EXISTS `difetours` /*!40100 DEFAULT CHARACTER SET utf8 */;
+CREATE DATABASE  IF NOT EXISTS `difetours` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `difetours`;
 -- MySQL dump 10.13  Distrib 5.5.16, for Win32 (x86)
 --
 -- Host: localhost    Database: difetours
 -- ------------------------------------------------------
--- Server version	5.5.24
+-- Server version	5.5.8
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -31,8 +31,12 @@ CREATE TABLE `curso_estadia` (
   `precio_under18` int(11) NOT NULL,
   `precio_over18` int(11) NOT NULL,
   `long_desc` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+  `id_destino` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_ESTADIA_DESTINO_idx` (`id_destino`),
+  KEY `FK_ESTADIA_DESTINO_idx1` (`id_destino`),
+  CONSTRAINT `FK_ESTADIA_DESTINO` FOREIGN KEY (`id_destino`) REFERENCES `curso_destino` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=109 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +45,7 @@ CREATE TABLE `curso_estadia` (
 
 LOCK TABLES `curso_estadia` WRITE;
 /*!40000 ALTER TABLE `curso_estadia` DISABLE KEYS */;
-INSERT INTO `curso_estadia` VALUES (1,'homestay','Pensión Completa',224,210,'Pensión Completa (todas las comidas)'),(2,'homestay-half-board','Media Pensión',210,196,'Media Pensión (sin almuerzo)'),(3,'roomstay','Solo estadia',0,147,'Solo Estadia (sin comidas)'),(4,'none','Ninguna',0,0,'Ninguna');
+INSERT INTO `curso_estadia` (`id`, `internal_key`, `descripcion`, `precio_under18`, `precio_over18`, `long_desc`, `id_destino`) VALUES (93,'homestay','Pensión Completa',224,210,'Pensión Completa (todas las comidas)',1),(94,'homestay-half-board','Media Pensión',210,196,'Media Pensión (sin almuerzo)',1),(95,'roomstay','Solo Estadia',0,147,'Solo Estadia (sin comidas)',1),(96,'none','Ninguna',0,0,'Ninguna',1),(97,'homestay','PensiÃ³n Completa',224,210,'PensiÃ³n Completa (todas las comidas)',4),(98,'homestay-half-board','Media PensiÃ³n',210,196,'Media PensiÃ³n (sin almuerzo)',4),(99,'roomstay','Solo Estadia',0,147,'Solo Estadia (sin comidas)',4),(100,'none','Ninguna',0,0,'Ninguna',4),(101,'homestay','PensiÃ³n Completa',224,210,'PensiÃ³n Completa (todas las comidas)',3),(102,'homestay-half-board','Media PensiÃ³n',210,196,'Media PensiÃ³n (sin almuerzo)',3),(103,'roomstay','Solo Estadia',0,147,'Solo Estadia (sin comidas)',3),(104,'none','Ninguna',0,0,'Ninguna',3),(105,'homestay','PensiÃ³n Completa',224,210,'PensiÃ³n Completa (todas las comidas)',2),(106,'homestay-half-board','Media PensiÃ³n',210,196,'Media PensiÃ³n (sin almuerzo)',2),(107,'roomstay','Solo Estadia',0,147,'Solo Estadia (sin comidas)',2),(108,'none','Ninguna',0,0,'Ninguna',2);
 /*!40000 ALTER TABLE `curso_estadia` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-02-21  0:25:01
+-- Dump completed on 2013-02-22 14:11:45

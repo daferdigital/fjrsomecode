@@ -149,7 +149,8 @@
 	<tr <?php echo $putBg ? $bgValue : ""; $putBg = !$putBg;?>>
 		<td align="left">
 			<span style="color:red">*Nota:</span> 
-			Si te registras en <strong>temporada alta (Junio-Julio) el pago por registro es de $200</strong>. 
+			Si te registras en 
+			<strong>temporada alta (Junio-Julio) el pago por registro es de $<?php echo $arrayValues["registroHighSeason"][2];?></strong>. 
 			(fecha de registro, no de clases)
 		</td>
 		<td align="center">&nbsp;</td>
@@ -161,7 +162,11 @@
 		</td>
 		<td align="center">&nbsp;</td>
 		<td align="right">
-			$ <strong><?php echo $grandTotal + 75;?></strong>
+			$ <strong>
+				<?php 
+					echo $grandTotal + ($arrayValues["registroHighSeason"][2] - $arrayValues["registro"][2])	
+				?>
+			</strong>
 		</td>
 	</tr>
 	<tr <?php echo $putBg ? $bgValue : ""; $putBg = !$putBg;?>>
