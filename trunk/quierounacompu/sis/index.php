@@ -1,8 +1,25 @@
-<?php include("includes/header.php");?>
+<?php 
+	include_once("includes/header.php");
+	$_SESSION["isLogged"] = false;
+	unset ($_SESSION["usuario"]);
+?>
 
 <!-- index.php -->
 	<form action="doLogin.php" method="post">
 		<table class="loginTable">
+			<tr>
+				<td colspan="2" align="right" class="smallError" >
+					<span id="loginErrorMsg">
+						<?php
+							if(isset($_SESSION["messageError"])){
+								echo $_SESSION["messageError"];
+								unset($_SESSION["messageError"]);
+							}
+						?>	
+					</span>
+					<br />
+				</td>
+			</tr>
 			<tr>
 				<td colspan="2" align="right" class="estilo2" bgcolor="#4d60fe">
 					Sistema Integral de Seguimiento
@@ -41,4 +58,4 @@
 		</table>
 	</form>
 
-<?php include("includes/footer.php");?>
+<?php include_once("includes/footer.php");?>

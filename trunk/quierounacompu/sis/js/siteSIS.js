@@ -8,6 +8,7 @@ function validarLoginForm(loginForm){
 	
 	document.getElementById("formLogin").style.display = "none";
 	document.getElementById("formClave").style.display = "none";
+	document.getElementById("loginErrorMsg").style.display = "none";
 	
 	//vemos si no estan vacios los campos
 	var doSubmit = true;
