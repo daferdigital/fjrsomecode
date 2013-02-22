@@ -3,6 +3,7 @@
 body {
 	background-color: #EEEEEE;
 	margin-top: 0px;
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 td img {
@@ -40,4 +41,24 @@ td img {
 .loginTable{
 	margin-left:auto; 
     margin-right:auto;
+}
+
+.welcomeText{
+	font-weight: bold;
+	color: gray;
+	font-size: 12px;
+}
+
+.headerLinks{
+	color: white;
+	font-size: 14px;
+	font-weight: bold;
+	background: url("../images/botonPixelAzulBG.png");
+	padding: 10px;
+	margin-right: 5px;
+	text-decoration: none;
+}
+
+.headerLinks:HOVER{
+	text-decoration: underline;
 }

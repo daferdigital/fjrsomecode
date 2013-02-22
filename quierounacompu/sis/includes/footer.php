@@ -1,10 +1,12 @@
 		</td>
 	</tr>
 	<tr>
-	   	<td bgcolor="#FFFFFF">
+	   	<td bgcolor="#FFFFFF" colspan="3">
 	   		<div align="center" class="estilo1">
 	   			<br />
-	   			QuieroUnaCompu.com -Derechos Reservados - XtremoDigital
+	   			Sistema Integral de Seguimiento
+	   			<br />
+	   			QuieroUnaCompu.com - Derechos Reservados - XtremoDigital
 	   			<br />
 	   			<br /> 
 	   		</div>
