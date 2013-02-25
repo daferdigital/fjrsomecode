@@ -1,13 +1,14 @@
 <?php
 include_once("includes/session.php");
-include_once("classes/UsuarioDTO.php");
+include_once("classes/UsuarioDAO.php");
 
 $login = $_POST["login"];
 $clave = $_POST["clave"];
 
-$usuarioDTO = new UsuarioDTO();
+$usuarioDAO = new UsuarioDAO();
+$usuarioDTO = $usuarioDAO->getUserDoingLogin($login, $clave);
 
-if($usuarioDTO->doLogin($login, $clave)){
+if($usuarioDTO != null){
 	$_SESSION["isLogged"] = true;
 	$_SESSION["usuario"] = $usuarioDTO;
 	header("location: mainMenu.php");
