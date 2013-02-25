@@ -1,5 +1,6 @@
 <?php
 	$estadia = $_POST["estadia"];
+	
 	if(($estadia == "homestay") || ($estadia == "homestay-half-board")
 			|| ($estadia == "roomstay")){
 		//estadia completa
@@ -21,10 +22,6 @@
 				</td>
 			</tr>
 		</table>
-<?php
-	} 
-	if(($estadia == "homestay") || ($estadia == "homestay-half-board")){
-?>
 		<br>
 		<span id="labelAccommodationAge">Tu edad al momento del ingreso:</span>
 		<table cellspacing="3" class="calculator-input" border="0">
@@ -33,10 +30,16 @@
 					<input id="accommAge_0" type="radio" name="accommAge" value="precio_over18" checked="checked" onchange="javascript:getTotalInfo()">
 					18 a&ntilde;os o mayor
 				</td>
-				<td>
-					<input id="accommAge_1" type="radio" name="accommAge" value="precio_under18" onchange="javascript:getTotalInfo()">
-					Menos de 18 a&ntilde;os
-				</td>
+				<?php 
+					if($estadia != "roomstay"){
+				?>
+						<td>
+							<input id="accommAge_1" type="radio" name="accommAge" value="precio_under18" onchange="javascript:getTotalInfo()">
+							Menos de 18 a&ntilde;os
+						</td>
+				<?php
+					}
+				?>
 			</tr>
 		</table>
 <?php
