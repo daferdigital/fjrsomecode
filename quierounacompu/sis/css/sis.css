@@ -10,6 +10,11 @@ td img {
 	display: block;
 }
 
+.centered {
+	margin-left: auto;
+	margin-right: auto;
+}
+
 .bodyTable {
 	width: 900;
 	/*margin to center the table, not the content*/
@@ -61,4 +66,30 @@ td img {
 
 .headerLinks:HOVER{
 	text-decoration: underline;
+}
+
+.seccionTitle {
+	margin: 30px;
+	display: inline-block;
+	font-size: 18px;
+	font-weight: bold;
+	width: 30%;
+	vertical-align: top;
+}
+
+.seccionTitle span {
+	font-size: 12px;
+	font-weight: normal;
+	text-decoration: none;
+}
+
+.seccionDetail {
+	display: inline-block;
+	margin: 30px;
+}
+
+select {
+	font-size: 12px;
+	color: #666666;
+	font-weight: bold;
 }

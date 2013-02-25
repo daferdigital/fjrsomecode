@@ -1,6 +1,5 @@
 <?php
 	include_once ("classes/UsuarioDTO.php");
-	include_once ("classes/UsuarioDTO.php");
 	include_once ("includes/session.php");
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
@@ -8,14 +7,23 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>QuieroUnaCompu - Sistema Integral de Seguimiento</title>
-	<link href="css/sis.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="js/siteSIS.js"></script>
+	<link href="css/sis.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" type="text/css" href="css/jquerycssmenu.css" />
+	<!--[if lte IE 7]>
+		<style type="text/css">
+			html .jquerycssmenu{height: 1%;} 
+			/*Holly Hack for IE7 and below*/
+		</style>
+	<![endif]-->
+	<script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
+	<script type="text/javascript" src="js/jquerycssmenu.js"></script>
 </head>
 <body>
 
 <table class="bodyTable">
 	<tr>
-   		<td colspan="3">
+   		<td colspan="2">
    			<img border="0" alt="" id="header" src="images/headerquierounacompu.gif" name="header">
    		</td>
   	</tr>
@@ -25,21 +33,14 @@
 			$usuarioDTO = $_SESSION["usuario"];
 	?>
 	<tr>
-		<td>&nbsp;</td>
 		<td align="right">
-			<a class="headerLinks" href="#">Confirmados</a>
-			<a class="headerLinks" href="#">Presupuestados</a>
-			<a class="headerLinks" href="#">Facturados</a>
-			<a class="headerLinks" href="#">Pagos no Encontrados</a>
-			<a class="headerLinks" href="#">Enviados</a>
+			<?php include ("includes/modulesMenu.php");?>
 		</td>
-  		<td align="right">
-  			<span class="welcomeText"> 
+		<td align="right" width="200px">
+			<span class="welcomeText"> 
   				Bienvenido 
   				<?php 
-  					echo $usuarioDTO->getNombre().$usuarioDTO->getApellido();
-  					echo "<br />";
-  					echo $usuarioDTO->getRolDTO()->getRoleDesc();
+  					echo $usuarioDTO->getNombre()." ".$usuarioDTO->getApellido();
   				?>
   			</span>
   			<a href="doLogout.php" style="display: inline-block;" title="Cerrar sesion">
@@ -51,4 +52,4 @@
 		} 
   	?>
   	<tr>
-  	    <td>
+  	    <td colspan="2">

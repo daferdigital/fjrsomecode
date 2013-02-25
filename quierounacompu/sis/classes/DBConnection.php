@@ -2,7 +2,7 @@
 class DBConnection {
 	private $server = "localhost";
 	private $username = "root";
-	private $password = "F0cusvision91";
+	private $password = "root1006";
 	private $dbSchema = "quierounacompu";
 	
 	private $dbConnection;

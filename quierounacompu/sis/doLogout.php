@@ -2,8 +2,5 @@
 include_once("includes/session.php");
 
 session_destroy();
+header("Location: index.php");
 ?>
-<script>
-	alert("Gracias por usar el Sistema");
-	window.location = "index.php";
-</script>
