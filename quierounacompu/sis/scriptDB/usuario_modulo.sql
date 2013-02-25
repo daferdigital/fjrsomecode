@@ -1,10 +1,10 @@
-CREATE DATABASE  IF NOT EXISTS `quierounacompu` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE  IF NOT EXISTS `quierounacompu` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `quierounacompu`;
 -- MySQL dump 10.13  Distrib 5.5.16, for Win32 (x86)
 --
 -- Host: localhost    Database: quierounacompu
 -- ------------------------------------------------------
--- Server version	5.5.8
+-- Server version	5.5.24
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -18,28 +18,31 @@ USE `quierounacompu`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `roles`
+-- Table structure for table `usuario_modulo`
 --
 
-DROP TABLE IF EXISTS `roles`;
+DROP TABLE IF EXISTS `usuario_modulo`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `roles` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `role_name` varchar(45) NOT NULL,
-  `role_desc` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+CREATE TABLE `usuario_modulo` (
+  `id_usuario` int(10) unsigned NOT NULL,
+  `id_modulo` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id_usuario`,`id_modulo`),
+  KEY `FK_USERMOD_MODULO` (`id_modulo`),
+  KEY `FK_USERMOD_USUARIO` (`id_usuario`),
+  CONSTRAINT `FK_USERMOD_MODULO` FOREIGN KEY (`id_modulo`) REFERENCES `modulos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_USERMOD_USUARIO` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `roles`
+-- Dumping data for table `usuario_modulo`
 --
 
-LOCK TABLES `roles` WRITE;
-/*!40000 ALTER TABLE `roles` DISABLE KEYS */;
-INSERT INTO `roles` (`id`, `role_name`, `role_desc`) VALUES (1,'admin','Administrador del Sistema');
-/*!40000 ALTER TABLE `roles` ENABLE KEYS */;
+LOCK TABLES `usuario_modulo` WRITE;
+/*!40000 ALTER TABLE `usuario_modulo` DISABLE KEYS */;
+INSERT INTO `usuario_modulo` VALUES (1,7),(1,13),(1,17),(1,18),(1,19);
+/*!40000 ALTER TABLE `usuario_modulo` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-02-22 14:28:25
+-- Dump completed on 2013-02-25  7:20:20
