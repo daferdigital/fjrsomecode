@@ -6,18 +6,26 @@
 	$putBg = false;
 	$semanas = $_POST["cantidadSemanas"];
 	$estadia = $_POST["estadia"];
+	$destino = $_POST["destino"];
+	$mailContent = "";
+	//colocamos el destino
+	$row = mysql_fetch_array(mysql_query("SELECT destino FROM curso_destino WHERE id=".$destino));
+	$mailContent = "Destino: ".$row["destino"]." <br />";
 	
 	$priceByWeek = -1;
 	$grandTotal = 0;
 	
-	$query = "SELECT precio FROM curso_semanas WHERE id_modalidad = ".$_POST["formaEstudio"]." AND minimo_semanas <= ".$semanas." AND maximo_semanas >= ".$semanas;
+	$query = "SELECT precio FROM curso_semanas WHERE id_modalidad = ".$_POST["formaEstudio"]
+	." AND minimo_semanas <= ".$semanas
+	." AND maximo_semanas >= ".$semanas
+	." AND id_destino=".$destino;
 	$row = mysql_fetch_array(mysql_query($query));
 	$priceByWeek = $row["precio"];
 	
 	$grandTotal += $semanas*$priceByWeek;
 	
 	//obtenemos todos los conceptos individuales asociados a los cursos
-	$query = "SELECT internal_key, descripcion, pago_por_semana, precio FROM curso_pagos";
+	$query = "SELECT internal_key, descripcion, pago_por_semana, precio FROM curso_pagos WHERE id_destino=".$destino;
 	$result = mysql_query($query);
 	$arrayValues = array();
 	while($row = mysql_fetch_array($result)){
@@ -36,6 +44,10 @@
 		<td align="left">Clases ($<?php echo $priceByWeek;?>/semana)</td>
 		<td align="center"><?php echo $semanas;?></td>
 		<td align="right">$ <?php echo $semanas*$priceByWeek;?></td>
+		<?php
+			$row = mysql_fetch_array(mysql_query("SELECT descripcion FROM curso_modalidad WHERE id=".$_POST["formaEstudio"]." AND id_destino=".$destino)); 
+			$mailContent .= "Curso: ".$row["descripcion"]." Clases (".$priceByWeek."/semana)<br />";
+		?>
 	</tr>
 	<tr style="background-color:#FFFFCC;">
 		<td align="left">
@@ -85,7 +97,10 @@
 	?>
 	<tr <?php echo $putBg ? $bgValue : ""; $putBg = !$putBg;?>>
 		<td align="left">
-			<?php echo $row["long_desc"]." - ".$arrayValues[$_POST["accommAge"]][0]." (".$row[$_POST["accommAge"]]."/semana)";?>
+			<?php 
+				echo $row["long_desc"]." - ".$arrayValues[$_POST["accommAge"]][0]." (".$row[$_POST["accommAge"]]."/semana)";
+				$mailContent .= $row["long_desc"]." - ".$arrayValues[$_POST["accommAge"]][0]." (".$row[$_POST["accommAge"]]."/semana)<br />";
+			?>
 			<span style="color:red">**</span>
 		</td>
 		<td align="center">
@@ -120,7 +135,10 @@
 			<tr <?php echo $putBg ? $bgValue : ""; $putBg = !$putBg;?>>
 				<td align="left">
 					Traslado Aeropuerto-Alojamiento
-					<?php echo $arrayValues[$_POST["AirportPickupRequired"]][0];?>
+					<?php 
+						echo $arrayValues[$_POST["AirportPickupRequired"]][0];
+						$mailContent .= "Traslado Aeropuerto-Alojamiento: ".$arrayValues[$_POST["AirportPickupRequired"]][0]." <br />";
+					?>
 				</td>
 				<td align="center">
 					&nbsp;
@@ -179,4 +197,15 @@
 		<td align="center">&nbsp;</td>
 		<td align="right">&nbsp;</td>
 	</tr>
+	<tr>
+		<td colspan="3" align="right">
+			<form action="presupuesto.php" method="post">
+				<input type="hidden" name="mailContent" value="<?php echo $mailContent;?>"/>
+				<input type="submit" value="Solicitar Presupuesto">
+			</form>
+		</td>
+	</tr>
 </table>
+<?php 
+	mysql_close();
+?>
