@@ -1,21 +1,49 @@
 <?php
     include_once '../classes/DBUtil.php';
+    include_once '../classes/UsuarioDTO.php';
+    include_once '../includes/session.php';
+	
     $idUsuario = $_POST["usrId"];
     
     if($idUsuario == -1){
     	die();
     }
     
-    $query = "SELECT l.id, l.descripcion, um.id_usuario"
-    ." FROM modulos l LEFT JOIN usuario_modulo um ON um.id_modulo=l.id AND um.id_usuario = ".$idUsuario;
+    $query = "SELECT m.id, m.descripcion, um.id_usuario"
+    ." FROM modulos m LEFT JOIN usuario_modulo um ON um.id_modulo=m.id AND um.id_usuario = ".$idUsuario;
     
     $dbUtilObj = new DBUtil();
     $arrayResults = $dbUtilObj->executeSelect($query);
 ?>
 
-<form action="guardarPermisos.php" method="post">
-</form>
-    foreach ($arrayResults as $row){
-    	
-    }
-?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+</head>
+<body>
+	<form action="ajax/guardarPermisos.php" method="post">
+		<table class="borderCollapse">
+			<tr>
+				<td class="tableAjaxResultHeader">Modulo</td>
+				<td class="tableAjaxResultHeader">Permitido?</td>
+			</tr>
+			<?php
+	   	 	foreach ($arrayResults as $row){
+	   	 	?>
+	   	 		<tr>
+	   	 			<td><?php echo $row["descripcion"]?></td>
+	   	 			<td>
+	   	 				<input type="radio" value="1" name="<?php echo $row["id"];?>" <?php echo ($idUsuario == $row["id_usuario"]) ? "checked" : "";?>/> S&iacute;
+	   	 				<input type="radio" value="0" name="<?php echo $row["id"];?>" <?php echo ($idUsuario != $row["id_usuario"]) ? "checked" : "";?>/> No
+	   	 			</td>
+	   	 		</tr>
+	   	 	<?php
+	    	}
+			?>
+		</table>
+		<input type="hidden" name="idUsuario" value="<?php echo $idUsuario;?>"/>
+		<input type="submit" name="submit" value="Guardar Permisos"/>
+	</form>
+</body>
+</html>
