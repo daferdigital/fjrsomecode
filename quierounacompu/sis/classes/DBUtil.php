@@ -52,9 +52,9 @@ class DBUtil {
 		$time0 = time();
 		
 		try {
-			mysql_query($querySelect, $dbConObj->getConnection());
+			mysql_query($query, $dbConObj->getConnection());
 			if(mysql_error()){
-				$this->storeError($queryOperation, $result);
+				$this->storeError($query, mysql_error());
 			}
 		} catch (Exception $e) {
 			die("Error ejecutando query(no select) en base de datos");
@@ -62,7 +62,7 @@ class DBUtil {
 	
 		$dbConObj->closeConnection();
 	
-		$this->insertIntoSystemLog($query, print_r($resultArray, true), time() - $time0);
+		$this->insertIntoSystemLog($query, "", time() - $time0);
 	}
 	
 	/**
