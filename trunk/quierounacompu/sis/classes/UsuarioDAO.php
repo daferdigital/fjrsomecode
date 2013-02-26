@@ -20,7 +20,7 @@ class UsuarioDAO {
 		$dbUtilObj = new DBUtil();
 		
 		try {
-			$query = "SELECT u.id, u.nombre, u.apellido, u.correo, u.tiempo_sesion "
+			$query = "SELECT u.id, u.nombre, u.apellido, u.correo, u.tiempo_sesion, u.clave "
 			."FROM usuarios u "
 			."WHERE u.login='".$login."' "
 			."AND u.clave=MD5('".$pwd."') ";
@@ -34,6 +34,7 @@ class UsuarioDAO {
 						$row["nombre"], 
 						$row["apellido"], 
 						$login, 
+						$row["clave"],
 						$row["correo"], 
 						$row["tiempo_sesion"]);
 				
@@ -47,6 +48,11 @@ class UsuarioDAO {
 		return $usuarioDTO;
 	}
 	
+	/**
+	 * Obtenemos toda la lista de usuarios.
+	 * 
+	 * @return multitype:UsuarioDTO
+	 */
 	public function getAllUsers(){
 		$usuariosDTO = NULL;
 		$dbUtilObj = new DBUtil();
@@ -65,6 +71,7 @@ class UsuarioDAO {
 						$row["nombre"],
 						$row["apellido"],
 						$row["login"],
+						"",
 						$row["correo"],
 						$row["tiempo_sesion"]);
 			}

@@ -40,7 +40,7 @@
 			<span class="welcomeText"> 
   				Bienvenido 
   				<?php 
-  					echo $usuarioDTO->getNombre()." ".$usuarioDTO->getApellido();
+  					echo $usuarioDTO->getNombreCompleto();
   				?>
   			</span>
   			<a href="doLogout.php" style="display: inline-block;" title="Cerrar sesion">

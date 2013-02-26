@@ -54,6 +54,36 @@ function callAjax(url, parameters, idAnswerContainer){
 	ajaxObject.send(parameters);
 }
 
+function guardarPerfil(perfilForm){
+	var nombre = perfilForm.nombre.value.trim();
+	var apellido = perfilForm.apellido.value.trim();
+	var correo = perfilForm.correo.value.trim();
+	
+	//ajustamos el valor de la clave
+	perfilForm.clave.value = perfilForm.clave.value.trim();
+	
+	document.getElementById("formNombre").style.display = "none";
+	document.getElementById("formApellido").style.display = "none";
+	document.getElementById("formCorreo").style.display = "none";
+	
+	var doSubmit = true;
+	if(nombre == ""){
+		doSubmit = false;
+		document.getElementById("formNombre").style.display = "inline";
+	}
+	if(apellido == ""){
+		doSubmit = false;
+		document.getElementById("formApellido").style.display = "inline";
+	}
+	if(correo == ""){
+		doSubmit = false;
+		document.getElementById("formCorreo").style.display = "inline";
+	}
+	if (doSubmit) {
+		perfilForm.submit();
+	}
+}
+
 function validarLoginForm(loginForm){
 	var login = loginForm.login.value.trim();
 	var clave = loginForm.clave.value.trim();
@@ -78,9 +108,14 @@ function validarLoginForm(loginForm){
 	}
 }
 
-function obtenerPermisosUsuario(){
-	var parameters = "usrId=" + document.getElementById("usuarioPermiso").value;
+function obtenerPermisosUsuario(hideMessage){
+	if(hideMessage) {
+		if(document.getElementById("ajaxAnswerMsg") != null){
+			document.getElementById("ajaxAnswerMsg").style.display = "none";
+		}
+	}
 	
+	var parameters = "usrId=" + document.getElementById("usuarioPermiso").value;
 	callAjax("ajax/getPermisoUsuario.php", 
 			parameters, 
 			"ajaxAnswerContainer");

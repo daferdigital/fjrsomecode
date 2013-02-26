@@ -4,8 +4,9 @@ class UsuarioDTO {
 	private $nombre;
 	private $apellido;
 	private $login;
+	private $clave;
 	private $correo;
-	private $tiempoSession;
+	private $tiempoSesion;
 	private $modulesAllowed;
 	
 	/**
@@ -14,16 +15,18 @@ class UsuarioDTO {
 	 * @param unknown_type $nombre
 	 * @param unknown_type $apellido
 	 * @param unknown_type $login
+	 * @param unknown_type $clave
 	 * @param unknown_type $correo
-	 * @param unknown_type $tiempoSession
+	 * @param unknown_type $tiempoSesion
 	 */
-	public function UsuarioDTO($id, $nombre, $apellido, $login, $correo, $tiempoSession){
+	public function UsuarioDTO($id, $nombre, $apellido, $login, $clave, $correo, $tiempoSesion){
 		$this->id = $id;
 		$this->nombre = $nombre;
 		$this->apellido = $apellido;
 		$this->login = $login;
+		$this->clave = $clave;
 		$this->correo = $correo;
-		$this->tiempoSession = $tiempoSession;
+		$this->tiempoSesion = $tiempoSesion;
 	}
 	
 	public function getId(){
@@ -38,16 +41,24 @@ class UsuarioDTO {
 		return $this->apellido;
 	}
 	
+	public function getNombreCompleto(){
+		return $this->nombre." ".$this->apellido;
+	}
+	
 	public function getLogin(){
 		return $this->login;
+	}
+	
+	public function getClave(){
+		return $this->clave;
 	}
 	
 	public function getCorreo(){
 		return $this->correo;
 	}
 	
-	public function getTiempoSession(){
-		return $this->tiempoSession;
+	public function getTiempoSesion(){
+		return $this->tiempoSesion;
 	}
 	
 	public function setModulesAllowed($modulesAllowed){

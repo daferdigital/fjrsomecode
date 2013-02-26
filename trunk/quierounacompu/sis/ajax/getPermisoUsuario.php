@@ -14,6 +14,7 @@
     
     $dbUtilObj = new DBUtil();
     $arrayResults = $dbUtilObj->executeSelect($query);
+    BitacoraDAO::registrarComentario("Consultados permisos del usuario con id=[".$idUsuario."]");
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
@@ -34,8 +35,8 @@
 	   	 		<tr>
 	   	 			<td><?php echo $row["descripcion"]?></td>
 	   	 			<td>
-	   	 				<input type="radio" value="1" name="<?php echo $row["id"];?>" <?php echo ($idUsuario == $row["id_usuario"]) ? "checked" : "";?>/> S&iacute;
-	   	 				<input type="radio" value="0" name="<?php echo $row["id"];?>" <?php echo ($idUsuario != $row["id_usuario"]) ? "checked" : "";?>/> No
+	   	 				<input type="radio" value="1" name="<?php echo "permiso[][".$row["id"]."]";?>" <?php echo ($idUsuario == $row["id_usuario"]) ? "checked" : "";?>/> S&iacute;
+	   	 				<input type="radio" value="0" name="<?php echo "permiso[][".$row["id"]."]";?>" <?php echo ($idUsuario != $row["id_usuario"]) ? "checked" : "";?>/> No
 	   	 			</td>
 	   	 		</tr>
 	   	 	<?php

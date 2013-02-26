@@ -21,5 +21,6 @@ class Constants {
 	
 	//constantes en session
 	public static $KEY_USUARIO_DTO = "usuario";
+	public static $KEY_MESSAGE_OPERATION = "messageOperation";
 }
 ?>

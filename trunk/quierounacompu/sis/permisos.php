@@ -20,7 +20,7 @@ if(isset($_SESSION["usuarioPermiso"])){
 
 <div class="seccionDetail">
 	Usuarios del Sistema:
-	<select id="usuarioPermiso" onchange="javascript:obtenerPermisosUsuario();">
+	<select id="usuarioPermiso" onchange="javascript:obtenerPermisosUsuario(true);">
 		<option value="-1">Indique un Usuario</option>
 		<?php
 			$usuarioDAO = new UsuarioDAO();
@@ -29,7 +29,7 @@ if(isset($_SESSION["usuarioPermiso"])){
 			foreach ($allUsers as $userDTO){
 		?>
 				<option value="<?php echo $userDTO->getId()?>" <?php echo $idUsuario == $userDTO->getId() ? "selected" : ""?>>
-					<?php echo $userDTO->getNombre()." ".$userDTO->getApellido()?>
+					<?php echo $userDTO->getNombreCompleto()?>
 				</option>
 		<?php
 			} 
@@ -38,6 +38,22 @@ if(isset($_SESSION["usuarioPermiso"])){
 	<br />
 	<br />
 	
+	<div class="centered" id="ajaxAnswerMsg">
+		<?php
+			if(isset($_SESSION[Constants::$KEY_MESSAGE_OPERATION])){
+		?>
+				<h3>
+					<?php 
+						echo $_SESSION[Constants::$KEY_MESSAGE_OPERATION];
+						unset($_SESSION[Constants::$KEY_MESSAGE_OPERATION]);
+					?>
+				</h3>
+		<?php	
+			} 
+		?>
+		<br />
+	
+	</div>
 	<div class="centered" id="ajaxAnswerContainer">
 		<?php
 			if(isset($_SESSION["messageOperation"])){
@@ -54,7 +70,7 @@ if($idUsuario != -1){
 	//llegue a esta pagina despues de almacenar los permisos de un usuario
 ?>
 	<script>
-		obtenerPermisosUsuario();
+		obtenerPermisosUsuario(false);
 	</script>
 <?php
 } 
