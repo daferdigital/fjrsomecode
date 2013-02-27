@@ -31,7 +31,8 @@
 			$userDTO->getLogin(),
 			'',
 			$_POST["correo"],
-			$_POST["tiempoSesion"]);
+			$_POST["tiempoSesion"],
+			$userDTO->getActive());
 	$newUserDTO->setModulesAllowed($userDTO->getModulesAllowed());
 				
 	$_SESSION[Constants::$KEY_USUARIO_DTO] = $newUserDTO;

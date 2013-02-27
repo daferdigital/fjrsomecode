@@ -27,7 +27,7 @@ if(isset($_SESSION["usuarioPermiso"])){
 		<option value="-1">Indique un Usuario</option>
 		<?php
 			$usuarioDAO = new UsuarioDAO();
-			$allUsers = $usuarioDAO->getAllUsers();
+			$allUsers = $usuarioDAO->getAllActiveUsers();
 			print_r($allUsers);
 			foreach ($allUsers as $userDTO){
 		?>

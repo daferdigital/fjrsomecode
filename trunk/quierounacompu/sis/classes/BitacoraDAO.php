@@ -15,8 +15,7 @@
 			$query = "INSERT INTO bitacora (operacion, fecha, id_usuario)"
 					." VALUES('".$comentario."', now(), ".$userDTO->getId().")";
 			
-			$dbUtilObj = new DBUtil();
-			$dbUtilObj->executeQuery($query);
+			DBUtil::executeQuery($query);
 		}
 	}
 ?>

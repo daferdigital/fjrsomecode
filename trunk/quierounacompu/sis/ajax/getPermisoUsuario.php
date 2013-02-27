@@ -16,8 +16,7 @@
     $query = "SELECT m.id, m.descripcion, um.id_usuario"
     ." FROM modulos m LEFT JOIN usuario_modulo um ON um.id_modulo=m.id AND um.id_usuario = ".$idUsuario;
     
-    $dbUtilObj = new DBUtil();
-    $arrayResults = $dbUtilObj->executeSelect($query);
+    $arrayResults = DBUtil::executeSelect($query);
     BitacoraDAO::registrarComentario("Consultados permisos del usuario con id=[".$idUsuario."]");
 ?>
 

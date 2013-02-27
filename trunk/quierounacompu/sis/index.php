@@ -12,17 +12,29 @@
 	<form action="formProcess/doLogin.php" method="post">
 		<table class="loginTable">
 			<tr>
-				<td colspan="2" align="right" class="smallError" >
-					<span id="loginErrorMsg">
+				<td colspan="2" align="right">
+					<div id="loginErrorMsg">
 						<?php
-							if(isset($_SESSION[Constants::$KEY_MESSAGE_ERROR])){
-								echo $_SESSION[Constants::$KEY_MESSAGE_ERROR];
+						if(isset($_SESSION[Constants::$KEY_MESSAGE_ERROR])){
+						?>
+							<span  class="smallError" >
+								<?php echo $_SESSION[Constants::$KEY_MESSAGE_ERROR];?>
+							</span>
+						<?php
 								unset($_SESSION[Constants::$KEY_MESSAGE_ERROR]);
 							}
 						?>	
-					</span>
-					<br />
-				</td>
+						
+						<?php
+							if(isset($_SESSION[Constants::$KEY_MESSAGE_OPERATION])){
+						?>
+								<h3><?php echo $_SESSION[Constants::$KEY_MESSAGE_OPERATION];?></h3>
+						<?php
+								unset($_SESSION[Constants::$KEY_MESSAGE_OPERATION]);
+							}
+						?>
+					</div>
+					</td>
 			</tr>
 			<tr>
 				<td colspan="2" align="right" class="estilo2" bgcolor="#4d60fe">

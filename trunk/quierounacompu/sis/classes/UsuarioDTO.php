@@ -7,6 +7,7 @@ class UsuarioDTO {
 	private $clave;
 	private $correo;
 	private $tiempoSesion;
+	private $active;
 	private $modulesAllowed;
 	
 	/**
@@ -18,8 +19,10 @@ class UsuarioDTO {
 	 * @param String $clave
 	 * @param String $correo
 	 * @param int $tiempoSesion
+	 * @param String $active, '1' para usuario activo, inactivo con cualquier otro valor
 	 */
-	public function UsuarioDTO($id, $nombre, $apellido, $login, $clave, $correo, $tiempoSesion){
+	public function UsuarioDTO($id, $nombre, $apellido, $login, $clave, $correo, 
+			$tiempoSesion, $active){
 		$this->id = $id;
 		$this->nombre = $nombre;
 		$this->apellido = $apellido;
@@ -27,6 +30,7 @@ class UsuarioDTO {
 		$this->clave = $clave;
 		$this->correo = $correo;
 		$this->tiempoSesion = $tiempoSesion;
+		$this->active = $active;
 	}
 	
 	public function getId(){
@@ -59,6 +63,10 @@ class UsuarioDTO {
 	
 	public function getTiempoSesion(){
 		return $this->tiempoSesion;
+	}
+	
+	public function getActive(){
+		return $this->active;
 	}
 	
 	public function setModulesAllowed($modulesAllowed){
