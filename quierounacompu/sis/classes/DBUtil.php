@@ -17,7 +17,7 @@ class DBUtil {
 	 * @param Sentencia select a ejecutar $querySelect
 	 * @return php array con los valores arrojados por la consulta
 	 */
-	public function executeSelect($querySelect){
+	public static function executeSelect($querySelect){
 		$resultArray = array();
 		$time0 = microtime(TRUE);
 		$dbConObj = new DBConnection();
@@ -29,7 +29,7 @@ class DBUtil {
 					$resultArray[] = $row;
 				}
 			} else {
-				$this->storeError($queryOperation, $result);
+				DBUtil::storeError($queryOperation, $result);
 			}
 		} catch (Exception $e) {
 			die("Error ejecutando consulta en base de datos");
@@ -37,7 +37,7 @@ class DBUtil {
 		
 		$dbConObj->closeConnection();
 		
-		$this->insertIntoSystemLog($querySelect, print_r($resultArray, true), (microtime(TRUE) - $time0));
+		DBUtil::insertIntoSystemLog($querySelect, print_r($resultArray, true), (microtime(TRUE) - $time0));
 		
 		return $resultArray;
 	}
@@ -47,14 +47,14 @@ class DBUtil {
 	 *
 	 * @param Query a ejecutar (no SELECT) $querySelect
 	 */
-	public function executeQuery($query){
+	public static function executeQuery($query){
 		$dbConObj = new DBConnection();
 		$time0 = time();
 		
 		try {
 			mysql_query($query, $dbConObj->getConnection());
 			if(mysql_error()){
-				$this->storeError($query, mysql_error());
+				DBUtil::storeError($query, mysql_error());
 			}
 		} catch (Exception $e) {
 			die("Error ejecutando query(no select) en base de datos");
@@ -62,7 +62,7 @@ class DBUtil {
 	
 		$dbConObj->closeConnection();
 	
-		$this->insertIntoSystemLog($query, "", time() - $time0);
+		DBUtil::insertIntoSystemLog($query, "", time() - $time0);
 	}
 	
 	/**
@@ -73,7 +73,7 @@ class DBUtil {
 	 * @param string $result
 	 * @param int $timeExecution
 	 */
-	private function insertIntoSystemLog($queryOperation, $result, $timeExecution){
+	private static function insertIntoSystemLog($queryOperation, $result, $timeExecution){
 		$dbConObj = new DBConnection();
 		$usuario = "NULL";
 		
@@ -86,7 +86,7 @@ class DBUtil {
 			
 			mysql_query($query, $dbConObj->getConnection());
 			if(mysql_error()){
-				$this->storeError($query, mysql_error());
+				DBUtil::storeError($query, mysql_error());
 			}
 		} catch (Exception $e) {
 			die("Error en insert de log del sistema ".$e->getMessage());
@@ -101,15 +101,16 @@ class DBUtil {
 	 * @param string $queryOperation
 	 * @param string $result
 	 */
-	private function storeError($queryOperation, $result){
+	private static function storeError($queryOperation, $result){
 		$idUsuario = "NULL";
+		$time0 = time();
 		
 		if(isset($_SESSION["usuario"])){
 			$idUsuario = $_SESSION["usuario"]->getId();
 		}
 		
-		$query = "INSERT INTO system_log (fecha, query, result, was_error, id_usuario)"
-		." VALUES(now(),'".str_replace("'","\\'", $queryOperation)."','".str_replace("'","\\'",$result)."','1',".$idUsuario.")";
+		$query = "INSERT INTO system_log (fecha, query, result, was_error, query_time id_usuario)"
+		." VALUES(now(),'".str_replace("'","\\'", $queryOperation)."','".str_replace("'","\\'",$result)."','1',".(time() - $time0).",".$idUsuario.")";
 		
 		$dbConObj = new DBConnection();
 		mysql_query($query, $dbConObj->getConnection());

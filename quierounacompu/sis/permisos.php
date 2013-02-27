@@ -1,6 +1,9 @@
 <?php 
 include_once("classes/UsuarioDAO.php");
+include_once("classes/PageAccess.php");
 include_once("includes/header.php");
+
+PageAccess::validateAccess(Constants::$OPCION_ADMIN_PERMISOS);
 
 $idUsuario = -1;
 //busco en session por si vengo de almacenar los permisos

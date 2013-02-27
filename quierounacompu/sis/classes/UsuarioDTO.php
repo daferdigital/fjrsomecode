@@ -11,13 +11,13 @@ class UsuarioDTO {
 	
 	/**
 	 * 
-	 * @param unknown_type $id
-	 * @param unknown_type $nombre
-	 * @param unknown_type $apellido
-	 * @param unknown_type $login
-	 * @param unknown_type $clave
-	 * @param unknown_type $correo
-	 * @param unknown_type $tiempoSesion
+	 * @param int $id
+	 * @param String $nombre
+	 * @param String $apellido
+	 * @param String $login
+	 * @param String $clave
+	 * @param String $correo
+	 * @param int $tiempoSesion
 	 */
 	public function UsuarioDTO($id, $nombre, $apellido, $login, $clave, $correo, $tiempoSesion){
 		$this->id = $id;
@@ -81,6 +81,24 @@ class UsuarioDTO {
 			}
 		}
 		
+		return false;
+	}
+	
+	/**
+	 *
+	 * @param string $keyModule
+	 * @return true si el usuario tiene entre los modulos activados el indicado en el parametro $keyModule
+	 */
+	public function canAccessKeyModule($keyModule){
+		$categories = $this->modulesAllowed;
+		foreach ($categories as $categoryDetail){
+			foreach ($categoryDetail as $moduleKey => $moduleValue){
+				if($moduleKey == $keyModule){
+					return true;
+				}
+			}
+		}
+	
 		return false;
 	}
 	

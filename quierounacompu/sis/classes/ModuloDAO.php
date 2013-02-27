@@ -10,7 +10,7 @@ class ModuloDAO {
 	 * @param int $idUser
 	 * @return arreglo de objetos ModuloDTO indicando los modulos a los que el usuario tiene acceso
 	 */
-	public function getModulosXUser($idUser){
+	public static function getModulosXUser($idUser){
 		$dbUtilObj = new DBUtil();
 		$query = "SELECT m.id, m.categoria, m.key_module, m.descripcion"
 		." FROM modulos m, usuario_modulo um"

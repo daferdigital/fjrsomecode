@@ -54,6 +54,55 @@ function callAjax(url, parameters, idAnswerContainer){
 	ajaxObject.send(parameters);
 }
 
+/**
+ * 
+ * @param newUserForm
+ */
+function guardarUsuario(newUserForm){
+	var nombre = newUserForm.nombre.value.trim();
+	var apellido = newUserForm.apellido.value.trim();
+	var correo = newUserForm.correo.value.trim();
+	var login = newUserForm.login.value.trim();
+	var clave = newUserForm.clave.value.trim();
+	
+	
+	document.getElementById("formNombre").style.display = "none";
+	document.getElementById("formApellido").style.display = "none";
+	document.getElementById("formCorreo").style.display = "none";
+	document.getElementById("formLogin").style.display = "none";
+	document.getElementById("formClave").style.display = "none";
+	
+	var doSubmit = true;
+	if(nombre == ""){
+		doSubmit = false;
+		document.getElementById("formNombre").style.display = "inline";
+	}
+	if(apellido == ""){
+		doSubmit = false;
+		document.getElementById("formApellido").style.display = "inline";
+	}
+	if(correo == ""){
+		doSubmit = false;
+		document.getElementById("formCorreo").style.display = "inline";
+	}
+	if(login == ""){
+		doSubmit = false;
+		document.getElementById("formLogin").style.display = "inline";
+	}
+	if(clave == ""){
+		doSubmit = false;
+		document.getElementById("formClave").style.display = "inline";
+	}
+	
+	if (doSubmit) {
+		newUserForm.submit();
+	}
+}
+
+/**
+ * Validamos el formulario de perfil y en caso de ser valido, enviamos el formulario
+ * @param perfilForm
+ */
 function guardarPerfil(perfilForm){
 	var nombre = perfilForm.nombre.value.trim();
 	var apellido = perfilForm.apellido.value.trim();

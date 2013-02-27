@@ -1,5 +1,6 @@
 <?php
 	include_once ("classes/UsuarioDTO.php");
+	include_once ("classes/PageAccess.php");
 	include_once ("includes/session.php");
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
@@ -29,7 +30,7 @@
   	</tr>
   	<?php
   		//si el usuario esta logueado, mostramos el menu
-  		if(isset($_SESSION["isLogged"]) && $_SESSION["isLogged"] == true){
+  		if(PageAccess::userIsLogged()){
 			$usuarioDTO = $_SESSION["usuario"];
 	?>
 	<tr>

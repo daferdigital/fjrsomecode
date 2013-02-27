@@ -1,8 +1,12 @@
 <?php
     include_once '../classes/DBUtil.php';
     include_once '../classes/UsuarioDTO.php';
+    include_once '../classes/BitacoraDAO.php';
+    include_once '../classes/PageAccess.php';
     include_once '../includes/session.php';
 	
+    PageAccess::validateAccess(Constants::$OPCION_ADMIN_PERMISOS);
+    
     $idUsuario = $_POST["usrId"];
     
     if($idUsuario == -1){

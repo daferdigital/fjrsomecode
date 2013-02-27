@@ -1,9 +1,13 @@
 <?php
 include_once '../classes/Constants.php';
+include_once '../classes/PageAccess.php';
+include_once '../classes/BitacoraDAO.php';
 include_once '../classes/ModuloDAO.php';
 include_once '../classes/UsuarioDTO.php';
 include_once '../classes/DBUtil.php';
 include_once '../includes/session.php';
+
+PageAccess::validateAccess(Constants::$OPCION_ADMIN_PERMISOS);
 
 if(isset($_POST["submit"]) && isset($_POST["permiso"])){
 	//recibimos el formulario para almacenar la informacion
@@ -41,7 +45,7 @@ if(isset($_POST["submit"]) && isset($_POST["permiso"])){
 	}
 } else {
 	//acceso no permitido a esta pagina
-	BitacoraDAO::registrarComentario("Intento de acceso no autorizado a la opcion de guardar cambios en permisologia");
+	BitacoraDAO::registrarComentario("Peticion de guardado de permisos no enviada de la manera esperada");
 }
 
 header("Location: ../permisos.php");
