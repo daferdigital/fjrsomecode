@@ -6,18 +6,16 @@ include_once("classes/UsuarioDAO.php");
 include_once("classes/BitacoraDAO.php");
 include_once("includes/header.php");
 
-PageAccess::validateAccess(Constants::$OPCION_PERFIL);
+PageAccess::validateAccess(Constants::$OPCION_ADMIN_CREAR_USUARIO);
 
-$userDTO = $_SESSION[Constants::$KEY_USUARIO_DTO];
-$idUsuario = $userDTO->getId();
-BitacoraDAO::registrarComentario("Acceso a perfil del usuario: ".$userDTO->getNombreCompleto());
+BitacoraDAO::registrarComentario("Acceso a pagina para crear usuarios");
 ?>
 
 <div class="seccionTitle">
-	Perfil
+	Crear Usuarios
 	<br />
 	<span>
-		(Modifique los valores asociados a su cuenta de usuario)
+		(Agregue aqu&iacute; cuentas de usuario en el sistema)
 	</span>
 </div>
 
@@ -34,12 +32,12 @@ BitacoraDAO::registrarComentario("Acceso a perfil del usuario: ".$userDTO->getNo
 <?php	
 	} 
 ?>
-<form action="formProcess/storePerfil.php" method="post">
+<form action="formProcess/storeUser.php" method="post">
     <table class="borderCollapse">
     	<tr>
     		<td>Nombre:</td>
     		<td>
-    			<input type="text" name="nombre" value="<?php echo $userDTO->getNombre();?>" />
+    			<input type="text" name="nombre" value="" />
     			<br />
 				<span class="smallError" id="formNombre" style="display: none">
 					Disculpe, el nombre no puede ser vacio
@@ -49,7 +47,7 @@ BitacoraDAO::registrarComentario("Acceso a perfil del usuario: ".$userDTO->getNo
     	<tr>
     		<td>Apellido:</td>
     		<td>
-    			<input type="text" name="apellido" value="<?php echo $userDTO->getApellido();?>" />
+    			<input type="text" name="apellido" value="" />
     			<br />
 				<span class="smallError" id="formApellido" style="display: none">
 					Disculpe, el apellido no puede ser vacio
@@ -59,7 +57,7 @@ BitacoraDAO::registrarComentario("Acceso a perfil del usuario: ".$userDTO->getNo
     	<tr>
     		<td>Correo:</td>
     		<td>
-    			<input type="text" name="correo" value="<?php echo $userDTO->getCorreo();?>" />
+    			<input type="text" name="correo" value="" />
     			<br />
 				<span class="smallError" id="formCorreo" style="display: none">
 					Disculpe, el correo no puede ser vacio
@@ -68,11 +66,27 @@ BitacoraDAO::registrarComentario("Acceso a perfil del usuario: ".$userDTO->getNo
     	</tr>
     	<tr>
     		<td>
-    			Clave:
-    			<br />
-    			(deje en blanco para <br/> mantener la clave anterior)
+    			Login:
     		</td>
-    		<td><input type="password" name="clave" maxlength="10" value="" /></td>
+    		<td>
+    			<input type="text" name="login" maxlength="10" value="" />
+    			<br />
+				<span class="smallError" id="formLogin" style="display: none">
+					Disculpe, debe indicar un login
+				</span>
+    		</td>
+    	</tr>
+    	<tr>
+    		<td>
+    			Clave:
+    		</td>
+    		<td>
+    			<input type="password" name="clave" maxlength="10" value="" />
+    			<br />
+				<span class="smallError" id="formClave" style="display: none">
+					Disculpe, la clave no puede ser vacia
+				</span>
+    		</td>
     	</tr>
     	<tr>
     		<td>
@@ -85,7 +99,7 @@ BitacoraDAO::registrarComentario("Acceso a perfil del usuario: ".$userDTO->getNo
     				<?php 
     					for($i = 10; $i < 61; $i++){
 					?>
-						<option value="<?php echo $i;?>" <?php echo ($userDTO->getTiempoSesion() == $i."") ? " selected" : "";?>>
+						<option value="<?php echo $i;?>">
 							<?php echo $i;?>
 						</option>
 					<?php
@@ -97,7 +111,7 @@ BitacoraDAO::registrarComentario("Acceso a perfil del usuario: ".$userDTO->getNo
     	<tr>
     		<td >&nbsp;</td>
     		<td>
-    			<input type="button" value="Guardar" name="guardar" onclick="javascript:guardarPerfil(this.form);"/>
+    			<input type="button" value="Guardar" name="guardar" onclick="javascript:guardarUsuario(this.form);"/>
     		</td>
     	</tr>
     </table>

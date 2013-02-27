@@ -1,19 +1,23 @@
 <?php 
 	include_once("includes/header.php");
-	$_SESSION["isLogged"] = false;
-	unset ($_SESSION["usuario"]);
+	include_once("classes/PageAccess.php");
+	
+	//si el usuario esta logueado, lo llevo a la pagina despues del login
+	if(PageAccess::userIsLogged()){
+		header("Location: mainMenu.php");
+	}
 ?>
 
 <!-- index.php -->
-	<form action="doLogin.php" method="post">
+	<form action="formProcess/doLogin.php" method="post">
 		<table class="loginTable">
 			<tr>
 				<td colspan="2" align="right" class="smallError" >
 					<span id="loginErrorMsg">
 						<?php
-							if(isset($_SESSION["messageError"])){
-								echo $_SESSION["messageError"];
-								unset($_SESSION["messageError"]);
+							if(isset($_SESSION[Constants::$KEY_MESSAGE_ERROR])){
+								echo $_SESSION[Constants::$KEY_MESSAGE_ERROR];
+								unset($_SESSION[Constants::$KEY_MESSAGE_ERROR]);
 							}
 						?>	
 					</span>

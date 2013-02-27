@@ -22,5 +22,9 @@ class Constants {
 	//constantes en session
 	public static $KEY_USUARIO_DTO = "usuario";
 	public static $KEY_MESSAGE_OPERATION = "messageOperation";
+	public static $KEY_MESSAGE_ERROR = "messageError";
+	
+	//textos del sistema
+	public static $TEXT_ACCESS_DENIED = "Disculpe, usted no tiene permiso para ingresar a este modulo.<br />En caso de necesitarlo, comuniquese con el administrador";
 }
 ?>

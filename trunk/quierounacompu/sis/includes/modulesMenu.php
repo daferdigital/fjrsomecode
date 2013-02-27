@@ -1,5 +1,11 @@
 <?php
 	include_once 'classes/Constants.php';
+	include_once 'classes/PageAccess.php';
+	
+	if(! PageAccess::userIsLogged()){
+		header("Location: ../index.php");
+	}
+	
 	$usuarioDTO = $_SESSION[Constants::$KEY_USUARIO_DTO];
 	$modulesAllowed = $usuarioDTO->getModulesAllowed();
 ?>
