@@ -19,7 +19,7 @@ class DBUtil {
 	 */
 	public static function executeSelect($querySelect){
 		$resultArray = array();
-		$time0 = microtime(TRUE);
+		$time0 = time();
 		$dbConObj = new DBConnection();
 		
 		try {
@@ -37,7 +37,7 @@ class DBUtil {
 		
 		$dbConObj->closeConnection();
 		
-		DBUtil::insertIntoSystemLog($querySelect, print_r($resultArray, true), (microtime(TRUE) - $time0));
+		DBUtil::insertIntoSystemLog($querySelect, print_r($resultArray, true), (time() - $time0));
 		
 		return $resultArray;
 	}

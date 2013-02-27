@@ -15,8 +15,7 @@ if(isset($_POST["submit"]) && isset($_POST["permiso"])){
 	$query = "DELETE FROM usuario_modulo where id_usuario=".$_POST["idUsuario"];
 	BitacoraDAO::registrarComentario("Permisos borrados al usuario [".$_POST["idUsuario"]."]");
 	
-	$dbUtilObj = new DBUtil();
-	$dbUtilObj->executeQuery($query);
+	DBUtil::executeQuery($query);
 
 	//recorremos el arreglo POST para almacenar los nuevos permisos
 	$permisos = $_POST["permiso"];
@@ -26,7 +25,7 @@ if(isset($_POST["submit"]) && isset($_POST["permiso"])){
 				//insertamos el permiso al modulo
 				$query = "INSERT into usuario_modulo (id_usuario, id_modulo)"
 						." VALUES(".$_POST["idUsuario"].",".$keyPermisoModulo.")";
-				$dbUtilObj->executeQuery($query);
+				DBUtil::executeQuery($query);
 				BitacoraDAO::registrarComentario("Asignado permiso al modulo [".$keyPermisoModulo."] al usuario [".$_POST["idUsuario"]."]");
 			}
 		}

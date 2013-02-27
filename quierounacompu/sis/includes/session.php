@@ -1,5 +1,23 @@
 <?php
-	$maxTimeIdle = 10;
 	session_start();
-	//verificamos si el usuario esta logueado
+	
+	if(PageAccess::userIsLogged()){
+		if(isset($_SESSION[Constants::$KEY_LAST_TIME_SESSION])){
+			//tenemos un tiempo registrado para nuestra ultima accion en el sitio
+			//vemos si no nos excedimos de nuestra maxima inactividad configurada
+			$time0 = $_SESSION[Constants::$KEY_LAST_TIME_SESSION];
+			$userDTO = $_SESSION[Constants::$KEY_USUARIO_DTO];
+			//el tiempo esta almacenado en minutos, lo llevamos a segundos
+			$maxTime = $userDTO->getTiempoSesion() * 60; 
+			
+			if((time() - $time0) > $maxTime) {
+				//tengo inactivo mas tiempo del permitido, limpio la sesion
+				session_unset();
+				$_SESSION[Constants::$KEY_MESSAGE_ERROR] = Constants::$TEXT_SESSION_EXPIRED;
+				header("Location: index.php");
+			}
+		}
+	}
+	
+	$_SESSION[Constants::$KEY_LAST_TIME_SESSION] = time();
 ?>

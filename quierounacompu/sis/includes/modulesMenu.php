@@ -95,6 +95,13 @@
 				}
 			?>
 			<?php
+				if(isset($modulesAllowed[Constants::$CATEGORIA_ADMINISTRACION][Constants::$OPCION_ADMIN_REACTIVAR_USUARIO])){
+			?>
+					<li><a href="reactivarUsuarios.php">Reactivar Usuarios</a></li>
+			<?php
+				}
+			?>
+			<?php
 				if(isset($modulesAllowed[Constants::$CATEGORIA_ADMINISTRACION][Constants::$OPCION_ADMIN_PERMISOS])){
 			?>
 					<li><a href="permisos.php">Permisos</a></li>

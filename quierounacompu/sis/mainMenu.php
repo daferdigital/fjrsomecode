@@ -1,6 +1,12 @@
 <?php 
 	include_once("includes/header.php");
 	include_once("classes/Constants.php");
+	
+	if(! PageAccess::userIsLogged()){
+		//intento de acceso sin login
+		$_SESSION[Constants::$KEY_MESSAGE_ERROR] = Constants::$TEXT_MUST_BE_LOGGED;
+		header("Location: index.php");
+	}
 ?>
 
 <div class="centered" style="text-align: center;">

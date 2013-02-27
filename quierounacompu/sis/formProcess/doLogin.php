@@ -2,6 +2,7 @@
 include_once("../classes/BitacoraDAO.php");
 include_once("../classes/UsuarioDAO.php");
 include_once("../classes/UsuarioDTO.php");
+include_once("../classes/PageAccess.php");
 include_once("../includes/session.php");
 
 $login = $_POST["login"];

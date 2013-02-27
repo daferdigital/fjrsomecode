@@ -17,15 +17,15 @@ class UsuarioDAO {
 	 */
 	public function getUserDoingLogin($login, $pwd){
 		$usuarioDTO = NULL;
-		$dbUtilObj = new DBUtil();
 		
 		try {
 			$query = "SELECT u.id, u.nombre, u.apellido, u.correo, u.tiempo_sesion, u.clave "
 			."FROM usuarios u "
 			."WHERE u.login='".$login."' "
-			."AND u.clave=MD5('".$pwd."') ";
+			."AND u.clave=MD5('".$pwd."') "
+			."AND u.active='1'";
 				
-			$arrayResult = $dbUtilObj->executeSelect($query);
+			$arrayResult = DBUtil::executeSelect($query);
 				
 			if(count($arrayResult) > 0){
 				//credenciales validas
@@ -36,7 +36,8 @@ class UsuarioDAO {
 						$login, 
 						$row["clave"],
 						$row["correo"], 
-						$row["tiempo_sesion"]);
+						$row["tiempo_sesion"],
+						$row["active"]);
 				
 				$moduloDAO = new ModuloDAO();
 				$usuarioDTO->setModulesAllowed($moduloDAO->getModulosXUser($row["id"]));
@@ -53,15 +54,15 @@ class UsuarioDAO {
 	 * 
 	 * @return multitype:UsuarioDTO
 	 */
-	public function getAllUsers(){
+	public function getAllActiveUsers(){
 		$usuariosDTO = NULL;
-		$dbUtilObj = new DBUtil();
 		
 		$query = "SELECT u.id, u.login, u.nombre, u.apellido, u.correo, u.tiempo_sesion "
 			."FROM usuarios u "
+			."WHERE u.active='1' "
 			."ORDER BY LOWER(u.nombre), LOWER(u.apellido) ";
 		
-		$arrayResult = $dbUtilObj->executeSelect($query);
+		$arrayResult = DBUtil::executeSelect($query);
 		
 		if(count($arrayResult) > 0){
 			$usuariosDTO = array();
@@ -73,7 +74,8 @@ class UsuarioDAO {
 						$row["login"],
 						"",
 						$row["correo"],
-						$row["tiempo_sesion"]);
+						$row["tiempo_sesion"],
+						$row["active"]);
 			}
 		}
 		
