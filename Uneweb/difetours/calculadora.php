@@ -26,8 +26,6 @@
 	-->
 	</style>
 	<script>
-	    var waitEstadia = false;
-	    
 		function createXMLHTTPRequest(){
 			var xmlHTTPRequest = null;
 			
@@ -99,14 +97,22 @@
 				}
 			};
 			
+			var params = "estadia="+document.getElementById("estadia").value;
+			params += "&destino=" + document.getElementById("destino").value;
+			
 			ajaxObject.open("POST", "ajaxEstadia.php", false);
 			//sin la linea siguiente no podemos enviar parametros via POST, solo seria por GET
 			ajaxObject.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-			ajaxObject.send("estadia="+document.getElementById("estadia").value);
+			ajaxObject.send(params);
 			document.getElementById("UpdateProgress1").style.display="none";
 		}
 	
 		function getTotalInfo(){
+			if(! validSelects()){
+				//si los selects no son validos, no invoco al total
+				return;
+			}
+			
 			var ajaxObject =  createXMLHTTPRequest();
 	
 			document.getElementById("UpdateProgress1").style.display="inline";
@@ -129,12 +135,14 @@
 	
 			if(document.getElementById("UpdatePanel1").innerHTML != ""){
 				//tenemos estadia seleccionada, vemos su detalle
-				if(document.getElementById("AirportPickupRequired_0").checked){
-					params += "&AirportPickupRequired=" + document.getElementById("AirportPickupRequired_0").value;
-				} else if(document.getElementById("AirportPickupRequired_1").checked){
-					params += "&AirportPickupRequired=" + document.getElementById("AirportPickupRequired_1").value;
-				} else if(document.getElementById("AirportPickupRequired_2").checked){
-					params += "&AirportPickupRequired=" + document.getElementById("AirportPickupRequired_2").value;
+				if(document.getElementById("AirportPickupRequired_0") != null){
+					if(document.getElementById("AirportPickupRequired_0").checked){
+						params += "&AirportPickupRequired=" + document.getElementById("AirportPickupRequired_0").value;
+					} else if(document.getElementById("AirportPickupRequired_1").checked){
+						params += "&AirportPickupRequired=" + document.getElementById("AirportPickupRequired_1").value;
+					} else if(document.getElementById("AirportPickupRequired_2").checked){
+						params += "&AirportPickupRequired=" + document.getElementById("AirportPickupRequired_2").value;
+					}
 				}
 
 				if(document.getElementById("accommAge_0") != null){
@@ -144,8 +152,19 @@
 						params += "&accommAge=" + document.getElementById("accommAge_1").value;
 					}
 				}
+
+				if(document.getElementById("sendDocuments_0") != null){
+					var i = 0;
+					while(document.getElementById("sendDocuments_" + i) != null){
+						if(document.getElementById("sendDocuments_" + i).checked){
+							params += "&sendDocuments=" + document.getElementById("sendDocuments_" + i).value;
+						}
+						
+						i++;
+					}
+				}
 			}
-	
+			
 			ajaxObject.send(params);
 		}
 	

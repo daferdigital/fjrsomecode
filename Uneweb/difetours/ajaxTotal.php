@@ -19,6 +19,7 @@
 	." AND minimo_semanas <= ".$semanas
 	." AND maximo_semanas >= ".$semanas
 	." AND id_destino=".$destino;
+	
 	$row = mysql_fetch_array(mysql_query($query));
 	$priceByWeek = $row["precio"];
 	
@@ -156,6 +157,54 @@
 		?>
 	<?php
 		}
+	?>
+	<?php
+		if(isset($_POST["sendDocuments"])){
+	?>
+			<tr <?php echo $putBg ? $bgValue : ""; $putBg = !$putBg;?>>
+				<td align="left">
+					<?php 
+						echo $arrayValues[$_POST["sendDocuments"]][0];
+						$mailContent .= $arrayValues[$_POST["sendDocuments"]][0]." <br />";
+					?>
+				</td>
+				<td align="center">
+					&nbsp;
+				</td>
+				<td align="right">
+					$ 
+					<?php 
+						echo $arrayValues[$_POST["sendDocuments"]][2]; 
+						$grandTotal += $arrayValues[$_POST["sendDocuments"]][2];
+					?>
+				</td>
+			</tr>
+	<?php
+		} 
+	?>
+	<?php
+		if(isset($_POST["accommAge"]) && ($_POST["accommAge"] == "precio_under18")){
+	?>
+			<tr <?php echo $putBg ? $bgValue : ""; $putBg = !$putBg;?>>
+				<td align="left">
+					<?php 
+						echo $arrayValues["custodyLetter"][0];
+						$mailContent .= $arrayValues["custodyLetter"][0]." <br />";
+					?>
+				</td>
+				<td align="center">
+					&nbsp;
+				</td>
+				<td align="right">
+					$ 
+					<?php 
+						echo $arrayValues["custodyLetter"][2]; 
+						$grandTotal += $arrayValues["custodyLetter"][2];
+					?>
+				</td>
+			</tr>
+	<?php
+		} 
 	?>
 	<tr <?php echo $putBg ? $bgValue : ""; $putBg = !$putBg;?>>
 		<td align="left">&nbsp;</td>
