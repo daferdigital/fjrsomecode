@@ -1,5 +1,6 @@
 <?php
 	$estadia = $_POST["estadia"];
+	$destino = $_POST["destino"];
 	
 	if(($estadia == "homestay") || ($estadia == "homestay-half-board")
 			|| ($estadia == "roomstay")){
@@ -47,4 +48,48 @@
 	if($estadia == "none") {
 		//estadia por cuenta propia
 	}
+?>
+<?php 
+	//obtenemos los conceptos individuales asociados al envio de documentos
+	//para el destino en cuestion
+	include 'conexion.php';
+	
+	$query = "SELECT internal_key, descripcion, pago_por_semana, precio "
+			."FROM curso_pagos "
+			."WHERE id_destino=".$destino
+			." AND grupo='sendDocuments' "
+			."ORDER BY descripcion";
+	
+	$result = mysql_query($query);
+	$arrayValues = array();
+	while($row = mysql_fetch_array($result)){
+		$arrayValues[$row["internal_key"]] = array($row["descripcion"],
+				$row["pago_por_semana"],
+				$row["precio"]);
+	}
+	
+	if(count($arrayValues) > 0){
+?>
+	<br>
+		<span id="sendDocuments">Indique a donde deben ser enviados sus documentos:</span>
+		<table cellspacing="3" class="calculator-input" border="0">
+			<tr>
+			<?php
+				$i = 0;
+				foreach ($arrayValues as $sendDocuments => $value){
+			?>
+				<td>
+					<input id="sendDocuments_<?php echo $i;?>" type="radio" name="sendDocuments" value="<?php echo $sendDocuments?>" checked="checked" onchange="javascript:getTotalInfo()">
+					<?php echo $value["0"]?>
+				</td>
+			<?php
+					$i++;
+				} 
+			?>
+			</tr>
+		</table>
+<?php
+	}
+	
+	mysql_close();
 ?>
