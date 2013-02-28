@@ -14,10 +14,11 @@
     }
     
     $query = "SELECT m.id, m.descripcion, um.id_usuario"
-    ." FROM modulos m LEFT JOIN usuario_modulo um ON um.id_modulo=m.id AND um.id_usuario = ".$idUsuario;
+    ." FROM modulos m LEFT JOIN usuario_modulo um ON um.id_modulo=m.id AND um.id_usuario = ".$idUsuario
+    ." ORDER BY m.categoria, LOWER(m.descripcion)";
     
     $arrayResults = DBUtil::executeSelect($query);
-    BitacoraDAO::registrarComentario("Consultados permisos del usuario con id=[".$idUsuario."]");
+    BitacoraDAO::registrarComentario("Consultados permisos via ajax del usuario con id=[".$idUsuario."]");
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
@@ -26,7 +27,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 </head>
 <body>
-	<form action="ajax/guardarPermisos.php" method="post">
+	<form action="formProcess/guardarPermisos.php" method="post">
 		<table class="borderCollapse">
 			<tr>
 				<td class="tableAjaxResultHeader">Modulo</td>

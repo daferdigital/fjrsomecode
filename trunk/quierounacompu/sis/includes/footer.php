@@ -6,7 +6,7 @@
 	   			<br />
 	   			Sistema Integral de Seguimiento
 	   			<br />
-	   			QuieroUnaCompu.com - Derechos Reservados - XtremoDigital
+	   			&copy; 2013 - Derechos Reservados - Felipe Rojas
 	   			<br />
 	   			<br /> 
 	   		</div>
