@@ -97,7 +97,7 @@
 			<?php
 				if(isset($modulesAllowed[Constants::$CATEGORIA_ADMINISTRACION][Constants::$OPCION_ADMIN_REACTIVAR_USUARIO])){
 			?>
-					<li><a href="reactivarUsuarios.php">Reactivar Usuarios</a></li>
+					<li><a href="reactivarUsuario.php">Reactivar Usuario</a></li>
 			<?php
 				}
 			?>

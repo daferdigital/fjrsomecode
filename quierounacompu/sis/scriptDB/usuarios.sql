@@ -31,9 +31,11 @@ CREATE TABLE `usuarios` (
   `login` varchar(45) NOT NULL,
   `clave` varchar(45) NOT NULL COMMENT 'Clave debe quedar almacenada en MD5',
   `correo` varchar(100) NOT NULL,
+  `active` char(1) NOT NULL DEFAULT '1',
   `tiempo_sesion` int(11) NOT NULL DEFAULT '10',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `login_UNIQUE` (`login`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +44,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'Felipe','Rojas','frojas','e10adc3949ba59abbe56e057f20f883e','fr@quierounacompu.com',20);
+INSERT INTO `usuarios` VALUES (1,'Felipe','Rojas','frojas','e10adc3949ba59abbe56e057f20f883e','fr@quierounacompu.com','1',10),(2,'Reynaldo','Dominguez','rdominguez','e10adc3949ba59abbe56e057f20f883e','rd@quierounacompu.com','1',10);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-02-25  7:20:22
+-- Dump completed on 2013-02-28  0:22:18

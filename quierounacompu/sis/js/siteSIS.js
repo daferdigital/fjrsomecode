@@ -100,6 +100,46 @@ function guardarUsuario(newUserForm){
 }
 
 /**
+ * 
+ * @param updateUserForm
+ */
+function modificarUsuario(updateUserForm){
+	var nombre = updateUserForm.nombre.value.trim();
+	var apellido = updateUserForm.apellido.value.trim();
+	var correo = updateUserForm.correo.value.trim();
+	var login = updateUserForm.login.value.trim();
+	updateUserForm.clave.value = updateUserForm.clave.value.trim();
+	
+	
+	document.getElementById("formNombre").style.display = "none";
+	document.getElementById("formApellido").style.display = "none";
+	document.getElementById("formCorreo").style.display = "none";
+	document.getElementById("formLogin").style.display = "none";
+	
+	var doSubmit = true;
+	if(nombre == ""){
+		doSubmit = false;
+		document.getElementById("formNombre").style.display = "inline";
+	}
+	if(apellido == ""){
+		doSubmit = false;
+		document.getElementById("formApellido").style.display = "inline";
+	}
+	if(correo == ""){
+		doSubmit = false;
+		document.getElementById("formCorreo").style.display = "inline";
+	}
+	if(login == ""){
+		doSubmit = false;
+		document.getElementById("formLogin").style.display = "inline";
+	}
+	
+	if (doSubmit) {
+		updateUserForm.submit();
+	}
+}
+
+/**
  * Validamos el formulario de perfil y en caso de ser valido, enviamos el formulario
  * @param perfilForm
  */
@@ -157,6 +197,10 @@ function validarLoginForm(loginForm){
 	}
 }
 
+/**
+ * 
+ * @param hideMessage
+ */
 function obtenerPermisosUsuario(hideMessage){
 	if(hideMessage) {
 		if(document.getElementById("ajaxAnswerMsg") != null){
@@ -166,6 +210,26 @@ function obtenerPermisosUsuario(hideMessage){
 	
 	var parameters = "usrId=" + document.getElementById("usuarioPermiso").value;
 	callAjax("ajax/getPermisoUsuario.php", 
+			parameters, 
+			"ajaxAnswerContainer");
+}
+
+/**
+ * 
+ * @param hideMessage
+ * @param moduleToRecirect
+ */
+function obtenerDatosUsuario(hideMessage, moduleToRecirect){
+	if(hideMessage) {
+		if(document.getElementById("ajaxAnswerMsg") != null){
+			document.getElementById("ajaxAnswerMsg").style.display = "none";
+		}
+	}
+	
+	var parameters = "usrId=" + document.getElementById("selectUsuario").value;
+	parameters += "&moduleToRedirect=" + moduleToRecirect;
+	
+	callAjax("ajax/getUsuarioForm.php", 
 			parameters, 
 			"ajaxAnswerContainer");
 }

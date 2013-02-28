@@ -1,9 +1,14 @@
 <?php 
-include_once("classes/UsuarioDAO.php");
+include_once("classes/Constants.php");
+include_once("classes/UsuarioDTO.php");
 include_once("classes/PageAccess.php");
+include_once("classes/UsuarioDAO.php");
+include_once("classes/BitacoraDAO.php");
 include_once("includes/header.php");
 
-PageAccess::validateAccess(Constants::$OPCION_ADMIN_PERMISOS);
+PageAccess::validateAccess(Constants::$OPCION_ADMIN_MODIFICAR_USUARIO);
+
+BitacoraDAO::registrarComentario("Acceso a pagina para modificar usuarios");
 
 $idUsuario = -1;
 //busco en session por si vengo de almacenar los permisos
@@ -14,16 +19,16 @@ if(isset($_SESSION[Constants::$KEY_USER_ID])){
 ?>
 
 <div class="seccionTitle">
-	Permisos
+	Modificar Usuarios
 	<br />
 	<span>
-		(Gestione los permisos de los distintos usuarios del Sistema)
+		(Secci&oacute;n para modificar cuentas del sistema)
 	</span>
 </div>
 
 <div class="seccionDetail">
 	Usuarios del Sistema:
-	<select id="usuarioPermiso" onchange="javascript:obtenerPermisosUsuario(true);">
+	<select id="selectUsuario" onchange="javascript:obtenerDatosUsuario(true, '<?php echo Constants::$OPCION_ADMIN_MODIFICAR_USUARIO?>');">
 		<option value="-1">Indique un Usuario</option>
 		<?php
 			$allUsers = UsuarioDAO::getAllActiveUsers();
@@ -56,6 +61,7 @@ if(isset($_SESSION[Constants::$KEY_USER_ID])){
 	
 	</div>
 	<div class="centered" id="ajaxAnswerContainer">
+		
 	</div>
 </div>
 
@@ -64,7 +70,7 @@ if($idUsuario != -1){
 	//llegue a esta pagina despues de almacenar los permisos de un usuario
 ?>
 	<script>
-		obtenerPermisosUsuario(false);
+		obtenerDatosUsuario(false, '<?php echo Constants::$OPCION_ADMIN_MODIFICAR_USUARIO?>');
 	</script>
 <?php
 } 

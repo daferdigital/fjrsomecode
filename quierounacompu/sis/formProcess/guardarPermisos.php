@@ -31,7 +31,7 @@ if(isset($_POST["submit"]) && isset($_POST["permiso"])){
 		}
 	}
 	
-	$_SESSION["usuarioPermiso"]=$_POST["idUsuario"];
+	$_SESSION[Constants::$KEY_USER_ID]=$_POST["idUsuario"];
 	$_SESSION[Constants::$KEY_MESSAGE_OPERATION] = "Su operaci&oacute;n fue realizada";
 	
 	//si el id del usuario al que se le estan cambiando los permisos

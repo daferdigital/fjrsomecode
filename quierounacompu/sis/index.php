@@ -37,7 +37,7 @@
 					</td>
 			</tr>
 			<tr>
-				<td colspan="2" align="right" class="estilo2" bgcolor="#4d60fe">
+				<td colspan="2" align="center" class="estilo2" bgcolor="#4d60fe">
 					Sistema Integral de Seguimiento
 				</td>
 			</tr>
