@@ -1,0 +1,42 @@
+@charset "utf-8";
+/* CSS Document */
+
+td.click, th.click
+
+{
+
+	background-color: #bbb;
+
+}
+
+td.hover, tr.hover
+
+{
+
+	background-color: #69f;
+
+}
+
+th.hover, tfoot td.hover
+
+{
+
+	background-color: ivory;
+
+}
+
+td.hovercell, th.hovercell
+
+{
+
+	background-color: #abc;
+
+}
+
+td.hoverrow, th.hoverrow
+
+{
+
+	background-color: #6df;
+
+}
