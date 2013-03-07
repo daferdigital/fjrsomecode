@@ -46,23 +46,31 @@ class DBUtil {
 	 * Metodo que recibe una consulta de cualquier tipo menos SELECT para ejecutarla.
 	 *
 	 * @param Query a ejecutar (no SELECT) $querySelect
+	 * 
+	 * @return true en caso de exito ejecutando el query, false en cualquier otro escenario
+	 * 
 	 */
 	public static function executeQuery($query){
 		$dbConObj = new DBConnection();
 		$time0 = time();
+		$result = true;
 		
 		try {
 			mysql_query($query, $dbConObj->getConnection());
 			if(mysql_error()){
+				$result = false;
 				DBUtil::storeError($query, mysql_error());
 			}
 		} catch (Exception $e) {
+			$result = false;
 			die("Error ejecutando query(no select) en base de datos");
 		}
 	
 		$dbConObj->closeConnection();
 	
 		DBUtil::insertIntoSystemLog($query, "", time() - $time0);
+		
+		return $result;
 	}
 	
 	/**

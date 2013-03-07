@@ -18,35 +18,29 @@ USE `quierounacompu`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `usuarios`
+-- Table structure for table `bancos`
 --
 
-DROP TABLE IF EXISTS `usuarios`;
+DROP TABLE IF EXISTS `bancos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `usuarios` (
+CREATE TABLE `bancos` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(255) NOT NULL,
-  `apellido` varchar(255) NOT NULL,
-  `login` varchar(45) NOT NULL,
-  `clave` varchar(45) NOT NULL COMMENT 'Clave debe quedar almacenada en MD5',
-  `correo` varchar(100) NOT NULL,
+  `nombre` varchar(250) NOT NULL,
   `active` char(1) NOT NULL DEFAULT '1',
-  `tiempo_sesion` int(11) NOT NULL DEFAULT '10',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `login_UNIQUE` (`login`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `usuarios`
+-- Dumping data for table `bancos`
 --
 -- ORDER BY:  `id`
 
-LOCK TABLES `usuarios` WRITE;
-/*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` (`id`, `nombre`, `apellido`, `login`, `clave`, `correo`, `active`, `tiempo_sesion`) VALUES (1,'Felipe','Rojas','frojas','e10adc3949ba59abbe56e057f20f883e','fr@quierounacompu.com','1',10),(2,'Reynaldo','Dominguez','rdominguez','e10adc3949ba59abbe56e057f20f883e','rd@quierounacompu.com','1',10);
-/*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
+LOCK TABLES `bancos` WRITE;
+/*!40000 ALTER TABLE `bancos` DISABLE KEYS */;
+INSERT INTO `bancos` (`id`, `nombre`, `active`) VALUES (1,'Banesco','1'),(2,'Banco Mercantil','1'),(3,'Banco de Venezuela','1');
+/*!40000 ALTER TABLE `bancos` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -58,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-03-07  1:04:17
+-- Dump completed on 2013-03-07  1:04:19

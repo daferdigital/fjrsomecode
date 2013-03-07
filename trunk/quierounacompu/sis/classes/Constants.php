@@ -20,6 +20,8 @@ class Constants {
 	public static $OPCION_ADMIN_ELIMINAR_USUARIO = "eliminar_usuario";
 	public static $OPCION_PERFIL = "perfil";
 	
+	public static $STATUS_INICIAL_ENVIOS = "1";
+	
 	//constantes en session
 	public static $KEY_USUARIO_DTO = "usuario";
 	public static $KEY_MESSAGE_OPERATION = "messageOperation";
