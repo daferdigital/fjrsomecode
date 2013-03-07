@@ -1,21 +1,10 @@
 <?Php
-
+	include_once 'classes/Constants.php';
 	date_default_timezone_set('America/Caracas');
 
-	//$servidor="127.0.0.1";
-	$servidor="localhost";
+	$conexion=mysql_connect(Constants::$DB_SERVIDOR,Constants::$DB_USUARIO,Constants::$DB_USER_PWD) or die(mysql_error());
+	mysql_select_db(Constants::$DB_SCHEMA) or die (mysql_error()."Problema");
 	
-	$usuario="ingenier_luces";	
-	$clave="luces1234";
-/*
-$usuario="ingenier_fix";
-	$clave="456456";	*/
-	$base="ingenier_sistema";
-
-
-
-	$conexion=mysql_connect($servidor,$usuario,$clave) or die(mysql_error());
-	mysql_select_db($base) or die (mysql_error()."Problema");
 	mysql_query ("SET NAMES 'utf-8'");
 	if(!function_exists('control_logueo')){
 		function control_logueo($login){
