@@ -5,9 +5,9 @@
 <head>
 	<title>QUIEROUNACOMPU - FORMULARIO DE PAGO</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-	<script language="javascript" type="text/javascript" src="scripts/scripts.js"></script>
-	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
 	<link href="../css/jsDatePick_ltr.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="scripts/scripts.js"></script>
 	<script src="../scripts/jsDatePick.full.1.3.js" type="text/javascript"></script>
 	<style type="text/css">
 	<!--
@@ -46,20 +46,20 @@
     		<td colspan="2" align="center">
     			<table border="0" cellpadding="0" cellspacing="0" width="900">
       				<tr>
-				        <td><img src="img/spacer.gif" alt="" border="0" height="1" width="900"></td>
-				        <td><img src="img/spacer.gif" alt="" border="0" height="1" width="1"></td>
+				        <td><img src="../img/spacer.gif" alt="" border="0" height="1" width="900"></td>
+				        <td><img src="../img/spacer.gif" alt="" border="0" height="1" width="1"></td>
       				</tr>
       				<tr>
-				        <td><img src="headerquierounacompu.gif" height="295" width="900"></td>
-				        <td><img src="img/spacer.gif" alt="" border="0" height="295" width="1"></td>
+				        <td><img src="../img/headerquierounacompu.gif" height="295" width="900"></td>
+				        <td><img src="../img/spacer.gif" alt="" border="0" height="295" width="1"></td>
       				</tr>
       				<tr>
-				        <td><img src="img/headerdepagos_r2_c1.jpg" alt="" name="headerdepagos_r2_c1" usemap="#headerdepagos_r2_c1Map" id="headerdepagos_r2_c1" border="0" height="51" width="900"></td>
-				        <td><img src="img/spacer.gif" alt="" border="0" height="51" width="1"></td>
+				        <td><img src="../img/headerdepagos_r2_c1.jpg" alt="" name="headerdepagos_r2_c1" usemap="#headerdepagos_r2_c1Map" id="headerdepagos_r2_c1" border="0" height="51" width="900"></td>
+				        <td><img src="../img/spacer.gif" alt="" border="0" height="51" width="1"></td>
       				</tr>
       				<tr>
-				        <td><img name="headerdepagos_r3_c1" src="img/headerdepagos_r3_c1.jpg" id="headerdepagos_r3_c1" alt="" border="0" height="54" width="900"></td>
-				        <td><img src="img/spacer.gif" alt="" border="0" height="54" width="1"></td>
+				        <td><img src="../img/headerdepagos_r3_c1.jpg" name="headerdepagos_r3_c1" id="headerdepagos_r3_c1" alt="" border="0" height="54" width="900"></td>
+				        <td><img src="../img/spacer.gif" alt="" border="0" height="54" width="1"></td>
       				</tr>
     			</table>
     			
@@ -96,7 +96,7 @@
     		</td>
     		<td width="266">
     			<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="seudonimo">
-    			<span class="isMandatory" id="spanSeudonimo" style="display: none;">1
+    			<span class="isMandatory" id="spanSeudonimo" style="display: none;">
     				<br/>
     				Disculpe el seud&oacute;nimo de MercadoLibre es obligatorio.
     			</span>
