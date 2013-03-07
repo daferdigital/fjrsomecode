@@ -1,4 +1,4 @@
-CREATE DATABASE  IF NOT EXISTS `quierounacompu` /*!40100 DEFAULT CHARACTER SET utf8 */;
+CREATE DATABASE  IF NOT EXISTS `quierounacompu` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `quierounacompu`;
 -- MySQL dump 10.13  Distrib 5.5.16, for Win32 (x86)
 --
@@ -38,10 +38,11 @@ CREATE TABLE `usuario_modulo` (
 --
 -- Dumping data for table `usuario_modulo`
 --
+-- ORDER BY:  `id_usuario`,`id_modulo`
 
 LOCK TABLES `usuario_modulo` WRITE;
 /*!40000 ALTER TABLE `usuario_modulo` DISABLE KEYS */;
-INSERT INTO `usuario_modulo` VALUES (1,7),(1,13),(1,14),(1,15),(1,16),(1,17),(1,18),(1,19),(1,20);
+INSERT INTO `usuario_modulo` (`id_usuario`, `id_modulo`) VALUES (1,7),(1,13),(1,14),(1,15),(1,16),(1,17),(1,18),(1,19),(1,20);
 /*!40000 ALTER TABLE `usuario_modulo` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-02-28  0:22:15
+-- Dump completed on 2013-03-07  1:04:08

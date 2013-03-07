@@ -1,16 +1,19 @@
+<?php 
+	include "../sis/classes/DBUtil.php";
+?>
 <html>
 <head>
 	<title>QUIEROUNACOMPU - FORMULARIO DE PAGO</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-	<script language="javascript" type="text/javascript" src="script.js"></script>
+	<script language="javascript" type="text/javascript" src="scripts/scripts.js"></script>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<link href="../css/jsDatePick_ltr.css" rel="stylesheet" type="text/css" />
 	<script src="../scripts/jsDatePick.full.1.3.js" type="text/javascript"></script>
 	<style type="text/css">
 	<!--
-		.Estilo17 {color: #333333}
-		.Estilo18 {font-size: 12px}
-		.Estilo20 {color: #FF0000}
+		.Estilo17 {color: #333333;}
+		.Estilo18 {font-size: 12px;}
+		.Estilo20 {color: #FF0000;}
 		.Estilo21 {
 			font-family: Verdana, Arial, Helvetica, sans-serif
 		}
@@ -28,15 +31,19 @@
 			font-size: 9;
 			font-family: Arial, Helvetica, sans-serif;
 		}
+		.isMandatory {
+			color: #FF0000;
+			font-size: 12px;
+		}
 	-->
 	</style>
 </head>
 <body>
 	
-<form name="pago" onsubmit="return B(this)" action="pago.php" method="post">
+<form name="pago" action="storePay.php" method="post">
 	<table class="tablaPrincipal" align="center" cellpadding="0" cellspacing="10" width="741">
   		<tr>
-    		<td colspan="3" align="center">
+    		<td colspan="2" align="center">
     			<table border="0" cellpadding="0" cellspacing="0" width="900">
       				<tr>
 				        <td><img src="img/spacer.gif" alt="" border="0" height="1" width="900"></td>
@@ -66,29 +73,33 @@
       		</td>
 		</tr>
   		<tr>
-    		<td colspan="3" class="headline1 Estilo24" align="center" bgcolor="#2073C3" height="40">
+    		<td colspan="2" class="headline1 Estilo24" align="center" bgcolor="#2073C3" height="40">
     			Reportar pago de productos, mediante depósito o transferencia 
     		</td>
   		</tr>
   		<tr>
-    		<td colspan="3" class="headline2 Estilo22" align="center" bgcolor="#CCCCCC">
+    		<td colspan="2" class="headline2 Estilo22" align="center" bgcolor="#CCCCCC">
     			Por favor para nosotros es importante que usted llene este formulario, para procesar su pedido correctamente
     		</td>
   		</tr>
   		<tr>
-    		<td colspan="3" class="headline2" align="center" bgcolor="#CCCCCC">
+    		<td colspan="2" class="headline2" align="center" bgcolor="#CCCCCC">
     			Datos del pago para procesar su pedido
     		</td>
   		</tr>
   		<tr>
-    		<td colspan="3">&nbsp;</td>
+    		<td colspan="2">&nbsp;</td>
   		</tr>
   		<tr>
     		<td class="title Estilo17" width="307">
-    			* Tu seudónimo en MercadoLibre:
+    			* Tu seud&oacute;nimo en MercadoLibre:
     		</td>
     		<td width="266">
-    			<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" tabindex="1" size="30" name="seudonimo">
+    			<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="seudonimo">
+    			<span class="isMandatory" id="spanSeudonimo" style="display: none;">1
+    				<br/>
+    				Disculpe el seud&oacute;nimo de MercadoLibre es obligatorio.
+    			</span>
     		</td>
   		</tr>
   		<tr>
@@ -96,42 +107,55 @@
     			* Tus nombres y apellidos:
     		</td>
     		<td>
-    			<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" tabindex="2" size="30" name="nombre">
+    			<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="nombre">
+    			<span class="isMandatory" id="spanNombre" style="display: none;">
+    				<br/>
+    				Disculpe el nombre completo es obligatorio.
+    			</span>
     		</td>
   		</tr>
   		<tr>
     		<td class="title Estilo17">
-    			* Cédula de identidad o RIF:
+    			* C&eacute;dula de identidad o RIF:
     			<br />
     			<span class="subtitle Estilo20">
     				Indispensable para poder procesar el pedido.
     			</span>
     		</td>
    	 		<td>
-   	 			<select style="FONT-SIZE: 10pt" tabindex="3" size="1" name="ci">
-			        <option selected="">V</option>
-			        <option>J</option>
-			        <option>G</option>
-			        <option>E</option>
-			        <option>C</option>
+   	 			<select style="FONT-SIZE: 10pt" size="1" name="ci">
+			        <option value="V" selected>V</option>
+			        <option value="J">J</option>
+			        <option value="G">G</option>
+			        <option value="E">E</option>
+			        <option value="C">C</option>
       			</select>
-    			<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" tabindex="4" maxlength="9" size="23" name="cii" minlength="5">
+    			<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)"  maxlength="9" size="23" name="cii">
+    			<span class="isMandatory" id="spanCii" style="display: none;">
+    				<br/>
+    				Disculpe su C&eacute;dula es obligatoria.
+    			</span>
     		</td>
   		</tr>
   		<tr>
     		<td class="title Estilo17">
     			*  Correo electrónico:
+    			<br />
+    			<span class="Estilo20">El mismo de MercadoLibre</span>
     		</td>
     		<td>
     			<p>
-      				<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" tabindex="5" size="30" name="email">
-      				<span class="Estilo20">El mismo de MercadoLibre</span>
+      				<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="email">
       				<br />
       				<span class="Estilo18">
       					Es importante que el email sea escrito correctamente ya que te llegara una copia de los datos completados.
       					<br />
       					Tambi&eacute;n te enviaremos ofertas de nuestros productos.
       				</span>
+      				<span class="isMandatory" id="spanEmail" style="display: none;">
+	    				<br/>
+	    				Disculpe su Correo es obligatorio.
+    				</span>
       			</p>
       		</td>
   		</tr>
@@ -140,38 +164,69 @@
     			* Medio de Pago:
     		</td>
     		<td>
-    			<select name="medio" size="1" class="Estilo11" style="FONT-SIZE: 10pt" tabindex="6" id="medio">
-			        <option selected="">Seleccione su medio</option>
-			        <option>Dep&oacute;sito </option>
-			        <option>Transferencia </option>
-			        <option>Efectivo en tienda</option>
-			        <option>Cheque Conformable en tienda</option>
-			        <option>MercadoPago</option>
+    			<select name="medio" size="1" class="Estilo11" style="FONT-SIZE: 10pt" id="medio">
+    				<option value="-1" selected="">Seleccione su medio de pago</option>
+			        <?php 
+    					$query = "SELECT id, text "
+    					."FROM medios_de_pago "
+    					."WHERE active='1' "
+    					."ORDER BY text";
+    					
+    					$results = DBUtil::executeSelect($query);
+    					foreach ($results as $row){
+    				?>
+    					<option value="<?php echo $row[0];?>"><?php echo $row[1];?></option>
+    				<?php
+    					}
+    				?>
       			</select>
+      			<span class="isMandatory" id="spanMedio" style="display: none;">
+	    			<br/>
+	    			Disculpe debe indicar su medio de pago.
+    			</span>
       		</td>
   		</tr>
   		<tr>
     		<td class="title Estilo17">Banco:</td>
     		<td>
-    			<select name="banco" size="1" class="Estilo11" style="FONT-SIZE: 10pt" tabindex="6" id="banco">
-					<option>Seleccione su banco</option>
-					<option>Banesco</option>
-					<option>Mercantil</option>
-					<option>Venezuela</option>
+    			<select name="banco" size="1" class="Estilo11" style="FONT-SIZE: 10pt" id="banco">
+					<option value="-1" selected="">Seleccione su banco</option>
+			        <?php 
+    					$query = "SELECT id, nombre "
+    					."FROM bancos "
+    					."WHERE active='1' "
+    					."ORDER BY nombre";
+    					
+    					$results = DBUtil::executeSelect($query);
+    					foreach ($results as $row){
+    				?>
+    					<option value="<?php echo $row[0];?>"><?php echo $row[1];?></option>
+    				<?php
+    					}
+    				?>
         		</select>
+        		<span class="isMandatory" id="spanBanco" style="display: none;">
+	    			<br/>
+	    			Disculpe debe indicarnos el banco desde el que realiz&oacute; el pago.
+    			</span>
     		</td>
   		</tr>
   		<tr>
     		<td class="title Estilo17">
-    			<p>*Cantidad y Articulo(s) comprado(s) :</p>
-    			<p class="Estilo18">
+    			*Cantidad y Articulo(s) comprado(s) :
+    			<br />
+    			<span class="Estilo18">
     				Indiquenos la cantidad y el articulo que usted compro, tome como guia el t&iacute;itulo del articulo en MercadoLibre 
     				<br />
     				Cantidad (Nro) Articulo 
-    			</p>
+    			</span>
          	</td>
     		<td>
     			<textarea name="articulo" id="articulo" cols="45" rows="5"></textarea>
+    			<span class="isMandatory" id="spanArticulo" style="display: none;">
+	    			<br/>
+	    			Disculpe debe indicarnos el detalle del articulo comprado y las cantidades.
+    			</span>
     		</td>
   		</tr>
   		<tr>
@@ -183,7 +238,11 @@
     			</span>
     		</td>
     		<td>
-      			<input id="bauche" style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" tabindex="7" maxlength="30" size="30" name="bauche"> 
+      			<input id="bauche" style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" maxlength="30" size="30" name="bauche">
+      			<span class="isMandatory" id="spanBauche" style="display: none;">
+	    			<br/>
+	    			Disculpe el n&uacute;mero del bauche o transferencia es obligatorio.
+    			</span> 
       		</td>
   		</tr>
   		<tr>
@@ -204,173 +263,285 @@
 				        imgPath:"../img/"
 				    });
 				</script>
+				<span class="isMandatory" id="spanFechaPago" style="display: none;">
+	    			<br/>
+	    			Disculpe debe indicarnos la fecha de su pago.
+    			</span>
       		</td>
-  </tr>
-  <tr>
-    <td class="title Estilo17">* Monto del depósito o transferencia:</td>
-    <td><input style="FONT-SIZE: 10pt; TEXT-DECORATION: none" tabindex="12" size="30" name="monto"> 
-      <span class="Estilo23">Bs F</span></td>
-    <td class="subtitle">&nbsp;</td>
-  </tr>
-  <tr>
-    <td colspan="3" class="headline2 Estilo17" align="center">&nbsp;</td>
-  </tr>
-  <tr>
-    <td colspan="3" class="headline2 Estilo17 Estilo21" align="center">Datos para el envío</td>
-  </tr>
-  <tr>
-    <td colspan="3" class="title Estilo17 Estilo18"><div align="center"><span class="Estilo20">Nota Importante:</span> No nos hacemos responsables por los daños y/o pérdidas que puedan sufrir los productos durante su traslado</div></td>
-    </tr>
-  <tr>
-    <td class="title Estilo17">* Compañía de Envío:</td>
-    <td>
-      <select name="envio" size="1" class="Estilo11" id="envio" style="FONT-SIZE: 10pt" tabindex="6" onchange="MM_popupMsg('Estimado cliente MRW no ASEGURA ningún tipo de producto, por lo que si selecciona esta empresa como método de envio recuerde que el envio va bajo RESPONSABILIDAD ABSOLUTA del COMPRADOR.\rGracias por su atención\r QUIEROUNACOMPU.COM')">
-<option>GRUPO ZOOM</option>
-<option>MRW</option>
-</select> </td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td class="title Estilo17">* Nombre y Apellido del destinatario:</td>
-    <td><input style="BACKGROUND-COLOR: rgb(255,255,255)" tabindex="13" size="30" name="destinatario"></td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td class="title Estilo17">* Direccion <strong>exacta </strong>de destino </td>
-    <td><input style="BACKGROUND-COLOR: rgb(255,255,255)" tabindex="14" size="45" name="dir1">
-      <input style="BACKGROUND-COLOR: rgb(255,255,255)" tabindex="15" size="45" name="dir2"></td>
-    <td class="subtitle">Incluya nombre de Urb. o Barrio; Calle, Carrera o Av.; Nombre o numero de Casa o Edificio; Piso y número de Apto u Oficina</td>
-  </tr>
-  <tr>
-    <td class="title Estilo17">* Ciudad o Población:</td>
-    <td><input style="BACKGROUND-COLOR: rgb(255,255,255)" tabindex="16" size="30" name="ciudad"></td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td class="title Estilo17">* Estado:</td>
-    <td><select name="estado" size="1" tabindex="17">
-        <option selected="">Selecciona</option>
-		<option>Amazonas</option>
-        <option>Anzoategui</option>
-        <option>Apure</option>
-        <option>Aragua</option>
-        <option>Barinas</option>
-        <option>Bolivar</option>
-        <option>Carabobo</option>
-        <option>Cojedes</option>
-        <option>Delta Amacuro</option>
-        <option>Distrito Capital</option>
-        <option>Falcon</option>
-        <option>Guarico</option>
-        <option>Lara</option>
-        <option>Merida</option>
-        <option>Miranda</option>
-        <option>Monagas</option>
-        <option>Nueva Esparta</option>
-        <option>Portuguesa</option>
-        <option>Sucre</option>
-        <option>Tachira</option>
-        <option>Trujillo</option>
-        <option>Vargas</option>
-        <option>Yaracuy</option>
-        <option>Zulia</option>
-      </select></td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td class="title Estilo17">Celular:</td>
-    <td><select id="codcel" tabindex="18" size="1" name="codcel">
-        <option selected="">codigo</option>
- 		<option>412</option>
-        <option>414</option>
-        <option>416</option>
-        <option>424</option>
-      </select>
-      <input style="BACKGROUND-COLOR: rgb(255,255,255)" tabindex="19" maxlength="7" size="20" name="celular"></td>
-    <td rowspan="2" class="subtitle">Debe indicar al menos un número telefónico, sea celular o fijo</td>
-  </tr>
-  <tr>
-    <td class="title Estilo17">Teléfono:</td>
-    <td><select tabindex="20" size="1" name="codfono">
-        <option selected="">codigo</option>
-		<option value="212">212</option>
-        <option value="234">234</option>
-        <option value="235">235</option>
-        <option value="237">237</option>
-        <option value="238">238</option>
-        <option value="239">239</option>
-        <option value="240">240</option>
-        <option value="241">241</option>
-        <option value="242">242</option>
-        <option value="243">243</option>
-        <option value="244">244</option>
-        <option value="245">245</option>
-        <option value="246">246</option>
-        <option value="247">247</option>
-        <option value="248">248</option>
-        <option value="249">249</option>
-        <option value="251">251</option>
-        <option value="252">252</option>
-        <option value="253">253</option>
-        <option value="254">254</option>
-        <option value="255">255</option>
-        <option value="256">256</option>
-        <option value="257">257</option>
-        <option value="258">258</option>
-        <option value="259">259</option>
-        <option value="261">261</option>
-        <option value="262">262</option>
-        <option value="263">263</option>
-        <option value="264">264</option>
-        <option value="265">265</option>
-        <option value="266">266</option>
-        <option value="267">267</option>
-        <option value="268">268</option>
-        <option value="269">269</option>
-        <option value="271">271</option>
-        <option value="272">272</option>
-        <option value="273">273</option>
-        <option value="274">274</option>
-        <option value="275">275</option>
-        <option value="276">276</option>
-        <option value="277">277</option>
-        <option value="278">278</option>
-        <option value="279">279</option>
-        <option value="281">281</option>
-        <option value="282">282</option>
-        <option value="283">283</option>
-        <option value="284">284</option>
-        <option value="285">285</option>
-        <option value="286">286</option>
-        <option value="287">287</option>
-        <option value="288">288</option>
-        <option value="289">289</option>
-        <option value="291">291</option>
-        <option value="292">292</option>
-        <option value="293">293</option>
-        <option value="294">294</option>
-        <option value="295">295</option>
-        <option value="296">296</option>
-      </select>
-    <input style="BACKGROUND-COLOR: rgb(255,255,255)" tabindex="21" maxlength="7" size="20" name="fono"></td>
-  </tr>
-  <tr>
-    <td class="title Estilo17">Observaciones:</td>
-    <td><input style="BACKGROUND-COLOR: rgb(255,255,255)" tabindex="22" size="45" name="obs"></td>
-    <td class="subtitle">Nombre de juego, colores, cantidades, etc.</td>
-  </tr>
-  <tr>
-    <td colspan="3" class="subtitle" align="center">Por favor no olvides llenar todos los campos obligatorios marcados con *</td>
-  </tr>
-  <tr>
-    <td colspan="3" align="center"><input name="enviar" style="FONT-WEIGHT: bold; FONT-SIZE: 10pt" onclick="MM_popupMsg('Gracias por completar la información, en breve le sera enviado un email con todos los datos para su archivo.\rRECUERDE ESPERAR hasta que aparezca la pantalla de AGRADECIMIENTO POR SU PAGO')" value="Enviar datos del pago" type="submit"></td>
-  </tr>
-</tbody></table>
+      	</tr>
+      	<tr>
+	      	<td class="title Estilo17">
+	      		* Monto del dep&oacute;sito o transferencia:
+	      	</td>
+    		<td>
+    			<input style="FONT-SIZE: 10pt; TEXT-DECORATION: none" size="30" name="monto"> 
+      			<span class="Estilo23">Bs F</span>
+      			<span class="isMandatory" id="spanMonto" style="display: none;">
+	    			<br/>
+	    			Disculpe debe indicar el monto del pago.
+    			</span>
+      		</td>
+  		</tr>
+  		<tr>
+    		<td colspan="2" class="headline2 Estilo17" align="center">&nbsp;</td>
+  		</tr>
+  		<tr>
+    		<td colspan="2" class="headline2" align="center" bgcolor="#CCCCCC">
+    			Datos para el env&iacute;o
+    		</td>
+  		</tr>
+  		<tr>
+    		<td colspan="2" class="title Estilo17 Estilo18">
+    			<div align="center">
+    				<span class="Estilo20">Nota Importante:</span> 
+    				No nos hacemos responsables por los da&ntilde;os y/o p&eacute;rdidas que puedan sufrir los productos durante su traslado
+    			</div>
+    		</td>
+    	</tr>
+  		<tr>
+    		<td class="title Estilo17">
+    			* Compa&ntilde;&iacute;a de env&iacute;o:
+    		</td>
+    		<td>
+      			<select name="envio" id="envio" class="Estilo11" id="envio" style="FONT-SIZE: 10pt" onchange="checkCiaEnvio();">
+					<?php 
+    					$query = "SELECT id, nombre "
+    					."FROM empresa_envio "
+    					."WHERE active='1' "
+    					."ORDER BY nombre";
+    					
+    					$results = DBUtil::executeSelect($query);
+    					foreach ($results as $row){
+    				?>
+    					<option value="<?php echo $row[0];?>"><?php echo $row[1];?></option>
+    				<?php
+    					}
+    				?>
+				</select>
+				<span class="isMandatory" id="spanEnvio" style="display: none;">
+	    			<br/>
+	    			Disculpe debe indicar con que compa&ntilde;ia desea realizar el env&iacute;o.
+    			</span>
+			</td>
+		</tr>
+  		<tr>
+    		<td class="title Estilo17">
+    			* Nombre y Apellido del destinatario:
+    		</td>
+    		<td>
+    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="destinatario">
+    			<span class="isMandatory" id="spanDestinatario" style="display: none;">
+	    			<br/>
+	    			Disculpe debe indicar el nombre completo del destinatario.
+    			</span>
+    		</td>
+  		</tr>
+  		<tr>
+    		<td class="title Estilo17">
+    			* Direcci&oacute;n <strong>exacta </strong> de destino
+    			<br />
+    			<span class="Estilo18">
+    				Incluya nombre de Urb. o Barrio; Calle, Carrera o Av.; 
+    				Nombre o numero de Casa o Edificio; Piso y n&uacute;mero de Apto u Oficina
+    			</span>
+    		</td>
+    		<td>
+    		
+    			<textarea name="dir1" id="dir1" cols="45" rows="5"></textarea>
+      			<span class="isMandatory" id="spanDir1" style="display: none;">
+	    			<br/>
+	    			Disculpe debe indicar la direcci&oacute;n exacta del destino.
+    			</span>
+      		</td>
+      	</tr>
+  		<tr>
+    		<td class="title Estilo17">
+    			* Ciudad o Poblaci&oacute;n:
+    		</td>
+    		<td>
+    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="ciudad">
+    			<span class="isMandatory" id="spanCiudad" style="display: none;">
+	    			<br/>
+	    			Disculpe debe indicar la Ciudad o Poblaci&oacute;n del env&iacute;o.
+    			</span>
+    		</td>
+   		</tr>
+   		<tr>
+   			<td class="title Estilo17">
+   				* Estado:
+   			</td>
+    		<td>
+    			<select name="estado" size="1">
+			        <option value="-1" selected>Selecciona</option>
+					<option>Amazonas</option>
+			        <option>Anzoategui</option>
+			        <option>Apure</option>
+			        <option>Aragua</option>
+			        <option>Barinas</option>
+			        <option>Bolivar</option>
+			        <option>Carabobo</option>
+			        <option>Cojedes</option>
+			        <option>Delta Amacuro</option>
+			        <option>Distrito Capital</option>
+			        <option>Falcon</option>
+			        <option>Guarico</option>
+			        <option>Lara</option>
+			        <option>Merida</option>
+			        <option>Miranda</option>
+			        <option>Monagas</option>
+			        <option>Nueva Esparta</option>
+			        <option>Portuguesa</option>
+			        <option>Sucre</option>
+			        <option>Tachira</option>
+			        <option>Trujillo</option>
+			        <option>Vargas</option>
+			        <option>Yaracuy</option>
+			        <option>Zulia</option>
+      			</select>
+      			<span class="isMandatory" id="spanEstado" style="display: none;">
+	    			<br/>
+	    			Disculpe debe indicar la estado al cual ser&aacute; realizado del env&iacute;o.
+    			</span>
+      		</td>
+  		</tr>
+  		<tr>
+    		<td class="title Estilo17">
+    			Celular:
+    			<br />
+    			<span class="Estilo18">
+    				Debe indicar al menos un n&uacute;mero telef&oacute;nico, sea celular o fijo
+    			</span>
+    		</td>
+    		<td>
+    			<select id="codcel" size="1" name="codcel">
+			        <option value="412">412</option>
+			        <option value="414">414</option>
+			        <option value="416">416</option>
+			        <option value="424">424</option>
+			        <option value="426">426</option>
+      			</select>
+      			<input style="BACKGROUND-COLOR: rgb(255,255,255)" maxlength="7" size="20" name="celular">
+      			<span class="isMandatory" id="spanCelular" style="display: none;">
+	    			<br/>
+	    			Disculpe debe indicar al menos un n&uacute;mero telef&oacute;nico, sea celular o fijo.
+    			</span>
+      		</td>
+    	</tr>
+  		<tr>
+    		<td class="title Estilo17">
+    			Tel&eacute;fono:
+    		</td>
+    		<td>
+    			<select size="1" name="codfono">
+			        <option value="212">212</option>
+			        <option value="234">234</option>
+			        <option value="235">235</option>
+			        <option value="237">237</option>
+			        <option value="238">238</option>
+			        <option value="239">239</option>
+			        <option value="240">240</option>
+			        <option value="241">241</option>
+			        <option value="242">242</option>
+			        <option value="243">243</option>
+			        <option value="244">244</option>
+			        <option value="245">245</option>
+			        <option value="246">246</option>
+			        <option value="247">247</option>
+			        <option value="248">248</option>
+			        <option value="249">249</option>
+			        <option value="251">251</option>
+			        <option value="252">252</option>
+			        <option value="253">253</option>
+			        <option value="254">254</option>
+			        <option value="255">255</option>
+			        <option value="256">256</option>
+			        <option value="257">257</option>
+			        <option value="258">258</option>
+			        <option value="259">259</option>
+			        <option value="261">261</option>
+			        <option value="262">262</option>
+			        <option value="263">263</option>
+			        <option value="264">264</option>
+			        <option value="265">265</option>
+			        <option value="266">266</option>
+			        <option value="267">267</option>
+			        <option value="268">268</option>
+			        <option value="269">269</option>
+			        <option value="271">271</option>
+			        <option value="272">272</option>
+			        <option value="273">273</option>
+			        <option value="274">274</option>
+			        <option value="275">275</option>
+			        <option value="276">276</option>
+			        <option value="277">277</option>
+			        <option value="278">278</option>
+			        <option value="279">279</option>
+			        <option value="281">281</option>
+			        <option value="282">282</option>
+			        <option value="283">283</option>
+			        <option value="284">284</option>
+			        <option value="285">285</option>
+			        <option value="286">286</option>
+			        <option value="287">287</option>
+			        <option value="288">288</option>
+			        <option value="289">289</option>
+			        <option value="291">291</option>
+			        <option value="292">292</option>
+			        <option value="293">293</option>
+			        <option value="294">294</option>
+			        <option value="295">295</option>
+			        <option value="296">296</option>
+      			</select>
+    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" maxlength="7" size="20" name="fono">
+    		</td>
+  		</tr>
+  		<tr>
+    		<td class="title Estilo17">
+    			Observaciones:
+    			<BR />
+    			<span class="Estilo18">
+    				Nombre de juego, colores, cantidades, etc.
+    			</span>
+    		</td>
+    		<td>
+    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" size="45" name="obs">
+    		</td>
+    	</tr>
+    	<tr>
+    		<td colspan="2" align="center" class="title Estilo17">
+    			<input type="checkbox" name="terminos" value="1"> 
+    			Acepto los <a href="#" onclick="javascript:popUpTerminos();">T&eacute;rminos y Condiciones</a>
+    			<span class="isMandatory" id="spanTerminos" style="display: none;">
+	    			<br/>
+	    			Disculpe debe aceptar los T&eacute;rminos y Condiciones.
+    			</span>
+    		</td>
+    	</tr>
+  		<tr>
+    		<td colspan="2" class="subtitle" align="center">
+    			Por favor no olvides llenar todos los campos obligatorios marcados con *
+    		</td>
+  		</tr>
+  		<tr>
+    		<td colspan="2" align="center">
+    			<input name="enviar" onclick="javascript:validarFormularioDePago(this.form)" style="FONT-WEIGHT: bold; FONT-SIZE: 10pt;" value="Enviar datos del pago" type="button" >
+    		</td>
+  		</tr>
+	</table>
 </form>
-
-
-
-
-
-
-</body></html>
+<?php 
+	if(isset($_GET["e"])){
+		$message = "Su pago fue almacenado con exito.";
+		
+		if($_GET["e"] == "0001"){
+			$message = "Su pago no pudo ser almacenado, por favor intente de nuevo.";
+		}
+?>
+		<script>
+			showAlert('<?php echo $message;?>')
+		</script>
+<?php
+	}
+?>
+</body>
+</html>

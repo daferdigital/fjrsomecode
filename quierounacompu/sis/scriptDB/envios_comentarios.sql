@@ -18,35 +18,34 @@ USE `quierounacompu`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `usuarios`
+-- Table structure for table `envios_comentarios`
 --
 
-DROP TABLE IF EXISTS `usuarios`;
+DROP TABLE IF EXISTS `envios_comentarios`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `usuarios` (
+CREATE TABLE `envios_comentarios` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(255) NOT NULL,
-  `apellido` varchar(255) NOT NULL,
-  `login` varchar(45) NOT NULL,
-  `clave` varchar(45) NOT NULL COMMENT 'Clave debe quedar almacenada en MD5',
-  `correo` varchar(100) NOT NULL,
-  `active` char(1) NOT NULL DEFAULT '1',
-  `tiempo_sesion` int(11) NOT NULL DEFAULT '10',
+  `fecha_comentario` datetime NOT NULL,
+  `comentario` text NOT NULL,
+  `id_usuario` int(10) unsigned NOT NULL,
+  `id_status_envio` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `login_UNIQUE` (`login`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+  KEY `FK_COMENTARIO_USUARIO` (`id_usuario`),
+  KEY `FK_COMENTARIO_STATUS_ENVIO` (`id_status_envio`),
+  CONSTRAINT `FK_COMENTARIO_USUARIO` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_COMENTARIO_STATUS_ENVIO` FOREIGN KEY (`id_status_envio`) REFERENCES `envios_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `usuarios`
+-- Dumping data for table `envios_comentarios`
 --
 -- ORDER BY:  `id`
 
-LOCK TABLES `usuarios` WRITE;
-/*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` (`id`, `nombre`, `apellido`, `login`, `clave`, `correo`, `active`, `tiempo_sesion`) VALUES (1,'Felipe','Rojas','frojas','e10adc3949ba59abbe56e057f20f883e','fr@quierounacompu.com','1',10),(2,'Reynaldo','Dominguez','rdominguez','e10adc3949ba59abbe56e057f20f883e','rd@quierounacompu.com','1',10);
-/*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
+LOCK TABLES `envios_comentarios` WRITE;
+/*!40000 ALTER TABLE `envios_comentarios` DISABLE KEYS */;
+/*!40000 ALTER TABLE `envios_comentarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -58,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-03-07  1:04:17
+-- Dump completed on 2013-03-07  1:04:18
