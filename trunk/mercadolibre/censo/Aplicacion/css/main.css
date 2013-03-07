@@ -1,0 +1,114 @@
+*{
+	font-family: Century Gothic, sans-serif;
+	font-size: 12px;margin: 0px;padding: 0px;border: 0px;
+}
+body{
+	background-color: #fff;
+	text-align:center;
+}
+hr{
+	border: 1px solid #ccc;
+}
+.wrap { 
+	position: relative;
+	margin:0 auto 0 auto; 
+	width:845px; 
+}
+#content, #content2{
+	min-width:845px; 
+}
+#content .wrap, #content2 .wrap{
+	width:845px; 
+	min-height:675px; 
+}
+#barraFoot{
+	width:100%; 
+	background-color: #002854;
+	min-width:845px;
+}
+#barraHead{
+	width:100%; 
+	height:160px; 
+	min-width:845px;
+}
+#content2 td, #content2 td a{
+	color: #000;
+    font-size: 12px;
+}
+#content2 td a{
+    text-decoration:none;
+}
+#loadajax {
+    background-color: #000000;
+	color: #fff;
+    height: 50px;
+    left: 50%;
+    margin-left: -50px;
+    margin-top: -25px;
+    padding: 15px 5px 5px;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    vertical-align: middle;
+    width: 100px;
+    z-index: 10001;
+}
+input, select, textarea, button{
+	border: 1px solid #002854;
+	padding: 3px;
+}
+label{
+    font-size: 12px;
+    font-weight: bold;
+
+}
+.error {
+    color: #FF0000;
+    /*display: block;*/
+    font-size: 10px;
+}
+.ui-timepicker-div .ui-widget-header {
+    margin-bottom: 8px;
+}
+.ui-timepicker-div dl {
+    text-align: left;
+}
+.ui-timepicker-div dl dt {
+    height: 25px;
+}
+.ui-timepicker-div dl dd {
+    margin: -25px 0 10px 65px;
+}
+.ui-timepicker-div td {
+    font-size: 90%;
+}
+.clear{ clear: both; }
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    z-index: 10000;
+}
+.colorpicker{
+	z-index: 2000;
+}
+
+.ui-autocomplete {
+	max-height: 100px;
+	overflow-y: auto;
+	/* prevent horizontal scrollbar */
+	overflow-x: hidden;
+}
+/* IE 6 doesn't support max-height
+ * we use height instead, but this forces the menu to always be this tall
+ */
+* html .ui-autocomplete {
+	height: 100px;
+}
+
+#tabs table td {
+	text-align:left
+}
