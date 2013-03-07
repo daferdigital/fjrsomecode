@@ -1,4 +1,6 @@
-<?php session_start();
+<?php 
+session_start();
+include_once '../classes/DBUtil.php';
 ?>
 <!--
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -40,9 +42,21 @@
 			* validamos que los eventos respectivos no hayan empezado, antes de procesar la propia venta del ticket
 			**/
 			foreach($_POST['apuesta'] as $valor){
-				echo $valor.'<br>';
-				$valor_real_ticket=dame_datos("select multiplicando,pago from logros_equipos_categorias_apuestas_banqueros where idlogro_equipo_categoria_apuesta_banquero='".$valor."' limit 1");
-				mysql_query("insert into ventas_detalles() values('','".$uid."','".$valor."','".$valor_real_ticket['multiplicando']."','".$valor_real_ticket['pago']."','1')");
+				$query = "SELECT l.fecha, l.hora "
+						."FROM logros l, logros_equipos le, logros_equipos_categorias_apuestas_banqueros lecab "
+						."WHERE le.idlogro_equipo = lecab.idlogro_equipo "
+						."AND l.idlogro = le.idlogro "
+						."AND lecab.idlogro_equipo_categoria_apuesta_banquero = ".$valor;
+				$selectResults = DBUtil::executeSelect($query);
+				
+				$sysdate = time();
+				if($sysdate > strtotime($selectResults["fecha"]." ".$selectResults["hora"])){
+					//este logro (evento) (apuesta) esta relacionada con un evento cuya hora de inicio
+					//es menor a la fecha del sistema, lo que quiere decir que dicho evento ya inicio
+					//detenemos la creacion de la venta en este punto
+				
+					die("Evento iniciado, debemos frenar la creacion del ticket.");
+				}
 			}
 			
 			
