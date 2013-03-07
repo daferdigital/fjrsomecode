@@ -87,7 +87,7 @@
 <table align="center" width="100%" bgcolor="#ebebeb" cellpadding="5">
   
   <tr>
-    <td height="91"><form action="validar.php" method="POST">	      
+    <td height="91"><form action="validar.php" method="post">	      
           <div class="titulo"><b>Gestor de entrada </b></div>
 	      <table  align="center" width="300px" height="" style="background: url(imagenes/fondo_logueo.jpg) left top repeat-x; ">
 	        <tr>
