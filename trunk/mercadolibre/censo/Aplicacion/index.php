@@ -17,7 +17,7 @@ if(isset($_POST['user']) && isset($_POST['pass'])){
 			$isAdministrator=true;
 		}
 	}
-    else  $eMsj = "Usuario o contraseña invalida"; 
+    else  $eMsj = "Usuario o contrase&ntilde;a invalida"; 
 }
 if (User::authSession())
 {
@@ -91,8 +91,10 @@ $isAccess=  $isLogin &&  $isAdministrator;
 						<td width="150" valign="top">
 							<b>Menu</b><br /><br /><hr /><br />
 							<a href="index.php?s=adminEncuestas">Encuestas</a>
-							<br />
-							<a href="index.php?s=adminItemsEncuesta">Preguntas de Encuestas</a>
+							<br /><br />
+							<a href="index.php?s=adminSeccionesEncuesta">Secciones de Encuestas</a>
+							<br /><br />
+							<a href="index.php?s=adminItemsEncuesta">Items de Encuestas</a>
 							<br /><br /><hr /><br />
 							<a href="index.php?s=adminEstados">Estados</a><br /><br />
 							<a href="index.php?s=adminMunicipios">Municipios</a><br /><br />
