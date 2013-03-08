@@ -453,77 +453,77 @@
 							<div id="botonesPersona"><button type="button" onclick ="abrirPersona();">Agregar un miembro de la Familia</button></div>
 						</div>
 						<div id="tabs-3">
-						<table width="100%"><tr><td width="50%" valign="top">
+						<?php 
+						$seccionesEncuesta = $db->l("SELECT DISTINCT cie.id, cie.texto, cie.orden FROM categoria_item_encuesta cie, items_encuesta ie WHERE cie.active='1' AND cie.id=ie.id_item_categoria ORDER BY cie.orden, cie.texto", false);
+						for($i = 0; $i < count($seccionesEncuesta); $i++){
+							//creamos la tabla de la seccion
+						?>
 							<table width="100%">
-								<tr><th>Problemas de la Comunidad</th><th></th></tr>
-								<tr><td>Falta de cooperación de los vecinos</td><td><input type="checkbox" value="1" name="cooperacion_vecinos" id="cooperacion_vecinos" /></td></tr>
-								<tr><td>Violencia vecinal</td><td><input type="checkbox" value="1" name="violencia_vecinal" id="violencia_vecinal" /></td></tr>
-								<tr><td>Abuso de las autoridades</td><td><input type="checkbox" value="1" name="abuso_autoridades" id="abuso_autoridades" /></td></tr>
-								<tr><td>Prostitución</td><td><input type="checkbox" value="1" name="prostitucion" id="prostitucion" /></td></tr>
-								<tr><td>Alcoholismo</td><td><input type="checkbox" value="1" name="alcoholismo" id="alcoholismo" /></td></tr>
-								<tr><td>Enfermos terminales en la comunidad</td><td><input type="checkbox" value="1" name="dummy_persona" id="enfermos_terminales_cb" /><span id="view_enfermos_terminales">Cuantos Aprx.?: <input type="text" size="1" name="enfermos_terminales" id="enfermos_terminales" value="0" /></span></td></tr>
-								<tr><td>Discapacitados en la comunidad</td><td><input type="checkbox" value="1" name="dummy_persona" id="discapacitados_cb" /> <span id="view_discapacitados">Cuantos Aprx.?: <input type="text" size="1" name="discapacitados" id="discapacitados" value="0" /></span></td></tr>
-								<tr><td>Delincuencia</td><td><input type="checkbox" value="1" name="delincuencia" id="delincuencia" /></td></tr>
-								<tr><td>Indigentes</td><td><input type="checkbox" value="1" id="indigentes_cb" name="dummy_persona" /> <span id="view_indigentes">Cuantos Aprx.?: <input type="text" size="1" name="indigentes" id="indigentes" value="0" /></span></td></tr>
-								<tr><td>Niños en situación de abandono</td><td><input type="checkbox" value="1" id="ninos_abandono_cb" name="dummy_persona" /> <span id="view_ninos_abandono">Cuantos Aprx.?: <input type="text" size="1" name="ninos_abandono" id="ninos_abandono" value="0" /></span></td></tr>
-								<tr><td>Extrema densidad poblacional</td><td><input type="checkbox" value="1" name="extrema_densidad_poblacional" id="extrema_densidad_poblacional" /></td></tr>
-								<tr><td>Comercio de drogas</td><td><input type="checkbox" value="1" name="comercio_drogas" id="comercio_drogas" /></td></tr>
-								<tr><td>Consumo de drogas</td><td><input type="checkbox" value="1" name="consumo_drogas" id="consumo_drogas" /></td></tr>
-								<tr><td>Servicios públicos</td><td><input type="checkbox" value="1" name="servicios_publicos" id="servicios_publicos" /></td></tr>
-								<tr><td>Basura en las calles</td><td><input type="checkbox" value="1" name="basura" id="basura" /></td></tr>
-								<tr><td>Seguridad urbana</td><td><input type="checkbox" value="1" name="seguridad_urbana" id="seguridad_urbana" /></td></tr>
-								<tr><td>Aguas servidas emposadas</td><td><input type="checkbox" value="1" name="aguas_servidas_emposadas" id="aguas_servidas_emposadas" /></td></tr>
-								<tr><td>Residuos tóxicos</td><td><input type="checkbox" value="1" name="residuos_toxicos" id="residuos_toxicos" /></td></tr>
-								<tr><td>Barros y pantanos</td><td><input type="checkbox" value="1" name="barros_pantanos" id="barros_pantanos" /></td></tr>
-								<tr><td>Ruidos</td><td><input type="checkbox" value="1" name="ruidos" id="ruidos" /></td></tr>
-								<tr><td>Fabricas contaminantes</td><td><input type="checkbox" value="1" name="fabricas_contaminantes" id="fabricas_contaminantes" /></td></tr>
-								<tr><td>Licorerías</td><td><input type="checkbox" value="1" name="licorerias" id="licorerias" /></td></tr>
-								<tr><td>Transito vehicular</td><td><input type="checkbox" value="1" name="transito_vehicular" id="transito_vehicular" /></td></tr>
-								<tr><td>Terrenos baldíos</td><td><input type="checkbox" value="1" name="terrenos_baldios" id="terrenos_baldios" /></td></tr>
-								<tr><td>Falta de espacios de recreación</td><td><input type="checkbox" value="1" name="falta_espacios_recreacion" id="falta_espacios_recreacion" /></td></tr>
-								<tr><td>Falta de espacios deportivos</td><td><input type="checkbox" value="1" name="falta_espacios_deportivos" id="falta_espacios_deportivos" /></td></tr>
-								<tr><td>Victima de algún delito</td><td><input type="checkbox" value="1" name="victima_delito" id="victima_delito" /></td></tr>
-								<tr><td>Otros</td><td><input type="text" value="" size="4" name="otros_problemas_comunidad" id="otros_problemas_comunidad" /></td></tr>
+							<tr>
+								<th align="left" colspan="4"><?php echo $seccionesEncuesta[$i]["texto"];?></th>
+							</tr>
+							<tr>
+								<td colspan="4"><hr></hr></td>
+							</tr>
+							<?php
+							$itemsEncuesta = $db->l("SELECT id, texto, is_check, require_number, is_text, orden FROM items_encuesta WHERE active='1' AND id_item_categoria=".$seccionesEncuesta[$i]["id"]." ORDER BY orden, texto", false);
+							for($j = 0; $j < (int) ((count($itemsEncuesta) / 2) + (count($itemsEncuesta) % 2)); $j++){
+							?>
+							<tr>
+								<td width="30%">
+									<?php echo $itemsEncuesta[$j*2]["texto"];?>
+								</td>
+								<td width="20%">
+									<?php
+									if($itemsEncuesta[$j*2]["is_check"] == "1"){
+									?>
+										<input type="checkbox" name="values['<?php echo $itemsEncuesta[$j*2]["id"]?>']['is_check']" value="1"/>
+										<?php 
+										if($itemsEncuesta[$j*2]["require_number"] == "1"){
+										?>
+											Cuantos Aprox.?: <input type="text" name="values['<?php echo $itemsEncuesta[$j*2]["id"]?>']['require_number']" value="0" size="3"/>
+										<?php
+										}
+										?>
+									<?php
+									}else{
+									?>
+										<input type="text" name="values['<?php echo $itemsEncuesta[$j*2]["id"]?>']['text']" value=""/>
+									<?php
+									} 
+									?>
+								</td>
+								<td width="30%">
+									<?php echo $itemsEncuesta[($j*2) + 1]["texto"];?>
+								</td>
+								<td width="20%">
+									<?php
+									if($itemsEncuesta[($j*2) + 1]["is_check"] == "1"){
+									?>
+										<input type="checkbox" name="<?php echo $itemsEncuesta[($j*2) + 1]["id"]?>']['is_check']" value="1"/>
+										<?php 
+										if($itemsEncuesta[($j*2) + 1]["require_number"] == "1"){
+										?>
+											Cuantos Aprox.?: <input type="text" name="values['<?php echo $itemsEncuesta[($j*2) + 1]["id"]?>']['require_number']" value="0" size="3"/>
+										<?php
+										}
+										?>
+									<?php
+									}else if($itemsEncuesta[($j*2) + 1]["is_check"] == "0"){
+									?>
+										<input type="text" name="values['<?php echo $itemsEncuesta[($j*2) + 1]["id"]?>']['text']" value=""/>
+									<?php
+									} 
+									?>
+								</td>
+							</tr>
+							<?php
+							} 
+							?>
 							</table>
-						</td><td width="50%" valign="top">
-							<table width="100%">
-								<tr><th>Beneficiario de alguna Misión</th><th></th></tr>
-								<tr><td>Misión Robinsion</td><td><input type="checkbox" value="1" name="mision_robinson" id="mision_robinson" /></td></tr>
-								<tr><td>Misión Ribas</td><td><input type="checkbox" value="1" name="mision_ribas" id="mision_ribas" /></td></tr>
-								<tr><td>Mision Mercal</td><td><input type="checkbox" value="1" name="mision_mercal" id="mision_mercal" /></td></tr>
-								<tr><td>Mision Negra Hipolita</td><td><input type="checkbox" value="1" name="mision_negra_hipolita" id="mision_negra_hipolita" /></td></tr>
-								<tr><td>Mision Habitat</td><td><input type="checkbox" value="1" name="mision_habitat" id="mision_habitat" /></td></tr>
-								<tr><td>Mision Vivienda</td><td><input type="checkbox" value="1" name="mision_vivienda" id="mision_vivienda" /></td></tr>
-								<tr><td>Mision Barrio Adentro</td><td><input type="checkbox" value="1" name="mision_barrio_adentro" id="mision_barrio_adentro" /></td></tr>
-								<tr><td>Mision Ciencia</td><td><input type="checkbox" value="1" name="mision_ciencia" id="mision_ciencia" /></td></tr>
-								<tr><td>Mision Cultura</td><td><input type="checkbox" value="1" name="mision_cultura" id="mision_cultura" /></td></tr>
-								<tr><td>Simoncito</td><td><input type="checkbox" value="1" name="simoncito" id="simoncito" /></td></tr>
-								<tr><td>Unidad Educativa</td><td><input type="checkbox" value="1" name="unidad_educativa" id="unidad_educativa" /></td></tr>
-								<tr><td>Liceo</td><td><input type="checkbox" value="1" name="liceo" id="liceo" /></td></tr>
-								<tr><td>Universidad</td><td><input type="checkbox" value="1" name="universidad" id="universidad" /></td></tr>
-							</table>
-							<br />
-							<table width="100%">
-								<tr><th>Servicios Activos</th><th></th></tr>
-								<tr><td>Aguas blancas</td><td><input type="checkbox" value="1" name="aguas_blancas" id="aguas_blancas" /></td></tr>
-								<tr><td>Aguas servidas</td><td><input type="checkbox" value="1" name="aguas_servidas" id="aguas_servidas" /></td></tr>
-								<tr><td>Sistema eléctrico</td><td><input type="checkbox" value="1" name="sistema_electrico" id="sistema_electrico" /></td></tr>
-								<tr><td>Recoleccion de basura</td><td><input type="checkbox" value="1" name="recoleccion_basura" id="recoleccion_basura" /></td></tr>
-								<tr><td>Telefonia</td><td><input type="checkbox" value="1" name="telefonia" id="telefonia" /></td></tr>
-								<tr><td>Transporte</td><td><input type="checkbox" value="1" name="transporte" id="transporte" /></td></tr>
-								<tr><td>Mecanismo de información</td><td><input type="checkbox" value="1" name="mecanismo_informacion" id="mecanismo_informacion" /></td></tr>
-								<tr><td>Servicios comunitarios</td><td><input type="checkbox" value="1" name="servicios_comunitarios" id="servicios_comunitarios" /></td></tr>
-								<tr><td>Gas domestico</td><td><input type="checkbox" value="1" name="gas_domestico" id="gas_domestico" /></td></tr>
-								<tr><td>Alumbrado Publico</td><td><input type="checkbox" value="1" name="alumbrado_publico" id="alumbrado_publico" /></td></tr>
-								<tr><td>Modulos de seguridad</td><td><input type="checkbox" value="1" name="modulos_seguridad" id="modulos_seguridad" /></td></tr>
-							</table>
-						</td></tr></table>
-						<br />
-						<table width="100%">
-							<tr><td>Existe en su núcleo familiar alguna persona que padezca de alguna enfermedad?</td><td><input type="checkbox" value="1" name="familiar_enfermo" id="familiar_enfermo" /></td></tr>
-							<tr><td>Necesita Usted de ayuda especial para sus familiares enfermos?</td><td><input type="checkbox" value="1" name="ayuda_familiar_enfermo" id="ayuda_familiar_enfermo" /></td></tr>
-							<tr><td>Le gustaría contar con una Universidad Simón Rodríguez en Sabana Grande?</td><td><input type="checkbox" value="1" name="simon_rodriguez" id="simon_rodriguez" /></td></tr>
-						</table>
+						<?php
+						}
+						?>
 						</div>
 					</div>
 					<br />
