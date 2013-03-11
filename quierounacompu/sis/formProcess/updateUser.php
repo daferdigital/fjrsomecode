@@ -45,7 +45,8 @@ $query = "UPDATE usuarios SET "
 ." login='".$_POST["login"]."',"
 .($_POST["clave"] != "" ? " clave=MD5('".$_POST["clave"]."'), " : "")
 ." tiempo_sesion=".$_POST["tiempoSesion"].", "
-." active=".$_POST["active"]
+." active=".$_POST["active"].", "
+." registros_por_pagina=".$_POST["registrosPorPagina"]
 ." WHERE id=".$_POST["usrId"];
 
 DBUtil::executeQuery($query);

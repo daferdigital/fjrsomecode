@@ -125,6 +125,24 @@ $userDTO = UsuarioDAO::getUserDTO($_POST["usrId"]);
 	    		</td>
 	    	</tr>
 	    	<tr>
+    		<td>
+    			Registros por p&aacute;gina:
+    		</td>
+    		<td>
+    			<select name="registrosPorPagina">
+    				<?php 
+    					for($i = 30; $i < 101; $i++){
+					?>
+						<option value="<?php echo $i;?>" <?php echo ($userDTO->getRegistrosPorPagina() == $i."") ? " selected" : "";?>>
+							<?php echo $i;?>
+						</option>
+					<?php
+						}
+    				?>
+    			</select> 
+    		</td>
+    	</tr>
+	    	<tr>
 	    		<td>
 	    			Cuenta activa?
 	    		</td>

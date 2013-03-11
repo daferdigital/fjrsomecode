@@ -17,7 +17,8 @@
 			." apellido='".$_POST["apellido"]."',"
 			." correo='".$_POST["correo"]."',"
 			.($_POST["clave"] != "" ? " clave=MD5('".$_POST["clave"]."'), " : "")
-			." tiempo_sesion=".$_POST["tiempoSesion"]
+			." tiempo_sesion=".$_POST["tiempoSesion"].", "
+			." registros_por_pagina=".$_POST["registrosPorPagina"]
 			." WHERE id=".$userDTO->getId();
 		
 	DBUtil::executeQuery($query);
@@ -32,7 +33,8 @@
 			'',
 			$_POST["correo"],
 			$_POST["tiempoSesion"],
-			$userDTO->getActive());
+			$userDTO->getActive(),
+			$_POST["registrosPorPagina"]);
 	$newUserDTO->setModulesAllowed($userDTO->getModulesAllowed());
 				
 	$_SESSION[Constants::$KEY_USUARIO_DTO] = $newUserDTO;
