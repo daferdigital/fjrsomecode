@@ -8,6 +8,7 @@ class UsuarioDTO {
 	private $correo;
 	private $tiempoSesion;
 	private $active;
+	private $registrosPorPagina;
 	private $modulesAllowed;
 	
 	/**
@@ -20,9 +21,10 @@ class UsuarioDTO {
 	 * @param String $correo
 	 * @param int $tiempoSesion
 	 * @param String $active, '1' para usuario activo, inactivo con cualquier otro valor
+	 * @param $registrosPorPagina cantidad de registros a observar en paginados
 	 */
 	public function UsuarioDTO($id, $nombre, $apellido, $login, $clave, $correo, 
-			$tiempoSesion, $active){
+			$tiempoSesion, $active, $registrosPorPagina){
 		$this->id = $id;
 		$this->nombre = $nombre;
 		$this->apellido = $apellido;
@@ -31,6 +33,7 @@ class UsuarioDTO {
 		$this->correo = $correo;
 		$this->tiempoSesion = $tiempoSesion;
 		$this->active = $active;
+		$this->registrosPorPagina = $registrosPorPagina;
 	}
 	
 	public function getId(){
@@ -67,6 +70,14 @@ class UsuarioDTO {
 	
 	public function getActive(){
 		return $this->active;
+	}
+	
+	public function setRegistrosPorPagina($registrosPorPagina){
+		$this->registrosPorPagina = $registrosPorPagina;
+	}
+	
+	public function getRegistrosPorPagina(){
+		return $this->registrosPorPagina;
 	}
 	
 	public function setModulesAllowed($modulesAllowed){

@@ -12,7 +12,7 @@ class DBConnection {
 	 */
 	public function DBConnection(){
 		/**/
-		$this->dbConnection = mysql_connect($this->server, $this->username, $this->password);
+		$this->dbConnection = mysql_connect($this->server, $this->username, $this->password, true);
 		if(mysql_error()){
 			die("Error conectando al servidor de base de datos. ".mysql_error());
 		}

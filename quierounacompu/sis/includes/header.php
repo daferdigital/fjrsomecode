@@ -9,8 +9,11 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>QuieroUnaCompu - Sistema Integral de Seguimiento</title>
 	<script type="text/javascript" src="js/siteSIS.js"></script>
+	<script type="text/javascript" src="js/jsDatePick.full.1.3.js"></script>
 	<link href="css/sis.css" rel="stylesheet" type="text/css" />
 	<link rel="stylesheet" type="text/css" href="css/jquerycssmenu.css" />
+	<link href="css/jsDatePick_ltr.css" rel="stylesheet" type="text/css" />
+	
 	<!--[if lte IE 7]>
 		<style type="text/css">
 			html .jquerycssmenu{height: 1%;} 
