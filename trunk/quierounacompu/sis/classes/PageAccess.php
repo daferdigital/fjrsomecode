@@ -35,6 +35,7 @@ class PageAccess {
 				session_unset();
 				$_SESSION[Constants::$KEY_MESSAGE_ERROR] = Constants::$TEXT_SESSION_EXPIRED;
 				header("Location: index.php");
+				die();
 			}
 		}
 	}

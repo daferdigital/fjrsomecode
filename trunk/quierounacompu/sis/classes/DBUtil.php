@@ -19,17 +19,17 @@ class DBUtil {
 	 */
 	public static function executeSelect($querySelect){
 		$resultArray = array();
-		$time0 = time();
+		$time0 = (int) time();
 		$dbConObj = new DBConnection();
 		
 		try {
 			$result = mysql_query($querySelect, $dbConObj->getConnection());
 			if(!mysql_error()){
-				while($row = mysql_fetch_array($result)){
-					$resultArray[] = $row;
+				while ($r = mysql_fetch_assoc($result)){
+					$resultArray[] = $r;
 				}
 			} else {
-				DBUtil::storeError($queryOperation, $result);
+				DBUtil::storeError($querySelect, mysql_error());
 			}
 		} catch (Exception $e) {
 			die("Error ejecutando consulta en base de datos");
@@ -37,7 +37,7 @@ class DBUtil {
 		
 		$dbConObj->closeConnection();
 		
-		DBUtil::insertIntoSystemLog($querySelect, print_r($resultArray, true), (time() - $time0));
+		DBUtil::insertIntoSystemLog($querySelect, print_r($resultArray, true), ((int) time() - $time0));
 		
 		return $resultArray;
 	}
@@ -71,6 +71,48 @@ class DBUtil {
 		DBUtil::insertIntoSystemLog($query, "", time() - $time0);
 		
 		return $result;
+	}
+	
+	/**
+	 * En base al query indicado como parametro obtenemos la cantidad de registros involucrados en el mismo (COUNT(*))
+	 * 
+	 * @param String $query
+	 * @return cuenta de los registros involucrados
+	 */
+	public static function getRecordCountToQuery($query){
+		$query = strtolower($query);
+		$startPos = strpos($query, "from");
+		
+		$query = "SELECT COUNT(*) AS cuenta ".substr($query, $startPos, strlen($query) - $startPos);
+		
+		if(strpos($query, "order by") > 0){
+			$query = substr($query, 0, strpos($query, "order by")); 
+		}
+		
+		$count = -1;
+		$result = DBUtil::executeSelect($query);
+		$count = $result[0]["cuenta"];
+		
+		return $count;
+	}
+	
+	/**
+	 * Se obtiene el detalle de los registros de la pagina solicitada
+	 * 
+	 * @param unknown_type $query
+	 * @param unknown_type $pageToGet
+	 */
+	public static function getRecordsByPage($query, $pageToGet){
+		$userDTO = $_SESSION[Constants::$KEY_USUARIO_DTO];
+		$maxRecordsPerPage = $userDTO->getRegistrosPorPagina();
+		
+		$minIndex = (($pageToGet - 1) * $maxRecordsPerPage) + 1;
+		
+		$query .= " LIMIT ".$minIndex.", ".$maxRecordsPerPage;
+		
+		$pageRecords = DBUtil::executeSelect($query);
+		
+		return $pageRecords;
 	}
 	
 	/**

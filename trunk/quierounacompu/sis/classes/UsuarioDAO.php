@@ -19,13 +19,13 @@ class UsuarioDAO {
 		$usuarioDTO = NULL;
 		
 		try {
-			$query = "SELECT u.id, u.nombre, u.apellido, u.correo, u.tiempo_sesion, u.clave, u.active "
+			$query = "SELECT u.id, u.nombre, u.apellido, u.correo, u.tiempo_sesion, u.clave, u.active, u.registros_por_pagina "
 			."FROM usuarios u "
 			."WHERE u.login='".$login."' "
 			."AND u.clave=MD5('".$pwd."') ";
 				
 			$arrayResult = DBUtil::executeSelect($query);
-				
+			
 			if(count($arrayResult) > 0){
 				//credenciales validas
 				$row = $arrayResult[0];
@@ -36,7 +36,8 @@ class UsuarioDAO {
 						$row["clave"],
 						$row["correo"], 
 						$row["tiempo_sesion"],
-						$row["active"]);
+						$row["active"],
+						$row["registros_por_pagina"]);
 				
 				$moduloDAO = new ModuloDAO();
 				$usuarioDTO->setModulesAllowed($moduloDAO->getModulosXUser($row["id"]));
@@ -56,7 +57,7 @@ class UsuarioDAO {
 		$usuarioDTO = NULL;
 	
 		try {
-			$query = "SELECT u.id, u.nombre, u.apellido, u.correo, u.login, u.tiempo_sesion, u.clave, u.active "
+			$query = "SELECT u.id, u.nombre, u.apellido, u.correo, u.login, u.tiempo_sesion, u.clave, u.active, u.registros_por_pagina "
 			."FROM usuarios u "
 			."WHERE u.id=".$idUser;
 	
@@ -72,7 +73,8 @@ class UsuarioDAO {
 						$row["clave"],
 						$row["correo"],
 						$row["tiempo_sesion"],
-						$row["active"]);
+						$row["active"],
+						$row["registros_por_pagina"]);
 			}
 		} catch (Exception $e) {
 			die("Error verificando login");
@@ -118,7 +120,7 @@ class UsuarioDAO {
 	private static function getAllSystemUsers($active){
 		$usuariosDTO = NULL;
 		
-		$query = "SELECT u.id, u.login, u.nombre, u.apellido, u.correo, u.tiempo_sesion "
+		$query = "SELECT u.id, u.login, u.nombre, u.apellido, u.correo, u.tiempo_sesion, u.active, u.registros_por_pagina "
 			."FROM usuarios u ";
 		
 		if($active == TRUE){
@@ -144,7 +146,8 @@ class UsuarioDAO {
 						"",
 						$row["correo"],
 						$row["tiempo_sesion"],
-						$row["active"]);
+						$row["active"],
+						$row["registros_por_pagina"]);
 			}
 		}
 		

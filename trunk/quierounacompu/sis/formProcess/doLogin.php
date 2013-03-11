@@ -10,7 +10,6 @@ $clave = $_POST["clave"];
 
 $usuarioDTO = UsuarioDAO::getUserDoingLogin($login, $clave);
 
-
 if($usuarioDTO != null){
 	if($usuarioDTO->getActive() != "1"){
 		$_SESSION[Constants::$KEY_MESSAGE_ERROR] = "Esta cuenta se encuentra inactiva.";

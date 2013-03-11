@@ -1,3 +1,5 @@
+var ajaxImageName = "ajax.gif";
+
 String.prototype.trim=function(){
 	return this.replace(/^\s+|\s+$/g, '');
 };
@@ -41,7 +43,7 @@ function callAjax(url, parameters, idAnswerContainer){
 	var ajaxObject =  createXMLHTTPRequest();
 
 	document.getElementById(idAnswerContainer).style.display="inline";
-	document.getElementById(idAnswerContainer).innerHTML = "<img src=\"images/loading.gif\"/>";
+	document.getElementById(idAnswerContainer).innerHTML = "<img src=\"images/" + ajaxImageName + "\"/>";
 	ajaxObject.onreadystatechange=function() {
 		if (ajaxObject.readyState==4 && ajaxObject.status==200) {
 			document.getElementById(idAnswerContainer).innerHTML = ajaxObject.responseText;
@@ -232,4 +234,17 @@ function obtenerDatosUsuario(hideMessage, moduleToRecirect){
 	callAjax("ajax/getUsuarioForm.php", 
 			parameters, 
 			"ajaxAnswerContainer");
+}
+
+/**
+ * Llamada Ajax para obtener registros por pagina del log del sistema
+ * @param pageNumber
+ */
+function logSistemaAjax(pageNumber){
+	var parameters = "pageNumber="+pageNumber;
+	parameters += "&scriptFunction=logSistemaAjax";
+	
+	callAjax("ajax/getSystemLogPage.php",
+			parameters,
+			"ajaxPageResult");
 }
