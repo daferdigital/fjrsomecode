@@ -159,7 +159,7 @@ class DBUtil {
 			$idUsuario = $_SESSION["usuario"]->getId();
 		}
 		
-		$query = "INSERT INTO system_log (fecha, query, result, was_error, query_time id_usuario)"
+		$query = "INSERT INTO system_log (fecha, query, result, was_error, query_time, id_usuario)"
 		." VALUES(now(),'".str_replace("'","\\'", $queryOperation)."','".str_replace("'","\\'",$result)."','1',".(time() - $time0).",".$idUsuario.")";
 		
 		$dbConObj = new DBConnection();
