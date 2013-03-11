@@ -1,0 +1,20 @@
+
+Cambios realizados al Sistema de Censo:
+
+1.- En el archivo Aplicacion/index.php se agrego a partir de la linea 93-94 las nuevas opciones de administracion
+para los items de las encuestas y sus respectivas categorias.
+
+2.- Derivado del punto anterior, fueron creadas las paginas Aplicacion/adminItemsEncuesta.php
+y adminSeccionesEncuesta.php.
+
+3.- En la pagina Formulario/index.php se elimino la manera anterior de publicar la encuesta (el contenido del div con id "tabs-3")
+iniciando en la linea 455, por la manera automatica derivada de los cambios del punto 1 y 2.
+
+4.- A nivel de base de datos se realizo lo siguiente:
+    *.- Se renombro la tabla "encuestas" por "encuestas_old".
+    *.- Se creo la tabla "categoria_item_encuesta" donde se almacenan las categorias para las distintas pregunta de la encuesta.
+    *.- Se creo la tabla "items_encuesta" para almacenar cada pregunta de la encuesta relacionandola con su categoria.
+    *.- Se creo la tabla "encuestas" para almacenar los datos genericos de la misma (codigo, jefe de familia y fecha de registro)
+    *.- Se creo la tabla "encuestas_detalle" donde quedara registrada la asociacion de una encuesta con todos los items (preguntas)
+    que formen parte de ella junto con su respectiva respuesta, asi uniendola con la tabla "encuestas" obtendremos toda la informacion
+    de las preguntas y respuestas de dicha encuesta.
