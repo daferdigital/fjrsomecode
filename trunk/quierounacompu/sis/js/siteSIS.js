@@ -243,6 +243,14 @@ function obtenerDatosUsuario(hideMessage, moduleToRecirect){
 function logSistemaAjax(pageNumber){
 	var parameters = "pageNumber="+pageNumber;
 	parameters += "&scriptFunction=logSistemaAjax";
+	parameters += "&usuario=" + document.getElementById("usuario").value;
+	parameters += "&fechaDesde=" + document.getElementById("fechaDesde").value;
+	parameters += "&fechaHasta=" + document.getElementById("fechaHasta").value;
+	parameters += "&query=" + document.getElementById("query").value;
+	
+	if(document.getElementById("justErrors").checked == true){
+		parameters += "&justErrors=" + document.getElementById("justErrors").value;
+	}
 	
 	callAjax("ajax/getSystemLogPage.php",
 			parameters,

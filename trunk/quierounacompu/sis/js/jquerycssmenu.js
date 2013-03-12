@@ -5,7 +5,9 @@
 *********************/
 
 //Specify full URL to down and right arrow images (25 is padding-right to add to top level LIs with drop downs):
-var arrowimages={down:['downarrowclass', 'images/arrow-down.gif', 25], right:['rightarrowclass', 'images/arrow-right.gif']};
+var arrowimages={
+		down:['downarrowclass', 'images/arrow-down.gif', 25], 
+		right:['rightarrowclass', 'images/arrow-right.gif']};
 
 var jquerycssmenu={
 
@@ -15,12 +17,14 @@ buildmenu:function(menuid, arrowsvar){
 	jQuery(document).ready(function($){
 		var $mainmenu=$("#"+menuid+">ul");
 		var $headers=$mainmenu.find("ul").parent();
+		
 		$headers.each(function(i){
 			var $curobj=$(this);
 			var $subul=$(this).find('ul:eq(0)');
 			this._dimensions={w:this.offsetWidth, h:this.offsetHeight, subulw:$subul.outerWidth(), subulh:$subul.outerHeight()};
 			this.istopheader=$curobj.parents("ul").length==1? true : false;
-			$subul.css({top:this.istopheader? this._dimensions.h+"px" : 0});
+			//$subul.css({top:this.istopheader? this._dimensions.h+"px" : 0});
+			$subul.css({top:this.istopheader? "25px" : 0});
 			$curobj.children("a:eq(0)").css(this.istopheader? {paddingRight: arrowsvar.down[2]} : {}).append(
 				'<img src="'+ (this.istopheader? arrowsvar.down[1] : arrowsvar.right[1])
 				+'" class="' + (this.istopheader? arrowsvar.down[0] : arrowsvar.right[0])
