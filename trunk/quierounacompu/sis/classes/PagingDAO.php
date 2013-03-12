@@ -1,6 +1,6 @@
 <?php 
 class PagingDAO{
-	private $pageRange = 8;
+	private $pageRange = 10;
 	
 	private $pageNumber;
 	private $scriptFunction;
@@ -49,15 +49,16 @@ class PagingDAO{
 	
 		//vemos la pagina que estamos dibujando
 		$pageNumber = $this->getPageNumberRequested();
-	
+		$linkClass = "footerPagingLink";
+		
 		//si estamos en la primera pagina no dibujamos las opciones de ir a primera pagina
 		//ni pagina previa
 		if($pageNumber > 1){
-			$footerTR .= "<a href=\"#footerPage\" id=\"footerPage\" onclick=\"".$this->scriptFunction."(1)\">";
+			$footerTR .= "<a href=\"#footerPage\" id=\"footerPage\" class=\"".$linkClass."\" onclick=\"".$this->scriptFunction."(1)\">";
 			$footerTR .= "<img src=\"images/icons/firstPage.png\" border=\"0\" title=\"Primera Pagina\" />";
 			$footerTR .= "</a>";
 				
-			$footerTR .= "<a href=\"#footerPage\" id=\"footerPage\" onclick=\"".$this->scriptFunction."(".($pageNumber - 1).")\">";
+			$footerTR .= "<a href=\"#footerPage\" id=\"footerPage\" class=\"".$linkClass."\" onclick=\"".$this->scriptFunction."(".($pageNumber - 1).")\">";
 			$footerTR .= "<img src=\"images/icons/prevPage.png\" border=\"0\" title=\"Pagina Anterior\" />";
 			$footerTR .= "</a>";
 		}
@@ -66,7 +67,7 @@ class PagingDAO{
 		for ($i = ($this->pageRange / 2); $i > 0; $i--) {
 			if($pageNumber - $i > 0){
 				//dibujamos este indice
-				$footerTR .= "<a href=\"#footerPage\" id=\"footerPage\" onclick=\"".$this->scriptFunction."(".($pageNumber - $i).")\">";
+				$footerTR .= "<a href=\"#footerPage\" id=\"footerPage\" class=\"".$linkClass."\" onclick=\"".$this->scriptFunction."(".($pageNumber - $i).")\">";
 				$footerTR .= $pageNumber - $i;
 				$footerTR .= "</a>";
 			} else {
@@ -75,13 +76,13 @@ class PagingDAO{
 		}
 	
 		//dibujamos la propia pagina
-		$footerTR .=  $pageNumber;
+		$footerTR .=  "<span class=\"".$linkClass."\">".$pageNumber."</span>";
 	
 		//dibujamos los indices posteriores
 		for ($i = 1; $i < ($this->pageRange / 2) + 1; $i++) {
 			if($pageNumber + $i <= $pagesInvolved){
 				//dibujamos este indice
-				$footerTR .= "<a href=\"#footerPage\" id=\"footerPage\" onclick=\"".$this->scriptFunction."(".($pageNumber + $i).")\">";
+				$footerTR .= "<a href=\"#footerPage\" id=\"footerPage\" class=\"".$linkClass."\" onclick=\"".$this->scriptFunction."(".($pageNumber + $i).")\">";
 				$footerTR .= $pageNumber + $i;
 				$footerTR .= "</a>";
 			} else {
@@ -91,11 +92,11 @@ class PagingDAO{
 	
 		//si no estamos en la ultima pagina, dibujamos las opciones de ir a siguiente o ultima pagina
 		if($pageNumber < $pagesInvolved){
-			$footerTR .= "<a href=\"#footerPage\" id=\"footerPage\" onclick=\"".$this->scriptFunction."(".($pageNumber + 1).")\">";
+			$footerTR .= "<a href=\"#footerPage\" id=\"footerPage\" class=\"".$linkClass."\" onclick=\"".$this->scriptFunction."(".($pageNumber + 1).")\">";
 			$footerTR .= "<img src=\"images/icons/nextPage.png\" border=\"0\" title=\"Proxima Pagina\" />";
 			$footerTR .= "</a>";
 				
-			$footerTR .= "<a href=\"#footerPage\" id=\"footerPage\" onclick=\"".$this->scriptFunction."(".$pagesInvolved.")\">";
+			$footerTR .= "<a href=\"#footerPage\" id=\"footerPage\" class=\"".$linkClass."\" onclick=\"".$this->scriptFunction."(".$pagesInvolved.")\">";
 			$footerTR .= "<img src=\"images/icons/lastPage.png\" border=\"0\" title=\"Ultima Pagina\" />";
 			$footerTR .= "</a>";
 		}
