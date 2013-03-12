@@ -21,7 +21,6 @@ BitacoraDAO::registrarComentario("Acceso a modulo de log del sistema: ".$userDTO
 </div>
 
 <div class="seccionDetail">
-
     <table width="60%">
     	<tr>
     		<td>
@@ -92,15 +91,23 @@ BitacoraDAO::registrarComentario("Acceso a modulo de log del sistema: ".$userDTO
       		</td>
       	</tr>
       	<tr>
+    		<td class="title Estilo17">
+    			Buscar solo errores:
+    		</td>
+    		<td>
+    			<input type="checkbox" id="justErrors" name="justErrors" value="1"/>
+      		</td>
+      	</tr>
+      	<tr>
     		<td colspan="2" align="right">
     			<input type="button" value="Buscar" onclick="javascript:logSistemaAjax(1);"/>
     		</td>
     	</tr>
     </table>
-    
-    <div id="ajaxPageResult">
-    	
-    </div>
+</div>
+
+<div style="width: 100%" id="ajaxPageResult">
+	&nbsp;
 </div>
 
 <?php include_once("includes/footer.php");?>

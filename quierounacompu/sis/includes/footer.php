@@ -13,3 +13,12 @@
 	   	</td>
   	</tr>
 </table>
+
+<div id="popup2" style="left: 390px; position: absolute; top: 1283px; z-index: 9999; display: none; height: auto; width: auto;">
+    <span class="popUpBoton b-close">
+		<span>X</span>
+	</span>
+    <div class="content" style="height: auto; width: auto;"></div>
+</div>
+</body>
+</html>
