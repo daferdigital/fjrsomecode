@@ -17,7 +17,7 @@ $scriptFunction = $_POST[Constants::$SCRIPT_FUNCTION];
 
 $query = "SELECT * FROM system_log"
 ." WHERE 1 = 1"
-." ORDER BY fecha";
+." ORDER BY fecha DESC";
 
 $totalRecords = DBUtil::getRecordCountToQuery($query);
 $pageRecords = DBUtil::getRecordsByPage($query, $pageNumber);
@@ -35,7 +35,7 @@ if(count($pageRecords) == 0){
 ?>
 	<table>
 		<tr>
-			<td>
+			<td width="100%">
 				<?php echo $pagingDAO->getTRFooterPaging();?>
 			</td>
 		</tr>

@@ -110,3 +110,11 @@ border: 1px solid black;
 	color: #666666;
 	font-weight: bold;
 }
+
+.footerPagingLink {
+	margin-left: 5px;
+}
+
+.footerPagingLink > img{
+    display: inline;
+}
