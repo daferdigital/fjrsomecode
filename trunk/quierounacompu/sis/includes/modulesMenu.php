@@ -1,5 +1,6 @@
 <?php
 	include_once 'classes/Constants.php';
+	include_once 'classes/EnvioDAO.php';
 	include_once 'classes/PageAccess.php';
 	
 	if(! PageAccess::userIsLogged()){
@@ -20,42 +21,66 @@
 			<?php
 				if(isset($modulesAllowed[Constants::$CATEGORIA_BUSQUEDA][Constants::$OPCION_BUSQUEDA_NOTIFICADOS])){
 			?>
-					<li><a href="searchNotificados.php">Notificados</a></li>
+					<li>
+						<a href="searchEnviosByType.php?type=<?php echo EnvioDAO::$COD_STATUS_NOTIFICADO;?>">
+							Notificados
+						</a>
+					</li>
 			<?php
 				}
 			?>
 			<?php
 				if(isset($modulesAllowed[Constants::$CATEGORIA_BUSQUEDA][Constants::$OPCION_BUSQUEDA_PAGOS_CONFIRMADOS])){
 			?>
-					<li><a href="searchPagosConfirmados.php">Pagos Confirmados</a></li>
+					<li>
+						<a href="searchEnviosByType.php?type=<?php echo EnvioDAO::$COD_STATUS_PAGO_CONFIRMADO;?>">
+							Pagos Confirmados
+						</a>
+					</li>
 			<?php
 				}
 			?>
 			<?php
 				if(isset($modulesAllowed[Constants::$CATEGORIA_BUSQUEDA][Constants::$OPCION_BUSQUEDA_PAGOS_NO_ENCONTRADOS])){
 			?>
-					<li><a href="searchPagosNoEncontrados.php">Pagos No Encontrados</a></li>
+					<li>
+						<a href="searchEnviosByType.php?type=<?php echo EnvioDAO::$COD_STATUS_PAGO_NO_ENCONTRADO;?>">
+							Pagos No Encontrados
+						</a>
+					</li>
 			<?php
 				}
 			?>
 			<?php
 				if(isset($modulesAllowed[Constants::$CATEGORIA_BUSQUEDA][Constants::$OPCION_BUSQUEDA_PRESUPUESTADO])){
 			?>
-					<li><a href="searchPresupuestados.php">Presupuestados</a></li>
+					<li>
+						<a href="searchEnviosByType.php?type=<?php echo EnvioDAO::$COD_STATUS_PRESUPUESTADO;?>">
+							Presupuestados
+						</a>
+					</li>
 			<?php
 				}
 			?>
 			<?php
 				if(isset($modulesAllowed[Constants::$CATEGORIA_BUSQUEDA][Constants::$OPCION_BUSQUEDA_FACTURADO])){
 			?>
-					<li><a href="searchFacturados.php">Facturados</a></li>
+					<li>
+						<a href="searchEnviosByType.php?type=<?php echo EnvioDAO::$COD_STATUS_FACTURADO;?>">
+							Facturados
+						</a>
+					</li>
 			<?php
 				}
 			?>
 			<?php
 				if(isset($modulesAllowed[Constants::$CATEGORIA_BUSQUEDA][Constants::$OPCION_BUSQUEDA_ENVIADO])){
 			?>
-					<li><a href="searchEnviados.php">Enviados</a></li>
+					<li>
+						<a href="searchEnviosByType.php?type=<?php echo EnvioDAO::$COD_STATUS_ENVIADO;?>">
+							Enviados
+						</a>
+					</li>
 			<?php
 				}
 			?>

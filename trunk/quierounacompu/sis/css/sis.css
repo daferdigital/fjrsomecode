@@ -128,6 +128,10 @@ border: 1px solid black;
 
 
 /*estilos para popups*/
+.b-ajax-wrapper{
+	background-color: white;
+}
+
 .popUpBoton:hover {
 	background-color: #1e1e1e;
 }

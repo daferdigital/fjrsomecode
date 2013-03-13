@@ -3,43 +3,45 @@ include_once("classes/Constants.php");
 include_once("classes/UsuarioDTO.php");
 include_once("classes/PageAccess.php");
 include_once("classes/UsuarioDAO.php");
+include_once("classes/EnvioDAO.php");
 include_once("classes/BitacoraDAO.php");
 include_once("includes/header.php");
 
-PageAccess::validateAccess(Constants::$OPCION_LOGS_TRANSACCIONES);
+$esBusquedaAvanzada = false;
+if(isset($_GET["isAdv"])){
+	//
+}
+PageAccess::validateAccess(Constants::$OPCION_BUSQUEDA_NOTIFICADOS);
 
 $userDTO = $_SESSION[Constants::$KEY_USUARIO_DTO];
-BitacoraDAO::registrarComentario("Acceso a modulo de log de transacciones del sistema: ".$userDTO->getNombreCompleto());
+BitacoraDAO::registrarComentario("Acceso a modulo de busqueda de envios notificados: ".$userDTO->getNombreCompleto());
 ?>
 
 <div class="seccionTitle">
-	Logs de transacciones
+	Envios Notificados
 	<br />
 	<span>
-		(Verifique las distintas transacciones realizadas en el sistema)
+		(Consulte y actualize la informaci&oacute;n de los envios con estado "Notificado")
 	</span>
 </div>
 
 <div class="seccionDetail">
+	<input type="hidden" id="statusEnvio" name="statusEnvio" value="<?php echo EnvioDAO::$COD_STATUS_NOTIFICADO;?>" />
     <table width="60%">
     	<tr>
     		<td>
-    			Usuario que realizo la transacci&oacute;n:
+    			Seudonimo de MercadoLibre
     		</td>
     		<td>
-    			<select id="usuario">
-    				<option value="-1">Todos</option>
-					<?php
-						$allUsers = UsuarioDAO::getAllActiveUsers();
-						foreach ($allUsers as $userDTO){
-					?>
-							<option value="<?php echo $userDTO->getId()?>">
-								<?php echo $userDTO->getNombreCompleto()?>
-							</option>
-					<?php
-						} 
-					?>
-				</select>
+    			<input type="text" id="seudonimoML" name="seudonimoML" value=""/>
+    		</td>
+    	</tr>
+    	<tr>
+    		<td>
+    			N&uacute;mero del vauche:
+    		</td>
+    		<td>
+    			<input type="text" id="boucher" name="boucher" value=""/>
     		</td>
     	</tr>
     	<tr>
@@ -82,17 +84,9 @@ BitacoraDAO::registrarComentario("Acceso a modulo de log de transacciones del si
 				</script>
       		</td>
       	</tr>
-    	<tr>
-    		<td class="title Estilo17">
-    			Detalle de la transacci&oacute;n:
-    		</td>
-    		<td>
-    			<input type="text" id="operacion" name="operacion" size="25"/>
-      		</td>
-      	</tr>
       	<tr>
     		<td colspan="2" align="right">
-    			<input type="button" value="Buscar" onclick="javascript:logBitacoraAjax(1);"/>
+    			<input type="button" value="Buscar" onclick="javascript:searchEnviosAjax(1);"/>
     		</td>
     	</tr>
     </table>
@@ -102,4 +96,4 @@ BitacoraDAO::registrarComentario("Acceso a modulo de log de transacciones del si
 	&nbsp;
 </div>
 
-<?php include_once("includes/footer.php");?>
+<?php include_once 'includes/footer.php';?>

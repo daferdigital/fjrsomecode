@@ -1,11 +1,11 @@
 <?php
 class EnvioDAO {
-	private static $COD_STATUS_NOTIFICADO = 1;
-	private static $COD_STATUS_PAGO_CONFIRMADO = 2;
-	private static $COD_STATUS_PAGO_NO_ENCONTRADO = 3;
-	private static $COD_STATUS_PRESUPUESTADO = 4;
-	private static $COD_STATUS_FACTURADO = 5;
-	private static $COD_STATUS_ENVIADO = 6;
+	public static $COD_STATUS_NOTIFICADO = 1;
+	public static $COD_STATUS_PAGO_CONFIRMADO = 2;
+	public static $COD_STATUS_PAGO_NO_ENCONTRADO = 3;
+	public static $COD_STATUS_PRESUPUESTADO = 4;
+	public static $COD_STATUS_FACTURADO = 5;
+	public static $COD_STATUS_ENVIADO = 6;
 	
 	/**
 	 * 

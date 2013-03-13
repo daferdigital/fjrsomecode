@@ -5,6 +5,16 @@ String.prototype.trim=function(){
 };
 
 /**
+ * 
+ * @param urlToLoad
+ */
+function loadAjaxPopUp(urlToLoad){
+	$('#popup2').bPopup({
+    	contentContainer:'.content',
+    	loadUrl: urlToLoad //Uses jQuery.load()
+	});
+}
+/**
  * funcion para crear un objeto del tipo XMLHTTPRequest segun el navegador
  * 
  * @returns objeto XMLHTTPRequest creado
@@ -270,6 +280,25 @@ function logBitacoraAjax(pageNumber){
 	parameters += "&operacion=" + document.getElementById("operacion").value;
 	
 	callAjax("ajax/getBitacoraLogPage.php",
+			parameters,
+			"ajaxPageResult");
+}
+
+/**
+ * 
+ * @param pageNumber
+ */
+function searchEnviosAjax(pageNumber){
+	var parameters = "pageNumber="+pageNumber;
+	parameters += "&scriptFunction=searchEnviosAjax";
+	//indicamos el status de los envios que queremos visualizar
+	parameters += "&statusEnvio=" + document.getElementById("statusEnvio").value;
+	parameters += "&seudonimoML=" + document.getElementById("seudonimoML").value;
+	parameters += "&boucher=" + document.getElementById("boucher").value;
+	parameters += "&fechaDesde=" + document.getElementById("fechaDesde").value;
+	parameters += "&fechaHasta=" + document.getElementById("fechaHasta").value;
+	
+	callAjax("ajax/getEnviosListPage.php",
 			parameters,
 			"ajaxPageResult");
 }

@@ -9,7 +9,7 @@ include_once '../classes/UsuarioDTO.php';
 include_once '../classes/PagingDAO.php';
 include_once '../includes/session.php';
 
-PageAccess::validateAccess(Constants::$OPCION_ADMIN_REACTIVAR_USUARIO);
+PageAccess::validateAccess(Constants::$OPCION_LOGS_TRANSACCIONES);
 BitacoraDAO::registrarComentario("Acceso autorizado al ajax para obtener logs de actividades del sistema");
 
 $pageNumber = $_POST[Constants::$PAGE_NUMBER];
