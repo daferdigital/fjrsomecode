@@ -9,7 +9,7 @@ include_once '../classes/UsuarioDTO.php';
 include_once '../classes/PagingDAO.php';
 include_once '../includes/session.php';
 
-PageAccess::validateAccess(Constants::$OPCION_ADMIN_REACTIVAR_USUARIO);
+PageAccess::validateAccess(Constants::$OPCION_LOGS_SISTEMA);
 BitacoraDAO::registrarComentario("Acceso autorizado al ajax para obtener logs del sistema");
 
 $pageNumber = $_POST[Constants::$PAGE_NUMBER];
@@ -65,6 +65,8 @@ if(count($pageRecords) == 0){
 		</div>
 		<div id="tdElement">
 		</div>
+		<div id="tdElement">
+		</div>
 		<div align="center" id="tdElement">
 			<?php echo $pagingDAO->getTRFooterPaging();?>
 		</div>
@@ -74,6 +76,9 @@ if(count($pageRecords) == 0){
 		</div>
 	</div>
 	<div id="row">
+		<div style="width: 3%;" id="tdHeader">
+      		&nbsp;
+    	</div>
 		<div style="width: 15%;" id="tdHeader">
       		Fecha
     	</div>
@@ -86,7 +91,7 @@ if(count($pageRecords) == 0){
     	<div style="width: 30%;" id="tdHeader">
       		Resultado
     	</div>
-    	<div style="width: 10%;" id="tdHeader">
+    	<div style="width: 7%;" id="tdHeader">
       		Error?
     	</div>
 	</div>
@@ -94,6 +99,12 @@ if(count($pageRecords) == 0){
 		foreach ($pageRecords as $row){
 	?>
 		<div id="row">
+			<div style="width: 3%;" id="tdElement">
+				<a href="#" onclick="javascript:loadAjaxPopUp('ajax/showSystemLogDetail.php?id=<?php echo $row["id"];?>')">
+					<img alt="ver" src="images/see.png" border="0"/>
+				</a>
+				<?php ?>
+			</div>
 			<div style="width: 15%;" id="tdElement">
 				<?php echo $row["fecha"];?>
 			</div>
@@ -110,7 +121,7 @@ if(count($pageRecords) == 0){
 					<?php echo $row["result"];?>
 				</span>
 			</div>
-			<div style="width: 10%;" id="tdElement">
+			<div style="width: 7%;" id="tdElement">
 				<?php echo $row["was_error"] == 0 ? "No" : "S&iacute;";?>
 			</div>
 		</div>
@@ -118,6 +129,8 @@ if(count($pageRecords) == 0){
 		}
 	?>
 	<div id="row">
+		<div id="tdElement">
+		</div>
 		<div id="tdElement">
 		</div>
 		<div id="tdElement">
