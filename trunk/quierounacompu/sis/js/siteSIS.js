@@ -256,3 +256,20 @@ function logSistemaAjax(pageNumber){
 			parameters,
 			"ajaxPageResult");
 }
+
+/**
+ * Llamada Ajax para obtener registros por pagina del log del transacciones del sistema
+ * @param pageNumber
+ */
+function logBitacoraAjax(pageNumber){
+	var parameters = "pageNumber="+pageNumber;
+	parameters += "&scriptFunction=logBitacoraAjax";
+	parameters += "&usuario=" + document.getElementById("usuario").value;
+	parameters += "&fechaDesde=" + document.getElementById("fechaDesde").value;
+	parameters += "&fechaHasta=" + document.getElementById("fechaHasta").value;
+	parameters += "&operacion=" + document.getElementById("operacion").value;
+	
+	callAjax("ajax/getBitacoraLogPage.php",
+			parameters,
+			"ajaxPageResult");
+}
