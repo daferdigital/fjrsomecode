@@ -1,55 +1,71 @@
 <? 
 include_once("procesos/conexion.php");
-
 ///print_r($_SESSION);
-
-
 //echo $_SESSION["idsesion"]." > ".$_SESSION['nombre_idtabla'];
-
 //$_SESSION["autentificado"];
 //echo $tipo_usuario=
-
 ?>
-
-<script language="JavaScript" src="horalocal.php"></script>
-<script language="JavaScript">
-<!--
-h = H.getHours()
-m = H.getMinutes()
-s = H.getSeconds()
-d = H.getDate()
-mm = H.getMonth()
-y = H.getFullYear()
-function laHora(){
-H2 = new Date(y,d,mm,h,m,s+1)
-h = H2.getHours(); h2 = h
-m = H2.getMinutes(); m2 = m
-s = H2.getSeconds();s2 = s
-if(s<10){s2 = "0" + s}
-if(m<10){m2 = "0" + m}
-if(h<10){h2 = "0" + h}
-document.getElementById('reloj').firstChild.nodeValue = h2 + ":" + m2 + ":" + s2
-}
-onload = function(){laHora();setInterval('laHora()',1000)
-}
-//-->
-</script>
 <table border="0">
 	<tr>
     	<td>
-    	<img src="imagenes/arrow-right.png" width="30px" border="0" /></td>
+    		<img src="imagenes/arrow-right.png" width="30px" border="0" />
+    	</td>
         <td>
-    	<strong>Fecha</strong>: <? echo date("j/m/Y");?><!-- <strong>Hora</strong>: --></td>
-        <td><!--
-    	<div id="reloj">-</div>--></td>
+    		<strong>
+    			Fecha:
+    			<span id="fechaCompleta"></span>
+    		</strong>
+        	<!--<div id="reloj">-</div>-->
+        </td>
     	<td>
     	<img src="imagenes/arrow-right.png" width="30px" border="0" /></td>
         <td><?Php echo "<b>Nombre: </b>".($_SESSION['datos']['nombre']!=''?$_SESSION['datos']['nombre']:$_SESSION['datos']['nombres']).' <b>Tipo:</b> '.$_SESSION["tipo"];?>
     	</td>
     </tr>
-    </table><hr>
-<?Php 
+</table>
 
+<script language="JavaScript">
+	
+	var currentDate = new Date(<?php echo date("Y");?>,
+	    <?php echo ((int) date("n")-1);?>,
+	    <?php echo date("j");?>,
+	    <?php echo date("H");?>,
+	    <?php echo date("i");?>,
+	    <?php echo date("s");?>); 
+	
+	//var currentDate = new Date(<?php echo time()*1000;?>);
+	alert(currentDate.toLocaleString());
+	alert("<?php echo date_default_timezone_get();?>");
+	
+	function laHora(){
+		var newDate = currentDate.getTime();
+		newDate += 1000;
+		
+		currentDate = new Date(newDate);
+		var h2 =  new Number(currentDate.getHours());
+		var m2 =  new Number(currentDate.getMinutes());
+		var s2 =  new Number(currentDate.getSeconds());
+		
+		if(currentDate.getHours() < 10){
+			h2 = "0" + currentDate.getHours();
+		}
+		if(currentDate.getMinutes() < 10){
+			m2 = "0" + currentDate.getMinutes();
+		}
+		if(currentDate.getSeconds() < 10){
+			s2 = "0" + currentDate.getSeconds();
+		}
+
+		document.getElementById('fechaCompleta').innerHTML = currentDate.getFullYear() 
+			+ "-" + (currentDate.getMonth() + 1) + "-" + currentDate.getDate() + " " 
+			+ h2 + ":" + m2 + ":" + s2;
+	}
+
+	setInterval('laHora()', 1000)
+</script>
+
+<hr>
+<?Php 
 $perfil_usuario=$_SESSION['perfil'];
 /*
 echo "perfil: ";
