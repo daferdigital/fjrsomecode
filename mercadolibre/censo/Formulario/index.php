@@ -98,16 +98,50 @@
 				
 
 				foreach($_POST as $key => $val) {
-					if(!strstr($key, "_jefe") && !strstr($key, "_persona") && $key!="persona" && $key!="id") {
+					if(!strstr($key, "_jefe") && !strstr($key, "_persona") && $key!="persona" && $key!="id" && $key!="values") {
 						$fields[]="`".secInjection($key)."`";
 						$sec_fields[]="'%s'";
 						$values[]=secInjection($val);
 					}
 				}
 				
-				if (!$db->qs("INSERT INTO encuestas (".implode(", ", $fields).") VALUES (".implode(", ", $sec_fields).")", $values)) {
+				if (!$db->qs("INSERT INTO encuestas (id_jefe, fecha_llenado) VALUES (%d, NOW())", array($jefe['id']))) {
 					echo "Error en la Base de Datos Insertando la encuesta ".$db->errors();
 				}else{
+					//se creo el maestro de la encuesta, vamos con su detalle
+					if(! isset($_POST["values"])){
+						//enviaron la encuesta vacia
+						$db->qs("DELETE FROM encuestas WHERE id=%s", array("LAST_INSERT_ID()"));
+						echo "Disculpe, no se indico ningun valor en las respuestas de la encuesta";
+					} else {
+						//tenemos cierto detalle, procedemos a guardarlo
+						$encuestaId = $db->id();
+						
+						foreach ($_POST["values"] as $itemId => $arrayValues){
+							$valueText = "NULL";
+							$valueCheck = "NULL";
+							
+							//vemos si es una pregunta tipo check o es una de texto
+							if(isset($arrayValues["is_check"])){
+								//es tipo check
+								$valueCheck = "'".$arrayValues["is_check"]."'";
+								
+								//vemos si es un check de los que requiere indicar numero
+								if(isset($arrayValues["require_number"])){
+									$valueText = "'".$arrayValues["require_number"]."'";
+								}
+							} else {
+								//es texto
+								$valueText = "'".$arrayValues["text"]."'";
+							}
+							
+							//guardamos el detalle
+							$query= "INSERT INTO encuestas_detalle(value_check, value_text, id_encuesta, id_item_encuesta) VALUES(%s,%s,%d,%d)";
+							$params = array($valueCheck, $valueText, $encuestaId, $itemId);
+							$db->qs($query, $params);
+						}
+					}
+					
 					$db->qs("DELETE FROM `familias` WHERE id_jefe=%d;", array(intval($jefe['id'])));
 					if($_POST["persona"] ){
 						foreach($_POST["persona"] as $key => $val) {
@@ -164,7 +198,7 @@
 		<div id="content2">
 			<div class="wrap"> 
 						
-				<form action = "javascript:fn_agregar();" method = "post" id = "form_index">
+				<form action="javascript:fn_agregar();" method="post" id="form_index">
 					<input type="hidden" value="<?php echo $_GET['id']; ?>" name="id" />
 					<div id="tabs">
 						<ul>
@@ -477,18 +511,18 @@
 									<?php
 									if($itemsEncuesta[$j*2]["is_check"] == "1"){
 									?>
-										<input type="checkbox" name="values['<?php echo $itemsEncuesta[$j*2]["id"]?>']['is_check']" value="1"/>
+										<input type="checkbox" id="values[<?php echo $itemsEncuesta[$j*2]["id"]?>][is_check]" name="values[<?php echo $itemsEncuesta[$j*2]["id"]?>][is_check]" value="1"/>
 										<?php 
 										if($itemsEncuesta[$j*2]["require_number"] == "1"){
 										?>
-											Cuantos Aprox.?: <input type="text" name="values['<?php echo $itemsEncuesta[$j*2]["id"]?>']['require_number']" value="0" size="3"/>
+											Cuantos Aprox.?: <input type="text" id="values[<?php echo $itemsEncuesta[$j*2]["id"]?>][require_number]" name="values[<?php echo $itemsEncuesta[$j*2]["id"]?>][require_number]" value="0" size="3"/>
 										<?php
 										}
 										?>
 									<?php
 									}else{
 									?>
-										<input type="text" name="values['<?php echo $itemsEncuesta[$j*2]["id"]?>']['text']" value=""/>
+										<input type="text" id="values[<?php echo $itemsEncuesta[$j*2]["id"]?>][text]" name="values[<?php echo $itemsEncuesta[$j*2]["id"]?>][text]" value=""/>
 									<?php
 									} 
 									?>
@@ -500,18 +534,18 @@
 									<?php
 									if($itemsEncuesta[($j*2) + 1]["is_check"] == "1"){
 									?>
-										<input type="checkbox" name="<?php echo $itemsEncuesta[($j*2) + 1]["id"]?>']['is_check']" value="1"/>
+										<input type="checkbox" id="values[<?php echo $itemsEncuesta[($j*2) + 1]["id"]?>][is_check]" name="values[<?php echo $itemsEncuesta[($j*2) + 1]["id"]?>][is_check]" value="1"/>
 										<?php 
 										if($itemsEncuesta[($j*2) + 1]["require_number"] == "1"){
 										?>
-											Cuantos Aprox.?: <input type="text" name="values['<?php echo $itemsEncuesta[($j*2) + 1]["id"]?>']['require_number']" value="0" size="3"/>
+											Cuantos Aprox.?: <input type="text" id="values[<?php echo $itemsEncuesta[($j*2) + 1]["id"]?>][require_number]" name="values[<?php echo $itemsEncuesta[($j*2) + 1]["id"]?>][require_number]" value="0" size="3"/>
 										<?php
 										}
 										?>
 									<?php
 									}else if($itemsEncuesta[($j*2) + 1]["is_check"] == "0"){
 									?>
-										<input type="text" name="values['<?php echo $itemsEncuesta[($j*2) + 1]["id"]?>']['text']" value=""/>
+										<input type="text" id="values[<?php echo $itemsEncuesta[($j*2) + 1]["id"]?>][text]" name="values[<?php echo $itemsEncuesta[($j*2) + 1]["id"]?>][text]" value=""/>
 									<?php
 									} 
 									?>
@@ -859,6 +893,7 @@
 						
 						var str = $("#form_index").serializeArray();           
 						ajaxLoading();
+						
 						$.ajaxFileUpload
 						(
 							{
