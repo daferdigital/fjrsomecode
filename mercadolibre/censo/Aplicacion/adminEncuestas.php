@@ -30,6 +30,9 @@
         if(intval($_GET['id'])<=0) 
             echo "Invalid ID";
         else{
+        	if(!$db->qs("DELETE FROM `encuestas_detalle` WHERE id_encuesta=%d;", array(intval($_GET['id'])))){
+        		echo "Database Error";
+        	}
             if(!$db->qs("DELETE FROM `encuestas` WHERE id=%d;", array(intval($_GET['id'])))){
 				echo "Database Error";
 			}
@@ -130,10 +133,10 @@ return escape(str).replace(/\+/g,'%2B').replace(/%20/g, '+').replace(/\*/g, '%2A
         exit;
     }
 
-    if ($_POST)
-    {
+    if ($_POST){
 		if(isset($_POST['persona'][$_POST['nacionalidad'].$_POST['cedula_jefe']]))
 			$error = "El jefe de familia no puede estar incluido en el grupo familiar";
+		
 		if(!isset($error)){
 			$estado = $db->l("SELECT id_estado FROM `municipios` WHERE `id`=".intval($_POST['id_municipio_jefe'])."", true);
 			
@@ -189,33 +192,71 @@ return escape(str).replace(/\+/g,'%2B').replace(/%20/g, '+').replace(/\*/g, '%2A
 				}
 				
 				foreach($_POST as $key => $val) {
-					if(!strstr($key, "_jefe") && !strstr($key, "_persona") && $key!="persona" && $key!="id") {
+					if(!strstr($key, "_jefe") && !strstr($key, "_persona") && $key!="persona" && $key!="id" && $key!="values") {
 						$fields[]="`".secInjection($key)."`";
 						$sec_fields[]="'%s'";
 						$values[]=secInjection($val);
 					}
 				}
 				
-				if($_GET['t'] == 'update')
-					$db->qs("DELETE FROM `encuestas` WHERE id_jefe=%d;", array(intval($jefe['id'])));
-				if (!$db->qs("INSERT INTO encuestas (".implode(", ", $fields).") VALUES (".implode(", ", $sec_fields).")", $values)) {
-					echo "Error en la Base de Datos Insertando la encuesta ".$db->errors();
-				}else{
-					$db->qs("DELETE FROM `familias` WHERE id_jefe=%d;", array(intval($jefe['id'])));
-					foreach($_POST["persona"] as $key => $val) {
-						if(!$val) continue;
-						$persona = json_decode($val);
-						//print_r($persona);
-						$db->qs("INSERT INTO familias (id_jefe, id_persona, parentesco, salud) VALUES (%d,%d,'%s',%d)", array(
-							$jefe['id'],
-							intval($persona->id),
-							secInjection($persona->parentesco),
-							intval($persona->salud)
-						));
+				if($_GET['t'] == 'update'){
+					$db->qs("DELETE FROM encuestas_detalle WHERE id_encuesta=%d", array($_GET["id"]));
+					$db->qs("DELETE FROM encuestas WHERE id=%d", array($_GET["id"]));
+					
+					if (!$db->qs("INSERT INTO encuestas (id, id_jefe, fecha_llenado) VALUES (%d, %d, NOW())", array($_GET["id"], $jefe['id']))) {
+						echo "Error en la Base de Datos Insertando la encuesta ".$db->errors();
+					}else{
+						//se creo el maestro de la encuesta, vamos con su detalle
+						if(! isset($_POST["values"])){
+							//enviaron la encuesta vacia
+							$db->qs("DELETE FROM encuestas WHERE id=%s", array($_GET["id"]));
+							echo "Disculpe, no se indico ningun valor en las respuestas de la encuesta";
+						} else {
+							//tenemos cierto detalle, procedemos a guardarlo
+							$encuestaId = $_GET["id"];
+					
+							foreach ($_POST["values"] as $itemId => $arrayValues){
+								$valueText = "NULL";
+								$valueCheck = "NULL";
+									
+								//vemos si es una pregunta tipo check o es una de texto
+								if(isset($arrayValues["is_check"])){
+									//es tipo check
+									$valueCheck = "'".$arrayValues["is_check"]."'";
+					
+									//vemos si es un check de los que requiere indicar numero
+									if(isset($arrayValues["require_number"])){
+										$valueText = "'".$arrayValues["require_number"]."'";
+									}
+								} else {
+									//es texto
+									$valueText = "'".$arrayValues["text"]."'";
+								}
+									
+								//guardamos el detalle
+								$query= "INSERT INTO encuestas_detalle(value_check, value_text, id_encuesta, id_item_encuesta) VALUES(%s,%s,%d,%d)";
+								$params = array($valueCheck, $valueText, $encuestaId, $itemId);
+								$db->qs($query, $params);
+							}
+							
+							$db->qs("DELETE FROM `familias` WHERE id_jefe=%d;", array(intval($jefe['id'])));
+							if(isset($_POST["persona"])){
+								foreach($_POST["persona"] as $key => $val) {
+									if(!$val) continue;
+									$persona = json_decode($val);
+									//print_r($persona);
+									$db->qs("INSERT INTO familias (id_jefe, id_persona, parentesco, salud) VALUES (%d,%d,'%s',%d)", array(
+											$jefe['id'],
+											intval($persona->id),
+											secInjection($persona->parentesco),
+											intval($persona->salud)
+									));
+								}
+							}
+						}
 					}
 				}
 			}
-			
 		}else echo $error; 
 		exit;
     }
@@ -520,79 +561,83 @@ return escape(str).replace(/\+/g,'%2B').replace(/%20/g, '+').replace(/\*/g, '%2A
 			<div id="botonesPersona"><button type="button" onclick ="abrirPersona();">Agregar un miembro de la Familia</button></div>
 		</div>
 		<div id="tabs-3">
-		<table width="100%"><tr><td width="50%" valign="top">
-			<table width="100%">
-				<tr><th>Problemas de la Comunidad</th><th></th></tr>
-				<tr><td>Falta de cooperación de los vecinos</td><td><input type="checkbox" value="1" name="cooperacion_vecinos" id="cooperacion_vecinos" /></td></tr>
-				<tr><td>Violencia vecinal</td><td><input type="checkbox" value="1" name="violencia_vecinal" id="violencia_vecinal" /></td></tr>
-				<tr><td>Abuso de las autoridades</td><td><input type="checkbox" value="1" name="abuso_autoridades" id="abuso_autoridades" /></td></tr>
-				<tr><td>Prostitución</td><td><input type="checkbox" value="1" name="prostitucion" id="prostitucion" /></td></tr>
-				<tr><td>Alcoholismo</td><td><input type="checkbox" value="1" name="alcoholismo" id="alcoholismo" /></td></tr>
-				<tr><td>Enfermos terminales en la comunidad</td><td><input type="checkbox" value="1" name="dummy_persona" id="enfermos_terminales_cb" /><span id="view_enfermos_terminales">Cuantos Aprx.?: <input type="text" size="1" name="enfermos_terminales" id="enfermos_terminales" value="0" /></span></td></tr>
-				<tr><td>Discapacitados en la comunidad</td><td><input type="checkbox" value="1" name="dummy_persona" id="discapacitados_cb" /> <span id="view_discapacitados">Cuantos Aprx.?: <input type="text" size="1" name="discapacitados" id="discapacitados" value="0" /></span></td></tr>
-				<tr><td>Delincuencia</td><td><input type="checkbox" value="1" name="delincuencia" id="delincuencia" /></td></tr>
-				<tr><td>Indigentes</td><td><input type="checkbox" value="1" id="indigentes_cb" name="dummy_persona" /> <span id="view_indigentes">Cuantos Aprx.?: <input type="text" size="1" name="indigentes" id="indigentes" value="0" /></span></td></tr>
-				<tr><td>Niños en situación de abandono</td><td><input type="checkbox" value="1" id="ninos_abandono_cb" name="dummy_persona" /> <span id="view_ninos_abandono">Cuantos Aprx.?: <input type="text" size="1" name="ninos_abandono" id="ninos_abandono" value="0" /></span></td></tr>
-				<tr><td>Extrema densidad poblacional</td><td><input type="checkbox" value="1" name="extrema_densidad_poblacional" id="extrema_densidad_poblacional" /></td></tr>
-				<tr><td>Comercio de drogas</td><td><input type="checkbox" value="1" name="comercio_drogas" id="comercio_drogas" /></td></tr>
-				<tr><td>Consumo de drogas</td><td><input type="checkbox" value="1" name="consumo_drogas" id="consumo_drogas" /></td></tr>
-				<tr><td>Servicios públicos</td><td><input type="checkbox" value="1" name="servicios_publicos" id="servicios_publicos" /></td></tr>
-				<tr><td>Basura en las calles</td><td><input type="checkbox" value="1" name="basura" id="basura" /></td></tr>
-				<tr><td>Seguridad urbana</td><td><input type="checkbox" value="1" name="seguridad_urbana" id="seguridad_urbana" /></td></tr>
-				<tr><td>Aguas servidas emposadas</td><td><input type="checkbox" value="1" name="aguas_servidas_emposadas" id="aguas_servidas_emposadas" /></td></tr>
-				<tr><td>Residuos tóxicos</td><td><input type="checkbox" value="1" name="residuos_toxicos" id="residuos_toxicos" /></td></tr>
-				<tr><td>Barros y pantanos</td><td><input type="checkbox" value="1" name="barros_pantanos" id="barros_pantanos" /></td></tr>
-				<tr><td>Ruidos</td><td><input type="checkbox" value="1" name="ruidos" id="ruidos" /></td></tr>
-				<tr><td>Fabricas contaminantes</td><td><input type="checkbox" value="1" name="fabricas_contaminantes" id="fabricas_contaminantes" /></td></tr>
-				<tr><td>Licorerías</td><td><input type="checkbox" value="1" name="licorerias" id="licorerias" /></td></tr>
-				<tr><td>Transito vehicular</td><td><input type="checkbox" value="1" name="transito_vehicular" id="transito_vehicular" /></td></tr>
-				<tr><td>Terrenos baldíos</td><td><input type="checkbox" value="1" name="terrenos_baldios" id="terrenos_baldios" /></td></tr>
-				<tr><td>Falta de espacios de recreación</td><td><input type="checkbox" value="1" name="falta_espacios_recreacion" id="falta_espacios_recreacion" /></td></tr>
-				<tr><td>Falta de espacios deportivos</td><td><input type="checkbox" value="1" name="falta_espacios_deportivos" id="falta_espacios_deportivos" /></td></tr>
-				<tr><td>Victima de algún delito</td><td><input type="checkbox" value="1" name="victima_delito" id="victima_delito" /></td></tr>
-				<tr><td>Otros</td><td><input type="text" value="" size="4" name="otros_problemas_comunidad" id="otros_problemas_comunidad" /></td></tr>
-			</table>
-		</td><td width="50%" valign="top">
-			<table width="100%">
-				<tr><th>Beneficiario de alguna Misión</th><th></th></tr>
-				<tr><td>Misión Robinsion</td><td><input type="checkbox" value="1" name="mision_robinson" id="mision_robinson" /></td></tr>
-				<tr><td>Misión Ribas</td><td><input type="checkbox" value="1" name="mision_ribas" id="mision_ribas" /></td></tr>
-				<tr><td>Mision Mercal</td><td><input type="checkbox" value="1" name="mision_mercal" id="mision_mercal" /></td></tr>
-				<tr><td>Mision Negra Hipolita</td><td><input type="checkbox" value="1" name="mision_negra_hipolita" id="mision_negra_hipolita" /></td></tr>
-				<tr><td>Mision Habitat</td><td><input type="checkbox" value="1" name="mision_habitat" id="mision_habitat" /></td></tr>
-				<tr><td>Mision Vivienda</td><td><input type="checkbox" value="1" name="mision_vivienda" id="mision_vivienda" /></td></tr>
-				<tr><td>Mision Barrio Adentro</td><td><input type="checkbox" value="1" name="mision_barrio_adentro" id="mision_barrio_adentro" /></td></tr>
-				<tr><td>Mision Ciencia</td><td><input type="checkbox" value="1" name="mision_ciencia" id="mision_ciencia" /></td></tr>
-				<tr><td>Mision Cultura</td><td><input type="checkbox" value="1" name="mision_cultura" id="mision_cultura" /></td></tr>
-				<tr><td>Simoncito</td><td><input type="checkbox" value="1" name="simoncito" id="simoncito" /></td></tr>
-				<tr><td>Unidad Educativa</td><td><input type="checkbox" value="1" name="unidad_educativa" id="unidad_educativa" /></td></tr>
-				<tr><td>Liceo</td><td><input type="checkbox" value="1" name="liceo" id="liceo" /></td></tr>
-				<tr><td>Universidad</td><td><input type="checkbox" value="1" name="universidad" id="universidad" /></td></tr>
-			</table>
-			<br />
-			<table width="100%">
-				<tr><th>Servicios Activos</th><th></th></tr>
-				<tr><td>Aguas blancas</td><td><input type="checkbox" value="1" name="aguas_blancas" id="aguas_blancas" /></td></tr>
-				<tr><td>Aguas servidas</td><td><input type="checkbox" value="1" name="aguas_servidas" id="aguas_servidas" /></td></tr>
-				<tr><td>Sistema eléctrico</td><td><input type="checkbox" value="1" name="sistema_electrico" id="sistema_electrico" /></td></tr>
-				<tr><td>Recoleccion de basura</td><td><input type="checkbox" value="1" name="recoleccion_basura" id="recoleccion_basura" /></td></tr>
-				<tr><td>Telefonia</td><td><input type="checkbox" value="1" name="telefonia" id="telefonia" /></td></tr>
-				<tr><td>Transporte</td><td><input type="checkbox" value="1" name="transporte" id="transporte" /></td></tr>
-				<tr><td>Mecanismo de información</td><td><input type="checkbox" value="1" name="mecanismo_informacion" id="mecanismo_informacion" /></td></tr>
-				<tr><td>Servicios comunitarios</td><td><input type="checkbox" value="1" name="servicios_comunitarios" id="servicios_comunitarios" /></td></tr>
-				<tr><td>Gas domestico</td><td><input type="checkbox" value="1" name="gas_domestico" id="gas_domestico" /></td></tr>
-				<tr><td>Alumbrado Publico</td><td><input type="checkbox" value="1" name="alumbrado_publico" id="alumbrado_publico" /></td></tr>
-				<tr><td>Modulos de seguridad</td><td><input type="checkbox" value="1" name="modulos_seguridad" id="modulos_seguridad" /></td></tr>
-			</table>
-		</td></tr></table>
-		<br />
-		<table width="100%">
-			<tr><td>Existe en su núcleo familiar alguna persona que padezca de alguna enfermedad?</td><td><input type="checkbox" value="1" name="familiar_enfermo" id="familiar_enfermo" /></td></tr>
-			<tr><td>Necesita Usted de ayuda especial para sus familiares enfermos?</td><td><input type="checkbox" value="1" name="ayuda_familiar_enfermo" id="ayuda_familiar_enfermo" /></td></tr>
-			<tr><td>Le gustaría contar con una Universidad Simón Rodríguez en Sabana Grande?</td><td><input type="checkbox" value="1" name="simon_rodriguez" id="simon_rodriguez" /></td></tr>
-		</table>
-		</div>
-	</div>
+						<?php 
+						$seccionesEncuesta = $db->l("SELECT DISTINCT cie.id, cie.texto, cie.orden FROM categoria_item_encuesta cie, items_encuesta ie WHERE cie.active='1' AND cie.id=ie.id_item_categoria ORDER BY cie.orden, cie.texto", false);
+						for($i = 0; $i < count($seccionesEncuesta); $i++){
+							//creamos la tabla de la seccion
+						?>
+							<table width="100%">
+							<tr>
+								<th align="left" colspan="4"><?php echo $seccionesEncuesta[$i]["texto"];?></th>
+							</tr>
+							<tr>
+								<td colspan="4"><hr></hr></td>
+							</tr>
+							<?php
+							$query = "SELECT ie.id AS itemId, ie.texto, ie.is_check, ie.require_number, ed.* "
+    						." FROM items_encuesta ie LEFT JOIN encuestas_detalle ed ON ie.id = ed.id_item_encuesta AND ed.id_encuesta=".$_GET["id"]
+        		            ." WHERE ie.id_item_categoria =".$seccionesEncuesta[$i]["id"]
+        		            ." ORDER BY ie.orden, ie.texto";
+							$itemsEncuesta = $db->l($query, false);
+							for($j = 0; $j < (int) ((count($itemsEncuesta) / 2) + (count($itemsEncuesta) % 2)); $j++){
+							?>
+							<tr>
+								<td width="30%">
+									<?php echo $itemsEncuesta[$j*2]["texto"];?>
+								</td>
+								<td width="20%">
+									<?php
+									if($itemsEncuesta[$j*2]["is_check"] == "1"){
+									?>
+										<input type="checkbox" <?php echo $itemsEncuesta[$j*2]["value_check"] == "" ? "" : "checked";?> id="values[<?php echo $itemsEncuesta[$j*2]["itemId"]?>][is_check]" name="values[<?php echo $itemsEncuesta[$j*2]["itemId"]?>][is_check]" value="1"/>
+										<?php 
+										if($itemsEncuesta[$j*2]["require_number"] == "1"){
+										?>
+											Cuantos Aprox.?: <input type="text" id="values[<?php echo $itemsEncuesta[$j*2]["itemId"]?>][require_number]" name="values[<?php echo $itemsEncuesta[$j*2]["itemId"]?>][require_number]" value="<?php echo $itemsEncuesta[$j*2]["value_text"];?>" size="3"/>
+										<?php
+										}
+										?>
+									<?php
+									}else{
+									?>
+										<input type="text" id="values[<?php echo $itemsEncuesta[$j*2]["itemId"]?>][text]" name="values[<?php echo $itemsEncuesta[$j*2]["itemId"]?>][text]" value="<?php echo $itemsEncuesta[$j*2]["value_text"]?>"/>
+									<?php
+									} 
+									?>
+								</td>
+								<td width="30%">
+									<?php echo $itemsEncuesta[($j*2) + 1]["texto"];?>
+								</td>
+								<td width="20%">
+									<?php
+									if($itemsEncuesta[($j*2) + 1]["is_check"] == "1"){
+									?>
+										<input type="checkbox" <?php echo $itemsEncuesta[($j*2) + 1]["value_check"] == "" ? "" : "checked";?> id="values[<?php echo $itemsEncuesta[($j*2) + 1]["itemId"]?>][is_check]" name="values[<?php echo $itemsEncuesta[($j*2) + 1]["itemId"]?>][is_check]" value="1"/>
+										<?php 
+										if($itemsEncuesta[($j*2) + 1]["require_number"] == "1"){
+										?>
+											Cuantos Aprox.?: <input type="text" id="values[<?php echo $itemsEncuesta[($j*2) + 1]["itemId"]?>][require_number]" name="values[<?php echo $itemsEncuesta[($j*2) + 1]["itemId"]?>][require_number]" value="<?php echo $itemsEncuesta[($j*2) + 1]["value_text"];?>" size="3"/>
+										<?php
+										}
+										?>
+									<?php
+									}else if($itemsEncuesta[($j*2) + 1]["is_check"] == "0"){
+									?>
+										<input type="text" id="values[<?php echo $itemsEncuesta[($j*2) + 1]["itemId"]?>][text]" name="values[<?php echo $itemsEncuesta[($j*2) + 1]["itemId"]?>][text]" value="<?php echo $itemsEncuesta[($j*2) + 1]["value_text"];?>"/>
+									<?php
+									} 
+									?>
+								</td>
+							</tr>
+							<?php
+							} 
+							?>
+							</table>
+						<?php
+						}
+						?>
+						</div>
+					</div>
 	<br />
 	<br />
 	<center>
@@ -981,7 +1026,7 @@ return escape(str).replace(/\+/g,'%2B').replace(/%20/g, '+').replace(/\*/g, '%2A
 		$.ajaxFileUpload
 		(
 			{
-				url:'adminEncuestas.php?t=update',
+				url:'adminEncuestas.php?t=update&id=<?php echo $_GET["id"];?>',
 				secureuri:false,
 				fileElementId:'imagen',
 				dataType: 'text',
