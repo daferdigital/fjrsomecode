@@ -14,10 +14,9 @@ class EnvioDAO {
 	 * @param unknown $ciRif
 	 * @param unknown $fechaDesde
 	 * @param unknown $fechaHasta
-	 * @param unknown $pageToget
 	 */
 	public static function getQueryEnviosNotificados($numVaucher, $seudonimoML, 
-			$ciRif, $fechaDesde, $fechaHasta, $pageToget){
+			$ciRif, $fechaDesde, $fechaHasta){
 		
 		return EnvioDAO::getEnviosByType(EnvioDAO::$COD_STATUS_NOTIFICADO, 
 				$numVaucher,
@@ -35,10 +34,9 @@ class EnvioDAO {
 	 * @param unknown $ciRif
 	 * @param unknown $fechaDesde
 	 * @param unknown $fechaHasta
-	 * @param unknown $pageToget
 	 */
 	private static function getQueryEnviosByType($statusEnvio, $numVaucher,
-			$seudonimoML, $ciRif, $fechaDesde, $fechaHasta, $pageToget){
+			$seudonimoML, $ciRif, $fechaDesde, $fechaHasta){
 		
 		$query = "SELECT "
 			." FROM bancos b, empresa_envio ev, medios_de_pago mdp, envios_status es, envios e"

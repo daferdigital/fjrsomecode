@@ -10,7 +10,7 @@ include_once '../classes/PagingDAO.php';
 include_once '../includes/session.php';
 
 PageAccess::validateAccess(Constants::$OPCION_ADMIN_REACTIVAR_USUARIO);
-BitacoraDAO::registrarComentario("Acceso autorizado al ajax para obtener logs del sistema");
+BitacoraDAO::registrarComentario("Acceso autorizado al ajax para obtener logs de actividades del sistema");
 
 $pageNumber = $_POST[Constants::$PAGE_NUMBER];
 $scriptFunction = $_POST[Constants::$SCRIPT_FUNCTION];
@@ -21,23 +21,20 @@ if($_POST["usuario"] != "-1"){
 	$extraWhere .= " AND u.id=".$_POST["usuario"];	
 }
 if($_POST["fechaDesde"] != ""){
-	$extraWhere .= " AND sl.fecha >= '".$_POST["fechaDesde"]."'";
+	$extraWhere .= " AND b.fecha >= '".$_POST["fechaDesde"]."'";
 }
 if($_POST["fechaHasta"] != ""){
-	$extraWhere .= " AND sl.fecha <= '".$_POST["fechaHasta"]."'";
+	$extraWhere .= " AND b.fecha <= '".$_POST["fechaHasta"]."'";
 }
-if($_POST["query"] != ""){
-	$extraWhere .= " AND LOWER(sl.query) LIKE LOWER('%".$_POST["query"]."%')";
-}
-if(isset($_POST["justErrors"])){
-	$extraWhere .= " AND LOWER(sl.was_error) = '".$_POST["justErrors"]."'";
+if($_POST["operacion"] != ""){
+	$extraWhere .= " AND LOWER(b.operacion) LIKE LOWER('%".$_POST["operacion"]."%')";
 }
 
-$query = "SELECT sl.*, u.nombre, u.apellido"
-." FROM system_log sl LEFT JOIN usuarios u ON u.id = sl.id_usuario"
+$query = "SELECT b.*, u.nombre, u.apellido"
+." FROM bitacora b LEFT JOIN usuarios u ON u.id = b.id_usuario"
 ." WHERE 1 = 1"
 .$extraWhere
-." ORDER BY fecha DESC";
+." ORDER BY b.fecha DESC";
 
 $totalRecords = DBUtil::getRecordCountToQuery($query);
 $pageRecords = DBUtil::getRecordsByPage($query, $pageNumber);
@@ -68,10 +65,6 @@ if(count($pageRecords) == 0){
 		<div align="center" id="tdElement">
 			<?php echo $pagingDAO->getTRFooterPaging();?>
 		</div>
-		<div id="tdElement">
-		</div>
-		<div id="tdElement">
-		</div>
 	</div>
 	<div id="row">
 		<div style="width: 15%;" id="tdHeader">
@@ -80,14 +73,8 @@ if(count($pageRecords) == 0){
     	<div style="width: 15%;" id="tdHeader">
       		Usuario
     	</div>
-    	<div style="width: 30%;" id="tdHeader">
-      		Consulta
-    	</div>
-    	<div style="width: 30%;" id="tdHeader">
-      		Resultado
-    	</div>
-    	<div style="width: 10%;" id="tdHeader">
-      		Error?
+    	<div style="width: 70%;" id="tdHeader">
+      		Transacci&oacute;n
     	</div>
 	</div>
 	<?php
@@ -100,18 +87,10 @@ if(count($pageRecords) == 0){
 			<div style="width: 15%;" id="tdElement">
 				<?php echo $row["nombre"]." ".$row["apellido"];?>
 			</div>
-			<div style="width: 30%;" id="tdElement">
+			<div style="width: 70%;" id="tdElement">
 				<span id="fixHeigth">
-					<?php echo $row["query"];?>
+					<?php echo $row["operacion"];?>
 				</span>
-			</div>
-			<div style="width: 30%;" id="tdElement">
-				<span id="fixHeigth">
-					<?php echo $row["result"];?>
-				</span>
-			</div>
-			<div style="width: 10%;" id="tdElement">
-				<?php echo $row["was_error"] == 0 ? "No" : "S&iacute;";?>
 			</div>
 		</div>
 	<?php
@@ -124,10 +103,6 @@ if(count($pageRecords) == 0){
 		</div>
 		<div align="center" id="tdElement">
 			<?php echo $pagingDAO->getTRFooterPaging();?>
-		</div>
-		<div id="tdElement">
-		</div>
-		<div id="tdElement">
 		</div>
 	</div>
 <?php 
