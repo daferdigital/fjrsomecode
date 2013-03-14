@@ -10,16 +10,42 @@ include_once '../classes/UsuarioDTO.php';
 include_once '../includes/session.php';
 
 $recordId = $_GET["id"];
+$canEdit = false;
+$envioDTO = EnvioDAO::getEnvioInfo($recordId);
 
-PageAccess::validateAccess(Constants::$OPCION_LOGS_SISTEMA);
-BitacoraDAO::registrarComentario("Buscando detalle de registro de log tecnico con id[".$recordId."]");
+$statusEnvio = $envioDTO->getIdStatusActual();
 
-$query = "SELECT sl.*, u.nombre, u.apellido"
-." FROM system_log sl LEFT JOIN usuarios u ON u.id = sl.id_usuario"
-." WHERE sl.id=".$recordId;
+BitacoraDAO::registrarComentario("Ingreso en pagina ajax para vizualizar envio[".$recordId."]");
 
-$dbUtil = new DBUtil();
-$result = $dbUtil->executeSelect($query);
+//vemos el tipo de envio que se desea buscar o si se viene de busqueda avanzada
+if(isset($_POST["fromBusquedaAvanzada"])){
+	PageAccess::validateAccess(Constants::$OPCION_BUSQUEDA_AVANZADA);
+	$canEdit = true;
+}else{
+	//venimos de las opciones especificas por cada tipo de envio
+	//verificamos el permiso
+	if(EnvioDAO::$COD_STATUS_NOTIFICADO == $statusEnvio){
+		PageAccess::validateAccess(Constants::$OPCION_EDICION_NOTIFICADOS);
+		$canEdit = true;
+	} else if(EnvioDAO::$COD_STATUS_PAGO_CONFIRMADO == $statusEnvio){
+		PageAccess::validateAccess(Constants::$OPCION_EDICION_PAGOS_CONFIRMADOS);
+		$canEdit = true;
+	} else if(EnvioDAO::$COD_STATUS_PAGO_NO_ENCONTRADO == $statusEnvio){
+		PageAccess::validateAccess(Constants::$OPCION_EDICION_PAGOS_NO_ENCONTRADOS);
+		$canEdit = true;
+	} else if(EnvioDAO::$COD_STATUS_FACTURADO == $statusEnvio){
+		PageAccess::validateAccess(Constants::$OPCION_EDICION_FACTURADO);
+		$canEdit = true;
+	} else if(EnvioDAO::$COD_STATUS_PRESUPUESTADO == $statusEnvio){
+		PageAccess::validateAccess(Constants::$OPCION_ed);
+		$canEdit = true;
+	} else if(EnvioDAO::$COD_STATUS_ENVIADO == $statusEnvio){
+		PageAccess::validateAccess(Constants::$OPCION_EDICION_ENVIADO);
+		$canEdit = true;
+	}
+}
+
+BitacoraDAO::registrarComentario("El usuario ".($canEdit ? "" : "NO")." puede editar el envio[".$recordId."]");
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
