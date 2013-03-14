@@ -11,6 +11,12 @@ class Constants {
 	public static $OPCION_BUSQUEDA_FACTURADO = "facturado";
 	public static $OPCION_BUSQUEDA_ENVIADO = "enviado";
 	public static $OPCION_BUSQUEDA_AVANZADA = "busqueda_avanzada";
+	public static $OPCION_EDICION_NOTIFICADOS = "edicion_notificados";
+	public static $OPCION_EDICION_PAGOS_CONFIRMADOS = "edicion_pago_confirmado";
+	public static $OPCION_EDICION_PAGOS_NO_ENCONTRADOS = "edicion_pago_noencontrado";
+	public static $OPCION_EDICION_PRESUPUESTADO = "edicion_presupuestado";
+	public static $OPCION_EDICION_FACTURADO = "edicion_facturado";
+	public static $OPCION_EDICION_ENVIADO = "edicion_enviado";
 	public static $OPCION_LOGS_TRANSACCIONES = "transacciones";
 	public static $OPCION_LOGS_SISTEMA = "sistema";
 	public static $OPCION_ADMIN_PERMISOS = "permisos";
