@@ -1,3 +1,9 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+</head>
+<body>
 <?php 
 	include("conexion.php");
 	//obtenemos la info desde la pagina principal
@@ -7,10 +13,26 @@
 	$semanas = $_POST["cantidadSemanas"];
 	$estadia = $_POST["estadia"];
 	$destino = $_POST["destino"];
+	
+	$codCiudad = "";
+	$nombreCiudad = "";
+	$precioEnvioDocumentos = 0;
+	if(isset($_POST["ciudaDestino"])){
+		$codCiudad = $_POST["ciudaDestino"];
+	}
+	
 	$mailContent = "";
-	//colocamos el destino
+	//colocamos el pais destino
 	$row = mysql_fetch_array(mysql_query("SELECT destino FROM curso_destino WHERE id=".$destino));
 	$mailContent = "Destino: ".$row["destino"]." <br />";
+	
+	if($codCiudad != ""){
+		//colocamos la ciudad destino
+		$row = mysql_fetch_array(mysql_query("SELECT ciudad, precio_envio_documentos FROM curso_ciudad WHERE id=".$codCiudad));
+		$precioEnvioDocumentos = $row["precio_envio_documentos"];
+		$nombreCiudad = $row["ciudad"];
+		$mailContent = "Ciudad: ".$row["ciudad"]." <br />";
+	}
 	
 	$priceByWeek = -1;
 	$grandTotal = 0;
@@ -159,13 +181,14 @@
 		}
 	?>
 	<?php
-		if(isset($_POST["sendDocuments"])){
+		if($codCiudad != ""){
+			//envio de documentos a una ciudad en especifico
 	?>
 			<tr <?php echo $putBg ? $bgValue : ""; $putBg = !$putBg;?>>
 				<td align="left">
 					<?php 
-						echo $arrayValues[$_POST["sendDocuments"]][0];
-						$mailContent .= $arrayValues[$_POST["sendDocuments"]][0]." <br />";
+						echo "Envio de documentos a ".$nombreCiudad;
+						$mailContent .= "Envio de documentos a ".$nombreCiudad." <br />";
 					?>
 				</td>
 				<td align="center">
@@ -174,13 +197,15 @@
 				<td align="right">
 					$ 
 					<?php 
-						echo $arrayValues[$_POST["sendDocuments"]][2]; 
-						$grandTotal += $arrayValues[$_POST["sendDocuments"]][2];
+						echo $precioEnvioDocumentos; 
+						$grandTotal += $precioEnvioDocumentos;
 					?>
 				</td>
 			</tr>
 	<?php
-		} 
+		} else {
+			//cobro generico de envio de documentos
+		}
 	?>
 	<?php
 		if(isset($_POST["accommAge"]) && ($_POST["accommAge"] == "precio_under18")){
@@ -258,3 +283,5 @@
 <?php 
 	mysql_close();
 ?>
+</body>
+</html>

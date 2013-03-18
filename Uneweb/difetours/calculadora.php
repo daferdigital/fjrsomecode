@@ -4,7 +4,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 	<style>
 	<!--
 	#resultadoCalculadora  {
@@ -62,6 +62,36 @@
 			};
 			
 			ajaxObject.open("POST", "ajaxDestinoModalidad.php", false);
+			//sin la linea siguiente no podemos enviar parametros via POST, solo seria por GET
+			ajaxObject.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			ajaxObject.send("destino="+document.getElementById("destino").value);
+			document.getElementById("UpdateProgress1").style.display="none";
+		}
+
+		function getComboDestinoCiudad(){
+			var ajaxObject =  createXMLHTTPRequest();
+
+			document.getElementById("UpdateProgress1").style.display="inline";
+			document.getElementById("ciudadTitle").style.display="none";
+			document.getElementById("ciudadValues").innerHTML="";
+			
+			ajaxObject.onreadystatechange=function() {
+				if (ajaxObject.readyState==4 && ajaxObject.status==200) {
+					document.getElementById("UpdateProgress1").style.display="none";
+					
+					var responseText = ajaxObject.responseText;
+					var startString = "<body>";
+					var minIndex = responseText.indexOf(startString);
+					var maxIndex = responseText.indexOf("</body>");
+					
+					if((maxIndex - minIndex) > startString.length + 2){
+						document.getElementById("ciudadTitle").style.display="inline";
+						document.getElementById("ciudadValues").innerHTML = ajaxObject.responseText;
+					}
+				}
+			};
+			
+			ajaxObject.open("POST", "ajaxDestinoCiudad.php", false);
 			//sin la linea siguiente no podemos enviar parametros via POST, solo seria por GET
 			ajaxObject.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 			ajaxObject.send("destino="+document.getElementById("destino").value);
@@ -132,7 +162,12 @@
 			params += "&formaEstudio=" + document.getElementById("formaEstudio").value;
 			params += "&estadia=" + document.getElementById("estadia").value;
 			params += "&destino=" + document.getElementById("destino").value;
-	
+
+			if(document.getElementById("ciudadDestino") != null){
+				//enviamos la informacion de la ciudad destino en el request ajax
+				params += "&ciudaDestino=" + document.getElementById("ciudadDestino").value;	
+			}
+
 			if(document.getElementById("UpdatePanel1").innerHTML != ""){
 				//tenemos estadia seleccionada, vemos su detalle
 				if(document.getElementById("AirportPickupRequired_0") != null){
@@ -144,7 +179,7 @@
 						params += "&AirportPickupRequired=" + document.getElementById("AirportPickupRequired_2").value;
 					}
 				}
-
+				
 				if(document.getElementById("accommAge_0") != null){
 					if(document.getElementById("accommAge_0").checked){
 						params += "&accommAge=" + document.getElementById("accommAge_0").value;
@@ -235,6 +270,7 @@
 			if(componentName == "destino"){
 				getComboDestinoModalidad();
 				getComboDestinoEstadia();
+				getComboDestinoCiudad();
 			}
 	
 			if(validSelects()){
@@ -248,6 +284,7 @@
 	<table width="90%" border="0" cellpadding="2" cellspacing="2">
 		<tr>
 			<td>Destino</td>
+			<td><span id="ciudadTitle" style="display:none;">Ciudad</span></td>
 			<td>Modalidad de estudio</td>
             <td>Tipo de Estadia</td>
             <td>Cantidad de Semanas</td>
@@ -266,6 +303,8 @@
 						}
 					?>
 				</select>
+			</td>
+			<td id="ciudadValues">
 			</td>
 			<td id="destinoModalidad">
             	<select name="formaEstudio" onchange="javascript:setTimeout('__doPostBack(\'formaEstudio\')', 0)" id="formaEstudio" class="calculator-input-dropdown">
@@ -298,6 +337,7 @@
         			Por favor indique su destino
         		</span>
         	</td>
+        	<td></td>
         	<td>
         		<span id="RequiredFieldValidator2" class="calculator-validator" style="color: red; display: none;">
         			Por favor seleccione su forma de estudio
@@ -315,7 +355,7 @@
             </td>
         </tr>
         <tr>
-        	<td colspan="3">
+        	<td colspan="4">
         		&nbsp;
             </td>
             <td align="center">
@@ -327,15 +367,18 @@
 	        </td>
         </tr>
         <tr>
-        	<td colspan="4" class="calculator-input">
+        	<td colspan="5" class="calculator-input">
         		<div id="UpdatePanel1">
                 </div>
             </td>
         </tr>
         <tr>
-        	<td colspan="4" align="center" class="calculator-input">
+        	<td colspan="5" align="center" class="calculator-input">
         		<div id="UpdatePanelFeeTable">
         		</div>
+        		<a href="CreditCardAuthorizationF.pdf" target="_blank">Descargar Carta de Autorización</a> 
+        		&nbsp; -&nbsp;
+        		<a href="calendario.jpg" target="_blank"> Descargar Calendario</a>
         	</td>
         </tr>
     </table>
