@@ -26,22 +26,23 @@ DROP TABLE IF EXISTS `curso_modalidad`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `curso_modalidad` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `internal_key` varchar(45) NOT NULL,
-  `descripcion` varchar(255) NOT NULL,
+  `internal_key` varchar(45) CHARACTER SET utf8 NOT NULL,
+  `descripcion` varchar(255) CHARACTER SET utf8 NOT NULL,
   `id_destino` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_MODALIDAD_DESTINO_idx` (`id_destino`),
   CONSTRAINT `FK_MODALIDAD_DESTINO` FOREIGN KEY (`id_destino`) REFERENCES `curso_destino` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `curso_modalidad`
 --
+-- ORDER BY:  `id`
 
 LOCK TABLES `curso_modalidad` WRITE;
 /*!40000 ALTER TABLE `curso_modalidad` DISABLE KEYS */;
-INSERT INTO `curso_modalidad` VALUES (1,'intensive','Tiempo Completo Intensivo(30 clases/semana)',1),(2,'standard','Tiempo Completo (24 clases/semana)',1),(3,'part-timeAM','Medio tiempo AM (17 clases/semana)',1),(4,'part-timePM','Medio tiempo PM (13 clases/semana)',1),(5,'intensive','Tiempo Completo Intensivo(30 clases/semana)',2),(6,'standard','Tiempo Completo (24 clases/semana)',2),(7,'part-timeAM','Medio tiempo AM (17 clases/semana)',2),(8,'part-timePM','Medio tiempo PM (13 clases/semana)',2),(9,'intensive','Tiempo Completo Intensivo(30 clases/semana)',3),(10,'standard','Tiempo Completo (24 clases/semana)',3),(11,'part-timeAM','Medio tiempo AM (17 clases/semana)',3),(12,'part-timePM','Medio tiempo PM (13 clases/semana)',3),(13,'intensive','Tiempo Completo Intensivo(30 clases/semana)',4),(14,'standard','Tiempo Completo (24 clases/semana)',4),(15,'part-timeAM','Medio tiempo AM (17 clases/semana)',4),(16,'part-timePM','Medio tiempo PM (13 clases/semana)',4);
+INSERT INTO `curso_modalidad` (`id`, `internal_key`, `descripcion`, `id_destino`) VALUES (1,'intensive','Tiempo Completo Intensivo(30 clases/semana)',1),(2,'standard','Tiempo Completo (24 clases/semana)',1),(3,'part-timeAM','Medio tiempo AM (17 clases/semana)',1),(4,'part-timePM','Medio tiempo PM (13 clases/semana)',1),(5,'intensive','Tiempo Completo Intensivo(30 clases/semana)',2),(6,'standard','Tiempo Completo (24 clases/semana)',2),(7,'part-timeAM','Medio tiempo AM (17 clases/semana)',2),(8,'part-timePM','Medio tiempo PM (13 clases/semana)',2),(9,'intensive','Tiempo Completo Intensivo(30 clases/semana)',3),(10,'standard','Tiempo Completo (24 clases/semana)',3),(11,'part-timeAM','Medio tiempo AM (17 clases/semana)',3),(12,'part-timePM','Medio tiempo PM (13 clases/semana)',3),(13,'intensive','Tiempo Completo Intensivo(30 clases/semana)',4),(14,'standard','Tiempo Completo (24 clases/semana)',4),(15,'part-timeAM','Medio tiempo AM (17 clases/semana)',4),(16,'part-timePM','Medio tiempo PM (13 clases/semana)',4);
 /*!40000 ALTER TABLE `curso_modalidad` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-02-24 23:59:20
+-- Dump completed on 2013-03-18  0:55:42

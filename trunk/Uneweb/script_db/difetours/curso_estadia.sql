@@ -26,25 +26,26 @@ DROP TABLE IF EXISTS `curso_estadia`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `curso_estadia` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `internal_key` varchar(45) NOT NULL,
-  `descripcion` text NOT NULL,
+  `internal_key` varchar(45) CHARACTER SET utf8 NOT NULL,
+  `descripcion` text CHARACTER SET utf8 NOT NULL,
   `precio_under18` int(11) NOT NULL,
   `precio_over18` int(11) NOT NULL,
-  `long_desc` text NOT NULL,
+  `long_desc` text CHARACTER SET utf8 NOT NULL,
   `id_destino` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_ESTADIA_DESTINO_idx` (`id_destino`),
   CONSTRAINT `FK_ESTADIA_DESTINO` FOREIGN KEY (`id_destino`) REFERENCES `curso_destino` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=109 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=169 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `curso_estadia`
 --
+-- ORDER BY:  `id`
 
 LOCK TABLES `curso_estadia` WRITE;
 /*!40000 ALTER TABLE `curso_estadia` DISABLE KEYS */;
-INSERT INTO `curso_estadia` VALUES (93,'homestay','PensiÃ³n Completa',224,210,'PensiÃ³n Completa (todas las comidas)',1),(94,'homestay-half-board','Media PensiÃ³n',210,196,'Media PensiÃ³n (sin almuerzo)',1),(95,'roomstay','Solo Estadia',0,147,'Solo Estadia (sin comidas)',1),(96,'none','Ninguna',0,0,'Ninguna',1),(97,'homestay','Pensión Completa',224,210,'Pensión Completa (todas las comidas)',4),(98,'homestay-half-board','Media PensiÃƒÂ³n',210,196,'Media PensiÃƒÂ³n (sin almuerzo)',4),(99,'roomstay','Solo Estadia',0,147,'Solo Estadia (sin comidas)',4),(100,'none','Ninguna',0,0,'Ninguna',4),(101,'homestay','PensiÃƒÂ³n Completa',224,210,'PensiÃƒÂ³n Completa (todas las comidas)',3),(102,'homestay-half-board','Media PensiÃƒÂ³n',210,196,'Media PensiÃƒÂ³n (sin almuerzo)',3),(103,'roomstay','Solo Estadia',0,147,'Solo Estadia (sin comidas)',3),(104,'none','Ninguna',0,0,'Ninguna',3),(105,'homestay','PensiÃƒÂ³n Completa',224,210,'PensiÃƒÂ³n Completa (todas las comidas)',2),(106,'homestay-half-board','Media PensiÃƒÂ³n',210,196,'Media PensiÃƒÂ³n (sin almuerzo)',2),(107,'roomstay','Solo Estadia',0,147,'Solo Estadia (sin comidas)',2),(108,'none','Ninguna',0,0,'Ninguna',2);
+INSERT INTO `curso_estadia` (`id`, `internal_key`, `descripcion`, `precio_under18`, `precio_over18`, `long_desc`, `id_destino`) VALUES (153,'homestay','Pensión Completa',224,210,'Pensión Completa (todas las comidas)',2),(154,'homestay-half-board','Media Pensión',210,196,'Media Pensin (sin almuerzo)',2),(155,'roomstay','Solo Estadia',0,147,'Solo Estadia (sin comidas)',2),(156,'none','Ninguna',0,0,'Ninguna',2),(157,'homestay','Pensión Completa',224,210,'Pensión Completa (todas las comidas)',3),(158,'homestay-half-board','Media Pensión',210,196,'Media Pensión (sin almuerzo)',3),(159,'roomstay','Solo Estadia',0,147,'Solo Estadia (sin comidas)',3),(160,'none','Ninguna',0,0,'Ninguna',3),(161,'homestay','Pensión Completa',224,210,'Pensión Completa (todas las comidas)',4),(162,'homestay-half-board','Media Pensión',210,196,'Media Pensión (sin almuerzo)',4),(163,'roomstay','Solo Estadia',0,147,'Solo Estadia (sin comidas)',4),(164,'none','Ninguna',0,0,'Ninguna',4),(165,'homestay','Pensión Completa',224,210,'Pensión Completa (incluye todas las comidas)',1),(166,'homestay-half-board','Media pensión',210,196,'Media Pensión (sin almuerzo)',1),(167,'roomstay','Solo estadia',0,147,'Solo estadia (sin comidas)',1),(168,'none','Ninguna',0,0,'Ninguna',1);
 /*!40000 ALTER TABLE `curso_estadia` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-02-24 23:59:17
+-- Dump completed on 2013-03-18  0:55:45

@@ -21,10 +21,17 @@
 		mysql_query($query);
 	}
 	
+	function guardarCampoCiudad($registro){
+		$query = "INSERT INTO curso_ciudad(ciudad, precio_envio_documentos, id_destino)"
+		."VALUES('".$registro[0]."',".$registro[1].",".$_POST["selectDestinoId"].")";
+		mysql_query($query);
+	}
+	
 	function guardarOtroConcepto($registro){
 		$query = "INSERT INTO curso_pagos(grupo, internal_key, descripcion, precio, pago_por_semana, id_destino, administrar)"
 				."VALUES('".$registro[1]."','".$registro[2]."','".$registro[3]."',".$registro[4].",'".(isset($registro[5]) ? $registro[5] : "0")."',".$_POST["selectDestinoId"].", '1')";
 		mysql_query($query);
+		echo mysql_error()."<br />";
 	}
 	
 	if(isset($_POST["selectDestinoId"])){
@@ -38,6 +45,8 @@
 		echo mysql_error()."<br />";
 		mysql_query("DELETE FROM curso_pagos WHERE id_destino=".$_POST["selectDestinoId"]." AND administrar='1'");
 		echo mysql_error()."<br />";
+		mysql_query("DELETE FROM curso_ciudad WHERE id_destino=".$_POST["selectDestinoId"]);
+		echo mysql_error()."<br />";
 		
 		while($doProcess){
 			if(isset($_POST["campoConcepto".$index])){
@@ -46,6 +55,8 @@
 				guardarCampoEstadia($_POST["campoEstadia".$index]);
 			} else if(isset($_POST["otroConcepto".$index])){
 				guardarOtroConcepto($_POST["otroConcepto".$index]);
+			}  else if(isset($_POST["campoCiudad".$index])){
+				guardarCampoCiudad($_POST["campoCiudad".$index]);
 			} else {
 				$doProcess = false;
 			}
