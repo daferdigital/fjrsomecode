@@ -175,7 +175,7 @@
     					$results = DBUtil::executeSelect($query);
     					foreach ($results as $row){
     				?>
-    					<option value="<?php echo $row[0];?>"><?php echo $row[1];?></option>
+    					<option value="<?php echo $row["id"];?>"><?php echo $row["text"];?></option>
     				<?php
     					}
     				?>
@@ -200,7 +200,7 @@
     					$results = DBUtil::executeSelect($query);
     					foreach ($results as $row){
     				?>
-    					<option value="<?php echo $row[0];?>"><?php echo $row[1];?></option>
+    					<option value="<?php echo $row["id"];?>"><?php echo $row["nombre"];?></option>
     				<?php
     					}
     				?>
@@ -313,7 +313,7 @@
     					$results = DBUtil::executeSelect($query);
     					foreach ($results as $row){
     				?>
-    					<option value="<?php echo $row[0];?>"><?php echo $row[1];?></option>
+    					<option value="<?php echo $row["id"];?>"><?php echo $row["nombre"];?></option>
     				<?php
     					}
     				?>

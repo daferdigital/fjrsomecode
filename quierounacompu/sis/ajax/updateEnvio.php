@@ -49,18 +49,23 @@ BitacoraDAO::registrarComentario("El usuario ".($canEdit ? "" : "NO")." puede ed
 </head>
 <body>
 <div style="padding: 10px; width: 850px;" class="centered">
-	<div id="myjquerymenu" class="jquerycssmenu" style="height: 25px;">
+	<!-- <div id="myjquerymenu" class="jquerycssmenu" style="height: 25px;">  -->
+	<div id="tabs">
 		<ul>
 			<li><a href="#tabs-0">Datos de Compra</a></li>
 			<li><a href="#tabs-1">Datos de Pago</a></li>
 			<li><a href="#tabs-2">Datos para el env&iacute;o</a></li>
-			<li><a href="#tabs-3">Envio desde Quierounacompu</a></li>
+			<?php 
+			if($envioDTO->getIdStatusActual() == EnvioDao::$COD_STATUS_FACTURADO){
+			?>
+				<li><a href="#tabs-3">Envio desde Quierounacompu</a></li>
+			<?php
+			}
+			?>
 			<li><a href="#tabs-4">Status Final y Comentarios</a></li>
 		</ul>
 		<br style="clear: both;" />
 		<div id="tabs-0" style="background-color: white;">
-			<br />
-			<br />
 			<table>
 				<tr>
 					<td>Nombre:</td>
@@ -85,8 +90,6 @@ BitacoraDAO::registrarComentario("El usuario ".($canEdit ? "" : "NO")." puede ed
 			</table>
 		</div>
 		<div id="tabs-1" style="background-color: white;">
-			<br />
-			<br />
 			<table>
 				<tr>
 					<td>Banco:</td>
@@ -110,7 +113,80 @@ BitacoraDAO::registrarComentario("El usuario ".($canEdit ? "" : "NO")." puede ed
 				</tr>
 			</table>
 		</div>
+		<div id="tabs-2" style="background-color: white;">
+			<table>
+				<tr>
+					<td>Compa&ntilde;ia de env&iacute;o:</td>
+					<td><?php echo $envioDTO->getDescEmpresaEnvio();?></td>
+				</tr>
+				<tr>
+					<td>Destinatario:</td>
+					<td><?php echo $envioDTO->getNombreDestinatario();?></td>
+				</tr>
+				<tr>
+					<td>Tlfs:</td>
+					<td>
+						<?php echo $envioDTO->getTlfCelularDestinatario();?>
+						&nbsp;&nbsp;
+						<?php echo $envioDTO->getTlfLocalDestinatario();?>
+					</td>
+				</tr>
+				<tr>
+					<td>Estado:</td>
+					<td><?php echo $envioDTO->getEstadoDestino();?></td>
+				</tr>
+				<tr>
+					<td>Ciudad:</td>
+					<td><?php echo $envioDTO->getCiudadDestino();?></td>
+				</tr>
+				<tr>
+					<td>Direcci&oacute;n:</td>
+					<td><?php echo $envioDTO->getDireccionDestino();?></td>
+				</tr>
+				<tr>
+					<td>Observaciones:</td>
+					<td><?php echo $envioDTO->getObservacionesEnvio();?></td>
+				</tr>
+			</table>
+		</div>
+		<?php 
+		if($envioDTO->getIdStatusActual() == EnvioDao::$COD_STATUS_FACTURADO){
+		?>
+			<div id="tabs-3" style="background-color: white;">
+				
+			</div>
+		<?php
+		}
+		?>
+		
+		<div id="tabs-4" style="background-color: white;">
+			<table>
+				<tr>
+					<td>Estatus Actual</td>
+					<td><?php echo $envioDTO->getDescStatusActual();?></td>
+				</tr>
+				<tr>
+					<td>Nuevo Estatus</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>Comentario</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>Comentarios anteriores</td>
+					<td>
+						
+					</td>
+				</tr>
+			</table>
+		</div>
 	</div>
 </div>
+<script>
+  $(function() {
+    $( "#tabs" ).tabs();
+  });
+  </script>
 </body>
 </html>

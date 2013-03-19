@@ -1,6 +1,7 @@
 <?php
-include "../sis/classes/DBUtil.php";
 include "../sis/classes/Constants.php";
+include "../sis/classes/DBUtil.php";
+include "../sis/classes/EnvioDAO.php";
 
 if(isset($_POST["terminos"])){
 	//puedo proceder a guardar el pago
@@ -45,8 +46,14 @@ VALUES
 ".$_POST["banco"].",
 ".$_POST["envio"].",
 ".Constants::$STATUS_INICIAL_ENVIOS.")";
-	
-	if(DBUtil::executeQuery($query)){
+
+	$lastId = DBUtil::executeQueryAndReturnLastId($query);
+	if($lastId > 0){
+		//registro el primer comentario
+		$query = "INSERT INTO envios_comentarios(fecha_comentario, comentario, id_status_envio, id_envio)"
+				." VALUES(NOW(),'Comprador acaba de registrar esta compra',".EnvioDAO::$COD_STATUS_NOTIFICADO.",".$lastId.");";
+		DBUtil::executeQuery($query);
+		
 		//enviamos el correo
 		$from = "pagos@quierounacompu.com";
 		

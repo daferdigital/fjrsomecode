@@ -407,7 +407,7 @@ class EnvioDTO {
 	 * @param unknown_type $descStatusActual
 	 */
 	public function setDescStatusActual($descStatusActual){
-		$this->StatusActual = $descStatusActual;
+		$this->descStatusActual = $descStatusActual;
 	}
 }
 ?>
