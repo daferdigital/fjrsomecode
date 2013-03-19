@@ -46,7 +46,7 @@
 				// en cambio si el objeto estaba definido nativamente, solo lo instanciamos
 				xmlHTTPRequest = new XMLHttpRequest();
 			}
-			
+
 			return xmlHTTPRequest;
 		}
 
@@ -111,7 +111,7 @@
 			
 			ajaxObject.open("POST", "ajaxDestinoEstadia.php", false);
 			//sin la linea siguiente no podemos enviar parametros via POST, solo seria por GET
-			ajaxObject.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			ajaxObject.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=ISO-8859-1");
 			ajaxObject.send("destino="+document.getElementById("destino").value);
 			document.getElementById("UpdateProgress1").style.display="none";
 		}
