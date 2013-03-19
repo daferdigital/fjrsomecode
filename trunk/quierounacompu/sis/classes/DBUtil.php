@@ -28,6 +28,8 @@ class DBUtil {
 				while ($r = mysql_fetch_assoc($result)){
 					$resultArray[] = $r;
 				}
+				
+				DBUtil::insertIntoSystemLog($querySelect, print_r($resultArray, true), ((int) time() - $time0));
 			} else {
 				DBUtil::storeError($querySelect, mysql_error());
 			}
@@ -36,8 +38,6 @@ class DBUtil {
 		}
 		
 		$dbConObj->closeConnection();
-		
-		DBUtil::insertIntoSystemLog($querySelect, print_r($resultArray, true), ((int) time() - $time0));
 		
 		return $resultArray;
 	}
@@ -60,6 +60,8 @@ class DBUtil {
 			if(mysql_error()){
 				$result = false;
 				DBUtil::storeError($query, mysql_error());
+			} else {
+				DBUtil::insertIntoSystemLog($query, "", time() - $time0);
 			}
 		} catch (Exception $e) {
 			$result = false;
@@ -68,9 +70,37 @@ class DBUtil {
 	
 		$dbConObj->closeConnection();
 	
-		DBUtil::insertIntoSystemLog($query, "", time() - $time0);
-		
 		return $result;
+	}
+	
+	/**
+	 * Query del tipo insert a ser ejecutado.
+	 * 
+	 * @param string $query
+	 * @return int ultimo codigo autonumerico creado
+	 */
+	public static function executeQueryAndReturnLastId($query){
+		$dbConObj = new DBConnection();
+		$time0 = time();
+		$lastId = 0;
+		
+		try {
+			mysql_query($query, $dbConObj->getConnection());
+			if(mysql_error()){
+				$result = false;
+				DBUtil::storeError($query, mysql_error());
+			} else {
+				$lastId = mysql_insert_id($dbConObj->getConnection());
+				DBUtil::insertIntoSystemLog($query, "", time() - $time0);
+			}
+		} catch (Exception $e) {
+			$lastId = 0;
+			die("Error ejecutando insert en base de datos");
+		}
+		
+		$dbConObj->closeConnection();
+		
+		return $lastId;
 	}
 	
 	/**
