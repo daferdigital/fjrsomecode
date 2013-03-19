@@ -12,12 +12,14 @@ include_once '../includes/session.php';
 
 $statusEnvio = $_POST["statusEnvio"];
 $canEdit = false;
+$editPage = "updateEnvio.php";
 
 //vemos el tipo de envio que se desea buscar o si se viene de busqueda avanzada
 if(isset($_POST["fromBusquedaAvanzada"])){
 	PageAccess::validateAccess(Constants::$OPCION_BUSQUEDA_AVANZADA);
 	BitacoraDAO::registrarComentario("Ingreso en pagina ajax para realizar busquedas avanzadas de envios");
 	$canEdit = true;
+	$editPage = "updateEnvioComplete.php";
 }else{
 	//venimos de las opciones especificas por cada tipo de envio
 	//verificamos el permiso
@@ -68,8 +70,8 @@ if($_POST["seudonimoML"] != ""){
 if($_POST["boucher"] != ""){
 	$extraWhere .= " AND LOWER(e.num_voucher) LIKE LOWER('%".$_POST["boucher"]."%')";
 }
-if(isset($_POST["ciRif"])){
-	$extraWhere .= " AND LOWER(e.ci_rif) = '"."LIKE LOWER('%".$_POST["ciRif"]."%')";
+if($_POST["ciRif"] != ""){
+	$extraWhere .= " AND LOWER(e.ci_rif) LIKE LOWER('%".$_POST["ciRif"]."%')";
 }
 
 $query = "SELECT e.*, es.descripcion as statusEnvio"
@@ -106,10 +108,10 @@ if(count($pageRecords) == 0){
 		</div>
 		<div id="tdElement">
 		</div>
+		<div id="tdElement">
+		</div>
 		<div align="center" id="tdElement">
 			<?php echo $pagingDAO->getTRFooterPaging();?>
-		</div>
-		<div id="tdElement">
 		</div>
 		<div id="tdElement">
 		</div>
@@ -142,7 +144,7 @@ if(count($pageRecords) == 0){
 				<?php 
 				if($canEdit){
 				?>
-					<a href="#" onclick="javascript:loadAjaxPopUp('ajax/updateEnvio.php?id=<?php echo $row["id"];?>')">
+					<a href="#" onclick="javascript:loadAjaxPopUp('ajax/<?php echo $editPage;?>?id=<?php echo $row["id"];?>')">
 						<img alt="ver" title="Editar" src="images/pageEdit.png" border="0"/>
 					</a>
 				<?php
@@ -177,10 +179,10 @@ if(count($pageRecords) == 0){
 		</div>
 		<div id="tdElement">
 		</div>
+		<div id="tdElement">
+		</div>
 		<div align="center" id="tdElement">
 			<?php echo $pagingDAO->getTRFooterPaging();?>
-		</div>
-		<div id="tdElement">
 		</div>
 		<div id="tdElement">
 		</div>

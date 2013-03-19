@@ -297,6 +297,10 @@ function searchEnviosAjax(pageNumber){
 	parameters += "&boucher=" + document.getElementById("boucher").value;
 	parameters += "&fechaDesde=" + document.getElementById("fechaDesde").value;
 	parameters += "&fechaHasta=" + document.getElementById("fechaHasta").value;
+	parameters += "&ciRif=" + document.getElementById("ciRif").value;
+	if(document.getElementById("fromBusquedaAvanzada") != null){
+		parameters += "&fromBusquedaAvanzada=";
+	}
 	
 	callAjax("ajax/getEnviosListPage.php",
 			parameters,

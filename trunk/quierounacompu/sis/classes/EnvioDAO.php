@@ -52,8 +52,19 @@ class EnvioDAO {
 		$envioDTO->setTlfCelularDestinatario($result[0]["tlf_celular_destinatario"]);
 		$envioDTO->setTlfLocalDestinatario($result[0]["tlf_local_destinatario"]);
 		
-		
 		return $envioDTO;
+	}
+	
+	/**
+	 * Retorna todos los status de los envios ordenados de manera alfabetica.
+	 * 
+	 */
+	public static function getAllStatus(){
+		$query = "SELECT id, descripcion FROM envios_status ORDER BY LOWER(descripcion)";
+		
+		$result = DBUtil::executeSelect($query);
+		
+		return $result;
 	}
 }
 ?>

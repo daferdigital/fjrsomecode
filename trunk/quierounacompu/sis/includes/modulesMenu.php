@@ -10,7 +10,7 @@
 	$usuarioDTO = $_SESSION[Constants::$KEY_USUARIO_DTO];
 	$modulesAllowed = $usuarioDTO->getModulesAllowed();
 ?>
-<div id="myjquerymenu" class="jquerycssmenu" style="height: 24px;">
+<div id="myjquerymenu" class="jquerycssmenu" style="height: 25px;">
 <ul>
 <?php
 	if($usuarioDTO->canAccessCategoryModule(Constants::$CATEGORIA_BUSQUEDA)){
@@ -94,7 +94,7 @@
 	if(isset($modulesAllowed[Constants::$OPCION_BUSQUEDA_AVANZADA])){
 ?>
 		<li>
-			<a href="searchAvanzada.php">B&uacute;squeda Avanzada</a>
+			<a href="searchEnviosByType.php?isAdv=">B&uacute;squeda Avanzada</a>
 		</li>
 <?php
 	}
