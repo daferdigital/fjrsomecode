@@ -306,3 +306,22 @@ function searchEnviosAjax(pageNumber){
 			parameters,
 			"ajaxPageResult");
 }
+
+function searchEnviosAjax(pageNumber){
+	var parameters = "pageNumber="+pageNumber;
+	parameters += "&scriptFunction=searchEnviosAjax";
+	//indicamos el status de los envios que queremos visualizar
+	parameters += "&statusEnvio=" + document.getElementById("statusEnvio").value;
+	parameters += "&seudonimoML=" + document.getElementById("seudonimoML").value;
+	parameters += "&boucher=" + document.getElementById("boucher").value;
+	parameters += "&fechaDesde=" + document.getElementById("fechaDesde").value;
+	parameters += "&fechaHasta=" + document.getElementById("fechaHasta").value;
+	parameters += "&ciRif=" + document.getElementById("ciRif").value;
+	if(document.getElementById("fromBusquedaAvanzada") != null){
+		parameters += "&fromBusquedaAvanzada=";
+	}
+	
+	callAjax("ajax/getEnviosListPage.php",
+			parameters,
+			"ajaxPageResult");
+}

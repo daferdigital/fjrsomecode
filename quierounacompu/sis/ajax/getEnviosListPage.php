@@ -12,14 +12,14 @@ include_once '../includes/session.php';
 
 $statusEnvio = $_POST["statusEnvio"];
 $canEdit = false;
-$editPage = "updateEnvio.php";
+$editPage = "showEnvio.php";
 
 //vemos el tipo de envio que se desea buscar o si se viene de busqueda avanzada
 if(isset($_POST["fromBusquedaAvanzada"])){
 	PageAccess::validateAccess(Constants::$OPCION_BUSQUEDA_AVANZADA);
 	BitacoraDAO::registrarComentario("Ingreso en pagina ajax para realizar busquedas avanzadas de envios");
 	$canEdit = true;
-	$editPage = "updateEnvioComplete.php";
+	$editPage = "showEnvioComplete.php";
 }else{
 	//venimos de las opciones especificas por cada tipo de envio
 	//verificamos el permiso
