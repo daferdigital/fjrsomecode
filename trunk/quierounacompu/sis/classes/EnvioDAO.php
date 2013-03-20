@@ -66,5 +66,38 @@ class EnvioDAO {
 		
 		return $result;
 	}
+	
+	/**
+	 * Retorna todos los status siguientes a determinado estatus actual.
+	 *
+	 */
+	public static function getAllSiguientesStatus($statusCode){
+		$query = "SELECT destino.id, destino.descripcion "
+		." FROM status_siguientes es, envios_status origen, envios_status destino "
+		." WHERE es.id_status_inicial = origen.id "
+		." AND es.id_siguiente_status = destino.id "
+		." AND origen.id = ".$statusCode
+		." ORDER BY LOWER(destino.descripcion)";
+	
+		$result = DBUtil::executeSelect($query);
+	
+		return $result;
+	}
+	
+	/**
+	 * Obtenemos todos los comentarios asociados a un envio
+	 * @param int $idEnvio
+	 */
+	public static function getComentariosEnvio($idEnvio){
+		$query = "SELECT u.nombre, u.apellido, es.descripcion, ec.comentario, ec.fecha_comentario"
+		." FROM envios_status es, envios_comentarios ec LEFT JOIN usuarios u ON ec.id_usuario"
+		." WHERE ec.id_status_envio = es.id"
+		." AND ec.id_envio=".$idEnvio
+		." ORDER BY ec.fecha_comentario DESC";
+		
+		$result = DBUtil::executeSelect($query);
+		
+		return $result;
+	}
 }
 ?>
