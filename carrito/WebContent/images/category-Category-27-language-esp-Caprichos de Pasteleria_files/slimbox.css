@@ -1,0 +1,99 @@
+/* SLIMBOX */
+
+#lbOverlay { /*color de fons*/
+	position: absolute;
+	left: 0;
+	width: 100%;
+	background-color: #a4c0ce;
+	cursor: pointer;
+	text-align:center;
+	z-index:99998;
+}
+
+#lbCenter{ 
+	position: absolute;
+	left: 50%;
+	overflow: hidden;
+	background-color: #fff;
+	border: 1px solid #a4c0ce;
+	text-align:center;
+	z-index:99999;
+}
+
+#lbBottomContainer { 
+	position: absolute;
+	left: 50%;
+	overflow: hidden;
+	background-color: #fff;
+	margin-top:0px;
+	border: 1px solid #a4c0ce;
+	text-align:center;
+	z-index:99999;
+}
+
+.lbLoading {
+	background: #fff url(loading.gif) no-repeat center;
+}
+
+#lbImage {
+	position: absolute;
+	left: 0;
+	top: 0;
+	border: 15px solid #fff;
+	background-repeat: no-repeat;
+	background-position:center;
+}
+
+#lbPrevLink, #lbNextLink {
+	display: block;
+	position: absolute;
+	top: 0;
+	width: 50%;
+	outline: none;
+}
+
+#lbPrevLink {
+	left: 0;
+	background: transparent url(prevlabel.gif) no-repeat 0% 15%;
+}
+
+#lbPrevLink:hover {
+	background: transparent url(prevlabel.gif) no-repeat 0% 15%;
+}
+
+#lbNextLink {
+	right: 0;
+	background: transparent url(nextlabel.gif) no-repeat 100% 15%;
+}
+
+#lbNextLink:hover {
+	background: transparent url(nextlabel.gif) no-repeat 100% 15%;
+}
+
+#lbBottom {
+	font-family: "Century Gothic";
+	font-size: 15px;
+	font-weight:bold;
+	color: #777777;
+	line-height: 1.4em;
+	text-align: left;
+	border: 15px solid #fff;
+	border-top-style: none;
+}
+
+#lbCloseLink {
+	display: block;
+	float: right;
+	width: 26px;
+	height: 26px;
+	background: transparent url(closelabel.gif) no-repeat center;
+	vertical-align:bottom;
+}
+
+#lbCaption, #lbNumber {
+	margin-right: 0px;
+}
+
+#lbCaption {
+	font-weight: bold;
+}
