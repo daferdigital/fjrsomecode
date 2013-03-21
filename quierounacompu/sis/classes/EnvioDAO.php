@@ -90,7 +90,7 @@ class EnvioDAO {
 	 */
 	public static function getComentariosEnvio($idEnvio){
 		$query = "SELECT u.nombre, u.apellido, es.descripcion, ec.comentario, ec.fecha_comentario"
-		." FROM envios_status es, envios_comentarios ec LEFT JOIN usuarios u ON ec.id_usuario"
+		." FROM envios_status es, envios_comentarios ec LEFT JOIN usuarios u ON ec.id_usuario = u.id"
 		." WHERE ec.id_status_envio = es.id"
 		." AND ec.id_envio=".$idEnvio
 		." ORDER BY ec.fecha_comentario DESC";
@@ -98,6 +98,33 @@ class EnvioDAO {
 		$result = DBUtil::executeSelect($query);
 		
 		return $result;
+	}
+	
+	/**
+	 * Agregamos un comentario a determinado envio
+	 * @param unknown $idEnvio
+	 * @param unknown $comentario
+	 * @param unknown $idUsuario
+	 * @param unknown $idStatusEnvio
+	 * @return Ambigous <true, boolean>
+	 */
+	public static function addComment($idEnvio, $comentario, $idUsuario, $idStatusEnvio){
+		$query = "INSERT INTO envios_comentarios (fecha_comentario, comentario, id_usuario, id_status_envio, id_envio)"
+				." VALUES (NOW(), '".$comentario."', ".$idUsuario.", ".$idStatusEnvio.",".$idEnvio.")";
+		
+		return DBUtil::executeQuery($query);
+	}
+
+	/**
+	 * 
+	 * @param unknown $idEnvio
+	 * @param unknown $newStatus
+	 * @return Ambigous <true, boolean>
+	 */
+	public static function updateEnvioCurrentStatus($idEnvio, $newStatus){
+		$query = "UPDATE envios SET id_status_actual = ".$newStatus." WHERE id = ".$idEnvio;
+		
+		return DBUtil::executeQuery($query);
 	}
 }
 ?>

@@ -33,7 +33,7 @@ if(EnvioDAO::$COD_STATUS_NOTIFICADO == $statusEnvio){
 	PageAccess::validateAccess(Constants::$OPCION_EDICION_FACTURADO);
 	$canEdit = true;
 } else if(EnvioDAO::$COD_STATUS_PRESUPUESTADO == $statusEnvio){
-	PageAccess::validateAccess(Constants::$OPCION_ed);
+	PageAccess::validateAccess(Constants::$OPCION_EDICION_PRESUPUESTADO);
 	$canEdit = true;
 } else if(EnvioDAO::$COD_STATUS_ENVIADO == $statusEnvio){
 	PageAccess::validateAccess(Constants::$OPCION_EDICION_ENVIADO);
@@ -184,6 +184,10 @@ BitacoraDAO::registrarComentario("El usuario ".($canEdit ? "" : "NO")." puede ed
 					<td>Indique su Comentario</td>
 					<td>
 						<textarea rows="5" cols="30" name="newComment" id="newComment"></textarea>
+						<br />
+						<span class="smallError" id="errorNewComment" style="display: none">
+							Disculpe, debe colocar un comentario
+						</span>
 					</td>
 				</tr>
 				<tr>
