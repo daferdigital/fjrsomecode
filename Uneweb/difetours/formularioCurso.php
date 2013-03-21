@@ -45,7 +45,7 @@
 		index ++;
 	}
 
-	function agregarCiudadXDestino(nombreCiudad, precioEnvioDocumentos){
+	function agregarCiudadXDestino(nombreCiudad, precioEnvioDocumentos, precioBusquedaAlojamiento, precioEnvioCarta){
 		var divConceptos = document.getElementById("ciudadDestino");
 
 		divConceptos.innerHTML += '<table id="ciudadDestino' + index + '">'
@@ -58,6 +58,12 @@
 			+ '        </td>'
 			+ '        <td>'
 			+ '            <input type="text" name="campoCiudad' + index +'[]" value="' + precioEnvioDocumentos + '"/>'
+			+ '        </td>'
+			+ '        <td>'
+			+ '            <input type="text" name="campoCiudad' + index +'[]" value="' + precioBusquedaAlojamiento + '"/>'
+			+ '        </td>'
+			+ '        <td>'
+			+ '            <input type="text" name="campoCiudad' + index +'[]" value="' + precioEnvioCarta + '"/>'
 			+ '        </td>'
 			+ '    </tr>'
 			+ '</table>';
@@ -135,12 +141,11 @@
 </script>
 </head>
 <body>
-<form action="guardarInfoFormulario.php" method="post">
 
 <div style="margin-left: auto; margin-right: auto;">
 	Indique el pa&iacute;s a ser procesado
 	
-	<select name="selectDestinoId" onchange="refreshPage(this.options[this.selectedIndex].value)">
+	<select name="selectDestinoId" onchange="refreshPage(this.options[this.selectedIndex].value)" style="display: inline-block;">
 	    <option value="-1"> - -</option>
 <?php 
 	$query = "SELECT id, destino FROM curso_destino ORDER BY id";
@@ -154,8 +159,17 @@
 	}
 ?>
 	</select>
+	
+	<form method="post" action="createCountry.php" style="display: inline-block;">
+		<span style="margin-left: 50px;">
+			Crear Pais
+			<input type="text" name="countryName" />
+			<input type="submit" value="Crear"/>		
+		</span>
+	</form>
 </div>
 
+<form action="guardarInfoFormulario.php" method="post">
 <?php 
 	if(isset($_GET["selectDestinoId"])){
 		$selectDestinoId = $_GET["selectDestinoId"];
@@ -178,7 +192,10 @@
 					$modalidadOrder = array();
 					$query = "SELECT id, descripcion FROM curso_modalidad WHERE id_destino=".$selectDestinoId." ORDER BY id";
 					$result = mysql_query($query);
+					$modalidades =
 					while($row = mysql_fetch_array($result)){
+						
+					}
 				?>
 						<td width="150">
 							<?php 
@@ -237,6 +254,12 @@
 				<td width="150">
 					Precio envio de Documentos
 				</td>
+				<td width="150">
+					Precio B&uacute;squeda Alojamiento
+				</td>
+				<td width="150">
+					Precio Envio Carta
+				</td>
 			</tr>
 		</table>
 	</div>
@@ -245,18 +268,20 @@
 	<div align="center">
 		<?php 
 			//obtenemos las estadias
-			$query = "SELECT ciudad, precio_envio_documentos FROM curso_ciudad WHERE id_destino=".$selectDestinoId." ORDER BY ciudad";
+			$query = "SELECT ciudad, precio_envio_documentos, precio_busqueda_alojamiento, precio_envio_carta FROM curso_ciudad WHERE id_destino=".$selectDestinoId." ORDER BY ciudad";
 			$result = mysql_query($query);
 			while($row = mysql_fetch_array($result)){
 		?>
 				<script>
 					agregarCiudadXDestino('<?php echo $row["ciudad"]?>',
-						'<?php echo $row["precio_envio_documentos"]?>');
+						'<?php echo $row["precio_envio_documentos"]?>',
+						'<?php echo $row["precio_busqueda_alojamiento"]?>',
+						'<?php echo $row["precio_envio_carta"]?>');
 				</script>
 		<?php
 			}
 		?>
-		<input type="button" value="Agregar Ciudad" onclick="javascript:agregarCiudadXDestino('','');">
+		<input type="button" value="Agregar Ciudad" onclick="javascript:agregarCiudadXDestino('','','','');">
 		<br />
 		<br />
 	</div>
