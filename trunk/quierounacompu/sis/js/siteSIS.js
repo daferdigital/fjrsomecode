@@ -47,16 +47,23 @@ function createXMLHTTPRequest(){
  * 
  * @param url
  * @param parameters
- * @param idAnswerContainer
+ * @param idAnswerContainer si es null mostramos la respuesta del ajax como un alert
  */
 function callAjax(url, parameters, idAnswerContainer){
 	var ajaxObject =  createXMLHTTPRequest();
 
-	document.getElementById(idAnswerContainer).style.display="inline";
-	document.getElementById(idAnswerContainer).innerHTML = "<img src=\"images/" + ajaxImageName + "\"/>";
+	if(idAnswerContainer != null){
+		document.getElementById(idAnswerContainer).style.display="inline";
+		document.getElementById(idAnswerContainer).innerHTML = "<img src=\"images/" + ajaxImageName + "\"/>";
+	}
+	
 	ajaxObject.onreadystatechange=function() {
 		if (ajaxObject.readyState==4 && ajaxObject.status==200) {
-			document.getElementById(idAnswerContainer).innerHTML = ajaxObject.responseText;
+			if(idAnswerContainer != null){
+				document.getElementById(idAnswerContainer).innerHTML = ajaxObject.responseText;
+			} else {
+				alert(ajaxObject.responseText);
+			}
 		}
 	};
 	
@@ -307,21 +314,25 @@ function searchEnviosAjax(pageNumber){
 			"ajaxPageResult");
 }
 
-function searchEnviosAjax(pageNumber){
-	var parameters = "pageNumber="+pageNumber;
-	parameters += "&scriptFunction=searchEnviosAjax";
-	//indicamos el status de los envios que queremos visualizar
-	parameters += "&statusEnvio=" + document.getElementById("statusEnvio").value;
-	parameters += "&seudonimoML=" + document.getElementById("seudonimoML").value;
-	parameters += "&boucher=" + document.getElementById("boucher").value;
-	parameters += "&fechaDesde=" + document.getElementById("fechaDesde").value;
-	parameters += "&fechaHasta=" + document.getElementById("fechaHasta").value;
-	parameters += "&ciRif=" + document.getElementById("ciRif").value;
-	if(document.getElementById("fromBusquedaAvanzada") != null){
-		parameters += "&fromBusquedaAvanzada=";
+function actualizarEnvio(){
+	var valid = true;
+	var newComment = document.getElementById("newComment").value.trim();
+
+	document.getElementById("errorNewComment").style.display = "none";
+	//verificamos si el usuario indico un comentario
+	if(newComment == ""){
+		document.getElementById("errorNewComment").style.display = "inline";
+		document.getElementById("newComment").focus();
+		valid = false;
 	}
 	
-	callAjax("ajax/getEnviosListPage.php",
-			parameters,
-			"ajaxPageResult");
+	if(valid) {
+		var parameters = "idEnvio=" + document.getElementById("idEnvio").value;
+		parameters += "&newStatus=" + document.getElementById("newStatus").value;
+		parameters += "&newComment=" + newComment;
+		
+		callAjax("ajax/updateEnvio.php",
+				parameters,
+				null);
+	}
 }

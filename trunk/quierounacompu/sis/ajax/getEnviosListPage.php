@@ -13,40 +13,54 @@ include_once '../includes/session.php';
 $statusEnvio = $_POST["statusEnvio"];
 $canEdit = false;
 $editPage = "showEnvio.php";
+$userDTO = $_SESSION[Constants::$KEY_USUARIO_DTO];
 
 //vemos el tipo de envio que se desea buscar o si se viene de busqueda avanzada
 if(isset($_POST["fromBusquedaAvanzada"])){
 	PageAccess::validateAccess(Constants::$OPCION_BUSQUEDA_AVANZADA);
 	BitacoraDAO::registrarComentario("Ingreso en pagina ajax para realizar busquedas avanzadas de envios");
 	$canEdit = true;
-	$editPage = "showEnvioComplete.php";
+	//$editPage = "showEnvioComplete.php";
+	$editPage = "showEnvio.php";
 }else{
 	//venimos de las opciones especificas por cada tipo de envio
 	//verificamos el permiso
 	if(EnvioDAO::$COD_STATUS_NOTIFICADO == $statusEnvio){
 		PageAccess::validateAccess(Constants::$OPCION_BUSQUEDA_NOTIFICADOS);
 		BitacoraDAO::registrarComentario("Ingreso en pagina ajax para realizar busqueda de envios notificados");
-		$canEdit = true;
+		if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_NOTIFICADOS)){
+			$canEdit = true;
+		}
 	} else if(EnvioDAO::$COD_STATUS_PAGO_CONFIRMADO == $statusEnvio){
 		PageAccess::validateAccess(Constants::$OPCION_BUSQUEDA_PAGOS_CONFIRMADOS);
 		BitacoraDAO::registrarComentario("Ingreso en pagina ajax para realizar busqueda de envios con estado de pagos confirmados");
-		$canEdit = true;
+		if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_PAGOS_CONFIRMADOS)){
+			$canEdit = true;
+		}
 	} else if(EnvioDAO::$COD_STATUS_PAGO_NO_ENCONTRADO == $statusEnvio){
 		PageAccess::validateAccess(Constants::$OPCION_BUSQUEDA_PAGOS_NO_ENCONTRADOS);
 		BitacoraDAO::registrarComentario("Ingreso en pagina ajax para realizar busqueda de envios con estado de pago no encontrado");
-		$canEdit = true;
+		if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_PAGOS_NO_ENCONTRADOS)){
+			$canEdit = true;
+		}
 	} else if(EnvioDAO::$COD_STATUS_FACTURADO == $statusEnvio){
 		PageAccess::validateAccess(Constants::$OPCION_BUSQUEDA_FACTURADO);
 		BitacoraDAO::registrarComentario("Ingreso en pagina ajax para realizar busqueda de envios facturados");
-		$canEdit = true;
+		if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_FACTURADO)){
+			$canEdit = true;
+		}
 	} else if(EnvioDAO::$COD_STATUS_PRESUPUESTADO == $statusEnvio){
 		PageAccess::validateAccess(Constants::$OPCION_BUSQUEDA_PRESUPUESTADO);
 		BitacoraDAO::registrarComentario("Ingreso en pagina ajax para realizar busqueda de envios presupuestados");
-		$canEdit = true;
+		if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_PRESUPUESTADO)){
+			$canEdit = true;
+		}
 	} else if(EnvioDAO::$COD_STATUS_ENVIADO == $statusEnvio){
 		PageAccess::validateAccess(Constants::$OPCION_BUSQUEDA_ENVIADO);
 		BitacoraDAO::registrarComentario("Ingreso en pagina ajax para realizar busqueda de envios con status de enviado");
-		$canEdit = true;
+		if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_ENVIADO)){
+			$canEdit = true;
+		}
 	}
 }
 

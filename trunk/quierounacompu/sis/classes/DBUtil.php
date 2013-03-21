@@ -136,7 +136,7 @@ class DBUtil {
 		$userDTO = $_SESSION[Constants::$KEY_USUARIO_DTO];
 		$maxRecordsPerPage = $userDTO->getRegistrosPorPagina();
 		
-		$minIndex = (($pageToGet - 1) * $maxRecordsPerPage) + 1;
+		$minIndex = (($pageToGet - 1) * $maxRecordsPerPage);
 		
 		$query .= " LIMIT ".$minIndex.", ".$maxRecordsPerPage;
 		
