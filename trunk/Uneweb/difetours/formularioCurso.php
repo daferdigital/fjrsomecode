@@ -45,7 +45,7 @@
 		index ++;
 	}
 
-	function agregarCiudadXDestino(nombreCiudad, precioEnvioDocumentos, precioBusquedaAlojamiento, precioEnvioCarta){
+	function agregarCiudadXDestino(nombreCiudad, precioEnvioDocumentos, precioBusquedaAlojamiento){
 		var divConceptos = document.getElementById("ciudadDestino");
 
 		divConceptos.innerHTML += '<table id="ciudadDestino' + index + '">'
@@ -61,9 +61,6 @@
 			+ '        </td>'
 			+ '        <td>'
 			+ '            <input type="text" name="campoCiudad' + index +'[]" value="' + precioBusquedaAlojamiento + '"/>'
-			+ '        </td>'
-			+ '        <td>'
-			+ '            <input type="text" name="campoCiudad' + index +'[]" value="' + precioEnvioCarta + '"/>'
 			+ '        </td>'
 			+ '    </tr>'
 			+ '</table>';
@@ -110,11 +107,13 @@
 		
 		divConceptos.innerHTML += '<table id="otroConcepto' + index + '">'
 			+ '    <tr>'
-			+ '        <td width="450" align="right">'
+			+ '        <td width="200">'
+			+ '            ' + moreDescInfo
+			+ '        </td>'
+			+ '        <td width="150" align="right">'
 			+ '            <input type="hidden" name="otroConcepto' + index +'[]" value="'+ id +'" />'
 			+ '            <input type="hidden" name="otroConcepto' + index +'[]" value="'+ grupo +'" />'
 			+ '            <input type="hidden" name="otroConcepto' + index +'[]" value="'+ internalKey +'" />'
-			+ '            ' + moreDescInfo
 			+ '            <input type="text" name="otroConcepto' + index +'[]" value="'+ descripcion +'" />'
 			+ '        </td>'
 			+ '        <td>'
@@ -344,9 +343,6 @@
 				<td width="150">
 					Precio B&uacute;squeda Alojamiento
 				</td>
-				<td width="150">
-					Precio Envio Carta
-				</td>
 			</tr>
 		</table>
 	</div>
@@ -355,15 +351,14 @@
 	<div align="center">
 		<?php 
 			//obtenemos las estadias
-			$query = "SELECT ciudad, precio_envio_documentos, precio_busqueda_alojamiento, precio_envio_carta FROM curso_ciudad WHERE id_destino=".$selectDestinoId." ORDER BY ciudad";
+			$query = "SELECT ciudad, precio_envio_documentos, precio_busqueda_alojamiento FROM curso_ciudad WHERE id_destino=".$selectDestinoId." ORDER BY ciudad";
 			$result = mysql_query($query);
 			while($row = mysql_fetch_array($result)){
 		?>
 				<script>
 					agregarCiudadXDestino('<?php echo $row["ciudad"]?>',
 						'<?php echo $row["precio_envio_documentos"]?>',
-						'<?php echo $row["precio_busqueda_alojamiento"]?>',
-						'<?php echo $row["precio_envio_carta"]?>');
+						'<?php echo $row["precio_busqueda_alojamiento"]?>');
 				</script>
 		<?php
 			}
@@ -451,13 +446,14 @@
 				<div align="center">
 					<table>
 						<tr>
-							<td width="450" align="right">
+							<td width="200">&nbsp;</td>
+							<td width="150" align="center">
 								Descripcion
 							</td>
-							<td width="150">
+							<td width="150" align="center">
 								Precio
 							</td>
-							<td width="150">
+							<td width="150" align="center">
 								Semanal?
 							</td>
 						</tr>
@@ -468,7 +464,6 @@
 						$query = "SELECT id, descripcion, pago_por_semana, precio, grupo, internal_key"
 		                    ." FROM curso_pagos"
 			                ." WHERE id_destino=".$selectDestinoId
-			                ." AND administrar='1'"
 						    ." ORDER BY grupo";
 						$result = mysql_query($query);
 						$arrayValues = array();
@@ -487,49 +482,56 @@
 									'<?php echo isset($arrayValues["ninguno"]) ? $arrayValues["ninguno"][2] : "0";?>',
 									'<?php echo isset($arrayValues["ninguno"]) ? $arrayValues["ninguno"][4] : "AirportPickupRequired";?>',
 									'ninguno',
-									'Traslado aereo: ');
+									'Sin traslado aereo: ');
 							agregarOtroConcepto('<?php echo isset($arrayValues["ida"]) ? $arrayValues["ida"][0] : "";?>',
 									'<?php echo isset($arrayValues["ida"]) ? $arrayValues["ida"][1] : "Solo Ida";?>',
 									'<?php echo isset($arrayValues["ida"]) ? $arrayValues["ida"][3] : "0";?>',
 									'<?php echo isset($arrayValues["ida"]) ? $arrayValues["ida"][2] : "0";?>',
 									'<?php echo isset($arrayValues["ida"]) ? $arrayValues["ida"][4] : "AirportPickupRequired";?>',
 									'ida',
-									'Traslado aereo: ');
+									'Traslado aereo solo ida: ');
 							agregarOtroConcepto('<?php echo isset($arrayValues["ida-vuelta"]) ? $arrayValues["ida-vuelta"][0] : "";?>',
 									'<?php echo isset($arrayValues["ida-vuelta"]) ? $arrayValues["ida-vuelta"][1] : "Ida y Vuelta";?>',
 									'<?php echo isset($arrayValues["ida-vuelta"]) ? $arrayValues["ida-vuelta"][3] : "0";?>',
 									'<?php echo isset($arrayValues["ida-vuelta"]) ? $arrayValues["ida-vuelta"][2] : "0";?>',
 									'<?php echo isset($arrayValues["ida-vuelta"]) ? $arrayValues["ida-vuelta"][4] : "AirportPickupRequired";?>',
 									'ida-vuelta',
-									'Traslado aereo: ');
+									'Traslado aereo ida y vuelta: ');
 							agregarOtroConcepto('<?php echo isset($arrayValues["registro"]) ? $arrayValues["registro"][0] : "";?>',
 									'<?php echo isset($arrayValues["registro"]) ? $arrayValues["registro"][1] : "Registro (cuota &uacute;nica no reembolsable)";?>',
 									'<?php echo isset($arrayValues["registro"]) ? $arrayValues["registro"][3] : "0";?>',
 									'<?php echo isset($arrayValues["registro"]) ? $arrayValues["registro"][2] : "0";?>',
 									'<?php echo isset($arrayValues["registro"]) ? $arrayValues["registro"][4] : "registro";?>',
 									'registro',
-									'');
+									'Registro en temporada baja');
 							agregarOtroConcepto('<?php echo isset($arrayValues["registroHighSeason"]) ? $arrayValues["registroHighSeason"][0] : "";?>',
 									'<?php echo isset($arrayValues["registroHighSeason"]) ? $arrayValues["registroHighSeason"][1] : "Registro en temporada alta";?>',
 									'<?php echo isset($arrayValues["registroHighSeason"]) ? $arrayValues["registroHighSeason"][3] : "0";?>',
 									'<?php echo isset($arrayValues["registroHighSeason"]) ? $arrayValues["registroHighSeason"][2] : "0";?>',
 									'<?php echo isset($arrayValues["registroHighSeason"]) ? $arrayValues["registroHighSeason"][4] : "registro";?>',
 									'registroHighSeason',
-									'');
+									'Registro en temporada alta');
 							agregarOtroConcepto('<?php echo isset($arrayValues["3-12"]) ? $arrayValues["3-12"][0] : "";?>',
 									'<?php echo isset($arrayValues["3-12"]) ? $arrayValues["3-12"][1] : "Materiales de 3 a 12 semanas";?>',
 									'<?php echo isset($arrayValues["3-12"]) ? $arrayValues["3-12"][3] : "0";?>',
 									'<?php echo isset($arrayValues["3-12"]) ? $arrayValues["3-12"][2] : "0";?>',
 									'<?php echo isset($arrayValues["3-12"]) ? $arrayValues["3-12"][4] : "materiales";?>',
 									'3-12',
-									'');
+									'Materiales de 3 a 12 semanas');
 							agregarOtroConcepto('<?php echo isset($arrayValues["13+"]) ? $arrayValues["13+"][0] : "";?>',
-									'<?php echo isset($arrayValues["registroHighSeason"]) ? $arrayValues["13+"][1] : "Materiales 13 semanas o m&aacute;s";?>',
+									'<?php echo isset($arrayValues["13+"]) ? $arrayValues["13+"][1] : "Materiales 13 semanas o m&aacute;s";?>',
 									'<?php echo isset($arrayValues["13+"]) ? $arrayValues["13+"][3] : "0";?>',
 									'<?php echo isset($arrayValues["13+"]) ? $arrayValues["13+"][2] : "0";?>',
 									'<?php echo isset($arrayValues["13+"]) ? $arrayValues["13+"][4] : "materiales";?>',
 									'13+',
-									'');
+									'Materiales 13 semanas o m&aacute;s');
+							agregarOtroConcepto('<?php echo isset($arrayValues["custodyLetter"]) ? $arrayValues["custodyLetter"][0] : "";?>',
+									'<?php echo isset($arrayValues["custodyLetter"]) ? $arrayValues["custodyLetter"][1] : "Carta Custodia (no reembolsable)";?>',
+									'<?php echo isset($arrayValues["custodyLetter"]) ? $arrayValues["custodyLetter"][3] : "0";?>',
+									'<?php echo isset($arrayValues["custodyLetter"]) ? $arrayValues["custodyLetter"][2] : "0";?>',
+									'<?php echo isset($arrayValues["custodyLetter"]) ? $arrayValues["custodyLetter"][4] : "custodyLetter";?>',
+									'custodyLetter',
+									'Envio Carta de Custodia');
 							/*
 							agregarOtroConcepto('<?php echo isset($arrayValues["searchRoomstay"]) ? $arrayValues["searchRoomstay"][0] : "";?>',
 									'<?php echo isset($arrayValues["searchRoomstay"]) ? $arrayValues["searchRoomstay"][1] : "B&uacute;squeda de alojamiento (no reembolsable)";?>',
@@ -537,13 +539,6 @@
 									'<?php echo isset($arrayValues["searchRoomstay"]) ? $arrayValues["searchRoomstay"][2] : "0";?>',
 									'<?php echo isset($arrayValues["searchRoomstay"]) ? $arrayValues["searchRoomstay"][4] : "searchRoomstay";?>',
 									'searchRoomstay',
-									'');
-							agregarOtroConcepto('<?php echo isset($arrayValues["custodyLetter"]) ? $arrayValues["custodyLetter"][0] : "";?>',
-									'<?php echo isset($arrayValues["custodyLetter"]) ? $arrayValues["custodyLetter"][1] : "Carta Custodia (no reembolsable)";?>',
-									'<?php echo isset($arrayValues["custodyLetter"]) ? $arrayValues["custodyLetter"][3] : "0";?>',
-									'<?php echo isset($arrayValues["custodyLetter"]) ? $arrayValues["custodyLetter"][2] : "0";?>',
-									'<?php echo isset($arrayValues["custodyLetter"]) ? $arrayValues["custodyLetter"][4] : "custodyLetter";?>',
-									'custodyLetter',
 									'');
 							*/
 						</script>  

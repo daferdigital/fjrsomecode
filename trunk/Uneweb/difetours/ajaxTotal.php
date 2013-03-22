@@ -15,28 +15,26 @@
 	$estadia = $_POST["estadia"];
 	$destino = $_POST["destino"];
 	
-	$codCiudad = "";
-	$nombreCiudad = "";
-	$precioEnvioDocumentos = 0;
-	if(isset($_POST["ciudaDestino"])){
-		$codCiudad = $_POST["ciudaDestino"];
-	}
 	
 	$mailContent = "";
 	//colocamos el pais destino
 	$row = mysql_fetch_array(mysql_query("SELECT destino FROM curso_destino WHERE id=".$destino));
 	$mailContent = "Destino: ".$row["destino"]." <br />";
 	
+	$codCiudad = "";
+	$nombreCiudad = "";
+	if(isset($_POST["ciudaDestino"])){
+		$codCiudad = $_POST["ciudaDestino"];
+	}
+	
 	$precioEnvioDocumentos = 0;
 	$precioBusquedaAlojamiento = 0;
-	$precioEnvioCarta = 0;
 	if($codCiudad != ""){
 		//colocamos la ciudad destino
-		$row = mysql_fetch_array(mysql_query("SELECT ciudad, precio_envio_documentos, precio_busqueda_alojamiento, precio_envio_carta FROM curso_ciudad WHERE id=".$codCiudad));
+		$row = mysql_fetch_array(mysql_query("SELECT ciudad, precio_envio_documentos, precio_busqueda_alojamiento FROM curso_ciudad WHERE id=".$codCiudad));
 		$precioEnvioDocumentos = $row["precio_envio_documentos"];
 		$nombreCiudad = $row["ciudad"];
 		$precioBusquedaAlojamiento = $row["precio_busqueda_alojamiento"];
-		$precioEnvioCarta = $row["precio_envio_carta"];
 		$mailContent = "Ciudad: ".$row["ciudad"]." <br />";
 	}
 	
@@ -225,8 +223,8 @@
 			<tr <?php echo $putBg ? $bgValue : ""; $putBg = !$putBg;?>>
 				<td align="left">
 					<?php 
-						$mailContent .= "Envio de carta de custodia a ".$nombreCiudad." (no reembolsable)<br />";
-						echo "Envio de carta de custodia a ".$nombreCiudad." (no reembolsable)";
+						$mailContent .= $arrayValues["custodyLetter"][0]."<br />";
+						echo $arrayValues["custodyLetter"][0];
 					?>
 				</td>
 				<td align="center">
@@ -235,8 +233,8 @@
 				<td align="right">
 					$ 
 					<?php 
-						echo $precioEnvioCarta; 
-						$grandTotal += $precioEnvioCarta;
+						echo $arrayValues["custodyLetter"][2];
+						$grandTotal += $arrayValues["custodyLetter"][2];
 					?>
 				</td>
 			</tr>
