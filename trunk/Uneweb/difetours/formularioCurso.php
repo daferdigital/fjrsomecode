@@ -27,16 +27,16 @@
 			+ '        <td>'
 			+ '            <input type="text" name="campoConcepto' + index +'[]" value="' + maxSemanas + '"/>'
 			+ '        </td>'
-			+ '        <td>'
+			+ '        <td width="190">'
 			+ '            <input type="text" name="campoConcepto' + index +'[]" value="' + modalidad1 + '"/>'
 			+ '        </td>'
-			+ '        <td>'
+			+ '        <td width="190">'
 			+ '            <input type="text" name="campoConcepto' + index +'[]" value="' + modalidad2 + '"/>'
 			+ '        </td>'
-			+ '        <td>'
+			+ '        <td width="190">'
 			+ '            <input type="text" name="campoConcepto' + index +'[]" value="' + modalidad3 + '"/>'
 			+ '        </td>'
-			+ '        <td>'
+			+ '        <td width="190">'
 			+ '            <input type="text" name="campoConcepto' + index +'[]" value="' + modalidad4 + '"/>'
 			+ '        </td>'
 			+ '    </tr>'
@@ -71,11 +71,14 @@
 		index ++;
 	}
 
-	function agregarEstadia(id, internalKey, descripcion, precioUnder18, precioOver18, longDesc){
+	function agregarEstadia(id, internalKey, descripcion, precioUnder18, precioOver18, longDesc, seccionText){
 		var divEstadia = document.getElementById("tipoEstadia");
 
 		divEstadia.innerHTML += '<table id="estadia' + index + '">'
 			+ '    <tr>'
+			+ '        <td width="200">'
+			+ '            ' + seccionText
+			+ '        </td>'
 			+ '        <td>'
 			+ '            <input type="hidden" name="campoEstadia' + index +'[]" value="' + id + '"/>'
 			+ '            <input type="hidden" name="campoEstadia' + index +'[]" value="' + internalKey + '"/>'
@@ -142,6 +145,9 @@
 </head>
 <body>
 
+<h1>Nota: Si no desea crear alguna modalidad de curso o tipo de estadia deje esa descripci&oacute;n en blanco.</h1>
+<hr></hr>
+
 <div style="margin-left: auto; margin-right: auto;">
 	Indique el pa&iacute;s a ser procesado
 	
@@ -169,7 +175,7 @@
 	</form>
 </div>
 
-<form action="guardarInfoFormulario.php" method="post">
+<form action="guardarInfoFormulario.php" name="formulario" method="post">
 <?php 
 	if(isset($_GET["selectDestinoId"])){
 		$selectDestinoId = $_GET["selectDestinoId"];
@@ -177,6 +183,23 @@
     <input type="hidden" name="destinoId" value="<?php echo $_GET["selectDestinoId"];?>"/>
 	<div align="center">
 		<table>
+			<tr>
+				<td width="150" colspan="3">
+					&nbsp;
+				</td>
+				<td width="150">
+					Informaci&oacute;n de Curso intensivo
+				</td>
+				<td width="150">
+					Informaci&oacute;n de Curso tiempo completo
+				</td>
+				<td width="150">
+					Informaci&oacute;n de Curso medio tiempo AM
+				</td>
+				<td width="150">
+					Informaci&oacute;n de Curso medio tiempo PM
+				</td>
+			</tr>
 			<tr>
 				<td width="150">
 					&nbsp;
@@ -189,24 +212,75 @@
 				</td>
 				<?php 
 					//colocamos las distintas modalidades de los cursos
-					$modalidadOrder = array();
-					$query = "SELECT id, descripcion FROM curso_modalidad WHERE id_destino=".$selectDestinoId." ORDER BY id";
+					$query = "SELECT id, descripcion, internal_key FROM curso_modalidad WHERE id_destino=".$selectDestinoId." ORDER BY id";
 					$result = mysql_query($query);
-					$modalidades =
+					$modalidadOrder = array();
+					$modalidades = array();
+					
 					while($row = mysql_fetch_array($result)){
+						$modalidades[$row["internal_key"]] = array($row["id"], $row["descripcion"]);
+					}
+				?>
+				<td width="150">
+					<?php
+						$id = 1;
+						$desc = "";
 						
-					}
-				?>
-						<td width="150">
-							<?php 
-								$modalidadOrder[] = $row["id"];
-								echo $row["descripcion"];
-							?>
-							<input type="hidden" name="ordenModalidad[]" value="<?php echo $row["id"];?>"/>
-						</td>
-				<?php
-					}
-				?>
+						if(isset($modalidades["intensive"])){
+							$id = $modalidades["intensive"][0];
+							$desc = $modalidades["intensive"][1];
+						}
+						
+						$modalidadOrder[] = $id;
+					?>
+					<input type="hidden" name="ordenModalidad[intensive][]" value="<?php echo $id;?>"/>
+					<textarea name="ordenModalidad[intensive][]"><?php echo $desc;?></textarea>
+				</td>
+				<td width="150">
+					<?php
+						$id = 2;
+						$desc = "";
+						
+						if(isset($modalidades["standard"])){
+							$id = $modalidades["standard"][0];
+							$desc = $modalidades["standard"][1];
+						}
+						
+						$modalidadOrder[] = $id;
+					?>
+					<input type="hidden" name="ordenModalidad[standard][]" value="<?php echo $id;?>"/>
+					<textarea name="ordenModalidad[standard][]"><?php echo $desc;?></textarea>
+				</td>
+				<td width="150">
+					<?php
+						$id = 3;
+						$desc = "";
+						
+						if(isset($modalidades["part-timeAM"])){
+							$id = $modalidades["part-timeAM"][0];
+							$desc = $modalidades["part-timeAM"][1];
+						}
+						
+						$modalidadOrder[] = $id;
+					?>
+					<input type="hidden" name="ordenModalidad[part-timeAM][]" value="<?php echo $id;?>"/>
+					<textarea name="ordenModalidad[part-timeAM][]"><?php echo $desc;?></textarea>
+				</td>
+				<td width="150">
+					<?php
+						$id = 4;
+						$desc = "";
+						
+						if(isset($modalidades["part-timePM"])){
+							$id = $modalidades["part-timePM"][0];
+							$desc = $modalidades["part-timePM"][1];
+						}
+						
+						$modalidadOrder[] = $id;
+					?>
+					<input type="hidden" name="ordenModalidad[part-timePM][]" value="<?php echo $id;?>"/>
+					<textarea name="ordenModalidad[part-timePM][]"><?php echo $desc;?></textarea>
+				</td>
 			</tr>
 		</table>
 	</div>
@@ -217,20 +291,33 @@
 	<div align="center">
 		<?php 
 			//obtenemos los precios de los distintos tipos de cursos, si existen
-			$query = "SELECT id, minimo_semanas, maximo_semanas, precio, id_modalidad FROM curso_semanas WHERE id_destino=".$selectDestinoId." ORDER BY minimo_semanas, id_modalidad";
+			$query = "SELECT id, minimo_semanas, maximo_semanas, precio, id_modalidad FROM curso_semanas WHERE id_destino=".$selectDestinoId." ORDER BY minimo_semanas, maximo_semanas";
 			$result = mysql_query($query);
-			$count = count($modalidadOrder) > 0 ? count($modalidadOrder) : 1;
-			$ciclos = mysql_num_rows($result) / $count;
-			for($i = 0; $i < $ciclos; $i++){
-				$params = "";
-				
+			$arreglo = array();
+			
+			while($row = mysql_fetch_array($result)){
+				$arreglo[$row["minimo_semanas"]."-".$row["maximo_semanas"]][] = array($row["id_modalidad"], $row["precio"], $row["minimo_semanas"], $row["maximo_semanas"]);
+			}
+			
+			foreach ($arreglo as $value){	
 				for($j = 0; $j < count($modalidadOrder); $j++){
-					$row = mysql_fetch_array($result);
+					$found = false;
 					
-					if($j == 0){
-						$params .= "'".$row["id"]."','".$row["minimo_semanas"]."','".$row["maximo_semanas"]."'";
+					foreach ($value as $value2){
+						if($j == 0){
+							$params = "'','".$value2[2]."','".$value2[3]."'";
+						}
+
+						if($modalidadOrder[$j] == $value2[0]){
+							$params .= ",'".$value2[1]."'";
+							$found = true;
+							break;
+						}
 					}
-					$params .= ",'".$row["precio"]."'";
+					
+					if(!$found){
+						$params .= ",''";
+					}
 				}
 		?>
 			<script>agregarPrecioXSemana(<?php echo $params;?>);</script>
@@ -290,6 +377,9 @@
 	<div align="center">
 		<table>
 			<tr>
+				<td width="200">
+					&nbsp;
+				</td>
 				<td width="150">
 					Descripci&oacute;n
 				</td>
@@ -325,28 +415,32 @@
 				<script>
 					agregarEstadia('<?php echo isset($arrayValues["homestay"]) ? $arrayValues["homestay"][0] : "";?>',
 							'homestay',
-							'<?php echo isset($arrayValues["homestay"]) ? $arrayValues["homestay"][1] : "Pensi&oacute;n Completa";?>',
+							'<?php echo isset($arrayValues["homestay"]) ? $arrayValues["homestay"][1] : "";?>',
 							'<?php echo isset($arrayValues["homestay"]) ? $arrayValues["homestay"][2] : "0";?>',
 							'<?php echo isset($arrayValues["homestay"]) ? $arrayValues["homestay"][3] : "0";?>',
-							'<?php echo isset($arrayValues["homestay"]) ? $arrayValues["homestay"][4] : "Pensi&oacute;n Completa (incluye todas las comidas)";?>');
+							'<?php echo isset($arrayValues["homestay"]) ? $arrayValues["homestay"][4] : "Pensi&oacute;n Completa (incluye todas las comidas)";?>',
+							'Pensi&oacute;n completa: ');
 					agregarEstadia('<?php echo isset($arrayValues["homestay-half-board"]) ? $arrayValues["homestay-half-board"][0] : "";?>',
 							'homestay-half-board',
-							'<?php echo isset($arrayValues["homestay-half-board"]) ? $arrayValues["homestay-half-board"][1] : "Media pensi&oacute;n";?>',
+							'<?php echo isset($arrayValues["homestay-half-board"]) ? $arrayValues["homestay-half-board"][1] : "";?>',
 							'<?php echo isset($arrayValues["homestay-half-board"]) ? $arrayValues["homestay-half-board"][2] : "0";?>',
 							'<?php echo isset($arrayValues["homestay-half-board"]) ? $arrayValues["homestay-half-board"][3] : "0";?>',
-							'<?php echo isset($arrayValues["homestay-half-board"]) ? $arrayValues["homestay-half-board"][4] : "Media Pensi&oacute;n (sin almuerzo)";?>');
+							'<?php echo isset($arrayValues["homestay-half-board"]) ? $arrayValues["homestay-half-board"][4] : "Media Pensi&oacute;n (sin almuerzo)";?>',
+							'Media pensi&oacute;n: ');
 					agregarEstadia('<?php echo isset($arrayValues["roomstay"]) ? $arrayValues["roomstay"][0] : "";?>',
 							'roomstay',
-							'<?php echo isset($arrayValues["roomstay"]) ? $arrayValues["roomstay"][1] : "Solo estadia";?>',
+							'<?php echo isset($arrayValues["roomstay"]) ? $arrayValues["roomstay"][1] : "";?>',
 							'<?php echo isset($arrayValues["roomstay"]) ? $arrayValues["roomstay"][2] : "0";?>',
 							'<?php echo isset($arrayValues["roomstay"]) ? $arrayValues["roomstay"][3] : "0";?>',
-							'<?php echo isset($arrayValues["roomstay"]) ? $arrayValues["roomstay"][4] : "Solo estadia (sin comidas)";?>');
+							'<?php echo isset($arrayValues["roomstay"]) ? $arrayValues["roomstay"][4] : "Solo estadia (sin comidas)";?>',
+							'Solo estadia');
 					agregarEstadia('<?php echo isset($arrayValues["none"]) ? $arrayValues["none"][0] : "";?>',
 							'none',
-							'<?php echo isset($arrayValues["none"]) ? $arrayValues["none"][1] : "Ninguna";?>',
+							'<?php echo isset($arrayValues["none"]) ? $arrayValues["none"][1] : "";?>',
 							'<?php echo isset($arrayValues["none"]) ? $arrayValues["none"][2] : "0";?>',
 							'<?php echo isset($arrayValues["none"]) ? $arrayValues["none"][3] : "0";?>',
-							'<?php echo isset($arrayValues["none"]) ? $arrayValues["none"][4] : "Ninguna";?>');
+							'<?php echo isset($arrayValues["none"]) ? $arrayValues["none"][4] : "Ninguna";?>',
+							'Sin estadia:');
 				</script>
 		<br />
 	</div>
@@ -436,6 +530,7 @@
 									'<?php echo isset($arrayValues["13+"]) ? $arrayValues["13+"][4] : "materiales";?>',
 									'13+',
 									'');
+							/*
 							agregarOtroConcepto('<?php echo isset($arrayValues["searchRoomstay"]) ? $arrayValues["searchRoomstay"][0] : "";?>',
 									'<?php echo isset($arrayValues["searchRoomstay"]) ? $arrayValues["searchRoomstay"][1] : "B&uacute;squeda de alojamiento (no reembolsable)";?>',
 									'<?php echo isset($arrayValues["searchRoomstay"]) ? $arrayValues["searchRoomstay"][3] : "0";?>',
@@ -450,6 +545,7 @@
 									'<?php echo isset($arrayValues["custodyLetter"]) ? $arrayValues["custodyLetter"][4] : "custodyLetter";?>',
 									'custodyLetter',
 									'');
+							*/
 						</script>  
 				</div>
 				
