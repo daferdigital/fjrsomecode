@@ -47,8 +47,8 @@
 	}
 	
 	function guardarCampoCiudad($registro){
-		$query = "INSERT INTO curso_ciudad(ciudad, precio_envio_documentos, id_destino, precio_busqueda_alojamiento, precio_envio_carta)"
-		."VALUES('".$registro[0]."',".$registro[1].",".$_POST["destinoId"].",".$registro[2].",".$registro[3].")";
+		$query = "INSERT INTO curso_ciudad(ciudad, precio_envio_documentos, id_destino, precio_busqueda_alojamiento)"
+		."VALUES('".$registro[0]."',".$registro[1].",".$_POST["destinoId"].",".$registro[2].")";
 		mysql_query($query);
 	}
 	
@@ -70,7 +70,7 @@
 		mysql_query("DELETE FROM curso_estadia WHERE id_destino=".$_POST["destinoId"]);
 		echo mysql_error()."<br />";
 		
-		mysql_query("DELETE FROM curso_pagos WHERE id_destino=".$_POST["destinoId"]." AND administrar='1'");
+		mysql_query("DELETE FROM curso_pagos WHERE id_destino=".$_POST["destinoId"]);
 		echo mysql_error()."<br />";
 		
 		mysql_query("DELETE FROM curso_ciudad WHERE id_destino=".$_POST["destinoId"]);
