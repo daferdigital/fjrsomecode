@@ -27,11 +27,16 @@
 	$row = mysql_fetch_array(mysql_query("SELECT destino FROM curso_destino WHERE id=".$destino));
 	$mailContent = "Destino: ".$row["destino"]." <br />";
 	
+	$precioEnvioDocumentos = 0;
+	$precioBusquedaAlojamiento = 0;
+	$precioEnvioCarta = 0;
 	if($codCiudad != ""){
 		//colocamos la ciudad destino
-		$row = mysql_fetch_array(mysql_query("SELECT ciudad, precio_envio_documentos FROM curso_ciudad WHERE id=".$codCiudad));
+		$row = mysql_fetch_array(mysql_query("SELECT ciudad, precio_envio_documentos, precio_busqueda_alojamiento, precio_envio_carta FROM curso_ciudad WHERE id=".$codCiudad));
 		$precioEnvioDocumentos = $row["precio_envio_documentos"];
 		$nombreCiudad = $row["ciudad"];
+		$precioBusquedaAlojamiento = $row["precio_busqueda_alojamiento"];
+		$precioEnvioCarta = $row["precio_envio_carta"];
 		$mailContent = "Ciudad: ".$row["ciudad"]." <br />";
 	}
 	
@@ -57,6 +62,9 @@
 				$row["pago_por_semana"],
 				$row["precio"]);
 	}
+	
+	$arrayValues["precio_under18"] = array("Alojamiento en casa de familia - Alumnos menores de 18 años", "0", "0");
+	$arrayValues["precio_over18"] = array("Alojamiento en casa de familia - Alumnos mayores de 18 años", "0", "0");
 ?>
 <table class="calculator-result" cellspacing="0" cellpadding="5" rules="rows" border="0" id="dataGridFees" style="border-width:0px;width:85%;border-collapse:collapse;">
 	<tr style="font-weight:bold;">
@@ -116,7 +124,7 @@
 		if($estadia != "none"){
 			//es estadia en casa de familia, vemos el tipo
 			//y el transporte desde el aeropuerto
-			$query = "SELECT long_desc, precio_under18, precio_over18 FROM curso_estadia WHERE internal_key ='".$estadia."'";
+			$query = "SELECT long_desc, precio_under18, precio_over18 FROM curso_estadia WHERE internal_key ='".$estadia."' AND id_destino=".$destino;
 			$row = mysql_fetch_array(mysql_query($query));
 	?>
 	<tr <?php echo $putBg ? $bgValue : ""; $putBg = !$putBg;?>>
@@ -140,7 +148,10 @@
 	</tr>
 	<tr <?php echo $putBg ? $bgValue : ""; $putBg = !$putBg;?>>
 		<td align="left">
-			<?php echo $arrayValues["searchRoomstay"][0];?>
+			<?php 
+				$mailContent .= "B&uacute;squeda de alojamiento en ".$nombreCiudad." (no reembolsable) <br />";
+				echo "B&uacute;squeda de alojamiento en ".$nombreCiudad." (no reembolsable)";
+			?>
 		</td>
 		<td align="center">
 			&nbsp;
@@ -148,8 +159,8 @@
 		<td align="right">
 			$ 
 			<?php 
-				echo $arrayValues["searchRoomstay"][2]; 
-				$grandTotal += $arrayValues["searchRoomstay"][2];
+				echo $precioBusquedaAlojamiento;
+				$grandTotal += $precioBusquedaAlojamiento;
 			?>
 		</td>
 	</tr>
@@ -214,8 +225,8 @@
 			<tr <?php echo $putBg ? $bgValue : ""; $putBg = !$putBg;?>>
 				<td align="left">
 					<?php 
-						echo $arrayValues["custodyLetter"][0];
-						$mailContent .= $arrayValues["custodyLetter"][0]." <br />";
+						$mailContent .= "Envio de carta de custodia a ".$nombreCiudad." (no reembolsable)<br />";
+						echo "Envio de carta de custodia a ".$nombreCiudad." (no reembolsable)";
 					?>
 				</td>
 				<td align="center">
@@ -224,8 +235,8 @@
 				<td align="right">
 					$ 
 					<?php 
-						echo $arrayValues["custodyLetter"][2]; 
-						$grandTotal += $arrayValues["custodyLetter"][2];
+						echo $precioEnvioCarta; 
+						$grandTotal += $precioEnvioCarta;
 					?>
 				</td>
 			</tr>

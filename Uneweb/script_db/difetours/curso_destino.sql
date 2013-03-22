@@ -28,7 +28,7 @@ CREATE TABLE `curso_destino` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `destino` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,7 @@ CREATE TABLE `curso_destino` (
 
 LOCK TABLES `curso_destino` WRITE;
 /*!40000 ALTER TABLE `curso_destino` DISABLE KEYS */;
-INSERT INTO `curso_destino` (`id`, `destino`) VALUES (1,'Canada'),(2,'USA'),(3,'Australia'),(4,'Nueva Delhi');
+INSERT INTO `curso_destino` (`id`, `destino`) VALUES (1,'Canada'),(2,'USA'),(3,'Australia'),(4,'Nueva Delhi'),(5,'Venezuela');
 /*!40000 ALTER TABLE `curso_destino` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-03-18  0:55:44
+-- Dump completed on 2013-03-22  2:02:49

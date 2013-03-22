@@ -29,10 +29,12 @@ CREATE TABLE `curso_ciudad` (
   `ciudad` varchar(45) NOT NULL,
   `precio_envio_documentos` int(11) NOT NULL,
   `id_destino` int(10) unsigned NOT NULL,
+  `precio_busqueda_alojamiento` int(11) NOT NULL DEFAULT '0',
+  `precio_envio_carta` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `FK_CIUDAD_DESTINO` (`id_destino`),
   CONSTRAINT `FK_CIUDAD_DESTINO` FOREIGN KEY (`id_destino`) REFERENCES `curso_destino` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +44,7 @@ CREATE TABLE `curso_ciudad` (
 
 LOCK TABLES `curso_ciudad` WRITE;
 /*!40000 ALTER TABLE `curso_ciudad` DISABLE KEYS */;
-INSERT INTO `curso_ciudad` (`id`, `ciudad`, `precio_envio_documentos`, `id_destino`) VALUES (10,'Montreal',75,1),(11,'Toronto',75,1),(12,'Vancouver',50,1);
+INSERT INTO `curso_ciudad` (`id`, `ciudad`, `precio_envio_documentos`, `id_destino`, `precio_busqueda_alojamiento`, `precio_envio_carta`) VALUES (10,'Montreal',75,1,0,0),(11,'Toronto',75,1,0,0),(12,'Vancouver',50,1,0,0),(16,'Caracas',55,5,120,90);
 /*!40000 ALTER TABLE `curso_ciudad` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-03-18  0:55:43
+-- Dump completed on 2013-03-22  2:02:48
