@@ -292,6 +292,40 @@ function logBitacoraAjax(pageNumber){
 }
 
 /**
+ * Se buscan de manera directa y completa todos los envios de un tipo determinado.
+ * 
+ */
+function searchEnviosAjaxSimple(statusEnvio){
+	var parameters = "statusEnvio=" + statusEnvio;
+	var urlToCall = "ajax/";
+	
+	//vemos el tipo de envio que se esta buscando para saber cual pagina llamar
+	if(statusEnvio == 1){
+		//notificados
+		urlToCall += "getEnviosNotificados.php";
+	} else if(statusEnvio == 2){
+		//pagos confirmados
+		urlToCall += "getEnviosPagosConfirmados.php";
+	} else if(statusEnvio == 3){
+		//pagos no encontrados
+		urlToCall += "getEnviosPagosNoEncontrados.php";
+	} else if(statusEnvio == 4){
+		//presupuestado
+		urlToCall += "getEnviosPresupuestados.php";
+	} else if(statusEnvio == 5){
+		//facturado
+		urlToCall += "getEnviosFacturados.php";
+	} else if(statusEnvio == 6){
+		//enviado
+		urlToCall += "getEnviosEnviados.php";
+	}
+	
+	callAjax(urlToCall,
+			parameters,
+			"ajaxPageResult");
+}
+
+/**
  * 
  * @param pageNumber
  */

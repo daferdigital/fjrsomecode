@@ -10,51 +10,36 @@ include_once '../classes/PagingDAO.php';
 include_once "../classes/EnvioDAO.php";
 include_once '../includes/session.php';
 
-$statusEnvio = $_POST["statusEnvio"];
+$statusEnvio = EnvioDAO::$COD_STATUS_PAGO_NO_ENCONTRADO;
 $canEdit = false;
 $editPage = "showEnvio.php";
 $userDTO = $_SESSION[Constants::$KEY_USUARIO_DTO];
 
-//vemos el tipo de envio que se desea buscar o si se viene de busqueda avanzada
-if(isset($_POST["fromBusquedaAvanzada"])){
-	PageAccess::validateAccess(Constants::$OPCION_BUSQUEDA_AVANZADA);
-	BitacoraDAO::registrarComentario("Ingreso en pagina ajax para realizar busquedas avanzadas de envios");
+//venimos de las opciones especificas por cada tipo de envio
+//verificamos el permiso
+PageAccess::validateAccess(Constants::$OPCION_BUSQUEDA_PAGOS_NO_ENCONTRADOS);
+BitacoraDAO::registrarComentario("Ingreso en pagina ajax para realizar busqueda de envios de pagos no encontrados");
+
+if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_PAGOS_NO_ENCONTRADOS)){
 	$canEdit = true;
 }
-$pageNumber = $_POST[Constants::$PAGE_NUMBER];
-$scriptFunction = $_POST[Constants::$SCRIPT_FUNCTION];
 
-//obtenemos el extra where
-$extraWhere = "";
-if($statusEnvio != "-1"){
-	$extraWhere .= " AND e.id_status_actual=".$statusEnvio;	
-}
-if($_POST["fechaDesde"] != ""){
-	$extraWhere .= " AND e.fecha_pago >= '".$_POST["fechaDesde"]."'";
-}
-if($_POST["fechaHasta"] != ""){
-	$extraWhere .= " AND e.fecha_pago <= '".$_POST["fechaHasta"]."'";
-}
-if($_POST["seudonimoML"] != ""){
-	$extraWhere .= " AND LOWER(e.seudonimo_ml) LIKE LOWER('%".$_POST["seudonimoML"]."%')";
-}
-if($_POST["boucher"] != ""){
-	$extraWhere .= " AND LOWER(e.num_voucher) LIKE LOWER('%".$_POST["boucher"]."%')";
-}
-if($_POST["ciRif"] != ""){
-	$extraWhere .= " AND LOWER(e.ci_rif) LIKE LOWER('%".$_POST["ciRif"]."%')";
-}
+//colocamos el extra where
+$extraWhere = " AND e.id_status_actual=".$statusEnvio;	
 
-$query = "SELECT e.*, es.descripcion as statusEnvio"
-." FROM envios_status es, envios e"
+$query = "SELECT e.*, es.descripcion as statusEnvio, DATE_FORMAT(e.fecha_pago, '%d/%m/%Y') AS fechaPago, "
+."DATE_FORMAT(e.fecha_registro, '%d/%m/%Y') AS fechaRegistro, b.nombre AS banco, mp.descripcion AS medioPago "
+." FROM bancos b, medios_de_pago mp, envios e, envios_status es"
 ." WHERE e.id_status_actual = es.id"
+." AND e.id_banco = b.id"
+." AND e.id_medio_pago = mp.id"
 .$extraWhere
 ." ORDER BY e.fecha_pago DESC";
 
 //$totalRecords = DBUtil::getRecordCountToQuery($query);
 //$pageRecords = DBUtil::getRecordsByPage($query, $pageNumber);
-//$pagingDAO = new PagingDAO($pageNumber, $scriptFunction, $totalRecords);
 $pageRecords = DBUtil::executeSelect($query);
+//$pagingDAO = new PagingDAO($pageNumber, $scriptFunction, $totalRecords);
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -77,20 +62,26 @@ if(count($pageRecords) == 0){
 		<div style="width: 5%;" id="tdHeader">
       		&nbsp;
     	</div>
-		<div style="width: 15%;" id="tdHeader">
+		<div style="width: 10%;" id="tdHeader">
       		Fecha
     	</div>
     	<div style="width: 15%;" id="tdHeader">
-      		Seudonimo MercadoLibre
+      		Nombre
     	</div>
     	<div style="width: 10%;" id="tdHeader">
-      		Cedula/RIF
+      		Medio de Pago
     	</div>
     	<div style="width: 15%;" id="tdHeader">
-      		# Vauche 
+      		Banco 
     	</div>
-    	<div style="width: 40%;" id="tdHeader">
-      		Compra
+    	<div style="width: 10%;" id="tdHeader">
+      		Fecha de Pago
+    	</div>
+    	<div style="width: 15%;" id="tdHeader">
+      		Nro Comprobante 
+    	</div>
+    	<div style="width: 10%;" id="tdHeader">
+      		Monto
     	</div>
 	</div>
 	<?php
@@ -108,26 +99,30 @@ if(count($pageRecords) == 0){
 				}
 				?>
 			</div>
-			<div style="width: 15%;" id="tdElement">
-				<?php echo $row["fecha_pago"];?>
-			</div>
-			<div style="width: 15%;" id="tdElement">
-				<?php echo $row["seudonimo_ml"];?>
-			</div>
 			<div style="width: 10%;" id="tdElement">
-				<?php echo $row["ci_rif"];?>
-			</div>
-			<div style="width: 15%;" id="tdElement">
-				<?php echo $row["num_voucher"];?>
-			</div>
-			<div style="width: 40%;" id="tdElement">
-				<span id="fixHeigth">
-					<?php echo $row["detalle_compra"];?>
-				</span>
-			</div>
+	      		<?php echo $row["fechaRegistro"]?>
+	    	</div>
+	    	<div style="width: 15%;" id="tdElement">
+	      		<?php echo $row["nombre_completo"]?>
+	    	</div>
+	    	<div style="width: 10%;" id="tdElement">
+	      		<?php echo $row["medioPago"]?>
+	    	</div>
+	    	<div style="width: 15%;" id="tdElement">
+	      		<?php echo $row["banco"]?>
+	    	</div>
+	    	<div style="width: 10%;" id="tdElement">
+	      		<?php echo $row["fechaPago"]?>
+	    	</div>
+	    	<div style="width: 15%;" id="tdElement">
+	      		<?php echo $row["num_voucher"]?>
+	    	</div>
+	    	<div style="width: 10%;" id="tdElement">
+	      		<?php echo $row["monto_pago"]?>
+	    	</div>
 		</div>
 	<?php
-		}
+		} 
 }
 ?>
 </div>

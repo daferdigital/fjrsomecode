@@ -94,7 +94,7 @@
 	if(isset($modulesAllowed[Constants::$OPCION_BUSQUEDA_AVANZADA])){
 ?>
 		<li>
-			<a href="searchEnviosByType.php?isAdv=">B&uacute;squeda Avanzada</a>
+			<a href="searchEnviosAvanzado.php">B&uacute;squeda Avanzada</a>
 		</li>
 <?php
 	}

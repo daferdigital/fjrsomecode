@@ -10,36 +10,12 @@ include_once '../classes/UsuarioDTO.php';
 include_once '../includes/session.php';
 
 $recordId = $_GET["id"];
-$canEdit = false;
+$canEdit = true;
 $envioDTO = EnvioDAO::getEnvioInfo($recordId);
 
 $statusEnvio = $envioDTO->getIdStatusActual();
 
 BitacoraDAO::registrarComentario("Ingreso en pagina ajax para vizualizar envio[".$recordId."]");
-
-//vemos el tipo de envio que se desea buscar o si se viene de busqueda avanzada
-//venimos de las opciones especificas por cada tipo de envio
-//verificamos el permiso
-if(EnvioDAO::$COD_STATUS_NOTIFICADO == $statusEnvio){
-	PageAccess::validateAccess(Constants::$OPCION_EDICION_NOTIFICADOS);
-	$canEdit = true;
-} else if(EnvioDAO::$COD_STATUS_PAGO_CONFIRMADO == $statusEnvio){
-	PageAccess::validateAccess(Constants::$OPCION_EDICION_PAGOS_CONFIRMADOS);
-	$canEdit = true;
-} else if(EnvioDAO::$COD_STATUS_PAGO_NO_ENCONTRADO == $statusEnvio){
-	PageAccess::validateAccess(Constants::$OPCION_EDICION_PAGOS_NO_ENCONTRADOS);
-	$canEdit = true;
-} else if(EnvioDAO::$COD_STATUS_FACTURADO == $statusEnvio){
-	PageAccess::validateAccess(Constants::$OPCION_EDICION_FACTURADO);
-	$canEdit = true;
-} else if(EnvioDAO::$COD_STATUS_PRESUPUESTADO == $statusEnvio){
-	PageAccess::validateAccess(Constants::$OPCION_EDICION_PRESUPUESTADO);
-	$canEdit = true;
-} else if(EnvioDAO::$COD_STATUS_ENVIADO == $statusEnvio){
-	PageAccess::validateAccess(Constants::$OPCION_EDICION_ENVIADO);
-	$canEdit = true;
-}
-
 BitacoraDAO::registrarComentario("El usuario ".($canEdit ? "" : "NO")." puede editar el envio[".$recordId."]");
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
@@ -180,6 +156,13 @@ BitacoraDAO::registrarComentario("El usuario ".($canEdit ? "" : "NO")." puede ed
 						</select>
 					</td>
 				</tr>
+				<?php
+					if($envioDTO->getIdStatusActual() == EnvioDAO::$COD_STATUS_FACTURADO){
+						//si el status es facturado, el que sigue es enviado, debemos solicitar el
+						//codigo del envio que nos indico la 
+
+					} 
+				?>
 				<tr>
 					<td>Indique su Comentario</td>
 					<td>
