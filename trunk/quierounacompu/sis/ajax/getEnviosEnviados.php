@@ -15,34 +15,50 @@ $canEdit = false;
 $editPage = "showEnvio.php";
 $userDTO = $_SESSION[Constants::$KEY_USUARIO_DTO];
 
-//vemos el tipo de envio que se desea buscar o si se viene de busqueda avanzada
-if(isset($_POST["fromBusquedaAvanzada"])){
-	PageAccess::validateAccess(Constants::$OPCION_BUSQUEDA_AVANZADA);
-	BitacoraDAO::registrarComentario("Ingreso en pagina ajax para realizar busquedas avanzadas de envios");
-	$canEdit = true;
+//venimos de las opciones especificas por cada tipo de envio
+//verificamos el permiso
+if(EnvioDAO::$COD_STATUS_NOTIFICADO == $statusEnvio){
+	PageAccess::validateAccess(Constants::$OPCION_BUSQUEDA_NOTIFICADOS);
+	BitacoraDAO::registrarComentario("Ingreso en pagina ajax para realizar busqueda de envios notificados");
+	if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_NOTIFICADOS)){
+		$canEdit = true;
+	}
+} else if(EnvioDAO::$COD_STATUS_PAGO_CONFIRMADO == $statusEnvio){
+	PageAccess::validateAccess(Constants::$OPCION_BUSQUEDA_PAGOS_CONFIRMADOS);
+	BitacoraDAO::registrarComentario("Ingreso en pagina ajax para realizar busqueda de envios con estado de pagos confirmados");
+	if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_PAGOS_CONFIRMADOS)){
+		$canEdit = true;
+	}
+} else if(EnvioDAO::$COD_STATUS_PAGO_NO_ENCONTRADO == $statusEnvio){
+	PageAccess::validateAccess(Constants::$OPCION_BUSQUEDA_PAGOS_NO_ENCONTRADOS);
+	BitacoraDAO::registrarComentario("Ingreso en pagina ajax para realizar busqueda de envios con estado de pago no encontrado");
+	if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_PAGOS_NO_ENCONTRADOS)){
+		$canEdit = true;
+	}
+} else if(EnvioDAO::$COD_STATUS_FACTURADO == $statusEnvio){
+	PageAccess::validateAccess(Constants::$OPCION_BUSQUEDA_FACTURADO);
+	BitacoraDAO::registrarComentario("Ingreso en pagina ajax para realizar busqueda de envios facturados");
+	if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_FACTURADO)){
+		$canEdit = true;
+	}
+} else if(EnvioDAO::$COD_STATUS_PRESUPUESTADO == $statusEnvio){
+	PageAccess::validateAccess(Constants::$OPCION_BUSQUEDA_PRESUPUESTADO);
+	BitacoraDAO::registrarComentario("Ingreso en pagina ajax para realizar busqueda de envios presupuestados");
+	if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_PRESUPUESTADO)){
+		$canEdit = true;
+	}
+} else if(EnvioDAO::$COD_STATUS_ENVIADO == $statusEnvio){
+	PageAccess::validateAccess(Constants::$OPCION_BUSQUEDA_ENVIADO);
+	BitacoraDAO::registrarComentario("Ingreso en pagina ajax para realizar busqueda de envios con status de enviado");
+	if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_ENVIADO)){
+		$canEdit = true;
+	}
 }
-$pageNumber = $_POST[Constants::$PAGE_NUMBER];
-$scriptFunction = $_POST[Constants::$SCRIPT_FUNCTION];
 
 //obtenemos el extra where
 $extraWhere = "";
 if($statusEnvio != "-1"){
 	$extraWhere .= " AND e.id_status_actual=".$statusEnvio;	
-}
-if($_POST["fechaDesde"] != ""){
-	$extraWhere .= " AND e.fecha_pago >= '".$_POST["fechaDesde"]."'";
-}
-if($_POST["fechaHasta"] != ""){
-	$extraWhere .= " AND e.fecha_pago <= '".$_POST["fechaHasta"]."'";
-}
-if($_POST["seudonimoML"] != ""){
-	$extraWhere .= " AND LOWER(e.seudonimo_ml) LIKE LOWER('%".$_POST["seudonimoML"]."%')";
-}
-if($_POST["boucher"] != ""){
-	$extraWhere .= " AND LOWER(e.num_voucher) LIKE LOWER('%".$_POST["boucher"]."%')";
-}
-if($_POST["ciRif"] != ""){
-	$extraWhere .= " AND LOWER(e.ci_rif) LIKE LOWER('%".$_POST["ciRif"]."%')";
 }
 
 $query = "SELECT e.*, es.descripcion as statusEnvio"
@@ -53,8 +69,8 @@ $query = "SELECT e.*, es.descripcion as statusEnvio"
 
 //$totalRecords = DBUtil::getRecordCountToQuery($query);
 //$pageRecords = DBUtil::getRecordsByPage($query, $pageNumber);
-//$pagingDAO = new PagingDAO($pageNumber, $scriptFunction, $totalRecords);
 $pageRecords = DBUtil::executeSelect($query);
+//$pagingDAO = new PagingDAO($pageNumber, $scriptFunction, $totalRecords);
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -127,7 +143,7 @@ if(count($pageRecords) == 0){
 			</div>
 		</div>
 	<?php
-		}
+		} 
 }
 ?>
 </div>
