@@ -15,10 +15,6 @@ BitacoraDAO::registrarComentario("Acceso a perfil del usuario: ".$userDTO->getNo
 
 <div class="seccionTitle">
 	Perfil
-	<br />
-	<span>
-		(Modifique los valores asociados a su cuenta de usuario)
-	</span>
 </div>
 
 <div class="seccionDetail">

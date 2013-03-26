@@ -14,10 +14,6 @@ BitacoraDAO::registrarComentario("Acceso a modulo de log de transacciones del si
 
 <div class="seccionTitle">
 	Logs de transacciones
-	<br />
-	<span>
-		(Verifique las distintas transacciones realizadas en el sistema)
-	</span>
 </div>
 
 <div class="seccionDetail">

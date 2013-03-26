@@ -20,10 +20,6 @@ if(isset($_SESSION[Constants::$KEY_USER_ID])){
 
 <div class="seccionTitle">
 	Reactivar Usuarios
-	<br />
-	<span>
-		(Secci&oacute;n para reactivar cuentas del sistema)
-	</span>
 </div>
 
 <div class="seccionDetail">

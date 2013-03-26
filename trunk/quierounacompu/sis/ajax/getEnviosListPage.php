@@ -45,9 +45,12 @@ if($_POST["ciRif"] != ""){
 	$extraWhere .= " AND LOWER(e.ci_rif) LIKE LOWER('%".$_POST["ciRif"]."%')";
 }
 
-$query = "SELECT e.*, es.descripcion as statusEnvio"
-." FROM envios_status es, envios e"
+$query = "SELECT e.*, es.descripcion as statusEnvio, DATE_FORMAT(e.fecha_pago, '%d/%m/%Y') AS fechaPago, "
+."DATE_FORMAT(e.fecha_registro, '%d/%m/%Y') AS fechaRegistro, b.nombre AS banco, mp.descripcion AS medioPago "
+." FROM bancos b, medios_de_pago mp, envios e, envios_status es"
 ." WHERE e.id_status_actual = es.id"
+." AND e.id_banco = b.id"
+." AND e.id_medio_pago = mp.id"
 .$extraWhere
 ." ORDER BY e.fecha_pago DESC";
 
@@ -77,20 +80,26 @@ if(count($pageRecords) == 0){
 		<div style="width: 5%;" id="tdHeader">
       		&nbsp;
     	</div>
-		<div style="width: 15%;" id="tdHeader">
+		<div style="width: 10%;" id="tdHeader">
       		Fecha
     	</div>
     	<div style="width: 15%;" id="tdHeader">
-      		Seudonimo MercadoLibre
+      		Nombre
     	</div>
     	<div style="width: 10%;" id="tdHeader">
-      		Cedula/RIF
+      		Medio de Pago
     	</div>
     	<div style="width: 15%;" id="tdHeader">
-      		# Vauche 
+      		Banco 
     	</div>
-    	<div style="width: 40%;" id="tdHeader">
-      		Compra
+    	<div style="width: 10%;" id="tdHeader">
+      		Fecha de Pago
+    	</div>
+    	<div style="width: 15%;" id="tdHeader">
+      		Nro Comprobante 
+    	</div>
+    	<div style="width: 10%;" id="tdHeader">
+      		Monto
     	</div>
 	</div>
 	<?php
@@ -108,23 +117,27 @@ if(count($pageRecords) == 0){
 				}
 				?>
 			</div>
-			<div style="width: 15%;" id="tdElement">
-				<?php echo $row["fecha_pago"];?>
-			</div>
-			<div style="width: 15%;" id="tdElement">
-				<?php echo $row["seudonimo_ml"];?>
-			</div>
 			<div style="width: 10%;" id="tdElement">
-				<?php echo $row["ci_rif"];?>
-			</div>
-			<div style="width: 15%;" id="tdElement">
-				<?php echo $row["num_voucher"];?>
-			</div>
-			<div style="width: 40%;" id="tdElement">
-				<span id="fixHeigth">
-					<?php echo $row["detalle_compra"];?>
-				</span>
-			</div>
+	      		<?php echo $row["fechaRegistro"]?>
+	    	</div>
+	    	<div style="width: 15%;" id="tdElement">
+	      		<?php echo $row["nombre_completo"]?>
+	    	</div>
+	    	<div style="width: 10%;" id="tdElement">
+	      		<?php echo $row["medioPago"]?>
+	    	</div>
+	    	<div style="width: 15%;" id="tdElement">
+	      		<?php echo $row["banco"]?>
+	    	</div>
+	    	<div style="width: 10%;" id="tdElement">
+	      		<?php echo $row["fechaPago"]?>
+	    	</div>
+	    	<div style="width: 15%;" id="tdElement">
+	      		<?php echo $row["num_voucher"]?>
+	    	</div>
+	    	<div style="width: 10%;" id="tdElement">
+	      		<?php echo $row["monto_pago"]?>
+	    	</div>
 		</div>
 	<?php
 		}

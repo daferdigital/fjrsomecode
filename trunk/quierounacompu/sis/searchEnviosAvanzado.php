@@ -8,7 +8,6 @@ include_once("classes/BitacoraDAO.php");
 include_once("includes/header.php");
 
 $seccionTitle = "B&uacute;squeda Avanzada";
-$seccionDetail = "(Consulte y actualize la informaci&oacute;n de los envios en cualquier estado)";
 
 PageAccess::validateAccess(Constants::$OPCION_BUSQUEDA_AVANZADA);
 
@@ -18,10 +17,6 @@ BitacoraDAO::registrarComentario("Acceso a modulo de busqueda de ".$seccionTitle
 
 <div class="seccionTitle">
 	<?php echo $seccionTitle;?>
-	<br />
-	<span>
-		<?php echo $seccionDetail;?>
-	</span>
 </div>
 
 <div class="seccionDetail">

@@ -10,60 +10,26 @@ include_once '../classes/PagingDAO.php';
 include_once "../classes/EnvioDAO.php";
 include_once '../includes/session.php';
 
-$statusEnvio = $_POST["statusEnvio"];
-$canEdit = false;
+$statusEnvio = EnvioDAO::$COD_STATUS_ENVIADO;
 $editPage = "showEnvio.php";
 $userDTO = $_SESSION[Constants::$KEY_USUARIO_DTO];
 
 //venimos de las opciones especificas por cada tipo de envio
 //verificamos el permiso
-if(EnvioDAO::$COD_STATUS_NOTIFICADO == $statusEnvio){
-	PageAccess::validateAccess(Constants::$OPCION_BUSQUEDA_NOTIFICADOS);
-	BitacoraDAO::registrarComentario("Ingreso en pagina ajax para realizar busqueda de envios notificados");
-	if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_NOTIFICADOS)){
-		$canEdit = true;
-	}
-} else if(EnvioDAO::$COD_STATUS_PAGO_CONFIRMADO == $statusEnvio){
-	PageAccess::validateAccess(Constants::$OPCION_BUSQUEDA_PAGOS_CONFIRMADOS);
-	BitacoraDAO::registrarComentario("Ingreso en pagina ajax para realizar busqueda de envios con estado de pagos confirmados");
-	if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_PAGOS_CONFIRMADOS)){
-		$canEdit = true;
-	}
-} else if(EnvioDAO::$COD_STATUS_PAGO_NO_ENCONTRADO == $statusEnvio){
-	PageAccess::validateAccess(Constants::$OPCION_BUSQUEDA_PAGOS_NO_ENCONTRADOS);
-	BitacoraDAO::registrarComentario("Ingreso en pagina ajax para realizar busqueda de envios con estado de pago no encontrado");
-	if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_PAGOS_NO_ENCONTRADOS)){
-		$canEdit = true;
-	}
-} else if(EnvioDAO::$COD_STATUS_FACTURADO == $statusEnvio){
-	PageAccess::validateAccess(Constants::$OPCION_BUSQUEDA_FACTURADO);
-	BitacoraDAO::registrarComentario("Ingreso en pagina ajax para realizar busqueda de envios facturados");
-	if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_FACTURADO)){
-		$canEdit = true;
-	}
-} else if(EnvioDAO::$COD_STATUS_PRESUPUESTADO == $statusEnvio){
-	PageAccess::validateAccess(Constants::$OPCION_BUSQUEDA_PRESUPUESTADO);
-	BitacoraDAO::registrarComentario("Ingreso en pagina ajax para realizar busqueda de envios presupuestados");
-	if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_PRESUPUESTADO)){
-		$canEdit = true;
-	}
-} else if(EnvioDAO::$COD_STATUS_ENVIADO == $statusEnvio){
-	PageAccess::validateAccess(Constants::$OPCION_BUSQUEDA_ENVIADO);
-	BitacoraDAO::registrarComentario("Ingreso en pagina ajax para realizar busqueda de envios con status de enviado");
-	if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_ENVIADO)){
-		$canEdit = true;
-	}
-}
+PageAccess::validateAccess(Constants::$OPCION_BUSQUEDA_ENVIADO);
+BitacoraDAO::registrarComentario("Ingreso en pagina ajax para realizar busqueda de envios con status de enviado");
 
 //obtenemos el extra where
-$extraWhere = "";
-if($statusEnvio != "-1"){
-	$extraWhere .= " AND e.id_status_actual=".$statusEnvio;	
-}
+$extraWhere = " AND e.id_status_actual=".$statusEnvio;	
 
-$query = "SELECT e.*, es.descripcion as statusEnvio"
-." FROM envios_status es, envios e"
+$query = "SELECT e.*, es.descripcion as statusEnvio, DATE_FORMAT(e.fecha_pago, '%d/%m/%Y') AS fechaPago, "
+."DATE_FORMAT(e.fecha_registro, '%d/%m/%Y') AS fechaRegistro, b.nombre AS banco, mp.descripcion AS medioPago, "
+."ee.nombre as empresaEnvio"
+." FROM empresa_envio ee, bancos b, medios_de_pago mp, envios e, envios_status es"
 ." WHERE e.id_status_actual = es.id"
+." AND e.id_banco = b.id"
+." AND e.id_medio_pago = mp.id"
+." AND ee.id = e.id_empresa_envio"
 .$extraWhere
 ." ORDER BY e.fecha_pago DESC";
 
@@ -93,20 +59,26 @@ if(count($pageRecords) == 0){
 		<div style="width: 5%;" id="tdHeader">
       		&nbsp;
     	</div>
-		<div style="width: 15%;" id="tdHeader">
+		<div style="width: 10%;" id="tdHeader">
       		Fecha
     	</div>
     	<div style="width: 15%;" id="tdHeader">
-      		Seudonimo MercadoLibre
-    	</div>
-    	<div style="width: 10%;" id="tdHeader">
-      		Cedula/RIF
+      		Nombre
     	</div>
     	<div style="width: 15%;" id="tdHeader">
-      		# Vauche 
+      		Seudonimo ML
     	</div>
-    	<div style="width: 40%;" id="tdHeader">
-      		Compra
+    	<div style="width: 10%;" id="tdHeader">
+      		Nro. Factura
+    	</div>
+    	<div style="width: 10%;" id="tdHeader">
+      		Empresa Env&iacute;o
+    	</div>
+    	<div style="width: 15%;" id="tdHeader">
+      		C&oacute;digo de Env&iacute;o
+    	</div>
+    	<div style="width: 15%;" id="tdHeader">
+      		Ciudad
     	</div>
 	</div>
 	<?php
@@ -114,33 +86,31 @@ if(count($pageRecords) == 0){
 	?>
 		<div id="row">
 			<div style="width: 5%;" id="tdElement">
-				<?php 
-				if($canEdit){
-				?>
-					<a href="#" onclick="javascript:loadAjaxPopUp('ajax/<?php echo $editPage;?>?id=<?php echo $row["id"];?>')">
-						<img alt="ver" title="Editar" src="images/pageEdit.png" border="0"/>
-					</a>
-				<?php
-				}
-				?>
-			</div>
-			<div style="width: 15%;" id="tdElement">
-				<?php echo $row["fecha_pago"];?>
-			</div>
-			<div style="width: 15%;" id="tdElement">
-				<?php echo $row["seudonimo_ml"];?>
+				<a href="#" onclick="javascript:loadAjaxPopUp('ajax/<?php echo $editPage;?>?id=<?php echo $row["id"];?>')">
+					<img alt="ver" title="Editar" src="images/pageEdit.png" border="0"/>
+				</a>
 			</div>
 			<div style="width: 10%;" id="tdElement">
-				<?php echo $row["ci_rif"];?>
-			</div>
-			<div style="width: 15%;" id="tdElement">
-				<?php echo $row["num_voucher"];?>
-			</div>
-			<div style="width: 40%;" id="tdElement">
-				<span id="fixHeigth">
-					<?php echo $row["detalle_compra"];?>
-				</span>
-			</div>
+	      		<?php echo $row["fechaRegistro"];?>
+	    	</div>
+	    	<div style="width: 15%;" id="tdElement">
+	      		<?php echo $row["nombre_completo"];?>
+	    	</div>
+	    	<div style="width: 15%;" id="tdElement">
+	      		<?php echo $row["seudonimo_ml"];?>
+	    	</div>
+	    	<div style="width: 10%;" id="tdElement">
+	      		<?php echo $row["codigo_factura"];?>
+	    	</div>
+	    	<div style="width: 10%;" id="tdElement">
+	      		<?php echo $row["empresaEnvio"];?>
+	    	</div>
+	    	<div style="width: 15%;" id="tdElement">
+	      		<?php echo $row["codigo_envio"];?>
+	    	</div>
+	    	<div style="width: 15%;" id="tdElement">
+	      		<?php echo $row["ciudad_destino"];?>
+	    	</div>
 		</div>
 	<?php
 		} 

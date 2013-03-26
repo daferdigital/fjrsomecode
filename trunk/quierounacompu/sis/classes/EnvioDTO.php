@@ -5,17 +5,22 @@ class EnvioDTO {
 	private $nombreCompleto;
 	private $ciRIF;
 	private $correo;
+	private $tlfCliente;
 	private $detalleCompra;
 	private $numVoucher;
 	private $fechaPago;
+	private $fechaRegistro;
 	private $montoPago;
 	private $nombreDestinatario;
+	private $cedulaDestinatario;
 	private $direccionDestino;
 	private $ciudadDestino;
 	private $estadoDestino;
 	private $tlfCelularDestinatario;
 	private $tlfLocalDestinatario;
 	private $observacionesEnvio;
+	private $codigoFactura;
+	private $codigoEnvio;
 	private $idMedioPago;
 	private $descMedioPago;
 	private $idBanco;
@@ -24,7 +29,6 @@ class EnvioDTO {
 	private $descEmpresaEnvio;
 	private $idStatusActual;
 	private $descStatusActual;
-	
 	
 	public function EnvioDTO(){
 		
@@ -108,6 +112,21 @@ class EnvioDTO {
 	
 	/**
 	 * 
+	 */
+	public function getTlfCliente(){
+		return $this->tlfCliente;
+	}
+	
+	/**
+	 * 
+	 * @param unknown_type $tlfCliente
+	 */
+	public function setTlfCliente($tlfCliente){
+		$this->tlfCliente = $tlfCliente;
+	}
+	
+	/**
+	 * 
 	 * @return unknown_type
 	 */
 	public function getDetalleCompra(){
@@ -155,6 +174,22 @@ class EnvioDTO {
 	}
 	
 	/**
+	 *
+	 * @return unknown_type
+	 */
+	public function getFechaRegistro(){
+		return $this->fechaRegistro;
+	}
+	
+	/**
+	 *
+	 * @param unknown_type $fechaRegistro
+	 */
+	public function setFechaRegistro($fechaRegistro){
+		$this->fechaRegistro = $fechaRegistro;
+	}
+	
+	/**
 	 * 
 	 * @return unknown_type
 	 */
@@ -184,6 +219,22 @@ class EnvioDTO {
 	 */
 	public function setNombreDestinatario($nombreDestinatario){
 		$this->nombreDestinatario = $nombreDestinatario;
+	}
+	
+	/**
+	 *
+	 * @return unknown_type
+	 */
+	public function getCedulaDestinatario(){
+		return $this->cedulaDestinatario;
+	}
+	
+	/**
+	 *
+	 * @param unknown_type $cedulaDestinatario
+	 */
+	public function setCedulaDestinatario($cedulaDestinatario){
+		$this->cedulaDestinatario = $cedulaDestinatario;
 	}
 	
 	/**
@@ -280,6 +331,38 @@ class EnvioDTO {
 	 */
 	public function setObservacionesEnvio($observacionesEnvio){
 		$this->observacionesEnvio = $observacionesEnvio;
+	}
+	
+	/**
+	 *
+	 * @return unknown_type
+	 */
+	public function getCodigoFactura(){
+		return $this->codigoFactura;
+	}
+	
+	/**
+	 *
+	 * @param unknown_type $codigoFactura
+	 */
+	public function setCodigoFactura($codigoFactura){
+		$this->codigoFactura = $codigoFactura;
+	}
+	
+	/**
+	 *
+	 * @return unknown_type
+	 */
+	public function getCodigoEnvio(){
+		return $this->codigoEnvio;
+	}
+	
+	/**
+	 *
+	 * @param unknown_type $codigoEnvio
+	 */
+	public function setCodigoEnvio($codigoEnvio){
+		$this->codigoEnvio = $codigoEnvio;
 	}
 	
 	/**
