@@ -13,10 +13,6 @@ BitacoraDAO::registrarComentario("Acceso a pagina para crear usuarios");
 
 <div class="seccionTitle">
 	Crear Usuarios
-	<br />
-	<span>
-		(Agregue aqu&iacute; cuentas de usuario en el sistema)
-	</span>
 </div>
 
 <div class="seccionDetail">

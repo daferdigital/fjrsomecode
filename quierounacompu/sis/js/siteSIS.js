@@ -348,25 +348,19 @@ function searchEnviosAjax(pageNumber){
 			"ajaxPageResult");
 }
 
+/**
+ * Actualizamos el status y los comentarios(opcional) de un 
+ * determinado envio.
+ * 
+ */
 function actualizarEnvio(){
-	var valid = true;
 	var newComment = document.getElementById("newComment").value.trim();
 
-	document.getElementById("errorNewComment").style.display = "none";
-	//verificamos si el usuario indico un comentario
-	if(newComment == ""){
-		document.getElementById("errorNewComment").style.display = "inline";
-		document.getElementById("newComment").focus();
-		valid = false;
-	}
-	
-	if(valid) {
-		var parameters = "idEnvio=" + document.getElementById("idEnvio").value;
-		parameters += "&newStatus=" + document.getElementById("newStatus").value;
-		parameters += "&newComment=" + newComment;
+	var parameters = "idEnvio=" + document.getElementById("idEnvio").value;
+	parameters += "&newStatus=" + document.getElementById("newStatus").value;
+	parameters += "&newComment=" + newComment;
 		
-		callAjax("ajax/updateEnvio.php",
-				parameters,
-				null);
-	}
+	callAjax("ajax/updateEnvio.php",
+			parameters,
+			null);
 }

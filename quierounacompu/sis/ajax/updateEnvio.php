@@ -16,36 +16,49 @@ $newStatusText = "";
 
 $canEdit = false;
 $envioDTO = EnvioDAO::getEnvioInfo($recordId);
-
+$userDTO = $_SESSION[Constants::$KEY_USUARIO_DTO];
+	
 BitacoraDAO::registrarComentario("Ingreso en pagina ajax para actualizar envio[".$recordId."]");
 
 //vemos el tipo de envio que se desea buscar o si se viene de busqueda avanzada
 //venimos de las opciones especificas por cada tipo de envio
 //verificamos el permiso
 if(EnvioDAO::$COD_STATUS_NOTIFICADO == $newStatus){
-	PageAccess::validateAccess(Constants::$OPCION_EDICION_NOTIFICADOS);
 	$newStatusText = "Notificado";
-	$canEdit = true;
+	
+	if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_NOTIFICADOS)){
+		$canEdit = true;
+	}
 } else if(EnvioDAO::$COD_STATUS_PAGO_CONFIRMADO == $newStatus){
-	PageAccess::validateAccess(Constants::$OPCION_EDICION_PAGOS_CONFIRMADOS);
 	$newStatusText = "Pago Confirmado";
-	$canEdit = true;
+	
+	if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_PAGOS_CONFIRMADOS)){
+		$canEdit = true;
+	}
 } else if(EnvioDAO::$COD_STATUS_PAGO_NO_ENCONTRADO == $newStatus){
-	PageAccess::validateAccess(Constants::$OPCION_EDICION_PAGOS_NO_ENCONTRADOS);
 	$newStatusText = "Pago no Encontrado";
-	$canEdit = true;
+	
+	if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_PAGOS_NO_ENCONTRADOS)){
+		$canEdit = true;
+	}
 } else if(EnvioDAO::$COD_STATUS_FACTURADO == $newStatus){
-	PageAccess::validateAccess(Constants::$OPCION_EDICION_FACTURADO);
 	$newStatusText = "Facturado";
-	$canEdit = true;
+	
+	if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_FACTURADO)){
+		$canEdit = true;
+	}
 } else if(EnvioDAO::$COD_STATUS_PRESUPUESTADO == $newStatus){
-	PageAccess::validateAccess(Constants::$OPCION_EDICION_PRESUPUESTADO);
 	$newStatusText = "Presupuestado";
-	$canEdit = true;
+	
+	if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_PRESUPUESTADO)){
+		$canEdit = true;
+	}
 } else if(EnvioDAO::$COD_STATUS_ENVIADO == $newStatus){
-	PageAccess::validateAccess(Constants::$OPCION_EDICION_ENVIADO);
 	$newStatusText = "Enviado";
-	$canEdit = true;
+	
+	if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_ENVIADO)){
+		$canEdit = true;
+	}
 }
 
 BitacoraDAO::registrarComentario("El usuario ".($canEdit ? "" : "NO")." puede editar el envio[".$recordId."]");
@@ -61,7 +74,12 @@ if($canEdit){
 		$idUsuario = $userDTO->getId();
 	}
 	
-	$result = EnvioDAO::addComment($envioDTO->getId(), $newComment, $idUsuario, $newStatus);
+	$result = true;
+	//vemos si fue enviado un comentario personalizado a este envio
+	if($newComment != ""){
+		$result = EnvioDAO::addComment($envioDTO->getId(), $newComment, $idUsuario, $newStatus);
+	}
+	
 	if($result){
 		$result = EnvioDAO::addComment($envioDTO->getId(), 
 			"Cambio de status a ".$newStatusText, 
@@ -80,6 +98,6 @@ if($canEdit){
 		echo "Los cambios fueron realizados";
 	}
 } else {
-	echo "Disculpe, usted no tiene permiso para editar registros del tipo '" + $envioDTO->getDescStatusActual() + "'";
+	echo "Disculpe, usted no tiene permiso para editar registros del tipo '".$envioDTO->getDescStatusActual()."'";
 }
 ?>

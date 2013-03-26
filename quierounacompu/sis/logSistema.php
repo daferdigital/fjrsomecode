@@ -14,10 +14,6 @@ BitacoraDAO::registrarComentario("Acceso a modulo de log del sistema: ".$userDTO
 
 <div class="seccionTitle">
 	Logs del Sistema
-	<br />
-	<span>
-		(Verifique a nivel t&eacute;cnico las operaciones realizadas en el sistema)
-	</span>
 </div>
 
 <div class="seccionDetail">

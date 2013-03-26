@@ -12,7 +12,6 @@
 <div class="centered" style="text-align: center;">
 	<br />
 	<br />
-	
 	<?php 
 		if(isset($_SESSION[Constants::$KEY_MESSAGE_ERROR])){
 	?>
@@ -30,8 +29,6 @@
 			<h3>
 				<?php echo $_SESSION[Constants::$KEY_MESSAGE_OPERATION];?>
 			</h3>
-				
-			</span>
 	<?php
 			unset($_SESSION[Constants::$KEY_MESSAGE_OPERATION]);
 		}

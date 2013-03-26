@@ -15,10 +15,6 @@ if(isset($_SESSION[Constants::$KEY_USER_ID])){
 
 <div class="seccionTitle">
 	Permisos
-	<br />
-	<span>
-		(Gestione los permisos de los distintos usuarios del Sistema)
-	</span>
 </div>
 
 <div class="seccionDetail">

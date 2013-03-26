@@ -25,20 +25,14 @@ BitacoraDAO::registrarComentario("El usuario ".($canEdit ? "" : "NO")." puede ed
 </head>
 <body>
 <div style="padding: 10px; width: 850px;" class="centered">
-	<!-- <div id="myjquerymenu" class="jquerycssmenu" style="height: 25px;">  -->
 	<div id="tabs">
 		<ul>
-			<li><a href="#tabs-0">Datos de Compra</a></li>
-			<li><a href="#tabs-1">Datos de Pago</a></li>
-			<li><a href="#tabs-2">Datos para el env&iacute;o</a></li>
-			<?php 
-			if($envioDTO->getIdStatusActual() == EnvioDao::$COD_STATUS_FACTURADO){
-			?>
-				<li><a href="#tabs-3">Envio desde Quierounacompu</a></li>
-			<?php
-			}
-			?>
-			<li><a href="#tabs-4">Status Final y Comentarios</a></li>
+			<li><a href="#tabs-0">Datos del Cliente</a></li>
+			<li><a href="#tabs-1">Datos del Pago</a></li>
+			<li><a href="#tabs-2">Productos Comprados</a></li>
+			<li><a href="#tabs-3">Datos del env&iacute;o</a></li>
+			<li><a href="#tabs-4">Observaciones</a></li>
+			<li><a href="#tabs-5">Nuevo Status</a></li>
 		</ul>
 		<br style="clear: both;" />
 		<div id="tabs-0" style="background-color: white;">
@@ -60,8 +54,8 @@ BitacoraDAO::registrarComentario("El usuario ".($canEdit ? "" : "NO")." puede ed
 					<td><?php echo $envioDTO->getCorreo();?></td>
 				</tr>
 				<tr>
-					<td>Detalle de la Compra:</td>
-					<td><?php echo $envioDTO->getDetalleCompra();?></td>
+					<td>Tel&eacute;fonos:</td>
+					<td><?php echo $envioDTO->getTlfCliente();?></td>
 				</tr>
 			</table>
 		</div>
@@ -80,24 +74,67 @@ BitacoraDAO::registrarComentario("El usuario ".($canEdit ? "" : "NO")." puede ed
 					<td><?php echo $envioDTO->getFechaPago();?></td>
 				</tr>
 				<tr>
-					<td>Vauche:</td>
+					<td>Nro. Comprobante:</td>
 					<td><?php echo $envioDTO->getNumVoucher();?></td>
 				</tr>
 				<tr>
 					<td>Monto:</td>
 					<td><?php echo $envioDTO->getMontoPago();?></td>
 				</tr>
+				<?php
+					$dir = "../comprobantes/".$envioDTO->getId();
+					$isFirst = true;
+					
+					if(file_exists($dir)){
+						//este envio tiene relacionadas imagenes de los comprobantes de pago
+						$files = scandir($dir);
+						foreach ($files as $fileName){
+							if($fileName != "." && $fileName != ".."){
+				?>
+								<tr>
+									<td><?php echo ($isFirst ? "Comprobantes:" : "");?> </td>
+									<td>
+										<a href="#" onclick="openImagePopUp('<?php echo $dir."/".$fileName;?>');">
+											<?php echo $fileName;?>
+										</a>
+									</td>
+								</tr>
+				<?php
+								$isFirst = false;
+							}
+						}
+					}
+				?>
 			</table>
 		</div>
 		<div id="tabs-2" style="background-color: white;">
+			<h1>En Construcci&oacute;n</h1>
+		</div>
+		<div id="tabs-3" style="background-color: white;">
 			<table>
+				<tr>
+					<td>Destinatario:</td>
+					<td><?php echo $envioDTO->getNombreDestinatario();?></td>
+				</tr>
+				<tr>
+					<td>C&eacute;dula destinatario:</td>
+					<td><?php echo $envioDTO->getCedulaDestinatario();?></td>
+				</tr>
 				<tr>
 					<td>Compa&ntilde;ia de env&iacute;o:</td>
 					<td><?php echo $envioDTO->getDescEmpresaEnvio();?></td>
 				</tr>
 				<tr>
-					<td>Destinatario:</td>
-					<td><?php echo $envioDTO->getNombreDestinatario();?></td>
+					<td>Direcci&oacute;n:</td>
+					<td><?php echo $envioDTO->getDireccionDestino();?></td>
+				</tr>
+				<tr>
+					<td>Ciudad:</td>
+					<td><?php echo $envioDTO->getCiudadDestino();?></td>
+				</tr>
+				<tr>
+					<td>Estado:</td>
+					<td><?php echo $envioDTO->getEstadoDestino();?></td>
 				</tr>
 				<tr>
 					<td>Tlfs:</td>
@@ -108,33 +145,35 @@ BitacoraDAO::registrarComentario("El usuario ".($canEdit ? "" : "NO")." puede ed
 					</td>
 				</tr>
 				<tr>
-					<td>Estado:</td>
-					<td><?php echo $envioDTO->getEstadoDestino();?></td>
-				</tr>
-				<tr>
-					<td>Ciudad:</td>
-					<td><?php echo $envioDTO->getCiudadDestino();?></td>
-				</tr>
-				<tr>
-					<td>Direcci&oacute;n:</td>
-					<td><?php echo $envioDTO->getDireccionDestino();?></td>
-				</tr>
-				<tr>
 					<td>Observaciones:</td>
 					<td><?php echo $envioDTO->getObservacionesEnvio();?></td>
 				</tr>
 			</table>
 		</div>
-		<?php 
-		if($envioDTO->getIdStatusActual() == EnvioDao::$COD_STATUS_FACTURADO){
-		?>
-			<div id="tabs-3" style="background-color: white;">
-				
-			</div>
-		<?php
-		}
-		?>
 		<div id="tabs-4" style="background-color: white;">
+			<table>
+				<tr>
+					<td>Comentarios anteriores</td>
+					<td>
+						<div style="width: 100%; height: 250px; overflow: scroll; font-size: 12px;">
+							<?php 
+								$result = EnvioDAO::getComentariosEnvio($envioDTO->getId());
+								foreach ($result as $row){
+							?>
+									<span style="width: 15%"><?php echo $row["nombre"] === NULL ? "Comprador" : $row["nombre"]." ".$row["apellido"]?></span>
+									en la fecha
+									<span style="width: 15%"><?php echo $row["fecha_comentario"]?>: </span>
+									<span style="width: 65%"><b><?php echo $row["comentario"]?></b></span>
+									<br />
+							<?php
+								}
+							?>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div id="tabs-5" style="background-color: white;">
 			<table>
 				<tr>
 					<td>Estatus Actual</td>
@@ -159,7 +198,14 @@ BitacoraDAO::registrarComentario("El usuario ".($canEdit ? "" : "NO")." puede ed
 				<?php
 					if($envioDTO->getIdStatusActual() == EnvioDAO::$COD_STATUS_FACTURADO){
 						//si el status es facturado, el que sigue es enviado, debemos solicitar el
-						//codigo del envio que nos indico la 
+						//codigo del envio que nos indico la empresa de envio 
+
+					} 
+				?>
+				<?php
+					if($envioDTO->getIdStatusActual() == EnvioDAO::$COD_STATUS_PRESUPUESTADO){
+						//si el status es presupuestado, debemos almacenar el codigo de nuestra
+						//factura interna 
 
 					} 
 				?>
@@ -167,29 +213,6 @@ BitacoraDAO::registrarComentario("El usuario ".($canEdit ? "" : "NO")." puede ed
 					<td>Indique su Comentario</td>
 					<td>
 						<textarea rows="5" cols="30" name="newComment" id="newComment"></textarea>
-						<br />
-						<span class="smallError" id="errorNewComment" style="display: none">
-							Disculpe, debe colocar un comentario
-						</span>
-					</td>
-				</tr>
-				<tr>
-					<td>Comentarios anteriores</td>
-					<td>
-						<div style="width: 100%; height: 100px; overflow: scroll; font-size: 12px;">
-							<?php 
-								$result = EnvioDAO::getComentariosEnvio($envioDTO->getId());
-								foreach ($result as $row){
-							?>
-									<span style="width: 15%"><?php echo $row["nombre"] === NULL ? "Comprador" : $row["nombre"]." ".$row["apellido"]?></span>
-									en la fecha
-									<span style="width: 15%"><?php echo $row["fecha_comentario"]?>: </span>
-									<span style="width: 65%"><b><?php echo $row["comentario"]?></b></span>
-									<br />
-							<?php
-								}
-							?>
-						</div>
 					</td>
 				</tr>
 				<tr>
