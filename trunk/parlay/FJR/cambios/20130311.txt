@@ -1,0 +1,12 @@
+Tiempo total: 1 hora
+
+Archivos manipulados en esta entrega:
+procesos/conexion.php
+procesos/guardar_ventas_beisbol.php
+impresiones/planilla.html
+
+Cambios realizados:
+1.- Mejora a nivel de codigo, para incluir todas las clases existentes en el propio archivo conexion.php
+2.- Ajustes en guardar_ventas_beisbol.php para solventar detalles de la entrega anterior (20130310.txt) y permitir el correcto funcionamiento
+del criterio para juego en curso o no
+3.- Se coloco en el ambiente local el archivo "impresiones/planilla.html" ya que no existia y no permitia ver el detalle de tickets vendidos.
