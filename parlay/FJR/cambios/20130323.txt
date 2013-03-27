@@ -1,0 +1,30 @@
+Tiempo total: 7 horas
+
+Archivos manipulados en esta entrega:
+classes/VentasDAO.php
+classes/GanadoresFutbol.php
+classes/GanadoresBeisbol.php
+classes/GanadoresBasket.php
+procesos/conexion.php
+
+logros_basket.php (aqui debe modificarse para que el codigo de apuesta de runline alternativo sea el que efectivamente deberia 
+y no el de runline segunda mitad) pero mientras puede seguir con el valor que posee.
+Recordar que al cambiar el archivo, hay que cambiar las constantes de runline alternativo en GanadoresBasket.php
+
+Cambios realizados:
+1.- Fueron asociadas a la nueva figura de calculo de ganadores/perdedores las categorias de apuestas 60 y 61 (tabla categorias_apuestas).
+2.- Fueron asociadas a la nueva figura de calculo de ganadores/perdedores las categorias de apuestas 62 y 63 (tabla categorias_apuestas).
+3.- Fueron asociadas a la nueva figura de calculo de ganadores/perdedores las categorias de apuestas 84 y 85 (tabla categorias_apuestas).
+4.- Fueron asociadas a la nueva figura de calculo de ganadores/perdedores las categorias de apuestas 64 y 65 (tabla categorias_apuestas).
+5.- Fueron asociadas a la nueva figura de calculo de ganadores/perdedores las categorias de apuestas 66 y 67 (tabla categorias_apuestas).
+6.- Fueron asociadas a la nueva figura de calculo de ganadores/perdedores las categorias de apuestas 27 y 28 (tabla categorias_apuestas).
+7.- Fueron asociadas a la nueva figura de calculo de ganadores/perdedores las categorias de apuestas 29 y 30 (tabla categorias_apuestas).
+8.- Fueron asociadas a la nueva figura de calculo de ganadores/perdedores las categorias de apuestas 31 y 32 (tabla categorias_apuestas).
+9.- Fueron asociadas a la nueva figura de calculo de ganadores/perdedores las categorias de apuestas 33 y 34 (tabla categorias_apuestas).
+10.- Fueron asociadas a la nueva figura de calculo de ganadores/perdedores las categorias de apuestas 47 y 48 (tabla categorias_apuestas).
+11.- Fueron asociadas a la nueva figura de calculo de ganadores/perdedores las categorias de apuestas 71 y 72 (tabla categorias_apuestas).
+12.- Fueron asociadas a la nueva figura de calculo de ganadores/perdedores las categorias de apuestas 73 y 74 (tabla categorias_apuestas).
+13.- Fueron asociadas a la nueva figura de calculo de ganadores/perdedores las categorias de apuestas 77 y 78 (tabla categorias_apuestas).
+14.- Fueron asociadas a la nueva figura de calculo de ganadores/perdedores las categorias de apuestas 16 y 17 (tabla categorias_apuestas).
+15.- Fueron asociadas a la nueva figura de calculo de ganadores/perdedores las categorias de apuestas 41 y 42 (tabla categorias_apuestas).
+16.- Fueron asociadas a la nueva figura de calculo de ganadores/perdedores las categorias de apuestas 43 y 44 (tabla categorias_apuestas).

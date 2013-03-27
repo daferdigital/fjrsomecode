@@ -1,0 +1,8 @@
+Tiempo total: 1 horas
+
+Archivos manipulados en esta entrega:
+
+
+Cambios realizados:
+1.- Se subieron los archivos modificados previamente (20130310.txt, 20130311.txt, 20130312.txt) al servidor de pruebas
+www.granparlay.com.ve/parlay_pruebas.
