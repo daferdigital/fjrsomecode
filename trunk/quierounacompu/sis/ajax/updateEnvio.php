@@ -9,16 +9,20 @@ include_once '../classes/EnvioDTO.php';
 include_once '../classes/UsuarioDTO.php';
 include_once '../includes/session.php';
 
-$recordId = $_POST["idEnvio"];
-$newStatus = $_POST["newStatus"];
+$idEnvio = $_POST["idEnvio"];
+$newStatus = -1;
 $newComment = $_POST["newComment"];
 $newStatusText = "";
 
+if(isset($_POST["newStatus"])){
+	$newStatus = $_POST["newStatus"];
+}
+
 $canEdit = false;
-$envioDTO = EnvioDAO::getEnvioInfo($recordId);
+$envioDTO = EnvioDAO::getEnvioInfo($idEnvio);
 $userDTO = $_SESSION[Constants::$KEY_USUARIO_DTO];
 	
-BitacoraDAO::registrarComentario("Ingreso en pagina ajax para actualizar envio[".$recordId."]");
+BitacoraDAO::registrarComentario("Ingreso en pagina ajax para actualizar envio[".$idEnvio."]");
 
 //vemos el tipo de envio que se desea buscar o si se viene de busqueda avanzada
 //venimos de las opciones especificas por cada tipo de envio
@@ -59,9 +63,12 @@ if(EnvioDAO::$COD_STATUS_NOTIFICADO == $newStatus){
 	if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_ENVIADO)){
 		$canEdit = true;
 	}
+} else if($newStatus == -1){
+	//solo quiero comentar
+	$canEdit = true;
 }
 
-BitacoraDAO::registrarComentario("El usuario ".($canEdit ? "" : "NO")." puede editar el envio[".$recordId."]");
+BitacoraDAO::registrarComentario("El usuario ".($canEdit ? "" : "NO")." puede editar el envio[".$idEnvio."]");
 
 if($canEdit){
 	//agregamos el comentario nuevo
@@ -74,13 +81,68 @@ if($canEdit){
 		$idUsuario = $userDTO->getId();
 	}
 	
+	//si el nuevo estado es FACTURADO, quiere decir que me debio llegar el codigo de factura interno
+	if($newStatus == EnvioDAO::$COD_STATUS_FACTURADO){
+		//reviso el codigo de factura para guardarlo y almacenar el comentario respectivo
+		if(isset($_POST["codFactura"])){
+			$query = "UPDATE envios SET codigo_factura='".$_POST["codFactura"]."' WHERE id=".$envioDTO->getId();
+			DBUtil::executeQuery($query);
+			
+			EnvioDAO::addComment($idEnvio, 
+				"Asignado numero de factura ".$_POST["codFactura"]." al envio".$envioDTO->getId(), 
+				$idUsuario, 
+				$newStatus);
+		}else{
+			EnvioDAO::addComment($idEnvio,
+				"Se almaceno un nuevo envio Facturado sin codigo de factura, esto no debio pasar",
+				$idUsuario,
+				$newStatus);
+		}
+	}
+	//si el nuevo estado es ENVIADO, quiere decir que tengo que actualizar la informacion 
+	//de codigo de envio y empresa que envia
+	//reviso el codigo de factura para guardarlo y almacenar el comentario respectivo
+	if($newStatus == EnvioDAO::$COD_STATUS_ENVIADO){
+		if(isset($_POST["codEnvio"])){
+			$query = "UPDATE envios SET codigo_envio='".$_POST["codEnvio"]."' WHERE id=".$envioDTO->getId();
+			DBUtil::executeQuery($query);
+				
+			EnvioDAO::addComment($idEnvio,
+			"Asignado numero de envio ".$_POST["codEnvio"]." al envio".$envioDTO->getId(),
+			$idUsuario,
+			$newStatus);
+		}else{
+			EnvioDAO::addComment($idEnvio,
+			"Se almaceno un nuevo envio con estado Enviado sin codigo de envio, esto no debio pasar",
+			$idUsuario,
+			$newStatus);
+		}
+		if(isset($_POST["ciaEnvio"])){
+			$query = "UPDATE envios SET id_empresa_envio='".$_POST["ciaEnvio"]."' WHERE id=".$envioDTO->getId();
+			DBUtil::executeQuery($query);
+				
+			EnvioDAO::addComment($idEnvio,
+			"Actualizado valor de empresa de envio a ".$_POST["ciaEnvio"]." en el envio ".$envioDTO->getId(),
+			$idUsuario,
+			$newStatus);
+		}else{
+			EnvioDAO::addComment($idEnvio,
+			"Se almaceno un nuevo envio con estado Enviado sin indicar empresa de envio, esto no debio pasar",
+			$idUsuario,
+			$newStatus);
+		}
+	}
+	
 	$result = true;
 	//vemos si fue enviado un comentario personalizado a este envio
 	if($newComment != ""){
-		$result = EnvioDAO::addComment($envioDTO->getId(), $newComment, $idUsuario, $newStatus);
+		$result = EnvioDAO::addComment($envioDTO->getId(), 
+				$newComment, 
+				$idUsuario, 
+				$newStatus == -1 ? $envioDTO->getIdStatusActual() : $newStatus);
 	}
 	
-	if($result){
+	if($result && $newStatus != -1){
 		$result = EnvioDAO::addComment($envioDTO->getId(), 
 			"Cambio de status a ".$newStatusText, 
 			$idUsuario, 

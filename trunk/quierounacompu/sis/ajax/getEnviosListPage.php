@@ -13,6 +13,7 @@ include_once '../includes/session.php';
 $statusEnvio = $_POST["statusEnvio"];
 $canEdit = false;
 $editPage = "showEnvio.php";
+$commentPage = "addComment.php";
 $userDTO = $_SESSION[Constants::$KEY_USUARIO_DTO];
 
 //vemos el tipo de envio que se desea buscar o si se viene de busqueda avanzada
@@ -111,7 +112,10 @@ if(count($pageRecords) == 0){
 				if($canEdit){
 				?>
 					<a href="#" onclick="javascript:loadAjaxPopUp('ajax/<?php echo $editPage;?>?id=<?php echo $row["id"];?>')">
-						<img alt="ver" title="Editar" src="images/pageEdit.png" border="0"/>
+						<img alt="ver" title="Editar" src="images/see.png" border="0" style="display: inline;"/>
+					</a>
+					<a href="#" onclick="javascript:loadAjaxPopUp('ajax/<?php echo $commentPage;?>?id=<?php echo $row["id"];?>')">
+						<img alt="ver" title="Comentar" src="images/pageEdit.png" border="0" style="display: inline;"/>
 					</a>
 				<?php
 				}

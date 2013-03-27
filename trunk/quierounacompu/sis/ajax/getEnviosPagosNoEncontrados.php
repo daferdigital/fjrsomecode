@@ -13,6 +13,7 @@ include_once '../includes/session.php';
 $statusEnvio = EnvioDAO::$COD_STATUS_PAGO_NO_ENCONTRADO;
 $canEdit = false;
 $editPage = "showEnvio.php";
+$commentPage="addComment.php";
 $userDTO = $_SESSION[Constants::$KEY_USUARIO_DTO];
 
 //venimos de las opciones especificas por cada tipo de envio
@@ -93,7 +94,10 @@ if(count($pageRecords) == 0){
 				if($canEdit){
 				?>
 					<a href="#" onclick="javascript:loadAjaxPopUp('ajax/<?php echo $editPage;?>?id=<?php echo $row["id"];?>')">
-						<img alt="ver" title="Editar" src="images/pageEdit.png" border="0"/>
+						<img alt="ver" title="Editar" src="images/see.png" border="0" style="display: inline;"/>
+					</a>
+					<a href="#" onclick="javascript:loadAjaxPopUp('ajax/<?php echo $commentPage;?>?id=<?php echo $row["id"];?>')">
+						<img alt="ver" title="Comentar" src="images/pageEdit.png" border="0" style="display: inline;"/>
 					</a>
 				<?php
 				}

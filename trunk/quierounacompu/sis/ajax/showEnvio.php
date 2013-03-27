@@ -83,6 +83,7 @@ BitacoraDAO::registrarComentario("El usuario ".($canEdit ? "" : "NO")." puede ed
 				</tr>
 				<?php
 					$dir = "../comprobantes/".$envioDTO->getId();
+					$url = "comprobantes/".$envioDTO->getId();
 					$isFirst = true;
 					
 					if(file_exists($dir)){
@@ -94,7 +95,7 @@ BitacoraDAO::registrarComentario("El usuario ".($canEdit ? "" : "NO")." puede ed
 								<tr>
 									<td><?php echo ($isFirst ? "Comprobantes:" : "");?> </td>
 									<td>
-										<a href="#" onclick="openImagePopUp('<?php echo $dir."/".$fileName;?>');">
+										<a href="#" onclick="openImagePopUp('<?php echo $url."/".$fileName;?>');">
 											<?php echo $fileName;?>
 										</a>
 									</td>
@@ -198,15 +199,62 @@ BitacoraDAO::registrarComentario("El usuario ".($canEdit ? "" : "NO")." puede ed
 				<?php
 					if($envioDTO->getIdStatusActual() == EnvioDAO::$COD_STATUS_FACTURADO){
 						//si el status es facturado, el que sigue es enviado, debemos solicitar el
-						//codigo del envio que nos indico la empresa de envio 
-
+						//codigo del envio que nos indico la empresa de envio
+						//y nombre de la empresa de envio 
+				?>
+					<tr>
+						<td>C&oacute;digo. de env&iacute;o</td>
+						<td>
+							<input type="text" name="codEnvio" id="codEnvio"/>
+							<span class="isMandatory" id="spanCodEnvio" style="display: none;">
+				    			<br/>
+				    			Disculpe debe indicar el c&oacute;digo real del env&iacute;o.
+			    			</span>
+						</td>
+					</tr>
+					<tr>
+						<td>Compa&ntilde;ia de env&iacute;o</td>
+						<td>
+							<select name="ciaEnvio" id="ciaEnvio" class="Estilo11" style="FONT-SIZE: 10pt">
+								<option value="-1">Seleccione</option>
+								<?php 
+			    					$query = "SELECT id, nombre "
+			    					."FROM empresa_envio "
+			    					."WHERE active='1' "
+			    					."ORDER BY nombre";
+			    					
+			    					$results = DBUtil::executeSelect($query);
+			    					foreach ($results as $row){
+			    				?>
+			    					<option value="<?php echo $row["id"];?>"><?php echo $row["nombre"];?></option>
+			    				<?php
+			    					}
+			    				?>
+							</select>
+							<span class="isMandatory" id="spanCiaEnvio" style="display: none;">
+				    			<br/>
+				    			Disculpe debe indicar con que compa&ntilde;ia desea realizar el env&iacute;o.
+			    			</span>
+					</tr>
+				<?php
 					} 
 				?>
 				<?php
 					if($envioDTO->getIdStatusActual() == EnvioDAO::$COD_STATUS_PRESUPUESTADO){
 						//si el status es presupuestado, debemos almacenar el codigo de nuestra
 						//factura interna 
-
+				?>
+					<tr>
+						<td>Nro. de Factura</td>
+						<td>
+							<input type="text" name="codFactura" id="codFactura"/>
+							<span class="isMandatory" id="spanCodFactura" style="display: none;">
+				    			<br/>
+				    			Disculpe debe indicar el c&oacute;digo de factura.
+			    			</span>
+						</td>
+					</tr>
+				<?php
 					} 
 				?>
 				<tr>
