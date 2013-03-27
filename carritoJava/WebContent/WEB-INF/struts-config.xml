@@ -7,11 +7,14 @@
 
 	<global-forwards>
 		<forward name="loginPage" path="/errorSession.jsp?target=_parent" />
-		<forward name="forcedLoginPage" path="/index.jsp" redirect="false" />
 	</global-forwards>
 
 	<action-mappings>
-
+        <action path="/index"
+            type="com.carrito.actions.IndexAction">
+            <forward name="success" path="/main.jsp"></forward>
+        </action>
+        
 		<!-- BEGIN actions User -->
 		<action path="/inicioSession"
 			type="com.desige.webDocuments.users.actions.LoginUserAction" name="login"
