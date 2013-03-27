@@ -6,5 +6,6 @@
 		  <!-- fin del copyright  -->
 	    </div>
 	</div>
+</div>
 </body>
 </html>

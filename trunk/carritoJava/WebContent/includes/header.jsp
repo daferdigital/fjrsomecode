@@ -7,25 +7,27 @@
     <link rel="stylesheet" media="screen" type="text/css" href="css/style.css" />
 </head>
 <body>
-<div id="container">
-      <div id="body_space">
-        <div id="header">
-          <div id="logo-block">
-            <!-- logo y slogan de la empresa -->
-            <p id="logo">Pand. Y Past. <span class="logoblue">El Alcazar </span></p>
-            <p id="slogan">Tu panaderia de Confianza aqui en Santa Monica </p>
-            <!-- end logo  -->
-          </div>
-          <div id="definels">
-            <!-- login -->
-            <div id="login_top">
-              <p>&nbsp;</p>
-              <p>&nbsp;</p>
-              <p>&nbsp;</p>
-              <p>Usuario:&nbsp;&nbsp;</p>
+    <div id="container">
+        <div id="body_space">
+            <div id="header">
+                <div id="logo-block">
+	                <!-- logo y slogan de la empresa -->
+	                <p id="logo">Pand. Y Past. <span class="logoblue">El Alcazar </span></p>
+	                <p id="slogan">Tu panaderia de Confianza aqui en Santa Monica </p>
+	                <!-- end logo  -->
+	            </div>
+	            
+                <div id="definels">
+                    <!-- login -->
+                    <div id="login_top">
+                        <p>&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p>Usuario:&nbsp;&nbsp;</p>
 
-                <form name="proceso" method="text" action="ingreso" >
-                  <input style="" name="user"  placeholder="Usuario" id="navbar_username" size="10" accesskey="u" tabindex="101" onfocus="if (this.value == 'Usuario') this.value = '';" type="text">
+                        <form id="proceso" method="post" action="/login.do" >
+                            <input style="" name="user" id="navbar_username" size="10" accesskey="u" tabindex="101" onfocus="if (this.value == 'Usuario') this.value = '';" type="text" />
+                        </form>
                 <p>&nbsp;&nbsp;</p>
                 <div class="formspace"><input name="contra" placeholder="Password" id="navbar_password" size="10" tabindex="102" type="password"></div>
                  <div class="formspace">
@@ -34,7 +36,7 @@
                  </span></span><tr>
                           <td class="textmenu" style="padding:3px; padding-right:7px;" align="right"><span class="cls Estilo5 Estilo1"><a href="registro.jsp" class="logoblue"> Crear cuenta> </a> </span></td>
                     </tr><span class="cls"></span></div>
-                </form>
+                
             </div>
             <!-- end login -->
             <!-- Buscar -->
@@ -71,3 +73,6 @@
         </div>
       </div>
     </div>
+
+    <div id="page">
+    
