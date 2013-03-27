@@ -2,6 +2,6 @@ package com.carrito.util;
 
 public class Constants {
 	
-	public final String MAPPING_SUCCES = "success";
+	public static final String MAPPING_SUCCES = "success";
 	
 }
