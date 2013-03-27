@@ -354,13 +354,92 @@ function searchEnviosAjax(pageNumber){
  * 
  */
 function actualizarEnvio(){
+	var valid = true;
+	
 	var newComment = document.getElementById("newComment").value.trim();
 
 	var parameters = "idEnvio=" + document.getElementById("idEnvio").value;
 	parameters += "&newStatus=" + document.getElementById("newStatus").value;
 	parameters += "&newComment=" + newComment;
+
+	if(document.getElementById("codFactura") != null){
+		//tengo habilitado el campo de codigo factura,
+		//reviso su valor
+		//apagamos el span de error por si estaba prendido
+		document.getElementById("spanCodFactura").style.display = "none";
+		var tmp = document.getElementById("codFactura").value.trim();
 		
+		if(tmp == ""){
+			document.getElementById("spanCodFactura").style.display = "inline";
+			valid = false;
+		}else{
+			parameters += "&codFactura=" + tmp;
+		}
+	}
+	
+	if(document.getElementById("ciaEnvio") != null){
+		//tengo habilitado el campo de compania de envio,
+		//reviso su valor
+		//apagamos el span de error por si estaba prendido
+		document.getElementById("spanCiaEnvio").style.display = "none";
+		var tmp = document.getElementById("ciaEnvio").value.trim();
+		
+		if(tmp == "-1"){
+			document.getElementById("spanCiaEnvio").style.display = "inline";
+			valid = false;
+		}else{
+			parameters += "&ciaEnvio=" + tmp;
+		}
+	}
+	
+	if(document.getElementById("codEnvio") != null){
+		//tengo habilitado el campo de codigo de envio
+		//reviso su valor
+		
+		//apagamos el span de error por si estaba prendido
+		document.getElementById("spanCodEnvio").style.display = "none";
+		var tmp = document.getElementById("codEnvio").value.trim();
+		
+		if(tmp == ""){
+			document.getElementById("spanCodEnvio").style.display = "inline";
+			valid = false;
+		}else{
+			parameters += "&codEnvio=" + tmp;
+		}
+	}
+	
+	if(valid){
+		callAjax("ajax/updateEnvio.php",
+				parameters,
+				null);
+	}
+}
+
+/**
+ * Funcion para invocar directamente el proceso de comentar un envio
+ */
+function comentarEnvio(){
+	var newComment = document.getElementById("newComment").value.trim();
+	
+	var parameters = "idEnvio=" + document.getElementById("idEnvio").value;
+	parameters += "&newComment=" + newComment;
+	
 	callAjax("ajax/updateEnvio.php",
 			parameters,
 			null);
+}
+
+/**
+ * 
+ * @param urlToOpen
+ */
+function openImagePopUp(urlToOpen){
+	var w = 500;
+	var h = 300;
+	var title = "Detalle de comprobante de pago";
+	
+	var left = (screen.width/2)-(w/2);
+	var top = (screen.height/2)-(h/2);
+	
+	return window.open(urlToOpen, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left); 
 }

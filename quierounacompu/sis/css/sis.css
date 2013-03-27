@@ -16,6 +16,11 @@ select {
 	font-weight: bold;
 }
 
+.isMandatory {
+	color: #FF0000;
+	font-size: 12px;
+}
+
 .centered {
 	margin-left: auto;
 	margin-right: auto;
