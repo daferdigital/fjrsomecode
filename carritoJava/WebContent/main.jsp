@@ -4,62 +4,30 @@
 
 <jsp:include page="includes/header.jsp"></jsp:include>
 
-<div id="page">
-      <div id="page-padding">
+    <div id="page-padding">
         <!-- empezar contenido -->
         <div id="content">
-          <div id="content-padding">
-            <h1>Buscar Los Productos Deseados  </h1>
-            <div class="contLbl">
-              <label>Tipo</label>
-   <!--empieza el cod para la seleccion de categoria del producto -->
-              <script>
-
-function cambiar_pagina(){
-    var v = document.getElementById('pedido').value
-    if(v > 0){
-        var arr = new Array('','Almuerzo.jsp','Bebidas.jsp','Charcuteria.jsp','Desayunos.jsp','Dulces.jsp','Galletas.jsp');
-        location.href = arr[v];
-    }else{
-        alert('Debe seleccionar al mennos una opcion');
-    }
+            <div id="content-padding">
+                <h1>Buscar Los Productos Deseados  </h1>
+            
+                <div class="contLbl">
+                    <bean:define id="indexVOForm" type="com.carrito.vo.IndexVO" name="indexVOForm" scope="request" />
     
-}
-function cambiar_pagina2(pa){
-    var v = pa
-    if(v > 0){
-        var arr = new Array('','Almuerzo.jsp','Bebidas.jsp','Charcuteria.jsp','Desayunos.jsp','Dulces.jsp','Galletas.jsp');
-        location.href = arr[v];
-    }else{
-        alert('Debe seleccionar al mennos una opcion');  
-    }
-    
-}
-
-</script>
-
-<select id="pedido">
-    <option value="0">Seleccione una opcion...</option>
-    <option value="1">Almuerzo</option>
-    <option value="2">Bebida</option>
-    <option value="3">Charcuteria</option>
-    <option value="4">Desayunos</option>
-    <option value="5">Dulces</option>
-    <option value="6">Galletas</option>
-    <option value="7">Delicateses</option>
-    <option value="8">Dulces</option>
-    <option value="9">Otros</option>
-    <optgroup label="------Categorias------"></optgroup>
-</select>
-<input type="button" name="bt" onclick="cambiar_pagina()" value="VER" />
-<!--finaliza el cod para la seleccion de categoria del producto -->
-
-              <p>&nbsp;</p>
-            <script></script></div>
-            <p>&nbsp;</p>
+                    <label>Categor&iacute;a</label>
+					<select id="pedido">
+					    <option value="0">Seleccione una opci&oacute;n...</option>
+					    <logic:iterate id="listadoCategorias" name="indexVOForm" property="categorias">
+					        <option value="<bean:write name="listadoCategorias" property="id"/>">
+					            <bean:write name="listadoCategorias" property="nombre"/>
+					        </option>
+					    </logic:iterate>
+    				</select>
+                </div>
+                <div id="ajaxAnswer"></div>
             </div>
         </div>
         <!-- end content -->
+        
         <div id="right-nav">
           <!-- right side menu, copy and paste what is contained between these start and end comment tags to make an extra menu -->
           <div class="right-nav-back">
@@ -156,6 +124,5 @@ function cambiar_pagina2(pa){
           <br /><br /><br /><br /><br /><br />
         </div>
       </div>
-     </div>
 
 <jsp:include page="includes/footer.jsp"></jsp:include>
