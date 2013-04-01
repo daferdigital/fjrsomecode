@@ -2,8 +2,9 @@
 <!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
 <struts-config>
 	<form-beans>
-		<form-bean name="login" type="com.carrito.forms.LoginForm" />
-		<form-bean name="ajaxCategory" type="com.carrito.forms.AjaxCategoryForm" />
+		<form-bean name="loginForm" type="com.carrito.forms.LoginForm" />
+		<form-bean name="ajaxCategoryForm" type="com.carrito.forms.AjaxCategoryForm" />
+		<form-bean name="addProductToBasketForm" type="com.carrito.forms.AddProductToBasketForm"/>
 	</form-beans>
 
 	<global-forwards>
@@ -16,10 +17,26 @@
             <forward name="success" path="/main.jsp"></forward>
         </action>
         
+        <!-- action donde validamos el login de determinado usuario -->
+        <action path="/login" type="com.carrito.actions.LoginAction" name="loginForm">
+            <forward name="success" path="/index.do"></forward>
+        </action>
+        
         <!-- action para obtener via Ajax los productos de determinada categoria -->
         <action path="/showProducts" type="com.carrito.actions.ProductosAjaxAction"
-            name="ajaxCategory">
+            name="ajaxCategoryForm">
             <forward name="success" path="/listProducts.jsp"></forward>
+        </action>
+        
+        <!-- action donde se realiza el logout de los usuarios -->
+        <action path="/logout" type="com.carrito.actions.LogOutAction">
+            <forward name="success" path="/index.do"></forward>
+        </action>
+        
+        <!-- action que implementa la logica para agregar elementos en el carrito y proceder a actualizar en la web -->
+        <action path="/addToBasket" type="com.carrito.actions.AddProductToBasketAction"
+            name="addProductToBasketForm">
+            <forward name="success" path="/carritoItems.jsp"></forward>
         </action>
 	</action-mappings>
 	

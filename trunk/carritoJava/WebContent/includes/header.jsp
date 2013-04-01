@@ -1,3 +1,9 @@
+<%@page import="com.carrito.util.Constants"%>
+
+<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
+<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
@@ -5,6 +11,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
     <title>Panaderia y Pasteleria El Alcazar C.A</title>
     <link rel="stylesheet" media="screen" type="text/css" href="css/style.css" />
+    <script type="text/javascript" src="js/carrito.js"></script>
 </head>
 <body>
     <div id="container">
@@ -23,46 +30,53 @@
                         <p>&nbsp;</p>
                         <p>&nbsp;</p>
                         <p>&nbsp;</p>
-                        <p>Usuario:&nbsp;&nbsp;</p>
+                        
+                        <logic:notPresent name="<%= Constants.SESSION_USER_LOGGED %>" scope="session">
+                            <p>Usuario:&nbsp;&nbsp;</p>
+                        
+	                        <form id="proceso" method="post" action="login.do" >
+	                            <input name="<%= Constants.PARAMETER_LOGIN %>" id="navbar_username" size="10" type="text" placeholder="Usuario"/>
+	                            <input name="<%= Constants.PARAMETER_PASSWORD %>" id="navbar_password" size="10" type="password" placeholder="Clave"/>
+	                            <input name="submit2" type="submit" class="loginbutton" value="" />
+	                        </form>
+                        </logic:notPresent>
+                        <logic:present name="<%= Constants.SESSION_USER_LOGGED %>" scope="session">
+                            <bean:define id="sessionUser" type="com.carrito.dto.UsuarioDTO" name="<%= Constants.SESSION_USER_LOGGED %>" scope="session" />
+                            
+                            <p>Bienvenido:&nbsp;&nbsp;</p>
+                            <p>
+                                <bean:write name="sessionUser" property="nombre"/>
+                                <bean:write name="sessionUser" property="apellido"/>
+                                <html:link href="logout.do">Salir</html:link>
+                            </p>
+                        </logic:present>
+                    </div>
+                    <!-- end login -->
 
-                        <form id="proceso" method="post" action="/login.do" >
-                            <input style="" name="user" id="navbar_username" size="10" accesskey="u" tabindex="101" onfocus="if (this.value == 'Usuario') this.value = '';" type="text" />
-                        </form>
-                <p>&nbsp;&nbsp;</p>
-                <div class="formspace"><input name="contra" placeholder="Password" id="navbar_password" size="10" tabindex="102" type="password"></div>
-                 <div class="formspace">
-                  <input name="submit2" type="submit" class="loginbutton" value="" />
-                  <span class="cls"><span class="buttonC">
-                 </span></span><tr>
-                          <td class="textmenu" style="padding:3px; padding-right:7px;" align="right"><span class="cls Estilo5 Estilo1"><a href="registro.jsp" class="logoblue"> Crear cuenta> </a> </span></td>
-                    </tr><span class="cls"></span></div>
+                    <div class="formspace">
+                        <span class="cls Estilo5 Estilo1">
+                            <a href="registro.jsp" class="logoblue"> Crear cuenta ></a> 
+                        </span>
+                    </div>
+
+                    <!-- Buscar -->
+		            <div id="search">
+		                <form name="search" method="get" action="" target="_parent">
+		                    <input type="text" class="box" name="searchKey"/>
+		                    <button class="btn" title="Submit Search">Buscar</button>
+		                </form>
+		            </div>
+		            <!-- fin buscar -->
+		        </div>
+		        
+		        <div class="cls"></div>
                 
-            </div>
-            <!-- end login -->
-            <!-- Buscar -->
-            <div id="search">
-              <form name="search" method="get" action="" target="_parent">
-                <input type="text" class="box" />
-                <button class="btn" title="Submit Search">Buscar</button>
-              </form>
-            </div>
-            <!-- fin buscar -->
-          </div>
-          <div class="cls"></div>
-          <div id="top-nav-bg">
-            <div id="top-nav">
-              <!-- empieza top navigation bar/barra de navegacion de tope -->
-              <ul>
-              <li><a href="index.jsp">Inicio</a></li>
-                <li><a href="Producto.jsp">Productos</a></li>
-                <li><a href="Proveedor.jsp">Proveedor</a></li>
-                <li><a href="Usuario.jsp" class="Estilo1">Usuario</a></li>
-                <li><a href="SobreNosotros.jsp">Sobre Nosotros </a></li>
-                <li><a href="Contacto.jsp">Contacto</a></li>
-                <li><a style="background-image: none;" href="http://www.direccion q queremos poner.com">Support</a></li>
-              </ul>
-              <!-- fin top navigation bar -->
-            </div>
+                <div id="top-nav-bg">
+                    <div id="top-nav">
+                        <!-- empieza top navigation bar/barra de navegacion de tope -->
+                        <%@ include file="includeMenu.jsp" %>
+                        <!-- fin top navigation bar -->
+                    </div>
           </div>
         </div>
         <div id="clouds">
@@ -75,4 +89,7 @@
     </div>
 
     <div id="page">
+        <span class="errorContainer">
+            <html:errors />
+        </span>
     

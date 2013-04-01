@@ -1,6 +1,13 @@
 package com.carrito.forms;
 
-public class LoginForm {
+import org.apache.struts.action.ActionForm;
+
+public class LoginForm extends ActionForm{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 571644054057868771L;
+	
 	private String login;
 	private String password;
 	

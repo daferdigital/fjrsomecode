@@ -9,27 +9,31 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
-import com.carrito.dao.CategoriaDAO;
 import com.carrito.util.Constants;
-import com.carrito.vo.IndexVO;
+import com.carrito.util.SessionUtil;
 
-public class IndexAction extends Action {
-	private static final Logger log = Logger.getLogger(IndexAction.class);
+/**
+ * 
+ * Class: LogOutAction
+ * Creation Date: 30/03/2013
+ * (c) 2013
+ *
+ * @author T&T
+ *
+ */
+public class LogOutAction extends Action{
+	private static final Logger log = Logger.getLogger(LogOutAction.class);
 	
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		// TODO Auto-generated method stub
-		//vamos a la pagina inicial
+		//eliminamos el bean de usuario de la sesion
+		request.getSession().removeAttribute(Constants.SESSION_USER_LOGGED);
+		request.getSession().invalidate();
 		
-		IndexVO indexForm = new IndexVO();
-		
-		//cargamos las categorias
-		indexForm.setCategorias(CategoriaDAO.getAllCategories());
-		
-		log.info("Retornando con mapping " + Constants.MAPPING_SUCCESS);
-		request.setAttribute("indexVOForm", indexForm);
+		log.info("Proceso de logout realizado para el usuario " + SessionUtil.getUserIdInSession(request));
 		
 		return mapping.findForward(Constants.MAPPING_SUCCESS);
 	}
