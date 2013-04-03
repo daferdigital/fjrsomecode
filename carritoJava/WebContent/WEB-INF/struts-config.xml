@@ -4,7 +4,8 @@
 	<form-beans>
 		<form-bean name="loginForm" type="com.carrito.forms.LoginForm" />
 		<form-bean name="ajaxCategoryForm" type="com.carrito.forms.AjaxCategoryForm" />
-		<form-bean name="addProductToBasketForm" type="com.carrito.forms.AddProductToBasketForm"/>
+		<form-bean name="productForm" type="com.carrito.forms.ProductForm"/>
+		<form-bean name="usuarioForm" type="com.carrito.forms.UsuarioForm"/>
 	</form-beans>
 
 	<global-forwards>
@@ -35,8 +36,20 @@
         
         <!-- action que implementa la logica para agregar elementos en el carrito y proceder a actualizar en la web -->
         <action path="/addToBasket" type="com.carrito.actions.AddProductToBasketAction"
-            name="addProductToBasketForm">
+            name="productForm">
             <forward name="success" path="/carritoItems.jsp"></forward>
+        </action>
+        
+        <!-- action que implementa la logica para agregar elementos en el carrito y proceder a actualizar en la web -->
+        <action path="/showProductDetail" type="com.carrito.actions.ShowProductDetailAction"
+            name="productForm">
+            <forward name="success" path="/productDetail.jsp"></forward>
+        </action>
+        
+        <!-- action que implementa la logica para agregar elementos en el carrito y proceder a actualizar en la web -->
+        <action path="/addAccount" type="com.carrito.actions.AddAccountAction"
+            name="usuarioForm" input="/registro.jsp">
+            <forward name="success" path="/registro.jsp"></forward>
         </action>
 	</action-mappings>
 	

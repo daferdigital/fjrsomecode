@@ -99,3 +99,20 @@ function addToBasket(productId){
 				"basketItemDetail");
 	}
 }
+
+/**
+ * 
+ * @param productId
+ * @returns
+ */
+function showProductDetail(productId){
+	var w = 500;
+	var h = 300;
+	var title = "Detalle de producto";
+	var urlToOpen = "showProductDetail.do?productId=" + productId;
+	
+	var left = (screen.width/2)-(w/2);
+	var top = (screen.height/2)-(h/2);
+	
+	return window.open(urlToOpen, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left); 
+}

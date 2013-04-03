@@ -11,7 +11,7 @@ import org.apache.struts.action.ActionForm;
  * @author T&T
  *
  */
-public class AddProductToBasketForm extends ActionForm {
+public class ProductForm extends ActionForm {
 
 	/**
 	 * 
@@ -20,7 +20,7 @@ public class AddProductToBasketForm extends ActionForm {
 
 	private int productId;
 	
-	public AddProductToBasketForm() {
+	public ProductForm() {
 		// TODO Auto-generated constructor stub
 	}
 	

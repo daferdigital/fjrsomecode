@@ -92,4 +92,14 @@
         <span class="errorContainer">
             <html:errors />
         </span>
+        
+        <span class="messagesContainer">
+            <logic:messagesPresent message="true">
+			    <html:messages id="aMsg" message="true">
+			        <logic:present name="aMsg">
+			                <bean:write name="aMsg" filter="false" />
+			        </logic:present>
+			    </html:messages>
+			</logic:messagesPresent>
+        </span>
     

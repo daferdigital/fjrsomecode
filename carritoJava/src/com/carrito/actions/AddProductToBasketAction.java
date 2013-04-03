@@ -12,7 +12,7 @@ import org.apache.struts.action.ActionMapping;
 import com.carrito.dao.CarritoItemDAO;
 import com.carrito.dto.CarritoItemDTO;
 import com.carrito.dto.UsuarioDTO;
-import com.carrito.forms.AddProductToBasketForm;
+import com.carrito.forms.ProductForm;
 import com.carrito.util.Constants;
 import com.carrito.util.SessionUtil;
 
@@ -33,18 +33,17 @@ public class AddProductToBasketAction extends Action{
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		// TODO Auto-generated method stub
-		AddProductToBasketForm customForm = (AddProductToBasketForm) form;
+		ProductForm customForm = (ProductForm) form;
 		
 		CarritoItemDTO itemDTO = new CarritoItemDTO();
 		itemDTO.setProductId(customForm.getProductId());
-		itemDTO.setSessionId(request.getSession().getId());
 		itemDTO.setUserId(SessionUtil.getUserIdInSession(request));
 		
 		CarritoItemDAO.addProductToBasket(itemDTO);
 		
 		UsuarioDTO user = SessionUtil.getUserBeanInSession(request);
 		if(user != null){
-			user.setItemsCarrito(CarritoItemDAO.getCarritoItems(request.getSession().getId(), 
+			user.setItemsCarrito(CarritoItemDAO.getCarritoItems( 
 					SessionUtil.getUserIdInSession(request)));
 			log.info("Actualizados items del carrito en sesion");
 		}

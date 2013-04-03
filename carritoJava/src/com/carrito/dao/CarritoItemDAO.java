@@ -36,15 +36,13 @@ public final class CarritoItemDAO {
 	 * @param userId
 	 * @return
 	 */
-	public static List<CarritoItemDTO> getCarritoItems(String sessionId, int userId){
+	public static List<CarritoItemDTO> getCarritoItems(int userId){
 		final String query = "SELECT ctmp.id_usuario, ctmp.id_producto, p.nombre, p.precio_neto_actual"
 				+ " FROM producto p, carrito_tmp ctmp"
 				+ " WHERE p.id = ctmp.id_producto"
-				+ " AND ctmp.id_session = ? "
 				+ " AND ctmp.id_usuario = ? "
 				+ " ORDER BY LOWER(p.nombre) ";
 		final List<Object> parameters = new LinkedList<Object>();
-		parameters.add(sessionId);
 		parameters.add(userId);
 		
 		List<CarritoItemDTO> result = new LinkedList<CarritoItemDTO>();
@@ -84,18 +82,16 @@ public final class CarritoItemDAO {
 	 * @return
 	 */
 	public static boolean addProductToBasket(CarritoItemDTO itemDTO){
-		final String queryInsert = "INSERT INTO carrito_tmp (id_session, id_usuario, id_producto) "
-				+ " VALUES(?,?,?)";
+		final String queryInsert = "INSERT INTO carrito_tmp (id_usuario, id_producto) "
+				+ " VALUES(?,?)";
 		final String queryDelete = "DELETE FROM carrito_tmp "
-				+ " WHERE id_session=?"
-				+ " AND id_usuario=?"
+				+ " WHERE id_usuario=?"
 				+ " AND id_producto=?";
 		
 		boolean result = true;
 		
 		//borramos la combinacion que queremos insertar
 		List<Object> queryParameters = new LinkedList<Object>();
-		queryParameters.add(itemDTO.getSessionId());
 		queryParameters.add(itemDTO.getUserId());
 		queryParameters.add(itemDTO.getProductId());
 		

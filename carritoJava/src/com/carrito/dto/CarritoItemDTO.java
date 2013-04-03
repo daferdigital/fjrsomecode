@@ -14,7 +14,6 @@ public class CarritoItemDTO {
 	private String productName;
 	private int userId;
 	private double productPrice;
-	private String sessionId;
 	
 	public CarritoItemDTO() {
 		// TODO Auto-generated constructor stub
@@ -50,13 +49,5 @@ public class CarritoItemDTO {
 
 	public void setProductPrice(double productPrice) {
 		this.productPrice = productPrice;
-	}
-	
-	public String getSessionId() {
-		return sessionId;
-	}
-	
-	public void setSessionId(String sessionId) {
-		this.sessionId = sessionId;
 	}
 }

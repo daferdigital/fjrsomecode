@@ -256,7 +256,7 @@ public final class DBUtil {
 				}
 			}
 			
-			result = ps.execute();
+			ps.execute();
 			
 			log.info("Ejecutado query " + query + " de manera exitosa");
 		} catch (Exception e) {
