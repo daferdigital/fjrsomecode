@@ -8,6 +8,7 @@ import javax.sql.rowset.CachedRowSet;
 import org.apache.log4j.Logger;
 
 import com.carrito.dto.UsuarioDTO;
+import com.carrito.forms.UsuarioForm;
 import com.carrito.util.DBUtil;
 
 /**
@@ -80,5 +81,37 @@ public final class UsuarioDAO {
 		}
 		
 		return user;
+	}
+	
+	/**
+	 * 
+	 * @param userForm
+	 * @return
+	 */
+	public static boolean addUserToDataBase(UsuarioForm userForm){
+		final String query = "INSERT INTO usuario (cedula, nombre, apellido, telefono, direccion, email, login, clave, id_perfil)" 
+				+ " VALUES(?,?,?,?,?,?,?,MD5(?),?)";
+		List<Object> queryParameters = new LinkedList<Object>();
+		queryParameters.add(userForm.getCedula());
+		queryParameters.add(userForm.getNombre());
+		queryParameters.add(userForm.getApellido());
+		queryParameters.add(userForm.getTelefono());
+		queryParameters.add(userForm.getDireccion());
+		queryParameters.add(userForm.getEmail());
+		queryParameters.add(userForm.getLogin());
+		queryParameters.add(userForm.getClave());
+		queryParameters.add(userForm.getIdPerfil());
+		
+		boolean result = true;
+		
+		result = DBUtil.executeNonSelectQuery(query, queryParameters);
+		
+		if(result){
+			log.info("Creada cuenta de usuario de manera exitosa");
+		} else{
+			log.info("No fue posible crear la cuenta de usuario solicitada");
+		}
+		
+		return result;
 	}
 }

@@ -16,6 +16,7 @@ public final class ProductDTO {
 	private double precioNetoActual;
 	private double precioCostoActual;
 	private int idCategoria;
+	private String nombreCategoria;
 	private int cantidadComprada;
 	private int cantidadVendida;
 	
@@ -71,6 +72,14 @@ public final class ProductDTO {
 		this.idCategoria = idCategoria;
 	}
 
+	public String getNombreCategoria() {
+		return nombreCategoria;
+	}
+	
+	public void setNombreCategoria(String nombreCategoria) {
+		this.nombreCategoria = nombreCategoria;
+	}
+	
 	public int getCantidadComprada() {
 		return cantidadComprada;
 	}

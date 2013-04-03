@@ -32,7 +32,7 @@
 	                </logic:present>
 	                
 	                <br />
-                    <a href="#" onclick="javascript:seeProductDetail(<%= ((ProductDTO) pageBeanElements.getPageElements().get(j)).getId() %>)">
+                    <a href="#" onclick="javascript:showProductDetail(<%= ((ProductDTO) pageBeanElements.getPageElements().get(j)).getId() %>)">
                         Ver m&aacute;s...
                     </a>
 	            </td>

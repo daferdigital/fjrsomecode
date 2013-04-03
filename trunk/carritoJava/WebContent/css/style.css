@@ -4,8 +4,11 @@
 }
 
 body {
+}
 
-    
+.centered{
+	margin-left: auto;
+	margin-right: auto;
 }
 .Estilo1 {
     color: #FFFFFF;
@@ -419,4 +422,8 @@ color:#518BBA;
 
 .productDetail{
 	font-size: 12px;
+}
+
+#basketItemDetail{
+    font-size: 12px;
 }

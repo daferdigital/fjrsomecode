@@ -11,37 +11,8 @@
             <p>. : Carrito </p>
         </div>
         
-        <logic:present name="<%= Constants.SESSION_USER_LOGGED %>" scope="session">
-            <bean:define id="sessionUser" type="com.carrito.dto.UsuarioDTO" name="<%= Constants.SESSION_USER_LOGGED %>" scope="session" />
-            
-            <div id="basketItemDetail">
-                <logic:empty name="sessionUser" property="carritoItems">
-	                <span class="menuRigthSpan">
-	                    <%= ResourceBundle.getBundle(Constants.APP_RESOURCE_NAME).getString("carrito.noitems") %>
-	                </span>
-	            </logic:empty>
-	            
-	            <logic:notEmpty name="sessionUser" property="carritoItems">
-	                <table class="centered">
-	                    <logic:iterate id="listadoItemsCarrito" name="sessionUser" property="carritoItems">
-	                        <tr>
-	                            <td class="text" align="right" nowrap="nowrap">
-	                                <bean:write name="listadoItemsCarrito" property="productName"/>
-	                            </td>
-	                            <td class="text" align="right" nowrap="nowrap">
-	                                <bean:write name="listadoItemsCarrito" property="productPrice"/>
-	                            </td>
-	                        </tr>
-	                    </logic:iterate>
-	                </table>
-	            </logic:notEmpty>
-            </div>
-        </logic:present>
-        <logic:notPresent name="<%= Constants.SESSION_USER_LOGGED %>" scope="session">
-            <span class="menuRigthSpan">
-                <%= ResourceBundle.getBundle(Constants.APP_RESOURCE_NAME).getString("carrito.noitems.mustlog") %>
-            </span>
-        </logic:notPresent>
+        <jsp:include page="../carritoItems.jsp" flush="true"></jsp:include>
+        
         <div class="right-nav-bottom"></div>
     </div>
     <!-- end right side menu -->

@@ -1,5 +1,7 @@
 package com.carrito.actions;
 
+import java.util.Enumeration;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -29,9 +31,14 @@ public class LogOutAction extends Action{
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		// TODO Auto-generated method stub
+		
 		//eliminamos el bean de usuario de la sesion
-		request.getSession().removeAttribute(Constants.SESSION_USER_LOGGED);
-		request.getSession().invalidate();
+		Enumeration<String> attributeNames = request.getSession().getAttributeNames();
+		while(attributeNames.hasMoreElements()){
+			String key = attributeNames.nextElement();
+			request.getSession().removeAttribute(attributeNames.nextElement());
+			log.info("Eliminado de sesion atributo " + key);
+		}
 		
 		log.info("Proceso de logout realizado para el usuario " + SessionUtil.getUserIdInSession(request));
 		

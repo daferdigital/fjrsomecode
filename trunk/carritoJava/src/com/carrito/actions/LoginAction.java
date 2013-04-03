@@ -55,8 +55,8 @@ public class LoginAction extends Action{
 				errors.add("error.nologin", new ActionMessage("error.nologin"));
 			} else {
 				//cargamos el posible carro que tengamos en sesion para presentarlo
-				user.setItemsCarrito(CarritoItemDAO.getCarritoItems(request.getSession().getId(), 
-								SessionUtil.getUserIdInSession(request)));
+				user.setItemsCarrito(CarritoItemDAO.getCarritoItems(
+						SessionUtil.getUserIdInSession(request)));
 				
 				request.getSession().setAttribute(Constants.SESSION_USER_LOGGED, user);
 			}

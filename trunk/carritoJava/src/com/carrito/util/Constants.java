@@ -9,6 +9,9 @@ public class Constants {
 	//SESSION ATRIBUTE CONSTANTS
 	public static final String SESSION_USER_LOGGED = "userLogged";
 	
+	//REQUEST ATRIBUTE CONSTANTS
+	public static final String REQUEST_PRODUCT_DTO = "productDTO";
+	
 	public static final int MAX_RECORDS_PER_PAGE = 9;
 	public static final int MAX_RECORDS_PER_ROW = 3;
 	
