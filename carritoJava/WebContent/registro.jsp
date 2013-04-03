@@ -8,7 +8,7 @@
                 <table class="centered">
 	               <tr>
                        <td>Nombre:</td>
-                       <td><html:text property="nombre"></html:text></td>
+                       <td><html:text property="nombre" onkeypress="return textInputOnlyLetters(event)"></html:text></td>
                    </tr>
                    <tr>
                        <td>Apellido:</td>
@@ -16,11 +16,11 @@
                    </tr>
                    <tr>
                        <td>Cedula:</td>
-                       <td><html:text property="cedula"></html:text></td>
+                       <td><html:text property="cedula" onkeypress="return textInputOnlyNumbers(event)"></html:text></td>
                    </tr>
                    <tr>
                        <td>Telefono:</td>
-                       <td><html:text property="telefono"></html:text></td>
+                       <td><html:text property="telefono" onkeypress="return textInputOnlyNumbers(event)"></html:text></td>
                    </tr>
                    <tr>
                        <td>Direcci&oacute;n:</td>
