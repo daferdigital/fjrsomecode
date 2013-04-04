@@ -36,8 +36,9 @@ public class LogOutAction extends Action{
 		Enumeration<String> attributeNames = request.getSession().getAttributeNames();
 		while(attributeNames.hasMoreElements()){
 			String key = attributeNames.nextElement();
-			request.getSession().removeAttribute(attributeNames.nextElement());
-			log.info("Eliminado de sesion atributo " + key);
+			log.info("Eliminando de sesion atributo " + key);
+			request.getSession().removeAttribute(key);
+			
 		}
 		
 		log.info("Proceso de logout realizado para el usuario " + SessionUtil.getUserIdInSession(request));

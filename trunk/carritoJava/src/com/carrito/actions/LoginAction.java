@@ -15,8 +15,16 @@ import com.carrito.dao.UsuarioDAO;
 import com.carrito.dto.UsuarioDTO;
 import com.carrito.forms.LoginForm;
 import com.carrito.util.Constants;
-import com.carrito.util.SessionUtil;
 
+/**
+ * 
+ * Class: LoginAction
+ * Creation Date: 03/04/2013
+ * (c) 2013
+ *
+ * @author T&T
+ *
+ */
 public class LoginAction extends Action{
 	
 	@Override
@@ -54,9 +62,8 @@ public class LoginAction extends Action{
 				//debemos indicar que el intento de login fue fallido
 				errors.add("error.nologin", new ActionMessage("error.nologin"));
 			} else {
-				//cargamos el posible carro que tengamos en sesion para presentarlo
-				user.setItemsCarrito(CarritoItemDAO.getCarritoItems(
-						SessionUtil.getUserIdInSession(request)));
+				//cargamos el posible carro que tengamos en base de datos para presentarlo
+				user.setItemsCarrito(CarritoItemDAO.getCarritoItems(user.getId()));
 				
 				request.getSession().setAttribute(Constants.SESSION_USER_LOGGED, user);
 			}

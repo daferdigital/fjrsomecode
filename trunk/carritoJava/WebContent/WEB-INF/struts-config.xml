@@ -6,6 +6,7 @@
 		<form-bean name="ajaxCategoryForm" type="com.carrito.forms.AjaxCategoryForm" />
 		<form-bean name="productForm" type="com.carrito.forms.ProductForm"/>
 		<form-bean name="usuarioForm" type="com.carrito.forms.UsuarioForm"/>
+		<form-bean name="basketForm" type="com.carrito.forms.BasketForm"></form-bean>
 	</form-beans>
 
 	<global-forwards>
@@ -38,6 +39,24 @@
         <action path="/addToBasket" type="com.carrito.actions.AddProductToBasketAction"
             name="productForm">
             <forward name="success" path="/carritoItems.jsp"></forward>
+        </action>
+        
+        <!-- action que implementa la logica para agregar elementos en el carrito y proceder a actualizar en la web -->
+        <action path="/deleteFromBasket" type="com.carrito.actions.DeleteProductFromBasketAction"
+            name="productForm">
+            <forward name="success" path="/carritoItems.jsp"></forward>
+            <forward name="successPrevcheckOut" path="/carritoItemsCheckOut.jsp"></forward>
+        </action>
+        
+        <!-- action que implementa la logica para hacer el checkout del carrito -->
+        <action path="/prepareBasketCheckOut" type="com.carrito.actions.PrepareBasketCheckOutAction">
+            <forward name="success" path="/prepareBasketCheckOut.jsp"></forward>
+        </action>
+        
+        <!--  -->
+        <action path="/completeBasketCheckOut" type="com.carrito.actions.CompleteBasketCheckOutAction"
+            name="basketForm">
+            <forward name="success" path="/prepareBasketCheckOut.jsp"></forward>
         </action>
         
         <!-- action que implementa la logica para agregar elementos en el carrito y proceder a actualizar en la web -->

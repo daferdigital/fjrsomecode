@@ -17,19 +17,29 @@
                     <table class="centered">
                         <logic:iterate id="listadoItemsCarrito" name="sessionUser" property="carritoItems">
                             <tr>
-                                <td class="text" align="left" width="50%">
+                                <td class="text" align="left" width="70%">
                                     <bean:define id="codigoProducto" name="listadoItemsCarrito" property="productId"></bean:define>
+                                    
+                                    <img style="cursor: pointer;" src="images/icons/delete.gif" title="Eliminar de la cesta" onclick="deleteFromBasket(<%= codigoProducto %>, '<%= Constants.COME_FROM_MENU_RIGTH %>')" />
+                                    &nbsp;&nbsp;
                                     <a href="#" onclick="javascript:showProductDetail(<%= codigoProducto %>)">
                                         <bean:write name="listadoItemsCarrito" property="productName"/>
                                     </a>
                                 </td>
-                                <td class="text" align="right" width="50%">
+                                <td class="text" align="right" width="30%">
                                     <b>
-                                        <bean:write name="listadoItemsCarrito" property="productPrice"/>
+                                        <bean:write name="listadoItemsCarrito" property="productPrice"/> Bs.
                                     </b>
                                 </td>
                             </tr>
                         </logic:iterate>
+                        <tr>
+                            <td colspan="2" class="text" align="right" width="30%">
+                                <a href="prepareBasketCheckOut.do">
+                                    [Ver Cesta]
+                                </a>
+                            </td>
+                        </tr>
                     </table>
                 </logic:notEmpty>
             </div>
