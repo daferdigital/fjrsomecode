@@ -22,6 +22,7 @@ import com.carrito.util.Constants;
  *
  */
 public class AddAccountAction extends Action{
+	
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
@@ -32,15 +33,22 @@ public class AddAccountAction extends Action{
 		ActionMessages messages = new ActionMessages();
 		ActionMessages errors = new ActionMessages();
 		
-		if(UsuarioDAO.addUserToDataBase(usuarioForm)){
-			//usuario agregado con exito
-			messages.add("usuario.creado", new ActionMessage("usuario.creado", new Object[]{usuarioForm.getLogin()}));
-			saveMessages(request, messages);
+		if(! UsuarioDAO.userLoginAlreadyExists(usuarioForm.getLogin())){
+			if(UsuarioDAO.addUserToDataBase(usuarioForm)){
+				//usuario agregado con exito
+				messages.add("usuario.creado", new ActionMessage("usuario.creado", new Object[]{usuarioForm.getLogin()}));
+				
+			}else{
+				//error agregando usuario
+				errors.add("usuario.nocreado", new ActionMessage("usuario.nocreado", new Object[]{usuarioForm.getLogin()}));
+				
+			}
 		}else{
-			//error agregando usuario
-			errors.add("usuario.nocreado", new ActionMessage("usuario.nocreado", new Object[]{usuarioForm.getLogin()}));
-			saveErrors(request, errors);
+			errors.add("usuario.yaexiste", new ActionMessage("usuario.yaexiste", new Object[]{usuarioForm.getLogin()}));
 		}
+		
+		saveMessages(request, messages);
+		saveErrors(request, errors);
 		
 		return mapping.findForward(Constants.MAPPING_SUCCESS);
 	}

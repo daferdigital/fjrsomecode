@@ -1,5 +1,6 @@
 package com.carrito.dao;
 
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,6 +26,40 @@ public final class UsuarioDAO {
 	
 	private UsuarioDAO() {
 		// TODO Auto-generated constructor stub
+	}
+	
+	
+	public static boolean userLoginAlreadyExists(String login){
+		final String query = "SELECT COUNT(*) AS existe FROM usuario u"
+				+ " WHERE u.login=?";
+		List<Object> queryParameters = new LinkedList<Object>();
+		queryParameters.add(login);
+		
+		boolean exists = true;
+		CachedRowSet row = DBUtil.executeSelectQuery(query, queryParameters);
+		try {
+			if(row.next()){
+				if(row.getInt(1) == 0){
+					//login no existia
+					log.info("El login '" + login + "' no existe en este momento en el sistema.");
+					exists = false;
+				}else{
+					//login ya existia
+					log.info("El login '" + login + "' ya existe en el sistema.");
+					exists = true;
+				}
+			} else{
+				log.info("La consulta de revision del login '" + login + "' no trajo resultados (esto no debio pasar).");
+				exists = true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			log.error("No pudo revisarse el resultado al consultar si el login '"
+					+ login + "' existia en el sistema. Error fue: " + e.getLocalizedMessage(), e);
+			exists = true;
+		}
+		
+		return exists;
 	}
 	
 	/**
