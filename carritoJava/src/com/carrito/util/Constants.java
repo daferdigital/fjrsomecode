@@ -3,8 +3,13 @@ package com.carrito.util;
 public class Constants {
 	
 	public static final String MAPPING_SUCCESS = "success";
+	public static final String MAPPING_SUCCESS_PREV_CHECKOUT = "successPrevcheckOut";
 	
 	public static final String APP_RESOURCE_NAME = "ApplicationResources";
+	
+	//
+	public static final String COME_FROM_MENU_RIGTH = "comeFromMenuRigth";
+	public static final String COME_FROM_PREV_CHECKOUT = "comeFromPrevCheckout";
 	
 	//SESSION ATRIBUTE CONSTANTS
 	public static final String SESSION_USER_LOGGED = "userLogged";

@@ -1,4 +1,5 @@
-<%@ include file="includes/header.jsp" %>
+<%@page import="com.carrito.util.Constants"%>
+<jsp:include page="includes/header.jsp"></jsp:include>
 
 <div id="page-padding">
     <!-- empezar contenido -->
@@ -67,4 +68,4 @@
     </div>
 </div>
 
-<%@ include file="includes/footer.jsp" %>
+<jsp:include page="includes/footer.jsp"></jsp:include>

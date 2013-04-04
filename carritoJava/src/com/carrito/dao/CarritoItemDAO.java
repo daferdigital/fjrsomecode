@@ -79,11 +79,10 @@ public final class CarritoItemDAO {
 	
 	/**
 	 * 
+	 * @param itemDTO
 	 * @return
 	 */
-	public static boolean addProductToBasket(CarritoItemDTO itemDTO){
-		final String queryInsert = "INSERT INTO carrito_tmp (id_usuario, id_producto) "
-				+ " VALUES(?,?)";
+	public static boolean deleteProductFromBasket(CarritoItemDTO itemDTO){
 		final String queryDelete = "DELETE FROM carrito_tmp "
 				+ " WHERE id_usuario=?"
 				+ " AND id_producto=?";
@@ -97,13 +96,43 @@ public final class CarritoItemDAO {
 		
 		result = DBUtil.executeNonSelectQuery(queryDelete, queryParameters);
 		
-		log.info("Eliminada combinacion del carrito temporal, intentamos registrarla nuevamente");
+		log.info("Eliminado producto '" + itemDTO.getProductId() + "' del carrito temporal del usuario '" 
+				+ itemDTO.getUserId() + "'");
 		
-		result = DBUtil.executeNonSelectQuery(queryInsert, queryParameters);
+		return result;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static boolean addProductToBasket(CarritoItemDTO itemDTO){
+		final String queryInsert = "INSERT INTO carrito_tmp (id_usuario, id_producto) "
+				+ " VALUES(?,?)";
+		
+		boolean result = true;
+		
+		result = deleteProductFromBasket(itemDTO);
+		
 		if(result){
-			log.info("Agregada con exito combinacion de valores al carrito temporal");
+			//borramos la combinacion que queremos insertar
+			List<Object> queryParameters = new LinkedList<Object>();
+			queryParameters.add(itemDTO.getUserId());
+			queryParameters.add(itemDTO.getProductId());
+					
+			log.info("Eliminada combinacion del carrito temporal, intentamos registrarla nuevamente");
+			
+			result = DBUtil.executeNonSelectQuery(queryInsert, queryParameters);
+			
+			if (result) {
+				log.info("Agregada con exito combinacion de valores (productID-usuario) (" + itemDTO.getProductId() 
+						+ "-" + itemDTO.getUserId() +") al carrito temporal");
+			} else{
+				log.info("Problema agregando combinacion de valores (productID-usuario) (" + itemDTO.getProductId() 
+						+ "-" + itemDTO.getUserId() +") al carrito temporal");
+			}
 		}else{
-			log.error("No se pudo agregar la combinacion al carrito temporal, esto es atipico");
+			log.error("No se pudo agregar la combinacion al carrito temporal ya que no se pudo eliminar la combinacion anterior");
 		}
 		
 		return result;

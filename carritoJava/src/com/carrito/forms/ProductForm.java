@@ -2,6 +2,8 @@ package com.carrito.forms;
 
 import org.apache.struts.action.ActionForm;
 
+import com.carrito.util.Constants;
+
 /**
  * 
  * Class: AddProductToBasketForm
@@ -19,6 +21,7 @@ public class ProductForm extends ActionForm {
 	private static final long serialVersionUID = -6888728783046642152L;
 
 	private int productId;
+	private String pageComeFrom = Constants.COME_FROM_MENU_RIGTH;
 	
 	public ProductForm() {
 		// TODO Auto-generated constructor stub
@@ -30,5 +33,13 @@ public class ProductForm extends ActionForm {
 	
 	public int getProductId() {
 		return productId;
+	}
+	
+	public void setPageComeFrom(String pageComeFrom) {
+		this.pageComeFrom = pageComeFrom;
+	}
+	
+	public String getPageComeFrom() {
+		return pageComeFrom;
 	}
 }

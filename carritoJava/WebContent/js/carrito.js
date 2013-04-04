@@ -141,6 +141,25 @@ function addToBasket(productId){
 }
 
 /**
+ * Eliminamos determinado producto a la cesta de compras
+ * 
+ * @param productId id del producto a agregar en la cesta
+ * @param pageComeFrom
+ */
+function deleteFromBasket(productId, pageComeFrom){
+	var parameters = "productId=" + productId;
+	parameters += "&pageComeFrom=" + pageComeFrom;
+	
+	if(document.getElementById("basketItemDetail") == null){
+		alert("Acceso no permitido a la cesta de productos");
+	} else {
+		callAjax("deleteFromBasket.do",
+				parameters,
+				"basketItemDetail");
+	}
+}
+
+/**
  * 
  * @param productId
  * @returns
