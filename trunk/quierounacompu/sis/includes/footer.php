@@ -18,7 +18,7 @@
     <span class="popUpBoton b-close">
 		<span>X</span>
 	</span>
-    <div class="content" style="height: auto; width: auto;"></div>
+    <div id="bPopUpContent" class="content" style="height: auto; width: auto;"></div>
 </div>
 </body>
 </html>

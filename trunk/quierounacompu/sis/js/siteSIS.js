@@ -49,7 +49,7 @@ function createXMLHTTPRequest(){
  * @param parameters
  * @param idAnswerContainer si es null mostramos la respuesta del ajax como un alert
  */
-function callAjax(url, parameters, idAnswerContainer){
+function callAjax(url, parameters, idAnswerContainer, urlToRefresh){
 	var ajaxObject =  createXMLHTTPRequest();
 
 	if(idAnswerContainer != null){
@@ -63,6 +63,11 @@ function callAjax(url, parameters, idAnswerContainer){
 				document.getElementById(idAnswerContainer).innerHTML = ajaxObject.responseText;
 			} else {
 				alert(ajaxObject.responseText);
+				$('#darkContainer').click();
+			}
+		
+			if(urlToRefresh != null){
+				window.location = urlToRefresh;
 			}
 		}
 	};
@@ -230,7 +235,8 @@ function obtenerPermisosUsuario(hideMessage){
 	var parameters = "usrId=" + document.getElementById("usuarioPermiso").value;
 	callAjax("ajax/getPermisoUsuario.php", 
 			parameters, 
-			"ajaxAnswerContainer");
+			"ajaxAnswerContainer",
+			null);
 }
 
 /**
@@ -250,7 +256,8 @@ function obtenerDatosUsuario(hideMessage, moduleToRecirect){
 	
 	callAjax("ajax/getUsuarioForm.php", 
 			parameters, 
-			"ajaxAnswerContainer");
+			"ajaxAnswerContainer",
+			null);
 }
 
 /**
@@ -271,7 +278,8 @@ function logSistemaAjax(pageNumber){
 	
 	callAjax("ajax/getSystemLogPage.php",
 			parameters,
-			"ajaxPageResult");
+			"ajaxPageResult",
+			null);
 }
 
 /**
@@ -288,7 +296,8 @@ function logBitacoraAjax(pageNumber){
 	
 	callAjax("ajax/getBitacoraLogPage.php",
 			parameters,
-			"ajaxPageResult");
+			"ajaxPageResult",
+			null);
 }
 
 /**
@@ -322,7 +331,8 @@ function searchEnviosAjaxSimple(statusEnvio){
 	
 	callAjax(urlToCall,
 			parameters,
-			"ajaxPageResult");
+			"ajaxPageResult",
+			null);
 }
 
 /**
@@ -345,7 +355,8 @@ function searchEnviosAjax(pageNumber){
 	
 	callAjax("ajax/getEnviosListPage.php",
 			parameters,
-			"ajaxPageResult");
+			"ajaxPageResult",
+			null);
 }
 
 /**
@@ -353,7 +364,7 @@ function searchEnviosAjax(pageNumber){
  * determinado envio.
  * 
  */
-function actualizarEnvio(){
+function actualizarEnvio(statusActual){
 	var valid = true;
 	
 	var newComment = document.getElementById("newComment").value.trim();
@@ -411,7 +422,8 @@ function actualizarEnvio(){
 	if(valid){
 		callAjax("ajax/updateEnvio.php",
 				parameters,
-				null);
+				null,
+				"searchEnviosByType.php?type="+statusActual);
 	}
 }
 
@@ -424,8 +436,9 @@ function comentarEnvio(){
 	var parameters = "idEnvio=" + document.getElementById("idEnvio").value;
 	parameters += "&newComment=" + newComment;
 	
-	callAjax("ajax/updateEnvio.php",
+	callAjax("ajax/updateComentariosEnvio.php",
 			parameters,
+			null,
 			null);
 }
 
@@ -443,3 +456,4 @@ function openImagePopUp(urlToOpen){
 	
 	return window.open(urlToOpen, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left); 
 }
+

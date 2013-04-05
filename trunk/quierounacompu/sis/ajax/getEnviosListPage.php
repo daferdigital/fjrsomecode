@@ -1,4 +1,5 @@
 <?php
+//busqueda avanzada
 include_once '../classes/Constants.php';
 include_once '../classes/DBUtil.php';
 include_once '../classes/PageAccess.php';
@@ -11,7 +12,6 @@ include_once "../classes/EnvioDAO.php";
 include_once '../includes/session.php';
 
 $statusEnvio = $_POST["statusEnvio"];
-$canEdit = false;
 $editPage = "showEnvio.php";
 $commentPage = "addComment.php";
 $userDTO = $_SESSION[Constants::$KEY_USUARIO_DTO];
@@ -20,7 +20,6 @@ $userDTO = $_SESSION[Constants::$KEY_USUARIO_DTO];
 if(isset($_POST["fromBusquedaAvanzada"])){
 	PageAccess::validateAccess(Constants::$OPCION_BUSQUEDA_AVANZADA);
 	BitacoraDAO::registrarComentario("Ingreso en pagina ajax para realizar busquedas avanzadas de envios");
-	$canEdit = true;
 }
 $pageNumber = $_POST[Constants::$PAGE_NUMBER];
 $scriptFunction = $_POST[Constants::$SCRIPT_FUNCTION];
@@ -53,7 +52,7 @@ $query = "SELECT e.*, es.descripcion as statusEnvio, DATE_FORMAT(e.fecha_pago, '
 ." AND e.id_banco = b.id"
 ." AND e.id_medio_pago = mp.id"
 .$extraWhere
-." ORDER BY e.fecha_pago DESC";
+." ORDER BY e.fecha_registro";
 
 //$totalRecords = DBUtil::getRecordCountToQuery($query);
 //$pageRecords = DBUtil::getRecordsByPage($query, $pageNumber);
@@ -87,6 +86,9 @@ if(count($pageRecords) == 0){
     	<div style="width: 15%;" id="tdHeader">
       		Nombre
     	</div>
+    	<div style="width: 15%;" id="tdHeader">
+      		Pseudonimo
+    	</div>
     	<div style="width: 10%;" id="tdHeader">
       		Medio de Pago
     	</div>
@@ -94,13 +96,19 @@ if(count($pageRecords) == 0){
       		Banco 
     	</div>
     	<div style="width: 10%;" id="tdHeader">
-      		Fecha de Pago
-    	</div>
-    	<div style="width: 15%;" id="tdHeader">
-      		Nro Comprobante 
+      		Monto
     	</div>
     	<div style="width: 10%;" id="tdHeader">
-      		Monto
+      		Nro Factura
+    	</div>
+    	<div style="width: 15%;" id="tdHeader">
+      		Status 
+    	</div>
+    	<div style="width: 15%;" id="tdHeader">
+      		Ciudad
+    	</div>
+    	<div style="width: 15%;" id="tdHeader">
+      		Tel&eacute;fonos
     	</div>
 	</div>
 	<?php
@@ -108,24 +116,21 @@ if(count($pageRecords) == 0){
 	?>
 		<div id="row">
 			<div style="width: 5%;" id="tdElement">
-				<?php 
-				if($canEdit){
-				?>
-					<a href="#" onclick="javascript:loadAjaxPopUp('ajax/<?php echo $editPage;?>?id=<?php echo $row["id"];?>')">
-						<img alt="ver" title="Editar" src="images/see.png" border="0" style="display: inline;"/>
-					</a>
-					<a href="#" onclick="javascript:loadAjaxPopUp('ajax/<?php echo $commentPage;?>?id=<?php echo $row["id"];?>')">
-						<img alt="ver" title="Comentar" src="images/pageEdit.png" border="0" style="display: inline;"/>
-					</a>
-				<?php
-				}
-				?>
+				<a href="#" onclick="javascript:loadAjaxPopUp('ajax/<?php echo $editPage;?>?id=<?php echo $row["id"];?>&isAdv=1')">
+					<img alt="ver" title="Editar" src="images/see.png" border="0" style="display: inline;"/>
+				</a>
+				<a href="#" onclick="javascript:loadAjaxPopUp('ajax/<?php echo $commentPage;?>?id=<?php echo $row["id"];?>')">
+					<img alt="ver" title="Comentar" src="images/pageEdit.png" border="0" style="display: inline;"/>
+				</a>
 			</div>
 			<div style="width: 10%;" id="tdElement">
 	      		<?php echo $row["fechaRegistro"]?>
 	    	</div>
 	    	<div style="width: 15%;" id="tdElement">
 	      		<?php echo $row["nombre_completo"]?>
+	    	</div>
+	    	<div style="width: 15%;" id="tdElement">
+	      		<?php echo $row["seudonimo_ml"]?>
 	    	</div>
 	    	<div style="width: 10%;" id="tdElement">
 	      		<?php echo $row["medioPago"]?>
@@ -134,13 +139,19 @@ if(count($pageRecords) == 0){
 	      		<?php echo $row["banco"]?>
 	    	</div>
 	    	<div style="width: 10%;" id="tdElement">
-	      		<?php echo $row["fechaPago"]?>
+	      		<?php echo $row["monto_pago"]?>
 	    	</div>
 	    	<div style="width: 15%;" id="tdElement">
-	      		<?php echo $row["num_voucher"]?>
+	      		<?php echo $row["codigo_factura"]?>
 	    	</div>
-	    	<div style="width: 10%;" id="tdElement">
-	      		<?php echo $row["monto_pago"]?>
+	    	<div style="width: 15%;" id="tdElement">
+	      		<?php echo $row["statusEnvio"]?>
+	    	</div>
+	    	<div style="width: 15%;" id="tdElement">
+	      		<?php echo $row["ciudad_destino"]?>
+	    	</div>
+	    	<div style="width: 15%;" id="tdElement">
+	      		<?php echo $row["tlf_celular_destinatario"].($row["tlf_local_destinatario"] != "" ? " / ".$row["tlf_local_destinatario"] : "")?>
 	    	</div>
 		</div>
 	<?php

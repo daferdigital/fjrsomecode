@@ -10,10 +10,29 @@ include_once '../classes/UsuarioDTO.php';
 include_once '../includes/session.php';
 
 $recordId = $_GET["id"];
-$canEdit = true;
+$isAdv = 0;
+if(isset($_GET["isAdv"])){
+	$isAdv = $_GET["isAdv"];	
+}
+$userDTO = $_SESSION[Constants::$KEY_USUARIO_DTO];
 $envioDTO = EnvioDAO::getEnvioInfo($recordId);
 
 $statusEnvio = $envioDTO->getIdStatusActual();
+$canEdit = false;
+
+if($envioDTO->getIdStatusActual() == EnvioDAO::$COD_STATUS_NOTIFICADO){
+	$canEdit = EnvioDAO::checkIfUserCanEdit($userDTO, Constants::$OPCION_EDICION_NOTIFICADOS);
+}else if($envioDTO->getIdStatusActual() == EnvioDAO::$COD_STATUS_PAGO_NO_ENCONTRADO){
+	$canEdit = EnvioDAO::checkIfUserCanEdit($userDTO, Constants::$OPCION_EDICION_PAGOS_NO_ENCONTRADOS);
+}else if($envioDTO->getIdStatusActual() == EnvioDAO::$COD_STATUS_PRESUPUESTADO){
+	$canEdit = EnvioDAO::checkIfUserCanEdit($userDTO, Constants::$OPCION_EDICION_PRESUPUESTADO);
+}else if($envioDTO->getIdStatusActual() == EnvioDAO::$COD_STATUS_PAGO_CONFIRMADO){
+	$canEdit = EnvioDAO::checkIfUserCanEdit($userDTO, Constants::$OPCION_EDICION_PAGOS_CONFIRMADOS);
+}else if($envioDTO->getIdStatusActual() == EnvioDAO::$COD_STATUS_FACTURADO){
+	$canEdit = EnvioDAO::checkIfUserCanEdit($userDTO, Constants::$OPCION_EDICION_FACTURADO);
+}else if($envioDTO->getIdStatusActual() == EnvioDAO::$COD_STATUS_ENVIADO){
+	$canEdit = EnvioDAO::checkIfUserCanEdit($userDTO, Constants::$OPCION_EDICION_ENVIADO);
+}
 
 BitacoraDAO::registrarComentario("Ingreso en pagina ajax para vizualizar envio[".$recordId."]");
 BitacoraDAO::registrarComentario("El usuario ".($canEdit ? "" : "NO")." puede editar el envio[".$recordId."]");
@@ -32,7 +51,15 @@ BitacoraDAO::registrarComentario("El usuario ".($canEdit ? "" : "NO")." puede ed
 			<li><a href="#tabs-2">Productos Comprados</a></li>
 			<li><a href="#tabs-3">Datos del env&iacute;o</a></li>
 			<li><a href="#tabs-4">Observaciones</a></li>
+			<?php
+			//si estamos frente a un envio en estatus enviado, o venimos de la busqueda avanzada
+			//no podemos editar nada del registro
+			if($statusEnvio != EnvioDAO::$COD_STATUS_ENVIADO && $isAdv != 1 && $canEdit){
+			?>
 			<li><a href="#tabs-5">Nuevo Status</a></li>
+			<?php
+			} 
+			?>
 		</ul>
 		<br style="clear: both;" />
 		<div id="tabs-0" style="background-color: white;">
@@ -174,6 +201,13 @@ BitacoraDAO::registrarComentario("El usuario ".($canEdit ? "" : "NO")." puede ed
 				</tr>
 			</table>
 		</div>
+		
+		<?php
+		//si estamos frente a un envio en estatus distinto a enviado, 
+		//y no venimos de la busqueda avanzada
+		//no podemos editar nada del registro
+		if($statusEnvio != EnvioDAO::$COD_STATUS_ENVIADO && $isAdv != 1 && $canEdit){
+		?>
 		<div id="tabs-5" style="background-color: white;">
 			<table>
 				<tr>
@@ -265,11 +299,14 @@ BitacoraDAO::registrarComentario("El usuario ".($canEdit ? "" : "NO")." puede ed
 				</tr>
 				<tr>
 					<td colspan="2" align="center">
-						<input type="button" name="guardar" value="Actualizar" onclick="javascript:actualizarEnvio()"/>
+						<input type="button" name="guardar" value="Actualizar" onclick="javascript:actualizarEnvio(<?php echo $envioDTO->getIdStatusActual()?>)"/>
 					</td>
 				</tr>
 			</table>
 		</div>
+		<?php
+		} 
+		?>
 	</div>
 </div>
 <script>

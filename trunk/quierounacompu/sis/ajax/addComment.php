@@ -10,13 +10,12 @@ include_once '../classes/UsuarioDTO.php';
 include_once '../includes/session.php';
 
 $recordId = $_GET["id"];
-$canEdit = true;
 $envioDTO = EnvioDAO::getEnvioInfo($recordId);
 
 $statusEnvio = $envioDTO->getIdStatusActual();
 
 BitacoraDAO::registrarComentario("Ingreso en pagina ajax para comentar el envio[".$recordId."]");
-BitacoraDAO::registrarComentario("El usuario ".($canEdit ? "" : "NO")." puede comentar el envio[".$recordId."]");
+BitacoraDAO::registrarComentario("El usuario puede comentar el envio[".$recordId."]");
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

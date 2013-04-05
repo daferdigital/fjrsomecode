@@ -32,7 +32,7 @@ $query = "SELECT e.*, es.descripcion as statusEnvio, DATE_FORMAT(e.fecha_pago, '
 ." AND e.id_medio_pago = mp.id"
 ." AND ee.id = e.id_empresa_envio"
 .$extraWhere
-." ORDER BY e.fecha_pago DESC";
+." ORDER BY e.fecha_registro";
 
 //$totalRecords = DBUtil::getRecordCountToQuery($query);
 //$pageRecords = DBUtil::getRecordsByPage($query, $pageNumber);

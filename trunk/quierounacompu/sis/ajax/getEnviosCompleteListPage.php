@@ -65,7 +65,7 @@ $query = "SELECT e.*, es.descripcion as statusEnvio"
 ." FROM envios_status es, envios e"
 ." WHERE e.id_status_actual = es.id"
 .$extraWhere
-." ORDER BY e.fecha_pago DESC";
+." ORDER BY e.fecha_registro";
 
 //$totalRecords = DBUtil::getRecordCountToQuery($query);
 //$pageRecords = DBUtil::getRecordsByPage($query, $pageNumber);
