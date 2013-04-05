@@ -10,60 +10,61 @@ include_once '../classes/UsuarioDTO.php';
 include_once '../includes/session.php';
 
 $idEnvio = $_POST["idEnvio"];
-$newStatus = -1;
 $newComment = $_POST["newComment"];
 $newStatusText = "";
-
-if(isset($_POST["newStatus"])){
-	$newStatus = $_POST["newStatus"];
-}
 
 $canEdit = false;
 $envioDTO = EnvioDAO::getEnvioInfo($idEnvio);
 $userDTO = $_SESSION[Constants::$KEY_USUARIO_DTO];
-	
+$currentIdStatus = $envioDTO->getIdStatusActual();
+
+$newStatus = -1;
+if(isset($_POST["newStatus"])){
+	$newStatus = $_POST["newStatus"];
+}
+
 BitacoraDAO::registrarComentario("Ingreso en pagina ajax para actualizar envio[".$idEnvio."]");
 
 //vemos el tipo de envio que se desea buscar o si se viene de busqueda avanzada
 //venimos de las opciones especificas por cada tipo de envio
 //verificamos el permiso
-if(EnvioDAO::$COD_STATUS_NOTIFICADO == $newStatus){
+if(EnvioDAO::$COD_STATUS_NOTIFICADO == $currentIdStatus){
 	$newStatusText = "Notificado";
 	
 	if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_NOTIFICADOS)){
 		$canEdit = true;
 	}
-} else if(EnvioDAO::$COD_STATUS_PAGO_CONFIRMADO == $newStatus){
+} else if(EnvioDAO::$COD_STATUS_PAGO_CONFIRMADO == $currentIdStatus){
 	$newStatusText = "Pago Confirmado";
 	
 	if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_PAGOS_CONFIRMADOS)){
 		$canEdit = true;
 	}
-} else if(EnvioDAO::$COD_STATUS_PAGO_NO_ENCONTRADO == $newStatus){
+} else if(EnvioDAO::$COD_STATUS_PAGO_NO_ENCONTRADO == $currentIdStatus){
 	$newStatusText = "Pago no Encontrado";
 	
 	if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_PAGOS_NO_ENCONTRADOS)){
 		$canEdit = true;
 	}
-} else if(EnvioDAO::$COD_STATUS_FACTURADO == $newStatus){
+} else if(EnvioDAO::$COD_STATUS_FACTURADO == $currentIdStatus){
 	$newStatusText = "Facturado";
 	
 	if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_FACTURADO)){
 		$canEdit = true;
 	}
-} else if(EnvioDAO::$COD_STATUS_PRESUPUESTADO == $newStatus){
+} else if(EnvioDAO::$COD_STATUS_PRESUPUESTADO == $currentIdStatus){
 	$newStatusText = "Presupuestado";
 	
 	if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_PRESUPUESTADO)){
 		$canEdit = true;
 	}
-} else if(EnvioDAO::$COD_STATUS_ENVIADO == $newStatus){
+} else if(EnvioDAO::$COD_STATUS_ENVIADO == $currentIdStatus){
 	$newStatusText = "Enviado";
 	
 	if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_ENVIADO)){
 		$canEdit = true;
 	}
-} else if($newStatus == -1){
+} else if($currentIdStatus == -1){
 	//solo quiero comentar
 	$canEdit = true;
 }
@@ -89,7 +90,7 @@ if($canEdit){
 			DBUtil::executeQuery($query);
 			
 			EnvioDAO::addComment($idEnvio, 
-				"Asignado numero de factura ".$_POST["codFactura"]." al envio".$envioDTO->getId(), 
+				"Asignado numero de factura ".$_POST["codFactura"], 
 				$idUsuario, 
 				$newStatus);
 		}else{
@@ -108,7 +109,7 @@ if($canEdit){
 			DBUtil::executeQuery($query);
 				
 			EnvioDAO::addComment($idEnvio,
-			"Asignado numero de envio ".$_POST["codEnvio"]." al envio".$envioDTO->getId(),
+			"Asignado numero de envio ".$_POST["codEnvio"],
 			$idUsuario,
 			$newStatus);
 		}else{
@@ -122,7 +123,7 @@ if($canEdit){
 			DBUtil::executeQuery($query);
 				
 			EnvioDAO::addComment($idEnvio,
-			"Actualizado valor de empresa de envio a ".$_POST["ciaEnvio"]." en el envio ".$envioDTO->getId(),
+			"Actualizado valor de empresa de envio a ".$_POST["ciaEnvio"],
 			$idUsuario,
 			$newStatus);
 		}else{

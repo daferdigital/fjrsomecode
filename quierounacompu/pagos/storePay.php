@@ -1,7 +1,9 @@
 <?php
-include "../sis/classes/Constants.php";
-include "../sis/classes/DBUtil.php";
-include "../sis/classes/EnvioDAO.php";
+include_once "../sis/classes/Constants.php";
+include_once "../sis/classes/DBUtil.php";
+include_once "../sis/classes/EnvioDAO.php";
+include_once "../sis/classes/BitacoraDAO.php";
+include_once "../sis/classes/SendEmail.php";
 
 if(isset($_POST["terminos"])){
 	//puedo proceder a guardar el pago
@@ -64,11 +66,11 @@ VALUES
 		$headers .= "Content-type:text/html;charset=iso-8859-1" . "\r\n";
 		
 		$message = file_get_contents("emailTemplate.html");
+		$message = str_replace("{0}", $_POST["nombre"]." (".$_POST["seudonimo"].")", $message);
 		
-		mail($_POST["email"], 
-			"Pago notificado",
-			$message,
-			$headers);
+		SendEmail::sendMail($_POST["email"], 
+			SendEmail::$SUBJECT_PAGO_REGISTRADO, 
+			$message);
 		
 		header("Location: index.php?e=0000");
 	} else {

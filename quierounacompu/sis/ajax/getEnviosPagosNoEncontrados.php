@@ -11,7 +11,6 @@ include_once "../classes/EnvioDAO.php";
 include_once '../includes/session.php';
 
 $statusEnvio = EnvioDAO::$COD_STATUS_PAGO_NO_ENCONTRADO;
-$canEdit = false;
 $editPage = "showEnvio.php";
 $commentPage="addComment.php";
 $userDTO = $_SESSION[Constants::$KEY_USUARIO_DTO];
@@ -20,10 +19,6 @@ $userDTO = $_SESSION[Constants::$KEY_USUARIO_DTO];
 //verificamos el permiso
 PageAccess::validateAccess(Constants::$OPCION_BUSQUEDA_PAGOS_NO_ENCONTRADOS);
 BitacoraDAO::registrarComentario("Ingreso en pagina ajax para realizar busqueda de envios de pagos no encontrados");
-
-if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_PAGOS_NO_ENCONTRADOS)){
-	$canEdit = true;
-}
 
 //colocamos el extra where
 $extraWhere = " AND e.id_status_actual=".$statusEnvio;	
@@ -35,7 +30,7 @@ $query = "SELECT e.*, es.descripcion as statusEnvio, DATE_FORMAT(e.fecha_pago, '
 ." AND e.id_banco = b.id"
 ." AND e.id_medio_pago = mp.id"
 .$extraWhere
-." ORDER BY e.fecha_pago DESC";
+." ORDER BY e.fecha_registro";
 
 //$totalRecords = DBUtil::getRecordCountToQuery($query);
 //$pageRecords = DBUtil::getRecordsByPage($query, $pageNumber);
@@ -90,18 +85,12 @@ if(count($pageRecords) == 0){
 	?>
 		<div id="row">
 			<div style="width: 5%;" id="tdElement">
-				<?php 
-				if($canEdit){
-				?>
-					<a href="#" onclick="javascript:loadAjaxPopUp('ajax/<?php echo $editPage;?>?id=<?php echo $row["id"];?>')">
-						<img alt="ver" title="Editar" src="images/see.png" border="0" style="display: inline;"/>
-					</a>
-					<a href="#" onclick="javascript:loadAjaxPopUp('ajax/<?php echo $commentPage;?>?id=<?php echo $row["id"];?>')">
-						<img alt="ver" title="Comentar" src="images/pageEdit.png" border="0" style="display: inline;"/>
-					</a>
-				<?php
-				}
-				?>
+				<a href="#" onclick="javascript:loadAjaxPopUp('ajax/<?php echo $editPage;?>?id=<?php echo $row["id"];?>')">
+					<img alt="ver" title="Editar" src="images/see.png" border="0" style="display: inline;"/>
+				</a>
+				<a href="#" onclick="javascript:loadAjaxPopUp('ajax/<?php echo $commentPage;?>?id=<?php echo $row["id"];?>')">
+					<img alt="ver" title="Comentar" src="images/pageEdit.png" border="0" style="display: inline;"/>
+				</a>
 			</div>
 			<div style="width: 10%;" id="tdElement">
 	      		<?php echo $row["fechaRegistro"]?>
