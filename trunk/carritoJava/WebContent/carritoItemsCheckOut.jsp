@@ -1,5 +1,4 @@
-<%@page import="java.util.ResourceBundle"%>
-<%@page import="com.carrito.util.Constants"%>
+<%@ page import="com.carrito.util.Constants"%>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
@@ -10,12 +9,12 @@
             <div id="basketItemDetail" class="centered">
                 <logic:empty name="sessionUser" property="carritoItems">
                     <span class="menuRigthSpan">
-                        <%= ResourceBundle.getBundle(Constants.APP_RESOURCE_NAME).getString("carrito.noitems") %>
+                        <bean:message key="carrito.noitems" />
                     </span>
                 </logic:empty>
                 
                 <logic:notEmpty name="sessionUser" property="carritoItems">
-                    <html:form action="completeBasketCheckOut.do" method="post">
+                    <html:form action="showBasketResume.do" method="post" onsubmit="return validateBasketCheckOut();">
                         <html:hidden property="idUser" value="<%= Integer.toString(sessionUser.getId()) %>"></html:hidden>
                         <table class="centered">
                             <thead>
@@ -40,7 +39,7 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <html:text property="cantidadesSeleccionadas" value="1" onkeypress="return textInputOnlyNumbers(event)"></html:text>
+                                        <html:text property="cantidadesSeleccionadas" value="1" onkeypress="return textInputOnlyNumbers(event)" onkeyup="colocarSiVacio('1', this);" size="5" maxlength="5"></html:text>
                                     </td>
                                     <td class="text" align="right">
                                         <b>
@@ -61,6 +60,6 @@
         </logic:present>
         <logic:notPresent name="<%= Constants.SESSION_USER_LOGGED %>" scope="session">
             <span class="menuRigthSpan">
-                <%= ResourceBundle.getBundle(Constants.APP_RESOURCE_NAME).getString("carrito.noitems.mustlog") %>
+                <bean:message key="carrito.noitems.mustlog" />
             </span>
         </logic:notPresent>

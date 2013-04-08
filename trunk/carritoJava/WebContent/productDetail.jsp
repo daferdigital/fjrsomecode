@@ -1,5 +1,4 @@
-<%@page import="java.util.ResourceBundle"%>
-<%@page import="com.carrito.util.Constants"%>
+<%@ page import="com.carrito.util.Constants"%>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
@@ -32,5 +31,5 @@
     </table>
 </logic:present>
 <logic:notPresent name="<%= Constants.REQUEST_PRODUCT_DTO %>" scope="request">
-    <%= ResourceBundle.getBundle(Constants.APP_RESOURCE_NAME).getString("error.noproductdetail") %>
+    <bean:message key="error.noproductdetail" />
 </logic:notPresent>

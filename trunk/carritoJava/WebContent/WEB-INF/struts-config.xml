@@ -10,7 +10,7 @@
 	</form-beans>
 
 	<global-forwards>
-		<forward name="loginPage" path="/errorSession.jsp?target=_parent" />
+		<forward name="goToIndex" path="/index.jsp" />
 	</global-forwards>
 
 	<action-mappings>
@@ -53,10 +53,18 @@
             <forward name="success" path="/prepareBasketCheckOut.jsp"></forward>
         </action>
         
-        <!--  -->
+        <!-- action para mostrar el resumen de lo que se desea comprar y permitir que se acepte o se vaya a la pagina anterior -->
+        <action path="/showBasketResume" type="com.carrito.actions.ShowBasketResumeAction"
+            name="basketForm">
+            <forward name="success" path="/showBasketResume.jsp"></forward>
+            <forward name="error" path="/prepareBasketCheckOut.jsp"></forward>
+        </action>
+        
+        <!-- action para completar el proceso de compra como tal  -->
         <action path="/completeBasketCheckOut" type="com.carrito.actions.CompleteBasketCheckOutAction"
             name="basketForm">
-            <forward name="success" path="/prepareBasketCheckOut.jsp"></forward>
+            <forward name="success" path="/main.jsp"></forward>
+            <forward name="error" path="/showBasketResume.jsp"></forward>
         </action>
         
         <!-- action que implementa la logica para agregar elementos en el carrito y proceder a actualizar en la web -->
@@ -72,5 +80,5 @@
         </action>
 	</action-mappings>
 	
-	<message-resources parameter="ApplicationResources"></message-resources>
+	<message-resources parameter="ApplicationResources" null="false"></message-resources>
 </struts-config>

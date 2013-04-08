@@ -14,6 +14,7 @@ public class CarritoItemDTO {
 	private String productName;
 	private int userId;
 	private double productPrice;
+	private int cantidad;
 	
 	public CarritoItemDTO() {
 		// TODO Auto-generated constructor stub
@@ -49,5 +50,20 @@ public class CarritoItemDTO {
 
 	public void setProductPrice(double productPrice) {
 		this.productPrice = productPrice;
+	}
+	
+	public int getCantidad() {
+		return cantidad;
+	}
+	
+	public void setCantidad(int cantidad) {
+		this.cantidad = cantidad;
+	}
+
+	@Override
+	public String toString() {
+		return "CarritoItemDTO [productId=" + productId + ", productName="
+				+ productName + ", userId=" + userId + ", productPrice="
+				+ productPrice + ", cantidad=" + cantidad + "]";
 	}
 }

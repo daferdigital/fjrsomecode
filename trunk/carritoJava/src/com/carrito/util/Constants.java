@@ -1,7 +1,9 @@
 package com.carrito.util;
 
 public class Constants {
+	public static final double IVA = 0.14;
 	
+	public static final String GLOBAL_FORWARD_INDEX = "goToIndex";
 	public static final String MAPPING_SUCCESS = "success";
 	public static final String MAPPING_SUCCESS_PREV_CHECKOUT = "successPrevcheckOut";
 	
@@ -26,5 +28,8 @@ public class Constants {
 	public static final String PARAMETER_PASSWORD = "password";
 	public static final String PARAMETER_PAGE_LIST_ELEMENTS = "pageListElements";
 	public static final String PARAMETER_PAGING_UTIL = "pagingUtil";
+	public static final String PARAMETER_ITEMS_TO_BUY = "itemsToBuy";
+	public static final String PARAMETER_LIST_BANCOS = "listadoBancos";
+	public static final String PARAMETER_LIST_TIPOS_DE_PAGO = "listadoTiposDePago";
 }
 

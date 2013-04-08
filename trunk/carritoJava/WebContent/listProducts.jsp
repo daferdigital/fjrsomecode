@@ -1,6 +1,5 @@
-<%@page import="java.util.ResourceBundle"%>
-<%@page import="com.carrito.dto.ProductDTO"%>
-<%@page import="com.carrito.util.Constants"%>
+<%@ page import="com.carrito.dto.ProductDTO"%>
+<%@ page import="com.carrito.util.Constants"%>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
@@ -53,6 +52,6 @@
 
 <logic:lessEqual name="pageBeanElements" property="totalRecords" value="0">
     <h2>
-        <%= ResourceBundle.getBundle(Constants.APP_RESOURCE_NAME).getString("category.noproducts") %>
+        <bean:message key="category.noproducts" />
     </h2>
 </logic:lessEqual>
