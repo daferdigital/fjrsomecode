@@ -37,10 +37,25 @@ function textInputOnlyLetters(e){
 	//209 Ñ
 	//225-233-237-243-250 á é í ó ú
 	if((key >= 97 && key <= 122) || (key >= 65 && key <= 90)
-			|| (key == 241 || key == 209 || key == 225 || key == 233 || key == 237 || key == 243 || key == 250)){
+			|| (key == 241 || key == 209 || key == 32 || key == 225 || key == 233 || key == 237 || key == 243 || key == 250)){
 		return true;
 	} else {
 		return false;
+	}
+}
+
+/**
+ * Colocamos el valor recibido como parametro, en el elemento indicado, si luego de modificar su valor el mismo
+ * queda vacio.
+ * 
+ * @param valueToPut
+ * @param elementToCheck
+ */
+function colocarSiVacio(valueToPut, elementToCheck){
+	if(elementToCheck != null){
+		if(elementToCheck.value == ""){
+			elementToCheck.value = valueToPut;
+		}
 	}
 }
 
@@ -174,4 +189,72 @@ function showProductDetail(productId){
 	var top = (screen.height/2)-(h/2);
 	
 	return window.open(urlToOpen, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left); 
+}
+
+/**
+ * Validamos el formulario de preparacion de checkout de la cesta.
+ * 
+ * @returns {Boolean}
+ */
+function validateBasketCheckOut(){
+	var productosMarcados = false;
+	var cantidadesVacias = false;
+	var msg = "";
+	
+	//array de inputs tipo checked
+	var productos = Array.prototype.slice.call(document.getElementsByName("productosSeleccionados"));
+	//array de las cantidades (en el mismo orden el los inputs)
+	var cantidades = Array.prototype.slice.call(document.getElementsByName("cantidadesSeleccionadas"));
+	
+	for ( var i = 0; i < productos.length; i++) {
+		productosMarcados = productosMarcados || productos[i].checked;
+		if(productos[i].checked && cantidades[i].value == ""){
+			cantidadesVacias = true;
+		}
+	}
+	
+	if(! productosMarcados){
+		msg += "Disculpe, debe seleccionar algun producto para efectuar la pre orden.\n";
+	}
+	if(cantidadesVacias){
+		msg += "Disculpe, no pueden ser vacias las cantidades en los productos que desea pre ordenar.\n";
+	}
+	
+	if(msg == ""){
+		//submit permitido
+		//a efectos del form struts, enviamos toda la info'
+		for ( var i = 0; i < productos.length; i++) {
+			if(! productos[i].checked){
+				productos[i].checked = true;
+				cantidades[i].value = -1;
+			}
+		}
+		
+		return true;
+	} else {
+		alert(msg);
+		return false;
+	}
+}
+
+/**
+ * Validamos el formulario previo al envio de la cesta para procesar la compra.
+ * 
+ * @returns {Boolean}
+ */
+function validateBeforeCompleteCheckOut(){
+	var nroTarjetaCheque = document.getElementById("nroTarjetaCheque").value.trim();
+	var msg = "";
+	
+	if(nroTarjetaCheque == ""){
+		msg += "Disculpe, debe indicar el número de tarjeta o cheque.\n";
+	}
+	
+	if(msg == ""){
+		//submit permitido
+		return true;
+	} else {
+		alert(msg);
+		return false;
+	}
 }

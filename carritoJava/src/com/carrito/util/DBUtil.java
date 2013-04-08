@@ -3,6 +3,7 @@ package com.carrito.util;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.sql.Types;
 import java.util.LinkedList;
 import java.util.List;
@@ -280,5 +281,81 @@ public final class DBUtil {
 		log.info("Ejecucion de query " + query + " duro " + (System.currentTimeMillis() - time0) +" ms");
 		
 		return result;
+	}
+	
+	/**
+	 * Rutina para ejecutar inserts donde nos interesa obtener el id del registro insertado (maestro-detalle)
+	 * 
+	 * @param query
+	 * @return
+	 */
+	public static int executeInsertQuery(String query){
+		return executeInsertQuery(query, null);
+	}
+	
+	/**
+	 * Rutina para ejecutar cualquier tipo de query que no sea un SELECT
+	 * 
+	 * @param query
+	 * @param queryParameters
+	 * @return
+	 */
+	public static int executeInsertQuery(String query, List<Object> queryParameters){
+		int insertedId = -1;
+		
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		long time0 = System.currentTimeMillis();
+		
+		try {
+			con = dataSource.getConnection();
+			ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			
+			if(queryParameters != null && queryParameters.size() > 0){
+				//iteramos sobre los parametros
+				int index = 1;
+				for (Object object : queryParameters) {
+					if(object == null || "null".equals(object.toString().toLowerCase())){
+						//queremos colocar este valor como nulo para la base de datos
+						ps.setNull(index, Types.NULL);
+					}else{
+						ps.setObject(index, object);
+					}
+					
+					index++;
+				}
+			}
+			
+			//insertedId = ps.executeUpdate();
+			ps.executeUpdate();
+			rs = ps.getGeneratedKeys();
+			if(rs.next()){
+				insertedId = rs.getInt(1);
+			}
+			
+			log.info("Ejecutado query " + query + " de manera exitosa");
+		} catch (Exception e) {
+			// TODO: handle exception
+			log.error("Error ejecutando query: " + query + ". Error fue: " + e.getMessage(), e);
+			insertedId = -1;
+		} finally {
+			try {
+				ps.close();
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
+			
+			try {
+				con.close();
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
+		}
+		
+		log.info("Ejecucion de query " + query + " duro " + (System.currentTimeMillis() - time0) +" ms. Retornamos " + insertedId);
+		
+		return insertedId;
 	}
 }

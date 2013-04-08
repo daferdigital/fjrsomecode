@@ -78,8 +78,8 @@ public class UsuarioForm extends ActionForm{
 		}else{
 			//email tiene un valor, verifico que sea un correo valido
 			if(! AppUtil.isAValidEmail(email)){
-				errors.add("error.emailnovalido", 
-						new ActionMessage("error.emailnovalido"));
+				errors.add("error.formatonovalido", 
+						new ActionMessage("error.formatonovalido", new Object[]{"correo"}));
 			}
 		}
 		

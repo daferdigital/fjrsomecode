@@ -4,6 +4,15 @@ import java.util.List;
 
 import com.carrito.dto.CategoriaDTO;
 
+/**
+ * 
+ * Class: IndexVO
+ * Creation Date: 06/04/2013
+ * (c) 2013
+ *
+ * @author T&T
+ *
+ */
 public class IndexVO {
 	private List<CategoriaDTO> categorias;
 	
