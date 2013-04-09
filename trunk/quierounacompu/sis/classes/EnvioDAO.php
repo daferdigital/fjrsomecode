@@ -11,6 +11,25 @@ class EnvioDAO {
 	
 	/**
 	 * 
+	 * @param unknown_type $extraWhere
+	 */
+	public static function getEnviosByType($extraWhere){
+		$query = "SELECT e.*, es.descripcion as statusEnvio, DATE_FORMAT(e.fecha_pago, '%d-%m-%Y') AS fechaPago, "
+		."DATE_FORMAT(e.fecha_registro, '%d-%m-%Y') AS fechaRegistro, b.nombre AS banco, mp.descripcion AS medioPago, "
+		."ee.nombre as empresaEnvio"
+		." FROM empresa_envio ee, bancos b, medios_de_pago mp, envios e, envios_status es"
+		." WHERE e.id_status_actual = es.id"
+		." AND e.id_banco = b.id"
+		." AND e.id_medio_pago = mp.id"
+		." AND ee.id = e.id_empresa_envio"
+		.$extraWhere
+		." ORDER BY e.fecha_pago DESC";
+		
+		return DBUtil::executeSelect($query);
+	}
+	
+	/**
+	 * 
 	 * @param unknown_type $idEnvio
 	 * @return type EnvioDTO
 	 */
@@ -18,8 +37,8 @@ class EnvioDAO {
 		
 		$query = "SELECT e.*, b.nombre AS nombreBanco, ev.nombre AS empresaEnvio, "
 			." mdp.descripcion AS medioDePago, es.descripcion AS envioStatus, "
-			." DATE_FORMAT(e.fecha_pago, '%d/%m/%Y') AS fechaPago, "
-			." DATE_FORMAT(e.fecha_registro, '%d/%m/%Y') AS fechaRegistro"
+			." DATE_FORMAT(e.fecha_pago, '%d-%m-%Y') AS fechaPago, "
+			." DATE_FORMAT(e.fecha_registro, '%d-%m-%Y') AS fechaRegistro"
 			." FROM bancos b, empresa_envio ev, medios_de_pago mdp, envios_status es, envios e"
 			." WHERE e.id_status_actual = es.id"
 			." AND e.id_banco = b.id"
@@ -101,7 +120,7 @@ class EnvioDAO {
 		." FROM envios_status es, envios_comentarios ec LEFT JOIN usuarios u ON ec.id_usuario = u.id"
 		." WHERE ec.id_status_envio = es.id"
 		." AND ec.id_envio=".$idEnvio
-		." ORDER BY ec.fecha_comentario DESC";
+		." ORDER BY ec.fecha_comentario";
 		
 		$result = DBUtil::executeSelect($query);
 		
