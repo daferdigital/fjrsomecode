@@ -7,6 +7,7 @@ include_once '../classes/ModuloDAO.php';
 include_once '../classes/EnvioDAO.php';
 include_once '../classes/EnvioDTO.php';
 include_once '../classes/UsuarioDTO.php';
+include_once '../classes/SendEmail.php';
 include_once '../includes/session.php';
 
 $idEnvio = $_POST["idEnvio"];
@@ -100,6 +101,7 @@ if($canEdit){
 				$newStatus);
 		}
 	}
+	
 	//si el nuevo estado es ENVIADO, quiere decir que tengo que actualizar la informacion 
 	//de codigo de envio y empresa que envia
 	//reviso el codigo de factura para guardarlo y almacenar el comentario respectivo
@@ -132,6 +134,37 @@ if($canEdit){
 			$idUsuario,
 			$newStatus);
 		}
+		
+		//obtenemos de nuevo el envio, para tomar la informacion actual
+		$envioDTO = EnvioDAO::getEnvioInfo($idEnvio);
+		
+		$message = file_get_contents("../emailTemplates/templateProductoEnviado.html");
+		$message = str_replace("{0}", $envioDTO->getNombreCompleto()." (".$envioDTO->getSeudonimoML().")", $message);
+		$message = str_replace("{1}", $envioDTO->getCodigoFactura(), $message);
+		$message = str_replace("{2}", $envioDTO->getDescEmpresaEnvio(), $message);
+		$message = str_replace("{3}", $envioDTO->getCiudadDestino(), $message);
+		$message = str_replace("{4}", $envioDTO->getDireccionDestino(), $message);
+		$message = str_replace("{5}", $envioDTO->getCodigoEnvio(), $message);
+		$message = str_replace("{6}", $envioDTO->getNombreDestinatario(), $message);
+		
+		SendEmail::sendMail($envioDTO->getCorreo(),
+			SendEmail::$SUBJECT_PEDIDO_ENVIADO,
+			$message);
+	}
+	
+	
+	if($newStatus == EnvioDAO::$COD_STATUS_PAGO_NO_ENCONTRADO){
+		$message = file_get_contents("../emailTemplates/templatePagoNoEncontrado.html");
+		$message = str_replace("{0}", $envioDTO->getNombreCompleto()." (".$envioDTO->getSeudonimoML().")", $message);
+		$message = str_replace("{1}", $envioDTO->getDescBanco(), $message);
+		$message = str_replace("{2}", $envioDTO->getDescMedioPago(), $message);
+		$message = str_replace("{3}", $envioDTO->getNumVoucher(), $message);
+		$message = str_replace("{4}", $envioDTO->getMontoPago(), $message);
+		$message = str_replace("{5}", "http://www.quierounacompu.com/pagos/updatePedido.php?id=".$envioDTO->getId(), $message);
+		
+		SendEmail::sendMail($envioDTO->getCorreo(),
+			SendEmail::$SUBJECT_PAGO_NO_ENCONTRADO,
+			$message);
 	}
 	
 	$result = true;
