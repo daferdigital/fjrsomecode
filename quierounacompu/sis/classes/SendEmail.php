@@ -2,6 +2,7 @@
 class SendEmail{
 	public static $SUBJECT_PAGO_REGISTRADO = "Hemos recibido la información de tu pago";
 	public static $SUBJECT_PAGO_NO_ENCONTRADO = "Por favor, necesitamos que revises la información de tu pago";
+	public static $SUBJECT_PEDIDO_ENVIADO = "Hemos enviado tu pedido";
 	
 	private static $emailFrom = "correo@quierounacompu.com";
 	
@@ -23,10 +24,13 @@ class SendEmail{
 		$headers .= "MIME-Version: 1.0\r\n";
 		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 		
+		$subject = "=?ISO-8859-1?B?".base64_encode($subject)."=?=";
+		
 		$wasSent = mail($mailTo, $subject, $message, $headers);
 		
 		BitacoraDAO::registrarComentario("Enviado email [".$subject."] a la cuenta ".$mailTo
 			." con resultado ".$wasSent);
+		
 		
 		return $wasSent;
 	}
