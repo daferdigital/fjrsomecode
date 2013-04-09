@@ -14,6 +14,7 @@ function loadAjaxPopUp(urlToLoad){
     	loadUrl: urlToLoad //Uses jQuery.load()
 	});
 }
+
 /**
  * funcion para crear un objeto del tipo XMLHTTPRequest segun el navegador
  * 
@@ -340,11 +341,24 @@ function searchEnviosAjaxSimple(statusEnvio){
  * @param pageNumber
  */
 function searchEnviosAjax(pageNumber){
+	//para permitir la busqueda, debe estar seleccionado al menos un criterio
+	
+	if(document.getElementById("statusEnvio").value == -1
+			&& document.getElementById("seudonimoML").value.trim() == ""
+			&& document.getElementById("boucher").value.trim() == ""
+			&& document.getElementById("fechaDesde").value.trim() == ""
+			&& document.getElementById("fechaHasta").value.trim() == ""
+			&& document.getElementById("ciRif").value.trim() == ""){
+		alert("Para poder realizar la operación, debe seleccionar al menos un criterio de búsqueda");
+		return;
+	}
+	
 	var parameters = "pageNumber="+pageNumber;
 	parameters += "&scriptFunction=searchEnviosAjax";
 	//indicamos el status de los envios que queremos visualizar
 	parameters += "&statusEnvio=" + document.getElementById("statusEnvio").value;
 	parameters += "&seudonimoML=" + document.getElementById("seudonimoML").value;
+	parameters += "&ciRif=" + document.getElementById("ciRif").value;
 	parameters += "&boucher=" + document.getElementById("boucher").value;
 	parameters += "&fechaDesde=" + document.getElementById("fechaDesde").value;
 	parameters += "&fechaHasta=" + document.getElementById("fechaHasta").value;

@@ -65,7 +65,7 @@ VALUES
 		$headers .= "MIME-Version: 1.0" . "\r\n";
 		$headers .= "Content-type:text/html;charset=iso-8859-1" . "\r\n";
 		
-		$message = file_get_contents("emailTemplate.html");
+		$message = file_get_contents("../sis/emailTemplates/templatePagoRegistrado.html");
 		$message = str_replace("{0}", $_POST["nombre"]." (".$_POST["seudonimo"].")", $message);
 		
 		SendEmail::sendMail($_POST["email"], 
