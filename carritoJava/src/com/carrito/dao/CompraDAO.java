@@ -75,7 +75,10 @@ public final class CompraDAO {
 		
 		final String queryDetalle = "INSERT INTO venta_detalle (id_venta, id_producto, cantidad_vendida, precio_unitario, precio_total)"
 				+ " VALUES(?,?,?,?,?)";
-		final String decrementarInventario = "UPDATE producto SET cantidad_comprada=cantidad_comprada - ? WHERE id=?";
+		final String ajustarInventario = "UPDATE producto" 
+				+ " SET cantidad_comprada=cantidad_comprada - ?, "
+				+ " cantidad_vendida=cantidad_comprada - ?"
+				+ " WHERE id=?";
 		
 		//creamos el registro maestro de la compra
 		final String query = "INSERT INTO venta(fecha, monto_sin_iva, iva, nro_documento_pago, id_usuario, id_banco, id_tipo_pago)"
@@ -116,8 +119,9 @@ public final class CompraDAO {
 				
 				queryParameters.clear();
 				queryParameters.add(cestaDeCompra.getCantidadesSeleccionadas()[i]);
+				queryParameters.add(cestaDeCompra.getCantidadesSeleccionadas()[i]);
 				queryParameters.add(cestaDeCompra.getProductosSeleccionados()[i]);
-				DBUtil.executeNonSelectQuery(decrementarInventario, queryParameters);
+				DBUtil.executeNonSelectQuery(ajustarInventario, queryParameters);
 			}
 		}
 		

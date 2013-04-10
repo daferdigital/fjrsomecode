@@ -32,8 +32,8 @@ public final class SendMail {
 	private static final String MAIL_PASSWORD_KEY = "mail.account.password";
 	private static final String MAIL_DEBUG_KEY = "mail.debugenabled";
 	
-	private static final String PROTOCOL_SSL = "ssl";
-	private static final String PROTOCOL_TLS = "tls";
+	private static final String PROTOCOL_SSL = "SSL";
+	private static final String PROTOCOL_TLS = "TLS";
 	
 	private SendMail() {
 		// TODO Auto-generated constructor stub
@@ -49,18 +49,22 @@ public final class SendMail {
 		props.put("mail.smtp.host", resources.getMessage(MAIL_HOST_KEY));
 		props.put("mail.smtp.port", resources.getMessage(MAIL_PORT_KEY));
 		
+		log.info("Host/Puerto para salida de correos: " + 
+				resources.getMessage(MAIL_HOST_KEY) + "/" + resources.getMessage(MAIL_PORT_KEY));
+		
 		Authenticator auth = null;
-		if(PROTOCOL_SSL.equals(resources.getMessage(MAIL_PROTOCOL_KEY))
-				|| PROTOCOL_TLS.equals(resources.getMessage(MAIL_PROTOCOL_KEY))){
+		if(PROTOCOL_SSL.equals(resources.getMessage(MAIL_PROTOCOL_KEY).toUpperCase())
+				|| PROTOCOL_TLS.equals(resources.getMessage(MAIL_PROTOCOL_KEY).toUpperCase())){
 			//es un envio autenticado
 			log.info("Envio de correo autenticado bajo protocolo " + resources.getMessage(MAIL_PROTOCOL_KEY));
 			props.put("mail.smtp.auth", "true");
 			
-			if(PROTOCOL_SSL.equals(resources.getMessage(MAIL_PROTOCOL_KEY))){
+			if(PROTOCOL_SSL.equals(resources.getMessage(MAIL_PROTOCOL_KEY).toUpperCase())){
 				props.put("mail.smtp.socketFactory.port", resources.getMessage(MAIL_PORT_KEY));
 				props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+				props.put("mail.smtp.socketFactory.fallback", "false");
 			}
-			if(PROTOCOL_TLS.equals(resources.getMessage(MAIL_PROTOCOL_KEY))){
+			if(PROTOCOL_TLS.equals(resources.getMessage(MAIL_PROTOCOL_KEY).toUpperCase())){
 				props.put("mail.smtp.starttls.enable", "true");
 			}
 			
@@ -71,6 +75,10 @@ public final class SendMail {
 							resources.getMessage(MAIL_PASSWORD_KEY));
 				}
 			  };
+		} else{
+			log.info("El protocolo '" + resources.getMessage(MAIL_PROTOCOL_KEY)
+					+ "' no es manejado en estos momentos por el sistema."
+					+ " Se realizara el envio de manera no autenticada.");
 		}
 		
 		Session session = auth == null ? Session.getInstance(props) : Session.getInstance(props, auth);
