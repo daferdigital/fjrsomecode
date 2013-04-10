@@ -21,7 +21,16 @@
                    </tr>
                    <tr>
                        <td>Cedula:</td>
-                       <td><html:text property="cedula" onkeypress="return textInputOnlyNumbers(event)"></html:text></td>
+                       <td>
+                           <html:select property="tipoDocumento">
+                               <html:option value="V">V</html:option>
+                               <html:option value="E">E</html:option>
+                               <html:option value="J">J</html:option>
+                               <html:option value="G">G</html:option>
+                           </html:select>
+                           &nbsp;-&nbsp;
+                           <html:text style="width: 93px;" property="cedula" onkeypress="return textInputOnlyNumbers(event)"></html:text>
+                       </td>
                    </tr>
                    <tr>
                        <td>Telefono:</td>

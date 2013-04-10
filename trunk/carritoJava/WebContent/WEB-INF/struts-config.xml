@@ -78,6 +78,12 @@
             name="usuarioForm" input="/registro.jsp">
             <forward name="success" path="/registro.jsp"></forward>
         </action>
+        
+        <!-- action que implementa la logica para agregar elementos en el carrito y proceder a actualizar en la web -->
+        <action path="/crudProducts" type="com.carrito.actions.CrudProducts"
+            name="productoForm" input="/crudProductos.jsp">
+            <forward name="success" path="/crudProductos.jsp"></forward>
+        </action>
 	</action-mappings>
 	
 	<message-resources parameter="ApplicationResources" null="false"></message-resources>

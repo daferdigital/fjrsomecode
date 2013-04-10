@@ -23,6 +23,7 @@ public class UsuarioForm extends ActionForm{
 	private static final long serialVersionUID = -6792584181520329054L;
 
 	private int id;
+	private String tipoDocumento;
 	private String cedula;
 	private String nombre;
 	private String apellido;
@@ -94,6 +95,14 @@ public class UsuarioForm extends ActionForm{
 		this.id = id;
 	}
 
+	public String getTipoDocumento() {
+		return tipoDocumento;
+	}
+	
+	public void setTipoDocumento(String tipoDocumento) {
+		this.tipoDocumento = tipoDocumento;
+	}
+	
 	public String getCedula() {
 		return cedula;
 	}
