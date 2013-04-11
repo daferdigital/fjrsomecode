@@ -1,7 +1,9 @@
 package com.carrito.dao;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionErrors;
@@ -24,6 +26,10 @@ import com.carrito.util.DBUtil;
  */
 public final class CompraDAO {
 	private static final Logger log = Logger.getLogger(CompraDAO.class);
+
+	public static final String KEY_COMPRA_ERRORES = "errores";
+	public static final String KEY_COMPRA_DETALLE = "detalleProductos";
+	public static final String KEY_COMPRA_TOTAL = "total";
 	
 	private CompraDAO() {
 		// TODO Auto-generated constructor stub
@@ -34,13 +40,18 @@ public final class CompraDAO {
 	 * @param cestaDeCompra
 	 * @return
 	 */
-	public static ActionErrors registrarCompra(BasketForm cestaDeCompra){
+	public static Map<String, Object> registrarCompra(BasketForm cestaDeCompra){
+		Map<String, Object> resultado = new HashMap<String, Object>();
+		String detalleProductos = "";
+		
 		ActionErrors errors = new ActionErrors();
 		double total = 0;
 		
 		if("".equals(cestaDeCompra.getNroTarjetaCheque().trim())){
 			errors.add("carrito.nrotarjetacheque.vacio", new ActionMessage("carrito.nrotarjetacheque.vacio"));
-			return errors;
+			resultado.put(KEY_COMPRA_ERRORES, errors);
+			resultado.put(KEY_COMPRA_DETALLE, "");
+			return resultado;
 		}
 		
 		//primero verificamos inventario sobre los productos a comprar
@@ -66,7 +77,9 @@ public final class CompraDAO {
 		if(errors.size() > 0){
 			//tenemos fallas para suplir el inventario, no vale la pena seguir el proceso
 			log.info("No se disponia de inventario para alguno de los productos solicitados, frenamos el proceso de compra");
-			return errors;
+			resultado.put(KEY_COMPRA_ERRORES, errors);
+			resultado.put(KEY_COMPRA_DETALLE, "");
+			return resultado;
 		}
 		
 		//si no tenemos errores quiere decir que la verificacion de inventario fue exitosa
@@ -100,6 +113,7 @@ public final class CompraDAO {
 			if(cestaDeCompra.getCantidadesSeleccionadas()[i] > 0){
 				//este producto fue efectivamente seleccionado en la pre orden
 				//lo agregamos a la compra y lo eliminamos del temporal
+				
 				CarritoItemDTO itemDTO = new CarritoItemDTO();
 				itemDTO.setUserId(cestaDeCompra.getUserId());
 				itemDTO.setProductId(cestaDeCompra.getProductosSeleccionados()[i]);
@@ -122,9 +136,22 @@ public final class CompraDAO {
 				queryParameters.add(cestaDeCompra.getCantidadesSeleccionadas()[i]);
 				queryParameters.add(cestaDeCompra.getProductosSeleccionados()[i]);
 				DBUtil.executeNonSelectQuery(ajustarInventario, queryParameters);
+				
+				//creamos el detalle para este producto, en vias del envio de email
+				detalleProductos += "<tr>";
+				detalleProductos += "<td>" + producto.getNombre() + "</td>";
+				detalleProductos += "<td>" + cestaDeCompra.getCantidadesSeleccionadas()[i] + "</td>";
+				detalleProductos += "<td>" + producto.getPrecioNetoActual() + "</td>";
+				detalleProductos += "<td>" + (producto.getPrecioNetoActual() * cestaDeCompra.getCantidadesSeleccionadas()[i]) + "</td>";
+				detalleProductos += "</tr>";
+				
 			}
 		}
 		
-		return errors;
+		resultado.put(KEY_COMPRA_ERRORES, errors);
+		resultado.put(KEY_COMPRA_DETALLE, detalleProductos);
+		resultado.put(KEY_COMPRA_TOTAL, total);
+		
+		return resultado;
 	}
 }

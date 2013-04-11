@@ -3,6 +3,7 @@ package com.carrito.actions;
 import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.util.Calendar;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -56,7 +57,8 @@ public class CompleteBasketCheckOutAction extends Action {
 		//tenemos el listado de la cesta
 		//debemos ver que elementos quedan en la cesta temporal y cuales seran comprados realmente
 		basketForm.setUserId(SessionUtil.getUserIdInSession(request));
-		ActionErrors errors = CompraDAO.registrarCompra(basketForm);
+		Map<String, Object> resultado = CompraDAO.registrarCompra(basketForm);
+		ActionErrors errors = (ActionErrors) resultado.get(CompraDAO.KEY_COMPRA_ERRORES);
 		
 		if(errors.size() > 0){
 			saveErrors(request, errors);
@@ -67,9 +69,10 @@ public class CompleteBasketCheckOutAction extends Action {
 			
 			String template = SendMail.getMailCompraFinalizadaTemplate(
 					request.getSession().getServletContext().getRealPath("/"));
-			MessageFormat.format(template, new Object[]{user.getNombre() + " " + user.getApellido(),
+			template = MessageFormat.format(template, new Object[]{user.getNombre() + " " + user.getApellido(),
 					DateFormat.getDateInstance().format(Calendar.getInstance().getTime()),
-					});
+					resultado.get(CompraDAO.KEY_COMPRA_DETALLE),
+					resultado.get(CompraDAO.KEY_COMPRA_TOTAL)});
 			
 			MessageResources resources = getResources(request);
 			SendMail.sendEmail(resources, 

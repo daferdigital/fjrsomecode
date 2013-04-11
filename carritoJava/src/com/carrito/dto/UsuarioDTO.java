@@ -13,6 +13,7 @@ import java.util.List;
  */
 public final class UsuarioDTO {
 	private int id;
+	private String tipoDocumento;
 	private String cedula;
 	private String nombre;
 	private String apellido;
@@ -36,6 +37,14 @@ public final class UsuarioDTO {
 		this.id = id;
 	}
 
+	public String getTipoDocumento() {
+		return tipoDocumento;
+	}
+	
+	public void setTipoDocumento(String tipoDocumento) {
+		this.tipoDocumento = tipoDocumento;
+	}
+	
 	public String getCedula() {
 		return cedula;
 	}

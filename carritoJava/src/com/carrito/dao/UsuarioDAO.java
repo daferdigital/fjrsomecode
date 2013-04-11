@@ -124,9 +124,10 @@ public final class UsuarioDAO {
 	 * @return
 	 */
 	public static boolean addUserToDataBase(UsuarioForm userForm){
-		final String query = "INSERT INTO usuario (cedula, nombre, apellido, telefono, direccion, email, login, clave, id_perfil)" 
-				+ " VALUES(?,?,?,?,?,?,?,MD5(?),?)";
+		final String query = "INSERT INTO usuario (tipo_identidad, cedula, nombre, apellido, telefono, direccion, email, login, clave, id_perfil)" 
+				+ " VALUES(?,?,?,?,?,?,?,?,MD5(?),?)";
 		List<Object> queryParameters = new LinkedList<Object>();
+		queryParameters.add(userForm.getTipoDocumento());
 		queryParameters.add(userForm.getCedula());
 		queryParameters.add(userForm.getNombre());
 		queryParameters.add(userForm.getApellido());

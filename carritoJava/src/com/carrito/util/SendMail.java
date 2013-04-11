@@ -67,7 +67,7 @@ public final class SendMail {
 	private static String getEmailTemplateAsString(String baseSiteDir, String mailTemplate){
 		File template = new File(baseSiteDir + File.separator + TEMPLATES_BASE_DIR
 				+ File.separator + mailTemplate);
-		String contentTemplate = null;
+		String contentTemplate = "";
 		
 		if(template.exists()){
 			//obtenemos el contenido del archivo como un string
@@ -90,6 +90,7 @@ public final class SendMail {
 					// TODO: handle exception
 				}
 			}
+			log.info("Leida correctamente plantilla desde " + template.getAbsolutePath());
 		} else {
 			log.error("Template de correo " + template.getAbsolutePath()
 					+ " no existe, no podremos enviar este correo a causa de eso");
