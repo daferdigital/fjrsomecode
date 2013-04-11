@@ -1,17 +1,24 @@
 package com.carrito.util;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;
+import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import org.apache.log4j.Logger;
 import org.apache.struts.util.MessageResources;
+
 
 /**
  * 
@@ -35,8 +42,60 @@ public final class SendMail {
 	private static final String PROTOCOL_SSL = "SSL";
 	private static final String PROTOCOL_TLS = "TLS";
 	
+	private static final String TEMPLATES_BASE_DIR = "WEB-INF" + File.separator + "mailTemplates";
+	
 	private SendMail() {
 		// TODO Auto-generated constructor stub
+	}
+	
+	/**
+	 * 
+	 * @param baseSiteDir
+	 * 
+	 * @return
+	 */
+	public static String getMailCompraFinalizadaTemplate(String baseSiteDir){
+		return getEmailTemplateAsString(baseSiteDir, "compraRealizada.html");
+	}
+	
+	/**
+	 * 
+	 * @param baseSiteDir
+	 * @param mailTemplate
+	 * @return
+	 */
+	private static String getEmailTemplateAsString(String baseSiteDir, String mailTemplate){
+		File template = new File(baseSiteDir + File.separator + TEMPLATES_BASE_DIR
+				+ File.separator + mailTemplate);
+		String contentTemplate = null;
+		
+		if(template.exists()){
+			//obtenemos el contenido del archivo como un string
+			BufferedReader in = null;
+			
+			try {
+				in = new BufferedReader(new FileReader(template));
+				String line = "";
+				
+				while((line = in.readLine()) != null){
+					contentTemplate += line;
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				log.error("Error de lectura/escritura asociado a la plantilla de correo", e);
+			} finally {
+				try {
+					in.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+				}
+			}
+		} else {
+			log.error("Template de correo " + template.getAbsolutePath()
+					+ " no existe, no podremos enviar este correo a causa de eso");
+		}
+		
+		return contentTemplate;
 	}
 	
 	/**
@@ -109,8 +168,14 @@ public final class SendMail {
 						
 						message.setSubject(subject);
 						
-						message.setText(mailMessage);
-			 
+						Multipart mp = new MimeMultipart();
+						MimeBodyPart htmlPart = new MimeBodyPart();
+				        htmlPart.setContent(mailMessage, "text/html");
+				        mp.addBodyPart(htmlPart);
+				         
+				        message.setContent(mp);
+				        //message.setText(mailMessage);
+				         
 						Transport.send(message);
 						
 						log.info("Correo enviado exitosamente a " + mailTo + ", con el asunto " + subject);
