@@ -1,5 +1,9 @@
 package com.carrito.actions;
 
+import java.text.DateFormat;
+import java.text.MessageFormat;
+import java.util.Calendar;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -61,11 +65,17 @@ public class CompleteBasketCheckOutAction extends Action {
 			messages.add("carrito.checkout.completed", new ActionMessage("carrito.checkout.completed"));
 			saveMessages(request, messages);
 			
+			String template = SendMail.getMailCompraFinalizadaTemplate(
+					request.getSession().getServletContext().getRealPath("/"));
+			MessageFormat.format(template, new Object[]{user.getNombre() + " " + user.getApellido(),
+					DateFormat.getDateInstance().format(Calendar.getInstance().getTime()),
+					});
+			
 			MessageResources resources = getResources(request);
 			SendMail.sendEmail(resources, 
 					user.getEmail(), 
 					resources.getMessage("mail.completecheckout.subject"), 
-					resources.getMessage("mail.completecheckout.subject"));
+					template);
 		}
 		
 		IndexVO indexForm = new IndexVO();
