@@ -171,7 +171,7 @@
     			Celular:
     			<br />
     			<span class="Estilo18">
-    				Debe indicar al menos un n&uacute;mero telef&oacute;nico, sea celular o fijo
+    				Debe indicar al menos un n&uacute;mero telef&oacute;nico,<br /> sea celular o fijo
     			</span>
     		</td>
     		<td colspan="<?php echo $columnas -1;?>">
@@ -385,7 +385,7 @@
     			<div align="center" id="seccion5Info">
 			    	<table id="tablaProductosComprados">
 				   		<thead>
-				   		<tr>
+				   		<tr class="Estilo17">
 				  			<th width="200px">Cantidad</th>
 	                        <th width="200px">Producto</th>
 	                        <th width="200px">Observaciones</th>
