@@ -170,3 +170,51 @@ function validarFormularioDePago(payForm){
 		payForm.submit();
 	}
 }
+
+/**
+ * 
+ * @param elementId
+ */
+function eliminarElemento(elementId){
+	var element = document.getElementById(elementId);
+	
+	element.parentNode.removeChild(element);
+}
+
+var idCounter = 1;
+/**
+ * 
+ * @param cantidadValue
+ * @param productoValue
+ * @param observacionValue
+ */
+function addFilaProductosComprados(cantidadValue, productoValue, observacionValue){
+	//obtenemos el nodo padre donde colocaremos el container para el nuevo dia
+	var nodoPadre = document.getElementById("seccion5Info");
+	//var nextId = "seccion5Row_" + document.getElementsByName("seccion5Row").length;
+	var nextId = "seccion5Row_" + (idCounter ++);
+	var nextIdParam = "'" + nextId + "'";
+	var newNodo = document.createElement('div');
+	newNodo.id = nextId;
+	
+	var htmlContainerText = 
+		  '<table class="table table-bordered table-striped" name="seccion5Row">'
+		+ '    <tr>'
+		+ '        <td width="200px">'
+		+ '            <input type="text" name="text1[]" value="' + cantidadValue + '"/>'
+		+ '        </td>'
+		+ '        <td width="200px">'
+		+ '            <input type="text" name="text2[]" value="' + productoValue + '"/>'
+		+ '        </td>'
+		+ '        <td width="200px">'
+		+ '            <input type="text" name="text3[]" value="' + observacionValue + '"/>'
+		+ '        </td>'
+		+ '        <td width="200px">'
+		+ '            <input type="button" value="Eliminar esta fila" onclick="javascript:eliminarElemento(' + nextIdParam + ')"/>'
+		+ '        </td>'
+		+ '    </tr>'
+		+ '</table>';
+	
+	newNodo.innerHTML = htmlContainerText;
+	nodoPadre.appendChild(newNodo);
+}

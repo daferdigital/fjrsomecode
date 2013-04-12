@@ -7,7 +7,7 @@ body {background-color: #CCCCCC; font-family: Geneva, Arial, Helvetica, sans-ser
 	font-family: Verdana;
 	color: #666666;
 }
-.title {margin-right:5px; font-size: 12px; text-align:right;}
+.title {margin-right:5px; font-size: 12px;}
 .subtitle {color: #666666;font-size: 10px;}
 .headline1 {color: #CCCCCC;font-size: 14px;}
 .headline2{color: #333333;font-size: 16px;}
