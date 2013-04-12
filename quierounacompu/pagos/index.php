@@ -39,11 +39,11 @@
 	</style>
 </head>
 <body>
-	
+<?php $columnas = 3;?>
 <form name="pago" action="storePay.php" method="post">
 	<table class="tablaPrincipal" align="center" cellpadding="0" cellspacing="10" width="741">
   		<tr>
-    		<td colspan="2" align="center">
+    		<td colspan="<?php echo $columnas;?>" align="center">
     			<table border="0" cellpadding="0" cellspacing="0" width="900">
       				<tr>
 				        <td><img src="../img/spacer.gif" alt="" border="0" height="1" width="900"></td>
@@ -73,44 +73,49 @@
       		</td>
 		</tr>
   		<tr>
-    		<td colspan="2" class="headline1 Estilo24" align="center" bgcolor="#2073C3" height="40">
+    		<td colspan="<?php echo $columnas;?>" class="headline1 Estilo24" align="center" bgcolor="#2073C3" height="40">
     			Reportar pago de productos, mediante depósito o transferencia 
     		</td>
   		</tr>
   		<tr>
-    		<td colspan="2" class="headline2 Estilo22" align="center" bgcolor="#CCCCCC">
+    		<td colspan="<?php echo $columnas;?>" class="headline2 Estilo22" align="center" bgcolor="#CCCCCC">
     			Por favor para nosotros es importante que usted llene este formulario, para procesar su pedido correctamente
     		</td>
   		</tr>
   		<tr>
-    		<td colspan="2" class="headline2" align="center" bgcolor="#CCCCCC">
+    		<td colspan="<?php echo $columnas;?>" class="headline2" align="center" bgcolor="#CCCCCC">
     			Datos del pago para procesar su pedido
     		</td>
   		</tr>
   		<tr>
-    		<td colspan="2">&nbsp;</td>
+    		<td colspan="<?php echo $columnas;?>">&nbsp;</td>
   		</tr>
   		<tr>
-    		<td class="title Estilo17" width="307">
-    			* Tu seud&oacute;nimo en MercadoLibre:
-    		</td>
-    		<td width="266">
-    			<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="seudonimo">
-    			<span class="isMandatory" id="spanSeudonimo" style="display: none;">
-    				<br/>
-    				Disculpe el seud&oacute;nimo de MercadoLibre es obligatorio.
-    			</span>
+    		<td colspan="<?php echo $columnas;?>" class="headline1 Estilo24" bgcolor="#2073C3" height="40">
+    			Datos del Cliente
     		</td>
   		</tr>
   		<tr>
     		<td class="title Estilo17">
     			* Tus nombres y apellidos:
     		</td>
-    		<td>
+    		<td colspan="<?php echo $columnas - 1?>">
     			<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="nombre">
     			<span class="isMandatory" id="spanNombre" style="display: none;">
     				<br/>
     				Disculpe el nombre completo es obligatorio.
+    			</span>
+    		</td>
+  		</tr>
+  		<tr>
+    		<td class="title Estilo17" width="307">
+    			* Tu seud&oacute;nimo en MercadoLibre:
+    		</td>
+    		<td width="266" colspan="<?php echo $columnas - 1?>">
+    			<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="seudonimo">
+    			<span class="isMandatory" id="spanSeudonimo" style="display: none;">
+    				<br/>
+    				Disculpe el seud&oacute;nimo de MercadoLibre es obligatorio.
     			</span>
     		</td>
   		</tr>
@@ -122,7 +127,7 @@
     				Indispensable para poder procesar el pedido.
     			</span>
     		</td>
-   	 		<td>
+   	 		<td colspan="<?php echo $columnas - 1?>">
    	 			<select style="FONT-SIZE: 10pt" size="1" name="ci">
 			        <option value="V" selected>V</option>
 			        <option value="J">J</option>
@@ -144,264 +149,21 @@
     			<span class="Estilo20">El mismo de MercadoLibre</span>
     		</td>
     		<td>
+    			<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="email">
+      			<br />
+      			<span class="isMandatory" id="spanEmail" style="display: none;">
+	    			<br/>
+	    			Disculpe su Correo es obligatorio.
+    			</span>
+    		</td>
+    		<td>
     			<p>
-      				<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="email">
-      				<br />
       				<span class="Estilo18">
       					Es importante que el email sea escrito correctamente ya que te llegara una copia de los datos completados.
       					<br />
       					Tambi&eacute;n te enviaremos ofertas de nuestros productos.
       				</span>
-      				<span class="isMandatory" id="spanEmail" style="display: none;">
-	    				<br/>
-	    				Disculpe su Correo es obligatorio.
-    				</span>
       			</p>
-      		</td>
-  		</tr>
-  		<tr>
-    		<td class="title Estilo17">
-    			* Medio de Pago:
-    		</td>
-    		<td>
-    			<select name="medio" size="1" class="Estilo11" style="FONT-SIZE: 10pt" id="medio">
-    				<option value="-1" selected="">Seleccione su medio de pago</option>
-			        <?php 
-    					$query = "SELECT id, text "
-    					."FROM medios_de_pago "
-    					."WHERE active='1' "
-    					."ORDER BY text";
-    					
-    					$results = DBUtil::executeSelect($query);
-    					foreach ($results as $row){
-    				?>
-    					<option value="<?php echo $row["id"];?>"><?php echo $row["text"];?></option>
-    				<?php
-    					}
-    				?>
-      			</select>
-      			<span class="isMandatory" id="spanMedio" style="display: none;">
-	    			<br/>
-	    			Disculpe debe indicar su medio de pago.
-    			</span>
-      		</td>
-  		</tr>
-  		<tr>
-    		<td class="title Estilo17">Banco:</td>
-    		<td>
-    			<select name="banco" size="1" class="Estilo11" style="FONT-SIZE: 10pt" id="banco">
-					<option value="-1" selected="">Seleccione su banco</option>
-			        <?php 
-    					$query = "SELECT id, nombre "
-    					."FROM bancos "
-    					."WHERE active='1' "
-    					."ORDER BY nombre";
-    					
-    					$results = DBUtil::executeSelect($query);
-    					foreach ($results as $row){
-    				?>
-    					<option value="<?php echo $row["id"];?>"><?php echo $row["nombre"];?></option>
-    				<?php
-    					}
-    				?>
-        		</select>
-        		<span class="isMandatory" id="spanBanco" style="display: none;">
-	    			<br/>
-	    			Disculpe debe indicarnos el banco desde el que realiz&oacute; el pago.
-    			</span>
-    		</td>
-  		</tr>
-  		<tr>
-    		<td class="title Estilo17">
-    			*Cantidad y Articulo(s) comprado(s) :
-    			<br />
-    			<span class="Estilo18">
-    				Indiquenos la cantidad y el articulo que usted compro, tome como guia el t&iacute;itulo del articulo en MercadoLibre 
-    				<br />
-    				Cantidad (Nro) Articulo 
-    			</span>
-         	</td>
-    		<td>
-    			<textarea name="articulo" id="articulo" cols="45" rows="5"></textarea>
-    			<span class="isMandatory" id="spanArticulo" style="display: none;">
-	    			<br/>
-	    			Disculpe debe indicarnos el detalle del articulo comprado y las cantidades.
-    			</span>
-    		</td>
-  		</tr>
-  		<tr>
-    		<td class="title Estilo17">
-    			* N&uacute;mero del dep&oacute;sito o transferencia:
-    			<br />
-    			<span class="Estilo20">
-    				Copie el n&uacute;mero de trasferencia o baucher
-    			</span>
-    		</td>
-    		<td>
-      			<input id="bauche" style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" maxlength="30" size="30" name="bauche">
-      			<span class="isMandatory" id="spanBauche" style="display: none;">
-	    			<br/>
-	    			Disculpe el n&uacute;mero del bauche o transferencia es obligatorio.
-    			</span> 
-      		</td>
-  		</tr>
-  		<tr>
-    		<td class="title Estilo17">
-    			* Fecha del dep&oacute;sito o transferencia:
-    		</td>
-    		<td>
-    			<input type="text" id="fechaPago" name="fechaPago" size="25" readonly="true"/>
-			
-				<script>
-					new JsDatePick({
-				        useMode:2,
-				        target:"fechaPago",        
-				        isStripped:true,
-				       	weekStartDay:0,
-				        limitToToday:true,
-				        dateFormat:"%Y-%m-%d",
-				        imgPath:"../img/"
-				    });
-				</script>
-				<span class="isMandatory" id="spanFechaPago" style="display: none;">
-	    			<br/>
-	    			Disculpe debe indicarnos la fecha de su pago.
-    			</span>
-      		</td>
-      	</tr>
-      	<tr>
-	      	<td class="title Estilo17">
-	      		* Monto del dep&oacute;sito o transferencia:
-	      	</td>
-    		<td>
-    			<input style="FONT-SIZE: 10pt; TEXT-DECORATION: none" size="30" name="monto"> 
-      			<span class="Estilo23">Bs F</span>
-      			<span class="isMandatory" id="spanMonto" style="display: none;">
-	    			<br/>
-	    			Disculpe debe indicar el monto del pago.
-    			</span>
-      		</td>
-  		</tr>
-  		<tr>
-    		<td colspan="2" class="headline2 Estilo17" align="center">&nbsp;</td>
-  		</tr>
-  		<tr>
-    		<td colspan="2" class="headline2" align="center" bgcolor="#CCCCCC">
-    			Datos para el env&iacute;o
-    		</td>
-  		</tr>
-  		<tr>
-    		<td colspan="2" class="title Estilo17 Estilo18">
-    			<div align="center">
-    				<span class="Estilo20">Nota Importante:</span> 
-    				No nos hacemos responsables por los da&ntilde;os y/o p&eacute;rdidas que puedan sufrir los productos durante su traslado
-    			</div>
-    		</td>
-    	</tr>
-  		<tr>
-    		<td class="title Estilo17">
-    			* Compa&ntilde;&iacute;a de env&iacute;o:
-    		</td>
-    		<td>
-      			<select name="envio" id="envio" class="Estilo11" id="envio" style="FONT-SIZE: 10pt" onchange="checkCiaEnvio();">
-					<?php 
-    					$query = "SELECT id, nombre "
-    					."FROM empresa_envio "
-    					."WHERE active='1' "
-    					."ORDER BY nombre";
-    					
-    					$results = DBUtil::executeSelect($query);
-    					foreach ($results as $row){
-    				?>
-    					<option value="<?php echo $row["id"];?>"><?php echo $row["nombre"];?></option>
-    				<?php
-    					}
-    				?>
-				</select>
-				<span class="isMandatory" id="spanEnvio" style="display: none;">
-	    			<br/>
-	    			Disculpe debe indicar con que compa&ntilde;ia desea realizar el env&iacute;o.
-    			</span>
-			</td>
-		</tr>
-  		<tr>
-    		<td class="title Estilo17">
-    			* Nombre y Apellido del destinatario:
-    		</td>
-    		<td>
-    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="destinatario">
-    			<span class="isMandatory" id="spanDestinatario" style="display: none;">
-	    			<br/>
-	    			Disculpe debe indicar el nombre completo del destinatario.
-    			</span>
-    		</td>
-  		</tr>
-  		<tr>
-    		<td class="title Estilo17">
-    			* Direcci&oacute;n <strong>exacta </strong> de destino
-    			<br />
-    			<span class="Estilo18">
-    				Incluya nombre de Urb. o Barrio; Calle, Carrera o Av.; 
-    				Nombre o numero de Casa o Edificio; Piso y n&uacute;mero de Apto u Oficina
-    			</span>
-    		</td>
-    		<td>
-    		
-    			<textarea name="dir1" id="dir1" cols="45" rows="5"></textarea>
-      			<span class="isMandatory" id="spanDir1" style="display: none;">
-	    			<br/>
-	    			Disculpe debe indicar la direcci&oacute;n exacta del destino.
-    			</span>
-      		</td>
-      	</tr>
-  		<tr>
-    		<td class="title Estilo17">
-    			* Ciudad o Poblaci&oacute;n:
-    		</td>
-    		<td>
-    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="ciudad">
-    			<span class="isMandatory" id="spanCiudad" style="display: none;">
-	    			<br/>
-	    			Disculpe debe indicar la Ciudad o Poblaci&oacute;n del env&iacute;o.
-    			</span>
-    		</td>
-   		</tr>
-   		<tr>
-   			<td class="title Estilo17">
-   				* Estado:
-   			</td>
-    		<td>
-    			<select name="estado" size="1">
-			        <option value="-1" selected>Selecciona</option>
-					<option>Amazonas</option>
-			        <option>Anzoategui</option>
-			        <option>Apure</option>
-			        <option>Aragua</option>
-			        <option>Barinas</option>
-			        <option>Bolivar</option>
-			        <option>Carabobo</option>
-			        <option>Cojedes</option>
-			        <option>Delta Amacuro</option>
-			        <option>Distrito Capital</option>
-			        <option>Falcon</option>
-			        <option>Guarico</option>
-			        <option>Lara</option>
-			        <option>Merida</option>
-			        <option>Miranda</option>
-			        <option>Monagas</option>
-			        <option>Nueva Esparta</option>
-			        <option>Portuguesa</option>
-			        <option>Sucre</option>
-			        <option>Tachira</option>
-			        <option>Trujillo</option>
-			        <option>Vargas</option>
-			        <option>Yaracuy</option>
-			        <option>Zulia</option>
-      			</select>
-      			<span class="isMandatory" id="spanEstado" style="display: none;">
-	    			<br/>
-	    			Disculpe debe indicar la estado al cual ser&aacute; realizado del env&iacute;o.
-    			</span>
       		</td>
   		</tr>
   		<tr>
@@ -412,7 +174,7 @@
     				Debe indicar al menos un n&uacute;mero telef&oacute;nico, sea celular o fijo
     			</span>
     		</td>
-    		<td>
+    		<td colspan="<?php echo $columnas -1;?>">
     			<select id="codcel" size="1" name="codcel">
 			        <option value="412">412</option>
 			        <option value="414">414</option>
@@ -431,7 +193,7 @@
     		<td class="title Estilo17">
     			Tel&eacute;fono:
     		</td>
-    		<td>
+    		<td colspan="<?php echo $columnas -1;?>">
     			<select size="1" name="codfono">
 			        <option value="212">212</option>
 			        <option value="234">234</option>
@@ -496,6 +258,288 @@
     		</td>
   		</tr>
   		<tr>
+    		<td colspan="<?php echo $columnas;?>" class="headline1 Estilo24" bgcolor="#2073C3" height="40">
+    			Datos del Pago
+    		</td>
+  		</tr>
+  		<tr>
+    		<td class="title Estilo17">
+    			* Medio de Pago:
+    		</td>
+    		<td colspan="<?php echo $columnas -1;?>">
+    			<select name="medio" size="1" class="Estilo11" style="FONT-SIZE: 10pt" id="medio">
+    				<option value="-1" selected="">Seleccione su medio de pago</option>
+			        <?php 
+    					$query = "SELECT id, text "
+    					."FROM medios_de_pago "
+    					."WHERE active='1' "
+    					."ORDER BY text";
+    					
+    					$results = DBUtil::executeSelect($query);
+    					foreach ($results as $row){
+    				?>
+    					<option value="<?php echo $row["id"];?>"><?php echo $row["text"];?></option>
+    				<?php
+    					}
+    				?>
+      			</select>
+      			<span class="isMandatory" id="spanMedio" style="display: none;">
+	    			<br/>
+	    			Disculpe debe indicar su medio de pago.
+    			</span>
+      		</td>
+  		</tr>
+  		<tr>
+    		<td class="title Estilo17">Banco:</td>
+    		<td colspan="<?php echo $columnas -1;?>">
+    			<select name="banco" size="1" class="Estilo11" style="FONT-SIZE: 10pt" id="banco">
+					<option value="-1" selected>Seleccione su banco</option>
+			        <?php 
+    					$query = "SELECT id, nombre "
+    					."FROM bancos "
+    					."WHERE active='1' "
+    					."ORDER BY nombre";
+    					
+    					$results = DBUtil::executeSelect($query);
+    					foreach ($results as $row){
+    				?>
+    					<option value="<?php echo $row["id"];?>"><?php echo $row["nombre"];?></option>
+    				<?php
+    					}
+    				?>
+        		</select>
+        		<span class="isMandatory" id="spanBanco" style="display: none;">
+	    			<br/>
+	    			Disculpe debe indicarnos el banco desde el que realiz&oacute; el pago.
+    			</span>
+    		</td>
+  		</tr>
+  		<tr>
+    		<td class="title Estilo17">
+    			* N&uacute;mero del dep&oacute;sito o transferencia:
+    			<br />
+    			<span class="Estilo20">
+    				Copie el n&uacute;mero de trasferencia o baucher
+    			</span>
+    		</td>
+    		<td colspan="<?php echo $columnas -1;?>">
+      			<input id="bauche" style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" maxlength="30" size="30" name="bauche">
+      			<span class="isMandatory" id="spanBauche" style="display: none;">
+	    			<br/>
+	    			Disculpe el n&uacute;mero del bauche o transferencia es obligatorio.
+    			</span> 
+      		</td>
+  		</tr>
+  		<tr>
+    		<td class="title Estilo17">
+    			* Fecha del dep&oacute;sito o transferencia:
+    		</td>
+    		<td colspan="<?php echo $columnas -1;?>">
+    			<input type="text" id="fechaPago" name="fechaPago" size="25" readonly="true"/>
+			
+				<script>
+					new JsDatePick({
+				        useMode:2,
+				        target:"fechaPago",        
+				        isStripped:true,
+				       	weekStartDay:0,
+				        limitToToday:true,
+				        dateFormat:"%Y-%m-%d",
+				        imgPath:"../img/"
+				    });
+				</script>
+				<span class="isMandatory" id="spanFechaPago" style="display: none;">
+	    			<br/>
+	    			Disculpe debe indicarnos la fecha de su pago.
+    			</span>
+      		</td>
+      	</tr>
+      	<tr>
+	      	<td class="title Estilo17">
+	      		* Monto del dep&oacute;sito o transferencia:
+	      	</td>
+    		<td colspan="<?php echo $columnas -1;?>">
+    			<input style="FONT-SIZE: 10pt; TEXT-DECORATION: none" size="30" name="monto"> 
+      			<span class="Estilo23">Bs F</span>
+      			<span class="isMandatory" id="spanMonto" style="display: none;">
+	    			<br/>
+	    			Disculpe debe indicar el monto del pago.
+    			</span>
+      		</td>
+  		</tr>
+  		<tr>
+	      	<td class="title Estilo17">
+	      		Foto o archivo del pago:
+	      	</td>
+    		<td colspan="<?php echo $columnas -1;?>">
+    			<input type="file" name="archivoTransferencia"> 
+      		</td>
+  		</tr>
+  		<tr>
+    		<td colspan="<?php echo $columnas;?>" class="headline1 Estilo24" bgcolor="#2073C3" height="40">
+    			Productos Comprados
+    		</td>
+  		</tr>
+  		<tr>
+    		<td class="title Estilo17" colspan="<?php echo $columnas;?>">
+    			<div align="center" id="seccion5Info">
+			    	<table id="tablaProductosComprados">
+				   		<thead>
+				   		<tr>
+				  			<th width="200px">Cantidad</th>
+	                        <th width="200px">Producto</th>
+	                        <th width="200px">Observaciones</th>
+							<th width="200px"></th>
+	                    </tr>
+	                    </thead>
+	                </table>
+				</div>
+					
+				<input type="button" value="Agregar Fila" onclick="javascript:addFilaProductosComprados('','','');"/>
+    		</td>
+  		</tr>
+  		<tr>
+    		<td colspan="<?php echo $columnas;?>" class="headline1 Estilo24" bgcolor="#2073C3" height="40">
+    			Datos para el Env&iacute;o
+    		</td>
+  		</tr>
+  		<tr>
+    		<td colspan="<?php echo $columnas;?>" class="title Estilo17 Estilo18">
+    			<div align="center">
+    				<span class="Estilo20">Nota Importante:</span> 
+    				No nos hacemos responsables por los da&ntilde;os y/o p&eacute;rdidas que puedan sufrir los productos durante su traslado
+    			</div>
+    		</td>
+    	</tr>
+  		<tr>
+    		<td class="title Estilo17">
+    			* Compa&ntilde;&iacute;a de env&iacute;o:
+    		</td>
+    		<td colspan="<?php echo $columnas -1;?>">
+      			<select name="envio" id="envio" class="Estilo11" id="envio" style="FONT-SIZE: 10pt" onchange="checkCiaEnvio();">
+					<?php 
+    					$query = "SELECT id, nombre "
+    					."FROM empresa_envio "
+    					."WHERE active='1' "
+    					."ORDER BY nombre";
+    					
+    					$results = DBUtil::executeSelect($query);
+    					foreach ($results as $row){
+    				?>
+    					<option value="<?php echo $row["id"];?>"><?php echo $row["nombre"];?></option>
+    				<?php
+    					}
+    				?>
+				</select>
+				<span class="isMandatory" id="spanEnvio" style="display: none;">
+	    			<br/>
+	    			Disculpe debe indicar con que compa&ntilde;ia desea realizar el env&iacute;o.
+    			</span>
+			</td>
+		</tr>
+  		<tr>
+    		<td class="title Estilo17">
+    			* Nombre y Apellido del destinatario:
+    		</td>
+    		<td colspan="<?php echo $columnas -1;?>">
+    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="destinatario">
+    			<span class="isMandatory" id="spanDestinatario" style="display: none;">
+	    			<br/>
+	    			Disculpe debe indicar el nombre completo del destinatario.
+    			</span>
+    		</td>
+  		</tr>
+  		<tr>
+    		<td class="title Estilo17">
+    			* Direcci&oacute;n <strong>exacta </strong> de destino
+    			<br />
+    			<span class="Estilo18">
+    				Incluya nombre de Urb. o Barrio; Calle, Carrera o Av.; 
+    				Nombre o numero de Casa o Edificio; Piso y n&uacute;mero de Apto u Oficina
+    			</span>
+    		</td>
+    		<td colspan="<?php echo $columnas -1;?>">
+    			<textarea name="dir1" id="dir1" cols="45" rows="5"></textarea>
+      			<span class="isMandatory" id="spanDir1" style="display: none;">
+	    			<br/>
+	    			Disculpe debe indicar la direcci&oacute;n exacta del destino.
+    			</span>
+      		</td>
+      	</tr>
+  		<tr>
+    		<td class="title Estilo17">
+    			* Ciudad o Poblaci&oacute;n:
+    		</td>
+    		<td colspan="<?php echo $columnas -1;?>">
+    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="ciudad">
+    			<span class="isMandatory" id="spanCiudad" style="display: none;">
+	    			<br/>
+	    			Disculpe debe indicar la Ciudad o Poblaci&oacute;n del env&iacute;o.
+    			</span>
+    		</td>
+   		</tr>
+   		<tr>
+   			<td class="title Estilo17">
+   				* Estado:
+   			</td>
+    		<td colspan="<?php echo $columnas -1;?>">
+    			<select name="estado" size="1">
+			        <option value="-1" selected>Selecciona</option>
+					<option>Amazonas</option>
+			        <option>Anzoategui</option>
+			        <option>Apure</option>
+			        <option>Aragua</option>
+			        <option>Barinas</option>
+			        <option>Bolivar</option>
+			        <option>Carabobo</option>
+			        <option>Cojedes</option>
+			        <option>Delta Amacuro</option>
+			        <option>Distrito Capital</option>
+			        <option>Falcon</option>
+			        <option>Guarico</option>
+			        <option>Lara</option>
+			        <option>Merida</option>
+			        <option>Miranda</option>
+			        <option>Monagas</option>
+			        <option>Nueva Esparta</option>
+			        <option>Portuguesa</option>
+			        <option>Sucre</option>
+			        <option>Tachira</option>
+			        <option>Trujillo</option>
+			        <option>Vargas</option>
+			        <option>Yaracuy</option>
+			        <option>Zulia</option>
+      			</select>
+      			<span class="isMandatory" id="spanEstado" style="display: none;">
+	    			<br/>
+	    			Disculpe debe indicar la estado al cual ser&aacute; realizado del env&iacute;o.
+    			</span>
+      		</td>
+  		</tr>
+  		<tr>
+    		<td class="title Estilo17">
+    			Celular:
+    			<br />
+    			<span class="Estilo18">
+    				Debe indicar al menos un n&uacute;mero telef&oacute;nico, sea celular o fijo
+    			</span>
+    		</td>
+    		<td colspan="<?php echo $columnas -1;?>">
+    			<select id="codcel" size="1" name="codcel">
+			        <option value="412">412</option>
+			        <option value="414">414</option>
+			        <option value="416">416</option>
+			        <option value="424">424</option>
+			        <option value="426">426</option>
+      			</select>
+      			<input style="BACKGROUND-COLOR: rgb(255,255,255)" maxlength="7" size="20" name="celular">
+      			<span class="isMandatory" id="spanCelular" style="display: none;">
+	    			<br/>
+	    			Disculpe debe indicar al menos un n&uacute;mero telef&oacute;nico, sea celular o fijo.
+    			</span>
+      		</td>
+    	</tr>
+  		<tr>
     		<td class="title Estilo17">
     			Observaciones:
     			<BR />
@@ -503,12 +547,12 @@
     				Nombre de juego, colores, cantidades, etc.
     			</span>
     		</td>
-    		<td>
+    		<td colspan="<?php echo $columnas -1;?>">
     			<input style="BACKGROUND-COLOR: rgb(255,255,255)" size="45" name="obs">
     		</td>
     	</tr>
     	<tr>
-    		<td colspan="2" align="center" class="title Estilo17">
+    		<td colspan="<?php echo $columnas;?>" align="center" class="title Estilo17">
     			<input type="checkbox" name="terminos" value="1"> 
     			Acepto los <a href="#" onclick="javascript:popUpTerminos();">T&eacute;rminos y Condiciones</a>
     			<span class="isMandatory" id="spanTerminos" style="display: none;">
@@ -518,12 +562,12 @@
     		</td>
     	</tr>
   		<tr>
-    		<td colspan="2" class="subtitle" align="center">
+    		<td colspan="<?php echo $columnas;?>" class="subtitle" align="center">
     			Por favor no olvides llenar todos los campos obligatorios marcados con *
     		</td>
   		</tr>
   		<tr>
-    		<td colspan="2" align="center">
+    		<td colspan="<?php echo $columnas;?>" align="center">
     			<input name="enviar" onclick="javascript:validarFormularioDePago(this.form)" style="FONT-WEIGHT: bold; FONT-SIZE: 10pt;" value="Enviar datos del pago" type="button" >
     		</td>
   		</tr>
