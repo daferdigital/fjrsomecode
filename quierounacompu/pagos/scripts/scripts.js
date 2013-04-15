@@ -188,33 +188,35 @@ var idCounter = 1;
  * @param productoValue
  * @param observacionValue
  */
-function addFilaProductosComprados(cantidadValue, productoValue, observacionValue){
+function addFilaProductosComprados(){
+	var cantidadValue = document.getElementById("cantidadTMP").value; 
+	var productoValue = document.getElementById("productoTMP").value.trim();
+	var observacionValue = document.getElementById("observacionesTMP").value.trim();
+	
+	if(productoValue == "" || observacionValue == ""){
+		alert("Disculpe, debe indicar tanto el producto como las observaciones del mismo.");
+		return;
+	}
+	
 	//obtenemos el nodo padre donde colocaremos el container para el nuevo dia
-	var nodoPadre = document.getElementById("seccion5Info");
-	//var nextId = "seccion5Row_" + document.getElementsByName("seccion5Row").length;
-	var nextId = "seccion5Row_" + (idCounter ++);
-	var nextIdParam = "'" + nextId + "'";
-	var newNodo = document.createElement('div');
-	newNodo.id = nextId;
+	var nodoPadre = document.getElementById("detalleProductosComprados");
 	
 	var htmlContainerText = 
-		  '<table class="table table-bordered table-striped" name="seccion5Row">'
-		+ '    <tr>'
+		  '    <tr bgcolor="#CCCCCC">'
 		+ '        <td width="200px">'
-		+ '            <input type="text" name="text1[]" value="' + cantidadValue + '"/>'
+		+ '            ' + cantidadValue
 		+ '        </td>'
 		+ '        <td width="200px">'
-		+ '            <input type="text" name="text2[]" value="' + productoValue + '"/>'
+		+ '            ' + productoValue
 		+ '        </td>'
 		+ '        <td width="200px">'
-		+ '            <input type="text" name="text3[]" value="' + observacionValue + '"/>'
+		+ '            ' + observacionValue
 		+ '        </td>'
-		+ '        <td width="200px">'
-		+ '            <input type="button" value="Eliminar esta fila" onclick="javascript:eliminarElemento(' + nextIdParam + ')"/>'
-		+ '        </td>'
-		+ '    </tr>'
-		+ '</table>';
+		+ '    </tr>';
 	
-	newNodo.innerHTML = htmlContainerText;
-	nodoPadre.appendChild(newNodo);
+	nodoPadre.innerHTML += htmlContainerText;
+	
+	document.getElementById("productoTMP").value = "";
+	document.getElementById("observacionesTMP").value = "";
+	document.getElementById("productosHidden").value = nodoPadre.innerHTML;
 }

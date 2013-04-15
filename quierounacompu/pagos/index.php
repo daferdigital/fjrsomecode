@@ -392,10 +392,42 @@
 							<th width="200px"></th>
 	                    </tr>
 	                    </thead>
+	                    <tr class="Estilo17">
+	                    	<td width="200px" align="center">
+	                    		<select id="cantidadTMP" name="cantidadTMP">
+	                    		<?php
+	                    			for($i = 1; $i < 100; $i++){
+								?>
+									<option value="<?php echo $i;?>"><?php echo $i;?></option>
+								<?php
+									}
+	                    		?>
+	                    		</select>
+	                    	</td>
+	                    	<td width="200px">
+	                    		<input type="text" id="productoTMP" name="productoTMP" value=""/>
+	                    	</td>
+	                    	<td width="200px">
+	                    		<input type="text" id="observacionesTMP" name="observacionesTMP" value=""/>
+	                    	</td>
+	                    	<td width="200px">
+	                    		<input type="button" value="Agregar Producto" onclick="javascript:addFilaProductosComprados();"/>
+	                    	</td>
+	                    </tr>
+	                </table>
+	                <br/>
+	                <table id="detalleProductosComprados" class="Estilo17">
+	                	<thead>
+				   		<tr class="Estilo17">
+				  			<th width="200px">Cantidad</th>
+	                        <th width="200px">Producto</th>
+	                        <th width="200px">Observaciones</th>
+	                    </tr>
+	                    </thead>
 	                </table>
 				</div>
-					
-				<input type="button" value="Agregar Fila" onclick="javascript:addFilaProductosComprados('','','');"/>
+				
+				<input type="hidden" name="productosHidden" id="productosHidden" value=""/>
     		</td>
   		</tr>
   		<tr>
@@ -446,6 +478,18 @@
     			<span class="isMandatory" id="spanDestinatario" style="display: none;">
 	    			<br/>
 	    			Disculpe debe indicar el nombre completo del destinatario.
+    			</span>
+    		</td>
+  		</tr>
+  		<tr>
+    		<td class="title Estilo17">
+    			* C.I. del destinatario:
+    		</td>
+    		<td colspan="<?php echo $columnas -1;?>">
+    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="ciDestinatario">
+    			<span class="isMandatory" id="spanCIDestinatario" style="display: none;">
+	    			<br/>
+	    			Disculpe debe indicar la cedula del destinatario.
     			</span>
     		</td>
   		</tr>
