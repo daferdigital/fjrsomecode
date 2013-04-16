@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="VentasCategoria" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a4de7d78-ead8-4803-8421-8a6e3a015338">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="VentasCategoria" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a4de7d78-ead8-4803-8421-8a6e3a015338">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -37,15 +37,15 @@ ORDER BY c.nombre]]>
 			<frame>
 				<reportElement uuid="508c56af-64cd-4dac-a76c-b4f92afc1a9d" mode="Opaque" x="0" y="-20" width="555" height="92" backcolor="#006699"/>
 				<staticText>
-					<reportElement uuid="08a5df73-c1a9-4768-b45b-af6db9664674" x="20" y="20" width="234" height="43" forecolor="#FFFFFF"/>
+					<reportElement uuid="08a5df73-c1a9-4768-b45b-af6db9664674" x="0" y="20" width="285" height="43" forecolor="#FFFFFF"/>
 					<textElement>
 						<font size="34" isBold="true"/>
 					</textElement>
 					<text><![CDATA[El Alcazar]]></text>
 				</staticText>
 				<staticText>
-					<reportElement uuid="b98ccd1a-03a0-4177-963f-2a8983a776e9" x="365" y="43" width="180" height="20" forecolor="#FFFFFF"/>
-					<textElement textAlignment="Right">
+					<reportElement uuid="b98ccd1a-03a0-4177-963f-2a8983a776e9" x="285" y="20" width="270" height="43" forecolor="#FFFFFF"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="14" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Ventas por categorias]]></text>

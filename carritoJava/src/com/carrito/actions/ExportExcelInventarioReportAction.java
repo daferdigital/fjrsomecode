@@ -17,7 +17,7 @@ import org.apache.struts.action.ActionMapping;
 import com.carrito.forms.VentasCategoriaForm;
 import com.carrito.util.JasperReportsUtil;
 
-public class ExportExcelCategoriasReportAction extends Action{
+public class ExportExcelInventarioReportAction extends Action{
 	
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
@@ -26,8 +26,7 @@ public class ExportExcelCategoriasReportAction extends Action{
 		// TODO Auto-generated method stub
 		VentasCategoriaForm reportForm = (VentasCategoriaForm) form;
 		
-		String pathReport = request.getSession().getServletContext().getRealPath("/WEB-INF/plantillasReportes/VentasCategoria.jasper");
-		//String pathReport = request.getSession().getServletContext().getRealPath("/WEB-INF/plantillasReportes/report1.jasper");
+		String pathReport = request.getSession().getServletContext().getRealPath("/WEB-INF/plantillasReportes/Inventario.jasper");
 		String pathDest = request.getSession().getServletContext().getRealPath("/WEB-INF/resultadosReportes");
 		
 		Map<String, Object> parameters = new HashMap<String, Object>();

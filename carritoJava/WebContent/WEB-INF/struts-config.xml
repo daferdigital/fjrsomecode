@@ -7,6 +7,7 @@
 		<form-bean name="productForm" type="com.carrito.forms.ProductForm"/>
 		<form-bean name="usuarioForm" type="com.carrito.forms.UsuarioForm"/>
 		<form-bean name="basketForm" type="com.carrito.forms.BasketForm"></form-bean>
+		<form-bean name="ventasCategoriaForm" type="com.carrito.forms.VentasCategoriaForm"></form-bean>
 	</form-beans>
 
 	<global-forwards>
@@ -86,7 +87,13 @@
         </action>
         
         <!-- action para exportar algun reporte en excel -->
-        <action path="/exportCategoryReport" type="com.carrito.actions.ExportExcelCategoriasReportAction">
+        <action path="/exportCategoryReport" type="com.carrito.actions.ExportExcelCategoriasReportAction"
+            name="ventasCategoriaForm">
+        </action>
+        
+        <!-- action para exportar algun reporte en excel -->
+        <action path="/exportInventarioReport" type="com.carrito.actions.ExportExcelInventarioReportAction"
+            name="ventasCategoriaForm">
         </action>
 	</action-mappings>
 	
