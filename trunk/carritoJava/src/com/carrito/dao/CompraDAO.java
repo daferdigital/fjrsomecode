@@ -90,7 +90,7 @@ public final class CompraDAO {
 				+ " VALUES(?,?,?,?,?)";
 		final String ajustarInventario = "UPDATE producto" 
 				+ " SET cantidad_comprada=cantidad_comprada - ?, "
-				+ " cantidad_vendida=cantidad_comprada - ?"
+				+ " cantidad_vendida=cantidad_vendida + ?"
 				+ " WHERE id=?";
 		
 		//creamos el registro maestro de la compra

@@ -12,7 +12,7 @@
     </logic:present>
     <!-- fin menu particular -->
     
-    <li><a href="aboutUs.jsp">Sobre Nosotros </a></li>
+    <li><a href="aboutUs.jsp">Sobre Nosotros</a></li>
     <li><a href="contacto.jsp">Contacto</a></li>
     <li><a style="background-image: none;" href="http://www.direccion q queremos poner.com">Support</a></li>
 </ul>
