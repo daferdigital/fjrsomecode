@@ -3,6 +3,7 @@ package com.carrito.util;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
 import java.util.LinkedList;
@@ -46,6 +47,15 @@ public final class DBUtil {
 	
 	private DBUtil() {
 		// TODO Auto-generated constructor stub
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @throws SQLException 
+	 */
+	public static Connection getConnection() throws SQLException{
+		return dataSource.getConnection();
 	}
 	
 	/**
