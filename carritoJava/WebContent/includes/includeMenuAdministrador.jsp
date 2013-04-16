@@ -5,4 +5,4 @@
     <li><a href="crudProductos.jsp">Productos</a></li>
     <li><a href="listProviders.do">Proveedores</a></li>
     <li><a href="listUsers.do">Usuarios</a></li>
-    <li><a href="reports.do">Reportes</a></li>
+    <li><a href="exportCategoryReport.do">Reportes</a></li>

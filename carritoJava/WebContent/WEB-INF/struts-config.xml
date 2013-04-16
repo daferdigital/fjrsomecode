@@ -84,6 +84,10 @@
             name="productoForm" input="/crudProductos.jsp">
             <forward name="success" path="/crudProductos.jsp"></forward>
         </action>
+        
+        <!-- action para exportar algun reporte en excel -->
+        <action path="/exportCategoryReport" type="com.carrito.actions.ExportExcelCategoriasReportAction">
+        </action>
 	</action-mappings>
 	
 	<message-resources parameter="ApplicationResources" null="false"></message-resources>
