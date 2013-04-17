@@ -44,7 +44,7 @@
 	    %>
 		<tr>
 		   <td colspan="3">
-		       <bean:write name="pagingUtil" property="TRFooterPaging"/>
+		       <%= pagingUtil.getTRFooterPaging() %>
 		   </td>
 		</tr>
 	</table>
