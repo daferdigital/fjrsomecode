@@ -142,6 +142,7 @@ function validarFormulario(){
 		//preparamos la consulta via jax
 		parameters += "nombre=" + document.getElementById("nombre").value.trim();
 		parameters += "&correo=" + document.getElementById("correo").value.trim();
+		parameters += "&numeroCuestionario=" + document.getElementById("numeroCuestionario").value.trim();
 		for ( var i = 1; i < 23; i++) {
 			parameters += "&respuesta_" + i + "=" + obtenerRespuestaMarcada(i);
 		}
