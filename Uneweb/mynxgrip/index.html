@@ -3,6 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Centro de aprendizaje de MynxGrip Grip </title>
+<script type="text/javascript" src="js/cuestionario.js"></script>
 <style type="text/css">
 <!--
 body {
@@ -26,36 +27,6 @@ a:link {
 }
 -->
 </style>
-
-    <script type="text/javascript">
-        String.prototype.trim=function(){
-            return this.replace(/^\s+|\s+$/g, '');
-        };
-
-        function validarFormulario(){
-            var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            
-            var enviarForm = true;
-            var message = "";
-
-            if(document.getElementById("nombre").value.trim() == ""){
-                message += "Disculpe, debe indicar el nombre.\n";
-                enviarForm = false;
-                document.getElementById("nombre").focus();
-            }
-            if(! re.test(document.getElementById("correo").value.trim())){
-                message += "Disculpe, la direccion de correo posee un formato invalido.\n";
-                enviarForm = false;
-                document.getElementById("correo").focus();
-            }
-            
-            if(!enviarForm){
-                alert(message);
-            }
-            
-            return enviarForm;
-        }
-    </script>
 </head>
 
 <body>
@@ -81,7 +52,6 @@ a:link {
   </tr>
   <tr>
     <td colspan="2"><p>&nbsp;</p>
-        <form  action="enviar2.php" method="post" onsubmit="return validarFormulario();"> 
         <table width="580" border="0" align="center">
          <tr>
 	         <td height="23">
@@ -109,6 +79,7 @@ a:link {
                       </tr>
                   </table>
               </td>
+          </tr>
           <tr>
                 <td height="21" bgcolor="#000000">RESPONDER LAS SIGUIENTES PREGUNTAS</td>
           </tr>
@@ -116,11 +87,11 @@ a:link {
               <td height="59">
                   a) El MynxGrip &trade; es un dispositivo de cierre&nbsp; que ofrece una soluci&oacute;n activa, extravascular  y c&oacute;moda para el paciente:<br />
 	              <label>
-	                  <input type="radio" name="respuesta_1" value="1" id="a_0" />Verdadero
+	                  <input type="radio" name="respuesta_1" value="1" id="1_0" />Verdadero
 	              </label>
 	              <br />
 	              <label>
-	                  <input type="radio" name="respuesta_1" value="2" id="a_1" />Falso
+	                  <input type="radio" name="respuesta_1" value="2" id="1_1" />Falso
 	              </label>
               </td>
           </tr>
@@ -128,20 +99,20 @@ a:link {
               <td height="21">
                   b) MynxGrip &trade; es el &uacute;nico dispositivo de Cierre Vascular que proporciona:<br />
                   <label>
-                      <input type="radio" name="respuesta_2" value="1" id="b_0" />Cierre Activo extravascular
+                      <input type="radio" name="respuesta_2" value="1" id="2_0" />Cierre Activo extravascular
                   </label>
                   <br />
                   <label>
-                      <input type="radio" name="respuesta_2" value="2" id="b_1" />Cierre Activo
+                      <input type="radio" name="respuesta_2" value="2" id="2_1" />Cierre Activo
                   </label>
                   <br />
                   <label>
-                      <input type="radio" name="respuesta_2" value="3" id="b_2" />
+                      <input type="radio" name="respuesta_2" value="3" id="2_2" />
                       Cierre Activo extravascular que no deja nada detrás de la arteria
                   </label>
                   <br />
                   <label>
-                      <input type="radio" name="respuesta_2" value="4" id="b_3" />Cierre Extravascular
+                      <input type="radio" name="respuesta_2" value="4" id="2_3" />Cierre Extravascular
                   </label>
                   <br />
               </td>
@@ -151,11 +122,11 @@ a:link {
                   c) La Tecnología Grip.  añade al Mynx la capacidad activa de agarrase  y sellar la arteria mientras se expande: 
                   <br />
                   <label>
-                      <input type="radio" name="respuesta_3" value="1" id="c_0" />Verdadero
+                      <input type="radio" name="respuesta_3" value="1" id="3_0" />Verdadero
                   </label>
                   <br />
                   <label>
-                      <input type="radio" name="respuesta_3" value="2" id="c_1" />Falso
+                      <input type="radio" name="respuesta_3" value="2" id="3_1" />Falso
                   </label>
                   <br />
               </td>
@@ -164,15 +135,15 @@ a:link {
               <td height="34">
                   d) ¿Cuáles son los dos segmentos que conforman el  sello del MynxGrip?<br />
                   <label>
-                      <input type="radio" name="respuesta_4" value="1" id="d_0" />Grip End y Sellador Mynx
+                      <input type="radio" name="respuesta_4" value="1" id="4_0" />Grip End y Sellador Mynx
                   </label>
                   <br />
                   <label>
-                      <input type="radio" name="respuesta_4" value="2" id="d_1" />MynxGrip y Mynx Sellador
+                      <input type="radio" name="respuesta_4" value="2" id="4_1" />MynxGrip y Mynx Sellador
                   </label>
                   <br />
                   <label>
-                      <input type="radio" name="respuesta_4" value="3" id="d_2" />GripTip y Sellante Mynx
+                      <input type="radio" name="respuesta_4" value="3" id="4_2" />GripTip y Sellante Mynx
                   </label>
                   <br />
               </td>
@@ -181,11 +152,11 @@ a:link {
               <td height="20">
                   e) EL sello del Mynx Grip ™ es soluble  en agua, bio-inerte, no trombogénico y antibacterial:
                   <label>
-                      <input type="radio" name="respuesta_5" value="1" id="e_0" />Verdadero
+                      <input type="radio" name="respuesta_5" value="1" id="5_0" />Verdadero
                   </label>
                   <br />
                   <label>
-                      <input type="radio" name="respuesta_5" value="2" id="e_1" />Falso
+                      <input type="radio" name="respuesta_5" value="2" id="5_1" />Falso
                   </label>
                   <br />
               </td>
@@ -197,11 +168,11 @@ a:link {
                       de 30 días sin dejar nada dentro de la arteria y permite repunsar  inmediatamente dejando una arteria sana:
                       <br />
                       <label>
-		                  <input type="radio" name="respuesta_6" value="1" id="f_0" />Verdadero
+		                  <input type="radio" name="respuesta_6" value="1" id="6_0" />Verdadero
 		              </label>
 		              <br />
 		              <label>
-		                  <input type="radio" name="respuesta_6" value="2" id="f_1" />Falso
+		                  <input type="radio" name="respuesta_6" value="2" id="6_1" />Falso
 		              </label>
 		              <br />
 		          </p>
@@ -214,11 +185,11 @@ a:link {
                       agarrándose a la Arteria:
                       <br />
                       <label>
-                          <input type="radio" name="respuesta_7" value="1" id="g_0" />Verdadero
+                          <input type="radio" name="respuesta_7" value="1" id="7_0" />Verdadero
                       </label>
                       <br />
                       <label>
-                          <input type="radio" name="respuesta_7" value="2" id="g_1" />Falso
+                          <input type="radio" name="respuesta_7" value="2" id="7_1" />Falso
                       </label>
                   </p>
               </td>
@@ -231,15 +202,15 @@ a:link {
                   <p>
                       h) ¿Cuando se prepara el Dispositivo Mynx se debe retirar del  empaque por el?:<br />
                       <label>
-                          <input type="radio" name="respuesta_8" value="1" id="h_0" />Tubo Conector
+                          <input type="radio" name="respuesta_8" value="1" id="8_0" />Tubo Conector
                       </label>
                       <br />
                       <label>
-                          <input type="radio" name="respuesta_8" value="2" id="h_1" />El Mango negro
+                          <input type="radio" name="respuesta_8" value="2" id="8_1" />El Mango negro
                       </label>
                       <br />
 	                  <label>
-	                      <input type="radio" name="respuesta_8" value="3" id="h_2" />El Mango verde
+	                      <input type="radio" name="respuesta_8" value="3" id="8_2" />El Mango verde
 	                  </label>
 	                  <br />
 	              </p>
@@ -249,11 +220,11 @@ a:link {
               <td height="20">
                   i) ¿Cuando preparamos el balón del Mynx que debemos observar  para estar   seguro de su funcionamiento?<br />
                   <label>
-	                  <input type="radio" name="respuesta_9" value="1" id="i_0" />La Punta  Atraumatica 
+	                  <input type="radio" name="respuesta_9" value="1" id="9_0" />La Punta  Atraumatica 
 	              </label>
 	              <br />
 	              <label>
-	                  <input type="radio" name="respuesta_9" value="2" id="i_1" />El indicador de Inflado sea totalmente visible
+	                  <input type="radio" name="respuesta_9" value="2" id="9_1" />El indicador de Inflado sea totalmente visible
 	              </label>
 	              <br />
 	              <br />
@@ -263,15 +234,15 @@ a:link {
               <td height="20">
                   j) Al retirar el Dispositivo Mynx  del empaque ¿Cómo estamos seguro que esta  funcionando correctamente?<br />
                   <label>
-                      <input type="radio" name="respuesta_10" value="1" id="j_0" />El balón mantiene la  presión
+                      <input type="radio" name="respuesta_10" value="1" id="10_0" />El balón mantiene la  presión
                   </label>
                   <br />
                   <label>
-                      <input type="radio" name="respuesta_10" value="2" id="j_1" />La  jeringa se llena correctamente
+                      <input type="radio" name="respuesta_10" value="2" id="10_1" />La  jeringa se llena correctamente
                   </label>
                   <br />
                   <label>
-                      <input type="radio" name="respuesta_10" value="3" id="j_2" />La  llave de paso cierra bien
+                      <input type="radio" name="respuesta_10" value="3" id="10_2" />La  llave de paso cierra bien
                   </label>
                   <br />
               </td>
@@ -281,11 +252,11 @@ a:link {
                   <p>
                       k) Utilizando el introductor existente ¿hasta que marca debe  ingresar el Mynx?&#13;<br />
                       <label>
-                          <input type="radio" name="respuesta_11" value="1" id="k_0" />Hasta el Tubo de Avance
+                          <input type="radio" name="respuesta_11" value="1" id="11_0" />Hasta el Tubo de Avance
                       </label>
                       <br />
                       <label>
-                          <input type="radio" name="respuesta_11" value="2" id="k_1" />Hasta el marcador de eje blanco
+                          <input type="radio" name="respuesta_11" value="2" id="11_1" />Hasta el marcador de eje blanco
                       </label>
                       <br />
                   </p>
@@ -295,15 +266,15 @@ a:link {
               <td height="20">
                   l) ¿Cómo  sabemos que el balón se infló correctamente?<br />
                   <label>
-                      <input type="radio" name="respuesta_12" value="1" id="l_0" />La jeringa se llena correctamente
+                      <input type="radio" name="respuesta_12" value="1" id="12_0" />La jeringa se llena correctamente
                   </label>
                   <br />
                   <label>
-                      <input type="radio" name="respuesta_12" value="2" id="l_1" />El indicador de Inflado sea totalmente visible y se cierre la llave 
+                      <input type="radio" name="respuesta_12" value="2" id="12_1" />El indicador de Inflado sea totalmente visible y se cierre la llave 
                   </label>
                   <br />
                   <label>
-                      <input type="radio" name="respuesta_12" value="3" id="l_2" />El tubo conector desaparece
+                      <input type="radio" name="respuesta_12" value="3" id="12_2" />El tubo conector desaparece
                   </label>
                   <br />
               </td>
@@ -312,11 +283,11 @@ a:link {
               <td height="20">
                   m) Al  comenzar a retirar el catéter ¿Por cual mango del Mynx se debe tomar?<br />
                   <label>
-                      <input type="radio" name="respuesta_13" value="1" id="m_0" />El Mango Verde
+                      <input type="radio" name="respuesta_13" value="1" id="13_0" />El Mango Verde
                   </label>
                   <br />
                   <label>
-                      <input type="radio" name="respuesta_13" value="2" id="m_1" />El Mango Negro
+                      <input type="radio" name="respuesta_13" value="2" id="13_1" />El Mango Negro
                   </label>
                   <br />
               </td>
@@ -325,11 +296,11 @@ a:link {
               <td height="20">
                   n) ¿Cuantas  y cuales son las resistencias que debe sentir al retirar el catéter?<br />
                   <label>
-                      <input type="radio" name="respuesta_14" value="1" id="n_0" />Ninguna
+                      <input type="radio" name="respuesta_14" value="1" id="14_0" />Ninguna
                   </label>
                   <br />
                   <label>
-                      <input type="radio" name="respuesta_14" value="2" id="n_1" />
+                      <input type="radio" name="respuesta_14" value="2" id="14_1" />
                       Dos resistencias, 1er punto extremo distal del introductor, 2do punto el balón en el sitio de la arterioctomía
                   </label>
                   <br />
@@ -339,12 +310,12 @@ a:link {
               <td height="20">
                   ñ) Al  sentir la 2da resistencia se debe verificar la hemostasis Temporal ¿Qué se debe hacer?<br />
                   <label>
-                      <input type="radio" name="respuesta_15" value="1" id="nn_0" />
+                      <input type="radio" name="respuesta_15" value="1" id="15_0" />
                       Mantener la tensión adecuada, abrir la llave del introductor y verificar si hay reflujo de sangre, aflojar ligeramente la tensión y observar el flujo de sangre, retomar la tensión hasta que el flujo sanguíneo se detenga.
                   </label>
                   <br />
                   <label>
-                      <input type="radio" name="respuesta_15" value="2" id="nn_1" />Ninguna
+                      <input type="radio" name="respuesta_15" value="2" id="15_1" />Ninguna
                   </label>
                   <br />
               </td>
@@ -353,11 +324,11 @@ a:link {
               <td height="20">
                   o) ¿Cuando  avanzamos el sello Mynx para su colocación debemos dejar la  llave del introductor abierta, tomar el Tubo Conector (Mango Verde) y separarlo  del Mango Negro, deslizándolo hasta sentir una resistencia, manteniendo el  ángulo de la inclinación y una tensión adecuada.<br />
                   <label>
-                      <input type="radio" name="respuesta_16" value="1" id="o_0" />Verdadero
+                      <input type="radio" name="respuesta_16" value="1" id="16_0" />Verdadero
                   </label>
                   <br />
                   <label>
-                      <input type="radio" name="respuesta_16" value="2" id="o_1" />Falso
+                      <input type="radio" name="respuesta_16" value="2" id="16_1" />Falso
                   </label>
                   <br />
               </td>
@@ -368,11 +339,11 @@ a:link {
                   <p>
                       Sujetando  el introductor y retráigalo hasta que el Tubo Conector (Mango Verde) se bloquee  en el mango negro<br />
                       <label>
-                          <input type="radio" name="respuesta_17" value="1" id="p_0" />Verdadero
+                          <input type="radio" name="respuesta_17" value="1" id="17_0" />Verdadero
                       </label>
                       <br />
                       <label>
-                          <input type="radio" name="respuesta_17" value="2" id="p_1" />Falso
+                          <input type="radio" name="respuesta_17" value="2" id="17_1" />Falso
                       </label>
                       <br />
                   </p>
@@ -382,11 +353,11 @@ a:link {
               <td height="20">
                   q) Al momento de  posicionar el sello en la pared del vaso, manteniendo una tensión adecuada  para mantener el balón adherido, sujete  inmediatamente el Tubo de Avance en la piel, hágalo avanzar suavemente hasta  que la marca verde este visible y manténgalo en esa posición durante un  máximo de 30 segundos<br />
                   <label>
-                      <input type="radio" name="respuesta_18" value="1" id="q_0" />Verdadero
+                      <input type="radio" name="respuesta_18" value="1" id="18_0" />Verdadero
                   </label>
                   <br />
                   <label>
-                      <input type="radio" name="respuesta_18" value="2" id="q_1" />Falso
+                      <input type="radio" name="respuesta_18" value="2" id="18_1" />Falso
                   </label>
                   <br />
               </td>
@@ -395,15 +366,15 @@ a:link {
               <td height="20">
                   r) La  Técnica  de Empujar  y Retener nos garantiza que a los 30 seg la  punta del Grip:<br />
                   <label>
-                      <input type="radio" name="respuesta_19" value="1" id="r_0" />Ablandarse
+                      <input type="radio" name="respuesta_19" value="1" id="19_0" />Ablandarse
                   </label>
                   <br />
                   <label>
-                      <input type="radio" name="respuesta_19" value="2" id="r_1" />Enclavamiento con la pared del vaso
+                      <input type="radio" name="respuesta_19" value="2" id="19_1" />Enclavamiento con la pared del vaso
                   </label>
                   <br />
                   <label>
-                      <input type="radio" name="respuesta_19" value="3" id="r_2" />Todas las anteriores
+                      <input type="radio" name="respuesta_19" value="3" id="19_2" />Todas las anteriores
                   </label>
                   <br />
               </td>
@@ -412,11 +383,11 @@ a:link {
               <td height="20">
                   s) La Técnica recomienda los siguientes tiempos: 30 seg.  (Empujar  y Retener), 90 seg. (Expansión)  y 60 seg. (Post-Hold)<br />
                   <label>
-                      <input type="radio" name="respuesta_20" value="1" id="s_0" />Verdadero
+                      <input type="radio" name="respuesta_20" value="1" id="20_0" />Verdadero
                   </label>
                   <br />
                   <label>
-                      <input type="radio" name="respuesta_20" value="2" id="s_1" />Falso
+                      <input type="radio" name="respuesta_20" value="2" id="20_1" />Falso
                   </label>
                   <br />
               </td>
@@ -425,15 +396,15 @@ a:link {
               <td height="20">
                   t) La Técnica de Expansión nos garantiza que a los 90 seg.: <br />
                   <label>
-                      <input type="radio" name="respuesta_21" value="1" id="t_0" />La Punta del  Grip se adhiera a la pared del Vaso
+                      <input type="radio" name="respuesta_21" value="1" id="21_0" />La Punta del  Grip se adhiera a la pared del Vaso
                   </label>
                   <br />
                   <label>
-                      <input type="radio" name="respuesta_21" value="2" id="t_1" />El llenado del Sellador Mynx  con los fluidos del paciente
+                      <input type="radio" name="respuesta_21" value="2" id="21_1" />El llenado del Sellador Mynx  con los fluidos del paciente
                   </label>
                   <br />
                   <label>
-                      <input type="radio" name="respuesta_21" value="3" id="t_2" />La jeringa este llena de Solución salina
+                      <input type="radio" name="respuesta_21" value="3" id="21_2" />La jeringa este llena de Solución salina
                   </label>
               </td>
           </tr>
@@ -441,15 +412,15 @@ a:link {
               <td height="20">
                   u) Después de desinflar el balón, ¿qué es lo que tenemos que  confirmar?<br />
                   <label>
-                      <input type="radio" name="respuesta_22" value="1" id="u_0" />El dispositivo está tumbado en un ángulo de 90 grados desde el sitio de punción
+                      <input type="radio" name="respuesta_22" value="1" id="22_0" />El dispositivo está tumbado en un ángulo de 90 grados desde el sitio de punción
                   </label>
                   <br />
                   <label>
-                      <input type="radio" name="respuesta_22" value="2" id="u_1" />La ingle no se toca
+                      <input type="radio" name="respuesta_22" value="2" id="22_1" />La ingle no se toca
                   </label>
                   <br />
                   <label>
-                      <input type="radio" name="respuesta_22" value="3" id="u_2" />Las burbujas de aire y de fluido han dejado de moverse a través del tubo de inflación y el indicador de inflado desapareció
+                      <input type="radio" name="respuesta_22" value="3" id="22_2" />Las burbujas de aire y de fluido han dejado de moverse a través del tubo de inflación y el indicador de inflado desapareció
                   </label>
                   <br />
                   <br />
@@ -457,11 +428,13 @@ a:link {
           </tr>
           <tr>
               <td height="20">
-                  <input name="Enviar"  type="submit" style="height: 40px; width: 130px; float: right;" value="Enviar" /> 
+                  <input name="Enviar" id="Enviar" type="button" style="height: 40px; width: 130px; float: right;" value="Enviar" onclick="validarFormulario()" />
+                  <span id="ajaxLoading" style="display: none; float: right;">
+                  	  <img src="ajax.gif" alt="Cargando..." />
+                  </span>
               </td>
           </tr>
         </table>
-   </form>
     <p>&nbsp;</p></td>
   </tr>
 </table>
