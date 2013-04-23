@@ -136,7 +136,9 @@ BitacoraDAO::registrarComentario("El usuario ".($canEdit ? "" : "NO")." puede ed
 			</table>
 		</div>
 		<div id="tabs-2" style="background-color: white;">
-			<h1>En Construcci&oacute;n</h1>
+			<table id="detalleProductosComprados" class="Estilo17">
+	        	<?php echo $envioDTO->getDetalleCompra();?>
+	        </table>
 		</div>
 		<div id="tabs-3" style="background-color: white;">
 			<table>

@@ -2,9 +2,9 @@ CREATE DATABASE  IF NOT EXISTS `quierounacompu` /*!40100 DEFAULT CHARACTER SET l
 USE `quierounacompu`;
 -- MySQL dump 10.13  Distrib 5.5.16, for Win32 (x86)
 --
--- Host: localhost    Database: quierounacompu
+-- Host: ubuntu-sun    Database: quierounacompu
 -- ------------------------------------------------------
--- Server version	5.5.24
+-- Server version	5.1.37
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -31,17 +31,16 @@ CREATE TABLE `modulos` (
   `descripcion` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `key_module_UNIQUE` (`key_module`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `modulos`
 --
--- ORDER BY:  `id`
 
 LOCK TABLES `modulos` WRITE;
 /*!40000 ALTER TABLE `modulos` DISABLE KEYS */;
-INSERT INTO `modulos` (`id`, `categoria`, `key_module`, `descripcion`) VALUES (1,'busqueda','notificados','Búsqueda de Registros con estado Notificado'),(2,'busqueda','pago_confirmado','Búsqueda de Registros con estado Pago Confirmado'),(3,'busqueda','pago_no_encontrado','Búsqueda de Registros con estado Pago No Encontrado'),(4,'busqueda','presupuestado','Búsqueda de Registros con estado Presupuestado'),(5,'busqueda','facturado','Búsqueda de Registros con estado Facturado'),(6,'busqueda','enviado','Búsqueda de Registros con estado Enviado'),(7,'busqueda_avanzada','busqueda_avanzada','Búsqueda Avanzada de Registros'),(8,'edicion','edicion_notificados','Edición de Registros en estado Notificado'),(9,'edicion','edicion_pago_confirmado','Edición de Registros en estado Pago Confirmado'),(10,'edicion','edicion_pago_noencontrado','Edición de Registros en estado Pago No Encontrado'),(11,'edicion','edicion_presupuestado','Edición de Registros en estado Presupuestado'),(12,'edicion','edicion_facturado','Edición de Registros en estado Facturado'),(13,'perfil','perfil','Acceso a la sección de Perfil (Datos básicos del usuario)'),(14,'administracion','crear_usuario','Creación de Usuarios'),(15,'administracion','modificar_usuario','Modificar Usuarios'),(16,'administracion','eliminar_usuario','Eliminar Usuarios'),(17,'administracion','permisos','Administración de permiso a los Modulos'),(18,'logs','transacciones','Acceso al log de actividades del Sistema'),(19,'logs','sistema','Acceso al log técnico del Sistema'),(20,'administracion','reactivar_usuario','Opción para activar nuevamente cuentas de usuario');
+INSERT INTO `modulos` (`id`, `categoria`, `key_module`, `descripcion`) VALUES (1,'busqueda','notificados','Búsqueda de Registros con estado Notificado'),(2,'busqueda','pago_confirmado','Búsqueda de Registros con estado Pago Confirmado'),(3,'busqueda','pago_no_encontrado','Búsqueda de Registros con estado Pago No Encontrado'),(4,'busqueda','presupuestado','Búsqueda de Registros con estado Presupuestado'),(5,'busqueda','facturado','Búsqueda de Registros con estado Facturado'),(6,'busqueda','enviado','Búsqueda de Registros con estado Enviado'),(7,'busqueda_avanzada','busqueda_avanzada','Búsqueda Avanzada de Registros'),(8,'edicion','edicion_notificados','Edición de Registros en estado Notificado'),(9,'edicion','edicion_pago_confirmado','Edición de Registros en estado Pago Confirmado'),(10,'edicion','edicion_pago_noencontrado','Edición de Registros en estado Pago No Encontrado'),(11,'edicion','edicion_presupuestado','Edición de Registros en estado Presupuestado'),(12,'edicion','edicion_facturado','Edición de Registros en estado Facturado'),(13,'perfil','perfil','Acceso a la sección de Perfil (Datos básicos del usuario)'),(14,'administracion','crear_usuario','Creación de Usuarios'),(15,'administracion','modificar_usuario','Modificar Usuarios'),(16,'administracion','eliminar_usuario','Eliminar Usuarios'),(17,'administracion','permisos','Administración de permiso a los Modulos'),(18,'logs','transacciones','Acceso al log de actividades del Sistema'),(19,'logs','sistema','Acceso al log técnico del Sistema'),(20,'administracion','reactivar_usuario','Opción para activar nuevamente cuentas de usuario'),(21,'edicion','edicion_enviado','Edición de Registros en estado Enviado');
 /*!40000 ALTER TABLE `modulos` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-03-07  1:04:16
+-- Dump completed on 2013-04-23 16:46:25

@@ -18,28 +18,31 @@ USE `quierounacompu`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `empresa_envio`
+-- Table structure for table `status_siguientes`
 --
 
-DROP TABLE IF EXISTS `empresa_envio`;
+DROP TABLE IF EXISTS `status_siguientes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `empresa_envio` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(250) NOT NULL,
-  `active` char(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+CREATE TABLE `status_siguientes` (
+  `id_status_inicial` int(10) unsigned NOT NULL,
+  `id_siguiente_status` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id_status_inicial`,`id_siguiente_status`),
+  KEY `FK_STATUS_ORIGEN_idx` (`id_status_inicial`),
+  KEY `FK_STATUS_DESTINO_idx` (`id_siguiente_status`),
+  CONSTRAINT `FK_STATUS_DESTINO` FOREIGN KEY (`id_siguiente_status`) REFERENCES `envios_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_STATUS_ORIGEN` FOREIGN KEY (`id_status_inicial`) REFERENCES `envios_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `empresa_envio`
+-- Dumping data for table `status_siguientes`
 --
 
-LOCK TABLES `empresa_envio` WRITE;
-/*!40000 ALTER TABLE `empresa_envio` DISABLE KEYS */;
-INSERT INTO `empresa_envio` (`id`, `nombre`, `active`) VALUES (1,'Grupo ZOOM','1'),(2,'MRW','1');
-/*!40000 ALTER TABLE `empresa_envio` ENABLE KEYS */;
+LOCK TABLES `status_siguientes` WRITE;
+/*!40000 ALTER TABLE `status_siguientes` DISABLE KEYS */;
+INSERT INTO `status_siguientes` (`id_status_inicial`, `id_siguiente_status`) VALUES (1,2),(1,3),(2,4),(3,1),(4,5),(5,6),(6,6);
+/*!40000 ALTER TABLE `status_siguientes` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-04-23 16:46:20
+-- Dump completed on 2013-04-23 16:46:31
