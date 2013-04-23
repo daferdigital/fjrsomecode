@@ -39,32 +39,113 @@ function checkCiaEnvio(){
 }
 
 /**
+ * funcion para crear un objeto del tipo XMLHTTPRequest segun el navegador
+ * 
+ * @returns objeto XMLHTTPRequest creado
+ */
+function createXMLHTTPRequest(){
+	var xmlHTTPRequest = null;
+	
+	//revisamos si no esta definido el objeto nativamente(navegadores tipo mozilla)
+	if (typeof XMLHttpRequest == "undefined" ){
+		//Ahora revisamos si el motor es mayor o igual a MSIE 5.0 
+		//(mayor que microsoft internet explorer 5.0)
+		if(navigator.userAgent.indexOf("MSIE 5") >= 0){
+			// Si es así creamos un control activeX apartir de un objeto
+			//ActiveXObject("Microsoft.XMLHTTP")
+			xmlHTTPRequest = new ActiveXObject("Microsoft.XMLHTTP");
+		} else {
+			//si no , o si es menor a MSIE 5.0 creamos otro control activeX
+			// apartir de un objeto ActiveXObject("Msxml2.XMLHTTP")
+			xmlHTTPRequest = new ActiveXObject("Msxml2.XMLHTTP");
+		} 
+	} else {
+		// en cambio si el objeto estaba definido nativamente, solo lo instanciamos
+		xmlHTTPRequest = new XMLHttpRequest();
+	}
+	
+	return xmlHTTPRequest;
+}
+
+/**
+ * 
+ * @param textResponse
+ */
+function procesarRespuestaAjax(textResponse){
+	//vemos el codigo de respuesta para saber que mensaje mostrar
+	if(textResponse == "0"){
+		var msg = 'Gracias por completar la información, en breve le será enviado un email con todos los datos para su archivo.\r'
+			+ 'RECUERDE ESPERAR hasta que aparezca la pantalla de AGRADECIMIENTO POR SU PAGO';
+		showAlert(msg);
+	} else if(textResponse == "-1"){
+		showAlert("Debe indicar los terminos y condiciones");
+	} else if(textResponse == "1"){
+		showAlert("No pudo almacenarse la informacion suministrada, favor intente de nuevo");
+	} else {
+		showAlert(textResponse);
+	}
+}
+
+/**
+ * 
+ * @param url
+ * @param parameters
+ * @param htmlElementToHide
+ */
+function callAjax(url, parameters, htmlElementToHide, idImgLoading){
+	var ajaxObject =  createXMLHTTPRequest();
+
+	document.getElementById(htmlElementToHide).style.display="none";
+	document.getElementById(idImgLoading).style.display = "inline";
+	
+	ajaxObject.onreadystatechange=function() {
+		if (ajaxObject.readyState==4 && ajaxObject.status==200) {
+			document.getElementById(htmlElementToHide).style.display="inline";
+			document.getElementById(idImgLoading).style.display = "none";
+			
+			procesarRespuestaAjax(ajaxObject.responseText);
+		}
+	};
+	
+	ajaxObject.open("POST", url, true);
+	//sin la linea siguiente no podemos enviar parametros via POST, solo seria por GET
+	ajaxObject.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	ajaxObject.send(parameters);
+}
+
+/**
  * 
  * @param payForm
  */
 function validarFormularioDePago(payForm){
 	var doSubmit = true;
-	var seudonimo = payForm.seudonimo.value.trim();
+	//datos del cliente
 	var nombre = payForm.nombre.value.trim();
+	var seudonimo = payForm.seudonimo.value.trim();
 	var cedula = payForm.cii.value.trim();
 	var email = payForm.email.value.trim();
+	var tlfCelularCliente = payForm.tlfCelularCliente.value.trim();
+	var tlfLocalCliente = payForm.tlfLocalCliente.value.trim();
+	//datos de pago
 	var medioDePago = payForm.medio.value;
 	var banco = payForm.banco.value;
-	var descArticulo = payForm.articulo.value.trim();
 	var voucher = payForm.bauche.value.trim();
 	var fechaPago = payForm.fechaPago.value.trim();
 	var montoPago = payForm.monto.value.trim();
+	var descArticulo = payForm.articulo.value.trim();
+	//datos del envio
 	var ciaEnvio = payForm.envio.value;
 	var destinatario = payForm.destinatario.value.trim();
+	var ciDestinatario = payForm.ciDestinatario.value.trim();
 	var dirDestino = payForm.dir1.value.trim();
 	var ciudadDestino = payForm.ciudad.value.trim();
 	var estadoDestino = payForm.estado.value.trim();
 	var celularDestino = payForm.celular.value.trim();
-	var tlfLocalDestino = payForm.fono.value.trim();
+	var tlfLocalDestino = payForm.tlfLocalDestinatario.value.trim();
 	var checkTerminosCondiciones = payForm.terminos.checked;
 	
-	document.getElementById("spanSeudonimo").style.display = "none";
 	document.getElementById("spanNombre").style.display = "none";
+	document.getElementById("spanSeudonimo").style.display = "none";
 	document.getElementById("spanCii").style.display = "none";
 	document.getElementById("spanEmail").style.display = "none";
 	document.getElementById("spanMedio").style.display = "none";
@@ -75,10 +156,11 @@ function validarFormularioDePago(payForm){
 	document.getElementById("spanMonto").style.display = "none";
 	document.getElementById("spanEnvio").style.display = "none";
 	document.getElementById("spanDestinatario").style.display = "none";
+	document.getElementById("spanCIDestinatario").style.display = "none";
 	document.getElementById("spanDir1").style.display = "none";
 	document.getElementById("spanCiudad").style.display = "none";
 	document.getElementById("spanEstado").style.display = "none";
-	document.getElementById("spanCelular").style.display = "none";
+	document.getElementById("spanCelularDestinatario").style.display = "none";
 	document.getElementById("spanTerminos").style.display = "none";
 	
 	if(seudonimo == ""){
@@ -99,6 +181,11 @@ function validarFormularioDePago(payForm){
 	if(email == ""){
 		document.getElementById("spanEmail").style.display = "inline";
 		payForm.email.focus();
+		doSubmit = false;
+	}
+	if(tlfCelularCliente == "" && tlfLocalCliente == ""){
+		document.getElementById("spanCelularCliente").style.display = "inline";
+		payForm.celular.focus();
 		doSubmit = false;
 	}
 	if(medioDePago == "-1"){
@@ -141,6 +228,11 @@ function validarFormularioDePago(payForm){
 		payForm.destinatario.focus();
 		doSubmit = false;
 	}
+	if(ciDestinatario == ""){
+		document.getElementById("spanCIDestinatario").style.display = "inline";
+		payForm.ciDestinatario.focus();
+		doSubmit = false;
+	}
 	if(dirDestino == ""){
 		document.getElementById("spanDir1").style.display = "inline";
 		payForm.dir1.focus();
@@ -157,7 +249,7 @@ function validarFormularioDePago(payForm){
 		doSubmit = false;
 	}
 	if(celularDestino == "" && tlfLocalDestino == ""){
-		document.getElementById("spanCelular").style.display = "inline";
+		document.getElementById("spanCelularDestinatario").style.display = "inline";
 		payForm.celular.focus();
 		doSubmit = false;
 	}
@@ -168,13 +260,40 @@ function validarFormularioDePago(payForm){
 	}
 	
 	if(doSubmit){
-		var msg = 'Gracias por completar la información, en breve le será enviado un email con todos los datos para su archivo.\r'
-			+ 'RECUERDE ESPERAR hasta que aparezca la pantalla de AGRADECIMIENTO POR SU PAGO';
+		/*
+		var parameters = "nombre=" + nombre;
+		parameters += "&seudonimo=" + seudonimo;
+		parameters += "&cedulaCliente=" + payForm.ci.value + "-" + cedula;
+		parameters += "&email=" + email;
+		parameters += "&tlfCelularCliente=" + (tlfCelularCliente == "" ? "" : payForm.codCelCliente.value + tlfCelularCliente);
+		parameters += "&tlfLocalCliente=" + (tlfLocalCliente == "" ? "" : payForm.codLocalCliente.value + tlfCelularCliente);
+		parameters += "&medioDePago=" + medioDePago;
+		parameters += "&banco=" + banco;
+		parameters += "&numVoucher=" + voucher;
+		parameters += "&fechaPago=" + fechaPago;
+		parameters += "&monto=" + montoPago;
+		parameters += "&detalleProductos=" + descArticulo;
+		parameters += "&ciaEnvio=" + ciaEnvio;
+		parameters += "&destinatario=" + destinatario;
+		parameters += "&ciDestinatario=" + ciDestinatario;
+		parameters += "&dirDestino=" + dirDestino;
+		parameters += "&ciudad=" + ciudadDestino;
+		parameters += "&estado=" + estadoDestino;
+		parameters += "&tlfCelularDestinatario=" + (celularDestino == "" ? "" : payForm.codcel.value + celularDestino);
+		parameters += "&tlfLocalDestinatario=" + (tlfLocalDestino == "" ? "" : payForm.codLocalDestinatario.value + tlfLocalDestino);
+		parameters += "&observacionesEnvio=" + payForm.obs.value.trim();
+		parameters += "&terminos=true";
 		
-		showAlert(msg);
+		callAjax("storePay.php",
+				parameters,
+				"Enviar",
+				"ajaxLoading");
+		*/
 		
 		payForm.submit();
 	}
+	
+	return doSubmit;
 }
 
 /**
@@ -224,5 +343,5 @@ function addFilaProductosComprados(){
 	
 	document.getElementById("productoTMP").value = "";
 	document.getElementById("observacionesTMP").value = "";
-	document.getElementById("productosHidden").value = nodoPadre.innerHTML;
+	document.getElementById("articulo").value = nodoPadre.innerHTML;
 }

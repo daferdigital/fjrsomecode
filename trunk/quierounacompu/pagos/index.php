@@ -1,6 +1,7 @@
 <?php 
 	include "../sis/classes/DBUtil.php";
 ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 	<title>QUIEROUNACOMPU - FORMULARIO DE PAGO</title>
@@ -40,7 +41,7 @@
 </head>
 <body>
 <?php $columnas = 3;?>
-<form name="pago" action="storePay.php" method="post">
+<form name="pago" action="storePay.php" method="post" enctype="multipart/form-data">
 	<table class="tablaPrincipal" align="center" cellpadding="0" cellspacing="10" width="741">
   		<tr>
     		<td colspan="<?php echo $columnas;?>" align="center">
@@ -175,15 +176,15 @@
     			</span>
     		</td>
     		<td colspan="<?php echo $columnas -1;?>">
-    			<select id="codcel" size="1" name="codcel">
+    			<select id="codCelCliente" size="1" name="codCelCliente">
 			        <option value="412">412</option>
 			        <option value="414">414</option>
 			        <option value="416">416</option>
 			        <option value="424">424</option>
 			        <option value="426">426</option>
       			</select>
-      			<input style="BACKGROUND-COLOR: rgb(255,255,255)" maxlength="7" size="20" name="celular">
-      			<span class="isMandatory" id="spanCelular" style="display: none;">
+      			<input style="BACKGROUND-COLOR: rgb(255,255,255)" maxlength="7" size="20" name="tlfCelularCliente" id="tlfCelularCliente">
+      			<span class="isMandatory" id="spanCelularCliente" style="display: none;">
 	    			<br/>
 	    			Disculpe debe indicar al menos un n&uacute;mero telef&oacute;nico, sea celular o fijo.
     			</span>
@@ -194,7 +195,7 @@
     			Tel&eacute;fono:
     		</td>
     		<td colspan="<?php echo $columnas -1;?>">
-    			<select size="1" name="codfono">
+    			<select size="1" name="codLocalCliente">
 			        <option value="212">212</option>
 			        <option value="234">234</option>
 			        <option value="235">235</option>
@@ -254,7 +255,7 @@
 			        <option value="295">295</option>
 			        <option value="296">296</option>
       			</select>
-    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" maxlength="7" size="20" name="fono">
+    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" maxlength="7" size="20" name="tlfLocalCliente">
     		</td>
   		</tr>
   		<tr>
@@ -268,7 +269,7 @@
     		</td>
     		<td colspan="<?php echo $columnas -1;?>">
     			<select name="medio" size="1" class="Estilo11" style="FONT-SIZE: 10pt" id="medio">
-    				<option value="-1" selected="">Seleccione su medio de pago</option>
+    				<option value="-1" selected>Seleccione su medio de pago</option>
 			        <?php 
     					$query = "SELECT id, text "
     					."FROM medios_de_pago "
@@ -335,7 +336,7 @@
     			* Fecha del dep&oacute;sito o transferencia:
     		</td>
     		<td colspan="<?php echo $columnas -1;?>">
-    			<input type="text" id="fechaPago" name="fechaPago" size="25" readonly="true"/>
+    			<input type="text" id="fechaPago" name="fechaPago" size="25" readonly/>
 			
 				<script>
 					new JsDatePick({
@@ -372,7 +373,7 @@
 	      		Foto o archivo del pago:
 	      	</td>
     		<td colspan="<?php echo $columnas -1;?>">
-    			<input type="file" name="archivoTransferencia"> 
+    			<input type="file" name="archivoTransferencia">
       		</td>
   		</tr>
   		<tr>
@@ -414,6 +415,13 @@
 	                    		<input type="button" value="Agregar Producto" onclick="javascript:addFilaProductosComprados();"/>
 	                    	</td>
 	                    </tr>
+	                    <tr>
+	                    	<td colspan="<?php echo $columnas;?>">
+	                    		<span class="isMandatory" id="spanArticulo" style="display: none;">
+	                    			Disculpe, debe indicar el detalle de los productos que desea.
+	                    		</span>
+	                    	</td>
+	                    </tr>
 	                </table>
 	                <br/>
 	                <table id="detalleProductosComprados" class="Estilo17">
@@ -427,7 +435,7 @@
 	                </table>
 				</div>
 				
-				<input type="hidden" name="productosHidden" id="productosHidden" value=""/>
+				<input type="hidden" name="articulo" id="articulo" value=""/>
     		</td>
   		</tr>
   		<tr>
@@ -577,12 +585,80 @@
 			        <option value="426">426</option>
       			</select>
       			<input style="BACKGROUND-COLOR: rgb(255,255,255)" maxlength="7" size="20" name="celular">
-      			<span class="isMandatory" id="spanCelular" style="display: none;">
+      			<span class="isMandatory" id="spanCelularDestinatario" style="display: none;">
 	    			<br/>
 	    			Disculpe debe indicar al menos un n&uacute;mero telef&oacute;nico, sea celular o fijo.
     			</span>
       		</td>
     	</tr>
+    	<tr>
+    		<td class="title Estilo17">
+    			Tel&eacute;fono:
+    		</td>
+    		<td colspan="<?php echo $columnas -1;?>">
+    			<select size="1" name="codLocalDestinatario">
+			        <option value="212">212</option>
+			        <option value="234">234</option>
+			        <option value="235">235</option>
+			        <option value="237">237</option>
+			        <option value="238">238</option>
+			        <option value="239">239</option>
+			        <option value="240">240</option>
+			        <option value="241">241</option>
+			        <option value="242">242</option>
+			        <option value="243">243</option>
+			        <option value="244">244</option>
+			        <option value="245">245</option>
+			        <option value="246">246</option>
+			        <option value="247">247</option>
+			        <option value="248">248</option>
+			        <option value="249">249</option>
+			        <option value="251">251</option>
+			        <option value="252">252</option>
+			        <option value="253">253</option>
+			        <option value="254">254</option>
+			        <option value="255">255</option>
+			        <option value="256">256</option>
+			        <option value="257">257</option>
+			        <option value="258">258</option>
+			        <option value="259">259</option>
+			        <option value="261">261</option>
+			        <option value="262">262</option>
+			        <option value="263">263</option>
+			        <option value="264">264</option>
+			        <option value="265">265</option>
+			        <option value="266">266</option>
+			        <option value="267">267</option>
+			        <option value="268">268</option>
+			        <option value="269">269</option>
+			        <option value="271">271</option>
+			        <option value="272">272</option>
+			        <option value="273">273</option>
+			        <option value="274">274</option>
+			        <option value="275">275</option>
+			        <option value="276">276</option>
+			        <option value="277">277</option>
+			        <option value="278">278</option>
+			        <option value="279">279</option>
+			        <option value="281">281</option>
+			        <option value="282">282</option>
+			        <option value="283">283</option>
+			        <option value="284">284</option>
+			        <option value="285">285</option>
+			        <option value="286">286</option>
+			        <option value="287">287</option>
+			        <option value="288">288</option>
+			        <option value="289">289</option>
+			        <option value="291">291</option>
+			        <option value="292">292</option>
+			        <option value="293">293</option>
+			        <option value="294">294</option>
+			        <option value="295">295</option>
+			        <option value="296">296</option>
+      			</select>
+    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" maxlength="7" size="20" name="tlfLocalDestinatario">
+    		</td>
+  		</tr>
   		<tr>
     		<td class="title Estilo17">
     			Observaciones:
@@ -612,24 +688,13 @@
   		</tr>
   		<tr>
     		<td colspan="<?php echo $columnas;?>" align="center">
-    			<input name="enviar" onclick="javascript:validarFormularioDePago(this.form)" style="FONT-WEIGHT: bold; FONT-SIZE: 10pt;" value="Enviar datos del pago" type="button" >
+    			<input name="Enviar" id="Enviar" onclick="javascript:validarFormularioDePago(this.form);" style="FONT-WEIGHT: bold; FONT-SIZE: 10pt;" value="Enviar datos del pago" type="button" >
+    			<span id="ajaxLoading" style="display: none; float: right;">
+                  	<img src="../sis/images/ajax.gif" alt="Cargando..." />
+                </span>
     		</td>
   		</tr>
 	</table>
 </form>
-<?php 
-	if(isset($_GET["e"])){
-		$message = "Su pago fue almacenado con exito.";
-		
-		if($_GET["e"] == "0001"){
-			$message = "Su pago no pudo ser almacenado, por favor intente de nuevo.";
-		}
-?>
-		<script>
-			showAlert('<?php echo $message;?>')
-		</script>
-<?php
-	}
-?>
 </body>
 </html>

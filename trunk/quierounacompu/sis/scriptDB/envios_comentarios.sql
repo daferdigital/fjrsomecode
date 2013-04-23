@@ -2,9 +2,9 @@ CREATE DATABASE  IF NOT EXISTS `quierounacompu` /*!40100 DEFAULT CHARACTER SET l
 USE `quierounacompu`;
 -- MySQL dump 10.13  Distrib 5.5.16, for Win32 (x86)
 --
--- Host: localhost    Database: quierounacompu
+-- Host: ubuntu-sun    Database: quierounacompu
 -- ------------------------------------------------------
--- Server version	5.5.24
+-- Server version	5.1.37
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -28,26 +28,22 @@ CREATE TABLE `envios_comentarios` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `fecha_comentario` datetime NOT NULL,
   `comentario` text NOT NULL,
-  `id_usuario` int(10) unsigned NOT NULL,
+  `id_usuario` int(10) unsigned DEFAULT NULL COMMENT 'nulo para el caso del comprador generando algun comentario para el envio',
   `id_status_envio` int(10) unsigned NOT NULL,
+  `id_envio` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_COMENTARIO_USUARIO` (`id_usuario`),
   KEY `FK_COMENTARIO_STATUS_ENVIO` (`id_status_envio`),
-  CONSTRAINT `FK_COMENTARIO_USUARIO` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `FK_COMENTARIO_STATUS_ENVIO` FOREIGN KEY (`id_status_envio`) REFERENCES `envios_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  KEY `FK_COMENTARIO_ENVIO_idx` (`id_envio`),
+  CONSTRAINT `FK_COMENTARIO_ENVIO` FOREIGN KEY (`id_envio`) REFERENCES `envios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_COMENTARIO_STATUS_ENVIO` FOREIGN KEY (`id_status_envio`) REFERENCES `envios_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_COMENTARIO_USUARIO` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=145 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `envios_comentarios`
 --
--- ORDER BY:  `id`
-
-LOCK TABLES `envios_comentarios` WRITE;
-/*!40000 ALTER TABLE `envios_comentarios` DISABLE KEYS */;
-/*!40000 ALTER TABLE `envios_comentarios` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
@@ -57,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-03-07  1:04:18
+-- Dump completed on 2013-04-23 16:46:41

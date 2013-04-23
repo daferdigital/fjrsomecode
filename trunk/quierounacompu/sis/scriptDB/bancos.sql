@@ -2,9 +2,9 @@ CREATE DATABASE  IF NOT EXISTS `quierounacompu` /*!40100 DEFAULT CHARACTER SET l
 USE `quierounacompu`;
 -- MySQL dump 10.13  Distrib 5.5.16, for Win32 (x86)
 --
--- Host: localhost    Database: quierounacompu
+-- Host: ubuntu-sun    Database: quierounacompu
 -- ------------------------------------------------------
--- Server version	5.5.24
+-- Server version	5.1.37
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -35,7 +35,6 @@ CREATE TABLE `bancos` (
 --
 -- Dumping data for table `bancos`
 --
--- ORDER BY:  `id`
 
 LOCK TABLES `bancos` WRITE;
 /*!40000 ALTER TABLE `bancos` DISABLE KEYS */;
@@ -52,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-03-07  1:04:19
+-- Dump completed on 2013-04-23 16:46:46

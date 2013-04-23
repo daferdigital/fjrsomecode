@@ -2,9 +2,9 @@ CREATE DATABASE  IF NOT EXISTS `quierounacompu` /*!40100 DEFAULT CHARACTER SET l
 USE `quierounacompu`;
 -- MySQL dump 10.13  Distrib 5.5.16, for Win32 (x86)
 --
--- Host: localhost    Database: quierounacompu
+-- Host: ubuntu-sun    Database: quierounacompu
 -- ------------------------------------------------------
--- Server version	5.5.24
+-- Server version	5.1.37
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -33,19 +33,19 @@ CREATE TABLE `usuarios` (
   `correo` varchar(100) NOT NULL,
   `active` char(1) NOT NULL DEFAULT '1',
   `tiempo_sesion` int(11) NOT NULL DEFAULT '10',
+  `registros_por_pagina` int(11) NOT NULL DEFAULT '30',
   PRIMARY KEY (`id`),
   UNIQUE KEY `login_UNIQUE` (`login`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `usuarios`
 --
--- ORDER BY:  `id`
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` (`id`, `nombre`, `apellido`, `login`, `clave`, `correo`, `active`, `tiempo_sesion`) VALUES (1,'Felipe','Rojas','frojas','e10adc3949ba59abbe56e057f20f883e','fr@quierounacompu.com','1',10),(2,'Reynaldo','Dominguez','rdominguez','e10adc3949ba59abbe56e057f20f883e','rd@quierounacompu.com','1',10);
+INSERT INTO `usuarios` (`id`, `nombre`, `apellido`, `login`, `clave`, `correo`, `active`, `tiempo_sesion`, `registros_por_pagina`) VALUES (1,'Felipe','Rojas','frojas','e10adc3949ba59abbe56e057f20f883e','fr@quierounacompu.com','1',10,30),(2,'Reynaldo','Dominguez','rdominguez','e10adc3949ba59abbe56e057f20f883e','rd@quierounacompu.com','1',10,30),(3,'Luis','Dominguez','ldominguez','e10adc3949ba59abbe56e057f20f883e','caja@quierounacompu.com','1',10,30),(4,'Evelyn','Zapata','ezapata','e10adc3949ba59abbe56e057f20f883e','ventas3@quierounacompu.com','1',10,30);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -58,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-03-07  1:04:17
+-- Dump completed on 2013-04-23 16:46:36
