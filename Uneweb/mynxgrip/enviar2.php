@@ -27,7 +27,7 @@ function obtenerDatosDelCuestionario($numCuestionario){
 	$arrayRespuestasCorrectas1[5] = 1;
 	$arrayRespuestasCorrectas1[6] = 1;
 	$arrayRespuestasCorrectas1[7] = 1;
-	$arrayRespuestasCorrectas1[8] = 2;
+	$arrayRespuestasCorrectas1[8] = 1;
 	$arrayRespuestasCorrectas1[9] = 1;
 	$arrayRespuestasCorrectas1[10] = 2;
 	$arrayRespuestasCorrectas1[11] = 1;
@@ -112,7 +112,7 @@ foreach ($arrayRespuestasCorrectas as $pregunta => $respuesta){
 
 //echo "Respuestas Incorrectas: ".$respuestasIncorrectas;
 
-$mailTo = "felipe.rojasg@gmail.com";
+$mailTo = "p.delduca@bormedica.net";
 $subject = "Respuestas al cuestionario ".$numCuestionario;
 
 $headers = "From: ".strip_tags($_POST["correo"]) ."\r\n";
