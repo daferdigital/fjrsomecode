@@ -2,7 +2,7 @@
 include_once("DBConnection.php");
 
 class DBUtil {
-	private static $audit = false;
+	private static $audit = true;
 	
 	/**
 	 * 
@@ -26,17 +26,19 @@ class DBUtil {
 		try {
 			$result = mysql_query($querySelect, $dbConObj->getConnection());
 			if(!mysql_error()){
-				$resultArray = mysql_fetch_assoc($result);
+				while($r = mysql_fetch_assoc($result)){
+					$resultArray[] = $r;
+				}
+				
+				DBUtil::insertIntoSystemLog($querySelect, print_r($resultArray, true), (time() - $time0));
 			} else {
-				DBUtil::storeError($queryOperation, $result);
+				DBUtil::storeError($querySelect, $result);
 			}
 		} catch (Exception $e) {
 			die("Error ejecutando consulta en base de datos");
 		}
 		
 		$dbConObj->closeConnection();
-		
-		DBUtil::insertIntoSystemLog($querySelect, print_r($resultArray, true), (time() - $time0));
 		
 		return $resultArray;
 	}
@@ -58,7 +60,10 @@ class DBUtil {
 			mysql_query($query, $dbConObj->getConnection());
 			if(mysql_error()){
 				$result = false;
+				echo "<br />".mysql_error()."<br />";
 				DBUtil::storeError($query, mysql_error());
+			} else {
+				DBUtil::insertIntoSystemLog($query, "", time() - $time0);
 			}
 		} catch (Exception $e) {
 			$result = false;
@@ -66,8 +71,6 @@ class DBUtil {
 		}
 	
 		$dbConObj->closeConnection();
-	
-		DBUtil::insertIntoSystemLog($query, "", time() - $time0);
 		
 		return $result;
 	}
@@ -85,15 +88,17 @@ class DBUtil {
 			$dbConObj = new DBConnection();
 			$usuario = "NULL";
 			
-			if(isset($_SESSION["usuario"])){
-				$usuario = $_SESSION["usuario"]->getId();
+			if(isset($_SESSION["usuario_id"])){
+				$usuario = $_SESSION["usuario_id"];
 			}
+			
 			try {
 				$query = "INSERT INTO system_log (fecha, query, result, query_time, id_usuario)"
 						." VALUES(now(),'".str_replace("'","\\'", $queryOperation)."','".str_replace("'","\\'",$result)."',".$timeExecution.",".$usuario.")";
 					
 				mysql_query($query, $dbConObj->getConnection());
 				if(mysql_error()){
+					echo "<br />".mysql_error()."<br />";
 					DBUtil::storeError($query, mysql_error());
 				}
 			} catch (Exception $e) {
@@ -115,8 +120,8 @@ class DBUtil {
 			$idUsuario = "NULL";
 			$time0 = time();
 			
-			if(isset($_SESSION["usuario"])){
-				$idUsuario = $_SESSION["usuario"]->getId();
+			if(isset($_SESSION["usuario_id"])){
+				$idUsuario = $_SESSION["usuario_id"];
 			}
 			
 			$query = "INSERT INTO system_log (fecha, query, result, was_error, query_time, id_usuario)"
@@ -124,6 +129,10 @@ class DBUtil {
 			
 			$dbConObj = new DBConnection();
 			mysql_query($query, $dbConObj->getConnection());
+			if(mysql_error()){
+				echo "<br />".mysql_error()."<br />";
+			}
+			
 			$dbConObj->closeConnection();
 		}
 	}
