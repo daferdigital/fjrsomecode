@@ -64,7 +64,7 @@ BitacoraDAO::registrarComentario("El usuario puede comentar el envio[".$recordId
 				</tr>
 				<tr>
 					<td colspan="2" align="center">
-						<input type="button" name="guardar" value="Comentar" onclick="javascript:comentarEnvio()"/>
+						<input type="button" id="guardar" name="guardar" value="Comentar" onclick="javascript:comentarEnvio()"/>
 					</td>
 				</tr>
 			</table>

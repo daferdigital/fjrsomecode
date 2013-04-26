@@ -301,7 +301,7 @@ BitacoraDAO::registrarComentario("El usuario ".($canEdit ? "" : "NO")." puede ed
 				</tr>
 				<tr>
 					<td colspan="2" align="center">
-						<input type="button" name="guardar" value="Actualizar" onclick="javascript:actualizarEnvio(<?php echo $envioDTO->getIdStatusActual()?>)"/>
+						<input type="button" id="guardar" name="guardar" value="Actualizar" onclick="javascript:actualizarEnvio('guardar',<?php echo $envioDTO->getIdStatusActual()?>)"/>
 					</td>
 				</tr>
 			</table>

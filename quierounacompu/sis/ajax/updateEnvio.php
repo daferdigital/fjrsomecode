@@ -13,6 +13,7 @@ include_once '../includes/session.php';
 $idEnvio = $_POST["idEnvio"];
 $newComment = $_POST["newComment"];
 $newStatusText = "";
+$oldStatusText;
 
 $canEdit = false;
 $envioDTO = EnvioDAO::getEnvioInfo($idEnvio);
@@ -30,37 +31,37 @@ BitacoraDAO::registrarComentario("Ingreso en pagina ajax para actualizar envio["
 //venimos de las opciones especificas por cada tipo de envio
 //verificamos el permiso
 if(EnvioDAO::$COD_STATUS_NOTIFICADO == $currentIdStatus){
-	$newStatusText = "Notificado";
+	$oldStatusText = "Notificado";
 	
 	if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_NOTIFICADOS)){
 		$canEdit = true;
 	}
 } else if(EnvioDAO::$COD_STATUS_PAGO_CONFIRMADO == $currentIdStatus){
-	$newStatusText = "Pago Confirmado";
+	$oldStatusText = "Pago Confirmado";
 	
 	if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_PAGOS_CONFIRMADOS)){
 		$canEdit = true;
 	}
 } else if(EnvioDAO::$COD_STATUS_PAGO_NO_ENCONTRADO == $currentIdStatus){
-	$newStatusText = "Pago no Encontrado";
+	$oldStatusText = "Pago no Encontrado";
 	
 	if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_PAGOS_NO_ENCONTRADOS)){
 		$canEdit = true;
 	}
 } else if(EnvioDAO::$COD_STATUS_FACTURADO == $currentIdStatus){
-	$newStatusText = "Facturado";
+	$oldStatusText = "Facturado";
 	
 	if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_FACTURADO)){
 		$canEdit = true;
 	}
 } else if(EnvioDAO::$COD_STATUS_PRESUPUESTADO == $currentIdStatus){
-	$newStatusText = "Presupuestado";
+	$oldStatusText = "Presupuestado";
 	
 	if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_PRESUPUESTADO)){
 		$canEdit = true;
 	}
 } else if(EnvioDAO::$COD_STATUS_ENVIADO == $currentIdStatus){
-	$newStatusText = "Enviado";
+	$oldStatusText = "Enviado";
 	
 	if($userDTO->canAccessKeyModule(Constants::$OPCION_EDICION_ENVIADO)){
 		$canEdit = true;
@@ -71,6 +72,22 @@ if(EnvioDAO::$COD_STATUS_NOTIFICADO == $currentIdStatus){
 }
 
 BitacoraDAO::registrarComentario("El usuario ".($canEdit ? "" : "NO")." puede editar el envio[".$idEnvio."]");
+
+if($newStatus != -1){
+	if(EnvioDAO::$COD_STATUS_NOTIFICADO == $newStatus){
+		$newStatusText = "Notificado";
+	} else if(EnvioDAO::$COD_STATUS_PAGO_CONFIRMADO == $newStatus){
+		$newStatusText = "Pago Confirmado";
+	} else if(EnvioDAO::$COD_STATUS_PAGO_NO_ENCONTRADO == $newStatus){
+		$newStatusText = "Pago no Encontrado";
+	} else if(EnvioDAO::$COD_STATUS_FACTURADO == $newStatus){
+		$newStatusText = "Facturado";
+	} else if(EnvioDAO::$COD_STATUS_PRESUPUESTADO == $newStatus){
+		$newStatusText = "Presupuestado";
+	} else if(EnvioDAO::$COD_STATUS_ENVIADO == $newStatus){
+		$newStatusText = "Enviado";
+	}
+}
 
 if($canEdit){
 	//agregamos el comentario nuevo
