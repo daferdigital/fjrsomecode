@@ -2,6 +2,31 @@
 
 /**
  * 
+ * @param unknown_type $mailFrom
+ * @param unknown_type $mailFromName
+ * @param unknown_type $mailTo
+ * @param unknown_type $subject
+ * @param unknown_type $message
+ * @return boolean
+ */
+function sendEmail($mailFrom, $mailFromName, $mailTo, $subject, $message){
+	$headers = "From: ";
+	if($mailFromName == ""){
+		$headers .= strip_tags($mailFrom) ."\r\n";
+	} else {
+		$headers .= $mailFromName." <".strip_tags($mailFrom) .">\r\n";
+	}
+	$headers .= "MIME-Version: 1.0\r\n";
+	$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+	
+	$subject = "=?ISO-8859-1?B?".base64_encode($subject)."=?=";
+	$wasSent = mail($mailTo, $subject, $message, $headers);
+	
+	return $wasSent;
+}
+
+/**
+ * 
  * @param unknown_type $numCuestionario
  */
 function obtenerDatosDelCuestionario($numCuestionario){
@@ -111,13 +136,9 @@ foreach ($arrayRespuestasCorrectas as $pregunta => $respuesta){
 }
 
 //echo "Respuestas Incorrectas: ".$respuestasIncorrectas;
-
+$mailFromName = "Equipo de Certificación MynxGrip";
 $mailTo = "p.delduca@bormedica.net";
 $subject = "Respuestas al cuestionario ".$numCuestionario;
-
-$headers = "From: ".strip_tags($_POST["correo"]) ."\r\n";
-$headers .= "MIME-Version: 1.0\r\n";
-$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 
 $message = "<b>".$_POST["nombre"]."</b> ha respondido el cuestionario n&uacute;mero ".$numCuestionario." obteniendo como resultado:<br /><br />";
 $message.= ($respuestasIncorrectas == 0) ? "<h3>Todas las respuestas correctas</h3>" : "<h3>".$respuestasIncorrectas." respuesta(s) incorrecta(s)</h3>";
@@ -125,15 +146,40 @@ if($respuestasIncorrectas > 0){
 	$message.="<br /><br />";
 	$message.="Este es el listado de preguntas contestadas de manera incorrecta:";
 	$message.="<ul>".$detalleEnunciados."</ul>";
-}
+} 
 
-$subject = "=?ISO-8859-1?B?".base64_encode($subject)."=?=";
-$wasSent = mail($mailTo, $subject, $message, $headers);
+$wasSent = sendEmail($_POST["correo"], "", $mailTo, $subject, $message);
+
 //$wasSent = true;
 $htmlAnswer = "";
 if($wasSent){
 	if($respuestasIncorrectas == 0){
 		$htmlAnswer = "Respondiste correctamente el cuestionario!!!";
+		
+		//se le enviara un correo al estudiante para darle algunas instrucciones ya que respondio correctamente
+		if($numCuestionario == 1){
+			//se respondio correctamente el primer cuestionario
+			$message = "Felicitaciones ha presentado el cuestionario 1 exitosamente<br />\n";
+			$message.= "Le invitamos a continuar con el cuestionario 2 después de estudiar el tutorial 2.<br />\n";
+			$message.= "<br/>Equipo de Certificaci&oacute;n MynxGrip";
+			
+			$mailFromName = "Equipo de Certificación MynxGrip";
+			$mailFrom = "p.delduca@bormedica.net";
+			$subject = "Felicitaciones por responder correctamente el cuestionario número ".$numCuestionario;
+			
+			sendEmail($mailFrom, $mailFromName, $_POST["correo"], $subject, $message);
+		} else {
+			//se respondio correctamente el primer cuestionario
+			$message = "Felicitaciones ha concluido su entrenamiento te&oacute;rico<br />\n";
+			$message.= "Le contactaremos para programar los casos en vivo, recuerde tramitar la autorizaci&oacute;n con el Jefe del Centro.<br />\n";
+			$message.= "<br/>Equipo de Certificaci&oacute;n MynxGrip";
+				
+			$mailFromName = "Equipo de Certificación MynxGrip";
+			$mailFrom = "p.delduca@bormedica.net";
+			$subject = "Felicitaciones por responder correctamente el cuestionario número ".$numCuestionario;
+				
+			sendEmail($mailFrom, $mailFromName, $_POST["correo"], $subject, $message);
+		}
 	} else {
 		$htmlAnswer = "Disculpa, tuviste ".$respuestasIncorrectas." respuesta(s) incorrectas(s). Por favor intenta de nuevo.\nNOTA: Las preguntas respondidas de manera incorrecta seran limpiadas.";
 		$htmlAnswer.= "|".$respuestasIncorrectas;
