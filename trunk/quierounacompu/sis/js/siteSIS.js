@@ -378,7 +378,7 @@ function searchEnviosAjax(pageNumber){
  * determinado envio.
  * 
  */
-function actualizarEnvio(statusActual){
+function actualizarEnvio(idButtonToHide, statusActual){
 	var valid = true;
 	
 	var newComment = document.getElementById("newComment").value.trim();
@@ -434,6 +434,8 @@ function actualizarEnvio(statusActual){
 	}
 	
 	if(valid){
+		document.getElementById(idButtonToHide).style.display = "none";
+		
 		callAjax("ajax/updateEnvio.php",
 				parameters,
 				null,
@@ -449,6 +451,8 @@ function comentarEnvio(){
 	
 	var parameters = "idEnvio=" + document.getElementById("idEnvio").value;
 	parameters += "&newComment=" + newComment;
+	
+	document.getElementById("guardar").style.display="none";
 	
 	callAjax("ajax/updateComentariosEnvio.php",
 			parameters,
