@@ -120,7 +120,7 @@ class EnvioDAO {
 		." FROM envios_status es, envios_comentarios ec LEFT JOIN usuarios u ON ec.id_usuario = u.id"
 		." WHERE ec.id_status_envio = es.id"
 		." AND ec.id_envio=".$idEnvio
-		." ORDER BY ec.fecha_comentario";
+		." ORDER BY ec.fecha_comentario DESC, ec.id ASC";
 		
 		$result = DBUtil::executeSelect($query);
 		
