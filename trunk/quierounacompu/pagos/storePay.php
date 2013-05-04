@@ -46,7 +46,7 @@ if(isset($_POST["terminos"])){
 	'".($_POST["tlfLocalCliente"] == "" ? "" : $_POST["codLocalCliente"]."-".$_POST["tlfLocalCliente"])."',
 	'".$_POST["articulo"]."',
 	'".$_POST["bauche"]."',
-	'".$_POST["fechaPago"]."', "
+	'".$_POST["fechaPagoHidden"]."', "
 	."NOW(), "
 	.$_POST["monto"].",
 	'".$_POST["destinatario"]."',
@@ -66,11 +66,13 @@ if(isset($_POST["terminos"])){
 	if($lastId > 0){
 		//guardamos la posible imagen del comprobante de pago
 		//print_r($_FILES);
-		if($_FILES["archivoTransferencia"]["error"] == "0"){
+		if(isset($_FILES["archivoTransferencia"])
+				&& $_FILES["archivoTransferencia"]["error"] == "0"){
 			//subio el archivo, lo copiamos entonces
 			$dir = "../sis/comprobantes/".$lastId;
 			mkdir($dir);
-			copy($_FILES["archivoTransferencia"]["tmp_name"], $dir."/".$_FILES["archivoTransferencia"]["name"]);
+			copy($_FILES["archivoTransferencia"]["tmp_name"],
+				$dir."/".$_FILES["archivoTransferencia"]["name"]);
 		}
 		
 		//registro el primer comentario
