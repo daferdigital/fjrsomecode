@@ -2,6 +2,101 @@ String.prototype.trim=function(){
 	return this.replace(/^\s+|\s+$/g, '');
 };
 
+function checkTipoPago(idTipoPago){
+	var selectBanco = document.getElementById("banco");
+	
+	if(idTipoPago == 5){
+		//es mercado pago, no mostramos el banco
+		selectBanco.style.display = "none";
+	} else {
+		selectBanco.style.display = "inline";
+	}
+}
+
+/**
+ * 
+ * @param tipoDoc
+ * @param cedula
+ * @returns {Boolean}
+ */
+function isValidCIValue(tipoDoc, cedula){
+	//obtenemos el tipo de documento
+	//para saber que longitud debe tener
+	var isValid = true;
+	var length = cedula.length;
+	
+	if(tipoDoc == "V" || tipoDoc == "E"){
+		//verificamos la longitud del valor
+		if(length < 6 || length > 8){
+			isValid = false;
+		}
+	} else if(tipoDoc == "J" || tipoDoc == "G"){
+		if(length != 9){
+			isValid = false;
+		}
+	}
+	
+	return isValid;
+}
+
+/**
+ * 
+ * @param mail
+ * @returns {Boolean}
+ */
+function checkIfIsAValidMail(mail){
+	var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	
+	if(! re.test(mail.trim())){
+		return false;
+	}
+	
+	return true;
+}
+
+/**
+ * 
+ * @param e
+ * @returns {Boolean}
+ */
+function textInputOnlyNumbers(e){
+	var key = (window.Event) ? e.which : e.keyCode;
+	
+	//alert(key);
+	
+	if((key >= 48 && key <= 57) || key == 9 || key == 8){
+		return true;
+	} else {
+		return false;
+	}
+}
+
+/**
+ * 
+ * @param e
+ * @returns {Boolean}
+ */
+function textInputOnlyLetters(e){
+	var key = (window.Event) ? e.which : e.keyCode;
+	
+	//alert(key);
+	
+	//97-122 a-z
+	//65-90 A-Z
+	//241 ñ
+	//209 Ñ
+	//225-233-237-243-250 á é í ó ú
+	//9 backspace
+	if((key >= 97 && key <= 122) || (key >= 65 && key <= 90)
+			|| (key == 241 || key == 209 || key == 32 || key == 225 || key == 233 
+					|| key == 237 || key == 243 || key == 250 || key == 9 
+					|| key == 8)){
+		return true;
+	} else {
+		return false;
+	}
+}
+
 function showAlert(msg){
 	alert(msg);
 }
@@ -147,7 +242,9 @@ function validarFormularioDePago(payForm){
 	document.getElementById("spanNombre").style.display = "none";
 	document.getElementById("spanSeudonimo").style.display = "none";
 	document.getElementById("spanCii").style.display = "none";
+	document.getElementById("spanCiiBadValue").style.display = "none";
 	document.getElementById("spanEmail").style.display = "none";
+	document.getElementById("spanEmailFormat").style.display = "none";
 	document.getElementById("spanMedio").style.display = "none";
 	document.getElementById("spanBanco").style.display = "none";
 	document.getElementById("spanArticulo").style.display = "none";
@@ -177,11 +274,24 @@ function validarFormularioDePago(payForm){
 		document.getElementById("spanCii").style.display = "inline";
 		payForm.cii.focus();
 		doSubmit = false;
+	} else {
+		if(! isValidCIValue(payForm.ci.value, cedula)){
+			document.getElementById("spanCiiBadValue").style.display = "inline";
+			payForm.cii.focus();
+			doSubmit = false;
+		}
 	}
 	if(email == ""){
 		document.getElementById("spanEmail").style.display = "inline";
 		payForm.email.focus();
 		doSubmit = false;
+	} else {
+		//el campo del correo tiene un valor, verificamos que sea un correo valido
+		if(! checkIfIsAValidMail(email)){
+			document.getElementById("spanEmailFormat").style.display = "inline";
+			payForm.email.focus();
+			doSubmit = false;
+		}
 	}
 	if(tlfCelularCliente == "" && tlfLocalCliente == ""){
 		document.getElementById("spanCelularCliente").style.display = "inline";
@@ -193,7 +303,7 @@ function validarFormularioDePago(payForm){
 		payForm.medio.focus();
 		doSubmit = false;
 	}
-	if(banco == "-1"){
+	if(payForm.banco.style.display != "none" && banco == "-1"){
 		document.getElementById("spanBanco").style.display = "inline";
 		payForm.banco.focus();
 		doSubmit = false;

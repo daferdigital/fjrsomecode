@@ -101,7 +101,7 @@
     			* Tus nombres y apellidos:
     		</td>
     		<td colspan="<?php echo $columnas - 1?>">
-    			<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="nombre">
+    			<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="nombre" onkeypress="return textInputOnlyLetters(event)">
     			<span class="isMandatory" id="spanNombre" style="display: none;">
     				<br/>
     				Disculpe el nombre completo es obligatorio.
@@ -129,17 +129,20 @@
     			</span>
     		</td>
    	 		<td colspan="<?php echo $columnas - 1?>">
-   	 			<select style="FONT-SIZE: 10pt" size="1" name="ci">
+   	 			<select style="FONT-SIZE: 10pt" size="1" name="ci" onchange="setMaxLengthCI()">
 			        <option value="V" selected>V</option>
+			        <option value="E">E</option>
 			        <option value="J">J</option>
 			        <option value="G">G</option>
-			        <option value="E">E</option>
-			        <option value="C">C</option>
       			</select>
-    			<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)"  maxlength="9" size="23" name="cii">
+    			<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)"  maxlength="9" size="23" name="cii" onkeypress="return textInputOnlyNumbers(event)">
     			<span class="isMandatory" id="spanCii" style="display: none;">
     				<br/>
     				Disculpe su C&eacute;dula es obligatoria.
+    			</span>
+    			<span class="isMandatory" id="spanCiiBadValue" style="display: none;">
+    				<br/>
+    				Disculpe su cedula o RIF tiene una longitud no adecuada.
     			</span>
     		</td>
   		</tr>
@@ -155,6 +158,10 @@
       			<span class="isMandatory" id="spanEmail" style="display: none;">
 	    			<br/>
 	    			Disculpe su Correo es obligatorio.
+    			</span>
+    			<span class="isMandatory" id="spanEmailFormat" style="display: none;">
+	    			<br/>
+	    			Disculpe el Correo no tiene un formato valido.
     			</span>
     		</td>
     		<td>
@@ -268,7 +275,7 @@
     			* Medio de Pago:
     		</td>
     		<td colspan="<?php echo $columnas -1;?>">
-    			<select name="medio" size="1" class="Estilo11" style="FONT-SIZE: 10pt" id="medio">
+    			<select name="medio" size="1" class="Estilo11" style="FONT-SIZE: 10pt" id="medio" onchange="checkTipoPago(this.options[this.selectedIndex].value)">
     				<option value="-1" selected>Seleccione su medio de pago</option>
 			        <?php 
     					$query = "SELECT id, text "
@@ -336,16 +343,18 @@
     			* Fecha del dep&oacute;sito o transferencia:
     		</td>
     		<td colspan="<?php echo $columnas -1;?>">
-    			<input type="text" id="fechaPago" name="fechaPago" size="25" readonly/>
-			
+    			<input type="text" id="fechaPago" name="fechaPago" size="25" readonly />
+				<input type="hidden" id="fechaPagoHidden" name="fechaPagoHidden" />
 				<script>
 					new JsDatePick({
 				        useMode:2,
-				        target:"fechaPago",        
+				        target:"fechaPago",
+				        targetHidden:"fechaPagoHidden",
 				        isStripped:true,
 				       	weekStartDay:0,
 				        limitToToday:true,
-				        dateFormat:"%Y-%m-%d",
+				        dateFormat:"%d/%m/%Y",
+				        dateFormatHidden:"%Y-%m-%d",
 				        imgPath:"../img/"
 				    });
 				</script>
