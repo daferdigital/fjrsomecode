@@ -843,7 +843,7 @@ JsDatePick.prototype.getSelectedDay = function(){
 
 JsDatePick.prototype.getSelectedDayFormatted = function(dateStr){
 	if (this.flag_aDayWasSelected){
-		alert(dateStr);
+		//alert(dateStr);
 		//var dateStr = this.oConfiguration.dateFormat;
 		
 		dateStr = dateStr.replace("%d", this.selectedDayObject.day.toString().strpad());

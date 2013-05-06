@@ -2,14 +2,25 @@ String.prototype.trim=function(){
 	return this.replace(/^\s+|\s+$/g, '');
 };
 
+/**
+ * 
+ * @param idTipoPago
+ * @returns
+ */
 function checkTipoPago(idTipoPago){
-	var selectBanco = document.getElementById("banco");
+	var trBanco = document.getElementById("bancoAllInfo");
+	document.getElementById("bauche").onkeypress = textInputOnlyNumbers;
 	
 	if(idTipoPago == 5){
 		//es mercado pago, no mostramos el banco
-		selectBanco.style.display = "none";
+		trBanco.style.display = "none";
 	} else {
-		selectBanco.style.display = "inline";
+		trBanco.style.display = "";
+		if(idTipoPago == 6){
+			//es pago via transferencia otros bancos
+			//debemos indicar que el campo de vauche es alfanumerico
+			document.getElementById("bauche").onkeypress = textNoSpaces;  
+		}
 	}
 }
 
@@ -19,7 +30,7 @@ function checkTipoPago(idTipoPago){
  * @param cedula
  * @returns {Boolean}
  */
-function isValidCIValue(tipoDoc, cedula){
+function isValidCIValue(tipoDoc, cedula, messageSpanId){
 	//obtenemos el tipo de documento
 	//para saber que longitud debe tener
 	var isValid = true;
@@ -29,13 +40,71 @@ function isValidCIValue(tipoDoc, cedula){
 		//verificamos la longitud del valor
 		if(length < 6 || length > 8){
 			isValid = false;
+			document.getElementById(messageSpanId).innerHTML = "<br />Disculpe, su cedula debe tener minimo 6 digitos y maximo 8";
 		}
 	} else if(tipoDoc == "J" || tipoDoc == "G"){
 		if(length != 9){
 			isValid = false;
+			document.getElementById(messageSpanId).innerHTML = "<br />Disculpe, la longitud obligatoria del RIF es de 9 digitos";
 		}
 	}
 	
+	return isValid;
+}
+
+/**
+ * 
+ * @param tipoDoc
+ * @param cedula
+ * @returns {Boolean}
+ */
+function isValidVaucheValue(tipoPago, vauche, messageSpanId){
+	//obtenemos el tipo de documento
+	//para saber que longitud debe tener
+	var isValid = true;
+	var length = vauche.length;
+	var idBanco = document.getElementById("banco").value;
+	
+	//1 es deposito
+	//2 es transferencia desde el mismo banco
+	//5 es mercado pago
+	//6 es transferencia desde otro banco
+	
+	//banco 1 es Banesco
+	//banco 2 es Mercantil
+	//banco 3 es Venezuela
+	if(tipoPago == 5){
+		//es mercado pago, como no aplica el banco, procedemos a validar longitud
+		if(length != 9){
+			isValid = false;
+			document.getElementById(messageSpanId).innerHTML = "<br />Disculpe, para MercadoPago se espera que el codigo de transaccion sea de 9 digitos";
+		}
+	} else {
+		if(tipoPago == 1 || tipoPago == 2){
+			//es deposito o transferencia desde el mismo banco, vemos el banco para validar longitud
+			if(idBanco == 1){
+				if(length != 11){
+					isValid = false;
+					document.getElementById(messageSpanId).innerHTML = "<br />Disculpe, para transacciones de Banesco se esperan codigos de 11 digitos";
+				}
+			}
+			if(idBanco == 2){
+				if(length != 11){
+					isValid = false;
+					document.getElementById(messageSpanId).innerHTML = "<br />Disculpe, para transacciones del Banco Mercantil se esperan codigos de 11 digitos";
+				}
+			}
+			if(idBanco == 3){
+				if(length != 11){
+					isValid = false;
+					document.getElementById(messageSpanId).innerHTML = "<br />Disculpe, para transacciones del Banco de Venezuela se esperan codigos de 13 digitos";
+				}
+			}
+		} else if(tipoPago == 6){
+			//es transferencia desde otro banco
+		}
+	}
+		
 	return isValid;
 }
 
@@ -94,6 +163,25 @@ function textInputOnlyLetters(e){
 		return true;
 	} else {
 		return false;
+	}
+}
+
+/**
+ * 
+ * @param e
+ * @returns {Boolean}
+ */
+function textNoSpaces(e){
+	var key = (window.Event) ? e.which : e.keyCode;
+	
+	//alert(key);
+	
+	//9 backspace
+	//32 space
+	if(key == 32){
+		return false;
+	} else {
+		return true;
 	}
 }
 
@@ -249,11 +337,14 @@ function validarFormularioDePago(payForm){
 	document.getElementById("spanBanco").style.display = "none";
 	document.getElementById("spanArticulo").style.display = "none";
 	document.getElementById("spanBauche").style.display = "none";
+	document.getElementById("spanBaucheBadValue").style.display = "none";
 	document.getElementById("spanFechaPago").style.display = "none";
 	document.getElementById("spanMonto").style.display = "none";
+	document.getElementById("spanArchivoPago").style.display = "none";
 	document.getElementById("spanEnvio").style.display = "none";
 	document.getElementById("spanDestinatario").style.display = "none";
 	document.getElementById("spanCIDestinatario").style.display = "none";
+	document.getElementById("spanCIDestinatarioBadValue").style.display = "none";
 	document.getElementById("spanDir1").style.display = "none";
 	document.getElementById("spanCiudad").style.display = "none";
 	document.getElementById("spanEstado").style.display = "none";
@@ -275,7 +366,7 @@ function validarFormularioDePago(payForm){
 		payForm.cii.focus();
 		doSubmit = false;
 	} else {
-		if(! isValidCIValue(payForm.ci.value, cedula)){
+		if(! isValidCIValue(payForm.ci.value, cedula, "spanCiiBadValue")){
 			document.getElementById("spanCiiBadValue").style.display = "inline";
 			payForm.cii.focus();
 			doSubmit = false;
@@ -317,6 +408,10 @@ function validarFormularioDePago(payForm){
 		document.getElementById("spanBauche").style.display = "inline";
 		payForm.bauche.focus();
 		doSubmit = false;
+	} else if (! isValidVaucheValue(medioDePago, voucher, "spanBaucheBadValue")){
+		document.getElementById("spanBaucheBadValue").style.display = "inline";
+		payForm.bauche.focus();
+		doSubmit = false;
 	}
 	if(fechaPago == ""){
 		document.getElementById("spanFechaPago").style.display = "inline";
@@ -325,6 +420,11 @@ function validarFormularioDePago(payForm){
 	}
 	if(montoPago == ""){
 		document.getElementById("spanMonto").style.display = "inline";
+		payForm.monto.focus();
+		doSubmit = false;
+	}
+	if(medioDePago == 6 && document.getElementById("archivoTransferencia").value == ""){
+		document.getElementById("spanArchivoPago").style.display = "inline";
 		payForm.monto.focus();
 		doSubmit = false;
 	}
@@ -340,6 +440,10 @@ function validarFormularioDePago(payForm){
 	}
 	if(ciDestinatario == ""){
 		document.getElementById("spanCIDestinatario").style.display = "inline";
+		payForm.ciDestinatario.focus();
+		doSubmit = false;
+	} else if(isValidCIValue("V", ciDestinatario, "spanCIDestinatarioBadValue")){
+		document.getElementById("spanCIDestinatarioBadValue").style.display = "inline";
 		payForm.ciDestinatario.focus();
 		doSubmit = false;
 	}
@@ -428,8 +532,8 @@ function addFilaProductosComprados(){
 	var productoValue = document.getElementById("productoTMP").value.trim();
 	var observacionValue = document.getElementById("observacionesTMP").value.trim();
 	
-	if(productoValue == "" || observacionValue == ""){
-		alert("Disculpe, debe indicar tanto el producto como las observaciones del mismo.");
+	if(productoValue == ""){
+		alert("Disculpe, debe indicar de manera obligatoria el detalle del producto.");
 		return;
 	}
 	
