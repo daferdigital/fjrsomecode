@@ -297,7 +297,7 @@
     			</span>
       		</td>
   		</tr>
-  		<tr>
+  		<tr id="bancoAllInfo">
     		<td class="title Estilo17">Banco:</td>
     		<td colspan="<?php echo $columnas -1;?>">
     			<select name="banco" size="1" class="Estilo11" style="FONT-SIZE: 10pt" id="banco">
@@ -331,10 +331,14 @@
     			</span>
     		</td>
     		<td colspan="<?php echo $columnas -1;?>">
-      			<input id="bauche" style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" maxlength="30" size="30" name="bauche">
+      			<input id="bauche" style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" maxlength="30" size="30" name="bauche" onkeypress="return textInputOnlyNumbers(event)">
       			<span class="isMandatory" id="spanBauche" style="display: none;">
 	    			<br/>
 	    			Disculpe el n&uacute;mero del bauche o transferencia es obligatorio.
+    			</span>
+    			<span class="isMandatory" id="spanBaucheBadValue" style="display: none;">
+	    			<br/>
+	    			Disculpe la longitud del numero de vauche es incorrecta.
     			</span> 
       		</td>
   		</tr>
@@ -382,7 +386,11 @@
 	      		Foto o archivo del pago:
 	      	</td>
     		<td colspan="<?php echo $columnas -1;?>">
-    			<input type="file" name="archivoTransferencia">
+    			<input type="file" name="archivoTransferencia" id="archivoTransferencia">
+    			<span class="isMandatory" id="spanArchivoPago" style="display: none;">
+	    			<br/>
+	    			Disculpe, para transferencias desde otros bancos, se requiere el comprobante de manera digitalizada.
+    			</span>
       		</td>
   		</tr>
   		<tr>
@@ -503,10 +511,14 @@
     			* C.I. del destinatario:
     		</td>
     		<td colspan="<?php echo $columnas -1;?>">
-    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="ciDestinatario">
+    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="ciDestinatario" onkeypress="return textInputOnlyNumbers(event)" maxlength="8">
     			<span class="isMandatory" id="spanCIDestinatario" style="display: none;">
 	    			<br/>
 	    			Disculpe debe indicar la cedula del destinatario.
+    			</span>
+    			<span class="isMandatory" id="spanCIDestinatarioBadValue" style="display: none;">
+	    			<br/>
+	    			Disculpe la longitud de la cedula debe ser de minimo 6 digitos y maximo 8 digitos.
     			</span>
     		</td>
   		</tr>
@@ -593,7 +605,7 @@
 			        <option value="424">424</option>
 			        <option value="426">426</option>
       			</select>
-      			<input style="BACKGROUND-COLOR: rgb(255,255,255)" maxlength="7" size="20" name="celular">
+      			<input style="BACKGROUND-COLOR: rgb(255,255,255)" maxlength="7" size="20" name="celular" onkeypress="return textInputOnlyNumbers(event)">
       			<span class="isMandatory" id="spanCelularDestinatario" style="display: none;">
 	    			<br/>
 	    			Disculpe debe indicar al menos un n&uacute;mero telef&oacute;nico, sea celular o fijo.
@@ -665,7 +677,7 @@
 			        <option value="295">295</option>
 			        <option value="296">296</option>
       			</select>
-    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" maxlength="7" size="20" name="tlfLocalDestinatario">
+    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" maxlength="7" size="20" name="tlfLocalDestinatario" onkeypress="return textInputOnlyNumbers(event)">
     		</td>
   		</tr>
   		<tr>
