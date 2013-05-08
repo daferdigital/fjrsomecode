@@ -49,7 +49,12 @@ function procesarRespuestaAjax(ajaxResponse){
 	if(arrayResponse[0] != null){
 		alert(arrayResponse[0]);
 	}
-	if(arrayResponse[2] != null){
+	if(arrayResponse[1] == 0){
+		//se respondio correctamente el formulario
+		//refrescamos toda la pagina
+		window.location = arrayResponse[2];
+	} else {
+		//el cuestionario en cuestion se respondio mal
 		//alert(arrayResponse[2]);
 		var respuestasErradas = arrayResponse[2].split(",");
 		for ( var i = 0; i < respuestasErradas.length; i++) {
