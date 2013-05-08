@@ -64,6 +64,11 @@ function isValidVaucheValue(tipoPago, vauche, messageSpanId){
 	var isValid = true;
 	var length = vauche.length;
 	var idBanco = document.getElementById("banco").value;
+	var message = "";
+	var digitosMercadoPago = 9;
+	var digitosBanesco = 11;
+	var digitosMercantil = 11;
+	var digitosVenezuela = 13;
 	
 	//1 es deposito
 	//2 es transferencia desde el mismo banco
@@ -75,36 +80,68 @@ function isValidVaucheValue(tipoPago, vauche, messageSpanId){
 	//banco 3 es Venezuela
 	if(tipoPago == 5){
 		//es mercado pago, como no aplica el banco, procedemos a validar longitud
-		if(length != 9){
+		if(length != digitosMercadoPago){
 			isValid = false;
-			document.getElementById(messageSpanId).innerHTML = "<br />Disculpe, para MercadoPago se espera que el codigo de transaccion sea de 9 digitos";
+			message = "Disculpe, para MercadoPago se espera que el codigo de transacción sea de " + digitosMercadoPago + " digitos.";
+			message += "<br />Como su codigo tiene " + length + " digitos.";
+			
+			if(length < digitosMercadoPago){
+				message += "<br />Le recomendamos rellenar con " + (digitosMercadoPago - length) + " cero(s) a la izquierda para completar los " + digitosMercadoPago + " digitos.";
+			} else {
+				message += "<br />Le recomendamos tomar los " + digitosMercadoPago  + " digitos de derecha a izquierda obviando los digitos extra.";
+			}
 		}
 	} else {
 		if(tipoPago == 1 || tipoPago == 2){
 			//es deposito o transferencia desde el mismo banco, vemos el banco para validar longitud
 			if(idBanco == 1){
-				if(length != 11){
+				if(length != digitosBanesco){
 					isValid = false;
-					document.getElementById(messageSpanId).innerHTML = "<br />Disculpe, para transacciones de Banesco se esperan codigos de 11 digitos";
+					message = "Disculpe, para transacciones de Banesco se esperan codigos de " + digitosBanesco + " digitos";
+					message += "<br />Como su codigo tiene " + length + " digitos.";
+					
+					if(length < digitosBanesco){
+						message += "<br />Le recomendamos rellenar con " + (digitosBanesco - length) + " cero(s) a la izquierda para completar los " + digitosMercadoPago + " digitos.";
+					} else {
+						message += "<br />Le recomendamos tomar los " + digitosBanesco  + " digitos de derecha a izquierda obviando los digitos extra.";
+					}
 				}
 			}
 			if(idBanco == 2){
-				if(length != 11){
+				if(length != digitosMercantil){
 					isValid = false;
-					document.getElementById(messageSpanId).innerHTML = "<br />Disculpe, para transacciones del Banco Mercantil se esperan codigos de 11 digitos";
+					message = "Disculpe, para transacciones del Banco Mercantil se esperan codigos de " + digitosMercantil + " digitos";
+					message += "<br />Como su codigo tiene " + length + " digitos.";
+					
+					if(length < digitosMercantil){
+						message += "<br />Le recomendamos rellenar con " + (digitosMercantil - length) + " cero(s) a la izquierda para completar los " + digitosMercadoPago + " digitos.";
+					} else {
+						message += "<br />Le recomendamos tomar los " + digitosMercantil  + " digitos de derecha a izquierda obviando los digitos extra.";
+					}
 				}
 			}
 			if(idBanco == 3){
-				if(length != 11){
+				if(length != digitosVenezuela){
 					isValid = false;
-					document.getElementById(messageSpanId).innerHTML = "<br />Disculpe, para transacciones del Banco de Venezuela se esperan codigos de 13 digitos";
+					message = "Disculpe, para transacciones del Banco de Venezuela se esperan codigos de " + digitosVenezuela + " digitos";
+					message += "<br />Como su codigo tiene " + length + " digitos.";
+					
+					if(length < digitosVenezuela){
+						message += "<br />Le recomendamos rellenar con " + (digitosVenezuela - length) + " cero(s) a la izquierda para completar los " + digitosMercadoPago + " digitos.";
+					} else {
+						message += "<br />Le recomendamos tomar los " + digitosVenezuela  + " digitos de derecha a izquierda obviando los digitos extra.";
+					}
 				}
 			}
 		} else if(tipoPago == 6){
 			//es transferencia desde otro banco
 		}
 	}
-		
+	
+	if(! isValid){
+		document.getElementById(messageSpanId).innerHTML = "<br />" + message;
+	}
+	
 	return isValid;
 }
 
@@ -394,7 +431,7 @@ function validarFormularioDePago(payForm){
 		payForm.medio.focus();
 		doSubmit = false;
 	}
-	if(payForm.banco.style.display != "none" && banco == "-1"){
+	if(document.getElementById("bancoAllInfo").style.display != "none" && banco == "-1"){
 		document.getElementById("spanBanco").style.display = "inline";
 		payForm.banco.focus();
 		doSubmit = false;
@@ -442,7 +479,7 @@ function validarFormularioDePago(payForm){
 		document.getElementById("spanCIDestinatario").style.display = "inline";
 		payForm.ciDestinatario.focus();
 		doSubmit = false;
-	} else if(isValidCIValue("V", ciDestinatario, "spanCIDestinatarioBadValue")){
+	} else if(! isValidCIValue("V", ciDestinatario, "spanCIDestinatarioBadValue")){
 		document.getElementById("spanCIDestinatarioBadValue").style.display = "inline";
 		payForm.ciDestinatario.focus();
 		doSubmit = false;

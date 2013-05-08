@@ -5,9 +5,21 @@ include_once "../sis/classes/EnvioDAO.php";
 include_once "../sis/classes/BitacoraDAO.php";
 include_once "../sis/classes/SendEmail.php";
 
+$medioMercadoPago = 5;
 $response = -1;
 
-if(isset($_POST["terminos"])){
+$query = "SELECT * FROM envios"
+." WHERE num_voucher='".$_POST["bauche"]."'";
+if($_POST["medio"] != $medioMercadoPago){
+	$query .= " AND id_banco=".$_POST["banco"];
+}
+
+$cuenta = DBUtil::getRecordCountToQuery($query);
+if($cuenta > 0){
+	$response = 2;
+}
+
+if(isset($_POST["terminos"]) && $cuenta == 0){
 	//puedo proceder a guardar el pago
 	$response = 0;
 	
@@ -58,7 +70,7 @@ if(isset($_POST["terminos"])){
 	'".($_POST["tlfLocalDestinatario"] == "" ? "" : $_POST["codLocalDestinatario"]."-".$_POST["tlfLocalDestinatario"])."',
 	'".$_POST["obs"]."',
 	".$_POST["medio"].",
-	".$_POST["banco"].",
+	".($_POST["medio"] == 5 ? 4 : $_POST["banco"]).",
 	".$_POST["envio"].",
 	".Constants::$STATUS_INICIAL_ENVIOS.")";
 
@@ -104,6 +116,10 @@ if(isset($_POST["terminos"])){
 		window.history.back();
 	} else if(<?php echo $response;?> == 1){
 		var msg = "Disculpe, la informacion suministrada no pudo ser almacenada. Por favor intente de nuevo";
+		alert(msg);
+		window.history.back();
+	} else if(<?php echo $response;?> == 2){
+		var msg = "Disculpe, ya tenemos registrado un pago con ese codigo de vauche, por favor verifique e intente de nuevo";
 		alert(msg);
 		window.history.back();
 	}
