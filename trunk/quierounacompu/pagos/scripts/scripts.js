@@ -83,7 +83,7 @@ function isValidVaucheValue(tipoPago, vauche, messageSpanId){
 		if(length != digitosMercadoPago){
 			isValid = false;
 			message = "Disculpe, para MercadoPago se espera que el codigo de transacción sea de " + digitosMercadoPago + " digitos.";
-			message += "<br />Como su codigo tiene " + length + " digitos.";
+			message += "<br />Recuerde que el n&uacute;mero del comprobante de pago es el que emite MercadoLibre cuando se carga el pago.";
 			
 			if(length < digitosMercadoPago){
 				message += "<br />Le recomendamos rellenar con " + (digitosMercadoPago - length) + " cero(s) a la izquierda para completar los " + digitosMercadoPago + " digitos.";
@@ -147,6 +147,21 @@ function isValidVaucheValue(tipoPago, vauche, messageSpanId){
 
 /**
  * 
+ * @param montoPago
+ * @returns {Boolean}
+ */
+function isValidMonto(montoPago){
+	var regExp = /^(\d{1,3}(\.\d{3})*(,\d{2})?)$|^(\d{1,3}(\.\d{3})*)$|^(\d*)(,\d{2})?)$/;
+	
+	if(! regExp.test(montoPago.trim())){
+		return false;
+	}
+	
+	return true;
+}
+
+/**
+ * 
  * @param mail
  * @returns {Boolean}
  */
@@ -171,6 +186,24 @@ function textInputOnlyNumbers(e){
 	//alert(key);
 	
 	if((key >= 48 && key <= 57) || key == 9 || key == 8){
+		return true;
+	} else {
+		return false;
+	}
+}
+
+/**
+ * 
+ * @param e
+ * @returns {Boolean}
+ */
+function textInputCurrency(e){
+	///(^\d{1,3}(\.?\d{3})*(,\d{2})?$)
+	var key = (window.Event) ? e.which : e.keyCode;
+	
+	//alert(key);
+	
+	if((key >= 48 && key <= 57) || key == 9 || key == 8 || key == 44 || key == 46){
 		return true;
 	} else {
 		return false;
@@ -380,6 +413,7 @@ function validarFormularioDePago(payForm){
 	document.getElementById("spanBaucheBadValue").style.display = "none";
 	document.getElementById("spanFechaPago").style.display = "none";
 	document.getElementById("spanMonto").style.display = "none";
+	document.getElementById("spanMontoBadValue").style.display = "none";
 	document.getElementById("spanArchivoPago").style.display = "none";
 	document.getElementById("spanEnvio").style.display = "none";
 	document.getElementById("spanDestinatario").style.display = "none";
@@ -428,18 +462,18 @@ function validarFormularioDePago(payForm){
 	}
 	if(tlfCelularCliente == "" && tlfLocalCliente == ""){
 		document.getElementById("spanCelularCliente").style.display = "inline";
-		payForm.celular.focus();
+		payForm.tlfCelularCliente.focus();
 		doSubmit = false;
 	} else {
 		//alguno tiene valores, verifico si cumple con la longitud
-		if(tlfCelularCliente != "" && (tlfCelularCliente.length != payForm.celular.maxLength)){
+		if(tlfCelularCliente != "" && (tlfCelularCliente.length != payForm.tlfCelularCliente.maxLength)){
 			document.getElementById("spanCelularClienteLength").style.display = "inline";
-			payForm.celular.focus();
+			payForm.tlfCelularCliente.focus();
 			doSubmit = false;
 		}
-		if(tlfLocalCliente != "" && (tlfLocalCliente.length != payForm.celular.maxLength)){
+		if(tlfLocalCliente != "" && (tlfLocalCliente.length != payForm.tlfLocalCliente.maxLength)){
 			document.getElementById("spanLocalClienteLength").style.display = "inline";
-			payForm.celular.focus();
+			payForm.tlfLocalCliente.focus();
 			doSubmit = false;
 		}
 	}
@@ -476,6 +510,13 @@ function validarFormularioDePago(payForm){
 		document.getElementById("spanMonto").style.display = "inline";
 		payForm.monto.focus();
 		doSubmit = false;
+	} else {
+		//tenemos un monto, lo validamos
+		if(! isValidMonto(montoPago)){
+			document.getElementById("spanMontoBadValue").style.display = "inline";
+			payForm.monto.focus();
+			doSubmit = false;
+		}
 	}
 	if(medioDePago == 6 && document.getElementById("archivoTransferencia").value == ""){
 		document.getElementById("spanArchivoPago").style.display = "inline";
@@ -520,6 +561,18 @@ function validarFormularioDePago(payForm){
 		document.getElementById("spanCelularDestinatario").style.display = "inline";
 		payForm.celular.focus();
 		doSubmit = false;
+	} else {
+		//alguno tiene valores, verifico si cumple con la longitud
+		if(celularDestino != "" && (celularDestino.length != payForm.celular.maxLength)){
+			document.getElementById("spanCelularDestinatarioLength").style.display = "inline";
+			payForm.celular.focus();
+			doSubmit = false;
+		}
+		if(tlfLocalDestino != "" && (tlfLocalDestino.length != payForm.tlfLocalDestinatario.maxLength)){
+			document.getElementById("spanLocalDestinatarioLength").style.display = "inline";
+			payForm.tlfLocalDestinatario.focus();
+			doSubmit = false;
+		}
 	}
 	if(checkTerminosCondiciones == false){
 		document.getElementById("spanTerminos").style.display = "inline";
