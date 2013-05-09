@@ -179,7 +179,7 @@
     			Celular:
     			<br />
     			<span class="Estilo18">
-    				Debe indicar al menos un n&uacute;mero telef&oacute;nico,<br /> sea celular o fijo
+    				Nota: Debe indicar al menos un n&uacute;mero telef&oacute;nico,<br /> sea celular o fijo
     			</span>
     		</td>
     		<td colspan="<?php echo $columnas -1;?>">
@@ -190,10 +190,14 @@
 			        <option value="424">424</option>
 			        <option value="426">426</option>
       			</select>
-      			<input style="BACKGROUND-COLOR: rgb(255,255,255)" maxlength="7" size="20" name="tlfCelularCliente" id="tlfCelularCliente">
+      			<input style="BACKGROUND-COLOR: rgb(255,255,255)" maxlength="7" size="20" name="tlfCelularCliente" id="tlfCelularCliente" onkeypress="return textInputOnlyNumbers(event)">
       			<span class="isMandatory" id="spanCelularCliente" style="display: none;">
 	    			<br/>
 	    			Disculpe debe indicar al menos un n&uacute;mero telef&oacute;nico, sea celular o fijo.
+    			</span>
+    			<span class="isMandatory" id="spanCelularClienteLength" style="display: none;">
+	    			<br/>
+	    			Disculpe la longitud de su n&uacute;mero celular debe ser de 7 digitos.
     			</span>
       		</td>
     	</tr>
@@ -262,7 +266,11 @@
 			        <option value="295">295</option>
 			        <option value="296">296</option>
       			</select>
-    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" maxlength="7" size="20" name="tlfLocalCliente">
+    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" maxlength="7" size="20" name="tlfLocalCliente" onkeypress="return textInputOnlyNumbers(event)">
+    			<span class="isMandatory" id="spanLocalClienteLength" style="display: none;">
+	    			<br/>
+	    			Disculpe la longitud de su n&uacute;mero de tlf local debe ser de 7 digitos.
+    			</span>
     		</td>
   		</tr>
   		<tr>
@@ -594,7 +602,7 @@
     			Celular:
     			<br />
     			<span class="Estilo18">
-    				Debe indicar al menos un n&uacute;mero telef&oacute;nico, sea celular o fijo
+    				Nota: Debe indicar al menos un n&uacute;mero telef&oacute;nico, sea celular o fijo
     			</span>
     		</td>
     		<td colspan="<?php echo $columnas -1;?>">
@@ -609,6 +617,10 @@
       			<span class="isMandatory" id="spanCelularDestinatario" style="display: none;">
 	    			<br/>
 	    			Disculpe debe indicar al menos un n&uacute;mero telef&oacute;nico, sea celular o fijo.
+    			</span>
+    			<span class="isMandatory" id="spanCelularDestinatarioLength" style="display: none;">
+	    			<br/>
+	    			Disculpe la longitud de su n&uacute;mero celular debe ser de 7 digitos.
     			</span>
       		</td>
     	</tr>
@@ -678,6 +690,10 @@
 			        <option value="296">296</option>
       			</select>
     			<input style="BACKGROUND-COLOR: rgb(255,255,255)" maxlength="7" size="20" name="tlfLocalDestinatario" onkeypress="return textInputOnlyNumbers(event)">
+    			<span class="isMandatory" id="spanLocalDestinatarioLength" style="display: none;">
+	    			<br/>
+	    			Disculpe la longitud de su n&uacute;mero de tlf local debe ser de 7 digitos.
+    			</span>
     		</td>
   		</tr>
   		<tr>
