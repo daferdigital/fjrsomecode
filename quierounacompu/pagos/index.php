@@ -381,11 +381,16 @@
 	      		* Monto del dep&oacute;sito o transferencia:
 	      	</td>
     		<td colspan="<?php echo $columnas -1;?>">
-    			<input style="FONT-SIZE: 10pt; TEXT-DECORATION: none" size="30" name="monto"> 
+    			<input style="FONT-SIZE: 10pt; TEXT-DECORATION: none" size="30" name="monto" onkeypress="return textInputCurrency(event)"> 
       			<span class="Estilo23">Bs F</span>
       			<span class="isMandatory" id="spanMonto" style="display: none;">
 	    			<br/>
 	    			Disculpe debe indicar el monto del pago.
+    			</span>
+    			<span class="isMandatory" id="spanMontoBadValue" style="display: none;">
+	    			<br/>
+	    			Disculpe el formato requerido para el monto es un numero entero y opcionalmente 2 decimales.
+	    			<br /> Por ejemplo: 2953,99
     			</span>
       		</td>
   		</tr>
