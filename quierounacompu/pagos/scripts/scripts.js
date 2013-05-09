@@ -370,6 +370,9 @@ function validarFormularioDePago(payForm){
 	document.getElementById("spanCiiBadValue").style.display = "none";
 	document.getElementById("spanEmail").style.display = "none";
 	document.getElementById("spanEmailFormat").style.display = "none";
+	document.getElementById("spanCelularCliente").style.display = "none";
+	document.getElementById("spanCelularClienteLength").style.display = "none";
+	document.getElementById("spanLocalClienteLength").style.display = "none";
 	document.getElementById("spanMedio").style.display = "none";
 	document.getElementById("spanBanco").style.display = "none";
 	document.getElementById("spanArticulo").style.display = "none";
@@ -386,6 +389,8 @@ function validarFormularioDePago(payForm){
 	document.getElementById("spanCiudad").style.display = "none";
 	document.getElementById("spanEstado").style.display = "none";
 	document.getElementById("spanCelularDestinatario").style.display = "none";
+	document.getElementById("spanCelularDestinatarioLength").style.display = "none";
+	document.getElementById("spanLocalDestinatarioLength").style.display = "none";
 	document.getElementById("spanTerminos").style.display = "none";
 	
 	if(seudonimo == ""){
@@ -425,6 +430,18 @@ function validarFormularioDePago(payForm){
 		document.getElementById("spanCelularCliente").style.display = "inline";
 		payForm.celular.focus();
 		doSubmit = false;
+	} else {
+		//alguno tiene valores, verifico si cumple con la longitud
+		if(tlfCelularCliente != "" && (tlfCelularCliente.length != payForm.celular.maxLength)){
+			document.getElementById("spanCelularClienteLength").style.display = "inline";
+			payForm.celular.focus();
+			doSubmit = false;
+		}
+		if(tlfLocalCliente != "" && (tlfLocalCliente.length != payForm.celular.maxLength)){
+			document.getElementById("spanLocalClienteLength").style.display = "inline";
+			payForm.celular.focus();
+			doSubmit = false;
+		}
 	}
 	if(medioDePago == "-1"){
 		document.getElementById("spanMedio").style.display = "inline";
