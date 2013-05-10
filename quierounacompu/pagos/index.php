@@ -7,9 +7,15 @@
 	<title>QUIEROUNACOMPU - FORMULARIO DE PAGO</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 	<link rel="stylesheet" type="text/css" href="../css/style.css">
-	<link href="../css/jsDatePick_ltr.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" type="text/css" href="../css/jsDatePick_ltr.css"/>
+	<link rel="stylesheet" type="text/css" href="../sis/css/jquery-ui.css" />
+	
 	<script type="text/javascript" src="scripts/scripts.js"></script>
-	<script src="../scripts/jsDatePick.full.1.3.js" type="text/javascript"></script>
+	<script type="text/javascript" src="../scripts/jsDatePick.full.1.3.js"></script>
+	<script type="text/javascript" src="../sis/js/jquery-1.8.0.min.js"></script>
+	<script type="text/javascript" src="../sis/js/jquery.bpopup-0.9.0.min.js"></script>
+	<script type="text/javascript" src="../sis/js/jquery-ui.min.js"></script>
+	
 	<style type="text/css">
 	<!--
 		.Estilo17 {color: #333333;}
@@ -113,7 +119,7 @@
     			* Tu seud&oacute;nimo en MercadoLibre:
     		</td>
     		<td width="266" colspan="<?php echo $columnas - 1?>">
-    			<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="seudonimo">
+    			<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="seudonimo" onkeypress="return textNoSpaces(event)">
     			<span class="isMandatory" id="spanSeudonimo" style="display: none;">
     				<br/>
     				Disculpe el seud&oacute;nimo de MercadoLibre es obligatorio.
@@ -128,7 +134,7 @@
     				Indispensable para poder procesar el pedido.
     			</span>
     		</td>
-   	 		<td colspan="<?php echo $columnas - 1?>">
+   	 		<td width="270px">
    	 			<select style="FONT-SIZE: 10pt" size="1" name="ci" onchange="setMaxLengthCI()">
 			        <option value="V" selected>V</option>
 			        <option value="E">E</option>
@@ -144,6 +150,9 @@
     				<br/>
     				Disculpe su cedula o RIF tiene una longitud no adecuada.
     			</span>
+    		</td>
+    		<td>
+    			<input type="button" value="Ver mis otros env&iacute;os" onclick="verOtrosEnvios(this.form)"/>
     		</td>
   		</tr>
   		<tr>
@@ -179,7 +188,7 @@
     			Celular:
     			<br />
     			<span class="Estilo18">
-    				Nota: Debe indicar al menos un n&uacute;mero telef&oacute;nico,<br /> sea celular o fijo
+    				Nota: Debe indicar al menos un n&uacute;mero telef&oacute;nico, sea celular o fijo
     			</span>
     		</td>
     		<td colspan="<?php echo $columnas -1;?>">
@@ -512,7 +521,7 @@
     			* Nombre y Apellido del destinatario:
     		</td>
     		<td colspan="<?php echo $columnas -1;?>">
-    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="destinatario">
+    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="destinatario" onkeypress="return textInputOnlyLetters(event)">
     			<span class="isMandatory" id="spanDestinatario" style="display: none;">
 	    			<br/>
 	    			Disculpe debe indicar el nombre completo del destinatario.
@@ -557,7 +566,7 @@
     			* Ciudad o Poblaci&oacute;n:
     		</td>
     		<td colspan="<?php echo $columnas -1;?>">
-    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="ciudad">
+    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="ciudad" onkeypress="return textInputOnlyLetters(event)">
     			<span class="isMandatory" id="spanCiudad" style="display: none;">
 	    			<br/>
 	    			Disculpe debe indicar la Ciudad o Poblaci&oacute;n del env&iacute;o.
@@ -738,5 +747,12 @@
   		</tr>
 	</table>
 </form>
+
+<div id="popup2" style="left: 390px; position: absolute; top: 1283px; z-index: 9999; display: none; height: auto; width: auto;">
+    <span class="popUpBoton b-close">
+		<span>X</span>
+	</span>
+    <div id="bPopUpContent" class="content" style="height: auto; width: auto;"></div>
+</div>
 </body>
 </html>

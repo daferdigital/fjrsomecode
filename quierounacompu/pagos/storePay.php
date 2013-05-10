@@ -106,8 +106,7 @@ if(isset($_POST["terminos"]) && $cuenta == 0){
 ?>
 <script type="text/javascript">
 	if(<?php echo $response;?> == 0){
-		var msg = 'Gracias por completar la información, en breve le será enviado un email con todos los datos para su archivo.\r'
-			+ 'RECUERDE ESPERAR hasta que aparezca la pantalla de AGRADECIMIENTO POR SU PAGO';
+		var msg = 'Gracias por completar la información, en breve le será enviado un email con todos los datos para su archivo.';
 		alert(msg);
 		window.location = "index.php";
 	} else if(<?php echo $response;?> == -1){

@@ -368,6 +368,45 @@ function callAjax(url, parameters, htmlElementToHide, idImgLoading){
 
 /**
  * 
+ * @param urlToLoad
+ */
+function loadAjaxPopUp(urlToLoad){
+	$('#popup2').bPopup({
+    	contentContainer:'.content',
+    	loadUrl: urlToLoad //Uses jQuery.load()
+	});
+}
+
+/**
+ * 
+ */
+function verOtrosEnvios(payForm){
+	var cedula = payForm.cii.value.trim();
+	var doSubmit = true;
+	
+	document.getElementById("spanCii").style.display = "none";
+	document.getElementById("spanCiiBadValue").style.display = "none";
+	
+	if(cedula == ""){
+		document.getElementById("spanCii").style.display = "inline";
+		payForm.cii.focus();
+		doSubmit = false;
+	} else {
+		if(! isValidCIValue(payForm.ci.value, cedula, "spanCiiBadValue")){
+			document.getElementById("spanCiiBadValue").style.display = "inline";
+			payForm.cii.focus();
+			doSubmit = false;
+		}
+	}
+	
+	if(doSubmit){
+		//muestro via ajax los envios de este usuario
+		loadAjaxPopUp("showPendingEnvios.php?ciRif=" + payForm.ci.value + "-" + cedula);
+	}
+}
+
+/**
+ * 
  * @param payForm
  */
 function validarFormularioDePago(payForm){
@@ -581,36 +620,6 @@ function validarFormularioDePago(payForm){
 	}
 	
 	if(doSubmit){
-		/*
-		var parameters = "nombre=" + nombre;
-		parameters += "&seudonimo=" + seudonimo;
-		parameters += "&cedulaCliente=" + payForm.ci.value + "-" + cedula;
-		parameters += "&email=" + email;
-		parameters += "&tlfCelularCliente=" + (tlfCelularCliente == "" ? "" : payForm.codCelCliente.value + tlfCelularCliente);
-		parameters += "&tlfLocalCliente=" + (tlfLocalCliente == "" ? "" : payForm.codLocalCliente.value + tlfCelularCliente);
-		parameters += "&medioDePago=" + medioDePago;
-		parameters += "&banco=" + banco;
-		parameters += "&numVoucher=" + voucher;
-		parameters += "&fechaPago=" + fechaPago;
-		parameters += "&monto=" + montoPago;
-		parameters += "&detalleProductos=" + descArticulo;
-		parameters += "&ciaEnvio=" + ciaEnvio;
-		parameters += "&destinatario=" + destinatario;
-		parameters += "&ciDestinatario=" + ciDestinatario;
-		parameters += "&dirDestino=" + dirDestino;
-		parameters += "&ciudad=" + ciudadDestino;
-		parameters += "&estado=" + estadoDestino;
-		parameters += "&tlfCelularDestinatario=" + (celularDestino == "" ? "" : payForm.codcel.value + celularDestino);
-		parameters += "&tlfLocalDestinatario=" + (tlfLocalDestino == "" ? "" : payForm.codLocalDestinatario.value + tlfLocalDestino);
-		parameters += "&observacionesEnvio=" + payForm.obs.value.trim();
-		parameters += "&terminos=true";
-		
-		callAjax("storePay.php",
-				parameters,
-				"Enviar",
-				"ajaxLoading");
-		*/
-		
 		payForm.submit();
 	}
 	
