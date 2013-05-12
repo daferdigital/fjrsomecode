@@ -41,7 +41,22 @@ $array_lanzadores=dame_array_js("select idequipo,idroster,nombre,efectividad fro
                 </tr>
                 <tr valign="bottom" class="linesep">
                 	<td class="bnone">
-                    	<label class="tit_campos">Lanzador:</label><br /><label id="dinvisitante"><select name="lvisitante" required="required"><option value="">Seleccione</option></select></label></td>
+                    	<label class="tit_campos">Lanzador:</label><br /><label id="dinvisitante">
+                        
+                        <select name="lvisitante" required="required"><?
+						$result1 = mysql_query("select * from vista_lanzadores", $conexion);
+						 $num_rows1 = mysql_num_rows($result1);
+						if ($num_rows1 != 0){?>
+						  <option selected="selected" value="">Seleccione..</option><?
+							for($i=1;$i<=$num_rows1;$i++){
+							$j=$i-1;
+							$idroster=mysql_result($result1, $j, "idroster");
+							$nombre=mysql_result($result1, $j, "nombre");?>
+						  <option value="<? echo $idoficioini;?>"><? echo $nombre;?></option>
+						  <? }}?>
+                        </select>                       
+                        
+                        <!--<select name="lvisitante" required="required"><option value="">Seleccione</option></select>--></label></td>
                         <td align="center" class="td_left"><label class="tit_campos">Logro<br />
                           MJ:</label></td><td><input type="text" name="idapuesta24" id="idapuesta24" value="" size="4" /></td>                        
                         
@@ -98,7 +113,22 @@ $array_lanzadores=dame_array_js("select idequipo,idroster,nombre,efectividad fro
                 </tr>
                 <tr valign="top" bgcolor="#ebebeb" class="linesep">
                 	<td class="bnone">
-                    	<label class="tit_campos">Lanzador:</label><br /><label id="dinhome"><select name="lhome" required="required"><option value="">Seleccione</option></select></label></td>
+                    	<label class="tit_campos">Lanzador:</label><br /><label id="dinhome">
+                        
+                        <select name="lhome" required="required"><?
+						$result1 = mysql_query("select * from vista_lanzadores", $conexion);
+						 $num_rows1 = mysql_num_rows($result1);
+						if ($num_rows1 != 0){?>
+						  <option selected="selected" value="">Seleccione..</option><?
+							for($i=1;$i<=$num_rows1;$i++){
+							$j=$i-1;
+							$idroster=mysql_result($result1, $j, "idroster");
+							$nombre=mysql_result($result1, $j, "nombre");?>
+						  <option value="<? echo $idoficioini;?>"><? echo $nombre;?></option>
+						  <? }}?>
+                        </select> 
+                        
+                        <!--<select name="lhome" required="required"><option value="">Seleccione</option></select>--></label></td>
                         <td align="center" class="td_left"><label class="tit_campos">Logro<br />
                         MJ:</label></td><td><input type="text" name="idapuesta26" id="idapuesta26" value="" size="4" /></td>                        
                         <!--SUPER RUNLINE-->
@@ -133,45 +163,109 @@ $array_lanzadores=dame_array_js("select idequipo,idroster,nombre,efectividad fro
             <br />
             
             <table cellspacing="0" cellpadding="4" align="left" class="logros_tabla">
-      			<tr class="titulo_tablas"><td colspan="2" align="center" bgcolor="#000000">Altas y Bajas</td><td align="center" colspan="2" width="100px" class="td_left">CHE</td><td align="center" colspan="2" width="100px" class="td_left">Quien<br />Anota</td><td align="center" colspan="2" width="100px" class="td_left">1er<br />Inning</td></tr>
+      			<tr class="titulo_tablas">
+      				<td colspan="2" align="center" bgcolor="#000000">Altas y Bajas</td>
+      				<td align="center" colspan="2" width="100px" class="td_left">CHE</td>
+      				<td align="center" colspan="2" width="100px" class="td_left">Quien<br />Anota</td>
+      				<td align="center" colspan="2" width="100px" class="td_left">1er<br />Inning</td>
+      			</tr>
             	<tr valign="bottom">
                 	<!--SUPER RUN LINE-->
-                        <!--RUN LINE-->
-                        <td align="center" width="40px" class="td_left"><label class="tit_campos">A JC</label></td><td><input type="text" name="idapuesta31" id="idapuesta31" value="-115" size="4" /></td>
-                        <td class="td_left"><label class="tit_campos">A JC</label></td><td><input type="text" name="idapuesta71" id="idapuesta71" value="-115" size="4" /></td><td class="td_left"><label class="tit_campos">Visitante</label></td><td><input type="text" size="4" name="idapuesta37" id="idapuesta37" maxlength="4" /></td><td class="td_left"><label class="tit_campos">Si</label></td><td><input type="text" size="4" name="idapuesta39" id="idapuesta39" maxlength="4" value="-110" /></td>
+                    <!--RUN LINE-->
+                    <td align="center" width="40px" class="td_left"><label class="tit_campos">A JC</label></td>
+                    <td><input type="text" name="idapuesta31" id="idapuesta31" value="-120" size="4" /></td>
+                    <td class="td_left"><label class="tit_campos">A JC</label></td>
+                    <td><input type="text" name="idapuesta71" id="idapuesta71" value="-120" size="4" /></td>
+                    <td class="td_left"><label class="tit_campos">Visitante</label></td>
+                    <td><input type="text" size="4" name="idapuesta37" id="idapuesta37" maxlength="4" /></td>
+                    <td class="td_left"><label class="tit_campos">Si</label></td>
+                    <td><input type="text" size="4" name="idapuesta39" id="idapuesta39" maxlength="4" value="-110" /></td>
                 </tr>
                 <tr valign="bottom" class="">
                 	<!--SUPER RUNLINE-->
-                        <!-- RUNLINE-->
-                        <td align="center" class="td_left"><label class="tit_campos">B JC</label></td><td><input type="text" name="idapuesta32" id="idapuesta32" value="-115" size="4" /></td><td class="td_left"><label class="tit_campos">B JC</label></td><td><input type="text" name="idapuesta72" id="idapuesta72" value="-115" size="4" /></td><td class="td_left"><label class="tit_campos">Home Club</label></td><td><input type="text" name="idapuesta38" id="idapuesta38" size="4" maxlength="4" /></td><td class="td_left"><label class="tit_campos">No</label></td><td><input type="text" size="4" name="idapuesta40" id="idapuesta40" maxlength="4" value="-130" /></td>
+                    <!-- RUNLINE-->
+                    <td align="center" class="td_left"><label class="tit_campos">B JC</label></td>
+                    <td><input type="text" name="idapuesta32" id="idapuesta32" value="-120" size="4" /></td>
+                    <td class="td_left"><label class="tit_campos">B JC</label></td>
+                    <td><input type="text" name="idapuesta72" id="idapuesta72" value="-120" size="4" /></td>
+                    <td class="td_left"><label class="tit_campos">Home Club</label></td>
+                    <td><input type="text" name="idapuesta38" id="idapuesta38" size="4" maxlength="4" /></td>
+                    <td class="td_left"><label class="tit_campos">No</label></td>
+                    <td><input type="text" size="4" name="idapuesta40" id="idapuesta40" maxlength="4" value="-130" /></td>
                 </tr>
                 <tr valign="bottom" bgcolor="">
-                  <td align="center" bgcolor="#FFFFFF" class="td_left"><label class="tit_campos">C JC</label></td>
-                  <td bgcolor="#FFFFFF" class=""><input type="text" size="4" name="idapuesta35" id="idapuesta35" maxlength="4" /></td><td valign="bottom" class="td_left"><label class="tit_campos">V CHE</label></td><td valign="bottom"><input type="text" name="idapuesta70" id="idapuesta70" value="" size="4" /></td><td class="td_left">&nbsp;</td><td>&nbsp;</td><td class="td_left">&nbsp;</td><td>&nbsp;</td>
+                  	<td align="center" bgcolor="#FFFFFF" class="td_left"><label class="tit_campos">C JC</label></td>
+                 	<td bgcolor="#FFFFFF" class=""><input type="text" size="4" name="idapuesta35" id="idapuesta35" maxlength="4" /></td>
+                  	<td valign="bottom" class="td_left"><label class="tit_campos">V CHE</label></td>
+                  	<td valign="bottom"><input type="text" name="idapuesta70" id="idapuesta70" value="" size="4" /></td>
+                  	<td class="td_left">&nbsp;</td>
+                  	<td>&nbsp;</td>
+                  	<td class="td_left">&nbsp;</td>
+                  	<td>&nbsp;</td>
                 </tr>
                 <tr valign="bottom" bgcolor="#FFFFFF">
                 	<!--SUPER RUNLINE-->                       
-                        <td align="center" bgcolor="#FFFFFF" class="td_left linesep"><label class="tit_campos">A MJ</label></td><td bgcolor="#FFFFFF" class="linesep"><input type="text" name="idapuesta33" id="idapuesta33" value="-115" size="4" /></td><td bgcolor="#FFFFFF" class="td_left linesep">&nbsp;</td><td bgcolor="#FFFFFF" class="linesep">&nbsp;</td><td class="linesep td_left">&nbsp;</td><td class="linesep">&nbsp;</td><td class="td_left linesep">&nbsp;</td><td class="linesep">&nbsp;</td>
+                    <td align="center" bgcolor="#FFFFFF" class="td_left linesep"><label class="tit_campos">A MJ</label></td>
+                    <td bgcolor="#FFFFFF" class="linesep"><input type="text" name="idapuesta33" id="idapuesta33" value="-120" size="4" /></td>
+                    <td bgcolor="#FFFFFF" class="td_left linesep">&nbsp;</td>
+                    <td bgcolor="#FFFFFF" class="linesep">&nbsp;</td>
+                    <td class="linesep td_left">&nbsp;</td>
+                    <td class="linesep">&nbsp;</td>
+                    <td class="td_left linesep">&nbsp;</td>
+                    <td class="linesep">&nbsp;</td>
                 </tr>
                 <tr valign="bottom" bgcolor="#FFFFFF" class="">
                 	<!--SUPER RUNLINE-->
-                        <td align="center" bgcolor="#FFFFFF" class="td_left"><label class="tit_campos">B MJ</label></td><td bgcolor="#FFFFFF"><input type="text" name="idapuesta34" id="idapuesta34" value="-115" size="4" /></td><td bgcolor="#FFFFFF" class="td_left">&nbsp;</td><td bgcolor="#FFFFFF">&nbsp;</td><td class="td_left">&nbsp;</td><td>&nbsp;</td><td class="td_left">&nbsp;</td><td>&nbsp;</td>
+                    <td align="center" bgcolor="#FFFFFF" class="td_left"><label class="tit_campos">B MJ</label></td>
+                    <td bgcolor="#FFFFFF"><input type="text" name="idapuesta34" id="idapuesta34" value="-120" size="4" /></td>
+                    <td bgcolor="#FFFFFF" class="td_left">&nbsp;</td>
+                    <td bgcolor="#FFFFFF">&nbsp;</td>
+                    <td class="td_left">&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td class="td_left">&nbsp;</td>
+                    <td>&nbsp;</td>
                 </tr>
                 <tr valign="bottom" bgcolor="#FFFFFF">
-                  <td align="center" bgcolor="#FFFFFF" class="td_left"><label class="tit_campos">C MJ</label></td>
-                  <td bgcolor="#FFFFFF" class=""><input type="text" name="idapuesta36" id="idapuesta36" size="4" maxlength="4" /></td><td bgcolor="#FFFFFF" class="td_left">&nbsp;</td><td bgcolor="#FFFFFF">&nbsp;</td><td class="td_left">&nbsp;</td><td>&nbsp;</td><td class="td_left">&nbsp;</td><td>&nbsp;</td>
+                  	<td align="center" bgcolor="#FFFFFF" class="td_left"><label class="tit_campos">C MJ</label></td>
+                  	<td bgcolor="#FFFFFF" class=""><input type="text" name="idapuesta36" id="idapuesta36" size="4" maxlength="4" /></td>
+                  	<td bgcolor="#FFFFFF" class="td_left">&nbsp;</td>
+                  	<td bgcolor="#FFFFFF">&nbsp;</td>
+                  	<td class="td_left">&nbsp;</td>
+                  	<td>&nbsp;</td>
+                  	<td class="td_left">&nbsp;</td>
+                  	<td>&nbsp;</td>
                 </tr>
                 <tr valign="bottom" bgcolor="#FFFFFF" class="linesep">
                 	<!--SUPER RUNLINE-->                       
-                        <td align="center" bgcolor="#FFFFFF" class="td_left linesep"><label class="tit_campos">A 6to</label></td><td bgcolor="#FFFFFF" class="linesep"><input type="text" name="idapuesta77" id="idapuesta77" value="-115" size="4" /></td><td bgcolor="#FFFFFF" class="td_left linesep">&nbsp;</td><td bgcolor="#FFFFFF" class="linesep">&nbsp;</td><td class="td_left linesep">&nbsp;</td><td class="linesep">&nbsp;</td><td class="td_left">&nbsp;</td><td>&nbsp;</td>
+                    <td align="center" bgcolor="#FFFFFF" class="td_left linesep"><label class="tit_campos">A 6to</label></td>
+                    <td bgcolor="#FFFFFF" class="linesep"><input type="text" name="idapuesta77" id="idapuesta77" value="-120" size="4" /></td>
+                    <td bgcolor="#FFFFFF" class="td_left linesep">&nbsp;</td>
+                    <td bgcolor="#FFFFFF" class="linesep">&nbsp;</td>
+                    <td class="td_left linesep">&nbsp;</td>
+                    <td class="linesep">&nbsp;</td>
+                    <td class="td_left">&nbsp;</td>
+                    <td>&nbsp;</td>
                 </tr>
                 <tr valign="bottom" bgcolor="#FFFFFF" class="">
                 	<!--SUPER RUNLINE-->
-                        <td align="center" bgcolor="#FFFFFF" class="td_left"><label class="tit_campos">B 6to</label></td><td bgcolor="#FFFFFF"><input type="text" name="idapuesta78" id="idapuesta78" value="-115" size="4" /></td><td bgcolor="#FFFFFF" class="td_left">&nbsp;</td><td bgcolor="#FFFFFF">&nbsp;</td><td class="td_left">&nbsp;</td><td>&nbsp;</td><td class="td_left">&nbsp;</td><td>&nbsp;</td>
+                    <td align="center" bgcolor="#FFFFFF" class="td_left"><label class="tit_campos">B 6to</label></td>
+                    <td bgcolor="#FFFFFF"><input type="text" name="idapuesta78" id="idapuesta78" value="-120" size="4" /></td>
+                    <td bgcolor="#FFFFFF" class="td_left">&nbsp;</td>
+                    <td bgcolor="#FFFFFF">&nbsp;</td>
+                    <td class="td_left">&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td class="td_left">&nbsp;</td>
+                    <td>&nbsp;</td>
                 </tr>
                 <tr valign="bottom" bgcolor="#FFFFFF">
-                  <td align="center" bgcolor="#FFFFFF" class="td_left"><label class="tit_campos">C 6to</label></td>
-                  <td bgcolor="#FFFFFF" class=""><input type="text" name="idapuesta79" id="idapuesta79" size="4" maxlength="4" /></td><td bgcolor="#FFFFFF" class="td_left">&nbsp;</td><td bgcolor="#FFFFFF">&nbsp;</td><td class="td_left">&nbsp;</td><td>&nbsp;</td><td class="td_left">&nbsp;</td><td>&nbsp;</td>
+                  	<td align="center" bgcolor="#FFFFFF" class="td_left"><label class="tit_campos">C 6to</label></td>
+                  	<td bgcolor="#FFFFFF" class=""><input type="text" name="idapuesta79" id="idapuesta79" size="4" maxlength="4" /></td>
+                  	<td bgcolor="#FFFFFF" class="td_left">&nbsp;</td>
+                  	<td bgcolor="#FFFFFF">&nbsp;</td>
+                  	<td class="td_left">&nbsp;</td>
+                  	<td>&nbsp;</td>
+                  	<td class="td_left">&nbsp;</td>
+                  	<td>&nbsp;</td>
                 </tr>
             </table>
            
