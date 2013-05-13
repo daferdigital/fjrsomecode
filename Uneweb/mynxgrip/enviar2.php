@@ -154,11 +154,11 @@ $wasSent = sendEmail($_POST["correo"], "", $mailTo, $subject, $message);
 $htmlAnswer = "";
 if($wasSent){
 	if($respuestasIncorrectas == 0){
-		$htmlAnswer = "Respondiste correctamente el cuestionario!!!|0|";
+		$htmlAnswer = "Respondiste correctamente el cuestionario!!!|0|http://www.bordemedica.com.ve/tutorial";
 		
 		//se le enviara un correo al estudiante para darle algunas instrucciones ya que respondio correctamente
 		if($numCuestionario == 1){
-			$htmlAnswer .= "cuestionario1.html";
+			//$htmlAnswer .= "cuestionario1.html";
 			//se respondio correctamente el primer cuestionario
 			$message = "Felicitaciones ha presentado el cuestionario 1 exitosamente<br />\n";
 			$message.= "Le invitamos a continuar con el cuestionario 2 después de estudiar el tutorial 2.<br />\n";
@@ -170,7 +170,7 @@ if($wasSent){
 			
 			sendEmail($mailFrom, $mailFromName, $_POST["correo"], $subject, $message);
 		} else {
-			$htmlAnswer .= "cuestionario2.html";
+			//$htmlAnswer .= "cuestionario2.html";
 			//se respondio correctamente el primer cuestionario
 			$message = "Felicitaciones ha concluido su entrenamiento te&oacute;rico<br />\n";
 			$message.= "Le contactaremos para programar los casos en vivo, recuerde tramitar la autorizaci&oacute;n con el Jefe del Centro.<br />\n";
