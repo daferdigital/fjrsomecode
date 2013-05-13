@@ -22,7 +22,15 @@ if(count($result) == 0){
 ?>
 		<table id="detalleProductosComprados" class="Estilo17">
 	    	<?php echo $envio["detalle_compra"];?>
+	    	<tr>
+				<td colspan="3">
+					<input type="button" value="Actualizar" onclick="actualizarEnvio(<?php echo $envio["id"];?>)"/>
+				</td>
+			</tr>
 	    </table>
+	    
+	    <br />
+	    <br />
 <?php
 	}
 }
