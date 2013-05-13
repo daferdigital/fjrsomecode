@@ -675,3 +675,7 @@ function addFilaProductosComprados(){
 	document.getElementById("observacionesTMP").value = "";
 	document.getElementById("articulo").value = nodoPadre.innerHTML;
 }
+
+function actualizarEnvio(idEnvio){
+	window.location = "actualizarEnvio.php?id=" + idEnvio;
+}
