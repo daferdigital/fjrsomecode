@@ -151,7 +151,7 @@ function isValidVaucheValue(tipoPago, vauche, messageSpanId){
  * @returns {Boolean}
  */
 function isValidMonto(montoPago){
-	var regExp = /^(\d{1,3}(\.\d{3})*(,\d{2})?)$|^(\d{1,3}(\.\d{3})*)$|^(\d*)(,\d{2})?)$/;
+	var regExp = /^(\d{1,3}(\.\d{3})*(,\d{2})?)$|^(\d{1,3}(\.\d{3})*)$|^((\d*)(,\d{2})?)$/;
 	
 	if(! regExp.test(montoPago.trim())){
 		return false;
@@ -405,11 +405,7 @@ function verOtrosEnvios(payForm){
 	}
 }
 
-/**
- * 
- * @param payForm
- */
-function validarFormularioDePago(payForm){
+function validarDatosDelCliente(payForm){
 	var doSubmit = true;
 	//datos del cliente
 	var nombre = payForm.nombre.value.trim();
@@ -418,23 +414,6 @@ function validarFormularioDePago(payForm){
 	var email = payForm.email.value.trim();
 	var tlfCelularCliente = payForm.tlfCelularCliente.value.trim();
 	var tlfLocalCliente = payForm.tlfLocalCliente.value.trim();
-	//datos de pago
-	var medioDePago = payForm.medio.value;
-	var banco = payForm.banco.value;
-	var voucher = payForm.bauche.value.trim();
-	var fechaPago = payForm.fechaPago.value.trim();
-	var montoPago = payForm.monto.value.trim();
-	var descArticulo = payForm.articulo.value.trim();
-	//datos del envio
-	var ciaEnvio = payForm.envio.value;
-	var destinatario = payForm.destinatario.value.trim();
-	var ciDestinatario = payForm.ciDestinatario.value.trim();
-	var dirDestino = payForm.dir1.value.trim();
-	var ciudadDestino = payForm.ciudad.value.trim();
-	var estadoDestino = payForm.estado.value.trim();
-	var celularDestino = payForm.celular.value.trim();
-	var tlfLocalDestino = payForm.tlfLocalDestinatario.value.trim();
-	var checkTerminosCondiciones = payForm.terminos.checked;
 	
 	document.getElementById("spanNombre").style.display = "none";
 	document.getElementById("spanSeudonimo").style.display = "none";
@@ -445,26 +424,6 @@ function validarFormularioDePago(payForm){
 	document.getElementById("spanCelularCliente").style.display = "none";
 	document.getElementById("spanCelularClienteLength").style.display = "none";
 	document.getElementById("spanLocalClienteLength").style.display = "none";
-	document.getElementById("spanMedio").style.display = "none";
-	document.getElementById("spanBanco").style.display = "none";
-	document.getElementById("spanArticulo").style.display = "none";
-	document.getElementById("spanBauche").style.display = "none";
-	document.getElementById("spanBaucheBadValue").style.display = "none";
-	document.getElementById("spanFechaPago").style.display = "none";
-	document.getElementById("spanMonto").style.display = "none";
-	document.getElementById("spanMontoBadValue").style.display = "none";
-	document.getElementById("spanArchivoPago").style.display = "none";
-	document.getElementById("spanEnvio").style.display = "none";
-	document.getElementById("spanDestinatario").style.display = "none";
-	document.getElementById("spanCIDestinatario").style.display = "none";
-	document.getElementById("spanCIDestinatarioBadValue").style.display = "none";
-	document.getElementById("spanDir1").style.display = "none";
-	document.getElementById("spanCiudad").style.display = "none";
-	document.getElementById("spanEstado").style.display = "none";
-	document.getElementById("spanCelularDestinatario").style.display = "none";
-	document.getElementById("spanCelularDestinatarioLength").style.display = "none";
-	document.getElementById("spanLocalDestinatarioLength").style.display = "none";
-	document.getElementById("spanTerminos").style.display = "none";
 	
 	if(seudonimo == ""){
 		document.getElementById("spanSeudonimo").style.display = "inline";
@@ -516,6 +475,31 @@ function validarFormularioDePago(payForm){
 			doSubmit = false;
 		}
 	}
+	
+	return doSubmit;
+}
+
+function validarDatosDelPago(payForm){
+	var doSubmit = true;
+	
+	//datos de pago
+	var medioDePago = payForm.medio.value;
+	var banco = payForm.banco.value;
+	var voucher = payForm.bauche.value.trim();
+	var fechaPago = payForm.fechaPago.value.trim();
+	var montoPago = payForm.monto.value.trim();
+	var descArticulo = payForm.articulo.value.trim();
+	
+	document.getElementById("spanMedio").style.display = "none";
+	document.getElementById("spanBanco").style.display = "none";
+	document.getElementById("spanArticulo").style.display = "none";
+	document.getElementById("spanBauche").style.display = "none";
+	document.getElementById("spanBaucheBadValue").style.display = "none";
+	document.getElementById("spanFechaPago").style.display = "none";
+	document.getElementById("spanMonto").style.display = "none";
+	document.getElementById("spanMontoBadValue").style.display = "none";
+	document.getElementById("spanArchivoPago").style.display = "none";
+	
 	if(medioDePago == "-1"){
 		document.getElementById("spanMedio").style.display = "inline";
 		payForm.medio.focus();
@@ -528,7 +512,7 @@ function validarFormularioDePago(payForm){
 	}
 	if(descArticulo == ""){
 		document.getElementById("spanArticulo").style.display = "inline";
-		payForm.articulo.focus();
+		payForm.addProduct.focus();
 		doSubmit = false;
 	}
 	if(voucher == ""){
@@ -562,6 +546,34 @@ function validarFormularioDePago(payForm){
 		payForm.monto.focus();
 		doSubmit = false;
 	}
+	
+	return doSubmit;
+}
+
+function validarDatosDelEnvio(payForm){
+	var doSubmit = true;
+	
+	//datos del envio
+	var ciaEnvio = payForm.envio.value;
+	var destinatario = payForm.destinatario.value.trim();
+	var ciDestinatario = payForm.ciDestinatario.value.trim();
+	var dirDestino = payForm.dir1.value.trim();
+	var ciudadDestino = payForm.ciudad.value.trim();
+	var estadoDestino = payForm.estado.value.trim();
+	var celularDestino = payForm.celular.value.trim();
+	var tlfLocalDestino = payForm.tlfLocalDestinatario.value.trim();
+	
+	document.getElementById("spanEnvio").style.display = "none";
+	document.getElementById("spanDestinatario").style.display = "none";
+	document.getElementById("spanCIDestinatario").style.display = "none";
+	document.getElementById("spanCIDestinatarioBadValue").style.display = "none";
+	document.getElementById("spanDir1").style.display = "none";
+	document.getElementById("spanCiudad").style.display = "none";
+	document.getElementById("spanEstado").style.display = "none";
+	document.getElementById("spanCelularDestinatario").style.display = "none";
+	document.getElementById("spanCelularDestinatarioLength").style.display = "none";
+	document.getElementById("spanLocalDestinatarioLength").style.display = "none";
+	
 	if(ciaEnvio == "-1"){
 		document.getElementById("spanEnvio").style.display = "inline";
 		payForm.envio.focus();
@@ -613,12 +625,30 @@ function validarFormularioDePago(payForm){
 			doSubmit = false;
 		}
 	}
+	
+	return doSubmit;
+}
+
+/**
+ * 
+ * @param payForm
+ */
+function validarFormularioDePago(payForm){
+	var doSubmitCliente = validarDatosDelCliente(payForm);
+	var doSubmitPago = validarDatosDelPago(payForm);
+	var doSubmitEnvio = validarDatosDelEnvio(payForm);
+	
+	var checkTerminosCondiciones = payForm.terminos.checked;
+	
+	document.getElementById("spanTerminos").style.display = "none";
+	
 	if(checkTerminosCondiciones == false){
 		document.getElementById("spanTerminos").style.display = "inline";
 		payForm.terminos.focus();
 		doSubmit = false;
 	}
 	
+	var doSubmit = doSubmitCliente && doSubmitPago && doSubmitEnvio;
 	if(doSubmit){
 		payForm.submit();
 	}

@@ -15,7 +15,7 @@
 	<link rel="stylesheet" type="text/css" href="../css/jsDatePick_ltr.css"/>
 	<link rel="stylesheet" type="text/css" href="../sis/css/jquery-ui.css" />
 	
-	<script type="text/javascript" src="scripts/scripts.js"></script>
+	<script type="text/javascript" src="./scripts/scripts.js"></script>
 	<script type="text/javascript" src="../scripts/jsDatePick.full.1.3.js"></script>
 	<script type="text/javascript" src="../sis/js/jquery-1.8.0.min.js"></script>
 	<script type="text/javascript" src="../sis/js/jquery.bpopup-0.9.0.min.js"></script>
@@ -52,8 +52,8 @@
 </head>
 <body>
 <?php $columnas = 3;?>
-<form name="pago" action="storePay.php" method="post" enctype="multipart/form-data">
-    <input type="hidden" name="id" value="<?php echo $_GET["id"];?>"/>
+<form name="pago" action="updatePay.php" method="post" enctype="multipart/form-data">
+	<input type="hidden" name="id" value="<?php echo $_GET["id"];?>"/>
 	<table class="tablaPrincipal" align="center" cellpadding="0" cellspacing="10" width="741">
   		<tr>
     		<td colspan="<?php echo $columnas;?>" align="center">
@@ -110,110 +110,42 @@
   		</tr>
   		<tr>
     		<td class="title Estilo17">
-    			* Tus nombres y apellidos:
+    			Tus nombres y apellidos:
     		</td>
     		<td colspan="<?php echo $columnas - 1?>">
-    			<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="nombre" onkeypress="return textInputOnlyLetters(event)">
-    			<span class="isMandatory" id="spanNombre" style="display: none;">
-    				<br/>
-    				Disculpe el nombre completo es obligatorio.
-    			</span>
+    			<?php echo $envioDTO->getNombreCompleto();?>
     		</td>
   		</tr>
   		<tr>
     		<td class="title Estilo17" width="307">
-    			* Tu seud&oacute;nimo en MercadoLibre:
+    			Tu seud&oacute;nimo en MercadoLibre:
     		</td>
     		<td width="266" colspan="<?php echo $columnas - 1?>">
-    			<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="seudonimo" onkeypress="return textNoSpaces(event)">
-    			<span class="isMandatory" id="spanSeudonimo" style="display: none;">
-    				<br/>
-    				Disculpe el seud&oacute;nimo de MercadoLibre es obligatorio.
-    			</span>
+    			<?php echo $envioDTO->getSeudonimoML();?>
     		</td>
   		</tr>
   		<tr>
     		<td class="title Estilo17">
-    			* C&eacute;dula de identidad o RIF:
-    			<br />
-    			<span class="subtitle Estilo20">
-    				Indispensable para poder procesar el pedido.
-    			</span>
+    			C&eacute;dula de identidad o RIF:
     		</td>
-   	 		<td width="270px">
-   	 			<select style="FONT-SIZE: 10pt" size="1" name="ci" onchange="setMaxLengthCI()">
-			        <option value="V" selected>V</option>
-			        <option value="E">E</option>
-			        <option value="J">J</option>
-			        <option value="G">G</option>
-      			</select>
-    			<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)"  maxlength="9" size="23" name="cii" onkeypress="return textInputOnlyNumbers(event)">
-    			<span class="isMandatory" id="spanCii" style="display: none;">
-    				<br/>
-    				Disculpe su C&eacute;dula es obligatoria.
-    			</span>
-    			<span class="isMandatory" id="spanCiiBadValue" style="display: none;">
-    				<br/>
-    				Disculpe su cedula o RIF tiene una longitud no adecuada.
-    			</span>
-    		</td>
-    		<td>
-    			<input type="button" value="Ver mis otros env&iacute;os" onclick="verOtrosEnvios(this.form)"/>
+   	 		<td width="270px" colspan="<?php echo $columnas - 1;?>">
+   	 			<?php echo $envioDTO->getCiRIF();?>
     		</td>
   		</tr>
   		<tr>
     		<td class="title Estilo17">
-    			*  Correo electrónico:
-    			<br />
-    			<span class="Estilo20">El mismo de MercadoLibre</span>
+    			Correo electrónico:
     		</td>
-    		<td>
-    			<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="email">
-      			<br />
-      			<span class="isMandatory" id="spanEmail" style="display: none;">
-	    			<br/>
-	    			Disculpe su Correo es obligatorio.
-    			</span>
-    			<span class="isMandatory" id="spanEmailFormat" style="display: none;">
-	    			<br/>
-	    			Disculpe el Correo no tiene un formato valido.
-    			</span>
-    		</td>
-    		<td>
-    			<p>
-      				<span class="Estilo18">
-      					Es importante que el email sea escrito correctamente ya que te llegara una copia de los datos completados.
-      					<br />
-      					Tambi&eacute;n te enviaremos ofertas de nuestros productos.
-      				</span>
-      			</p>
+    		<td colspan="<?php echo $columnas - 1;?>">
+    			<?php echo $envioDTO->getCorreo();?>
       		</td>
   		</tr>
   		<tr>
     		<td class="title Estilo17">
     			Celular:
-    			<br />
-    			<span class="Estilo18">
-    				Nota: Debe indicar al menos un n&uacute;mero telef&oacute;nico, sea celular o fijo
-    			</span>
     		</td>
     		<td colspan="<?php echo $columnas -1;?>">
-    			<select id="codCelCliente" size="1" name="codCelCliente">
-			        <option value="412">412</option>
-			        <option value="414">414</option>
-			        <option value="416">416</option>
-			        <option value="424">424</option>
-			        <option value="426">426</option>
-      			</select>
-      			<input style="BACKGROUND-COLOR: rgb(255,255,255)" maxlength="7" size="20" name="tlfCelularCliente" id="tlfCelularCliente" onkeypress="return textInputOnlyNumbers(event)">
-      			<span class="isMandatory" id="spanCelularCliente" style="display: none;">
-	    			<br/>
-	    			Disculpe debe indicar al menos un n&uacute;mero telef&oacute;nico, sea celular o fijo.
-    			</span>
-    			<span class="isMandatory" id="spanCelularClienteLength" style="display: none;">
-	    			<br/>
-	    			Disculpe la longitud de su n&uacute;mero celular debe ser de 7 digitos.
-    			</span>
+    			<?php echo $envioDTO->getTlfCliente();?>
       		</td>
     	</tr>
   		<tr>
@@ -221,71 +153,7 @@
     			Tel&eacute;fono:
     		</td>
     		<td colspan="<?php echo $columnas -1;?>">
-    			<select size="1" name="codLocalCliente">
-			        <option value="212">212</option>
-			        <option value="234">234</option>
-			        <option value="235">235</option>
-			        <option value="237">237</option>
-			        <option value="238">238</option>
-			        <option value="239">239</option>
-			        <option value="240">240</option>
-			        <option value="241">241</option>
-			        <option value="242">242</option>
-			        <option value="243">243</option>
-			        <option value="244">244</option>
-			        <option value="245">245</option>
-			        <option value="246">246</option>
-			        <option value="247">247</option>
-			        <option value="248">248</option>
-			        <option value="249">249</option>
-			        <option value="251">251</option>
-			        <option value="252">252</option>
-			        <option value="253">253</option>
-			        <option value="254">254</option>
-			        <option value="255">255</option>
-			        <option value="256">256</option>
-			        <option value="257">257</option>
-			        <option value="258">258</option>
-			        <option value="259">259</option>
-			        <option value="261">261</option>
-			        <option value="262">262</option>
-			        <option value="263">263</option>
-			        <option value="264">264</option>
-			        <option value="265">265</option>
-			        <option value="266">266</option>
-			        <option value="267">267</option>
-			        <option value="268">268</option>
-			        <option value="269">269</option>
-			        <option value="271">271</option>
-			        <option value="272">272</option>
-			        <option value="273">273</option>
-			        <option value="274">274</option>
-			        <option value="275">275</option>
-			        <option value="276">276</option>
-			        <option value="277">277</option>
-			        <option value="278">278</option>
-			        <option value="279">279</option>
-			        <option value="281">281</option>
-			        <option value="282">282</option>
-			        <option value="283">283</option>
-			        <option value="284">284</option>
-			        <option value="285">285</option>
-			        <option value="286">286</option>
-			        <option value="287">287</option>
-			        <option value="288">288</option>
-			        <option value="289">289</option>
-			        <option value="291">291</option>
-			        <option value="292">292</option>
-			        <option value="293">293</option>
-			        <option value="294">294</option>
-			        <option value="295">295</option>
-			        <option value="296">296</option>
-      			</select>
-    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" maxlength="7" size="20" name="tlfLocalCliente" onkeypress="return textInputOnlyNumbers(event)">
-    			<span class="isMandatory" id="spanLocalClienteLength" style="display: none;">
-	    			<br/>
-	    			Disculpe la longitud de su n&uacute;mero de tlf local debe ser de 7 digitos.
-    			</span>
+    			<?php echo $envioDTO->getTlfLocalCliente();?>
     		</td>
   		</tr>
   		<tr>
@@ -340,57 +208,9 @@
     		<td class="title Estilo17" colspan="<?php echo $columnas;?>">
     			<div align="center" id="seccion5Info">
 			    	<table id="tablaProductosComprados">
-				   		<thead>
-				   		<tr class="Estilo17">
-				  			<th width="200px">Cantidad</th>
-	                        <th width="200px">Producto</th>
-	                        <th width="200px">Observaciones</th>
-							<th width="200px"></th>
-	                    </tr>
-	                    </thead>
-	                    <tr class="Estilo17">
-	                    	<td width="200px" align="center">
-	                    		<select id="cantidadTMP" name="cantidadTMP">
-	                    		<?php
-	                    			for($i = 1; $i < 100; $i++){
-								?>
-									<option value="<?php echo $i;?>"><?php echo $i;?></option>
-								<?php
-									}
-	                    		?>
-	                    		</select>
-	                    	</td>
-	                    	<td width="200px">
-	                    		<input type="text" id="productoTMP" name="productoTMP" value=""/>
-	                    	</td>
-	                    	<td width="200px">
-	                    		<input type="text" id="observacionesTMP" name="observacionesTMP" value=""/>
-	                    	</td>
-	                    	<td width="200px">
-	                    		<input type="button" value="Agregar Producto" onclick="javascript:addFilaProductosComprados();"/>
-	                    	</td>
-	                    </tr>
-	                    <tr>
-	                    	<td colspan="<?php echo $columnas;?>">
-	                    		<span class="isMandatory" id="spanArticulo" style="display: none;">
-	                    			Disculpe, debe indicar el detalle de los productos que desea.
-	                    		</span>
-	                    	</td>
-	                    </tr>
-	                </table>
-	                <br/>
-	                <table id="detalleProductosComprados" class="Estilo17">
-	                	<thead>
-				   		<tr class="Estilo17">
-				  			<th width="200px">Cantidad</th>
-	                        <th width="200px">Producto</th>
-	                        <th width="200px">Observaciones</th>
-	                    </tr>
-	                    </thead>
-	                </table>
-				</div>
-				
-				<input type="hidden" name="articulo" id="articulo" value=""/>
+				   		<?php echo $envioDTO->getDetalleCompra();?>
+    				</table>
+    			</div>
     		</td>
   		</tr>
   		<tr>
