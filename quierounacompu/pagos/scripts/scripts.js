@@ -658,6 +658,54 @@ function validarFormularioDePago(payForm){
 
 /**
  * 
+ * @param payForm
+ */
+function validarFormularioNotifNoEnc(payForm){
+	var doSubmitCliente = validarDatosDelCliente(payForm);
+	var doSubmitPago = validarDatosDelPago(payForm);
+	var doSubmitEnvio = validarDatosDelEnvio(payForm);
+	
+	var doSubmit = doSubmitCliente && doSubmitPago && doSubmitEnvio;
+	if(doSubmit){
+		payForm.submit();
+	}
+	
+	return doSubmit;
+}
+
+/**
+ * 
+ * @param payForm
+ */
+function validarFormularioPagoConfirmado(payForm){
+	var doSubmitCliente = validarDatosDelCliente(payForm);
+	var doSubmitEnvio = validarDatosDelEnvio(payForm);
+	
+	var doSubmit = doSubmitCliente && doSubmitEnvio;
+	if(doSubmit){
+		payForm.submit();
+	}
+	
+	return doSubmit;
+}
+
+/**
+ * 
+ * @param payForm
+ */
+function validarFormularioPresupuestadoFacturado(payForm){
+	var doSubmitEnvio = validarDatosDelEnvio(payForm);
+	
+	var doSubmit = doSubmitEnvio;
+	if(doSubmit){
+		payForm.submit();
+	}
+	
+	return doSubmit;
+}
+
+/**
+ * 
  * @param elementId
  */
 function eliminarElemento(elementId){
