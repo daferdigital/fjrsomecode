@@ -52,7 +52,7 @@
 </head>
 <body>
 <?php $columnas = 3;?>
-<form name="pago" action="updatePay.php" method="post" enctype="multipart/form-data">
+<form name="pago" action="updatePayPresupuestadoFacturado.php" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="id" value="<?php echo $_GET["id"];?>"/>
 	<table class="tablaPrincipal" align="center" cellpadding="0" cellspacing="10" width="741">
   		<tr>
@@ -466,7 +466,7 @@
   		</tr>
   		<tr>
     		<td colspan="<?php echo $columnas;?>" align="center">
-    			<input name="Enviar" id="Enviar" onclick="javascript:validarFormularioDePago(this.form);" style="FONT-WEIGHT: bold; FONT-SIZE: 10pt;" value="Enviar datos del pago" type="button" >
+    			<input name="Enviar" id="Enviar" onclick="javascript:validarFormularioPresupuestadoFacturado(this.form);" style="FONT-WEIGHT: bold; FONT-SIZE: 10pt;" value="Enviar datos del pago" type="button" >
     			<span id="ajaxLoading" style="display: none; float: right;">
                   	<img src="../sis/images/ajax.gif" alt="Cargando..." />
                 </span>

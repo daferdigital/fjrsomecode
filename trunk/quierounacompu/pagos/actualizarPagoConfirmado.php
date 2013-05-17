@@ -52,7 +52,7 @@
 </head>
 <body>
 <?php $columnas = 3;?>
-<form name="pago" action="storePay.php" method="post" enctype="multipart/form-data">
+<form name="pago" action="updatePayPagoConfirmado.php" method="post" enctype="multipart/form-data">
     <input type="hidden" name="id" value="<?php echo $_GET["id"];?>"/>
 	<table class="tablaPrincipal" align="center" cellpadding="0" cellspacing="10" width="741">
   		<tr>
@@ -113,7 +113,7 @@
     			* Tus nombres y apellidos:
     		</td>
     		<td colspan="<?php echo $columnas - 1?>">
-    			<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="nombre" onkeypress="return textInputOnlyLetters(event)">
+    			<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="nombre" onkeypress="return textInputOnlyLetters(event)" value="<?php echo $envioDTO->getNombreCompleto();?>"/>
     			<span class="isMandatory" id="spanNombre" style="display: none;">
     				<br/>
     				Disculpe el nombre completo es obligatorio.
@@ -125,7 +125,7 @@
     			* Tu seud&oacute;nimo en MercadoLibre:
     		</td>
     		<td width="266" colspan="<?php echo $columnas - 1?>">
-    			<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="seudonimo" onkeypress="return textNoSpaces(event)">
+    			<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="seudonimo" onkeypress="return textNoSpaces(event)" value="<?php echo $envioDTO->getSeudonimoML();?>"/>
     			<span class="isMandatory" id="spanSeudonimo" style="display: none;">
     				<br/>
     				Disculpe el seud&oacute;nimo de MercadoLibre es obligatorio.
@@ -140,14 +140,15 @@
     				Indispensable para poder procesar el pedido.
     			</span>
     		</td>
-   	 		<td width="270px">
+   	 		<td width="270px" colspan="<?php echo $columnas - 1;?>">
+   	 			<?php $ciCliente = explode("-", $envioDTO->getCiRIF());?>
    	 			<select style="FONT-SIZE: 10pt" size="1" name="ci" onchange="setMaxLengthCI()">
-			        <option value="V" selected>V</option>
-			        <option value="E">E</option>
-			        <option value="J">J</option>
-			        <option value="G">G</option>
+			        <option value="V" <?php echo ($ciCliente[0] == "V" ? "selected" : "");?>>V</option>
+			        <option value="E" <?php echo ($ciCliente[0] == "E" ? "selected" : "");?>>E</option>
+			        <option value="J" <?php echo ($ciCliente[0] == "J" ? "selected" : "");?>>J</option>
+			        <option value="G" <?php echo ($ciCliente[0] == "G" ? "selected" : "");?>>G</option>
       			</select>
-    			<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)"  maxlength="9" size="23" name="cii" onkeypress="return textInputOnlyNumbers(event)">
+    			<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)"  maxlength="9" size="23" name="cii" onkeypress="return textInputOnlyNumbers(event)" value="<?php echo $ciCliente[1];?>"/>
     			<span class="isMandatory" id="spanCii" style="display: none;">
     				<br/>
     				Disculpe su C&eacute;dula es obligatoria.
@@ -157,9 +158,6 @@
     				Disculpe su cedula o RIF tiene una longitud no adecuada.
     			</span>
     		</td>
-    		<td>
-    			<input type="button" value="Ver mis otros env&iacute;os" onclick="verOtrosEnvios(this.form)"/>
-    		</td>
   		</tr>
   		<tr>
     		<td class="title Estilo17">
@@ -168,7 +166,7 @@
     			<span class="Estilo20">El mismo de MercadoLibre</span>
     		</td>
     		<td>
-    			<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="email">
+    			<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="email" value="<?php echo $envioDTO->getCorreo();?>"/>
       			<br />
       			<span class="isMandatory" id="spanEmail" style="display: none;">
 	    			<br/>
@@ -198,14 +196,15 @@
     			</span>
     		</td>
     		<td colspan="<?php echo $columnas -1;?>">
+    			<?php $celPhone = explode("-", $envioDTO->getTlfCliente());?>
     			<select id="codCelCliente" size="1" name="codCelCliente">
-			        <option value="412">412</option>
-			        <option value="414">414</option>
-			        <option value="416">416</option>
-			        <option value="424">424</option>
-			        <option value="426">426</option>
+			        <option value="412" <?php echo ($celPhone[0] == "412" ? "selected" : "");?>>412</option>
+			        <option value="414" <?php echo ($celPhone[0] == "414" ? "selected" : "");?>>414</option>
+			        <option value="416" <?php echo ($celPhone[0] == "416" ? "selected" : "");?>>416</option>
+			        <option value="424" <?php echo ($celPhone[0] == "424" ? "selected" : "");?>>424</option>
+			        <option value="426" <?php echo ($celPhone[0] == "426" ? "selected" : "");?>>426</option>
       			</select>
-      			<input style="BACKGROUND-COLOR: rgb(255,255,255)" maxlength="7" size="20" name="tlfCelularCliente" id="tlfCelularCliente" onkeypress="return textInputOnlyNumbers(event)">
+      			<input style="BACKGROUND-COLOR: rgb(255,255,255)" maxlength="7" size="20" name="tlfCelularCliente" id="tlfCelularCliente" onkeypress="return textInputOnlyNumbers(event)" value="<?php echo $celPhone[1];?>"/>
       			<span class="isMandatory" id="spanCelularCliente" style="display: none;">
 	    			<br/>
 	    			Disculpe debe indicar al menos un n&uacute;mero telef&oacute;nico, sea celular o fijo.
@@ -221,67 +220,68 @@
     			Tel&eacute;fono:
     		</td>
     		<td colspan="<?php echo $columnas -1;?>">
+    			<?php $localPhone = explode("-", $envioDTO->getTlfLocalCliente());?>
     			<select size="1" name="codLocalCliente">
-			        <option value="212">212</option>
-			        <option value="234">234</option>
-			        <option value="235">235</option>
-			        <option value="237">237</option>
-			        <option value="238">238</option>
-			        <option value="239">239</option>
-			        <option value="240">240</option>
-			        <option value="241">241</option>
-			        <option value="242">242</option>
-			        <option value="243">243</option>
-			        <option value="244">244</option>
-			        <option value="245">245</option>
-			        <option value="246">246</option>
-			        <option value="247">247</option>
-			        <option value="248">248</option>
-			        <option value="249">249</option>
-			        <option value="251">251</option>
-			        <option value="252">252</option>
-			        <option value="253">253</option>
-			        <option value="254">254</option>
-			        <option value="255">255</option>
-			        <option value="256">256</option>
-			        <option value="257">257</option>
-			        <option value="258">258</option>
-			        <option value="259">259</option>
-			        <option value="261">261</option>
-			        <option value="262">262</option>
-			        <option value="263">263</option>
-			        <option value="264">264</option>
-			        <option value="265">265</option>
-			        <option value="266">266</option>
-			        <option value="267">267</option>
-			        <option value="268">268</option>
-			        <option value="269">269</option>
-			        <option value="271">271</option>
-			        <option value="272">272</option>
-			        <option value="273">273</option>
-			        <option value="274">274</option>
-			        <option value="275">275</option>
-			        <option value="276">276</option>
-			        <option value="277">277</option>
-			        <option value="278">278</option>
-			        <option value="279">279</option>
-			        <option value="281">281</option>
-			        <option value="282">282</option>
-			        <option value="283">283</option>
-			        <option value="284">284</option>
-			        <option value="285">285</option>
-			        <option value="286">286</option>
-			        <option value="287">287</option>
-			        <option value="288">288</option>
-			        <option value="289">289</option>
-			        <option value="291">291</option>
-			        <option value="292">292</option>
-			        <option value="293">293</option>
-			        <option value="294">294</option>
-			        <option value="295">295</option>
-			        <option value="296">296</option>
+			        <option value="212" <?php echo ($localPhone[0] == "212" ? "selected" : "");?>>212</option>
+			        <option value="234" <?php echo ($localPhone[0] == "234" ? "selected" : "");?>>234</option>
+			        <option value="235" <?php echo ($localPhone[0] == "235" ? "selected" : "");?>>235</option>
+			        <option value="237" <?php echo ($localPhone[0] == "237" ? "selected" : "");?>>237</option>
+			        <option value="238" <?php echo ($localPhone[0] == "238" ? "selected" : "");?>>238</option>
+			        <option value="239" <?php echo ($localPhone[0] == "239" ? "selected" : "");?>>239</option>
+			        <option value="240" <?php echo ($localPhone[0] == "240" ? "selected" : "");?>>240</option>
+			        <option value="241" <?php echo ($localPhone[0] == "241" ? "selected" : "");?>>241</option>
+			        <option value="242" <?php echo ($localPhone[0] == "242" ? "selected" : "");?>>242</option>
+			        <option value="243" <?php echo ($localPhone[0] == "243" ? "selected" : "");?>>243</option>
+			        <option value="244" <?php echo ($localPhone[0] == "244" ? "selected" : "");?>>244</option>
+			        <option value="245" <?php echo ($localPhone[0] == "245" ? "selected" : "");?>>245</option>
+			        <option value="246" <?php echo ($localPhone[0] == "246" ? "selected" : "");?>>246</option>
+			        <option value="247" <?php echo ($localPhone[0] == "247" ? "selected" : "");?>>247</option>
+			        <option value="248" <?php echo ($localPhone[0] == "248" ? "selected" : "");?>>248</option>
+			        <option value="249" <?php echo ($localPhone[0] == "249" ? "selected" : "");?>>249</option>
+			        <option value="251" <?php echo ($localPhone[0] == "251" ? "selected" : "");?>>251</option>
+			        <option value="252" <?php echo ($localPhone[0] == "252" ? "selected" : "");?>>252</option>
+			        <option value="253" <?php echo ($localPhone[0] == "253" ? "selected" : "");?>>253</option>
+			        <option value="254" <?php echo ($localPhone[0] == "254" ? "selected" : "");?>>254</option>
+			        <option value="255" <?php echo ($localPhone[0] == "255" ? "selected" : "");?>>255</option>
+			        <option value="256" <?php echo ($localPhone[0] == "256" ? "selected" : "");?>>256</option>
+			        <option value="257" <?php echo ($localPhone[0] == "257" ? "selected" : "");?>>257</option>
+			        <option value="258" <?php echo ($localPhone[0] == "258" ? "selected" : "");?>>258</option>
+			        <option value="259" <?php echo ($localPhone[0] == "259" ? "selected" : "");?>>259</option>
+			        <option value="261" <?php echo ($localPhone[0] == "261" ? "selected" : "");?>>261</option>
+			        <option value="262" <?php echo ($localPhone[0] == "262" ? "selected" : "");?>>262</option>
+			        <option value="263" <?php echo ($localPhone[0] == "263" ? "selected" : "");?>>263</option>
+			        <option value="264" <?php echo ($localPhone[0] == "264" ? "selected" : "");?>>264</option>
+			        <option value="265" <?php echo ($localPhone[0] == "265" ? "selected" : "");?>>265</option>
+			        <option value="266" <?php echo ($localPhone[0] == "266" ? "selected" : "");?>>266</option>
+			        <option value="267" <?php echo ($localPhone[0] == "267" ? "selected" : "");?>>267</option>
+			        <option value="268" <?php echo ($localPhone[0] == "268" ? "selected" : "");?>>268</option>
+			        <option value="269" <?php echo ($localPhone[0] == "269" ? "selected" : "");?>>269</option>
+			        <option value="271" <?php echo ($localPhone[0] == "271" ? "selected" : "");?>>271</option>
+			        <option value="272" <?php echo ($localPhone[0] == "272" ? "selected" : "");?>>272</option>
+			        <option value="273" <?php echo ($localPhone[0] == "273" ? "selected" : "");?>>273</option>
+			        <option value="274" <?php echo ($localPhone[0] == "274" ? "selected" : "");?>>274</option>
+			        <option value="275" <?php echo ($localPhone[0] == "275" ? "selected" : "");?>>275</option>
+			        <option value="276" <?php echo ($localPhone[0] == "276" ? "selected" : "");?>>276</option>
+			        <option value="277" <?php echo ($localPhone[0] == "277" ? "selected" : "");?>>277</option>
+			        <option value="278" <?php echo ($localPhone[0] == "278" ? "selected" : "");?>>278</option>
+			        <option value="279" <?php echo ($localPhone[0] == "279" ? "selected" : "");?>>279</option>
+			        <option value="281" <?php echo ($localPhone[0] == "281" ? "selected" : "");?>>281</option>
+			        <option value="282" <?php echo ($localPhone[0] == "282" ? "selected" : "");?>>282</option>
+			        <option value="283" <?php echo ($localPhone[0] == "283" ? "selected" : "");?>>283</option>
+			        <option value="284" <?php echo ($localPhone[0] == "284" ? "selected" : "");?>>284</option>
+			        <option value="285" <?php echo ($localPhone[0] == "285" ? "selected" : "");?>>285</option>
+			        <option value="286" <?php echo ($localPhone[0] == "286" ? "selected" : "");?>>286</option>
+			        <option value="287" <?php echo ($localPhone[0] == "287" ? "selected" : "");?>>287</option>
+			        <option value="288" <?php echo ($localPhone[0] == "288" ? "selected" : "");?>>288</option>
+			        <option value="289" <?php echo ($localPhone[0] == "289" ? "selected" : "");?>>289</option>
+			        <option value="291" <?php echo ($localPhone[0] == "291" ? "selected" : "");?>>291</option>
+			        <option value="292" <?php echo ($localPhone[0] == "292" ? "selected" : "");?>>292</option>
+			        <option value="293" <?php echo ($localPhone[0] == "293" ? "selected" : "");?>>293</option>
+			        <option value="294" <?php echo ($localPhone[0] == "294" ? "selected" : "");?>>294</option>
+			        <option value="295" <?php echo ($localPhone[0] == "295" ? "selected" : "");?>>295</option>
+			        <option value="296" <?php echo ($localPhone[0] == "296" ? "selected" : "");?>>296</option>
       			</select>
-    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" maxlength="7" size="20" name="tlfLocalCliente" onkeypress="return textInputOnlyNumbers(event)">
+    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" maxlength="7" size="20" name="tlfLocalCliente" onkeypress="return textInputOnlyNumbers(event)" value="<?php echo $localPhone[1];?>"/>
     			<span class="isMandatory" id="spanLocalClienteLength" style="display: none;">
 	    			<br/>
 	    			Disculpe la longitud de su n&uacute;mero de tlf local debe ser de 7 digitos.
@@ -380,6 +380,7 @@
 	                </table>
 	                <br/>
 	                <table id="detalleProductosComprados" class="Estilo17">
+	                	<?php if($envioDTO->getDetalleCompra() == "") {?>
 	                	<thead>
 				   		<tr class="Estilo17">
 				  			<th width="200px">Cantidad</th>
@@ -387,6 +388,10 @@
 	                        <th width="200px">Observaciones</th>
 	                    </tr>
 	                    </thead>
+	                    <?php } else {
+	                    	echo $envioDTO->getDetalleCompra();
+	                    }
+	                    ?>
 	                </table>
 				</div>
 				
@@ -646,7 +651,7 @@
   		</tr>
   		<tr>
     		<td colspan="<?php echo $columnas;?>" align="center">
-    			<input name="Enviar" id="Enviar" onclick="javascript:validarFormularioDePago(this.form);" style="FONT-WEIGHT: bold; FONT-SIZE: 10pt;" value="Enviar datos del pago" type="button" >
+    			<input name="Enviar" id="Enviar" onclick="javascript:validarFormularioPagoConfirmado(this.form);" style="FONT-WEIGHT: bold; FONT-SIZE: 10pt;" value="Enviar datos del pago" type="button" >
     			<span id="ajaxLoading" style="display: none; float: right;">
                   	<img src="../sis/images/ajax.gif" alt="Cargando..." />
                 </span>
