@@ -140,9 +140,12 @@ if($canEdit){
 		if(isset($_POST["ciaEnvio"])){
 			$query = "UPDATE envios SET id_empresa_envio='".$_POST["ciaEnvio"]."' WHERE id=".$envioDTO->getId();
 			DBUtil::executeQuery($query);
-				
+			
+			$query = "SELECT nombre FROM empresa_envio WHERE id=".$_POST["ciaEnvio"];
+			$nombre = DBUtil::executeSelect($query);
+			
 			EnvioDAO::addComment($idEnvio,
-			"Actualizado valor de empresa de envio a ".$_POST["ciaEnvio"],
+			"Actualizado valor de empresa de envio a ".$nombre[0]["nombre"],
 			$idUsuario,
 			$newStatus);
 		}else{

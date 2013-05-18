@@ -107,7 +107,7 @@
     			* Tus nombres y apellidos:
     		</td>
     		<td colspan="<?php echo $columnas - 1?>">
-    			<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="nombre" onkeypress="return textInputOnlyLetters(event)">
+    			<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="nombre" />
     			<span class="isMandatory" id="spanNombre" style="display: none;">
     				<br/>
     				Disculpe el nombre completo es obligatorio.
@@ -452,6 +452,7 @@
 	                    	</td>
 	                    	<td width="200px">
 	                    		<input type="button" name="addProduct" value="Agregar Producto" onclick="javascript:addFilaProductosComprados();"/>
+	                    		<input type="button" name="cleanProducts" value="Deshacer" onclick="javascript:limpiarProductosComprados();"/>
 	                    	</td>
 	                    </tr>
 	                    <tr>
@@ -521,7 +522,7 @@
     			* Nombre y Apellido del destinatario:
     		</td>
     		<td colspan="<?php echo $columnas -1;?>">
-    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="destinatario" onkeypress="return textInputOnlyLetters(event)">
+    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="destinatario" />
     			<span class="isMandatory" id="spanDestinatario" style="display: none;">
 	    			<br/>
 	    			Disculpe debe indicar el nombre completo del destinatario.
@@ -533,6 +534,12 @@
     			* C.I. del destinatario:
     		</td>
     		<td colspan="<?php echo $columnas -1;?>">
+    			<select style="FONT-SIZE: 10pt" size="1" name="ciDest" onchange="setMaxLengthCI()">
+			        <option value="V" selected>V</option>
+			        <option value="E">E</option>
+			        <option value="J">J</option>
+			        <option value="G">G</option>
+      			</select>
     			<input style="BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="ciDestinatario" onkeypress="return textInputOnlyNumbers(event)" maxlength="8">
     			<span class="isMandatory" id="spanCIDestinatario" style="display: none;">
 	    			<br/>

@@ -113,7 +113,7 @@
     			* Tus nombres y apellidos:
     		</td>
     		<td colspan="<?php echo $columnas - 1?>">
-    			<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="nombre" onkeypress="return textInputOnlyLetters(event)" value="<?php echo $envioDTO->getNombreCompleto();?>"/>
+    			<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="nombre" value="<?php echo $envioDTO->getNombreCompleto();?>"/>
     			<span class="isMandatory" id="spanNombre" style="display: none;">
     				<br/>
     				Disculpe el nombre completo es obligatorio.
@@ -459,6 +459,7 @@
 	                    	</td>
 	                    	<td width="200px">
 	                    		<input type="button" name="addProduct" value="Agregar Producto" onclick="javascript:addFilaProductosComprados();"/>
+	                    		<input type="button" name="cleanProducts" value="Deshacer" onclick="javascript:limpiarProductosComprados();"/>
 	                    	</td>
 	                    </tr>
 	                    <tr>
@@ -533,7 +534,7 @@
     			* Nombre y Apellido del destinatario:
     		</td>
     		<td colspan="<?php echo $columnas -1;?>">
-    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="destinatario" onkeypress="return textInputOnlyLetters(event)" value="<?php echo $envioDTO->getNombreDestinatario();?>" />
+    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="destinatario" value="<?php echo $envioDTO->getNombreDestinatario();?>" />
     			<span class="isMandatory" id="spanDestinatario" style="display: none;">
 	    			<br/>
 	    			Disculpe debe indicar el nombre completo del destinatario.
@@ -545,7 +546,14 @@
     			* C.I. del destinatario:
     		</td>
     		<td colspan="<?php echo $columnas -1;?>">
-    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="ciDestinatario" onkeypress="return textInputOnlyNumbers(event)" maxlength="8" value="<?php echo $envioDTO->getCedulaDestinatario();?>"/>
+    			<?php $ciDest = explode("-", $envioDTO->getCedulaDestinatario());?>
+   	 			<select style="FONT-SIZE: 10pt" size="1" name="ci" onchange="setMaxLengthCI()">
+			        <option value="V" <?php echo ($ciDest[0] == "V" ? "selected" : "");?>>V</option>
+			        <option value="E" <?php echo ($ciDest[0] == "E" ? "selected" : "");?>>E</option>
+			        <option value="J" <?php echo ($ciDest[0] == "J" ? "selected" : "");?>>J</option>
+			        <option value="G" <?php echo ($ciDest[0] == "G" ? "selected" : "");?>>G</option>
+      			</select>
+    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="ciDestinatario" onkeypress="return textInputOnlyNumbers(event)" maxlength="9" value="<?php echo $ciDest[1];?>"/>
     			<span class="isMandatory" id="spanCIDestinatario" style="display: none;">
 	    			<br/>
 	    			Disculpe debe indicar la cedula del destinatario.

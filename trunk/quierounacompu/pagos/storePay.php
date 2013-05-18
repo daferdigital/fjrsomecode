@@ -62,7 +62,7 @@ if(isset($_POST["terminos"]) && $cuenta == 0){
 	."NOW(), "
 	.$_POST["monto"].",
 	'".$_POST["destinatario"]."',
-	'".$_POST["ciDestinatario"]."',
+	'".$_POST["ciDest"]."-".$_POST["ciDestinatario"]."',
 	'".$_POST["dir1"]."',
 	'".$_POST["ciudad"]."',
 	'".$_POST["estado"]."',

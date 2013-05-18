@@ -53,6 +53,7 @@ class EnvioDAO {
 		$envioDTO->setCiudadDestino($result[0]["ciudad_destino"]);
 		$envioDTO->setCorreo($result[0]["correo"]);
 		$envioDTO->setTlfCliente($result[0]["tlf_cliente"]);
+		$envioDTO->setTlfLocalCliente($result[0]["tlf_local_cliente"]);
 		$envioDTO->setDescBanco($result[0]["nombreBanco"]);
 		$envioDTO->setDescEmpresaEnvio($result[0]["empresaEnvio"]);
 		$envioDTO->setDescStatusActual($result[0]["envioStatus"]);
