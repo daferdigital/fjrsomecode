@@ -6,6 +6,7 @@ class EnvioDTO {
 	private $ciRIF;
 	private $correo;
 	private $tlfCliente;
+	private $tlfLocalCliente;
 	private $detalleCompra;
 	private $numVoucher;
 	private $fechaPago;
@@ -123,6 +124,21 @@ class EnvioDTO {
 	 */
 	public function setTlfCliente($tlfCliente){
 		$this->tlfCliente = $tlfCliente;
+	}
+	
+	/**
+	 * 
+	 */
+	public function getTlfLocalCliente(){
+		return $this->tlfLocalCliente;
+	}
+	
+	/**
+	 * 
+	 * @param unknown_type $tlfLocalCliente
+	 */
+	public function setTlfLocalCliente($tlfLocalCliente){
+		$this->tlfLocalCliente = $tlfLocalCliente;
 	}
 	
 	/**

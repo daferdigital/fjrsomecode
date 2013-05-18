@@ -4,7 +4,7 @@ include_once '../sis/classes/BitacoraDAO.php';
 
 $query = "UPDATE envios SET "
 .", nombre_destinatario='".$_POST["destinatario"]."'"
-.", cedula_destinatario='".$_POST["ciDestinatario"]."'"
+.", cedula_destinatario='".$_POST["ciDest"]."-".$_POST["ciDestinatario"]."'"
 .", direccion_destino='".$_POST["dir1"]."'"
 .", ciudad_destino='".$_POST["ciudad"]."'"
 .", estado_destino='".$_POST["estado"]."'"

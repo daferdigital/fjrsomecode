@@ -588,7 +588,7 @@ function validarDatosDelEnvio(payForm){
 		document.getElementById("spanCIDestinatario").style.display = "inline";
 		payForm.ciDestinatario.focus();
 		doSubmit = false;
-	} else if(! isValidCIValue("V", ciDestinatario, "spanCIDestinatarioBadValue")){
+	} else if(! isValidCIValue(payForm.ciDest.value, ciDestinatario, "spanCIDestinatarioBadValue")){
 		document.getElementById("spanCIDestinatarioBadValue").style.display = "inline";
 		payForm.ciDestinatario.focus();
 		doSubmit = false;
@@ -715,6 +715,28 @@ function eliminarElemento(elementId){
 }
 
 var idCounter = 1;
+
+/**
+ * 
+ */
+function limpiarProductosComprados(){
+	//obtenemos el nodo padre donde colocaremos el container para la info de los productos
+	var nodoPadre = document.getElementById("detalleProductosComprados");
+	
+	var htmlContainerText = 
+		  '    <thead>'
+		+ '        <tr class="Estilo17">'
+		+ '            <th width="200px">Cantidad</th>'
+		+ '            <th width="200px">Producto</th>'
+		+ '            <th width="200px">Observaciones</th>'
+		+ '        </tr>'
+		+ '    </thead>';
+	
+	nodoPadre.innerHTML = htmlContainerText;
+	
+	document.getElementById("articulo").value = "";
+}
+
 /**
  * 
  * @param cantidadValue
@@ -731,7 +753,7 @@ function addFilaProductosComprados(){
 		return;
 	}
 	
-	//obtenemos el nodo padre donde colocaremos el container para el nuevo dia
+	//obtenemos el nodo padre donde colocaremos el container para la info de los productos
 	var nodoPadre = document.getElementById("detalleProductosComprados");
 	
 	var htmlContainerText = 
