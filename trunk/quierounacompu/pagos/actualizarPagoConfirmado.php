@@ -456,7 +456,7 @@
     		</td>
     		<td colspan="<?php echo $columnas -1;?>">
     		    <?php $ciDest = explode("-", $envioDTO->getCedulaDestinatario());?>
-   	 			<select style="FONT-SIZE: 10pt" size="1" name="ci" onchange="setMaxLengthCI()">
+   	 			<select style="FONT-SIZE: 10pt" size="1" name="ciDest" onchange="setMaxLengthCI()">
 			        <option value="V" <?php echo ($ciDest[0] == "V" ? "selected" : "");?>>V</option>
 			        <option value="E" <?php echo ($ciDest[0] == "E" ? "selected" : "");?>>E</option>
 			        <option value="J" <?php echo ($ciDest[0] == "J" ? "selected" : "");?>>J</option>
