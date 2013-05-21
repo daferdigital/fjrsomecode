@@ -16,7 +16,7 @@ print();
 
 <body style="font-size:18px;" onLoad="imprimir();">
 <div id="general">
-<div class="titulo">Logros del día</div>
+<div class="titulo">Logros del d&iacute;a</div>
 
 	<?Php
 $ancho=1060;
@@ -28,7 +28,7 @@ list($ano,$mes,$dia)=explode("-",$_REQUEST['fecha']);
 						FROM vista_logros 
 						LEFT JOIN ligas l ON (vista_logros.idliga=l.idliga)
 						WHERE fecha='".$_REQUEST['fecha']."' and estatus_logro='1'
-		ORDER BY nombre_categoria,vista_logros.idliga,hora,nombre_categoria,idlogro,que_equipo ASC, nombre_tipo_apuesta ASC";
+		ORDER BY l.orden_visual,vista_logros.idliga,hora,nombre_categoria,idlogro,que_equipo ASC, nombre_tipo_apuesta ASC";
 		$querylogros=mysql_query($selectlogros);
 			if(mysql_num_rows($querylogros)>0){
 				$equipoA='';$equipoB='';$bandera='';$categoria='';
