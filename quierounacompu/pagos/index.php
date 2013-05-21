@@ -540,7 +540,7 @@
 			        <option value="J">J</option>
 			        <option value="G">G</option>
       			</select>
-    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="ciDestinatario" onkeypress="return textInputOnlyNumbers(event)" maxlength="8">
+    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="ciDestinatario" onkeypress="return textInputOnlyNumbers(event)" maxlength="9">
     			<span class="isMandatory" id="spanCIDestinatario" style="display: none;">
 	    			<br/>
 	    			Disculpe debe indicar la cedula del destinatario.
