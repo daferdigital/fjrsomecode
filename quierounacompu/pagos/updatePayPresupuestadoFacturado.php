@@ -8,8 +8,8 @@ $query = "UPDATE envios SET "
 .", direccion_destino='".$_POST["dir1"]."'"
 .", ciudad_destino='".$_POST["ciudad"]."'"
 .", estado_destino='".$_POST["estado"]."'"
-.($_POST["celular"] == "" ? "" : ", tlf_celular_destinatario='".$_POST["codcel"]."-".$_POST["celular"])."'"
-.($_POST["tlfLocalDestinatario"] == "" ? "" : ", tlf_local_destinatario='".$_POST["codLocalDestinatario"]."-".$_POST["tlfLocalDestinatario"])."'"
+.($_POST["celular"] == "" ? "" : ", tlf_celular_destinatario='".$_POST["codcel"]."-".$_POST["celular"]."'")
+.($_POST["tlfLocalDestinatario"] == "" ? "" : ", tlf_local_destinatario='".$_POST["codLocalDestinatario"]."-".$_POST["tlfLocalDestinatario"]."'")
 .", observaciones_envio='".$_POST["obs"]."'"
 .", id_empresa_envio=".$_POST["envio"]
 ." WHERE id=".$_POST["id"];
@@ -22,8 +22,9 @@ if(! DBUtil::executeQuery($query)){
 <script type="text/javascript">
 	<?php if($code == 0) {?>
 		alert("Su informacion fue actualizada de manera exitosa.");
+		window.location = "index.php";
 	<?php } else {?>
 		alert("Disculpe, hubo un problema procesando su solicitud, por favor intente mas tarde.");
+		window.history.back();
 	<?php }?>
-	window.location = "index.php";
 </script>

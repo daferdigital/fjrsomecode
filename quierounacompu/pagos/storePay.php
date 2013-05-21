@@ -5,6 +5,9 @@ include_once "../sis/classes/EnvioDAO.php";
 include_once "../sis/classes/BitacoraDAO.php";
 include_once "../sis/classes/SendEmail.php";
 
+$fixedMonto = str_replace(".", "", $_POST["monto"]);
+$fixedMonto = str_replace(",", ".", $fixedMonto);
+
 $medioMercadoPago = 5;
 $response = -1;
 
@@ -53,22 +56,22 @@ if(isset($_POST["terminos"]) && $cuenta == 0){
 	('".$_POST["seudonimo"]."',
 	'".$_POST["nombre"]."',
 	'".$_POST["ci"]."-".$_POST["cii"]."',
-	'".$_POST["email"]."',
-	'".($_POST["tlfCelularCliente"] == "" ? "" : $_POST["codCelCliente"]."-".$_POST["tlfCelularCliente"])."',
-	'".($_POST["tlfLocalCliente"] == "" ? "" : $_POST["codLocalCliente"]."-".$_POST["tlfLocalCliente"])."',
-	'".$_POST["articulo"]."',
+	'".$_POST["email"]."'"
+	.($_POST["tlfCelularCliente"] == "" ? "" : ", tlf_cliente='".$_POST["codCelCliente"]."-".$_POST["tlfCelularCliente"]."'")
+	.($_POST["tlfLocalCliente"] == "" ? "" : ", tlf_local_cliente='".$_POST["codLocalCliente"]."-".$_POST["tlfLocalCliente"]."'")
+	.", '".str_replace("'", "''", $_POST["articulo"])."',
 	'".$_POST["bauche"]."',
 	'".$_POST["fechaPagoHidden"]."', "
 	."NOW(), "
-	.$_POST["monto"].",
+	.$fixedMonto.",
 	'".$_POST["destinatario"]."',
 	'".$_POST["ciDest"]."-".$_POST["ciDestinatario"]."',
 	'".$_POST["dir1"]."',
 	'".$_POST["ciudad"]."',
-	'".$_POST["estado"]."',
-	'".($_POST["celular"] == "" ? "" : $_POST["codcel"]."-".$_POST["celular"])."',
-	'".($_POST["tlfLocalDestinatario"] == "" ? "" : $_POST["codLocalDestinatario"]."-".$_POST["tlfLocalDestinatario"])."',
-	'".$_POST["obs"]."',
+	'".$_POST["estado"]."'"
+	.($_POST["celular"] == "" ? "" : ", tlf_celular_destinatario='".$_POST["codcel"]."-".$_POST["celular"]."'")
+	.($_POST["tlfLocalDestinatario"] == "" ? "" : ", tlf_local_destinatario='".$_POST["codLocalDestinatario"]."-".$_POST["tlfLocalDestinatario"]."'")
+	.", '".$_POST["obs"]."',
 	".$_POST["medio"].",
 	".($_POST["medio"] == 5 ? 4 : $_POST["banco"]).",
 	".$_POST["envio"].",
