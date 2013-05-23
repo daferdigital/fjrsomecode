@@ -65,6 +65,7 @@ function isValidVaucheValue(tipoPago, vauche, messageSpanId){
 	var length = vauche.length;
 	var idBanco = document.getElementById("banco").value;
 	var message = "";
+	
 	var digitosMercadoPago = 9;
 	var digitosBanesco = 11;
 	var digitosMercantil = 11;
@@ -101,7 +102,7 @@ function isValidVaucheValue(tipoPago, vauche, messageSpanId){
 					message += "<br />Como su codigo tiene " + length + " digitos.";
 					
 					if(length < digitosBanesco){
-						message += "<br />Le recomendamos rellenar con " + (digitosBanesco - length) + " cero(s) a la izquierda para completar los " + digitosMercadoPago + " digitos.";
+						message += "<br />Le recomendamos rellenar con " + (digitosBanesco - length) + " cero(s) a la izquierda para completar los " + digitosBanesco + " digitos.";
 					} else {
 						message += "<br />Le recomendamos tomar los " + digitosBanesco  + " digitos de derecha a izquierda obviando los digitos extra.";
 					}
@@ -114,7 +115,7 @@ function isValidVaucheValue(tipoPago, vauche, messageSpanId){
 					message += "<br />Como su codigo tiene " + length + " digitos.";
 					
 					if(length < digitosMercantil){
-						message += "<br />Le recomendamos rellenar con " + (digitosMercantil - length) + " cero(s) a la izquierda para completar los " + digitosMercadoPago + " digitos.";
+						message += "<br />Le recomendamos rellenar con " + (digitosMercantil - length) + " cero(s) a la izquierda para completar los " + digitosMercantil + " digitos.";
 					} else {
 						message += "<br />Le recomendamos tomar los " + digitosMercantil  + " digitos de derecha a izquierda obviando los digitos extra.";
 					}
@@ -127,7 +128,7 @@ function isValidVaucheValue(tipoPago, vauche, messageSpanId){
 					message += "<br />Como su codigo tiene " + length + " digitos.";
 					
 					if(length < digitosVenezuela){
-						message += "<br />Le recomendamos rellenar con " + (digitosVenezuela - length) + " cero(s) a la izquierda para completar los " + digitosMercadoPago + " digitos.";
+						message += "<br />Le recomendamos rellenar con " + (digitosVenezuela - length) + " cero(s) a la izquierda para completar los " + digitosVenezuela + " digitos.";
 					} else {
 						message += "<br />Le recomendamos tomar los " + digitosVenezuela  + " digitos de derecha a izquierda obviando los digitos extra.";
 					}

@@ -57,8 +57,8 @@ if(isset($_POST["terminos"]) && $cuenta == 0){
 	'".$_POST["nombre"]."',
 	'".$_POST["ci"]."-".$_POST["cii"]."',
 	'".$_POST["email"]."'"
-	.($_POST["tlfCelularCliente"] == "" ? "" : ", tlf_cliente='".$_POST["codCelCliente"]."-".$_POST["tlfCelularCliente"]."'")
-	.($_POST["tlfLocalCliente"] == "" ? "" : ", tlf_local_cliente='".$_POST["codLocalCliente"]."-".$_POST["tlfLocalCliente"]."'")
+	.($_POST["tlfCelularCliente"] == "" ? ",''" : ", '".$_POST["codCelCliente"]."-".$_POST["tlfCelularCliente"]."'")
+	.($_POST["tlfLocalCliente"] == "" ? ",''" : ", '".$_POST["codLocalCliente"]."-".$_POST["tlfLocalCliente"]."'")
 	.", '".str_replace("'", "''", $_POST["articulo"])."',
 	'".$_POST["bauche"]."',
 	'".$_POST["fechaPagoHidden"]."', "
@@ -69,8 +69,8 @@ if(isset($_POST["terminos"]) && $cuenta == 0){
 	'".$_POST["dir1"]."',
 	'".$_POST["ciudad"]."',
 	'".$_POST["estado"]."'"
-	.($_POST["celular"] == "" ? "" : ", tlf_celular_destinatario='".$_POST["codcel"]."-".$_POST["celular"]."'")
-	.($_POST["tlfLocalDestinatario"] == "" ? "" : ", tlf_local_destinatario='".$_POST["codLocalDestinatario"]."-".$_POST["tlfLocalDestinatario"]."'")
+	.($_POST["celular"] == "" ? ",''" : ", '".$_POST["codcel"]."-".$_POST["celular"]."'")
+	.($_POST["tlfLocalDestinatario"] == "" ? ",''" : ", '".$_POST["codLocalDestinatario"]."-".$_POST["tlfLocalDestinatario"]."'")
 	.", '".$_POST["obs"]."',
 	".$_POST["medio"].",
 	".($_POST["medio"] == 5 ? 4 : $_POST["banco"]).",
