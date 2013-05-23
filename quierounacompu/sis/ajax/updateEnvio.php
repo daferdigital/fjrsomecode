@@ -140,12 +140,12 @@ if($canEdit){
 		if(isset($_POST["ciaEnvio"])){
 			$query = "UPDATE envios SET id_empresa_envio='".$_POST["ciaEnvio"]."' WHERE id=".$envioDTO->getId();
 			DBUtil::executeQuery($query);
-			
+				
 			$query = "SELECT nombre FROM empresa_envio WHERE id=".$_POST["ciaEnvio"];
-			$nombre = DBUtil::executeSelect($query);
+			$result = DBUtil::executeSelect($query);
 			
 			EnvioDAO::addComment($idEnvio,
-			"Actualizado valor de empresa de envio a ".$nombre[0]["nombre"],
+			"Actualizado valor de empresa de envio a ".$result[0]["nombre"],
 			$idUsuario,
 			$newStatus);
 		}else{
@@ -180,7 +180,8 @@ if($canEdit){
 		$message = str_replace("{2}", $envioDTO->getDescMedioPago(), $message);
 		$message = str_replace("{3}", $envioDTO->getNumVoucher(), $message);
 		$message = str_replace("{4}", $envioDTO->getMontoPago(), $message);
-		$message = str_replace("{5}", "http://www.quierounacompu.com/pagos/updatePedido.php?id=".$envioDTO->getId(), $message);
+		$message = str_replace("{5}", "http://www.quierounacompu.com/pagos/actualizarEnvio.php?id=".$envioDTO->getId(), $message);
+		//$message = str_replace("{5}", "http://www.quierounacompu.com/pagos/updatePedido.php?id=".$envioDTO->getId(), $message);
 		
 		SendEmail::sendMail($envioDTO->getCorreo(),
 			SendEmail::$SUBJECT_PAGO_NO_ENCONTRADO,
