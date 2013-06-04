@@ -118,30 +118,34 @@ Primero</span></strong></div></td>
             <td style="font-size:16px;"><? echo $row["nombre_equipo"];?></td>
             <td width="65">
             	<div style="text-align:right; <? if ($row["GanarJC"]>10000){ ?>color:#0C0; font-weight:bold;<? }?>">
-				<? echo number_format($row["GanarJC"], 2, '.', '')." (".$row["cuentaGanarJC"].")";?></div></td>
+				<? echo number_format($row["GanarJC"], 2, '.', '').($row["cuentaGanarJC"] > 0 ? " (".$row["cuentaGanarJC"].")" : "");?></div>
+		    </td>
             <td width="65">
             	<div style="text-align:right; <? if ($row["GanarMJ"]>10000){ ?>color:#0C0; font-weight:bold;<? }?>">
-				<? echo $row["GanarMJ"]." (".$row["cuentaGanarMJ"].")";?></div></td>
+				<? echo $row["GanarMJ"].($row["cuentaGanarMJ"] > 0 ? " (".$row["cuentaGanarMJ"].")" : "");?></div>
+		    </td>
             <td width="56">
                 <div style="text-align:right; <? if ($row["Ganar2M"]>10000){ ?>color:#0C0; font-weight:bold;<? }?>">
-                <? echo $row["Ganar2M"]." (".$row["cuentaGanar2M"].")";?></div></td>
+                <? echo $row["Ganar2M"].($row["cuentaGanar2M"] > 0 ? " (".$row["cuentaGanar2M"].")" : "");?></div>
+            </td>
             <td width="52">
                 <div style="text-align:right; <? if ($row["RLJC"]>10000){ ?>color:#0C0; font-weight:bold;<? }?>">
-                <? echo $row["RLJC"]." (".$row["cuentaRLJC"].")";?></div></td>
-            <td width="53"><div align="right"><? echo $row["RLMJ"]." (".$row["cuentaRLMJ"].")";?></div></td>
-            <td width="48"><div align="right"><? echo $row["RunLineAlt"]." (".$row["cuentaRunLineAlt"].")";?></div></td>
-            <td width="46"><div align="right"><? echo $row["SRL"]." (".$row["cuentaSRL"].")";?></div></td>
-            <td width="51"><div align="right"><? echo $row["AltasJC"]." (".$row["cuentaAltasJC"].")";?></div></td>
-            <td width="47"><div align="right"><? echo $row["BajaJC"]." (".$row["cuentaBajaJC"].")";?></div></td>
-            <td width="47"><div align="right"><? echo $row["AltasMJ"]." (".$row["cuentaAltasMJ"].")";?></div></td>
-            <td width="43"><div align="right"><? echo $row["BajaMJ"]." (".$row["cuentaBajaMJ"].")";?></div></td>
-            <td width="53"><div align="right"><? echo $row["Alta2M"]." (".$row["cuentaAlta2M"].")";?></div></td>
-            <td width="52"><div align="right"><? echo $row["Baja2M"]." (".$row["cuentaBaja2M"].")";?></div></td>
-            <td width="28"><div align="right"><? echo $row["ACHE"]." (".$row["cuentaACHE"].")";?></div></td>
-            <td width="32"><div align="right"><? echo $row["BCHE"]." (".$row["cuentaBCHE"].")";?></div></td>
-            <td width="40"><div align="right"><? echo $row["Si"]." (".$row["cuentaSi"].")";?></div></td>
-            <td width="37"><div align="right"><? echo $row["No"]." (".$row["cuentaNo"].")";?></div></td>
-            <td width="60"><div align="right"><? echo $row["1ero"]." (".$row["cuenta1ero"].")";?></div></td>
+                <? echo $row["RLJC"].($row["cuentaRLJC"] > 0 ? " (".$row["cuentaRLJC"].")" : "");?></div>
+            </td>
+            <td width="53"><div align="right"><? echo $row["RLMJ"].($row["cuentaRLMJ"] > 0 ? " (".$row["cuentaRLMJ"].")" : "");?></div></td>
+            <td width="48"><div align="right"><? echo $row["RunLineAlt"].($row["cuentaRunLineAlt"] > 0 ? " (".$row["cuentaRunLineAlt"].")" : "");?></div></td>
+            <td width="46"><div align="right"><? echo $row["SRL"].($row["cuentaSRL"] > 0 ? " (".$row["cuentaSRL"].")" : "");?></div></td>
+            <td width="51"><div align="right"><? echo $row["AltasJC"].($row["cuentaAltasJC"] > 0 ? " (".$row["cuentaAltasJC"].")" : "");?></div></td>
+            <td width="47"><div align="right"><? echo $row["BajaJC"].($row["cuentaBajaJC"] > 0 ? " (".$row["cuentaBajaJC"].")" : "");?></div></td>
+            <td width="47"><div align="right"><? echo $row["AltasMJ"].($row["cuentaAltasMJ"] > 0 ? " (".$row["cuentaAltasMJ"].")" : "");?></div></td>
+            <td width="43"><div align="right"><? echo $row["BajaMJ"].($row["cuentaBajaMJ"] > 0 ? " (".$row["cuentaBajaMJ"].")" : "");?></div></td>
+            <td width="53"><div align="right"><? echo $row["Alta2M"].($row["cuentaAlta2M"] > 0 ? " (".$row["cuentaAlta2M"].")" : "");?></div></td>
+            <td width="52"><div align="right"><? echo $row["Baja2M"].($row["cuentaBaja2M"] > 0 ? " (".$row["cuentaBaja2M"].")" : "");?></div></td>
+            <td width="28"><div align="right"><? echo $row["ACHE"].($row["cuentaACHE"] > 0 ? " (".$row["cuentaACHE"].")" : "");?></div></td>
+            <td width="32"><div align="right"><? echo $row["BCHE"].($row["cuentaBCHE"] > 0 ? " (".$row["cuentaBCHE"].")" : "");?></div></td>
+            <td width="40"><div align="right"><? echo $row["Si"].($row["cuentaSi"] > 0 ? " (".$row["cuentaSi"].")" : "");?></div></td>
+            <td width="37"><div align="right"><? echo $row["No"].($row["cuentaNo"] > 0 ? " (".$row["cuentaNo"].")" : "");?></div></td>
+            <td width="60"><div align="right"><? echo $row["1ero"].($row["cuenta1ero"] > 0 ? " (".$row["cuenta1ero"].")" : "");?></div></td>
           </tr>
           <?
 		  $totalJC=$totalJC+$row["GanarJC"];
