@@ -1,0 +1,25 @@
+@CHARSET "ISO-8859-1";
+
+.style1 {
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-weight: bold;
+}
+
+.style2 {
+	font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+.style4 {
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-weight: bold; 
+	font-style: italic;
+}
+
+.formu {
+    font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+.isMandatory {
+	color: #FF0000;
+    font-size: 12px;
+}

@@ -1,0 +1,333 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+        <title>Administraci&oacute;n</title>
+        <script type="text/javascript" src="./js/scripts.js"></script>
+        <script type="text/javascript" src="./js/jsDatePick.full.1.3.js"></script>
+        
+        <link rel="stylesheet" type="text/css" href="./css/jsDatePick_ltr.css"/>
+        <link rel="stylesheet" type="text/css" href="./css/site.css">
+    </head>
+
+<body>
+    <table width="80%"  border="0" align="center" cellpadding="0">
+        <tr>
+            <td>
+                <div align="center">
+                    <img src="Imagenes/logo.png" width="771" height="98">
+                </div>
+            </td>
+        </tr>
+    </table>
+    
+    <br>
+
+    <table width="50%"  border="0" align="center" cellpadding="0">
+        <tr>
+            <td>
+                <div align="center">
+                    <span class="style1">
+                        Formulario 
+                        <br>
+                        Llene el siguiente formulario para que su postulaci&oacute;n se realice
+                    </span>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <br>
+    
+    <table width="50%"  border="0" align="center" cellpadding="0">
+        <tr bgcolor="#E8681F">
+            <td>
+                <div align="center">
+                    <span class="style4">
+                        Informaci&oacute;n Personal
+                    </span>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <form name="form2" method="post" action="guardarSolicitud.php">
+        <table width="50%" border="0" align="center" class="formu">
+            <tr>
+                <td width="38%">Nombre:</td>
+                <td width="62%">
+                    <label for="nombre"></label>
+                    <input name="nombre" type="text" id="nombre" size="30" onkeypress="return textInputOnlyLetters(event);" />
+                    <span class="isMandatory" id="spanErrorNombre" style="display:none;">
+                        <br />
+                        Disculpe, el nombre es obligatorio.
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="apellido">Apellido:</label></td>
+                <td>
+                    <input name="apellido" type="text" id="apellido" size="30" onkeypress="return textInputOnlyLetters(event);" />
+                    <span class="isMandatory" id="spanErrorApellido" style="display:none;">
+                        <br />
+                        Disculpe, el apellido es obligatorio.
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="ci">C&eacute;dula de Identidad:</label></td>
+                <td>
+                    <select name="tipoCi" id="tipoCi">
+                        <option value="">- -</option>
+                        <option value="V">V</option>
+                        <option value="E">E</option>
+                    </select>
+                    <input name="ci" type="text" id="ci" size="30" maxlength="8" onkeypress="return textInputOnlyNumbers(event);" />
+                    <span class="isMandatory" id="spanErrorTipoCi" style="display:none;">
+                        <br />
+                        Disculpe, debe indicar su tipo de c&eacute;dula.
+                    </span>
+                    <span class="isMandatory" id="spanErrorValueCi" style="display:none;">
+                        <br />
+                        Disculpe, su n&uacute;mero de c&eacute;dula es obligatorio.
+                    </span>
+                    <span class="isMandatory" id="spanErrorLengthCi" style="display:none;">
+                        <br />
+                        Disculpe, el n&uacute;mero de d&iacute;gitos de su c&eacute;dula es incorrecto.
+                        <br />
+                        Debe tener al menos 6 y m&aacute;ximo 8 d&iacute;gitos.
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="lugar de nacimiento">Lugar de nacimiento:</label>
+                </td>
+                <td>
+                    <input name="lugarNacimiento" type="text" id="lugarNacimiento" size="30" />
+                    <span class="isMandatory" id="spanErrorLugarNacimiento" style="display:none;">
+                        <br />
+                        Disculpe, debe indicar su lugar de nacimiento.
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td>Fecha de Nacimiento:</td>
+                <td>
+                    <input type="text" id="fechaNacimiento" name="fechaNacimiento" size="25" readonly />
+                    <input type="hidden" id="fechaNacimientoHidden" name="fechaNacimientoHidden" />
+                    
+                    <script>
+                        new JsDatePick({
+                        	useMode:2,
+                        	target:"fechaNacimiento",
+                        	targetHidden:"fechaNacimientoHidden",
+                            isStripped:true,
+                            weekStartDay:0,
+                            limitToToday:true,
+                            dateFormat:"%d/%m/%Y",
+                            dateFormatHidden:"%Y-%m-%d",
+                            imgPath:"img/"
+                        });
+                    </script>
+                    <span class="isMandatory" id="spanErrorFechaNacimiento" style="display:none;">
+                        <br />
+                        Disculpe, debe indicar su fecha de nacimiento.
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td>Sexo:</td>
+                <td>
+                    <input type="radio" name="sexo" id="sexoFem" value="F" /> F
+	                <input type="radio" name="sexo" id="sexoMas" value="M" /> M
+	                <span class="isMandatory" id="spanErrorSexo" style="display:none;">
+                        <br />
+                        Disculpe, debe indicarnos su g&eacute;nero.
+                    </span>
+	            </td>
+            </tr>
+            <tr>
+                <td>Estado Civil:</td>
+                <td> 
+                    <select name="edoCivil" id="edoCivil">
+                        <option value="">- -</option>
+                        <option value="Soltero(a)">Soltero(a)</option>
+						<option value="Casado(a)">Casado(a)</option>
+						<option value="Divorciado(a)">Divorciado(a)</option>
+						<option value="Viudo(a)">Viudo(a)</option>
+			        </select>
+			        <span class="isMandatory" id="spanErrorEdoCivil" style="display:none;">
+                        <br />
+                        Disculpe, debe indicarnos su estado civil.
+                    </span>
+			    </td>
+			</tr>
+            <tr>
+                <td>Tiene Hijos:</td>
+                <td>
+                    Si <input name="tieneHijos" id="siTieneHijos" type="radio" value="Si" />
+                    No <input name="tieneHijos" id="noTieneHijos" type="radio" value="No" />
+                    <span class="isMandatory" id="spanErrorTieneHijos" style="display:none;">
+                        <br />
+                        Disculpe, debe indicarnos si tiene hijos.
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="direccion">Direcci&oacute;n:</label></td>
+                <td>
+                    <textarea name="direccion" id="direccion" cols="24" rows="5"></textarea>
+                    <span class="isMandatory" id="spanErrorDireccion" style="display:none;">
+                        <br />
+                        Disculpe, debe indicar su direcci&oacute;n de habitaci&oacute;n.
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="telefono hab">Tel&eacute;fono de habitaci&oacute;n:</label></td>
+                <td>
+                    <input name="telefonoHab" type="text" id="telefonoHab" size="30" maxlength="11" onkeypress="return textInputOnlyNumbers(event);" />
+                    <span class="isMandatory" id="spanErrorTelefonoHabitacion" style="display:none;">
+                        <br />
+                        Disculpe, debe indicar su n&uacute;mero de tel&eacute;fono de habitaci&oacute;n.
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="telefono cel">Tel&eacute;fono celular:</label></td>
+                <td>
+                    <input name="telefonoCel" type="text" id="telefonoCel" size="30" maxlength="11" onkeypress="return textInputOnlyNumbers(event);" />
+                    <span class="isMandatory" id="spanErrorTelefonoCelular" style="display:none;">
+                        <br />
+                        Disculpe, debe indicar su n&uacute;mero de tel&eacute;fono celular.
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="correo">Correo electr&oacute;nico:</label></td>
+                <td>
+                    <input name="correo" type="text" id="correo" size="30" />
+                    <span class="isMandatory" id="spanErrorCorreo" style="display:none;">
+                        <br />
+                        Disculpe, debe indicar una direcci&oacute;n de correo v&aacute;lida.
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td>Grado de Instrucci&oacute;n:</td>
+                <td>
+                    <select name="gradoInstruccion" id="gradoInstruccion">
+                        <option value="">- -</option>
+					    <option value="Primaria">Primaria</option>
+                        <option value="Bachiller">Bachiller</option>
+					    <option value="Profesional">Profesional</option>	 
+				    </select>
+				</td>
+		    </tr>
+            <tr>
+                <td><label for="profesional en">Profesional en:</label></td>
+                <td><input name="profesionalEn" type="text" id="profesionalEn" size="30"></td>
+            </tr>
+            <tr>
+                <td><label for="especialista en">Especialista en:</label></td>
+                <td><input name="especialistaEn" type="text" id="especialistaEn" size="30"></td>
+            </tr>
+            <tr>
+                <td class="formu">Experiencia laboral:</td>
+	            <td class="formu"> 
+	                S&iacute;<input name="expLaboral" type="radio" id="siExpLaboral" value="Si">
+	                No <input name="expLaboral" type="radio" id="noExpLaboral" value="No">
+	            </td>
+	        </tr>
+            <tr>
+                <td class="formu">&iquest;Cu&aacute;ntos trabajos ha tenido en los &uacute;ltimos 5 a&ntilde;os?</td>
+                <td class="formu">
+                    <p>
+                        1 <input name="cuantosTrabajos" id="1Trabajo" type="radio" value="1">
+                        2 <input name="cuantosTrabajos" id="2Trabajos" type="radio" value="2">
+                        3 <input name="cuantosTrabajos" id="3Trabajos" type="radio" value="3">
+                        M&aacute;s de 3 <input name="cuantosTrabajos" id="=3Trabajos" type="radio" value="Mas de 3">
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td class="formu">Tiempo que permaneci&oacute; en el &uacute;ltimo trabajo:</td>
+                <td class="formu"> 
+                    D&iacute;as <input name="tiempoTrabajo" id="tiempoDias" type="radio" value="Dias">
+                    Meses <input name="tiempoTrabajo" id="tiempoMeses" type="radio" value="Meses">
+                    1 A&ntilde;o <input name="tiempoTrabajo" id="tiempo1Year" type="radio" value="1 año">
+                    M&aacute;s de 1 a&ntilde;o <input name="tiempoTrabajo" id="" type="radio" value="Más de un año">
+                </td>
+            </tr>
+            <tr>
+                <td class="formu">Cargo al que aspira:</td>
+                <td class="formu">
+                    Administrador <input name="cargoAspirado" id="cargoAdministrador" type="radio" value="Administrador">
+                    Asistente <input name="cargoAspirado" id="cargoAsistente" type="radio" value="Asistente">
+                    <br>
+                    Secretaria <input name="cargoAspirado" id="cargoSecretaria" type="radio" value="Secretaria">
+                </td>
+            </tr>
+            <tr>
+                <td class="formu">&iquest;Ha trabajado antes en La Muralla?</td>
+                <td class="formu">
+                    S&iacute; <input name="trabajoMuralla" id="siExEmpleado" type="radio" value="Sí">
+                    No <input name="trabajoMuralla" id="noExEmpleado" type="radio" value="No">
+                </td>
+            </tr>
+            <tr>
+                <td class="formu">Departamento en el cual trabaj&oacute;:</td>
+                <td class="formu">
+                    <select name="dptoTrabajo" id="dptoTrabajo">
+                        <option value="">- -</option>
+                        <option> Administración</option>
+	                    <option> Sistemas</option>
+					    <option> Cajas</option>	
+				        <option> RRHH</option>
+					    <option> Charcutería</option>
+					    <option> Carnicería</option>
+				        <option> Cafetería</option>
+					    <option> Perfumería</option>
+					    <option> Floristería</option>
+				        <option> Frutería</option>
+					    <option> Bodegón</option>
+					    <option>Pasillos y depósitos</option> 
+				        <option> Mantenimiento</option> 
+				        <option> Ninguno</option>
+				    </select>
+				</td>
+		    </tr>
+            <tr>
+                <td class="formu">Motivo de retiro:</td>
+                <td class="formu">
+                    <select name="motivoRetiro" id="motivoRetiro">
+                        <option value="">- -</option>
+                        <option> Renuncia</option>
+	                    <option> Despido</option>
+                        <option> Ninguno</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="formu">&iquest;Qu&eacute; horario desea trabajar?</td>
+                <td class="formu">
+                    <input type="checkbox" name="horario" value="Mixto"> Mixto
+                    <br />
+                    <input type="checkbox" name="horario" value="Diurno"> Diurno
+                    <br />
+                    <input type="checkbox" name="horario" value="Nocturno"> Nocturno
+                </td>
+            </tr>
+            <tr>
+                <td class="formu">&iquest;Est&aacute; de acuerdo con la informaci&oacute;n introducida?</td>
+                <td class="formu">
+                    <input type="button" name="enviar" id="enviar" value="Enviar" onclick="javascript:validateForm(this.form);">
+                    <input type="reset" name="Borrar" id="Borrar" value="Borrar">
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
