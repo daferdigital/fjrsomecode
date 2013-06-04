@@ -1,0 +1,231 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Administraci&oacute;n</title>
+<style type="text/css">
+<!--
+.style1 {
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-weight: bold;
+}
+.style2 {font-family: Georgia, "Times New Roman", Times, serif}
+.style4 {font-family: Georgia, "Times New Roman", Times, serif; font-weight: bold; font-style: italic; }
+.formu {
+	font-family: Georgia, "Times New Roman", Times, serif;
+}
+.formu {
+	font-family: Georgia, "Times New Roman", Times, serif;
+}
+.sistema {
+	text-align: center;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 24px;
+	font-weight: bold;
+}
+-->
+</style>
+</head>
+
+<body>
+<table width="80%"  border="0" align="center" cellpadding="0">
+  <tr>
+    <td><div align="center" class="sistema">Sistema automatizado de Selecci&oacute;n de Personal</div></td>
+  </tr>
+</table>
+<br>
+<table width="50%"  border="0" align="center" cellpadding="0">
+  <tr>
+    <td><div align="center"><span class="style1">Formulario <br>
+      Llene el siguiente formulario para que su postulaci&oacute;n se realice </span></div></td>
+  </tr>
+</table>
+<br>
+<table width="50%"  border="0" align="center" cellpadding="0">
+  <tr bgcolor="#E8681F">
+    <td><div align="center"><span class="style4">Informaci&oacute;n Personal</span></div></td>
+  </tr>
+</table>
+<form name="form2" method="post" action="">
+  <table width="50%" border="0" align="center">
+    <tr>
+      <td width="38%" class="formu">Nombre:</td>
+      <td width="62%"><label for="nombre"></label>
+      <input name="nombre" type="text" id="nombre" size="30"></td>
+    </tr>
+    <tr>
+      <td class="formu"><label for="apellido">Apellido:</label></td>
+      <td><input name="apellido" type="text" id="apellido" size="30"></td>
+    </tr>
+    <tr>
+      <td class="formu"><label for="ci">Cédula de Identidad:</label></td>
+      <td><input name="ci" type="text" id="ci" size="30"></td>
+    </tr>
+    <tr>
+      <td class="formu"><label for="lugar de nacimiento">Lugar de nacimiento:</label></td>
+      <td><input name="lugar de nacimiento" type="text" id="lugar de nacimiento" size="30"></td>
+    </tr>
+    <tr>
+      <td class="formu">Fecha de Nacimiento:</td>
+      <td><input type="date" min="1" max="10"></td>
+    </tr>
+    <tr>
+      <td class="formu">Sexo:</td>
+      <td class="formu"><input type="radio" name="sexo" id="fem" value="fem">
+      <label for="fem">F
+        <input type="radio" name="sexo" id="mas" value="mas">
+      M</label></td>
+    </tr>
+    <tr>
+      <td class="formu">Estado Civil:</td>
+      <td class="formu"> <select name="estado civil">
+	  <option> Soltero(a)</option>
+	  <option> Casado(a)</option>
+	  <option> Divorciado(a)</option>
+	  <option> Viudo(a)</option>
+      </select></td>
+    </tr>
+    <tr>
+      <td class="formu">Tiene Hijos:</td>
+      <td class="formu">Si
+            <input name="tiene hijos" type="radio" value="radiobutton">
+        No
+        <input name="tiene hijos" type="radio" value="radiobutton"></td>
+    </tr>
+    <tr>
+      <td class="formu"><label for="direccion">Dirección:</label></td>
+      <td class="formu"><textarea name="direccion" id="direccion" cols="24" rows="5"></textarea></td>
+    </tr>
+    <tr>
+      <td class="formu"><label for="telefono hab">Teléfono de habitación:</label></td>
+      <td class="formu"><input name="telefono hab" type="text" id="telefono hab" size="30"></td>
+    </tr>
+    <tr>
+      <td class="formu"><label for="telefono cel">Teléfono celular:</label></td>
+      <td class="formu"><input name="telefono cel" type="text" id="telefono cel" size="30"></td>
+    </tr>
+    <tr>
+      <td class="formu"><label for="correo">Correo electrónico:</label></td>
+      <td class="formu"><input name="correo" type="text" id="correo" size="30"></td>
+    </tr>
+    <tr>
+      <td class="formu">Grado de Instrucci&oacute;n:</td>
+      <td class="formu"><select name="grado de instruccion">
+	  <option> Primaria</option>
+	  <option> Bachiller</option>
+	  <option> Profesional</option>	 
+      </select></td>
+    <tr>
+      <td class="formu"><label for="profesional en">Profesional en:</label></td>
+      <td class="formu"><input name="profesional en" type="text" id="profesional en" size="30"></td>
+    </tr>
+    <tr>
+      <td class="formu"><label for="especialista en">Especialista en:</label></td>
+      <td class="formu"><input name="especialista en" type="text" id="especialista en" size="30"></td>
+    </tr>
+    <tr>
+      <td class="formu">Experiencia laboral:<br>
+      <br></td>
+      
+      <td class="formu"> Sí<input name="exp laboral" type="radio" value="radiobutton">
+        No
+        <input name="exp laboral" type="radio" value="radiobutton"></td>
+    </tr>
+    <tr>
+      <td class="formu">&iquest;Cu&aacute;ntos trabajos ha tenido en los &uacute;ltimos 5 a&ntilde;os?<br>
+      <br></td>
+      <td class="formu">
+        <p>1
+  <input name="radiobutton" type="radio" value="radiobutton">
+          2    
+          <input name="ultimos trabajos" type="radio" value="radiobutton">
+          3
+          <input name="ultimos trabajos" type="radio" value="radiobutton">
+          <br>
+          M&aacute;s de 3
+          <input name="ultimos trabajos" type="radio" value="radiobutton">
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td class="formu">Tiempo que permaneci&oacute; en el &uacute;ltimo trabajo:<br>
+      <br></td>
+      <td class="formu"> D&iacute;as
+        <input name="tiempo que trabajo" type="radio" value="radiobutton">
+        Meses
+        <input name="tiempo que trabajo" type="radio" value="radiobutton">
+        1 A&ntilde;o
+        <input name="tiempo que trabajo" type="radio" value="radiobutton">
+        <br>
+        M&aacute;s de 1 a&ntilde;o        <input name="tiempo que trabajo" type="radio" value="radiobutton"></td>
+    </tr>
+    <tr>
+      <td class="formu">Cargo al que aspira:<br>
+      <br></td>
+      <td class="formu">Administrador
+        <input name="cargo aspira" type="radio" value="radiobutton">
+            Asistente
+            <input name="cargo aspira" type="radio" value="radiobutton">
+            <br> 
+            Secretaria
+            <input name="cargo aspira" type="radio" value="radiobutton">          </td>
+    </tr>
+    <tr>
+      <td class="formu">&iquest;Ha trabajado antes en El Automercado?</td>
+      <td class="formu">  S&iacute;
+        <input name="trabajo en la muralla" type="radio" value="radiobutton">
+        No
+        <input name="trabajo en la muralla" type="radio" value="radiobutton"></td>
+    </tr>
+    <tr>
+      <td class="formu">Departamento en el cual trabaj&oacute;:</td>
+      <td class="formu"><select name="dpto trabajo">
+	  <option> Administración</option>
+	  <option> Sistemas</option>
+	  <option> Cajas</option>	
+      <option> RRHH</option>
+	  <option> Charcutería</option>
+	  <option> Carnicería</option>
+      <option> Cafetería</option>
+	  <option> Perfumería</option>
+	  <option> Floristería</option>
+      <option> Frutería</option>
+	  <option> Bodegón</option>
+	  <option>Pasillos y depósitos</option> 
+      <option> Mantenimiento</option> 
+      <option> Ninguno</option>
+      </select></td>
+    </tr>
+    <tr>
+      <td class="formu">Motivo de retiro:</td>
+      <td class="formu"><select name="motivo de retiro">
+      <option> Renuncia</option>
+	  <option> Despido</option>
+      <option> Ninguno</option>
+      </select></td>
+    </tr>
+    <tr>
+      <td class="formu">&iquest;Qu&eacute; horario desea trabajar?</td>
+      <td class="formu"><input type="checkbox" name="horario" value="checkbox"> 
+         Mixto
+         <br>
+         <input type="checkbox" name="horario" value="checkbox"> 
+         Diurno
+<br>
+<input type="checkbox" name="horario" value="checkbox">
+Nocturno       </p></td>
+    </tr>
+    <tr>
+      <td class="formu">&iquest;Est&aacute; de acuerdo con la informaci&oacute;n introducida?</td>
+      <td class="formu"><input type="submit" name="enviar" id="enviar" value="Enviar">
+      <input type="submit" name="Borrar" id="Borrar" value="Borrar"></td>
+    </tr>
+  </table>
+</form>
+<p>&nbsp;</p>
+<p><br>
+</p>
+<p>&nbsp;</p>
+</body>
+</html>
