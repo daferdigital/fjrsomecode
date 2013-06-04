@@ -1,5 +1,7 @@
 <?php
 
+include_once 'class.phpmailer.php';
+
 /**
  * 
  * @param unknown_type $mailFrom
@@ -10,6 +12,7 @@
  * @return boolean
  */
 function sendEmail($mailFrom, $mailFromName, $mailTo, $subject, $message){
+	/*
 	$headers = "From: ";
 	if($mailFromName == ""){
 		$headers .= strip_tags($mailFrom) ."\r\n";
@@ -19,8 +22,32 @@ function sendEmail($mailFrom, $mailFromName, $mailTo, $subject, $message){
 	$headers .= "MIME-Version: 1.0\r\n";
 	$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 	
-	$subject = "=?ISO-8859-1?B?".base64_encode($subject)."=?=";
 	$wasSent = mail($mailTo, $subject, $message, $headers);
+	*/
+	
+	$subject = "=?ISO-8859-1?B?".base64_encode($subject)."=?=";
+	
+	$mail = new PHPMailer();
+	
+	$mail->IsSMTP();                                      // set mailer to use SMTP
+	$mail->Host = "localhost";  // specify main and backup server
+	$mail->SMTPAuth = true;     // turn on SMTP authentication
+	$mail->Username = "********";  // SMTP username
+	$mail->Password = "********"; // SMTP password
+	
+	$mail->From = $mailFrom;
+	$mail->FromName = $mailFromName;
+	$mail->AddAddress($mailTo);
+	$mail->AddReplyTo($mailFrom, $mailFromName);
+	
+	$mail->WordWrap = 50;                                 // set word wrap to 50 characters
+	$mail->IsHTML(true);                                  // set email format to HTML
+	
+	$mail->Subject = $subject;
+	$mail->Body    = $message;
+	//$mail->AltBody = "This is the body in plain text for non-HTML mail clients";
+	
+	$wasSent = $mail->Send();
 	//$wasSent = true;
 	return $wasSent;
 }
