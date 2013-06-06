@@ -23,7 +23,7 @@ function checkIfIsAValidMail(mail){
  * @returns {Boolean}
  */
 function textInputOnlyNumbers(e){
-	var key = (window.Event) ? e.which : e.keyCode;
+	var key = (e.which != null) ? e.which : e.keyCode;
 	
 	//alert(key);
 	
@@ -41,7 +41,7 @@ function textInputOnlyNumbers(e){
  */
 function textInputCurrency(e){
 	///(^\d{1,3}(\.?\d{3})*(,\d{2})?$)
-	var key = (window.Event) ? e.which : e.keyCode;
+	var key = (e.which != null) ? e.which : e.keyCode;
 	
 	//alert(key);
 	
@@ -58,7 +58,7 @@ function textInputCurrency(e){
  * @returns {Boolean}
  */
 function textInputOnlyLetters(e){
-	var key = (window.Event) ? e.which : e.keyCode;
+	var key = (e.which != null) ? e.which : e.keyCode;
 	
 	//alert(key);
 	
@@ -84,7 +84,7 @@ function textInputOnlyLetters(e){
  * @returns {Boolean}
  */
 function textNoSpaces(e){
-	var key = (window.Event) ? e.which : e.keyCode;
+	var key = (e.which != null) ? e.which : e.keyCode;
 	
 	//alert(key);
 	
@@ -97,6 +97,42 @@ function textNoSpaces(e){
 	}
 }
 
+/**
+ * 
+ * @param checkName
+ * @returns {Boolean}
+ */
+function isCheckedAny(checkName){
+	var nodeList = document.getElementsByName(checkName);
+	var isChecked = false;
+	
+	if(nodeList != null){
+		var items = nodeList.length;
+		
+		for (var i = 0; i < items; i++) {
+			//tengo los input
+			if(nodeList.item(i).checked){
+				isChecked = true;
+				break;
+			}
+		}
+	}
+	
+	return isChecked;
+}
+
+function displayElement(elementId, show){
+	if(show){
+		document.getElementById(elementId).style.display = "";
+	} else {
+		document.getElementById(elementId).style.display = "none";
+	}
+}
+
+/**
+ * 
+ * @param forma
+ */
 function validateForm(forma){
 	var doSubmit = true;
 	
@@ -115,6 +151,17 @@ function validateForm(forma){
 	document.getElementById("spanErrorTelefonoHabitacion").style.display = "none";
 	document.getElementById("spanErrorTelefonoCelular").style.display = "none";
 	document.getElementById("spanErrorCorreo").style.display = "none";
+	document.getElementById("spanErrorgradoInstruccion").style.display = "none";
+	document.getElementById("spanErrorProfesion").style.display = "none";
+	document.getElementById("spanErrorEspecialidad").style.display = "none";
+	document.getElementById("spanErrorExperiencia").style.display = "none";
+	document.getElementById("spanErrorCuantosTrabajos").style.display = "none";
+	document.getElementById("spanErrorTiempoTrabajo").style.display = "none";
+	document.getElementById("spanErrorCargoAspirado").style.display = "none";
+	document.getElementById("spanErrorExEmpleado").style.display = "none";
+	document.getElementById("spanErrorExDpto").style.display = "none";
+	document.getElementById("spanErrorMotivoRetiro").style.display = "none";
+	document.getElementById("spanErrorHorario").style.display = "none";
 	
 	//validamos el nombre
 	if(forma.nombre.value.trim() == ""){
@@ -210,6 +257,87 @@ function validateForm(forma){
 	if(! checkIfIsAValidMail(forma.correo.value.trim())){
 		document.getElementById("spanErrorCorreo").style.display = "inline";
 		forma.correo.focus();
+		doSubmit = false;
+	}
+	
+	//validamos el grado de instruccion
+	if(forma.gradoInstruccion.value.trim() == ""){
+		document.getElementById("spanErrorgradoInstruccion").style.display = "inline";
+		forma.gradoInstruccion.focus();
+		doSubmit = false;
+	}
+	
+	//validamos la profesion
+	if(forma.profesionalEn.value.trim() == ""){
+		document.getElementById("spanErrorProfesion").style.display = "inline";
+		forma.profesionalEn.focus();
+		doSubmit = false;
+	}
+	
+	//validamos la especialidad
+	if(forma.especialistaEn.value.trim() == ""){
+		document.getElementById("spanErrorEspecialidad").style.display = "inline";
+		forma.especialistaEn.focus();
+		doSubmit = false;
+	}
+	
+	//validamos la experiencia laboral
+	if(! isCheckedAny("expLaboral")){
+		document.getElementById("spanErrorExperiencia").style.display = "inline";
+		document.getElementById("siExpLaboral").focus();
+		doSubmit = false;
+	}
+	
+	//validamos la cantidad de trabajos en el pasado año
+	if(document.getElementById("siExpLaboral").checked
+			&& ! isCheckedAny("cuantosTrabajos")){
+		document.getElementById("spanErrorCuantosTrabajos").style.display = "inline";
+		document.getElementById("1Trabajo").focus();
+		doSubmit = false;
+	}
+	
+	//validamos la antiguedad en el ultimo trabajo
+	if(document.getElementById("siExpLaboral").checked
+			&& ! isCheckedAny("tiempoTrabajo")){
+		document.getElementById("spanErrorTiempoTrabajo").style.display = "inline";
+		document.getElementById("tiempoDias").focus();
+		doSubmit = false;
+	}
+	
+	//validamos la antiguedad en el ultimo trabajo
+	if(! isCheckedAny("cargoAspirado")){
+		document.getElementById("spanErrorCargoAspirado").style.display = "inline";
+		document.getElementById("cargo1").focus();
+		doSubmit = false;
+	}
+	
+	//validamos si es un ex empleado
+	if(! isCheckedAny("trabajoMuralla")){
+		document.getElementById("spanErrorExEmpleado").style.display = "inline";
+		document.getElementById("siExEmpleado").focus();
+		doSubmit = false;
+	}
+	
+	//validamos el ex dpto, solo si se indico ser ex empleado
+	if(document.getElementById("siExEmpleado").checked
+			&& forma.dptoTrabajo.value.trim() == ""){
+		document.getElementById("spanErrorExDpto").style.display = "inline";
+		forma.dptoTrabajo.focus();
+		doSubmit = false;
+	}
+	
+	//validamos el motivo del retiro, solo si se indico ser ex empleado
+	if(document.getElementById("siExEmpleado").checked
+			&& forma.motivoRetiro.value.trim() == ""){
+		document.getElementById("spanErrorMotivoRetiro").style.display = "inline";
+		forma.motivoRetiro.focus();
+		doSubmit = false;
+	}
+	
+	//validamos el horario solicitado
+	if(! isCheckedAny("horario[]")){
+		document.getElementById("spanErrorHorario").style.display = "inline";
+		document.getElementById("horarioMixto").focus();
 		doSubmit = false;
 	}
 	
