@@ -2,16 +2,28 @@
 $code = -2;
 $puerto ="localhost";
 $usuario ="root";
-$contraseña ="root1006";
+$clave ="root1006";
 
 //print_r($_POST);
 
-$conexion = mysql_connect ($puerto,$usuario,$contraseña,true);
-mysql_select_db("solicitud_empleo", $conexion);
-
 if(isset($_POST["formSent"])){
-	$horarioDeseado = "";
+	$conexion = mysql_connect ($puerto,$usuario,$clave,true);
+	mysql_select_db("solicitud_empleo", $conexion);
+
+	//revisamos si ya existe una solicitud con esa cedula
+	$query = "SELECT COUNT(*) AS cuenta FROM solicitudes WHERE ci = '".$_POST["tipoCi"].$_POST["ci"]."'";
+	$result = mysql_query($query, $conexion);
+	$cuenta = mysql_fetch_array($result);
+	if($cuenta["cuenta"] > 0){
+		//debemos hacer el update ya que esa cedula tiene una solicitud creada
+		//por lo tanto borramos la informacion anterior para crearla con los datos actuales
+		$code = 1;
+		$query = "DELETE FROM solicitudes WHERE ci = '".$_POST["tipoCi"].$_POST["ci"]."'";
+		mysql_query($query, $conexion);
+	}
 	
+	//tomamos los valores del horario para unirlos si hay mas de uno
+	$horarioDeseado = "";
 	foreach ($_POST["horario"] as $valorHorario){
 		if($horarioDeseado != ""){
 			$horarioDeseado .= ",";
@@ -20,6 +32,7 @@ if(isset($_POST["formSent"])){
 		$horarioDeseado .= $valorHorario;
 	}
 	
+	//construimos la sentencia del insert
 	$insertar= "INSERT INTO solicitudes
 	(nombre,
 	apellido,
@@ -73,17 +86,19 @@ if(isset($_POST["formSent"])){
 	NOW());
 	";
 	
+	//ejecutamos el insert y verificamos si hubo error o no
+	//para mostrar el respectivo mensaje de resultado
 	$code = 0;
 	mysql_query($insertar);
-	if(mysql_error()){
+	if(mysql_error($conexion)){
 		$code = -1;
 	}
 	
-	mysql_close();	
+	//cerramos la conexion para liberar el recurso
+	mysql_close($conexion);	
 }
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-"http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
@@ -99,6 +114,9 @@ if(isset($_POST["formSent"])){
 				window.history.back();
 			} else if(<?php echo $code;?> == -2){
 				alert("Acceso no permitido a esta página.");
+				window.location = "index.html";
+			} else if(<?php echo $code;?> == 1){
+				alert("Disculpe, ya existia una solicitud para la cédula <?php echo $_POST["tipoCi"].$_POST["ci"];?>.\nLa misma fue actualizada.");
 				window.location = "index.html";
 			}
 		</script>
