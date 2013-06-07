@@ -1,14 +1,20 @@
 <?php 
+	header('Content-Type: text/html; charset=ISO-8859-1');
+	
+	include_once 'classes/DBConnection.php';
+	include_once 'classes/DBUtil.php';
+	
 	//obtenemos el nombre del departamento al que vamos a agregar la solicitud
 	$dptoId = $_GET["dpto"];
-	$query = "";
+	$query = "SELECT nombre FROM departamento WHERE id=".$_GET["dpto"];
+	$dpto = DBUtil::executeSelect($query);
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-        <title>Administraci&oacute;n</title>
+        <title><?php echo htmlentities($dpto[0]["nombre"]);?></title>
         <script type="text/javascript" src="./js/scripts.js"></script>
         <script type="text/javascript" src="./js/jsDatePick.full.1.3.js"></script>
         
@@ -297,10 +303,17 @@
             <tr>
                 <td>Cargo al que aspira:</td>
                 <td>
-                    Administrador <input name="cargoAspirado" id="cargo1" type="radio" value="Administrador" />
-                    Asistente <input name="cargoAspirado" id="cargo2" type="radio" value="Asistente" />
-                    <br>
-                    Secretaria <input name="cargoAspirado" id="cargo3" type="radio" value="Secretaria" />
+                	<?php
+                		$query = "SELECT id, nombre FROM cargo WHERE id_departamento=".$dptoId." ORDER BY LOWER(nombre)";
+                		$cargos = DBUtil::executeSelect($query);
+                		$i = 1;
+                		
+                		foreach ($cargos as $cargoItem){
+					?>
+						<?php echo htmlentities($cargoItem["nombre"]);?><input name="cargoAspirado" id="cargo<?php echo $i;?>" type="radio" value="<?php echo $cargoItem["id"];?>" />
+					<?php
+						}
+                	?>
                     <span class="isMandatory" id="spanErrorCargoAspirado" style="display:none;">
                         <br />
                         Disculpe, debe indicarnos el cargo aspirado.
@@ -321,22 +334,19 @@
             <tr id="trExDpto" style="display:none;">
                 <td>Departamento en el cual trabaj&oacute;:</td>
                 <td>
+                	<?php
+                		$query = "SELECT id, nombre FROM departamento ORDER BY LOWER(nombre)";
+                		$dptos = DBUtil::executeSelect($query);
+                	?>
                     <select name="dptoTrabajo" id="dptoTrabajo">
                         <option value="">- -</option>
-                        <option>Administraci&oacute;n</option>
-	                    <option>Sistemas</option>
-					    <option>Cajas</option>	
-				        <option>RRHH</option>
-					    <option>Charcuter&iacute;a</option>
-					    <option>Carnicer&iacute;a</option>
-				        <option>Cafeter&iacute;a</option>
-					    <option>Perfumer&iacute;a</option>
-					    <option>Florister&iacute;a</option>
-				        <option>Fruter&iacute;a</option>
-					    <option>Bodeg&oacute;n</option>
-					    <option>Pasillos y dep&oacute;sitos</option> 
-				        <option>Mantenimiento</option> 
-				        <option>Ninguno</option>
+                        <?php
+                        	foreach ($dptos as $itemDpto){
+						?>
+							<option value="<?php echo $itemDpto["id"];?>"><?php echo htmlentities($itemDpto["nombre"]);?></option>
+						<?php
+							} 
+                        ?>
 				    </select>
 				    <span class="isMandatory" id="spanErrorExDpto" style="display:none;">
                         <br />
