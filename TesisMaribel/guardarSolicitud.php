@@ -1,4 +1,7 @@
 <?php
+include_once 'classes/DBConnection.php';
+include_once 'classes/DBUtil.php';
+
 $code = -2;
 $puerto ="localhost";
 $usuario ="root";
@@ -7,19 +10,16 @@ $clave ="root1006";
 //print_r($_POST);
 
 if(isset($_POST["formSent"])){
-	$conexion = mysql_connect ($puerto,$usuario,$clave,true);
-	mysql_select_db("solicitud_empleo", $conexion);
-
 	//revisamos si ya existe una solicitud con esa cedula
 	$query = "SELECT COUNT(*) AS cuenta FROM solicitudes WHERE ci = '".$_POST["tipoCi"].$_POST["ci"]."'";
-	$result = mysql_query($query, $conexion);
-	$cuenta = mysql_fetch_array($result);
-	if($cuenta["cuenta"] > 0){
+	$result = DBUtil::executeSelect($query);
+	
+	if($result[0]["cuenta"] > 0){
 		//debemos hacer el update ya que esa cedula tiene una solicitud creada
 		//por lo tanto borramos la informacion anterior para crearla con los datos actuales
 		$code = 1;
 		$query = "DELETE FROM solicitudes WHERE ci = '".$_POST["tipoCi"].$_POST["ci"]."'";
-		mysql_query($query, $conexion);
+		DBUtil::executeQuery($query);
 	}
 	
 	//tomamos los valores del horario para unirlos si hay mas de uno
@@ -52,9 +52,9 @@ if(isset($_POST["formSent"])){
 	experiencia_laboral,
 	ultimos_trabajos,
 	antiguedad_ultimo_trabajo,
-	cargo_solicitado,
+	id_cargo,
 	ex_empleado,
-	ex_dpto,
+	id_exdpto,
 	motivo_retiro,
 	horario_deseado,
 	fecha_registro)
@@ -78,9 +78,9 @@ if(isset($_POST["formSent"])){
 	'".$_POST["expLaboral"]."',
 	".($_POST["expLaboral"] == "Si" ? "'".$_POST["cuantosTrabajos"]."'" : "''").",
 	".($_POST["expLaboral"] == "Si" ? "'".$_POST["tiempoTrabajo"]."'" : "''").",
-	'".$_POST["cargoAspirado"]."',
+	".$_POST["cargoAspirado"].",
 	'".$_POST["trabajoMuralla"]."',
-	".($_POST["trabajoMuralla"] == "Si" ? "'".$_POST["dptoTrabajo"]."'" : "''").",
+	".($_POST["trabajoMuralla"] == "Si" ? $_POST["dptoTrabajo"] : "null").",
 	".($_POST["trabajoMuralla"] == "Si" ? "'".$_POST["motivoRetiro"]."'" : "''").",
 	'".$horarioDeseado."',
 	NOW());
@@ -89,13 +89,10 @@ if(isset($_POST["formSent"])){
 	//ejecutamos el insert y verificamos si hubo error o no
 	//para mostrar el respectivo mensaje de resultado
 	$code = 0;
-	mysql_query($insertar);
-	if(mysql_error($conexion)){
+	$exitosa = DBUtil::executeQuery($insertar);
+	if(! $exitosa){
 		$code = -1;
 	}
-	
-	//cerramos la conexion para liberar el recurso
-	mysql_close($conexion);	
 }
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
