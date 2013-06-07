@@ -1,3 +1,0 @@
-[01-Sep-2012 02:41:03 UTC] PHP Parse error:  syntax error, unexpected T_CONSTANT_ENCAPSED_STRING, expecting ',' or ';' in /home/granparl/public_html/parlay_pruebas/procesos/conexion.php on line 181
-[01-Sep-2012 02:41:30 UTC] PHP Parse error:  syntax error, unexpected T_CONSTANT_ENCAPSED_STRING, expecting ',' or ';' in /home/granparl/public_html/parlay_pruebas/procesos/conexion.php on line 181
-[08-Sep-2012 03:04:02 UTC] PHP Parse error:  syntax error, unexpected T_ENDIF in /home/granparl/public_html/parlay_pruebas/procesos/conexion.php on line 324

@@ -1,8 +1,0 @@
-Tiempo total: 2 horas
-
-Archivos manipulados en esta entrega:
-menu.php
-
-Cambios realizados:
-1.- Crear en menu.php la figura de reloj (basandonos en la hora del servidor) esto con la finalidad de ver la hora del sistema
-durante las distintas cargas de tickets, logros entre otros.
