@@ -3,10 +3,6 @@ include_once 'classes/DBConnection.php';
 include_once 'classes/DBUtil.php';
 
 $code = -2;
-$puerto ="localhost";
-$usuario ="root";
-$clave ="root1006";
-
 //print_r($_POST);
 
 if(isset($_POST["formSent"])){

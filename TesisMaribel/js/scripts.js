@@ -345,3 +345,30 @@ function validateForm(forma){
 		forma.submit();
 	}
 }
+
+/**
+ * 
+ */
+function validarLogin(forma){
+	var doSubmit = true;
+	
+	forma.login.value = forma.login.value.trim();
+	forma.clave.value = forma.clave.value.trim();
+	
+	document.getElementById("spanNotEmptyLogin").style.display = "none";
+	document.getElementById("spanNotEmptyPassword").style.display = "none";
+	
+	//verificamos que el campo login tenga algun valor
+	if(forma.login.value == ""){
+		document.getElementById("spanNotEmptyLogin").style.display = "";
+		doSubmit = false;
+	}
+	
+	//verificamos que el campo clave tenga algun valor
+	if(forma.clave.value == ""){
+		document.getElementById("spanNotEmptyPassword").style.display = "";
+		doSubmit = false;
+	}
+	
+	return doSubmit;
+}
