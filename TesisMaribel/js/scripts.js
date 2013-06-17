@@ -2,6 +2,11 @@ String.prototype.trim=function(){
 	return this.replace(/^\s+|\s+$/g, '');
 };
 
+//variable para almacenar los cargos para relacionarlos con los dptos en las busquedas
+window.cargos = new Array();
+var indice = 0;
+var ajaxImageName = "ajax.gif";
+
 /**
  * 
  * @param mail
@@ -371,4 +376,129 @@ function validarLogin(forma){
 	}
 	
 	return doSubmit;
+}
+
+function startDelayToShowCargos(dptoValue){
+	document.getElementById("cargo").style.display = "none";
+	document.getElementById("cargoAjax").style.display = "";
+	
+	setTimeout(function(){
+		checkCargos(dptoValue);
+	}, 500);
+}
+
+function checkCargos(dptoValue){
+	var selectCargos = document.getElementById("cargo");
+	
+	var tmpOption = document.createElement("OPTION");
+	tmpOption.innerText = "Todos";
+	tmpOption.Value = "";
+
+	selectCargos.options.length = 0;
+	selectCargos.options.add(tmpOption);
+	
+	if(dptoValue.trim() != ""){
+		//se desean ver todos los departamentos, asi que limpio los cargos
+		var yaEncontreElDpto = false;
+		
+		for ( var i = 0; i < window.cargos.length; i++) {
+			if(window.cargos[i].idDpto == dptoValue){
+				var tmpOption = document.createElement("OPTION");
+				tmpOption.innerText = window.cargos[i].nombre;
+				tmpOption.Value = window.cargos[i].value;
+
+				selectCargos.options = null;
+				selectCargos.options.add(tmpOption);
+				yaEncontreElDpto = true;
+			} else if(yaEncontreElDpto){
+				break;
+			}
+		}
+	}
+	
+	document.getElementById("cargoAjax").style.display = "none";
+	document.getElementById("cargo").style.display = "";
+	
+}
+
+
+/**
+ * funcion para crear un objeto del tipo XMLHTTPRequest segun el navegador
+ * 
+ * @returns objeto XMLHTTPRequest creado
+ */
+function createXMLHTTPRequest(){
+	var xmlHTTPRequest = null;
+	
+	//revisamos si no esta definido el objeto nativamente(navegadores tipo mozilla)
+	if (typeof XMLHttpRequest == "undefined" ){
+		//Ahora revisamos si el motor es mayor o igual a MSIE 5.0 
+		//(mayor que microsoft internet explorer 5.0)
+		if(navigator.userAgent.indexOf("MSIE 5") >= 0){
+			// Si es así creamos un control activeX apartir de un objeto
+			//ActiveXObject("Microsoft.XMLHTTP")
+			xmlHTTPRequest = new ActiveXObject("Microsoft.XMLHTTP");
+		} else {
+			//si no , o si es menor a MSIE 5.0 creamos otro control activeX
+			// apartir de un objeto ActiveXObject("Msxml2.XMLHTTP")
+			xmlHTTPRequest = new ActiveXObject("Msxml2.XMLHTTP");
+		} 
+	} else {
+		// en cambio si el objeto estaba definido nativamente, solo lo instanciamos
+		xmlHTTPRequest = new XMLHttpRequest();
+	}
+	
+	return xmlHTTPRequest;
+}
+
+/**
+ * 
+ * @param url
+ * @param parameters
+ * @param idAnswerContainer si es null mostramos la respuesta del ajax como un alert
+ */
+function callAjax(url, parameters, idAnswerContainer, urlToRefresh){
+	var ajaxObject =  createXMLHTTPRequest();
+
+	if(idAnswerContainer != null){
+		document.getElementById(idAnswerContainer).style.display="inline";
+		document.getElementById(idAnswerContainer).innerHTML = "<img src=\"img/" + ajaxImageName + "\"/>";
+	}
+	
+	ajaxObject.onreadystatechange=function() {
+		if (ajaxObject.readyState==4 && ajaxObject.status==200) {
+			if(idAnswerContainer != null){
+				document.getElementById(idAnswerContainer).innerHTML = ajaxObject.responseText;
+			} else {
+				alert(ajaxObject.responseText);
+				$('#darkContainer').click();
+			}
+		
+			if(urlToRefresh != null){
+				window.location = urlToRefresh;
+			}
+		}
+	};
+	
+	ajaxObject.open("POST", url, true);
+	//sin la linea siguiente no podemos enviar parametros via POST, solo seria por GET
+	ajaxObject.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	ajaxObject.send(parameters);
+}
+
+/**
+ * Llamada Ajax para obtener registros por pagina del log del transacciones del sistema
+ * @param pageNumber
+ */
+function searchCVS(pageNumber){
+	var parameters = "pageNumber="+pageNumber;
+	parameters += "&scriptFunction=searchCVS";
+	parameters += "&dpto=" + document.getElementById("dpto").value;
+	parameters += "&cargo=" + document.getElementById("cargo").value;
+	parameters += "&cedula=" + document.getElementById("cedula").value;
+	
+	callAjax("ajax/cvList.php",
+			parameters,
+			"ajaxPageResult",
+			null);
 }

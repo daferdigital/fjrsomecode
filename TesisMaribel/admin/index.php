@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -20,6 +21,13 @@
     
     <form name="loginForm" action="doLogin.php" method="post" enctype="application/x-www-form-urlencoded" onsubmit="return validarLogin(this);">
     <table width="20%" border="0" align="center" style="margin-top: 50px;">
+        <tr style="display: <?php echo (isset($_SESSION["invalidLogin"]) ? "''" : "none"); unset($_SESSION["invalidLogin"]);?>">
+        	<td colspan="2" align="center">
+        		<div>
+        			Disculpe, el login y clave son inv&aacute;lidos. Intente de nuevo.
+        		</div>
+        	</td>
+        </tr>
         <tr>
             <td>
                 Usuario:

@@ -23,3 +23,42 @@
 	color: #FF0000;
     font-size: 12px;
 }
+
+#container {
+    display: table;
+    width: 900px;;
+}
+#row  {
+    display: table-row;
+    max-width: 900px;
+}
+#tdHeader{
+    background-color: white;
+    color: black;
+    font-size: 12px;
+    font-weight: bold;
+    display: table-cell;
+    padding-right: 10px;
+}
+#tdElement, #right, #middle {
+    display: table-cell;
+    
+    padding-right: 10px;
+    border: thin;
+    border-color: black;
+    font-size: 10px;
+    padding-top: 5px;
+}
+#tdPagingFooter{
+    display: table-footer-group;
+    text-align: center;
+}
+#fixHeigth{
+    display: block;
+    overflow: hidden;
+    max-height: 25px;
+    max-width: inherit;
+}
+#tdElement p, #right p, #middle p {
+    margin: 1px 1px;
+}
