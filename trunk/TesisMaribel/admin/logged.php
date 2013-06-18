@@ -5,6 +5,10 @@ include_once '../classes/DBUtil.php';
 
 if(! isset($_SESSION["nombre"])){
 	header("Location: index.php");
+} else {
+	//si llegamos la primera vez aqui, eliminamos el acceso 
+	//para evitar F5 en la pagina
+	unset($_SESSION["nombre"]);
 }
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -13,7 +17,10 @@ if(! isset($_SESSION["nombre"])){
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>.:: Sistema Automatizado de Solicitudes Empleo ::.</title>
-    <script type="text/javascript" src="../js/scripts.js"></script>
+	<script type="text/javascript" src="../js/scripts.js"></script>
+	<script type="text/javascript" src="../js/jsDatePick.full.1.3.js"></script>
+        
+    <link rel="stylesheet" type="text/css" href="../css/jsDatePick_ltr.css"/>
     <link rel="stylesheet" type="text/css" href="../css/site.css">
 </head>
 <body>
@@ -80,9 +87,51 @@ if(! isset($_SESSION["nombre"])){
     		</td>
     	</tr>
     	<tr>
+    		<td>Fecha desde:</td>
+    		<td>
+    			<input type="text" id="fechaDesde" name="fechaDesde" size="25" readonly />
+                <input type="hidden" id="fechaDesdeHidden" name="fechaDesdeHidden" />
+                    
+                <script>
+                   new JsDatePick({
+                       useMode:2,
+                    	target:"fechaDesde",
+                    	targetHidden:"fechaDesdeHidden",
+                        isStripped:true,
+                        weekStartDay:0,
+                        limitToToday:true,
+                        dateFormat:"%d/%m/%Y",
+                        dateFormatHidden:"%Y-%m-%d",
+                        imgPath:"../img/"
+                   });
+               </script>
+    		</td>
+    	</tr>
+    	<tr>
+    		<td>Fecha desde:</td>
+    		<td>
+    			<input type="text" id="fechaHasta" name="fechaHasta" size="25" readonly />
+                <input type="hidden" id="fechaHastaHidden" name="fechaHastaHidden" />
+                
+                <script>
+                   new JsDatePick({
+                       useMode:2,
+                    	target:"fechaHasta",
+                    	targetHidden:"fechaHastaHidden",
+                        isStripped:true,
+                        weekStartDay:0,
+                        limitToToday:true,
+                        dateFormat:"%d/%m/%Y",
+                        dateFormatHidden:"%Y-%m-%d",
+                        imgPath:"../img/"
+                   });
+               </script>
+    		</td>
+    	</tr>
+    	<tr>
     		<td>N&uacute;mero de C&eacute;dula</td>
     		<td>
-    			<input type="text" name="cedula" />
+    			<input type="text" name="cedula" id="cedula" />
     		</td>
     	</tr>
     	<tr>
@@ -92,7 +141,7 @@ if(! isset($_SESSION["nombre"])){
     	</tr>
     </table>
     
-    <div style="width: 100%" id="ajaxPageResult">
+    <div style="width: 100%; align: center;" id="ajaxPageResult">
 		&nbsp;
 	</div>
 </body>

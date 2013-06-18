@@ -390,12 +390,8 @@ function startDelayToShowCargos(dptoValue){
 function checkCargos(dptoValue){
 	var selectCargos = document.getElementById("cargo");
 	
-	var tmpOption = document.createElement("OPTION");
-	tmpOption.innerText = "Todos";
-	tmpOption.Value = "";
-
 	selectCargos.options.length = 0;
-	selectCargos.options.add(tmpOption);
+	selectCargos.options[selectCargos.options.length] = new Option("Todos", "");
 	
 	if(dptoValue.trim() != ""){
 		//se desean ver todos los departamentos, asi que limpio los cargos
@@ -403,12 +399,9 @@ function checkCargos(dptoValue){
 		
 		for ( var i = 0; i < window.cargos.length; i++) {
 			if(window.cargos[i].idDpto == dptoValue){
-				var tmpOption = document.createElement("OPTION");
-				tmpOption.innerText = window.cargos[i].nombre;
-				tmpOption.Value = window.cargos[i].value;
-
-				selectCargos.options = null;
-				selectCargos.options.add(tmpOption);
+				selectCargos.options[selectCargos.options.length] = new Option(window.cargos[i].nombre,
+						window.cargos[i].id);
+				
 				yaEncontreElDpto = true;
 			} else if(yaEncontreElDpto){
 				break;
@@ -496,6 +489,8 @@ function searchCVS(pageNumber){
 	parameters += "&dpto=" + document.getElementById("dpto").value;
 	parameters += "&cargo=" + document.getElementById("cargo").value;
 	parameters += "&cedula=" + document.getElementById("cedula").value;
+	parameters += "&fechaDesde=" + document.getElementById("fechaDesdeHidden").value;
+	parameters += "&fechaHasta=" + document.getElementById("fechaHastaHidden").value;
 	
 	callAjax("ajax/cvList.php",
 			parameters,

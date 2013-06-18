@@ -222,7 +222,7 @@ JsDatePick.prototype.setConfiguration = function(aConf){
 	this.oConfiguration.cellColorScheme  = (aConf["cellColorScheme"] != null) ? aConf["cellColorScheme"] : "ocean_blue";
 	this.oConfiguration.dateFormat		 = (aConf["dateFormat"] != null) ? aConf["dateFormat"] : "%m-%d-%Y";
 	this.oConfiguration.dateFormatHidden = (aConf["dateFormatHidden"] != null) ? aConf["dateFormatHidden"] : "%Y-%m-%d";
-	this.oConfiguration.imgPath			 = (g_jsDatePickImagePath.length != null) ? g_jsDatePickImagePath : "./img/";
+	this.oConfiguration.imgPath			 = (aConf["imgPath"] != null) ? aConf["imgPath"] : "./img/";
 	this.oConfiguration.weekStartDay   	 = (aConf["weekStartDay"] != null) ? aConf["weekStartDay"] : 1;
 	
 	this.selectedDayObject = {};
