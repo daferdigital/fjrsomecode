@@ -24,6 +24,11 @@
     font-size: 12px;
 }
 
+.centered {
+	margin-left: auto;
+	margin-right: auto;
+}
+
 #container {
     display: table;
     width: 900px;;

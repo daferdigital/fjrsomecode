@@ -37,12 +37,12 @@ class PagingDAO{
 	 *
 	 * @return TR string content para el footer del pagineo
 	 */
-	public function getTRFooterPaging(){
+	public function getTRFooterPaging($maxRecordsPerPage){
 		$footerTR = "";
 	
 		//vemos la cantidad de elementos a dibujar por pagina
-		$userDTO = $_SESSION[Constants::$KEY_USUARIO_DTO];
-		$maxRecordsPerPage = $userDTO->getRegistrosPorPagina();
+		//$userDTO = $_SESSION[Constants::$KEY_USUARIO_DTO];
+		//$maxRecordsPerPage = $userDTO->getRegistrosPorPagina();
 	
 		//calculamos el total de paginas involucradas
 		$pagesInvolved = ((int) ($this->totalRecords / $maxRecordsPerPage)) + ($this->totalRecords % $maxRecordsPerPage == 0 ? 0 : 1);

@@ -9,27 +9,31 @@ $scriptFunction = $_POST[Constants::$SCRIPT_FUNCTION];
 //obtenemos el extra where
 $extraWhere = "";
 if($_POST["dpto"] != ""){
-	$extraWhere .= " AND u.id=".$_POST["usuario"];	
+	$extraWhere .= " AND d.id=".$_POST["dpto"];	
+}
+if($_POST["cargo"] != ""){
+	$extraWhere .= " AND c.id=".$_POST["cargo"];	
 }
 if($_POST["fechaDesde"] != ""){
-	$extraWhere .= " AND b.fecha >= '".$_POST["fechaDesde"]."'";
+	$extraWhere .= " AND s.fecha_registro >= '".$_POST["fechaDesde"]."'";
 }
 if($_POST["fechaHasta"] != ""){
-	$extraWhere .= " AND b.fecha <= '".$_POST["fechaHasta"]."'";
+	$extraWhere .= " AND s.fecha_registro <= '".$_POST["fechaHasta"]."'";
 }
-if($_POST["operacion"] != ""){
-	$extraWhere .= " AND LOWER(b.operacion) LIKE LOWER('%".$_POST["operacion"]."%')";
+if($_POST["cedula"] != ""){
+	$extraWhere .= " AND s.ci LIKE ('%".$_POST["cedula"]."%')";
 }
 
-$query = "SELECT s.* "
+$query = "SELECT s.id, s.nombre, s.apellido, s.ci, s.especialista_en, d.nombre as departamento, c.nombre AS cargo "
 ." FROM departamento d, cargo c, solicitudes s"
 ." WHERE s.id_cargo = c.id"
-." AND c.id_departamento = d.id";
+." AND c.id_departamento = d.id"
 .$extraWhere
-." ORDER BY b.fecha_registro DESC";
+." ORDER BY s.nombre, s.apellido, d.nombre, c.nombre";
 
+$maxRecordsNumbers = 50;
 $totalRecords = DBUtil::getRecordCountToQuery($query);
-$pageRecords = DBUtil::getRecordsByPage($query, $pageNumber);
+$pageRecords = DBUtil::getRecordsByPage($query, $pageNumber, $maxRecordsNumbers);
 $pagingDAO = new PagingDAO($pageNumber, $scriptFunction, $totalRecords);
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
@@ -55,34 +59,56 @@ if(count($pageRecords) == 0){
 		<div id="tdElement">
 		</div>
 		<div align="center" id="tdElement">
-			<?php echo $pagingDAO->getTRFooterPaging();?>
+			<?php echo $pagingDAO->getTRFooterPaging($maxRecordsNumbers);?>
+		</div>
+		<div id="tdElement">
+		</div>
+		<div id="tdElement">
+		</div>
+		<div id="tdElement">
 		</div>
 	</div>
 	<div id="row">
 		<div style="width: 15%;" id="tdHeader">
-      		Fecha
+      		<input type="checkbox" id="checkAll" onclick=""/>
     	</div>
     	<div style="width: 15%;" id="tdHeader">
-      		Usuario
+      		Nombre
+    	</div>
+    	<div style="width: 15%;" id="tdHeader">
+      		C&eacute;dula
+    	</div>
+    	<div style="width: 15%;" id="tdHeader">
+      		Departamento
+    	</div>
+    	<div style="width: 15%;" id="tdHeader">
+      		Cargo
     	</div>
     	<div style="width: 70%;" id="tdHeader">
-      		Transacci&oacute;n
+      		Especialidad
     	</div>
 	</div>
 	<?php
 		foreach ($pageRecords as $row){
 	?>
 		<div id="row">
-			<div style="width: 15%;" id="tdElement">
-				<?php echo $row["fecha"];?>
+			<div id="tdElement">
+				<input type="checkbox" name="delete[]" value="<?php $row["id"];?>"/>
 			</div>
-			<div style="width: 15%;" id="tdElement">
+			<div id="tdElement">
 				<?php echo $row["nombre"]." ".$row["apellido"];?>
 			</div>
-			<div style="width: 70%;" id="tdElement">
-				<span id="fixHeigth">
-					<?php echo $row["operacion"];?>
-				</span>
+			<div id="tdElement">
+				<?php echo $row["ci"];?>
+			</div>
+			<div id="tdElement">
+				<?php echo $row["departamento"];?>
+			</div>
+			<div id="tdElement">
+				<?php echo $row["cargo"];?>
+			</div>
+			<div id="tdElement">
+				<?php echo $row["especialista_en"];?>
 			</div>
 		</div>
 	<?php
@@ -94,7 +120,13 @@ if(count($pageRecords) == 0){
 		<div id="tdElement">
 		</div>
 		<div align="center" id="tdElement">
-			<?php echo $pagingDAO->getTRFooterPaging();?>
+			<?php echo $pagingDAO->getTRFooterPaging($maxRecordsNumbers);?>
+		</div>
+		<div id="tdElement">
+		</div>
+		<div id="tdElement">
+		</div>
+		<div id="tdElement">
 		</div>
 	</div>
 <?php 

@@ -133,9 +133,10 @@ class DBUtil {
 	 * @param unknown_type $query
 	 * @param unknown_type $pageToGet
 	 */
-	public static function getRecordsByPage($query, $pageToGet){
-		$userDTO = $_SESSION[Constants::$KEY_USUARIO_DTO];
-		$maxRecordsPerPage = $userDTO->getRegistrosPorPagina();
+	public static function getRecordsByPage($query, $pageToGet, $maxRecordsPerPage){
+		//$userDTO = $_SESSION[Constants::$KEY_USUARIO_DTO];
+		//$maxRecordsPerPage = $userDTO->getRegistrosPorPagina();
+		//$maxRecordsPerPage = 50;
 		
 		$minIndex = (($pageToGet - 1) * $maxRecordsPerPage);
 		
