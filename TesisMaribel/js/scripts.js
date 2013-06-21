@@ -9,6 +9,21 @@ var ajaxImageName = "ajax.gif";
 
 /**
  * 
+ * @param urlToOpen
+ */
+function openPopUp(urlToOpen){
+	var w = 750;
+	var h = 600;
+	var title = "CV en Formato PDF";
+	
+	var left = (screen.width/2)-(w/2);
+	var top = (screen.height/2)-(h/2)-50;
+	
+	return window.open(urlToOpen, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left); 
+}
+
+/**
+ * 
  * @param mail
  * @returns {Boolean}
  */
@@ -449,13 +464,15 @@ function createXMLHTTPRequest(){
  * @param url
  * @param parameters
  * @param idAnswerContainer si es null mostramos la respuesta del ajax como un alert
+ * @param urlToRefresh url que queremos cargar despues que la peticion ajax haya terminado de manera exitosa.
+ * @param esAsincrona boolean para indicar si esta llamada ajax sera asincrona (true) o no (false)
  */
-function callAjax(url, parameters, idAnswerContainer, urlToRefresh){
+function callAjax(url, parameters, idAnswerContainer, urlToRefresh, esAsincrona){
 	var ajaxObject =  createXMLHTTPRequest();
 
 	if(idAnswerContainer != null){
 		document.getElementById(idAnswerContainer).style.display="inline";
-		document.getElementById(idAnswerContainer).innerHTML = "<img src=\"img/" + ajaxImageName + "\"/>";
+		document.getElementById(idAnswerContainer).innerHTML = "<img src=\"../images/" + ajaxImageName + "\"/>";
 	}
 	
 	ajaxObject.onreadystatechange=function() {
@@ -464,7 +481,7 @@ function callAjax(url, parameters, idAnswerContainer, urlToRefresh){
 				document.getElementById(idAnswerContainer).innerHTML = ajaxObject.responseText;
 			} else {
 				alert(ajaxObject.responseText);
-				$('#darkContainer').click();
+				//$('#darkContainer').click();
 			}
 		
 			if(urlToRefresh != null){
@@ -473,7 +490,7 @@ function callAjax(url, parameters, idAnswerContainer, urlToRefresh){
 		}
 	};
 	
-	ajaxObject.open("POST", url, true);
+	ajaxObject.open("POST", url, esAsincrona);
 	//sin la linea siguiente no podemos enviar parametros via POST, solo seria por GET
 	ajaxObject.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	ajaxObject.send(parameters);
@@ -495,5 +512,58 @@ function searchCVS(pageNumber){
 	callAjax("ajax/cvList.php",
 			parameters,
 			"ajaxPageResult",
-			null);
+			null,
+			true);
+}
+
+/**
+ * 
+ * @param checkName
+ */
+function checkAll(checkName){
+	var checkList = document.getElementsByName(checkName);
+	
+	for ( var i = 0; i < checkList.length; i++) {
+		checkList[i].checked = true;
+	}
+}
+
+/**
+ * 
+ */
+function doDelete(pageNumber, checkName){
+	var doDelete = confirm("Esta seguro que desea eliminar los CV seleccionados?");
+
+	if(doDelete){
+		var checkList = document.getElementsByName(checkName);
+		var ids = "";
+		
+		for ( var i = 0; i < checkList.length; i++) {
+			if(checkList[i].checked){
+				if(ids != ""){
+					ids += ",";
+				}
+				
+				ids += checkList[i].value;
+			}
+		}
+		
+		if(ids == ""){
+			alert("Debe seleccionar los CV que desea eliminar");
+			doDelete = false;
+		}
+		
+		if(doDelete){
+			//llamamos al ajax de borrar
+			//y luego llamamos al ajax para recargar el listado manteniendo los filtros
+			//por seguridad buscaremos siempre la pagina 1
+			callAjax("ajax/doDelete.php", 
+					"ids=" + ids,
+					null,
+					null,
+					false);
+			
+			searchCVS(1);
+		}
+	}
 }
