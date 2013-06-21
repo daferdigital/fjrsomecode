@@ -82,7 +82,7 @@ if(! isset($_SESSION["nombre"])){
     				<option value="">Todos</option>
     			</select>
     			<span id="cargoAjax"  style="display: none;">
-    				<img alt="" src="../img/loading.gif" />
+    				<img alt="" src="../images/loading.gif" />
     			</span>
     		</td>
     	</tr>
@@ -102,7 +102,7 @@ if(! isset($_SESSION["nombre"])){
                         limitToToday:true,
                         dateFormat:"%d/%m/%Y",
                         dateFormatHidden:"%Y-%m-%d",
-                        imgPath:"../img/"
+                        imgPath:"../images/"
                    });
                </script>
     		</td>
@@ -123,7 +123,7 @@ if(! isset($_SESSION["nombre"])){
                         limitToToday:true,
                         dateFormat:"%d/%m/%Y",
                         dateFormatHidden:"%Y-%m-%d",
-                        imgPath:"../img/"
+                        imgPath:"../images/"
                    });
                </script>
     		</td>

@@ -139,7 +139,7 @@
                             limitToToday:true,
                             dateFormat:"%d/%m/%Y",
                             dateFormatHidden:"%Y-%m-%d",
-                            imgPath:"img/"
+                            imgPath:"images/"
                         });
                     </script>
                     <span class="isMandatory" id="spanErrorFechaNacimiento" style="display:none;">

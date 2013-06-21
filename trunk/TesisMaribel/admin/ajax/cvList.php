@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: text/html; charset=ISO-8859-1');
 include_once '../../classes/Constants.php';
 include_once '../../classes/DBUtil.php';
 include_once '../../classes/PagingDAO.php';
@@ -58,6 +59,8 @@ if(count($pageRecords) == 0){
 		</div>
 		<div id="tdElement">
 		</div>
+		<div id="tdElement">
+		</div>
 		<div align="center" id="tdElement">
 			<?php echo $pagingDAO->getTRFooterPaging($maxRecordsNumbers);?>
 		</div>
@@ -70,7 +73,8 @@ if(count($pageRecords) == 0){
 	</div>
 	<div id="row">
 		<div style="width: 15%;" id="tdHeader">
-      		<input type="checkbox" id="checkAll" onclick=""/>
+      		<input type="checkbox" id="checkAll" onclick="checkAll('delete[]')" title="Marcar Todos"/>
+      		<input type="button" value="Eliminar" onclick="doDelete('<?php echo $pageNumber;?>', 'delete[]');"/>
     	</div>
     	<div style="width: 15%;" id="tdHeader">
       		Nombre
@@ -84,8 +88,11 @@ if(count($pageRecords) == 0){
     	<div style="width: 15%;" id="tdHeader">
       		Cargo
     	</div>
-    	<div style="width: 70%;" id="tdHeader">
+    	<div style="width: 15%;" id="tdHeader">
       		Especialidad
+    	</div>
+    	<div style="width: 10%;" id="tdHeader">
+      		Ver PDF
     	</div>
 	</div>
 	<?php
@@ -93,7 +100,7 @@ if(count($pageRecords) == 0){
 	?>
 		<div id="row">
 			<div id="tdElement">
-				<input type="checkbox" name="delete[]" value="<?php $row["id"];?>"/>
+				<input type="checkbox" name="delete[]" value="<?php echo $row["id"];?>"/>
 			</div>
 			<div id="tdElement">
 				<?php echo $row["nombre"]." ".$row["apellido"];?>
@@ -110,11 +117,16 @@ if(count($pageRecords) == 0){
 			<div id="tdElement">
 				<?php echo $row["especialista_en"];?>
 			</div>
+			<div id="tdElement">
+				<a href="#" onclick="openPopUp('buildCVPDF.php?id=<?php echo $row["id"];?>')"><img src="../images/icons/pdfExport.png" border="0"/></a>
+			</div>
 		</div>
 	<?php
 		}
 	?>
 	<div id="row">
+		<div id="tdElement">
+		</div>
 		<div id="tdElement">
 		</div>
 		<div id="tdElement">
