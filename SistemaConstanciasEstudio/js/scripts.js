@@ -222,6 +222,7 @@ function buscarDataInfo(pageNumber){
 	
 	if(cedula == ""){
 		document.getElementById("mandatoryCedula").style.display = "";
+		document.getElementById("cedula").focus();
 	} else {
 		var parameters = "pageNumber="+pageNumber;
 		parameters += "&scriptFunction=buscarDataInfo";
