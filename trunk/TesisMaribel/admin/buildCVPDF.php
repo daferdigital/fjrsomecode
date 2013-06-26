@@ -22,7 +22,8 @@ class PDF extends FPDF {
 $query = "SELECT s.*, d.nombre as departamento, c.nombre AS cargo "
 ." FROM departamento d, cargo c, solicitudes s"
 ." WHERE s.id_cargo = c.id"
-." AND c.id_departamento = d.id";
+." AND c.id_departamento = d.id"
+." AND s.ci=".$_GET["id"];
 
 $solicitud = DBUtil::executeSelect($query);
 $solicitud = $solicitud[0];
