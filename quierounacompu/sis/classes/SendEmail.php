@@ -32,7 +32,6 @@ class SendEmail{
 		BitacoraDAO::registrarComentario("Enviado email [".$subject."] a la cuenta ".$mailTo
 			." con resultado ".$wasSent);
 		
-		
 		return $wasSent;
 	}
 }
