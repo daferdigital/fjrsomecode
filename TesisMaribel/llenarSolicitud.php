@@ -5,8 +5,8 @@
 	include_once 'classes/DBUtil.php';
 	
 	//obtenemos el nombre del departamento al que vamos a agregar la solicitud
-	$dptoId = $_GET["dpto"];
-	$query = "SELECT nombre FROM departamento WHERE id=".$_GET["dpto"];
+	$dptoId = $_POST["dpto"];
+	$query = "SELECT nombre FROM departamento WHERE id=".$dptoId;
 	$dpto = DBUtil::executeSelect($query);
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
