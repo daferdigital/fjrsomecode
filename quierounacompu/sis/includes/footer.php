@@ -6,7 +6,7 @@
 	   			<br />
 	   			Sistema Integral de Seguimiento
 	   			<br />
-	   			&copy; 2013 - Derechos Reservados - Felipe Rojas
+	   			&copy; 2013 - Derechos Reservados - <a href="mailto:felipe.rojasg@gmail.com">Felipe Rojas</a>
 	   			<br />
 	   			<br /> 
 	   		</div>
