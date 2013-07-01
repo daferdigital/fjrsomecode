@@ -393,6 +393,29 @@ function validarLogin(forma){
 	return doSubmit;
 }
 
+/**
+ * 
+ */
+function validarEnvio(forma){
+	var doSubmit = true;
+	
+	forma.dpto.value = forma.dpto.value.trim();
+	
+	document.getElementById("departmentIsMandatory").style.display = "none";
+	
+	//verificamos que el campo login tenga algun valor
+	if(forma.dpto.value == ""){
+		document.getElementById("departmentIsMandatory").style.display = "";
+		doSubmit = false;
+	}
+	
+	return doSubmit;
+}
+
+/**
+ * 
+ * @param dptoValue
+ */
 function startDelayToShowCargos(dptoValue){
 	document.getElementById("cargo").style.display = "none";
 	document.getElementById("cargoAjax").style.display = "";
