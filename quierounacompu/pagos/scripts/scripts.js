@@ -19,7 +19,16 @@ function checkTipoPago(idTipoPago){
 		if(idTipoPago == 6){
 			//es pago via transferencia otros bancos
 			//debemos indicar que el campo de vauche es alfanumerico
-			document.getElementById("bauche").onkeypress = textNoSpaces;  
+			document.getElementById("bauche").onkeypress = textNoSpaces;
+			document.getElementById("otrosBancos").style.display = "";
+			document.getElementById("otrosBancos").disabled = false;
+			document.getElementById("banco").style.display = "none";
+			document.getElementById("banco").disabled = true;
+		} else {
+			document.getElementById("banco").style.display = "";
+			document.getElementById("banco").disabled = false;
+			document.getElementById("otrosBancos").style.display = "none";
+			document.getElementById("otrosBancos").disabled = true;
 		}
 	}
 }
@@ -635,6 +644,10 @@ function validarDatosDelEnvio(payForm){
  * @param payForm
  */
 function validarFormularioDePago(payForm){
+	//inhabilitamos el boton de envio para prevenir multiples envios del mismo form
+	document.getElementById("Enviar").style.display = "none";
+	document.getElementById("ajaxLoading").style.display = "inline";
+	
 	var doSubmitCliente = validarDatosDelCliente(payForm);
 	var doSubmitPago = validarDatosDelPago(payForm);
 	var doSubmitEnvio = validarDatosDelEnvio(payForm);
@@ -646,13 +659,15 @@ function validarFormularioDePago(payForm){
 	if(checkTerminosCondiciones == false){
 		document.getElementById("spanTerminos").style.display = "inline";
 		payForm.terminos.focus();
-		doSubmit = false;
 	}
 	
-	var doSubmit = doSubmitCliente && doSubmitPago && doSubmitEnvio;
+	var doSubmit = doSubmitCliente && doSubmitPago && doSubmitEnvio && checkTerminosCondiciones;
 	if(doSubmit){
 		payForm.submit();
 	}
+	
+	document.getElementById("ajaxLoading").style.display = "none";
+	document.getElementById("Enviar").style.display = "";
 	
 	return doSubmit;
 }
