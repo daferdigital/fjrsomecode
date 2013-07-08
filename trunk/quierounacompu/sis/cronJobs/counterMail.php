@@ -24,11 +24,14 @@ if($mustSendEmail){
 	$mailTo .= "administracion@quierounacompu.com,";
 	$mailTo .= "caja@quierounacompu.com";
 	
+	//para debug	
+	//$mailTo = "felipe.rojasg@gmail.com";
+	
 	$query = "SELECT es.descripcion, e.id_status_actual, COUNT(*) AS cuenta "
 			."FROM envios_status es, envios e "
 			."WHERE es.id = e.id_status_actual "
 			."GROUP BY e.id_status_actual "
-			."ORDER BY es.descripcion";
+			."ORDER BY es.orden_correo";
 	
 	$message = "<table border='1' align='center'>";
 	$message .= "<tr>";
