@@ -51,7 +51,7 @@ list($ano,$mes,$dia)=explode("-",$_REQUEST['fecha']);
 	$valores_disponibles_apuestas='';
 		//$selectlogros="select * from vista_logros where fecha='".$ano.'-'.$mes.'-'.$dia."' and idliga='".$_REQUEST['liga']."' ORDER BY idlogro,que_equipo ASC, nombre_tipo_apuesta ASC";
 		//$selectlogros="select * from vista_logros_banqueros where fecha='".$ano.'-'.$mes.'-'.$dia."' and idliga='".$_REQUEST['liga']."' and idbanquero='".$banquero."' ORDER BY idlogro,idlogro_equipo,que_equipo ASC, nombre_tipo_apuesta ASC";
-		$selectlogros="select *,date_format(CONCAT(fecha,' ',hora),'%r') as hora_f from vista_logros_banqueros where fecha='".$ano.'-'.$mes.'-'.$dia."' and idbanquero='".$banquero."' and estatus_categoria_apuesta='1' and hora>='".date('H:i:00')."' and estatus_logro='1' ORDER BY nombre_categoria,idliga,hora,idlogro,idlogro_equipo,que_equipo ASC, nombre_tipo_apuesta ASC";
+		$selectlogros="select *,date_format(CONCAT(fecha,' ',hora),'%r') as hora_f from vista_logros_banqueros where fecha='".$ano.'-'.$mes.'-'.$dia."' and idbanquero='".$banquero."' and estatus_categoria_apuesta='1' and hora>='".date('H:i:00')."' and estatus_logro='1' ORDER BY orden_visual,nombre_categoria,idliga,hora,idlogro,idlogro_equipo,que_equipo ASC, nombre_tipo_apuesta ASC";
 		
 		//echo $selectlogros; exit;
 		$querylogros=mysql_query($selectlogros)or die(mysql_error());
