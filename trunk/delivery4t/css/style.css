@@ -1,0 +1,65 @@
+@charset "utf-8";
+/* CSS Document */
+#tab {
+	box-shadow: 0px 0px 20px #AAA;
+}
+#tab1 {
+	box-shadow: 0px 7px 0px #AAA;
+}
+#td1 {
+	box-shadow: 0px 5px #6CF ;
+}
+body,td,th {
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 14px;
+}
+body {
+	background-image: url(../img/44t.jpg);
+	background-repeat: repeat;
+}
+nav {
+	background-image: url(../img/header_menu_C.jpg);
+	background-repeat:repeat-x;
+	height: 2.3em;
+	padding: 1em;
+	width: 1000;
+}
+ul li {
+      display: inline;
+	  position: relative;
+	  font-size: 15px;
+	  margin:0 ;
+} 
+ul li a{
+        display: inline;
+        padding: 2px 3px; /*Separar el texto*/
+        margin:0px 20px; /* Separar los botones */
+		color: #fff;
+		text-decoration: none;
+}
+ul li:hover {
+		background-color: none;/* Color de fondo sobre el boton */
+		text-decoration: overline;
+		color: #FFF;
+}
+.button_submit {
+    background: url("../img/body_contacto_btn_submit.png") no-repeat scroll center top transparent;
+    border: 0 none;
+    height: 40px;
+    width: 80px;
+}
+footer {
+    background-color: #2D5287;
+	box-shadow: 0px 0px 20px #AAA;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    width: 1000px;
+    margin: 0px auto;
+    font-size: 15px;
+    padding: 0.3em;
+}
+#vertical-bar {
+        border: 1px solid #ccc;
+        width:1px;
+    }
+
