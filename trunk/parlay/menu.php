@@ -24,8 +24,7 @@ include_once("procesos/conexion.php");
     </tr>
 </table>
 
-<script language="JavaScript">
-	
+<script type="text/javascript">
 	var currentDate = new Date(<?php echo date("Y");?>,
 	    <?php echo ((int) date("n")-1);?>,
 	    <?php echo date("j");?>,
@@ -34,8 +33,8 @@ include_once("procesos/conexion.php");
 	    <?php echo date("s");?>); 
 	
 	//var currentDate = new Date(<?php echo time()*1000;?>);
-	alert(currentDate.toLocaleString());
-	alert("<?php echo date_default_timezone_get();?>");
+	//alert(currentDate.toLocaleString());
+	//alert("<?php echo date_default_timezone_get();?>");
 	
 	function laHora(){
 		var newDate = currentDate.getTime();
@@ -134,9 +133,12 @@ if ($row1=mysql_fetch_array($sql_query)){?>
 		   </ul></li><?
 		   }while ($row1=mysql_fetch_array($sql_query));
 }?>
-<li style="background-color:#900 !important;">
-				<a href="?salir=logout">Salir del sistema</a>
-			</li>
-		</ul>
+		<li style="background-color:#900 !important;">
+			<a target="_blank" href="./reglasGenerales.html">Reglas Generales</a>
+		</li>
+		<li style="background-color:#900 !important;">
+			<a href="?salir=logout">Salir del sistema</a>
+		</li>
+	</ul>
 </td></tr></table>
 </div>
