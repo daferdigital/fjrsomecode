@@ -4,7 +4,10 @@ Comandos BD:
 INSERT INTO `quierounacompu`.`envios_status` (`id`, `descripcion`) VALUES (7, 'Errados');
 INSERT INTO `quierounacompu`.`envios_status` (`id`, `descripcion`) VALUES (8, 'Pagos Devueltos');
 INSERT INTO `quierounacompu`.`status_siguientes` (`id_status_inicial`, `id_siguiente_status`) VALUES ('1', '7');
+INSERT INTO `quierounacompu`.`status_siguientes` (`id_status_inicial`, `id_siguiente_status`) VALUES ('3', '7');
+
 ALTER TABLE `quierounacompu`.`bancos` ADD COLUMN `show_as_other_banks` CHAR(1) NULL DEFAULT '0'  AFTER `active` ;
+
 insert into bancos(nombre, active, show_as_other_banks) values('BANCO CENTRAL DE VENEZUELA', '1', '1');
 insert into bancos(nombre, active, show_as_other_banks) values('BANCO INDUSTRIAL DE VENEZUELA, C.A.', '1', '1'); 
 insert into bancos(nombre, active, show_as_other_banks) values('BANCO CORO, C.A.', '1', '1'); 
@@ -43,3 +46,6 @@ insert into bancos(nombre, active, show_as_other_banks) values('INSTITUTO MUNICI
 Archivos:
 pagos/index.php
 pagos/scripts/scripts.js
+pagos/updatePayNotifNoEnc.php
+pagos/updatePayPagoConfirmado.php
+pagos/updatePayPresupuestadoFacturado.php

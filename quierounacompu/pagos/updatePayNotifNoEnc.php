@@ -58,7 +58,7 @@ if($cuenta > 0){
 		//el detalle de los campos modificados
 		//comparamos los campos para saber cuales fueron modificados
 		$envioModificado = EnvioDAO::getEnvioInfo($idEnvio);
-		$comentario = "Fueron cambiados los siguientes valores";
+		$comentario = "";
 		
 		if($envioOriginal->getSeudonimoML() != $envioModificado->getSeudonimoML()){
 			$comentario .= ", Seudonimo MercadoLibre por: ".$envioModificado->getSeudonimoML();
@@ -112,9 +112,15 @@ if($cuenta > 0){
 			$comentario .= ", Observaciones del envio por: ".$envioModificado->getObservacionesEnvio();
 		}
 		
+		if($comentario == ""){
+			$comentario = "Se actualizo el envio, pero sin modificar ninguno de sus valores";
+		}else {
+			$comentario = "Fueron cambiados los siguientes valores ".$comentario;
+		}
+		
 		EnvioDAO::addComment($idEnvio,
 			 $comentario,
-			 null,
+			 "null",
 			 Constants::$STATUS_INICIAL_ENVIOS);
 	}
 }
