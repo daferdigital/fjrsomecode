@@ -1,0 +1,13 @@
+﻿ 
+create database registro1;
+use registro1;
+
+
+
+CREATE TABLE `secciones` (
+  `id` int(8) NOT NULL auto_increment,
+  `nombre` varchar(20) NOT NULL,
+  `clave` varchar(20) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
