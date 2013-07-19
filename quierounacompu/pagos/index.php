@@ -103,13 +103,14 @@
     		</td>
   		</tr>
   		<tr>
-    		<td colspan="<?php echo $columnas;?>" height="40" align="center">
+    		<td colspan="<?php echo $columnas;?>" height="40" align="center" class="isMandatory" style="font-size: 20px;">
     			<b>NOTA IMPORTANTE: Datos para realizar la factura fiscal.</b>
     		</td>
   		</tr>
   		<tr>
     		<td class="title Estilo17">
-    			* Tus nombres y apellidos:
+    			* Tus nombres y apellidos &oacute;<br />
+    			Nombre de la Empresa:
     		</td>
     		<td colspan="<?php echo $columnas - 1?>">
     			<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" size="30" name="nombre" />

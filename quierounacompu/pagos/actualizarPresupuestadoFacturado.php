@@ -58,10 +58,9 @@
     		<td colspan="<?php echo $columnas;?>" class="headline1 Estilo24" bgcolor="#2073C3" height="40">
     			Datos del Cliente
     		</td>
-  		</tr>
+  		</tr>  		<tr>    		<td colspan="<?php echo $columnas;?>" height="40" align="center" class="isMandatory" style="font-size: 20px;">    			<b>NOTA IMPORTANTE: Datos para realizar la factura fiscal.</b>    		</td>  		</tr>
   		<tr>
-    		<td class="title Estilo17">
-    			Tus nombres y apellidos:
+    		<td class="title Estilo17">    			Tus nombres y apellidos &oacute; <br />    			Nombre de la Empresa:
     		</td>
     		<td colspan="<?php echo $columnas - 1?>">
     			<?php echo $envioDTO->getNombreCompleto();?>

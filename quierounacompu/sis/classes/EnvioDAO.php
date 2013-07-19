@@ -88,7 +88,7 @@ class EnvioDAO {
 	 * 
 	 */
 	public static function getAllStatus(){
-		$query = "SELECT id, descripcion FROM envios_status ORDER BY LOWER(descripcion)";
+		$query = "SELECT id, descripcion FROM envios_status ORDER BY orden_correo, LOWER(descripcion)";
 		
 		$result = DBUtil::executeSelect($query);
 		
