@@ -3,8 +3,9 @@ include_once 'classes/SessionUtil.php';
 include_once 'classes/Constants.php';
 include_once "includes/header.php";
 
-if(SessionUtil::checkIfUserIsLogged()){
-	header("Location: logged.php");
+if(! SessionUtil::checkIfUserIsLogged()){
+	$_SESSION[Constants::$KEY_MESSAGE_OPERATION] = Constants::$TEXT_MUST_BE_LOGGED;
+	header("Location: index.php");
 }
 ?>
 <tr id="tab1">
