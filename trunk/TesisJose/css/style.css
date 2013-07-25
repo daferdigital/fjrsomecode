@@ -1,1 +1,211 @@
 @CHARSET "ISO-8859-1";
+
+body {
+	background-color: #EEEEEE;
+	margin-top: 0px;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+td img {
+	display: block;
+}
+
+select {
+	font-size: 12px;
+	color: #666666;
+	font-weight: bold;
+}
+
+.isMandatory {
+	color: #FF0000;
+	font-size: 12px;
+}
+
+.centered {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.bodyTable {
+	width: 900;
+	/*margin to center the table, not the content*/
+	margin-left:auto; 
+    margin-right:auto;
+}
+
+.estilo1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: #666666;
+}
+
+.estilo2 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	font-weight: bold;
+	color: white;
+}
+
+.smallError {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: red;
+}
+
+.loginTable{
+	margin-left:auto; 
+    margin-right:auto;
+}
+
+.welcomeText{
+	font-weight: bold;
+	color: gray;
+	font-size: 12px;
+}
+
+.headerLinks{
+	color: white;
+	font-size: 14px;
+	font-weight: bold;
+	background: url("../images/botonPixelAzulBG.png");
+	padding: 10px;
+	margin-right: 5px;
+	text-decoration: none;
+}
+
+.headerLinks:HOVER{
+	text-decoration: underline;
+}
+
+.seccionTitle {
+	margin: 15px;
+	display: inline-block;
+	font-size: 18px;
+	font-weight: bold;
+	width: 30%;
+	vertical-align: top;
+}
+
+.seccionTitle span {
+	font-size: 12px;
+	font-weight: normal;
+	text-decoration: none;
+}
+
+.seccionDetail {
+	display: inline-block;
+	width: 55%;
+	margin: 15px;
+	margin-right: 0px;
+	font-size: 12px;
+}
+
+.borderCollapse {
+	border-collapse:collapse;
+}
+
+.borderCollapse table, .borderCollapse th, .borderCollapse td {
+border: 1px solid black;
+}
+
+.tableAjaxResultHeader {
+	background-color: white;
+	color: #666666;
+	font-weight: bold;
+}
+
+#ajaxPagingTableDetail.header {
+	background-color: white;
+	color: #666666;
+	font-weight: bold;s
+}
+
+.footerPagingLink {
+	margin-left: 5px;
+	font-size: 12px;
+}
+
+.footerPagingLink > img{
+    display: inline;
+}
+
+
+/*estilos para popups*/
+.b-ajax-wrapper{
+	background-color: white;
+}
+
+.popUpBoton:hover {
+	background-color: #1e1e1e;
+}
+
+.popUpBoton.small {
+	border-radius: 15px;
+	float: right;
+	margin: 22px 5px 0;
+	padding: 6px 15px;
+}
+
+.popUpBoton {
+	background-color: #2b91af;
+	border-radius: 10px;
+	box-shadow: 0 2px 3px rgba(0,0,0,0.3);
+	color: #fff;
+	cursor: pointer;
+	display: inline-block;
+	padding: 10px 20px;
+	text-align: center;
+	text-decoration: none;
+}
+
+.popUpBoton.b-close {
+	border-radius: 7px 7px 7px 7px;
+	box-shadow: none;
+	font: bold 80% sans-serif;
+	padding: 0 6px 2px;
+	position: absolute;
+	right: -7px;
+	top: -7px;
+}
+
+
+#container {
+    display: table;
+    width: 900px;;
+}
+#row  {
+	display: table-row;
+	max-width: 900px;
+}
+#tdHeader{
+	background-color: white;
+	color: black;
+	font-size: 12px;
+	font-weight: bold;
+	display: table-cell;
+    padding-right: 10px;
+}
+#tdElement, #right, #middle {
+	display: table-cell;
+	
+	padding-right: 10px;
+    border: thin;
+    border-color: black;
+    font-size: 10px;
+    padding-top: 5px;
+}
+#tdPagingFooter{
+	display: table-footer-group;
+	text-align: center;
+}
+#fixHeigth{
+	display: block;
+	overflow: hidden;
+	max-height: 25px;
+	max-width: inherit;
+}
+#tdElement p, #right p, #middle p {
+    margin: 1px 1px;
+}
