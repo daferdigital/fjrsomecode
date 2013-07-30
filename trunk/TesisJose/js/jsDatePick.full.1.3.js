@@ -211,17 +211,19 @@ JsDatePick.prototype.setRepopulationDelegate = function(aDelegatedFunction){
 };
 
 JsDatePick.prototype.setConfiguration = function(aConf){
-	this.oConfiguration.isStripped 		= (aConf["isStripped"] != null) ? aConf["isStripped"] : false;
-	this.oConfiguration.useMode    		= (aConf["useMode"] != null) ? aConf["useMode"] : 1;
-	this.oConfiguration.selectedDate   	= (aConf["selectedDate"] != null) ? aConf["selectedDate"] : null;
-	this.oConfiguration.target			= (aConf["target"] != null) ? aConf["target"] : null;
-	this.oConfiguration.yearsRange		= (aConf["yearsRange"] != null) ? aConf["yearsRange"] : [1971,2100];
-	this.oConfiguration.limitToToday	= (aConf["limitToToday"] != null) ? aConf["limitToToday"] : false;
-	this.oConfiguration.field			= (aConf["field"] != null) ? aConf["field"] : false;
-	this.oConfiguration.cellColorScheme = (aConf["cellColorScheme"] != null) ? aConf["cellColorScheme"] : "ocean_blue";
-	this.oConfiguration.dateFormat		= (aConf["dateFormat"] != null) ? aConf["dateFormat"] : "%m-%d-%Y";
-	this.oConfiguration.imgPath			= (aConf["imgPath"] != null) ? aConf["imgPath"] : "../images/";
-	this.oConfiguration.weekStartDay   	= (aConf["weekStartDay"] != null) ? aConf["weekStartDay"] : 1;
+	this.oConfiguration.isStripped 		 = (aConf["isStripped"] != null) ? aConf["isStripped"] : false;
+	this.oConfiguration.useMode    		 = (aConf["useMode"] != null) ? aConf["useMode"] : 1;
+	this.oConfiguration.selectedDate   	 = (aConf["selectedDate"] != null) ? aConf["selectedDate"] : null;
+	this.oConfiguration.target			 = (aConf["target"] != null) ? aConf["target"] : null;
+	this.oConfiguration.targetHidden	 = (aConf["targetHidden"] != null) ? aConf["targetHidden"] : null;
+	this.oConfiguration.yearsRange		 = (aConf["yearsRange"] != null) ? aConf["yearsRange"] : [1971,2100];
+	this.oConfiguration.limitToToday	 = (aConf["limitToToday"] != null) ? aConf["limitToToday"] : false;
+	this.oConfiguration.field			 = (aConf["field"] != null) ? aConf["field"] : false;
+	this.oConfiguration.cellColorScheme  = (aConf["cellColorScheme"] != null) ? aConf["cellColorScheme"] : "ocean_blue";
+	this.oConfiguration.dateFormat		 = (aConf["dateFormat"] != null) ? aConf["dateFormat"] : "%m-%d-%Y";
+	this.oConfiguration.dateFormatHidden = (aConf["dateFormatHidden"] != null) ? aConf["dateFormatHidden"] : "%Y-%m-%d";
+	this.oConfiguration.imgPath			 = (aConf["imgPath"] != null) ? aConf["imgPath"] : "../img/";
+	this.oConfiguration.weekStartDay   	 = (aConf["weekStartDay"] != null) ? aConf["weekStartDay"] : 1;
 	
 	this.selectedDayObject = {};
 	this.flag_DayMarkedBeforeRepopulation = false;
@@ -256,7 +258,9 @@ JsDatePick.prototype.closeCalendar = function(){
 };
 
 JsDatePick.prototype.populateFieldWithSelectedDate = function(){
-	JsgetElem(this.oConfiguration.target).value = this.getSelectedDayFormatted();
+	JsgetElem(this.oConfiguration.target).value = this.getSelectedDayFormatted(this.oConfiguration.dateFormat);
+	JsgetElem(this.oConfiguration.targetHidden).value = this.getSelectedDayFormatted(this.oConfiguration.dateFormatHidden);
+	
 	if (this.lastPickedDateObject){
 		delete(this.lastPickedDateObject);
 	}
@@ -837,10 +841,10 @@ JsDatePick.prototype.getSelectedDay = function(){
 	}
 };
 
-JsDatePick.prototype.getSelectedDayFormatted = function(){
+JsDatePick.prototype.getSelectedDayFormatted = function(dateStr){
 	if (this.flag_aDayWasSelected){
-		
-		var dateStr = this.oConfiguration.dateFormat;
+		//alert(dateStr);
+		//var dateStr = this.oConfiguration.dateFormat;
 		
 		dateStr = dateStr.replace("%d", this.selectedDayObject.day.toString().strpad());
 		dateStr = dateStr.replace("%j", this.selectedDayObject.day);

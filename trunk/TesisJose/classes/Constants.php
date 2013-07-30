@@ -13,10 +13,13 @@ class Constants {
 	public static $SCRIPT_FUNCTION = "scriptFunction";
 	
 	//textos del sistema
+	public static $TEXT_OPERATION_DONE = "Su solicitud fue procesada de manera exitosa.";
+	public static $TEXT_OPERATION_ERROR = "Disculpe, se produjo un error al momento de procesar su solicitud.<br />Comuniquese con el Administrador.";
 	public static $TEXT_ACCESS_DENIED = "Disculpe, usted no tiene permiso para ingresar a este modulo.<br />En caso de necesitarlo, comuniquese con el administrador";
 	public static $TEXT_MUST_BE_LOGGED = "Disculpe para realizar esta operaci&oacute;n primero debe loguearse en el sistema.";
 	public static $TEXT_SESSION_EXPIRED = "Disculpe, su sesi&oacute;n ha expirado.<br/>Por favor ingrese de nuevo al sistema.";
 	public static $TEXT_UNKNOWN_ACCESS = "Disculpe, modo de acceso desconocido.<br />Comuniquese con el Administrador.";
+	public static $TEXT_FORM_NOT_SUBMITED = "Disculpe, para realizar esta operaci&oacute;n.<br />Debe llenar el siguiente formulario.";
 	public static $TEXT_NO_PAGE_RECORDS = "No se encontraron registros que coincidan con sus criterios de b&uacute;squeda";
 }
 ?>

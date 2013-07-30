@@ -37,7 +37,7 @@ class UsuarioDAO {
 					$result[0]["login"],
 					$result[0]["clave"],
 					"",
-					"20",
+					$result[0]["timeout"],
 					"1",
 					"50");
 		} else {

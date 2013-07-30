@@ -1,6 +1,7 @@
 <?php
 	session_start();
 	
+	include_once '../classes/Constants.php';
 	include_once '../classes/DBConnection.php';
 	include_once '../classes/DBUtil.php';
 	include_once '../classes/SessionUtil.php';
@@ -20,7 +21,8 @@
 			if($usuarioDTO != null){
 				//usuario valido
 				$_SESSION[SessionUtil::$KEY_USER_LOGGED] = true;
-				$_SESSION["usuario"] = $usuarioDTO;
+				$_SESSION[Constants::$KEY_USUARIO_DTO] = $usuarioDTO;
+				$_SESSION[SessionUtil::$KEY_LAST_USER_ACTIVITY] = time();
 				header("Location: ../logged.php");
 			} else {
 				$message = "Disculpe, la clave indicada es incorrecta";
@@ -34,6 +36,7 @@
 		if(SessionUtil::checkIfUserIsLogged()){
 			//el usuario esta en sesion, lo enviamos a la pagina de inicio despues del login
 			$_SESSION[SessionUtil::$KEY_USER_LOGGED] = true;
+			$_SESSION[SessionUtil::$KEY_LAST_USER_ACTIVITY] = time();
 			header("Location: ../logged.php");
 		} else {
 			//definitivamente, llegamos a esta pagina desde un flujo incorrecto, volvemos a inicio
@@ -41,7 +44,16 @@
 		}
 	}
 ?>
-<script type="text/javascript">
-	alert("<?php echo $message;?>");
-	window.location = "../index.php";
-</script>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Strict//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<title>.::: Coordinaci&oacute;n de Seguridad - Ingreso :::.</title>
+	</head>
+<body>
+	<script type="text/javascript">
+		alert("<?php echo $message;?>");
+		window.location = "../index.php";
+	</script>
+</body>
+</html>

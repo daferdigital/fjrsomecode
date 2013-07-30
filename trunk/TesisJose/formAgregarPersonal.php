@@ -1,11 +1,14 @@
 <?php
+include_once 'classes/Constants.php';
 include_once 'classes/SessionUtil.php';
 include_once 'classes/DBUtil.php';
-include_once 'classes/Constants.php';
 include_once "includes/header.php";
 
 if(! SessionUtil::checkIfUserIsLogged()){
 	$_SESSION[Constants::$KEY_MESSAGE_OPERATION] = Constants::$TEXT_MUST_BE_LOGGED;
+	header("Location: index.php");
+}
+if(SessionUtil::userReachInactivity()){
 	header("Location: index.php");
 }
 ?>
@@ -50,7 +53,7 @@ if(! SessionUtil::checkIfUserIsLogged()){
 				<tr>
 					<td>C&eacute;dula:</td>
 					<td>
-						<select style="FONT-SIZE: 10pt" size="1" name="ci">
+						<select name="ci">
 					        <option value="V" selected>V</option>
 					        <option value="E">E</option>
 		      			</select>
@@ -109,16 +112,16 @@ if(! SessionUtil::checkIfUserIsLogged()){
 						        imgPath:"./images/"
 						    });
 						</script>
-						<span class="isMandatory" id="mandatoryFechaIngreso" style="display: none;">
+						<div class="isMandatory" id="mandatoryFechaIngreso" style="display: none;">
 							<br />
 							Disculpe, debe indicar la fecha de ingreso.
-						</span>
+						</div>
 					</td>
 				</tr>
 				<tr>
 					<td>Tel&eacute;fono:</td>
 					<td>
-						<input type="text" name="telefono" id="telefono" onkeypress="return textInputOnlyNumbers(event)"/>
+						<input type="text" name="telefono" id="telefono" onkeypress="return textInputOnlyNumbers(event)" maxlength="11"/>
 						<span class="isMandatory" id="mandatoryTelefono" style="display: none;">
 							<br />
 							Disculpe, debe indicar el n&uacute;mero de tel&eacute;fono.
@@ -128,7 +131,7 @@ if(! SessionUtil::checkIfUserIsLogged()){
 				<tr>
 					<td>Cargo:</td>
 					<td>
-						<select>
+						<select id="cargo" name="cargo">
 							<option value="">- -</option>
 							<?php 
 							$query = "SELECT id, nombre FROM cargo ORDER BY nombre";
@@ -149,10 +152,10 @@ if(! SessionUtil::checkIfUserIsLogged()){
 				<tr>
 					<td>Supervisor:</td>
 					<td>
-						<select>
+						<select name="supervisor">
 							<option value="">- -</option>
 							<?php 
-							$query = "SELECT id, nombre, apellido FROM personal WHERE cargo=3 ORDER BY nombre";
+							$query = "SELECT id, nombre, apellido FROM personal WHERE id_cargo=3 ORDER BY nombre";
 							$result = DBUtil::executeSelect($query);
 							foreach ($result as $supervisor) {
 							?>
@@ -165,7 +168,7 @@ if(! SessionUtil::checkIfUserIsLogged()){
 				</tr>
 				<tr>
 					<td colspan="2" align="center">
-						<input type="submit" value="Guardar" />
+						<input type="submit" value="Guardar" name="botonSubmit"/>
 					</td>
 				</tr>
 			</table>
