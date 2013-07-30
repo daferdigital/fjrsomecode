@@ -9,7 +9,7 @@
 						</a>
 					</li>
 					<li>
-						<a href="searchEnviosByType.php?type=">
+						<a href="formListarPersonal.php">
 							Listar
 						</a>
 					</li>
