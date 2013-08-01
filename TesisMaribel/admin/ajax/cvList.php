@@ -19,7 +19,7 @@ if($_POST["fechaDesde"] != ""){
 	$extraWhere .= " AND s.fecha_registro >= '".$_POST["fechaDesde"]."'";
 }
 if($_POST["fechaHasta"] != ""){
-	$extraWhere .= " AND s.fecha_registro <= '".$_POST["fechaHasta"]."'";
+	$extraWhere .= " AND s.fecha_registro <= DATE_ADD('".$_POST["fechaHasta"]."', INTERVAL 1 DAY)";
 }
 if($_POST["cedula"] != ""){
 	$extraWhere .= " AND s.ci LIKE ('%".$_POST["cedula"]."%')";
