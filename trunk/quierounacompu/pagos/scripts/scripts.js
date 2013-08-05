@@ -20,15 +20,11 @@ function checkTipoPago(idTipoPago){
 			//es pago via transferencia otros bancos
 			//debemos indicar que el campo de vauche es alfanumerico
 			document.getElementById("bauche").onkeypress = textNoSpaces;
-			document.getElementById("otrosBancos").style.display = "";
-			document.getElementById("otrosBancos").disabled = false;
-			document.getElementById("banco").style.display = "none";
-			document.getElementById("banco").disabled = true;
+			document.getElementById("trBancoOrigen").style.display = "";
+			document.getElementById("bancoOrigen").disabled = false;
 		} else {
-			document.getElementById("banco").style.display = "";
-			document.getElementById("banco").disabled = false;
-			document.getElementById("otrosBancos").style.display = "none";
-			document.getElementById("otrosBancos").disabled = true;
+			document.getElementById("trBancoOrigen").style.display = "none";
+			document.getElementById("bancoOrigen").disabled = true;
 		}
 	}
 }
@@ -494,7 +490,8 @@ function validarDatosDelPago(payForm){
 	
 	//datos de pago
 	var medioDePago = payForm.medio.value;
-	var banco = payForm.banco.value;
+	var bancoDestino = payForm.banco.value;
+	var bancoOrigen = payForm.bancoOrigen.value;
 	var voucher = payForm.bauche.value.trim();
 	var fechaPago = payForm.fechaPago.value.trim();
 	var montoPago = payForm.monto.value.trim();
@@ -502,6 +499,7 @@ function validarDatosDelPago(payForm){
 	
 	document.getElementById("spanMedio").style.display = "none";
 	document.getElementById("spanBanco").style.display = "none";
+	document.getElementById("spanBancoOrigen").style.display = "none";
 	document.getElementById("spanArticulo").style.display = "none";
 	document.getElementById("spanBauche").style.display = "none";
 	document.getElementById("spanBaucheBadValue").style.display = "none";
@@ -515,8 +513,13 @@ function validarDatosDelPago(payForm){
 		payForm.medio.focus();
 		doSubmit = false;
 	}
-	if(document.getElementById("bancoAllInfo").style.display != "none" && banco == "-1"){
+	if(document.getElementById("bancoAllInfo").style.display != "none" && bancoDestino == "-1"){
 		document.getElementById("spanBanco").style.display = "inline";
+		payForm.banco.focus();
+		doSubmit = false;
+	}
+	if(document.getElementById("trBancoOrigen").style.display != "none" && bancoOrigen == "-1"){
+		document.getElementById("spanBancoOrigen").style.display = "inline";
 		payForm.banco.focus();
 		doSubmit = false;
 	}
