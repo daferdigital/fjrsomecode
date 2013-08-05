@@ -321,8 +321,8 @@
       		</td>
   		</tr>
   		<tr id="bancoAllInfo">
-    		<td class="title Estilo17">Banco:</td>
-    		<td colspan="<?php echo $columnas -1;?>">
+    		<td class="title Estilo17">Banco Destino de los Fondos:</td>
+    		<td colspan="<?php echo $columnas -2;?>">
     			<select name="banco" size="1" class="Estilo11" style="FONT-SIZE: 10pt" id="banco">
 					<option value="-1" selected>Seleccione su banco</option>
 			        <?php 
@@ -340,7 +340,16 @@
     					}
     				?>
         		</select>
-        		<select name="banco" size="1" class="Estilo11" style="FONT-SIZE: 10pt; display: none" id="otrosBancos" disabled>
+        		<span class="isMandatory" id="spanBanco" style="display: none;">
+	    			<br/>
+	    			Disculpe debe indicarnos el banco al cual van los fondos del pago.
+    			</span>
+        	</td>
+        </tr>
+        <tr id="trBancoOrigen" style="display: none;">
+        	<td class="title Estilo17">Banco Origen de los Fondos:</td>
+    		<td colspan="<?php echo $columnas -2;?>">
+        		<select name="bancoOrigen" size="1" class="Estilo11" style="FONT-SIZE: 10pt;" id="bancoOrigen" disabled>
 					<option value="-1" selected>Seleccione su banco</option>
 			        <?php 
     					$query = "SELECT id, nombre "
@@ -357,7 +366,7 @@
     					}
     				?>
         		</select>
-        		<span class="isMandatory" id="spanBanco" style="display: none;">
+        		<span class="isMandatory" id="spanBancoOrigen" style="display: none;">
 	    			<br/>
 	    			Disculpe debe indicarnos el banco desde el que realiz&oacute; el pago.
     			</span>
@@ -368,7 +377,7 @@
     			* N&uacute;mero del dep&oacute;sito o transferencia:
     			<br />
     			<span class="Estilo20">
-    				Copie el n&uacute;mero de trasferencia o baucher
+    				Copie el n&uacute;mero de transferencia o baucher
     			</span>
     		</td>
     		<td colspan="<?php echo $columnas -1;?>">
