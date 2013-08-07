@@ -50,6 +50,7 @@ if(isset($_POST["terminos"]) && $cuenta == 0){
 	observaciones_envio,
 	id_medio_pago,
 	id_banco,
+	id_banco_origen,
 	id_empresa_envio,
 	id_status_actual)
 	VALUES
@@ -74,6 +75,7 @@ if(isset($_POST["terminos"]) && $cuenta == 0){
 	.", '".$_POST["obs"]."',
 	".$_POST["medio"].",
 	".($_POST["medio"] == 5 ? 4 : $_POST["banco"]).",
+	".($_POST["medio"] == 6 ? $_POST["bancoOrigen"] : 4).",
 	".$_POST["envio"].",
 	".Constants::$STATUS_INICIAL_ENVIOS.")";
 

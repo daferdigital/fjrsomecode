@@ -26,6 +26,8 @@ class EnvioDTO {
 	private $descMedioPago;
 	private $idBanco;
 	private $descBanco;
+	private $idBancoOrigen;
+	private $descBancoOrigen;
 	private $idEmpresaEnvio;
 	private $descEmpresaEnvio;
 	private $idStatusActual;
@@ -443,6 +445,38 @@ class EnvioDTO {
 	 */
 	public function setDescBanco($descBanco){
 		$this->descBanco = $descBanco;
+	}
+	
+	/**
+	 *
+	 * @return unknown_type
+	 */
+	public function getIdBancoOrigen(){
+		return $this->idBancoOrigen;
+	}
+	
+	/**
+	 *
+	 * @param unknown_type $idBanco
+	 */
+	public function setIdBanco($idBancoOrigen){
+		$this->idBancoOrigen = $idBancoOrigen;
+	}
+
+	/**
+	 * Nombre del banco origen de los fondos (para cuando el pago es por transferencia de otros bancos)
+	 * @return unknown_type
+	 */
+	public function getDescBancoOrigen(){
+		return $this->descBancoOrigen;
+	}
+	
+	/**
+	 *
+	 * @param unknown_type $descBancoOrigen Nombre del banco origen de los fondos (para cuando el pago es por transferencia de otros bancos)
+	 */
+	public function setDescBancoOrigen($descBancoOrigen){
+		$this->descBancoOrigen = $descBancoOrigen;
 	}
 	
 	/**
