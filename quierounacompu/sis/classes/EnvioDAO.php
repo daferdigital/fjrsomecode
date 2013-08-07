@@ -16,10 +16,11 @@ class EnvioDAO {
 	public static function getEnviosByType($extraWhere){
 		$query = "SELECT e.*, es.descripcion as statusEnvio, DATE_FORMAT(e.fecha_pago, '%d-%m-%Y') AS fechaPago, "
 		."DATE_FORMAT(e.fecha_registro, '%d-%m-%Y') AS fechaRegistro, b.nombre AS banco, mp.descripcion AS medioPago, "
-		."ee.nombre as empresaEnvio"
-		." FROM empresa_envio ee, bancos b, medios_de_pago mp, envios e, envios_status es"
+		."ee.nombre as empresaEnvio, origen.nombre AS bancoOrigen "
+		." FROM empresa_envio ee, bancos b, bancos origen, medios_de_pago mp, envios e, envios_status es"
 		." WHERE e.id_status_actual = es.id"
 		." AND e.id_banco = b.id"
+		." AND e.id_banco_origen = origen.id"
 		." AND e.id_medio_pago = mp.id"
 		." AND ee.id = e.id_empresa_envio"
 		.$extraWhere

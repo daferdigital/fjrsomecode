@@ -8,14 +8,17 @@ String.prototype.trim=function(){
  * @returns
  */
 function checkTipoPago(idTipoPago){
-	var trBanco = document.getElementById("bancoAllInfo");
+	var trBancoDestino = document.getElementById("bancoAllInfo");
+	var trBancoOrigen = document.getElementById("trBancoOrigen");
 	document.getElementById("bauche").onkeypress = textInputOnlyNumbers;
 	
 	if(idTipoPago == 5){
-		//es mercado pago, no mostramos el banco
-		trBanco.style.display = "none";
+		//es mercado pago
+		//no mostramos el banco origen ni el destino
+		trBancoDestino.style.display = "none";
+		trBancoOrigen.style.display = "none";
 	} else {
-		trBanco.style.display = "";
+		trBancoDestino.style.display = "";
 		if(idTipoPago == 6){
 			//es pago via transferencia otros bancos
 			//debemos indicar que el campo de vauche es alfanumerico
