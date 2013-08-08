@@ -4,7 +4,7 @@ include_once "../sis/classes/DBUtil.php";
 include_once "../sis/classes/EnvioDAO.php";
 include_once "../sis/classes/BitacoraDAO.php";
 
-$query = "SELECT id, detalle_compra"
+$query = "SELECT id_encriptado, detalle_compra"
 ." FROM envios"
 ." WHERE ci_rif='".$_GET["ciRif"]."'"
 ." AND id_status_actual <> 6";
@@ -24,7 +24,7 @@ if(count($result) == 0){
 	    	<?php echo $envio["detalle_compra"];?>
 	    	<tr>
 				<td colspan="3">
-					<input type="button" value="Actualizar" onclick="actualizarEnvio(<?php echo $envio["id"];?>)"/>
+					<input type="button" value="Actualizar" onclick="actualizarEnvio('<?php echo $envio["id_encriptado"];?>')"/>
 				</td>
 			</tr>
 	    </table>

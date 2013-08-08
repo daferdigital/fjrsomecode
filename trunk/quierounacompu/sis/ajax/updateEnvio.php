@@ -180,7 +180,7 @@ if($canEdit){
 		$message = str_replace("{2}", $envioDTO->getDescMedioPago(), $message);
 		$message = str_replace("{3}", $envioDTO->getNumVoucher(), $message);
 		$message = str_replace("{4}", $envioDTO->getMontoPago(), $message);
-		$message = str_replace("{5}", "http://www.quierounacompu.com/pagos/actualizarEnvio.php?id=".$envioDTO->getId(), $message);
+		$message = str_replace("{5}", "http://www.quierounacompu.com/pagos/actualizarEnvio.php?id=".$envioDTO->getIdEncriptado(), $message);
 		//$message = str_replace("{5}", "http://www.quierounacompu.com/pagos/updatePedido.php?id=".$envioDTO->getId(), $message);
 		
 		SendEmail::sendMail($envioDTO->getCorreo(),

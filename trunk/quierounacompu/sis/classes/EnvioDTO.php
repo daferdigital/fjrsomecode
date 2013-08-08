@@ -1,6 +1,7 @@
 <?php
 class EnvioDTO {
 	private $id;
+	private $idEncriptado;
 	private $seudonimoML;
 	private $nombreCompleto;
 	private $ciRIF;
@@ -50,6 +51,21 @@ class EnvioDTO {
 	 */
 	public function setId($id){
 		$this->id = $id;
+	}
+	
+	/**
+	 *
+	 */
+	public function getIdEncriptado(){
+		return $this->idEncriptado;
+	}
+	
+	/**
+	 *
+	 * @param unknown_type $idEncriptado
+	 */
+	public function setIdEncriptado($idEncriptado){
+		$this->idEncriptado = $idEncriptado;
 	}
 	
 	/**

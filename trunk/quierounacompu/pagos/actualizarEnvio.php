@@ -6,14 +6,14 @@ include_once "../sis/classes/DBUtil.php";
 include_once "../sis/classes/EnvioDAO.php";
 include_once "../sis/classes/EnvioDTO.php";
 
-$envioDTO = EnvioDAO::getEnvioInfo($_GET["id"]);
+$envioDTO = EnvioDAO::getEnvioInfo($_GET["id"], true);
 if(EnvioDAO::$COD_STATUS_NOTIFICADO == $envioDTO->getIdStatusActual()
 		|| EnvioDAO::$COD_STATUS_PAGO_NO_ENCONTRADO == $envioDTO->getIdStatusActual()){
-	header("Location: actualizarNotifNoEnc.php?id=".$envioDTO->getId());
+	header("Location: actualizarNotifNoEnc.php?id=".$envioDTO->getIdEncriptado());
 } else if(EnvioDAO::$COD_STATUS_PAGO_CONFIRMADO == $envioDTO->getIdStatusActual()){
-	header("Location: actualizarPagoConfirmado.php?id=".$envioDTO->getId());
+	header("Location: actualizarPagoConfirmado.php?id=".$envioDTO->getIdEncriptado());
 } else if(EnvioDAO::$COD_STATUS_PRESUPUESTADO == $envioDTO->getIdStatusActual()
-		|| EnvioDAO::$COD_STATUS_FACTURADO == $envioDTO->getIdStatusActual()){
+		|| EnvioDAO::$COD_STATUS_FACTURADO == $envioDTO->getIdEncriptado()){
 	header("Location: actualizarPresupuestadoFacturado.php?id=".$envioDTO->getId());
 } else {
 ?>
