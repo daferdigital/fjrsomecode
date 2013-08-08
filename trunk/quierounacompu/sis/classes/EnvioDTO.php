@@ -459,7 +459,7 @@ class EnvioDTO {
 	 *
 	 * @param unknown_type $idBanco
 	 */
-	public function setIdBanco($idBancoOrigen){
+	public function setIdBancoOrigen($idBancoOrigen){
 		$this->idBancoOrigen = $idBancoOrigen;
 	}
 

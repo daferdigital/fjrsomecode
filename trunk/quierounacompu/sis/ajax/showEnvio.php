@@ -89,8 +89,12 @@ BitacoraDAO::registrarComentario("El usuario ".($canEdit ? "" : "NO")." puede ed
 		<div id="tabs-1" style="background-color: white;">
 			<table>
 				<tr>
-					<td>Banco:</td>
+					<td>Banco Destino de los Fondos:</td>
 					<td><?php echo $envioDTO->getDescBanco();?></td>
+				</tr>
+				<tr>
+					<td>Banco Origen de los Fondos:</td>
+					<td><?php echo $envioDTO->getDescBancoOrigen();?></td>
 				</tr>
 				<tr>
 					<td>Medio de Pago:</td>
@@ -106,7 +110,7 @@ BitacoraDAO::registrarComentario("El usuario ".($canEdit ? "" : "NO")." puede ed
 				</tr>
 				<tr>
 					<td>Monto:</td>
-					<td><?php echo $envioDTO->getMontoPago();?></td>
+					<td><?php echo str_replace(".", ",", $envioDTO->getMontoPago());?></td>
 				</tr>
 				<?php
 					$dir = "../comprobantes/".$envioDTO->getId();

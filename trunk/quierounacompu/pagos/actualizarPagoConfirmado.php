@@ -327,7 +327,7 @@
 	      		Monto del dep&oacute;sito o transferencia:
 	      	</td>
     		<td colspan="<?php echo $columnas -1;?>">
-    			<?php echo $envioDTO->getMontoPago();?>
+    			<?php echo str_replace(".", ",", $envioDTO->getMontoPago());?>
       		</td>
   		</tr>
   		<tr>

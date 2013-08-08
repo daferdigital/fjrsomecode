@@ -43,7 +43,7 @@ BitacoraDAO::registrarComentario("Acceso a modulo de log de transacciones del si
     			Desde:
     		</td>
     		<td>
-    			<input type="text" id="fechaDesde" name="fechaDesde" size="25" readonly="true"/>
+    			<input type="text" id="fechaDesde" name="fechaDesde" size="25" readonly="readonly"/>
 			
 				<script>
 					new JsDatePick({
@@ -63,7 +63,7 @@ BitacoraDAO::registrarComentario("Acceso a modulo de log de transacciones del si
     			Hasta:
     		</td>
     		<td>
-    			<input type="text" id="fechaHasta" name="fechaHasta" size="25" readonly="true"/>
+    			<input type="text" id="fechaHasta" name="fechaHasta" size="25" readonly="readonly"/>
 			
 				<script>
 					new JsDatePick({

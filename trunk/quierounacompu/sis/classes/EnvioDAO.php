@@ -38,11 +38,13 @@ class EnvioDAO {
 		
 		$query = "SELECT e.*, b.nombre AS nombreBanco, ev.nombre AS empresaEnvio, "
 			." mdp.descripcion AS medioDePago, es.descripcion AS envioStatus, "
+			." origen.nombre AS bancoOrigen, origen.id AS idBancoOrigen, "
 			." DATE_FORMAT(e.fecha_pago, '%d-%m-%Y') AS fechaPago, "
 			." DATE_FORMAT(e.fecha_registro, '%d-%m-%Y') AS fechaRegistro"
-			." FROM bancos b, empresa_envio ev, medios_de_pago mdp, envios_status es, envios e"
+			." FROM bancos b, bancos origen, empresa_envio ev, medios_de_pago mdp, envios_status es, envios e"
 			." WHERE e.id_status_actual = es.id"
 			." AND e.id_banco = b.id"
+			." AND e.id_banco_origen = origen.id"
 			." AND e.id_medio_pago = mdp.id"
 			." AND e.id_empresa_envio = ev.id"
 			." AND e.id = ".$idEnvio;
@@ -56,6 +58,7 @@ class EnvioDAO {
 		$envioDTO->setTlfCliente($result[0]["tlf_cliente"]);
 		$envioDTO->setTlfLocalCliente($result[0]["tlf_local_cliente"]);
 		$envioDTO->setDescBanco($result[0]["nombreBanco"]);
+		$envioDTO->setDescBancoOrigen($result[0]["bancoOrigen"]);
 		$envioDTO->setDescEmpresaEnvio($result[0]["empresaEnvio"]);
 		$envioDTO->setDescStatusActual($result[0]["envioStatus"]);
 		$envioDTO->setDescMedioPago($result[0]["medioDePago"]);
@@ -66,6 +69,7 @@ class EnvioDAO {
 		$envioDTO->setFechaRegistro($result[0]["fechaRegistro"]);
 		$envioDTO->setId($result[0]["id"]);
 		$envioDTO->setIdBanco($result[0]["id_banco"]);
+		$envioDTO->setIdBancoOrigen($result[0]["idBancoOrigen"]);
 		$envioDTO->setIdEmpresaEnvio($result[0]["id_empresa_envio"]);
 		$envioDTO->setIdMedioPago($result[0]["id_medio_pago"]);
 		$envioDTO->setIdStatusActual($result[0]["id_status_actual"]);

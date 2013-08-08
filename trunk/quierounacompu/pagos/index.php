@@ -322,7 +322,7 @@
   		</tr>
   		<tr id="bancoAllInfo">
     		<td class="title Estilo17">Banco Destino de los Fondos:</td>
-    		<td colspan="<?php echo $columnas -2;?>">
+    		<td colspan="<?php echo $columnas -1;?>">
     			<select name="banco" size="1" class="Estilo11" style="FONT-SIZE: 10pt" id="banco">
 					<option value="-1" selected>Seleccione su banco</option>
 			        <?php 
@@ -348,7 +348,7 @@
         </tr>
         <tr id="trBancoOrigen" style="display: none;">
         	<td class="title Estilo17">Banco Origen de los Fondos:</td>
-    		<td colspan="<?php echo $columnas -2;?>">
+    		<td colspan="<?php echo $columnas -1;?>">
         		<select name="bancoOrigen" size="1" class="Estilo11" style="FONT-SIZE: 10pt;" id="bancoOrigen" disabled>
 					<option value="-1" selected>Seleccione su banco</option>
 			        <?php 

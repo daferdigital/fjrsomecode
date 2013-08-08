@@ -26,6 +26,8 @@ UPDATE `quierounacompu`.`envios_status` SET `orden_correo`='6' WHERE `id`='6';
 UPDATE `quierounacompu`.`envios_status` SET `orden_correo`='8' WHERE `id`='7';
 UPDATE `quierounacompu`.`envios_status` SET `orden_correo`='7' WHERE `id`='8';
 
+UPDATE envios SET id_banco_origen = 4 WHERE id_banco_origen IS NULL;	
+
 insert into bancos(nombre, active, show_as_other_banks) values('BANCO CENTRAL DE VENEZUELA', '1', '1');
 insert into bancos(nombre, active, show_as_other_banks) values('BANCO INDUSTRIAL DE VENEZUELA, C.A.', '1', '1'); 
 insert into bancos(nombre, active, show_as_other_banks) values('BANCO CORO, C.A.', '1', '1'); 
@@ -72,4 +74,6 @@ pagos/updatePayPresupuestadoFacturado.php
 
 pagos/scripts/scripts.js
 
+sis/ajax/showEnvio.php
 sis/classes/EnvioDAO.php
+sis/classes/EnvioDTO.php
