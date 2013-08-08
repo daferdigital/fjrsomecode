@@ -4,7 +4,7 @@
 	include "../sis/classes/EnvioDTO.php";
 	
 	//obtenemos el envio presupuestado
-	$envioDTO = EnvioDAO::getEnvioInfo($_GET["id"]);
+	$envioDTO = EnvioDAO::getEnvioInfo($_GET["id"], true);
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
@@ -53,7 +53,7 @@
 <body>
 <?php $columnas = 3;?>
 <form name="pago" action="updatePayNotifNoEnc.php" method="post" enctype="multipart/form-data">
-	<input type="hidden" name="id" value="<?php echo $_GET["id"];?>"/>
+	<input type="hidden" name="id" value="<?php echo $envioDTO->getId();?>"/>
 	<table class="tablaPrincipal" align="center" cellpadding="0" cellspacing="10" width="741">
   		<tr>
     		<td colspan="<?php echo $columnas;?>" align="center">

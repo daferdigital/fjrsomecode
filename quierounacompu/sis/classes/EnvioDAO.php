@@ -34,7 +34,7 @@ class EnvioDAO {
 	 * @param unknown_type $idEnvio
 	 * @return type EnvioDTO
 	 */
-	public static function getEnvioInfo($idEnvio){
+	public static function getEnvioInfo($idEnvio, $usarIdEncriptado = false){
 		
 		$query = "SELECT e.*, b.nombre AS nombreBanco, ev.nombre AS empresaEnvio, "
 			." mdp.descripcion AS medioDePago, es.descripcion AS envioStatus, "
@@ -46,9 +46,14 @@ class EnvioDAO {
 			." AND e.id_banco = b.id"
 			." AND e.id_banco_origen = origen.id"
 			." AND e.id_medio_pago = mdp.id"
-			." AND e.id_empresa_envio = ev.id"
-			." AND e.id = ".$idEnvio;
-		
+			." AND e.id_empresa_envio = ev.id";
+			
+		if($usarIdEncriptado){
+			$query .= " AND e.id_encriptado = '".$idEnvio."' ";
+		} else {
+			$query .= " AND e.id = ".$idEnvio;
+		}
+			
 		$result = DBUtil::executeSelect($query);
 		$envioDTO = new EnvioDTO();
 		
@@ -68,6 +73,7 @@ class EnvioDAO {
 		$envioDTO->setFechaPago($result[0]["fechaPago"]);
 		$envioDTO->setFechaRegistro($result[0]["fechaRegistro"]);
 		$envioDTO->setId($result[0]["id"]);
+		$envioDTO->setIdEncriptado($result[0]["id_encriptado"]);
 		$envioDTO->setIdBanco($result[0]["id_banco"]);
 		$envioDTO->setIdBancoOrigen($result[0]["idBancoOrigen"]);
 		$envioDTO->setIdEmpresaEnvio($result[0]["id_empresa_envio"]);

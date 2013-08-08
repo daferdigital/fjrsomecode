@@ -11,6 +11,7 @@ ALTER TABLE `quierounacompu`.`envios` ADD COLUMN `id_banco_origen` INT UNSIGNED 
   ON UPDATE NO ACTION
 , ADD INDEX `FK_ENVIO_BANCO_ORIGEN_idx` (`id_banco_origen` ASC) ;
 ALTER TABLE `quierounacompu`.`envios` CHANGE COLUMN `id_banco_origen` `id_banco_origen` INT(10) UNSIGNED NULL DEFAULT NULL  AFTER `id_banco` ;
+ALTER TABLE `quierounacompu`.`envios` ADD COLUMN `id_encriptado` VARCHAR(250) NOT NULL COMMENT 'valor del id encriptado para ser usado en los links de update de los envios'  AFTER `id` ;
 
 
 INSERT INTO `quierounacompu`.`envios_status` (`id`, `descripcion`) VALUES (7, 'Errados');
@@ -27,6 +28,7 @@ UPDATE `quierounacompu`.`envios_status` SET `orden_correo`='8' WHERE `id`='7';
 UPDATE `quierounacompu`.`envios_status` SET `orden_correo`='7' WHERE `id`='8';
 
 UPDATE envios SET id_banco_origen = 4 WHERE id_banco_origen IS NULL;	
+UPDATE envios SET id_encriptado = MD5(id);
 
 insert into bancos(nombre, active, show_as_other_banks) values('BANCO CENTRAL DE VENEZUELA', '1', '1');
 insert into bancos(nombre, active, show_as_other_banks) values('BANCO INDUSTRIAL DE VENEZUELA, C.A.', '1', '1'); 
