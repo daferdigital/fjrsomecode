@@ -14,14 +14,14 @@ $msgError = "Disculpe, hubo un problema procesando su solicitud, por favor inten
 $idEnvio = $_POST["id"];
 $envioOriginal = EnvioDAO::getEnvioInfo($idEnvio);
 
-//verificamos si el numro de bauche no se repite en otro envio;
+//verificamos si el numero de bauche no se repite en otro envio;
 $query = "SELECT * FROM envios WHERE id <> ".$idEnvio." AND num_voucher='".$_POST["bauche"]."'";
 $cuenta = DBUtil::getRecordCountToQuery($query);
 
 if($cuenta > 0){
 	//no podemos actualizar ya que se indico un vaucher de otro envio
 	$code = 1;
-	$msgError = "Disculpe, el numero de vauche de pago indicado existe en otro pedido.\n";
+	$msgError = "Disculpe, el numero de vauche de pago indicado existe en otro pedido.";
 	$msgError .= "Verifique e intente de nuevo.";
 }else {
 	//numero de vaucher valido, proseguimos
@@ -46,6 +46,7 @@ if($cuenta > 0){
 	.", observaciones_envio='".$_POST["obs"]."'"
 	.", id_medio_pago=".$_POST["medio"]
 	.", id_banco=".($_POST["medio"] == 5 ? 4 : $_POST["banco"])
+	.", id_banco_origen=".($_POST["medio"] == 6 ? $_POST["bancoOrigen"] : 4)
 	.", id_empresa_envio=".$_POST["envio"]
 	.", id_status_actual=".Constants::$STATUS_INICIAL_ENVIOS
 	." WHERE id=".$_POST["id"];
@@ -130,7 +131,7 @@ if($cuenta > 0){
 		alert("Su informacion fue actualizada de manera exitosa.");
 		window.location = "index.php";
 	<?php } else {?>
-		alert(<?php echo $msgError;?>);
+		alert("<?php echo $msgError;?>");
 		window.history.back();
 	<?php }?>
 </script>

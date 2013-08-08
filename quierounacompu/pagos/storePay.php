@@ -13,9 +13,10 @@ $response = -1;
 
 $query = "SELECT * FROM envios"
 ." WHERE num_voucher='".$_POST["bauche"]."'";
-if($_POST["medio"] != $medioMercadoPago){
+/*if($_POST["medio"] != $medioMercadoPago){
 	$query .= " AND id_banco=".$_POST["banco"];
 }
+*/
 
 $cuenta = DBUtil::getRecordCountToQuery($query);
 if($cuenta > 0){

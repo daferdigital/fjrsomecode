@@ -281,7 +281,7 @@
 			        <option value="295" <?php echo ($localPhone[0] == "295" ? "selected" : "");?>>295</option>
 			        <option value="296" <?php echo ($localPhone[0] == "296" ? "selected" : "");?>>296</option>
       			</select>
-    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" maxlength="7" size="20" name="tlfLocalCliente" onkeypress="return textInputOnlyNumbers(event)" value="<?php echo $localPhone[1];?>"/>
+    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" maxlength="7" size="20" name="tlfLocalCliente" onkeypress="return textInputOnlyNumbers(event)" value="<?php echo isset($localPhone[1]) ? $localPhone[1] : "";?>"/>
     			<span class="isMandatory" id="spanLocalClienteLength" style="display: none;">
 	    			<br/>
 	    			Disculpe la longitud de su n&uacute;mero de tlf local debe ser de 7 digitos.
@@ -321,30 +321,15 @@
       		</td>
   		</tr>
   		<tr id="bancoAllInfo" <?php echo ($envioDTO->getIdMedioPago() == 5 ? "style=\"display: none;\"": "");?>>
-    		<td class="title Estilo17">Banco:</td>
+    		<td class="title Estilo17">Banco Destino de los Fondos:</td>
     		<td colspan="<?php echo $columnas -1;?>">
     			<select name="banco" size="1" class="Estilo11" style="FONT-SIZE: 10pt" id="banco">
 					<option value="-1" selected>Seleccione su banco</option>
-			        <?php 
-    					$query = "SELECT id, nombre "
-    					."FROM bancos "
-    					."WHERE active='1' "
+			        <?php     					$query = "SELECT id, nombre "    					."FROM bancos "    					."WHERE active='1' "						."AND show_as_other_banks='0' "
     					."ORDER BY nombre";
-    					
     					$results = DBUtil::executeSelect($query);
-    					foreach ($results as $row){
-    				?>
-    					<option value="<?php echo $row["id"];?>" <?php echo ($envioDTO->getIdBanco() == $row["id"] ? "selected" : "");?>><?php echo $row["nombre"];?></option>
-    				<?php
-    					}
-    				?>
-        		</select>
-        		<span class="isMandatory" id="spanBanco" style="display: none;">
-	    			<br/>
-	    			Disculpe debe indicarnos el banco desde el que realiz&oacute; el pago.
-    			</span>
-    		</td>
-  		</tr>
+    					foreach ($results as $row){    				?>    					<option value="<?php echo $row["id"];?>" <?php echo ($envioDTO->getIdBanco() == $row["id"] ? "selected" : "");?>><?php echo $row["nombre"];?></option>    				<?php    					}    				?>        		</select>
+        		<span class="isMandatory" id="spanBanco" style="display: none;">	    			<br/>	    			Disculpe debe indicarnos el banco al cual ir&aacute;n los fondos del pago.    			</span>    		</td>  		</tr>  		<tr id="trBancoOrigen" style="display: none;">        	<td class="title Estilo17">Banco Origen de los Fondos:</td>    		<td colspan="<?php echo $columnas - 1;?>">        		<select name="bancoOrigen" size="1" class="Estilo11" style="FONT-SIZE: 10pt;" id="bancoOrigen" disabled>					<option value="-1" selected>Seleccione su banco</option>			        <?php     					$query = "SELECT id, nombre "    					."FROM bancos "    					."WHERE active='1' "						."AND show_as_other_banks='1' "    					."ORDER BY nombre";    					    					$results = DBUtil::executeSelect($query);    					foreach ($results as $row){    				?>    					<option value="<?php echo $row["id"];?>" <?php echo ($envioDTO->getIdBancoOrigen() == $row["id"] ? "selected" : "");?>><?php echo $row["nombre"];?></option>    				<?php    					}    				?>        		</select>        		<span class="isMandatory" id="spanBancoOrigen" style="display: none;">	    			<br/>	    			Disculpe debe indicarnos el banco desde el que realiz&oacute; el pago.    			</span>    		</td>  		</tr>  		
   		<tr>
     		<td class="title Estilo17">
     			* N&uacute;mero del dep&oacute;sito o transferencia:
@@ -397,7 +382,7 @@
 	      		* Monto del dep&oacute;sito o transferencia:
 	      	</td>
     		<td colspan="<?php echo $columnas -1;?>">
-    			<input style="FONT-SIZE: 10pt; TEXT-DECORATION: none" size="30" name="monto" onkeypress="return textInputCurrency(event)" value="<?php echo $envioDTO->getMontoPago();?>"/> 
+    			<input style="FONT-SIZE: 10pt; TEXT-DECORATION: none" size="30" name="monto" onkeypress="return textInputCurrency(event)" value="<?php echo str_replace(".", ",", $envioDTO->getMontoPago());?>"/> 
       			<span class="Estilo23">Bs F</span>
       			<span class="isMandatory" id="spanMonto" style="display: none;">
 	    			<br/>
@@ -724,7 +709,7 @@
 			        <option value="295" <?php echo ($localPhone[0] == "295" ? "selected" : "");?>>295</option>
 			        <option value="296" <?php echo ($localPhone[0] == "296" ? "selected" : "");?>>296</option>
       			</select>
-    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" maxlength="7" size="20" name="tlfLocalDestinatario" onkeypress="return textInputOnlyNumbers(event)" value="<?php echo $localPhone[1];?>"/>
+    			<input style="BACKGROUND-COLOR: rgb(255,255,255)" maxlength="7" size="20" name="tlfLocalDestinatario" onkeypress="return textInputOnlyNumbers(event)" value="<?php echo isset($localPhone[1]) ? $localPhone[1] : "";?>"/>
     			<span class="isMandatory" id="spanLocalDestinatarioLength" style="display: none;">
 	    			<br/>
 	    			Disculpe la longitud de su n&uacute;mero de tlf local debe ser de 7 digitos.
@@ -764,6 +749,6 @@
 		<span>X</span>
 	</span>
     <div id="bPopUpContent" class="content" style="height: auto; width: auto;"></div>
-</div>
+</div><script type="text/javascript">	checkTipoPago(document.getElementById("medio").value);</script>
 </body>
 </html>
