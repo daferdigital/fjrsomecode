@@ -41,8 +41,12 @@ class PagingDAO{
 		$footerTR = "";
 	
 		//vemos la cantidad de elementos a dibujar por pagina
-		$userDTO = $_SESSION[Constants::$KEY_USUARIO_DTO];
-		$maxRecordsPerPage = $userDTO->getRegistrosPorPagina();
+		$maxRecordsPerPage = 50;
+		if(isset($_SESSION[Constants::$KEY_USUARIO_DTO])){
+			$userDTO = $_SESSION[Constants::$KEY_USUARIO_DTO];
+			$maxRecordsPerPage = $userDTO->getRegistrosPorPagina();
+		}
+		
 		//$maxRecordsPerPage = 1;
 		
 		//calculamos el total de paginas involucradas
