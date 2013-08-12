@@ -8,6 +8,8 @@ class EnvioDAO {
 	public static $COD_STATUS_PRESUPUESTADO = 4;
 	public static $COD_STATUS_FACTURADO = 5;
 	public static $COD_STATUS_ENVIADO = 6;
+	public static $COD_STATUS_ERRADOS = 7;
+	public static $COD_STATUS_PAGO_DEVUELTO = 8;
 	
 	/**
 	 * 
@@ -116,7 +118,7 @@ class EnvioDAO {
 		." WHERE es.id_status_inicial = origen.id "
 		." AND es.id_siguiente_status = destino.id "
 		." AND origen.id = ".$statusCode
-		." ORDER BY LOWER(destino.descripcion)";
+		." ORDER BY destino.orden_correo, LOWER(destino.descripcion)";
 	
 		$result = DBUtil::executeSelect($query);
 	

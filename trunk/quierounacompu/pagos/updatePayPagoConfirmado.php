@@ -37,55 +37,55 @@ if(! DBUtil::executeQuery($query)){
 	$comentario = "";
 	
 	if($envioOriginal->getSeudonimoML() != $envioModificado->getSeudonimoML()){
-		$comentario .= ", Seudonimo MercadoLibre por: ".$envioModificado->getSeudonimoML();
+		$comentario .= "<ul> Seudonimo MercadoLibre de: ".$envioOriginal->getSeudonimoML()." a: ".$envioModificado->getSeudonimoML()." </ul>";
 	}
 	if($envioOriginal->getNombreCompleto() != $envioModificado->getNombreCompleto()){
-		$comentario .= ", Nombre del comprador por: ".$envioModificado->getNombreCompleto();
+		$comentario .= "<ul> Nombre del comprador de: ".$envioOriginal->getNombreCompleto()." a: ".$envioModificado->getNombreCompleto()." </ul>";
 	}
 	if($envioOriginal->getCiRIF() != $envioModificado->getCiRIF()){
-		$comentario .= ", CI o  RIF por: ".$envioModificado->getCiRIF();
+		$comentario .= "<ul> CI o  RIF de: ".$envioOriginal->getCiRIF()." a: ".$envioModificado->getCiRIF()." </ul>";
 	}
 	if($envioOriginal->getCorreo() != $envioModificado->getCorreo()){
-		$comentario .= ", Correo por: ".$envioModificado->getCorreo();
+		$comentario .= "<ul> Correo de: ".$envioOriginal->getCorreo()." a: ".$envioModificado->getCorreo()." </ul>";
 	}
 	if($envioOriginal->getTlfCliente() != $envioModificado->getTlfCliente()){
-		$comentario .= ", TlfCelular del cliente por: ".$envioModificado->getTlfCliente();
+		$comentario .= "<ul> TlfCelular del cliente de: ".$envioOriginal->getTlfCliente()." a: ".$envioModificado->getTlfCliente()." </ul>";
 	}
 	if($envioOriginal->getTlfLocalCliente() != $envioModificado->getTlfLocalCliente()){
-		$comentario .= ", TlfLocal del cliente por: ".$envioModificado->getTlfLocalCliente();
+		$comentario .= "<ul> TlfLocal del cliente de: ".$envioOriginal->getTlfLocalCliente()." a: ".$envioModificado->getTlfLocalCliente()." </ul>";
 	}
 	if($envioOriginal->getNombreDestinatario() != $envioModificado->getNombreDestinatario()){
-		$comentario .= ", Nombre del destinatario por: ".$envioModificado->getNombreDestinatario();
+		$comentario .= "<ul> Nombre del destinatario de: ".$envioOriginal->getNombreDestinatario()." a: ".$envioModificado->getNombreDestinatario()." </ul>";
 	}
 	if($envioOriginal->getCedulaDestinatario() != $envioModificado->getCedulaDestinatario()){
-		$comentario .= ", CI o RIF del destinatario por: ".$envioModificado->getCedulaDestinatario();
+		$comentario .= "<ul> CI o RIF del destinatario de: ".$envioOriginal->getCedulaDestinatario()." a: ".$envioModificado->getCedulaDestinatario()." </ul>";
 	}
 	if($envioOriginal->getDireccionDestino() != $envioModificado->getDireccionDestino()){
-		$comentario .= ", Direccion de envio por: ".$envioModificado->getDireccionDestino();
+		$comentario .= "<ul> Direccion de envio de: ".$envioOriginal->getDireccionDestino()." a: ".$envioModificado->getDireccionDestino()." </ul>";
 	}
 	if($envioOriginal->getCiudadDestino() != $envioModificado->getCiudadDestino()){
-		$comentario .= ", Ciudad de envio por: ".$envioModificado->getCiudadDestino();
+		$comentario .= "<ul> Ciudad de envio de: ".$envioOriginal->getCiudadDestino()." a: ".$envioModificado->getCiudadDestino()." </ul>";
 	}
 	if($envioOriginal->getEstadoDestino() != $envioModificado->getEstadoDestino()){
-		$comentario .= ", Estado de envio por: ".$envioModificado->getEstadoDestino();
+		$comentario .= "<ul> Estado de envio de: ".$envioOriginal->getEstadoDestino()." a: ".$envioModificado->getEstadoDestino()." </ul>";
 	}
 	if($envioOriginal->getTlfCelularDestinatario() != $envioModificado->getTlfCelularDestinatario()){
-		$comentario .= ", TlfCelular del destinatario por: ".$envioModificado->getTlfCelularDestinatario();
+		$comentario .= "<ul> TlfCelular del destinatario de: ".$envioOriginal->getTlfCelularDestinatario()." a: ".$envioModificado->getTlfCelularDestinatario()." </ul>";
 	}
 	if($envioOriginal->getTlfLocalDestinatario()!= $envioModificado->getTlfLocalDestinatario()){
-		$comentario .= ", TlfLocal del destinatario por: ".$envioModificado->getTlfLocalDestinatario();
+		$comentario .= "<ul> TlfLocal del destinatario de: ".$envioOriginal->getTlfLocalDestinatario()." a: ".$envioModificado->getTlfLocalDestinatario()." </ul>";
 	}
 	if($envioOriginal->getObservacionesEnvio()!= $envioModificado->getObservacionesEnvio()){
-		$comentario .= ", Observaciones del envio por: ".$envioModificado->getObservacionesEnvio();
+		$comentario .= "<ul> Observaciones del envio de: ".$envioOriginal->getObservacionesEnvio()." a: ".$envioModificado->getObservacionesEnvio()." </ul>";
 	}
 	if($envioOriginal->getDescEmpresaEnvio()!= $envioModificado->getDescEmpresaEnvio()){
-		$comentario .= ", Empresa de envio por: ".$envioModificado->getDescEmpresaEnvio();
+		$comentario .= "<ul> Empresa de envio de: ".$envioOriginal->getDescEmpresaEnvio()." a: ".$envioModificado->getDescEmpresaEnvio()." </ul>";
 	}
 	
 	if($comentario == ""){
 		$comentario = "Se actualizo el envio, pero sin modificar ninguno de sus valores";
 	}else {
-		$comentario = "Fueron cambiados los siguientes valores ".$comentario;
+		$comentario = "Fueron cambiados los siguientes valores: <li>".$comentario." </li>";
 	}
 	
 	EnvioDAO::addComment($idEnvio,
