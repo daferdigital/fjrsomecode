@@ -1,17 +1,11 @@
 <?php
 include_once 'classes/Constants.php';
-include_once 'classes/SessionUtil.php';
 include_once 'classes/DBUtil.php';
 include_once 'classes/UsuarioDTO.php';
-include_once "includes/header.php";
 
-if(! SessionUtil::checkIfUserIsLogged()){
-	$_SESSION[Constants::$KEY_MESSAGE_OPERATION] = Constants::$TEXT_MUST_BE_LOGGED;
-	header("Location: index.php");
-}
-if(SessionUtil::userReachInactivity()){
-	header("Location: index.php");
-}
+session_start();
+
+include_once "includes/header.php";
 ?>
 <tr>
 	<td colspan="2" align="center">
@@ -55,24 +49,7 @@ if(SessionUtil::userReachInactivity()){
 					</td>
 				</tr>
 				<tr>
-					<td>Cargo:</td>
-					<td>
-						<select id="cargo" name="cargo">
-							<option value="">- -</option>
-							<?php 
-							$query = "SELECT id, nombre FROM cargo ORDER BY nombre";
-							$result = DBUtil::executeSelect($query);
-							foreach ($result as $cargo) {
-							?>
-								<option value="<?php echo $cargo["id"];?>"><?php echo $cargo["nombre"];?></option>
-							<?php
-							}
-							?>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>Funcionarios Activos?:</td>
+					<td>Alumnos Retirados?:</td>
 					<td>
 						<select id="activo" name="activo">
 							<option value="">- -</option>
@@ -83,7 +60,7 @@ if(SessionUtil::userReachInactivity()){
 				</tr>
 				<tr>
 					<td colspan="2">
-						<input type="button" value="Buscar" onclick="searchPersonal(1);">
+						<input type="button" value="Buscar" onclick="searchAlumnos(1);">
 					</td>
 				</tr>
 			</table>

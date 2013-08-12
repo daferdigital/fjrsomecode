@@ -69,8 +69,8 @@ function doDelete(tableName, checkName){
 					null,
 					false);
 			
-			if(tableName == "personal"){
-				searchPersonal(1);
+			if(tableName == "alumnos"){
+				searchAlumnos(1);
 			} else {
 				searchSolicitudes(1);
 			}
@@ -235,18 +235,15 @@ function validarLoginForm(forma){
 	return doSubmit;
 }
 
-function validarAgregarPersonalForm(forma){
+function validarAgregarAlumnoForm(forma){
 	var doSubmit = true;
 	
 	document.getElementById("mandatoryNombre").style.display = "none";
 	document.getElementById("mandatoryApellido").style.display = "none";
 	document.getElementById("mandatoryCedula").style.display = "none";
+	document.getElementById("mandatoryCiudad").style.display = "none";
 	document.getElementById("mandatoryDireccion").style.display = "none";
-	document.getElementById("mandatoryTurno").style.display = "none";
-	document.getElementById("mandatoryUbicacion").style.display = "none";
-	document.getElementById("mandatoryFechaIngreso").style.display = "none";
-	document.getElementById("mandatoryTelefono").style.display = "none";
-	document.getElementById("mandatoryCargo").style.display = "none";
+	document.getElementById("mandatoryFechaNacimiento").style.display = "none";
 	
 	//validamos los campos
 	if(forma.nombre.value.trim() == ""){
@@ -267,39 +264,23 @@ function validarAgregarPersonalForm(forma){
 		doSubmit = false;
 	}
 	
+	if(forma.ciudad.value.trim() == ""){
+		document.getElementById("mandatoryCiudad").style.display = "";
+		forma.ciudad.focus();
+		doSubmit = false;
+	}
+	
+	/*
 	if(forma.direccion.value.trim() == ""){
 		document.getElementById("mandatoryDireccion").style.display = "";
 		forma.direccion.focus();
 		doSubmit = false;
 	}
+	*/
 	
-	if(forma.turno.value.trim() == ""){
-		document.getElementById("mandatoryTurno").style.display = "";
-		forma.turno.focus();
-		doSubmit = false;
-	}
-	
-	if(forma.ubicacion.value.trim() == ""){
-		document.getElementById("mandatoryUbicacion").style.display = "";
-		forma.ubicacion.focus();
-		doSubmit = false;
-	}
-	
-	if(forma.fechaIngreso.value.trim() == ""){
-		document.getElementById("mandatoryFechaIngreso").style.display = "";
-		$(window).scrollTop($('#mandatoryFechaIngreso').offset().top);
-		doSubmit = false;
-	}
-	
-	if(forma.telefono.value.trim() == ""){
-		document.getElementById("mandatoryTelefono").style.display = "";
-		forma.telefono.focus();
-		doSubmit = false;
-	}
-	
-	if(forma.cargo.value.trim() == ""){
-		document.getElementById("mandatoryCargo").style.display = "";
-		forma.cargo.focus();
+	if(forma.fechaNacimiento.value.trim() == ""){
+		document.getElementById("mandatoryFechaNacimiento").style.display = "";
+		$(window).scrollTop($('#mandatoryFechaNacimiento').offset().top);
 		doSubmit = false;
 	}
 	
@@ -339,21 +320,20 @@ function guardarPerfil(perfilForm){
  * Llamada Ajax para obtener el listado del personal del sistema
  * @param pageNumber
  */
-function searchPersonal(pageNumber){
+function searchAlumnos(pageNumber){
 	var cedula = document.getElementById("ci").value;
 	if(cedula != ""){
 		cedula += "-";
 	}
 	
 	var parameters = "pageNumber="+pageNumber;
-	parameters += "&scriptFunction=searchPersonal";
+	parameters += "&scriptFunction=searchAlumnos";
 	parameters += "&nombre=" + document.getElementById("nombre").value;
 	parameters += "&apellido=" + document.getElementById("apellido").value;
 	parameters += "&cedula=" + cedula + document.getElementById("cedula").value.trim();
-	parameters += "&cargo=" + document.getElementById("cargo").value;
 	parameters += "&activo=" + document.getElementById("activo").value;
 	
-	callAjax("ajax/getListarPersonal.php",
+	callAjax("ajax/getListarAlumnos.php",
 			parameters,
 			"ajaxPageResult",
 			null);

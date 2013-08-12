@@ -1,6 +1,9 @@
 <?php
 include_once 'classes/Constants.php';
 include_once 'classes/DBUtil.php';
+
+session_start();
+
 include_once "includes/header.php";
 ?>
 <tr>
@@ -45,13 +48,23 @@ include_once "includes/header.php";
 					<td>C&eacute;dula:</td>
 					<td>
 						<select name="ci">
-					        <option value="V" selected>V</option>
+					        <option value="V">V</option>
 					        <option value="E">E</option>
 		      			</select>
 						<input type="text" name="cedula" id="cedula" maxlength="10" onkeypress="return textInputOnlyNumbers(event)"/>
 						<span class="isMandatory" id="mandatoryCedula" style="display: none;">
 							<br />
 							Disculpe, debe indicar la c&eacute;dula.
+						</span>
+					</td>
+				</tr>
+				<tr>
+					<td>Ciudad:</td>
+					<td>
+						<input type="text" name="ciudad" id="ciudad"/>
+						<span class="isMandatory" id="mandatoryCiudad" style="display: none;">
+							<br />
+							Disculpe, debe indicar la ciudad.
 						</span>
 					</td>
 				</tr>
@@ -66,95 +79,27 @@ include_once "includes/header.php";
 					</td>
 				</tr>
 				<tr>
-					<td>Turno:</td>
+					<td>Fecha de Nacimiento:</td>
 					<td>
-						<input type="text" name="turno" id="turno" />
-						<span class="isMandatory" id="mandatoryTurno" style="display: none;">
-							<br />
-							Disculpe, debe indicar el turno.
-						</span>
-					</td>
-				</tr>
-				<tr>
-					<td>Ubicaci&oacute;n:</td>
-					<td>
-						<input type="text" name="ubicacion" id="ubicacion" />
-						<span class="isMandatory" id="mandatoryUbicacion" style="display: none;">
-							<br />
-							Disculpe, debe indicar la ubicaci&oacute;n.
-						</span>
-					</td>
-				</tr>
-				<tr>
-					<td>Fecha de Ingreso:</td>
-					<td>
-						<input type="text" name="fechaIngreso" id="fechaIngreso" readonly="readonly"/>
-						<input type="hidden" id="fechaIngresoHidden" name="fechaIngresoHidden" />
+						<input type="text" name="fechaNacimiento" id="fechaNacimiento" readonly="readonly"/>
+						<input type="hidden" id="fechaNacimientoHidden" name="fechaNacimientoHidden" />
 						<script>
 							new JsDatePick({
 						        useMode:2,
-						        target:"fechaIngreso",
-						        targetHidden:"fechaIngresoHidden",
+						        target:"fechaNacimiento",
+						        targetHidden:"fechaNacimientoHidden",
 						        isStripped:true,
 						       	weekStartDay:0,
-						        limitToToday:false,
+						        limitToToday:true,
 						        dateFormat:"%d/%m/%Y",
 						        dateFormatHidden:"%Y-%m-%d",
 						        imgPath:"./images/"
 						    });
 						</script>
-						<div class="isMandatory" id="mandatoryFechaIngreso" style="display: none;">
+						<div class="isMandatory" id="mandatoryFechaNacimiento" style="display: none;">
 							<br />
-							Disculpe, debe indicar la fecha de ingreso.
+							Disculpe, debe indicar la fecha de nacimiento del alumno.
 						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>Tel&eacute;fono:</td>
-					<td>
-						<input type="text" name="telefono" id="telefono" onkeypress="return textInputOnlyNumbers(event)" maxlength="11"/>
-						<span class="isMandatory" id="mandatoryTelefono" style="display: none;">
-							<br />
-							Disculpe, debe indicar el n&uacute;mero de tel&eacute;fono.
-						</span>
-					</td>
-				</tr>
-				<tr>
-					<td>Cargo:</td>
-					<td>
-						<select id="cargo" name="cargo">
-							<option value="">- -</option>
-							<?php 
-							$query = "SELECT id, nombre FROM cargo ORDER BY nombre";
-							$result = DBUtil::executeSelect($query);
-							foreach ($result as $cargo) {
-							?>
-								<option value="<?php echo $cargo["id"];?>"><?php echo $cargo["nombre"];?></option>
-							<?php
-							}
-							?>
-						</select>
-						<span class="isMandatory" id="mandatoryCargo" style="display: none;">
-							<br />
-							Disculpe, debe indicar el cargo.
-						</span>
-					</td>
-				</tr>
-				<tr>
-					<td>Supervisor:</td>
-					<td>
-						<select name="supervisor">
-							<option value="">- -</option>
-							<?php 
-							$query = "SELECT id, nombre, apellido FROM personal WHERE id_cargo=3 ORDER BY nombre";
-							$result = DBUtil::executeSelect($query);
-							foreach ($result as $supervisor) {
-							?>
-								<option value="<?php echo $supervisor["id"];?>"><?php echo $supervisor["nombre"]." ".$supervisor["apellido"];?></option>
-							<?php
-							}
-							?>
-						</select>
 					</td>
 				</tr>
 				<tr>
