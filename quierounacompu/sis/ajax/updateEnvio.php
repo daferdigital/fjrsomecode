@@ -86,6 +86,10 @@ if($newStatus != -1){
 		$newStatusText = "Presupuestado";
 	} else if(EnvioDAO::$COD_STATUS_ENVIADO == $newStatus){
 		$newStatusText = "Enviado";
+	} else if(EnvioDAO::$COD_STATUS_ERRADOS == $newStatus){
+		$newStatusText = "Errado";
+	} else if(EnvioDAO::$COD_STATUS_PAGO_DEVUELTO == $newStatus){
+		$newStatusText = "Pago Devuelto";
 	}
 }
 
