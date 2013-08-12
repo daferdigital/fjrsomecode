@@ -5,6 +5,80 @@ String.prototype.trim=function(){
 };
 
 /**
+ * 
+ * @param urlToOpen
+ */
+function openPopUp(urlToOpen){
+	var w = 750;
+	var h = 600;
+	var title = "Informaci&oacute;n en Formato PDF";
+	
+	var left = (screen.width/2)-(w/2);
+	var top = (screen.height/2)-(h/2)-50;
+	
+	return window.open(urlToOpen, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left); 
+}
+
+/**
+ * 
+ * @param checkName
+ */
+function checkAll(checkName){
+	var checkList = document.getElementsByName(checkName);
+	
+	for ( var i = 0; i < checkList.length; i++) {
+		checkList[i].checked = true;
+	}
+}
+
+/**
+ * 
+ */
+function doDelete(tableName, checkName){
+	var doDelete = confirm("Esta seguro que desea eliminar esos registros del sistema?");
+
+	if(doDelete){
+		var checkList = document.getElementsByName(checkName);
+		var ids = "";
+		
+		for ( var i = 0; i < checkList.length; i++) {
+			if(checkList[i].checked){
+				if(ids != ""){
+					ids += ",";
+				}
+				
+				ids += checkList[i].value;
+			}
+		}
+		
+		if(ids == ""){
+			alert("Debe seleccionar los registros que desea eliminar.");
+			doDelete = false;
+		}
+		
+		if(doDelete){
+			//llamamos al ajax de borrar
+			//y luego llamamos al ajax para recargar el listado manteniendo los filtros
+			//por seguridad buscaremos siempre la pagina 1
+			var params = "ids=" + ids;
+			params += "&tableName=" + tableName;
+			
+			callAjax("ajax/doDelete.php", 
+					params,
+					null,
+					null,
+					false);
+			
+			if(tableName == "personal"){
+				searchPersonal(1);
+			} else {
+				searchSolicitudes(1);
+			}
+		}
+	}
+}
+
+/**
  * funcion para crear un objeto del tipo XMLHTTPRequest segun el navegador
  * 
  * @returns objeto XMLHTTPRequest creado
@@ -84,6 +158,61 @@ function textInputOnlyNumbers(e){
 	} else {
 		return false;
 	}
+}
+
+function validarAgregarSolicitudForm(forma){
+	var doSubmit = true;
+	
+	document.getElementById("mandatoryFuncionario").style.display = "none";
+	document.getElementById("mandatoryTipoSolicitud").style.display = "none";
+	document.getElementById("mandatoryFechaSalida").style.display = "none";
+	document.getElementById("mandatoryFechaLlegada").style.display = "none";
+	document.getElementById("mandatoryFechaRango").style.display = "none";
+	document.getElementById("mandatoryComentario").style.display = "none";
+	
+	//validamos los campos
+	if(forma.funcionario.value.trim() == ""){
+		document.getElementById("mandatoryFuncionario").style.display = "";
+		forma.funcionario.focus();
+		doSubmit = false;
+	}
+	
+	if(forma.tipoSolicitud.value.trim() == ""){
+		document.getElementById("mandatoryTipoSolicitud").style.display = "";
+		forma.tipoSolicitud.focus();
+		doSubmit = false;
+	}
+	
+	if(forma.fechaSalida.value.trim() == ""){
+		document.getElementById("mandatoryFechaSalida").style.display = "";
+		doSubmit = false;
+	}
+	
+	if(forma.fechaLlegada.value.trim() == ""){
+		document.getElementById("mandatoryFechaLlegada").style.display = "";
+		doSubmit = false;
+	}
+	
+	//validamos que la fecha de llegada no sea menor a la de salida
+	if(forma.fechaSalida.value.trim() != "" && forma.fechaLlegada.value.trim() != ""){
+		var fechaSalidaArray = forma.fechaSalida.value.split("/");
+		var fechaLlegadaArray = forma.fechaLlegada.value.split("/");
+		
+		var fechaSalida = new Date(fechaSalidaArray[2], fechaSalidaArray[1] -1, fechaSalidaArray[0]);
+		var fechaLlegada = new Date(fechaLlegadaArray[2], fechaLlegadaArray[1] -1, fechaLlegadaArray[0]);
+		
+		if(fechaSalida > fechaLlegada){
+			document.getElementById("mandatoryFechaRango").style.display = "";
+		}
+	}
+	
+	if(forma.comentario.value.trim() == ""){
+		document.getElementById("mandatoryComentario").style.display = "";
+		forma.comentario.focus();
+		doSubmit = false;
+	}
+	
+	return doSubmit;
 }
 
 function validarLoginForm(forma){
@@ -178,13 +307,42 @@ function validarAgregarPersonalForm(forma){
 }
 
 /**
+ * Validamos el formulario de perfil y en caso de ser valido, enviamos el formulario
+ * @param perfilForm
+ */
+function guardarPerfil(perfilForm){
+	var nombre = perfilForm.nombre.value.trim();
+	var apellido = perfilForm.apellido.value.trim();
+	
+	//ajustamos el valor de la clave
+	perfilForm.clave.value = perfilForm.clave.value.trim();
+	
+	document.getElementById("formNombre").style.display = "none";
+	document.getElementById("formApellido").style.display = "none";
+	
+	var doSubmit = true;
+	if(nombre == ""){
+		doSubmit = false;
+		document.getElementById("formNombre").style.display = "inline";
+	}
+	if(apellido == ""){
+		doSubmit = false;
+		document.getElementById("formApellido").style.display = "inline";
+	}
+
+	if (doSubmit) {
+		perfilForm.submit();
+	}
+}
+
+/**
  * Llamada Ajax para obtener el listado del personal del sistema
  * @param pageNumber
  */
 function searchPersonal(pageNumber){
 	var cedula = document.getElementById("ci").value;
 	if(cedula != ""){
-		cedula =+ "-";
+		cedula += "-";
 	}
 	
 	var parameters = "pageNumber="+pageNumber;
@@ -193,8 +351,28 @@ function searchPersonal(pageNumber){
 	parameters += "&apellido=" + document.getElementById("apellido").value;
 	parameters += "&cedula=" + cedula + document.getElementById("cedula").value.trim();
 	parameters += "&cargo=" + document.getElementById("cargo").value;
+	parameters += "&activo=" + document.getElementById("activo").value;
 	
 	callAjax("ajax/getListarPersonal.php",
+			parameters,
+			"ajaxPageResult",
+			null);
+}
+
+/**
+ * Llamada Ajax para obtener el listado del solicitudes de permisos del sistema
+ * @param pageNumber
+ */
+function searchSolicitudes(pageNumber){
+	var parameters = "pageNumber="+pageNumber;
+	parameters += "&scriptFunction=searchSolicitudes";
+	parameters += "&funcionario=" + document.getElementById("funcionario").value;
+	parameters += "&tipoSolicitud=" + document.getElementById("tipoSolicitud").value;
+	parameters += "&fechaSalida=" + document.getElementById("fechaSalidaHidden").value.trim();
+	parameters += "&fechaLlegada=" + document.getElementById("fechaLlegadaHidden").value;
+	parameters += "&activo=" + document.getElementById("activo").value;
+	
+	callAjax("ajax/getListarSolicitudes.php",
 			parameters,
 			"ajaxPageResult",
 			null);

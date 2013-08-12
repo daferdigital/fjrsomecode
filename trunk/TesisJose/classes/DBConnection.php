@@ -1,8 +1,8 @@
 <?php
 class DBConnection {
-	private $server = "ubuntu-sun";
+	private $server = "localhost";
 	private $username = "root";
-	private $password = "F0cusvision91";
+	private $password = "root1006";
 	private $dbSchema = "seguridad3";
 	
 	private $dbConnection;

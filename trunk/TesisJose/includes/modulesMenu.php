@@ -13,48 +13,26 @@
 							Listar
 						</a>
 					</li>
-					<li>
-						<a href="searchEnviosByType.php?type=">
-							Modificar
-						</a>
-					</li>
-					<li>
-						<a href="searchEnviosByType.php?type=">
-							Eliminar
-						</a>
-					</li>
 				</ul>
 			</li>
 			<li>
 				<a href="#" class="MenuBarItemSubmenu">Solicitudes</a>
 				<ul>
 					<li>
-						<a href="searchEnviosByType.php?type=">
+						<a href="formAgregarSolicitud.php">
 							Agregar
 						</a>
 					</li>
 					<li>
-						<a href="searchEnviosByType.php?type=">
+						<a href="formListarSolicitudes.php">
 							Listar
-						</a>
-					</li>
-					<li>
-						<a href="searchEnviosByType.php?type=">
-							Modificar
-						</a>
-					</li>
-					<li>
-						<a href="searchEnviosByType.php?type=">
-							Eliminar
 						</a>
 					</li>
 				</ul>
 			</li>
-			<!-- 
 			<li>
 				<a href="perfil.php">Perfil</a>
 			</li>
-			 -->
 		</ul>
 		
 		<br style="clear: right;" />

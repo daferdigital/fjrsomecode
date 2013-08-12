@@ -84,7 +84,7 @@ select {
 	display: inline-block;
 	font-size: 18px;
 	font-weight: bold;
-	width: 30%;
+	/*width: 30%;*/
 	vertical-align: top;
 }
 
@@ -96,7 +96,7 @@ select {
 
 .seccionDetail {
 	display: inline-block;
-	width: 55%;
+	/*width: 55%;*/
 	margin: 15px;
 	margin-right: 0px;
 	font-size: 12px;
