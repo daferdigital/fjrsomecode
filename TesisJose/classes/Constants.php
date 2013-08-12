@@ -21,5 +21,6 @@ class Constants {
 	public static $TEXT_UNKNOWN_ACCESS = "Disculpe, modo de acceso desconocido.<br />Comuniquese con el Administrador.";
 	public static $TEXT_FORM_NOT_SUBMITED = "Disculpe, para realizar esta operaci&oacute;n.<br />Debe llenar el siguiente formulario.";
 	public static $TEXT_NO_PAGE_RECORDS = "No se encontraron registros que coincidan con sus criterios de b&uacute;squeda";
+	public static $TEXT_ID_DONT_EXISTS = "Disculpe, el registro solicitado no existe.";
 }
 ?>

@@ -1,0 +1,43 @@
+<?php
+session_start();
+
+include_once '../classes/Constants.php';
+include_once '../classes/DBConnection.php';
+include_once '../classes/DBUtil.php';
+include_once '../classes/SessionUtil.php';
+include_once '../classes/UsuarioDAO.php';
+include_once '../classes/UsuarioDTO.php';
+
+//verificamos el acceso
+if(! SessionUtil::checkIfUserIsLogged()){
+	$_SESSION[Constants::$KEY_MESSAGE_OPERATION] = Constants::$TEXT_MUST_BE_LOGGED;
+	header("Location: ../index.php");
+}
+
+//verificamos que efectivamente venimos del submit del formulario
+if(isset($_POST["botonSubmit"])){
+	//intentamos realizar el insert
+	$query = "UPDATE personal SET ";
+	$query .= "nombre='".$_POST["nombre"]."', ";
+	$query .= "apellido='".$_POST["apellido"]."', ";
+	$query .= "cedula='".$_POST["ci"]."-".$_POST["cedula"]."', ";
+	$query .= "direccion='".$_POST["direccion"]."', ";
+	$query .= "turno='".$_POST["turno"]."', ";
+	$query .= "ubicacion='".$_POST["ubicacion"]."', ";
+	$query .= "fecha_ingreso='".$_POST["fechaIngresoHidden"]."', ";
+	$query .= "telefono='".$_POST["telefono"]."', ";
+	$query .= "id_cargo=".$_POST["cargo"].", ";
+	$query .= "id_supervisor=".($_POST["supervisor"] == "" ? "NULL" : $_POST["supervisor"]);
+	$query .= " WHERE id=".$_POST["id"];
+	
+	if(DBUtil::executeQuery($query)){
+		$_SESSION[Constants::$KEY_MESSAGE_OPERATION] = Constants::$TEXT_OPERATION_DONE;
+	} else {
+		$_SESSION[Constants::$KEY_MESSAGE_OPERATION] = Constants::$TEXT_OPERATION_ERROR;
+	}
+} else {
+	$_SESSION[Constants::$KEY_MESSAGE_OPERATION] = Constants::$TEXT_FORM_NOT_SUBMITED;
+}
+
+header("Location: ../formListarPersonal.php");
+?>

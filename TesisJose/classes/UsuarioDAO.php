@@ -39,7 +39,7 @@ class UsuarioDAO {
 					"",
 					$result[0]["timeout"],
 					"1",
-					"50");
+					$result[0]["registros_por_pagina"]);
 		} else {
 			return null;
 		}

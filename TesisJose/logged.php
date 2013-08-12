@@ -5,6 +5,10 @@
 		$_SESSION[Constants::$KEY_MESSAGE_OPERATION] = Constants::$TEXT_MUST_BE_LOGGED;
 		header("Location: index.php");
 	}
+	
+	if(SessionUtil::userReachInactivity()){
+		header("Location: index.php");
+	}
 ?>
 	
 <?php

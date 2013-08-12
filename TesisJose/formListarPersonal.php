@@ -18,6 +18,20 @@ if(SessionUtil::userReachInactivity()){
 		<form action="" method="post" enctype="application/x-www-form-urlencoded">
 			<table>
 				<tr>
+					<td colspan="2" align="right">
+						<div id="loginErrorMsg">
+							<?php
+								if(isset($_SESSION[Constants::$KEY_MESSAGE_OPERATION])){
+							?>
+									<h3><?php echo $_SESSION[Constants::$KEY_MESSAGE_OPERATION];?></h3>
+							<?php
+									unset($_SESSION[Constants::$KEY_MESSAGE_OPERATION]);
+								}
+							?>
+						</div>
+					</td>
+				</tr>
+				<tr>
 					<td>Nombre: </td>
 					<td>
 						<input type="text" name="nombre" id="nombre" />
@@ -55,10 +69,16 @@ if(SessionUtil::userReachInactivity()){
 							}
 							?>
 						</select>
-						<span class="isMandatory" id="mandatoryCargo" style="display: none;">
-							<br />
-							Disculpe, debe indicar el cargo.
-						</span>
+					</td>
+				</tr>
+				<tr>
+					<td>Funcionarios Activos?:</td>
+					<td>
+						<select id="activo" name="activo">
+							<option value="">- -</option>
+							<option value="1">S&iacute;</option>
+							<option value="0">No</option>
+						</select>
 					</td>
 				</tr>
 				<tr>
