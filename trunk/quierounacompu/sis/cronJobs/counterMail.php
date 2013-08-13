@@ -24,13 +24,13 @@ if($mustSendEmail){
 	$mailTo .= "administracion@quierounacompu.com,";
 	$mailTo .= "caja@quierounacompu.com";
 	
-	//para debug	
+	//para debug
 	//$mailTo = "felipe.rojasg@gmail.com";
 	
-	$query = "SELECT es.descripcion, e.id_status_actual, COUNT(*) AS cuenta "
-			."FROM envios_status es, envios e "
-			."WHERE es.id = e.id_status_actual "
-			."GROUP BY e.id_status_actual "
+	$query = "SELECT es.descripcion, COUNT(e.id) AS cuenta "
+			."FROM envios_status es LEFT JOIN envios e ON (es.id = e.id_status_actual) "
+			."WHERE es.show_in_email = '1' "
+			."GROUP BY es.descripcion "
 			."ORDER BY es.orden_correo";
 	
 	$message = "<table border='1' align='center'>";

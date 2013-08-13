@@ -31,37 +31,37 @@ if(! DBUtil::executeQuery($query)){
 	$comentario = "";
 	
 	if($envioOriginal->getNombreDestinatario() != $envioModificado->getNombreDestinatario()){
-		$comentario .= "<ul> Nombre del destinatario de: ".$envioOriginal->getNombreDestinatario()." a: ".$envioModificado->getNombreDestinatario()."</ul>";
+		$comentario .= "<li> Nombre del destinatario de: ".$envioOriginal->getNombreDestinatario()." a: ".$envioModificado->getNombreDestinatario()."</li>";
 	}
 	if($envioOriginal->getCedulaDestinatario() != $envioModificado->getCedulaDestinatario()){
-		$comentario .= "<ul> CI o RIF del destinatario de: ".$envioOriginal->getCedulaDestinatario()." a: ".$envioModificado->getCedulaDestinatario()."</ul>";
+		$comentario .= "<li> CI o RIF del destinatario de: ".$envioOriginal->getCedulaDestinatario()." a: ".$envioModificado->getCedulaDestinatario()."</li>";
 	}
 	if($envioOriginal->getDireccionDestino() != $envioModificado->getDireccionDestino()){
-		$comentario .= "<ul> Direccion de envio de: ".$envioOriginal->getDireccionDestino()." a: ".$envioModificado->getDireccionDestino()."</ul>";
+		$comentario .= "<li> Direccion de envio de: ".$envioOriginal->getDireccionDestino()." a: ".$envioModificado->getDireccionDestino()."</li>";
 	}
 	if($envioOriginal->getCiudadDestino() != $envioModificado->getCiudadDestino()){
-		$comentario .= "<ul> Ciudad de envio de: ".$envioOriginal->getCiudadDestino()." a: ".$envioModificado->getCiudadDestino()."</ul>";
+		$comentario .= "<li> Ciudad de envio de: ".$envioOriginal->getCiudadDestino()." a: ".$envioModificado->getCiudadDestino()."</li>";
 	}
 	if($envioOriginal->getEstadoDestino() != $envioModificado->getEstadoDestino()){
-		$comentario .= "<ul> Estado de envio de: ".$envioOriginal->getEstadoDestino()." a: ".$envioModificado->getEstadoDestino()."</ul>";
+		$comentario .= "<li> Estado de envio de: ".$envioOriginal->getEstadoDestino()." a: ".$envioModificado->getEstadoDestino()."</li>";
 	}
 	if($envioOriginal->getTlfCelularDestinatario() != $envioModificado->getTlfCelularDestinatario()){
-		$comentario .= "<ul> TlfCelular del destinatario de: ".$envioOriginal->getTlfCelularDestinatario()." a: ".$envioModificado->getTlfCelularDestinatario()."</ul>";
+		$comentario .= "<li> TlfCelular del destinatario de: ".$envioOriginal->getTlfCelularDestinatario()." a: ".$envioModificado->getTlfCelularDestinatario()."</li>";
 	}
 	if($envioOriginal->getTlfLocalDestinatario()!= $envioModificado->getTlfLocalDestinatario()){
-		$comentario .= "<ul> TlfLocal del destinatario de: ".$envioOriginal->getTlfLocalDestinatario()." a: ".$envioModificado->getTlfLocalDestinatario()."</ul>";
+		$comentario .= "<li> TlfLocal del destinatario de: ".$envioOriginal->getTlfLocalDestinatario()." a: ".$envioModificado->getTlfLocalDestinatario()."</li>";
 	}
 	if($envioOriginal->getObservacionesEnvio()!= $envioModificado->getObservacionesEnvio()){
-		$comentario .= "<ul> Observaciones del envio de: ".$envioOriginal->getObservacionesEnvio()." a: ".$envioModificado->getObservacionesEnvio()."</ul>";
+		$comentario .= "<li> Observaciones del envio de: ".$envioOriginal->getObservacionesEnvio()." a: ".$envioModificado->getObservacionesEnvio()."</li>";
 	}
 	if($envioOriginal->getDescEmpresaEnvio()!= $envioModificado->getDescEmpresaEnvio()){
-		$comentario .= "<ul> Empresa de envio de: ".$envioOriginal->getDescEmpresaEnvio()." a: ".$envioModificado->getDescEmpresaEnvio()."</ul>";
+		$comentario .= "<li> Empresa de envio de: ".$envioOriginal->getDescEmpresaEnvio()." a: ".$envioModificado->getDescEmpresaEnvio()."</li>";
 	}
 	
 	if($comentario == ""){
 		$comentario = "Se actualizo el envio, pero sin modificar ninguno de sus valores";
 	}else {
-		$comentario = "Fueron cambiados los siguientes valores <li>".$comentario." </li>";
+		$comentario = "Fueron cambiados los siguientes valores <ul>".$comentario." </ul>";
 	}
 	
 	EnvioDAO::addComment($idEnvio,

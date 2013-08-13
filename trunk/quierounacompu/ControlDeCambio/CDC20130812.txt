@@ -12,7 +12,7 @@ ALTER TABLE  `envios` ADD COLUMN `id_banco_origen` INT UNSIGNED NULL  AFTER `id_
 , ADD INDEX `FK_ENVIO_BANCO_ORIGEN_idx` (`id_banco_origen` ASC) ;
 ALTER TABLE  `envios` CHANGE COLUMN `id_banco_origen` `id_banco_origen` INT(10) UNSIGNED NULL DEFAULT NULL  AFTER `id_banco` ;
 ALTER TABLE  `envios` ADD COLUMN `id_encriptado` VARCHAR(250) NOT NULL COMMENT 'valor del id encriptado para ser usado en los links de update de los envios'  AFTER `id` ;
-
+ALTER TABLE `envios_status` ADD COLUMN `show_in_email` CHAR(1) NOT NULL DEFAULT '1'  AFTER `orden_correo` ;
 
 INSERT INTO  `envios_status` (`id`, `descripcion`) VALUES (7, 'Errados');
 INSERT INTO  `envios_status` (`id`, `descripcion`) VALUES (8, 'Pagos Devueltos');
@@ -24,8 +24,8 @@ UPDATE  `envios_status` SET `orden_correo`='3' WHERE `id`='3';
 UPDATE  `envios_status` SET `orden_correo`='4' WHERE `id`='4';
 UPDATE  `envios_status` SET `orden_correo`='5' WHERE `id`='5';
 UPDATE  `envios_status` SET `orden_correo`='6' WHERE `id`='6';
-UPDATE  `envios_status` SET `orden_correo`='8' WHERE `id`='7';
-UPDATE  `envios_status` SET `orden_correo`='7' WHERE `id`='8';
+UPDATE  `envios_status` SET `orden_correo`='8', show_in_email='0' WHERE `id`='7';
+UPDATE  `envios_status` SET `orden_correo`='7', show_in_email='0' WHERE `id`='8';
 
 UPDATE envios SET id_banco_origen = 4 WHERE id_banco_origen IS NULL;	
 UPDATE envios SET id_encriptado = MD5(id);
@@ -82,4 +82,5 @@ sis/ajax/showEnvio.php
 sis/ajax/updateEnvio.php
 sis/classes/EnvioDAO.php
 sis/classes/EnvioDTO.php
+sis/cronJobs/counterMail.php
 sis/js/siteSIS.js
