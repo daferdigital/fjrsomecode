@@ -7,7 +7,8 @@ include_once "../sis/classes/BitacoraDAO.php";
 $query = "SELECT id_encriptado, detalle_compra"
 ." FROM envios"
 ." WHERE ci_rif='".$_GET["ciRif"]."'"
-." AND id_status_actual <> 6";
+." AND id_status_actual <> 6"
+." AND id_status_actual <> 7";
 
 $result = DBUtil::executeSelect($query);
 if(count($result) == 0){
