@@ -82,6 +82,10 @@ if(isset($_POST["terminos"]) && $cuenta == 0){
 
 	$lastId = DBUtil::executeQueryAndReturnLastId($query);
 	if($lastId > 0){
+		//actualizamos con el id encriptado
+		$query = "UPDATE envios SET id_encriptado = MD5('".$lastId."') WHERE id = ".$lastId;
+		DBUtil::executeQuery($query);
+		
 		//guardamos la posible imagen del comprobante de pago
 		//print_r($_FILES);
 		if(isset($_FILES["archivoTransferencia"])

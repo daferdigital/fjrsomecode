@@ -433,6 +433,17 @@ function actualizarEnvio(idButtonToHide, statusActual){
 		}
 	}
 	
+	if(document.getElementById("newStatus") != null && document.getElementById("newStatus").value == "7"){
+		//cuando el estatus nuevo es 7 (envio errado) el comentario es obligatorio
+		document.getElementById("mandatoryComentario").style.display = "none";
+		
+		if(document.getElementById("newComment") != null && document.getElementById("newComment").value.trim() == ""){
+			document.getElementById("mandatoryComentario").style.display = "inline";
+			document.getElementById("newComment").focus();
+			valid = false;
+		}
+	}
+	
 	if(valid){
 		document.getElementById(idButtonToHide).style.display = "none";
 		
