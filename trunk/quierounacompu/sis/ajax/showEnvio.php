@@ -301,6 +301,10 @@ BitacoraDAO::registrarComentario("El usuario ".($canEdit ? "" : "NO")." puede ed
 					<td>Indique su Comentario</td>
 					<td>
 						<textarea rows="5" cols="30" name="newComment" id="newComment"></textarea>
+						<div class="isMandatory" id="mandatoryComentario" style="display: none;">
+							<br />
+							Disculpe, debe indicar el comentario de manera obligatoria.
+						</div>
 					</td>
 				</tr>
 				<tr>

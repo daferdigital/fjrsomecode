@@ -1,31 +1,31 @@
 
 Comandos BD:
 
-ALTER TABLE `quierounacompu`.`envios_status` ADD COLUMN `orden_correo` INT NULL DEFAULT 1  AFTER `descripcion` ;
-ALTER TABLE `quierounacompu`.`bancos` ADD COLUMN `show_as_other_banks` CHAR(1) NULL DEFAULT '0'  AFTER `active` ;
-ALTER TABLE `quierounacompu`.`envios` ADD COLUMN `id_banco_origen` INT UNSIGNED NULL  AFTER `id_status_actual` , 
+ALTER TABLE  `envios_status` ADD COLUMN `orden_correo` INT NULL DEFAULT 1  AFTER `descripcion` ;
+ALTER TABLE  `bancos` ADD COLUMN `show_as_other_banks` CHAR(1) NULL DEFAULT '0'  AFTER `active` ;
+ALTER TABLE  `envios` ADD COLUMN `id_banco_origen` INT UNSIGNED NULL  AFTER `id_status_actual` , 
   ADD CONSTRAINT `FK_ENVIO_BANCO_ORIGEN`
   FOREIGN KEY (`id_banco_origen` )
-  REFERENCES `quierounacompu`.`bancos` (`id` )
+  REFERENCES  `bancos` (`id` )
   ON DELETE NO ACTION
   ON UPDATE NO ACTION
 , ADD INDEX `FK_ENVIO_BANCO_ORIGEN_idx` (`id_banco_origen` ASC) ;
-ALTER TABLE `quierounacompu`.`envios` CHANGE COLUMN `id_banco_origen` `id_banco_origen` INT(10) UNSIGNED NULL DEFAULT NULL  AFTER `id_banco` ;
-ALTER TABLE `quierounacompu`.`envios` ADD COLUMN `id_encriptado` VARCHAR(250) NOT NULL COMMENT 'valor del id encriptado para ser usado en los links de update de los envios'  AFTER `id` ;
+ALTER TABLE  `envios` CHANGE COLUMN `id_banco_origen` `id_banco_origen` INT(10) UNSIGNED NULL DEFAULT NULL  AFTER `id_banco` ;
+ALTER TABLE  `envios` ADD COLUMN `id_encriptado` VARCHAR(250) NOT NULL COMMENT 'valor del id encriptado para ser usado en los links de update de los envios'  AFTER `id` ;
 
 
-INSERT INTO `quierounacompu`.`envios_status` (`id`, `descripcion`) VALUES (7, 'Errados');
-INSERT INTO `quierounacompu`.`envios_status` (`id`, `descripcion`) VALUES (8, 'Pagos Devueltos');
-INSERT INTO `quierounacompu`.`status_siguientes` (`id_status_inicial`, `id_siguiente_status`) VALUES ('1', '7');
-INSERT INTO `quierounacompu`.`status_siguientes` (`id_status_inicial`, `id_siguiente_status`) VALUES ('3', '7');
+INSERT INTO  `envios_status` (`id`, `descripcion`) VALUES (7, 'Errados');
+INSERT INTO  `envios_status` (`id`, `descripcion`) VALUES (8, 'Pagos Devueltos');
+INSERT INTO  `status_siguientes` (`id_status_inicial`, `id_siguiente_status`) VALUES ('1', '7');
+INSERT INTO  `status_siguientes` (`id_status_inicial`, `id_siguiente_status`) VALUES ('3', '7');
 
-UPDATE `quierounacompu`.`envios_status` SET `orden_correo`='2' WHERE `id`='2';
-UPDATE `quierounacompu`.`envios_status` SET `orden_correo`='3' WHERE `id`='3';
-UPDATE `quierounacompu`.`envios_status` SET `orden_correo`='4' WHERE `id`='4';
-UPDATE `quierounacompu`.`envios_status` SET `orden_correo`='5' WHERE `id`='5';
-UPDATE `quierounacompu`.`envios_status` SET `orden_correo`='6' WHERE `id`='6';
-UPDATE `quierounacompu`.`envios_status` SET `orden_correo`='8' WHERE `id`='7';
-UPDATE `quierounacompu`.`envios_status` SET `orden_correo`='7' WHERE `id`='8';
+UPDATE  `envios_status` SET `orden_correo`='2' WHERE `id`='2';
+UPDATE  `envios_status` SET `orden_correo`='3' WHERE `id`='3';
+UPDATE  `envios_status` SET `orden_correo`='4' WHERE `id`='4';
+UPDATE  `envios_status` SET `orden_correo`='5' WHERE `id`='5';
+UPDATE  `envios_status` SET `orden_correo`='6' WHERE `id`='6';
+UPDATE  `envios_status` SET `orden_correo`='8' WHERE `id`='7';
+UPDATE  `envios_status` SET `orden_correo`='7' WHERE `id`='8';
 
 UPDATE envios SET id_banco_origen = 4 WHERE id_banco_origen IS NULL;	
 UPDATE envios SET id_encriptado = MD5(id);
@@ -70,6 +70,8 @@ pagos/actualizarNotifNoEnc.php
 pagos/actualizarPagoConfirmado.php
 pagos/actualizarPresupuestadoFacturado.php
 pagos/index.php
+pagos/showPendingEnvios.php
+pagos/storePay.php
 pagos/updatePayNotifNoEnc.php
 pagos/updatePayPagoConfirmado.php
 pagos/updatePayPresupuestadoFacturado.php
@@ -77,5 +79,7 @@ pagos/updatePayPresupuestadoFacturado.php
 pagos/scripts/scripts.js
 
 sis/ajax/showEnvio.php
+sis/ajax/updateEnvio.php
 sis/classes/EnvioDAO.php
 sis/classes/EnvioDTO.php
+sis/js/siteSIS.js
