@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="modules" default="makejar" basedir="./">
+    <target name="makejar"> 
+        <jar jarfile="LMontBiopsia.jar"
+            includes="com/*/*/*/*.class,
+                     resources/*"
+        	manifest="./src/META-INF/MANIFEST.MF"
+            basedir="./bin/"/>
+    </target>
+</project>
