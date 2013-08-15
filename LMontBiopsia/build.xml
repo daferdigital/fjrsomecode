@@ -2,8 +2,10 @@
 <project name="modules" default="makejar" basedir="./">
     <target name="makejar"> 
         <jar jarfile="LMontBiopsia.jar"
-            includes="com/*/*/*/*.class,
-                     resources/*"
+            includes="com/fjr/code/*/*.class,
+                     resources/*,
+        	         resources/images/*,
+        	         META-INF/context.properties"
         	manifest="./src/META-INF/MANIFEST.MF"
             basedir="./bin/"/>
     </target>
