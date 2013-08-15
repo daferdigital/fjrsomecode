@@ -16,6 +16,84 @@ function loadAjaxPopUp(urlToLoad){
 }
 
 /**
+ * 
+ * @param urlToOpen
+ */
+function openPopUp(urlToOpen){
+	var w = 750;
+	var h = 600;
+	var title = "Manifiesto en Formato PDF";
+	
+	var left = (screen.width/2)-(w/2);
+	var top = (screen.height/2)-(h/2)-50;
+	
+	return window.open(urlToOpen, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left); 
+}
+
+
+/**
+ * 
+ * @param checkName
+ */
+function processAll(checkName){
+	var mainCheck = document.getElementById("mainCheck").checked; 
+	var checkList = document.getElementsByName(checkName);
+	
+	for ( var i = 0; i < checkList.length; i++) {
+		checkList[i].checked = mainCheck;
+	}
+}
+
+/**
+ * 
+ * @param tableName
+ * @param checkName
+ */
+function doDelivery(checkName){
+	var doDelivery = confirm("Esta seguro que desea enviar estos registros al manifiesto?");
+
+	if(doDelivery){
+		var checkList = document.getElementsByName(checkName);
+		var ids = "";
+		
+		for ( var i = 0; i < checkList.length; i++) {
+			if(checkList[i].checked){
+				if(ids != ""){
+					ids += ",";
+				}
+				
+				ids += checkList[i].value;
+			}
+		}
+		
+		if(ids == ""){
+			alert("Debe seleccionar los registros que desea enviar al manifiesto.");
+			doDelivery = false;
+		}
+		
+		if(doDelivery){
+			//llamamos al ajax de borrar
+			//y luego llamamos al ajax para recargar el listado manteniendo los filtros
+			//por seguridad buscaremos siempre la pagina 1
+			var params = "ids=" + ids;
+			/*
+			callAjax("ajax/doDelivery.php", 
+					params,
+					null,
+					null,
+					false);
+			*/
+			openPopUp("ajax/showManifiesto.php?ids="+ids);
+		}
+		
+		callAjax("ajax/getEnviosEnviados.php",
+				"statusEnvio=6",
+				"ajaxPageResult",
+				null);
+	}
+}
+
+/**
  * funcion para crear un objeto del tipo XMLHTTPRequest segun el navegador
  * 
  * @returns objeto XMLHTTPRequest creado
