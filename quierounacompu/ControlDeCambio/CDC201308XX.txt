@@ -1,0 +1,13 @@
+
+Comandos BD:
+
+INSERT INTO envios_status (descripcion, orden_correo) VALUES ('Entregados', 9);
+
+Archivos:
+sis/ajax/showManifiesto.php
+sis/ajax/getEnviosEnviados.php
+
+sis/fpdf/*
+
+sis/images/headerquierounacompuPDF.png
+sis/js/siteSIS.js

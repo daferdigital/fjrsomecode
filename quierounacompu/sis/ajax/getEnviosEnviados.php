@@ -57,25 +57,26 @@ if(count($pageRecords) == 0){
 } else {
 ?>
 	<div id="row">
-		<div style="width: 5%;" id="tdHeader">
-      		&nbsp;
+		<div style="width: 15%;" id="tdHeader">
+      		<input type="checkbox" id="mainCheck" onclick="processAll('registro');"/>
+      		<input type="button" value="Entregar" onclick="doDelivery('registro');"/>
     	</div>
-		<div style="width: 10%;" id="tdHeader">
+		<div style="width: 6%;" id="tdHeader">
       		Fecha
     	</div>
     	<div style="width: 15%;" id="tdHeader">
       		Nombre
     	</div>
-    	<div style="width: 15%;" id="tdHeader">
+    	<div style="width: 10%;" id="tdHeader">
       		Seudonimo ML
     	</div>
-    	<div style="width: 10%;" id="tdHeader">
+    	<div style="width: 12%;" id="tdHeader">
       		Nro. Factura
     	</div>
-    	<div style="width: 10%;" id="tdHeader">
+    	<div style="width: 12%;" id="tdHeader">
       		Empresa Env&iacute;o
     	</div>
-    	<div style="width: 15%;" id="tdHeader">
+    	<div style="width: 12%;" id="tdHeader">
       		C&oacute;digo de Env&iacute;o
     	</div>
     	<div style="width: 15%;" id="tdHeader">
@@ -86,7 +87,8 @@ if(count($pageRecords) == 0){
 		foreach ($pageRecords as $row){
 	?>
 		<div id="row">
-			<div style="width: 5%;" id="tdElement">
+			<div style="width: 15%;" id="tdElement">
+				<input name="registro" id="envio<?php echo $row["id"];?>" type="checkbox" value="<?php echo $row["id"];?>"/>
 				<a href="#" onclick="javascript:loadAjaxPopUp('ajax/<?php echo $editPage;?>?id=<?php echo $row["id"];?>')">
 					<img alt="ver" title="Editar" src="images/see.png" border="0" style="display: inline;"/>
 				</a>
@@ -94,22 +96,22 @@ if(count($pageRecords) == 0){
 					<img alt="ver" title="Comentar" src="images/pageEdit.png" border="0" style="display: inline;"/>
 				</a>
 			</div>
-			<div style="width: 10%;" id="tdElement">
+			<div style="width: 6%;" id="tdElement">
 	      		<?php echo $row["fechaRegistro"];?>
 	    	</div>
 	    	<div style="width: 15%;" id="tdElement">
 	      		<?php echo $row["nombre_completo"];?>
 	    	</div>
-	    	<div style="width: 15%;" id="tdElement">
+	    	<div style="width: 10%;" id="tdElement">
 	      		<?php echo $row["seudonimo_ml"];?>
 	    	</div>
-	    	<div style="width: 10%;" id="tdElement">
+	    	<div style="width: 12%;" id="tdElement">
 	      		<?php echo $row["codigo_factura"];?>
 	    	</div>
-	    	<div style="width: 10%;" id="tdElement">
+	    	<div style="width: 12%;" id="tdElement">
 	      		<?php echo $row["empresaEnvio"];?>
 	    	</div>
-	    	<div style="width: 15%;" id="tdElement">
+	    	<div style="width: 12%;" id="tdElement">
 	      		<?php echo $row["codigo_envio"];?>
 	    	</div>
 	    	<div style="width: 15%;" id="tdElement">
