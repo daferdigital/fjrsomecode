@@ -25,12 +25,14 @@ public final class DBConnectionUtil {
 			Properties props = new Properties();
 			props.load(DBConnectionUtil.class.getResourceAsStream("/META-INF/context.properties"));
 			
+			String url = "";
 			BasicDataSource basicDataSource = new BasicDataSource();
-			basicDataSource.setDriverClassName(props.getProperty("driverClassName"));
-			basicDataSource.setUsername(props.getProperty("userName"));
-			basicDataSource.setPassword(props.getProperty("password"));
-			basicDataSource.setUrl(props.getProperty("url"));
+			basicDataSource.setDriverClassName(props.getProperty("bd.driverClassName"));
+			basicDataSource.setUsername(props.getProperty("bd.userName"));
+			basicDataSource.setPassword(props.getProperty("bd.password"));
+			basicDataSource.setUrl(props.getProperty("bd.url"));
 			basicDataSource.setPoolPreparedStatements(true);
+			
 			
 			DBConnectionUtil.dataSource = basicDataSource;
 			System.out.println("Configuracion de base de datos establecida.");
