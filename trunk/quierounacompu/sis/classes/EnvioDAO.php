@@ -10,6 +10,7 @@ class EnvioDAO {
 	public static $COD_STATUS_ENVIADO = 6;
 	public static $COD_STATUS_ERRADOS = 7;
 	public static $COD_STATUS_PAGO_DEVUELTO = 8;
+	public static $COD_STATUS_ENTREGADO_AL_COURIER = 9;
 	
 	/**
 	 * 

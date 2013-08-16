@@ -1,11 +1,13 @@
 
 Comandos BD:
 
-INSERT INTO envios_status (descripcion, orden_correo) VALUES ('Entregados', 9);
+INSERT INTO envios_status (descripcion, orden_correo, show_in_email) VALUES ('Entregados', 9, '0');
 
 Archivos:
 sis/ajax/showManifiesto.php
 sis/ajax/getEnviosEnviados.php
+
+sis/classes/EnvioDAO.php
 
 sis/fpdf/*
 

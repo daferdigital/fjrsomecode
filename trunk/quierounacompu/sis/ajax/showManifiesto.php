@@ -48,6 +48,8 @@ $pdf->SetFont('Times', '', 10);
 $arrayIds = explode(",", $_GET["ids"]);
 foreach ($arrayIds AS $idEnvio){
 	$envioDTO = EnvioDAO::getEnvioInfo($idEnvio);
+	EnvioDAO::updateEnvioCurrentStatus($idEnvio, EnvioDAO::$COD_STATUS_ENTREGADO_AL_COURIER);
+	
 	if($envioDTO != null){
 		$pdf->Cell(55, 10, $envioDTO->getNombreDestinatario(), 1, 0);
 		$pdf->Cell(55, 10, $envioDTO->getDescEmpresaEnvio(), 1, 0);
