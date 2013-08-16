@@ -59,7 +59,7 @@ if(count($pageRecords) == 0){
 	<div id="row">
 		<div style="width: 15%;" id="tdHeader">
       		<input type="checkbox" id="mainCheck" onclick="processAll('registro');"/>
-      		<input type="button" value="Entregar" onclick="doDelivery('registro');"/>
+      		<input type="button" value="Crear&#13;&#10;Manifiesto" onclick="doDelivery('registro');"/>
     	</div>
 		<div style="width: 6%;" id="tdHeader">
       		Fecha

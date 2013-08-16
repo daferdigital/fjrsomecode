@@ -50,7 +50,10 @@ function processAll(checkName){
  * @param checkName
  */
 function doDelivery(checkName){
-	var doDelivery = confirm("Esta seguro que desea enviar estos registros al manifiesto?");
+	var message = "Esta seguro que desea enviar estos registros al manifiesto?";
+	message += "\n\nRecuerde actualizar el listado de envios luego de visualizar el manifiesto.";
+	
+	var doDelivery = confirm(message);
 
 	if(doDelivery){
 		var checkList = document.getElementsByName(checkName);
@@ -75,8 +78,8 @@ function doDelivery(checkName){
 			//llamamos al ajax de borrar
 			//y luego llamamos al ajax para recargar el listado manteniendo los filtros
 			//por seguridad buscaremos siempre la pagina 1
-			var params = "ids=" + ids;
 			/*
+			var params = "ids=" + ids;
 			callAjax("ajax/doDelivery.php", 
 					params,
 					null,
@@ -86,10 +89,11 @@ function doDelivery(checkName){
 			openPopUp("ajax/showManifiesto.php?ids="+ids);
 		}
 		
-		callAjax("ajax/getEnviosEnviados.php",
+		setTimeout(callAjax("ajax/getEnviosEnviados.php",
 				"statusEnvio=6",
 				"ajaxPageResult",
-				null);
+				null),
+			5000);
 	}
 }
 
