@@ -61,7 +61,8 @@ public final class LicenseUtil {
 	 */
 	public static boolean isValidLicense(){
 		boolean isValid = false;
-		String maskedMacAddress = maskMacAddress();
+		byte[] normalMacAddress = getNormalMAcAddress(); 
+		String maskedMacAddress = maskMacAddress(normalMacAddress);
 		String licenseFileContent = readLicenseFile();
 		
 		if(maskedMacAddress.equals(licenseFileContent)){
@@ -69,7 +70,7 @@ public final class LicenseUtil {
 			isValid = true;
 		}
 		
-		log.info("La validacion de la licencia '" + maskedMacAddress + "' dio como resultado: " + isValid);
+		log.info("La validacion de la licencia para '" + normalMacAddress + "' dio como resultado: " + isValid);
 		return isValid;
 	}
 	
@@ -78,27 +79,45 @@ public final class LicenseUtil {
 	 * 
 	 * @return
 	 */
-	private static String maskMacAddress(){
+	private static String maskMacAddress(byte[] normalMacAddress){
 		StringBuilder sb = new StringBuilder();
 		try {
-	 		NetworkInterface network = NetworkInterface.getByInetAddress(
-	 				InetAddress.getLocalHost());
 	 		
-			byte[] mac = network.getHardwareAddress();
-			
-			for (int i = 0; i < mac.length; i++) {
+			for (int i = 0; i < normalMacAddress.length; i++) {
 				//log.info(mac[i]);
-				sb.append(mac[i] < 0 ? mac[i] * -1 : mac[i]);
-				sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));		
+				sb.append(normalMacAddress[i] < 0 ? normalMacAddress[i] * -1 : normalMacAddress[i]);
+				sb.append(String.format("%02X%s", normalMacAddress[i], (i < normalMacAddress.length - 1) ? "-" : ""));		
 			}
 			
 			log.info(sb.toString());
-		} catch (UnknownHostException e) {
-			log.error("Host desconocido", e);
-		} catch (SocketException e){
-			log.error("Error de conexion via socket", e); 
+		} catch (Exception e){
+			log.error("Error procesando mascara de la MAC", e); 
 		}
 		
 		return sb.toString();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	private static byte[] getNormalMAcAddress(){
+		byte[] macAddress = new byte[0];
+		
+		NetworkInterface network;
+		try {
+			network = NetworkInterface.getByInetAddress(
+					InetAddress.getLocalHost());
+			
+			macAddress = network.getHardwareAddress();
+		} catch (SocketException e) {
+			// TODO Auto-generated catch block
+			log.error(e.getMessage(), e);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			log.error(e.getMessage(), e);
+		}
+ 		
+		return macAddress;
 	}
 }

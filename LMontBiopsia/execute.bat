@@ -1,0 +1,1 @@
+java -classpath ./libs/commons-dbcp-1.4.jar;./libs/commons-pool-1.6.jar;./libs/log4j-1.2.15.jar;./libs/mysql-connector-java-5.1.24-bin.jar;./libs/nimrodlf.jar;./libs/substance.jar;LMontBiopsia.jar;. com/fjr/code/main/Main
