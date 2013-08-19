@@ -43,7 +43,7 @@ public class AppWindow {
 	 */
 	private void initialize() {
 		frmSistemaDeGestion = new JFrame();
-		frmSistemaDeGestion.setExtendedState(JFrame.MAXIMIZED_BOTH); // ventana maximizada
+		//frmSistemaDeGestion.setExtendedState(JFrame.MAXIMIZED_BOTH); // ventana maximizada
 		frmSistemaDeGestion.setTitle("Sistema de Gesti\u00F3n de Biopsias");
 		frmSistemaDeGestion.setIconImage(Toolkit.getDefaultToolkit().getImage(AppWindow.class.getResource("/resources/images/iconLogo1.jpg")));
 		frmSistemaDeGestion.setBounds(50, 10, Constants.APP_WINDOW_MAX_X, Constants.APP_WINDOW_MAX_Y);

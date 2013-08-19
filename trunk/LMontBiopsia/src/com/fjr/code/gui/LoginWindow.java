@@ -42,20 +42,24 @@ public class LoginWindow extends JDialog implements ActionListener, KeyListener 
 	private JLabel tit1 = new JLabel("Usuario :");
 	private JLabel tit2 = new JLabel("Clave :");
 
+	/**
+	 * 
+	 */
 	public LoginWindow() {
 
 		Constants.setLookAndFeel();
-		setBackground(new Color(1.0F, 1.0F, 1.0F, 0.25F));
-		getContentPane().setBackground(new Color(1.0F, 1.0F, 1.0F, 0.25F));
-		//com.sun.awt.AWTUtilities.setWindowOpacity(this, 0.9f);
 		
 		// setTitle("File Manager - Qwebdocuments light version 0.2");
 		setSize(500, 272);
 		this.setUndecorated(true);
-		this.setVisible(true);
 		this.setModal(true);
 		this.setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
+		
+		com.sun.awt.AWTUtilities.setWindowOpacity(this, 0.9f);
+		setBackground(new Color(1.0F, 1.0F, 1.0F, 0.25F));
+		getContentPane().setBackground(new Color(1.0F, 1.0F, 1.0F, 0.25F));
+		
 		// private Icon icoSave = new
 		// ImageIcon(getClass().getResource("/icons/disk.png"));
 		fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/bgStart.jpg")));
@@ -136,12 +140,12 @@ public class LoginWindow extends JDialog implements ActionListener, KeyListener 
 		getContentPane().add(fondo);
 
 		usu.requestFocusInWindow();
-		
+
+		this.setVisible(true);
 		repaint();
 	}
 	
 	
-
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("aceptar")) {
 			//validamos el login del usuario

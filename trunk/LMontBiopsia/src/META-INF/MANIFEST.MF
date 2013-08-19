@@ -1,4 +1,6 @@
 Manifest-Version: 1.0
 Ant-Version: Apache Ant 1.8.3
-Created-By: 1.6.0_32-b05 (Sun Microsystems Inc.)
+Class-Path: ./libs/ 
 Main-Class: com.fjr.code.main.Main
+Created-By: 1.6.0_32-b05 (Sun Microsystems Inc.)
+

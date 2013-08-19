@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.net.ServerSocket;
 
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+
+import org.apache.log4j.Logger;
 
 import com.fjr.code.gui.AppWindow;
 import com.fjr.code.gui.LoginWindow;
-import com.fjr.code.gui.MenuPanel;
 import com.fjr.code.util.Constants;
 import com.fjr.code.util.LicenseUtil;
 import com.fjr.code.util.SystemLogger;
@@ -21,7 +21,14 @@ import com.fjr.code.util.SystemLogger;
  *
  */
 public class Main {
+	private static final Logger log = Logger.getLogger(Main.class);
+	
 	public static AppWindow mainWindow = null;
+	
+	static {
+		//iniciamos el log para la aplicacion
+		SystemLogger.init();
+	}
 	
 	public static void main(String[] args) {
 		try {
@@ -40,12 +47,10 @@ public class Main {
 				}
 			});
 			
-			//iniciamos el log para la aplicacion
-			SystemLogger.init();
-			
 			//verificamos si la licencia es valida
 			if(! LicenseUtil.isValidLicense()){
 				//debo mostrar el cuadro de activacion
+				log.info("La licencia no es valida, debemos mostrar el cuadro de activacion");
 			} else {
 				//verificamos la existencia de la conexion a base de datos
 				//si no existe debe ser indicada
