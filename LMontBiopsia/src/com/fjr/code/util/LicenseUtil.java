@@ -49,7 +49,7 @@ public final class LicenseUtil {
 				}
 			}
 		} else {
-			//el archivo de licensia no existe, debe activarse el software
+			//el archivo de licencia no existe, debe activarse el software
 		}
 		
 		return fileContent;
@@ -69,7 +69,7 @@ public final class LicenseUtil {
 			isValid = true;
 		}
 		
-		log.info("La validacion de la licencia dio como resultado: " + isValid);
+		log.info("La validacion de la licencia '" + maskedMacAddress + "' dio como resultado: " + isValid);
 		return isValid;
 	}
 	
