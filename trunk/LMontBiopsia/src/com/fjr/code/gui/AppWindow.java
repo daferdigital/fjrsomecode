@@ -5,6 +5,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import java.awt.Toolkit;
 import javax.swing.JPanel;
+
+import com.fjr.code.util.Constants;
+
 import java.awt.Color;
 
 public class AppWindow {
@@ -40,21 +43,24 @@ public class AppWindow {
 	 */
 	private void initialize() {
 		frmSistemaDeGestion = new JFrame();
-		frmSistemaDeGestion.setTitle("Sistema de Gestion de Biopsias");
+		frmSistemaDeGestion.setExtendedState(JFrame.MAXIMIZED_BOTH); // ventana maximizada
+		frmSistemaDeGestion.setTitle("Sistema de Gesti\u00F3n de Biopsias");
 		frmSistemaDeGestion.setIconImage(Toolkit.getDefaultToolkit().getImage(AppWindow.class.getResource("/resources/images/iconLogo1.jpg")));
-		frmSistemaDeGestion.setBounds(100, 100, 800, 550);
+		frmSistemaDeGestion.setBounds(50, 10, Constants.APP_WINDOW_MAX_X, Constants.APP_WINDOW_MAX_Y);
 		frmSistemaDeGestion.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmSistemaDeGestion.getContentPane().setLayout(null);
 		frmSistemaDeGestion.setResizable(false);
 		
 		panelMenu.setBackground(Color.WHITE);
-		panelMenu.setBounds(0, 0, 800, 22);
+		panelMenu.setBounds(0, 0, Constants.APP_WINDOW_MAX_X, 21);
 		frmSistemaDeGestion.getContentPane().add(panelMenu);
 		panelContenido.setBackground(Color.LIGHT_GRAY);
 		
-		panelContenido.setBounds(0, 23, 800, 525);
+		panelContenido.setBounds(0, 21, Constants.APP_WINDOW_MAX_X, Constants.APP_WINDOW_MAX_Y - 21);
 		frmSistemaDeGestion.getContentPane().add(panelContenido);
 		panelContenido.setLayout(null);
+		
+		frmSistemaDeGestion.setVisible(true);
 	}
 	
 	/**
@@ -101,5 +107,11 @@ public class AppWindow {
 		frmSistemaDeGestion.getContentPane().remove(panelContenido);
 		frmSistemaDeGestion.getContentPane().add(contenido);
 		frmSistemaDeGestion.getContentPane().validate();
+	}
+
+	public static void show() {
+		// TODO Auto-generated method stub
+		AppWindow appWindow = new AppWindow();
+		appWindow.setPanelMenu(new MenuPanel(true, ""));
 	}
 }
