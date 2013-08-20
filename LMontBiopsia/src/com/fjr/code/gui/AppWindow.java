@@ -11,6 +11,7 @@ import com.fjr.code.util.Constants;
 import java.awt.Color;
 
 public class AppWindow {
+	private static AppWindow appWindow;
 	private JPanel panelMenu = new JPanel();
 	private JPanel panelContenido = new JPanel();
 	private JFrame frmSistemaDeGestion;
@@ -46,7 +47,7 @@ public class AppWindow {
 		//frmSistemaDeGestion.setExtendedState(JFrame.MAXIMIZED_BOTH); // ventana maximizada
 		frmSistemaDeGestion.setTitle("Sistema de Gesti\u00F3n de Biopsias");
 		frmSistemaDeGestion.setIconImage(Toolkit.getDefaultToolkit().getImage(AppWindow.class.getResource("/resources/images/iconLogo1.jpg")));
-		frmSistemaDeGestion.setBounds(50, 10, Constants.APP_WINDOW_MAX_X, Constants.APP_WINDOW_MAX_Y);
+		frmSistemaDeGestion.setSize(Constants.APP_WINDOW_MAX_X, Constants.APP_WINDOW_MAX_Y);
 		frmSistemaDeGestion.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmSistemaDeGestion.getContentPane().setLayout(null);
 		frmSistemaDeGestion.setResizable(false);
@@ -60,6 +61,8 @@ public class AppWindow {
 		frmSistemaDeGestion.getContentPane().add(panelContenido);
 		panelContenido.setLayout(null);
 		
+		frmSistemaDeGestion.setLocationRelativeTo(null);
+		frmSistemaDeGestion.requestFocusInWindow();
 		frmSistemaDeGestion.setVisible(true);
 	}
 	
@@ -106,12 +109,30 @@ public class AppWindow {
 	public void setPanelContenido(JPanel contenido){
 		frmSistemaDeGestion.getContentPane().remove(panelContenido);
 		frmSistemaDeGestion.getContentPane().add(contenido);
+		//panelContenido = contenido;
+		//panelContenido.repaint();
+		//panelContenido.validate();
+		
 		frmSistemaDeGestion.getContentPane().validate();
+		frmSistemaDeGestion.getContentPane().repaint();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static AppWindow getInstance(){
+		return appWindow;
 	}
 
 	public static void show() {
 		// TODO Auto-generated method stub
-		AppWindow appWindow = new AppWindow();
+		if(appWindow == null){
+			appWindow = new AppWindow();
+		}
+		
 		appWindow.setPanelMenu(new MenuPanel(true, ""));
+		//obligamos a la ventana a venir al frente
+		appWindow.getFrmSistemaDeGestion().setVisible(true);
 	}
 }

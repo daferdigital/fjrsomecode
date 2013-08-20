@@ -40,6 +40,7 @@ public class Main {
 				public void run() {
 					// TODO Auto-generated method stub
 					try {
+						log.info("Closing ServerSocket...");
 						ss.close();
 					} catch (Exception e) {
 						// TODO: handle exception
@@ -60,9 +61,12 @@ public class Main {
 			
 			
 			//como es la corrida inicial, debemos mostrar la ventana de login
-			LoginWindow login = new LoginWindow();
+			new LoginWindow();
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "Ya existe una instancia corriendo de " + Constants.APP_SOFTWARE_NAME);
+			JOptionPane.showMessageDialog(null,
+					"Ya existe una instancia corriendo de " + Constants.APP_SOFTWARE_NAME,
+					"Sistema ya en ejecución",
+					JOptionPane.ERROR_MESSAGE);
 			// e.printStackTrace();
 		}
 	}
