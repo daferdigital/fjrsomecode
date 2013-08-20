@@ -15,7 +15,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import com.fjr.code.util.Constants;
-import com.fjr.code.util.SystemLogger;
 
 /**
  * 

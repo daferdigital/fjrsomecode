@@ -22,8 +22,8 @@ public final class Constants {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public static final String APP_SOFTWARE_NAME = "L'Mont Biopsia";
-	public static final String APP_SOFTWARE_VERSION = "1.0 Beta";
+	public static final String APP_SOFTWARE_NAME = "L'Mont Biopsias";
+	public static final String APP_SOFTWARE_VERSION = "Versión 1.0 Beta";
 	
 	public static final int APP_WINDOW_MAX_X = 1000;
 	public static final int APP_WINDOW_MAX_Y = 700;

@@ -10,6 +10,7 @@ import com.fjr.code.util.Constants;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Font;
 
 /**
  * Panel que contendra el menu especifico para determinado usuario.
@@ -31,11 +32,23 @@ public class MenuPanel extends JPanel {
 	 */
 	public MenuPanel(boolean isLogged, String user) {
 		setLayout(null);
-		setBounds(0, 0, Constants.APP_WINDOW_MAX_X, 21);
+		setSize(Constants.APP_WINDOW_MAX_X, 21);
 		
 		JMenuBar menuBar = new JMenuBar();
+		menuBar.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		menuBar.setBounds(0, 0, Constants.APP_WINDOW_MAX_X, 21);
 		add(menuBar);
+		
+		JMenu menuArchivo = new JMenu("Archivo");
+		menuBar.add(menuArchivo);
+		
+		JMenuItem mntmSalir = new JMenuItem("Salir");
+		mntmSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.exit(0);
+			}
+		});
+		menuArchivo.add(mntmSalir);
 		
 		setItemsMenu(menuBar, isLogged, user);
 		
@@ -65,6 +78,12 @@ public class MenuPanel extends JPanel {
 			menuBar.add(menuRecepcion);
 			
 			JMenuItem mntmNewMenuItem = new JMenuItem("Ingreso");
+			mntmNewMenuItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					//debemos mostrar el panel de recepcion
+					AppWindow.getInstance().setPanelContenido(new RecepcionPanel());
+				}
+			});
 			menuRecepcion.add(mntmNewMenuItem);
 			
 			JMenuItem mntmNewMenuItem_1 = new JMenuItem("Facturaci\u00F3n");
