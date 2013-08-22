@@ -1,3 +1,5 @@
+//Actualizado al 19 de Agosto de 2013
+
 var ajaxImageName = "ajax.gif";
 
 String.prototype.trim=function(){
@@ -51,7 +53,7 @@ function processAll(checkName){
  */
 function doDelivery(checkName){
 	var message = "Esta seguro que desea enviar estos registros al manifiesto?";
-	message += "\n\nRecuerde actualizar el listado de envios luego de visualizar el manifiesto.";
+	message += "\n\nRecuerde que este listado se actualizara automaticamente en 10 segundos.";
 	
 	var doDelivery = confirm(message);
 
@@ -89,11 +91,13 @@ function doDelivery(checkName){
 			openPopUp("ajax/showManifiesto.php?ids="+ids);
 		}
 		
-		setTimeout(callAjax("ajax/getEnviosEnviados.php",
-				"statusEnvio=6",
-				"ajaxPageResult",
-				null),
-			5000);
+		setTimeout(function() {
+			callAjax("ajax/getEnviosEnviados.php",
+					"statusEnvio=6",
+					"ajaxPageResult",
+					null);
+			},
+			10000);
 	}
 }
 

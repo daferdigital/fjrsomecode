@@ -1,7 +1,7 @@
 
 Comandos BD:
 
-INSERT INTO envios_status (descripcion, orden_correo, show_in_email) VALUES ('Entregados', 9, '0');
+INSERT INTO envios_status (descripcion, orden_correo, show_in_email) VALUES ('Entregados al Courier', 9, '0');
 
 Archivos:
 sis/ajax/showManifiesto.php
