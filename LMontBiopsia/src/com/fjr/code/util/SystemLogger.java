@@ -1,5 +1,6 @@
 package com.fjr.code.util;
 
+import java.io.File;
 import java.util.Properties;
 
 
@@ -24,10 +25,18 @@ public final class SystemLogger {
 	public static void init() {
         // Lee el directorio donde va a ser colocado el archivo de logs
         String directory = AppProperties.getLog4jDirectory();
-        
-        // Adiciona el parametro del directorio como un Property del sistema
+        init(directory);
+    }
+	
+	/**
+	 * 
+	 * @param logDir
+	 */
+	public static void init(String logDir) {
+		// Adiciona el parametro del directorio como un Property del sistema
         // para que pueda ser utilizado dentro del archivo de configuración del Log4J
-        System.setProperty("log.directory", directory);
+		new File(logDir).mkdirs();
+        System.setProperty("log.directory", logDir);
         
         // Lee el nombre del archivo de configuración de Log4J
         Properties log4jProperties = new Properties();
@@ -41,6 +50,6 @@ public final class SystemLogger {
         
         PropertyConfigurator.configure(log4jProperties);
         
-        Logger.getLogger(SystemLogger.class).info("Log iniciado en: " + directory);
-    }
+        Logger.getLogger(SystemLogger.class).info("Log iniciado en: " + logDir);
+	}
 }

@@ -27,6 +27,7 @@ public final class Constants {
 	
 	public static final int APP_WINDOW_MAX_X = 1000;
 	public static final int APP_WINDOW_MAX_Y = 700;
+	public static final int APP_MENU_HEIGTH = 22;
 	
 	//iconos
 	public static final Icon icoMain = new ImageIcon(Constants.class.getResource("/resources/images/LmontTech.jpg"));
