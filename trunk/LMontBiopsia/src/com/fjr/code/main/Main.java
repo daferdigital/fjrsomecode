@@ -1,5 +1,6 @@
 package com.fjr.code.main;
 
+ import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 
@@ -22,17 +23,24 @@ import com.fjr.code.util.SystemLogger;
  */
 public class Main {
 	private static final Logger log = Logger.getLogger(Main.class);
+	private static final String basePath = new File("").getAbsolutePath();
 	
 	public static AppWindow mainWindow = null;
 	
 	static {
 		//iniciamos el log para la aplicacion
-		SystemLogger.init();
+		SystemLogger.init(basePath + File.separator + "logs" + File.separator);
 	}
 	
-	public static void main(String[] args) {
+	/**
+	 * 
+	 * @param args
+	 */
+	public static void startProgram(String[] args) {
 		try {
 			final ServerSocket ss = new ServerSocket(7777);
+			
+			log.info("Directorio base: " + basePath);
 			
 			//hook para evitar que al finalizar la instancia de la JVM el server socket quede iniciado
 			Runtime.getRuntime().addShutdownHook(new Thread(){

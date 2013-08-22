@@ -2,7 +2,7 @@
 <project name="modules" default="makejar" basedir="./">
     <target name="makejar"> 
         <jar jarfile="LMontBiopsia.jar"
-            includes="com/fjr/code/*/*.class,
+            includes="*/*/*/*/*.class,
                      resources/*,
         	         resources/images/*,
         	         META-INF/context.properties"

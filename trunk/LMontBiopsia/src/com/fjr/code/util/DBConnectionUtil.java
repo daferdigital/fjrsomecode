@@ -25,7 +25,6 @@ public final class DBConnectionUtil {
 			Properties props = new Properties();
 			props.load(DBConnectionUtil.class.getResourceAsStream("/META-INF/context.properties"));
 			
-			String url = "";
 			BasicDataSource basicDataSource = new BasicDataSource();
 			basicDataSource.setDriverClassName(props.getProperty("bd.driverClassName"));
 			basicDataSource.setUsername(props.getProperty("bd.userName"));
