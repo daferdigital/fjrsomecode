@@ -1,5 +1,7 @@
 package com.fjr.code.util;
 
+import java.io.File;
+
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
@@ -21,6 +23,16 @@ public final class Constants {
 	private Constants() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	/**
+	 * Variable para almacenar el directorio desde donde se inicio la aplicacion
+	 */
+	public static final String BASE_PATH = new File("").getAbsolutePath();
+	
+	/**
+	 * Variable para almacenar el directorio desde donde se inicio la aplicacion
+	 */
+	public static final String LABELS_PATH = BASE_PATH + File.separator + "labels";
 	
 	public static final String APP_SOFTWARE_NAME = "L'Mont Biopsias";
 	public static final String APP_SOFTWARE_VERSION = "Versión 1.0 Beta";

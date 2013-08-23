@@ -23,13 +23,12 @@ import com.fjr.code.util.SystemLogger;
  */
 public class AfterStart {
 	private static final Logger log = Logger.getLogger(AfterStart.class);
-	private static final String basePath = new File("").getAbsolutePath();
 	
 	public static AppWindow mainWindow = null;
 	
 	static {
 		//iniciamos el log para la aplicacion
-		SystemLogger.init(basePath + File.separator + "logs" + File.separator);
+		SystemLogger.init(Constants.BASE_PATH + File.separator + "logs" + File.separator);
 	}
 	
 	/**
@@ -40,7 +39,7 @@ public class AfterStart {
 		try {
 			final ServerSocket ss = new ServerSocket(7777);
 			
-			log.info("Directorio base: " + basePath);
+			log.info("Directorio base: " + Constants.BASE_PATH);
 			
 			//hook para evitar que al finalizar la instancia de la JVM el server socket quede iniciado
 			Runtime.getRuntime().addShutdownHook(new Thread(){

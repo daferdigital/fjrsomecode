@@ -13,7 +13,6 @@ import com.fjr.code.util.Constants;
 
 import java.awt.Component;
 import javax.swing.JTextArea;
-import javax.swing.SwingConstants;
 
 public class RecepcionPanel extends JPanel {
 
@@ -21,13 +20,16 @@ public class RecepcionPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 5763855986388595232L;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-
+	private JTextField textNroBiopsia;
+	private JTextField textCedula;
+	private JTextField textNombrePaciente;
+	private JTextField textEdad;
+	private JTextField textProcedencia;
+	private JTextField textReferido;
+	private JComboBox comboExamen;
+	private JComboBox comboPatologo;
+	private JTextArea textAreaIDX;
+	
 	/**
 	 * Create the panel.
 	 */
@@ -35,93 +37,104 @@ public class RecepcionPanel extends JPanel {
 		setBackground(new Color(255, 255, 153));
 		setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("<html>C&eacute;dula: </html>");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblNewLabel.setBounds(102, 42, 127, 14);
-		add(lblNewLabel);
+		JLabel lblNroBiopsia = new JLabel("<html>N&deg; de Biopsia:</html>");
+		lblNroBiopsia.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblNroBiopsia.setBounds(102, 11, 99, 18);
+		add(lblNroBiopsia);
 		
-		textField = new JTextField();
-		textField.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		textField.setBounds(233, 92, 184, 20);
-		add(textField);
-		textField.setColumns(10);
+		textNroBiopsia = new JTextField();
+		textNroBiopsia.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		textNroBiopsia.setToolTipText("<html>\r\nIndique aqu&iacute; el codigo manual a asignar a esta biopsia\r\n<br />\r\nPor ejemplo 13-0192.\r\n<br />\r\nDejar en blanco si esta creando una biopsia nueva\r\n</html>");
+		textNroBiopsia.setBounds(233, 11, 184, 20);
+		textNroBiopsia.setColumns(10);
+		add(textNroBiopsia);
 		
-		JLabel lblNewLabel_1 = new JLabel("<html>N&deg; de Biopsia:</html>");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblNewLabel_1.setBounds(102, 11, 99, 18);
-		add(lblNewLabel_1);
+		JLabel lblCedula = new JLabel("<html>C&eacute;dula: </html>");
+		lblCedula.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblCedula.setBounds(102, 42, 127, 14);
+		add(lblCedula);
 		
-		textField_1 = new JTextField();
-		textField_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		textField_1.setToolTipText("<html>\r\nIndique aqu&iacute; el codigo manual a asignar a esta biopsia\r\n<br />\r\nPor ejemplo 13-0192.\r\n<br />\r\nDejar en blanco si esta creando una biopsia nueva\r\n</html>");
-		textField_1.setBounds(233, 11, 184, 20);
-		add(textField_1);
-		textField_1.setColumns(10);
+		textCedula = new JTextField();
+		textCedula.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		textCedula.setBounds(233, 92, 184, 20);
+		textCedula.setColumns(10);
+		add(textCedula);
+		
+		JLabel lblNombrePaciente = new JLabel("Nombre del Paciente:");
+		lblNombrePaciente.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblNombrePaciente.setBounds(102, 69, 127, 14);
+		add(lblNombrePaciente);
+		
+		textNombrePaciente = new JTextField();
+		textNombrePaciente.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		textNombrePaciente.setColumns(10);
+		textNombrePaciente.setBounds(233, 67, 184, 20);
+		add(textNombrePaciente);
 		
 		JLabel lblEdad = new JLabel("Edad:");
 		lblEdad.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblEdad.setBounds(102, 94, 127, 14);
 		add(lblEdad);
 		
-		textField_2 = new JTextField();
-		textField_2.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		textField_2.setColumns(10);
-		textField_2.setBounds(233, 40, 184, 20);
-		add(textField_2);
+		textEdad = new JTextField();
+		textEdad.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		textEdad.setColumns(10);
+		textEdad.setBounds(233, 40, 184, 20);
+		add(textEdad);
 		
 		JLabel lblProcedencia = new JLabel("Procedencia :");
 		lblProcedencia.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblProcedencia.setBounds(102, 119, 127, 14);
 		add(lblProcedencia);
 		
-		textField_3 = new JTextField();
-		textField_3.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		textField_3.setColumns(10);
-		textField_3.setBounds(233, 119, 184, 20);
-		add(textField_3);
+		textProcedencia = new JTextField();
+		textProcedencia.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		textProcedencia.setColumns(10);
+		textProcedencia.setBounds(233, 119, 184, 20);
+		add(textProcedencia);
 		
 		JLabel lblreferidoMeacutedico = new JLabel("<html>Referido / M&eacute;dico:</html>");
 		lblreferidoMeacutedico.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblreferidoMeacutedico.setBounds(102, 146, 127, 14);
 		add(lblreferidoMeacutedico);
 		
-		textField_4 = new JTextField();
-		textField_4.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		textField_4.setColumns(10);
-		textField_4.setBounds(233, 144, 184, 20);
-		add(textField_4);
+		textReferido = new JTextField();
+		textReferido.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		textReferido.setColumns(10);
+		textReferido.setBounds(233, 144, 184, 20);
+		add(textReferido);
 		
 		JLabel lblExamenARealizar = new JLabel("Examen a Realizar: ");
 		lblExamenARealizar.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblExamenARealizar.setBounds(102, 173, 127, 14);
 		add(lblExamenARealizar);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		comboBox.setEditable(true);
-		comboBox.setBounds(233, 170, 184, 22);
-		add(comboBox);
+		comboExamen= new JComboBox();
+		comboExamen.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		comboExamen.setEditable(true);
+		comboExamen.setBounds(233, 170, 184, 22);
+		add(comboExamen);
 		
 		JLabel lblpatoacutelogoDeTurno = new JLabel("<html>Pat&oacute;logo de turno: </html>");
 		lblpatoacutelogoDeTurno.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblpatoacutelogoDeTurno.setBounds(102, 198, 127, 20);
 		add(lblpatoacutelogoDeTurno);
 		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		comboBox_1.setBounds(233, 198, 184, 22);
-		add(comboBox_1);
+		comboPatologo = new JComboBox();
+		comboPatologo.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		comboPatologo.setBounds(233, 198, 184, 22);
+		add(comboPatologo);
 		
-		textField_5 = new JTextField();
-		textField_5.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		textField_5.setColumns(10);
-		textField_5.setBounds(233, 67, 184, 20);
-		add(textField_5);
+		JLabel lblIdx = new JLabel("IDX:");
+		lblIdx.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblIdx.setBounds(102, 238, 39, 14);
+		add(lblIdx);
 		
-		JLabel lblceacutedula = new JLabel("Nombre del Paciente:");
-		lblceacutedula.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblceacutedula.setBounds(102, 69, 127, 14);
-		add(lblceacutedula);
+		textAreaIDX = new JTextArea();
+		textAreaIDX.setWrapStyleWord(true);
+		textAreaIDX.setLineWrap(true);
+		textAreaIDX.setBounds(133, 234, 289, 97);
+		add(textAreaIDX);
 		
 		JButton btnNewButton = new JButton("Guardar");
 		btnNewButton.setBounds(18, 355, 91, 23);
@@ -135,24 +148,14 @@ public class RecepcionPanel extends JPanel {
 		btnNewButton_2.setBounds(265, 355, 121, 23);
 		add(btnNewButton_2);
 		
-		setSize(500, 396);
-		setLocation(0, Constants.APP_MENU_HEIGTH);
-		
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.setBounds(399, 355, 91, 23);
 		add(btnCancelar);
 		
-		JLabel lblIdx = new JLabel("IDX:");
-		lblIdx.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblIdx.setBounds(102, 238, 39, 14);
-		add(lblIdx);
+		setSize(500, 396);
+		setLocation(0, Constants.APP_MENU_HEIGTH);
+		setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{lblNroBiopsia, textNroBiopsia, lblCedula, textCedula, lblNombrePaciente, textNombrePaciente, lblEdad, textEdad, lblProcedencia, textProcedencia, lblreferidoMeacutedico, textReferido, lblExamenARealizar, comboExamen, lblpatoacutelogoDeTurno, comboPatologo, lblIdx, textAreaIDX, btnNewButton, btnNewButton_1, btnNewButton_2, btnCancelar}));
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setWrapStyleWord(true);
-		textArea.setLineWrap(true);
-		textArea.setBounds(133, 234, 289, 97);
-		add(textArea);
-		setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{lblNewLabel_1, textField_1, lblNewLabel, textField_2, lblceacutedula, textField_5, lblEdad, textField, lblProcedencia, textField_3, lblreferidoMeacutedico, textField_4, lblExamenARealizar, comboBox, lblpatoacutelogoDeTurno, comboBox_1, lblIdx, textArea, btnNewButton, btnNewButton_1, btnNewButton_2, btnCancelar}));
 		setVisible(true);
 	}
 }
