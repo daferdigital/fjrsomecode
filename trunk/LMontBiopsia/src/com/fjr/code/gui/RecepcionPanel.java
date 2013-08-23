@@ -143,13 +143,14 @@ public class RecepcionPanel extends JPanel {
 		add(btnCancelar);
 		
 		JLabel lblIdx = new JLabel("IDX:");
-		lblIdx.setHorizontalAlignment(SwingConstants.TRAILING);
 		lblIdx.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblIdx.setBounds(102, 238, 99, 14);
+		lblIdx.setBounds(102, 238, 39, 14);
 		add(lblIdx);
 		
 		JTextArea textArea = new JTextArea();
-		textArea.setBounds(233, 234, 189, 97);
+		textArea.setWrapStyleWord(true);
+		textArea.setLineWrap(true);
+		textArea.setBounds(133, 234, 289, 97);
 		add(textArea);
 		setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{lblNewLabel_1, textField_1, lblNewLabel, textField_2, lblceacutedula, textField_5, lblEdad, textField, lblProcedencia, textField_3, lblreferidoMeacutedico, textField_4, lblExamenARealizar, comboBox, lblpatoacutelogoDeTurno, comboBox_1, lblIdx, textArea, btnNewButton, btnNewButton_1, btnNewButton_2, btnCancelar}));
 		setVisible(true);
