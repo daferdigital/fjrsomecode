@@ -11,6 +11,7 @@ import com.fjr.code.util.Constants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import javax.swing.JSeparator;
 
 /**
  * Panel que contendra el menu especifico para determinado usuario.
@@ -41,6 +42,17 @@ public class MenuPanel extends JPanel {
 		
 		JMenu menuArchivo = new JMenu("Archivo");
 		menuBar.add(menuArchivo);
+		
+		JMenuItem mntmActivar = new JMenuItem("Activar Licencia");
+		mntmActivar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				LicenseDialog.showDialog();
+			}
+		});
+		menuArchivo.add(mntmActivar);
+		
+		//simple separador
+		menuArchivo.add(new JSeparator());
 		
 		JMenuItem mntmSalir = new JMenuItem("Salir");
 		mntmSalir.addActionListener(new ActionListener() {

@@ -6,7 +6,21 @@ import javax.swing.JOptionPane;
 
 import com.fjr.code.util.CustomClasspathLoader;
 
+/**
+ * Clase de inicio para carga de classpath dinamico (directorio libs)
+ * 
+ * Class: Start
+ * Creation Date: 22/08/2013
+ * (c) 2013
+ *
+ * @author T&T
+ *
+ */
 public class Start {
+	
+	/**
+	 * Variable para almacenar el directorio desde donde se inicio la aplicacion
+	 */
 	private static final String basePath = new File("").getAbsolutePath();
 	
 	
@@ -14,15 +28,13 @@ public class Start {
 		try {
 			CustomClasspathLoader.addJarsToClasspath(basePath + File.separator 
 					+ "libs" + File.separator);
-			Main.startProgram(args);
+			AfterStart.startProgram(args);
 		} catch (Throwable e) {
 			// TODO: handle exception
 			JOptionPane.showMessageDialog(null, 
 					"Error ajustando classpath automático. La aplicación no pudo ser iniciada",
 					"Error iniciando aplicación", 
 					JOptionPane.ERROR_MESSAGE);
-		}
-		
-		
+		}	
 	}
 }
