@@ -4,6 +4,7 @@ import java.io.File;
 
 import javax.swing.JOptionPane;
 
+import com.fjr.code.util.Constants;
 import com.fjr.code.util.CustomClasspathLoader;
 
 /**
@@ -18,15 +19,9 @@ import com.fjr.code.util.CustomClasspathLoader;
  */
 public class Start {
 	
-	/**
-	 * Variable para almacenar el directorio desde donde se inicio la aplicacion
-	 */
-	private static final String basePath = new File("").getAbsolutePath();
-	
-	
 	public static void main(String[] args) {
 		try {
-			CustomClasspathLoader.addJarsToClasspath(basePath + File.separator 
+			CustomClasspathLoader.addJarsToClasspath(Constants.BASE_PATH + File.separator 
 					+ "libs" + File.separator);
 			AfterStart.startProgram(args);
 		} catch (Throwable e) {
