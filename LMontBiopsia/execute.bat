@@ -1,1 +1,1 @@
-java -cpLMontBiopsia.jar;. com/fjr/code/main/Start
+java -cp LMontBiopsia.jar;. com/fjr/code/main/Start

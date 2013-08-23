@@ -21,8 +21,8 @@ import com.fjr.code.util.SystemLogger;
  * @author T&T <br />
  *
  */
-public class Main {
-	private static final Logger log = Logger.getLogger(Main.class);
+public class AfterStart {
+	private static final Logger log = Logger.getLogger(AfterStart.class);
 	private static final String basePath = new File("").getAbsolutePath();
 	
 	public static AppWindow mainWindow = null;
@@ -52,6 +52,7 @@ public class Main {
 						ss.close();
 					} catch (Exception e) {
 						// TODO: handle exception
+						log.error(e.getMessage(), e);
 					}
 				}
 			});
@@ -60,6 +61,7 @@ public class Main {
 			if(! LicenseUtil.isValidLicense()){
 				//debo mostrar el cuadro de activacion
 				log.info("La licencia no es valida, debemos mostrar el cuadro de activacion");
+				
 			} else {
 				//verificamos la existencia de la conexion a base de datos
 				//si no existe debe ser indicada
