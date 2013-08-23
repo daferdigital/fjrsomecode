@@ -58,9 +58,9 @@ $pdf->Ln(10);
 
 //colocamos la informacion de los ids a procesar
 $pdf->SetFont('Arial','B',12);
-$pdf->Cell(55, 10, "Nombre del Destinatario", 1, 0);
-$pdf->Cell(55, 10, "Empresa de Envío", 1, 0, "C");
-$pdf->Cell(40, 10, "Número de Guía", 1, 0, "C");
+$pdf->Cell(65, 10, "Nombre del Destinatario", 1, 0);
+$pdf->Cell(50, 10, "Empresa de Envío", 1, 0, "C");
+$pdf->Cell(35, 10, "Número de Guía", 1, 0, "C");
 $pdf->Cell(40, 10, "Ciudad Destino", 1, 1);
 
 $pdf->SetFont('Times', '', 10);
@@ -73,6 +73,14 @@ foreach ($arrayIds AS $idEnvio){
 		$idUsuario,
 		EnvioDAO::$COD_STATUS_ENTREGADO_AL_COURIER);
 	
+	if($envioDTO != null){
+		$pdf->Cell(65, 10, $envioDTO->getNombreDestinatario(), 1, 0);
+		$pdf->Cell(50, 10, $envioDTO->getDescEmpresaEnvio(), 1, 0);
+		$pdf->Cell(35, 10, $envioDTO->getCodigoEnvio(), 1, 0);
+		$pdf->Cell(40, 10, $envioDTO->getCiudadDestino(), 1, 1);
+	}
+	
+	/*
 	if($envioDTO != null){
 		$x = $pdf->GetX();
 		$y = $pdf->GetY();
@@ -98,6 +106,7 @@ foreach ($arrayIds AS $idEnvio){
 		
 		$pdf->SetY($y + ($lines * 10));
 	}
+	*/
 }
 
 //colocamos la seccion de las firmas
