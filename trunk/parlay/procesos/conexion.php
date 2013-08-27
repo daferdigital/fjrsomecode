@@ -1,10 +1,52 @@
 <?Php
-	include_once 'classes/Constants.php';
+	error_reporting(0);
 	date_default_timezone_set('America/Caracas');
-
-	$conexion=mysql_connect(Constants::$DB_SERVIDOR,Constants::$DB_USUARIO,Constants::$DB_USER_PWD) or die(mysql_error());
-	mysql_select_db(Constants::$DB_SCHEMA) or die (mysql_error()."Problema");
 	
+	/**
+	 * Revisamos si el archivo indicado existe desde el path que desea incluirse.
+	 * En caso de existir se incluye sino, se retorna false.
+	 * 
+	 * @param unknown_type $filename
+	 * @return boolean
+	 */
+	function checkIfCanInclude($filename) {
+		if (is_file($filename)) {
+			include_once $filename;
+		}
+		
+		return false;
+	}
+	
+	checkIfCanInclude("./classes/Constants.php");
+	checkIfCanInclude("./classes/DBConnection.php");
+	checkIfCanInclude("./classes/DBUtil.php");
+	checkIfCanInclude("./classes/VentasDAO.php");
+	checkIfCanInclude("./classes/BitacoraDAO.php");
+	checkIfCanInclude("./classes/GanadoresFutbol.php");
+	checkIfCanInclude("./classes/GanadoresBasket.php");
+	checkIfCanInclude("./classes/GanadoresBeisbol.php");
+	checkIfCanInclude("../classes/Constants.php");
+	checkIfCanInclude("../classes/DBConnection.php");
+	checkIfCanInclude("../classes/DBUtil.php");
+	checkIfCanInclude("../classes/VentasDAO.php");
+	checkIfCanInclude("../classes/BitacoraDAO.php");
+	checkIfCanInclude("../classes/GanadoresFutbol.php");
+	checkIfCanInclude("../classes/GanadoresBasket.php");
+	checkIfCanInclude("../classes/GanadoresBeisbol.php");
+	
+	$conexion = null;
+	function prepareConnection(){
+		global $conexion;
+		$servidor=Constants::$DB_SERVIDOR;
+		$usuario=Constants::$DB_USUARIO;
+		$clave=Constants::$DB_USER_PWD;
+		$base=Constants::$DB_SCHEMA;
+		
+		$conexion=mysql_connect($servidor,$usuario,$clave) or die(mysql_error());
+		mysql_select_db($base) or die (mysql_error()."Problema");
+	}
+	prepareConnection();
+
 	mysql_query ("SET NAMES 'utf-8'");
 	if(!function_exists('control_logueo')){
 		function control_logueo($login){
@@ -170,7 +212,7 @@
 		  //return $select;
 
 		  $query=mysql_query($select);
-
+		  $ids = "";
 		  if(mysql_num_rows($query)>0){ $contador=0;
 
 			  while($var=mysql_fetch_row($query)){
@@ -249,7 +291,12 @@
 
 
 	  function genera_aciertos($idcategoria_apuesta,$idlogro_equipo){
-
+		  $removeSuspendido = false;
+	  	  if(! isset($_SESSION['suspendido'])){
+	  	  	$removeSuspendido = true;
+	  	  	$_SESSION['suspendido'] = 0;
+		  }
+		  
 		  echo 'epa -> '.$_SESSION['suspendido']; //exit;
 
 		  if($_SESSION['suspendido']>0):
@@ -282,7 +329,10 @@
 				}
 
 		  endif;	
-
+		  
+		  if($removeSuspendido){
+		  	unset($_SESSION["suspendido"]);
+		  }
 	  }
 
 	  
@@ -306,11 +356,15 @@
 	  
 
 	  function calcula_ticket_ganador($fecha){
-
+		
+	  	VentasDAO::calcularTicketGanador($fecha);
+	  	
+	  	return;
+	  	
 		//echo "fecha: ".$fecha."\n\n<br><br>";
 
 		//  return false;
-
+		
 		  $sql="select * from vista_ventas_detalles where fecha_venta='".$fecha."' order by idventa";
 
 		  $query=mysql_debug_query($sql);
@@ -326,22 +380,24 @@
 						if($idventa!='' && $evaluar_parley=='') {
 						
 							if($apuestas==$aciertos):
-
-								if($acerto==1)://si acerto al menos una apuesta
-
-									mysql_debug_query("update ventas set monto_real_pagar=0, perdedor=0, reembolsar=0, ganador='1', monto_real_pagar='".$acum."',recalculado='".$recalculado."' where idventa='".$idventa."' limit 1");
-								else:
-
+								if($acerto==1){//si acerto al menos una apuesta
+									//mysql_debug_query("update ventas set monto_real_pagar=0, perdedor=0, reembolsar=0, ganador='1', monto_real_pagar='".$acum."',recalculado='".$recalculado."' where idventa='".$idventa."' limit 1");
+									$codeReturn = VentasDAO::verificarSiEsGanador($var["idventa_detalle"]);
+									echo "<br /> codeReturn para ".$idventa." fue: ".$codeReturn."<br />";
+									
+									if($codeReturn == VentasDAO::$RESULTADO_GANADOR || $codeReturn == VentasDAO::$RESULTADO_NO_MAPEADO_AUN){
+										mysql_debug_query("update ventas set monto_real_pagar=0, perdedor=0, reembolsar=0, ganador='1', monto_real_pagar='".$acum."',recalculado='".$recalculado."' where idventa='".$idventa."' limit 1");
+									} else if($codeReturn == VentasDAO::$RESULTADO_PERDEDOR){
+										mysql_debug_query("update ventas set monto_real_pagar=0, reembolsar=0, recalculado=0, ganador=0, perdedor='1' where idventa='".$idventa."' limit 1");
+									} else if($codeReturn == VentasDAO::$RESULTADO_EMPATADO_DEBE_SUSPENDER){
+										mysql_debug_query("update ventas set perdedor=0, recalculado=0, ganador=0, reembolsar='1',monto_real_pagar=apuesta where idventa='".$idventa."' limit 1");
+									}
+								}else{
 									mysql_debug_query("update ventas set perdedor=0, recalculado=0, ganador=0, reembolsar='1',monto_real_pagar=apuesta where idventa='".$idventa."' limit 1");
-								
-								endif;
-
+								}
 							else:
-
 								mysql_debug_query("update ventas set monto_real_pagar=0, reembolsar=0, recalculado=0, ganador=0, perdedor='1' where idventa='".$idventa."' limit 1");
-								
 							endif;
-							
 						}
 
 						$idventa=$var['idventa'];
@@ -359,9 +415,8 @@
 					echo "\n<br>ini: {$var['idventa']} - ";
 
 					$nocalcular='';
-
+					
 					if($var['suspendido']!=1) {
-
 						if($idlogroequipoventa!=$var['idlogro_equipo'] && $evaluar_parley==''){
 
 							$idlogroequipoventa=$var['idlogro_equipo'];
@@ -381,7 +436,6 @@
 						if($evaluar_parley==''): //ejecuto esto si es posible el calculo del parley
 
 							$existe=dame_datos("select idlogro_equipo_categoria_apuesta_banquero_acierto from logros_equipos_categorias_apuestas_banqueros_aciertos where idlogro_equipo_categoria_apuesta_banquero='".$var['idlogro_equipo_categoria_apuesta_banquero']."' and estatus='1' limit 1");
-
 							if($existe){
 
 								$aciertos++;
@@ -394,8 +448,12 @@
 
 							}else { 
 							
-								$nocalcular='no';
-								
+								//FJR
+								//$nocalcular='no';
+								$nocalcular='';
+								$acerto=1;
+								$aciertos++;
+								//END FJR
 								echo "\n<br>No Acerto! idlogro_equipo_categoria_apuesta_banquero='".$var['idlogro_equipo_categoria_apuesta_banquero']."' and estatus='1'";
 
 							}
@@ -441,15 +499,21 @@
 
 				if($apuestas==$aciertos && $idventa!='' && $evaluar_parley==''):
 
-					if($acerto==1)://si acerto al menos una apuesta
-
-						mysql_debug_query("update ventas set monto_real_pagar=0, perdedor=0, reembolsar=0, ganador='1', monto_real_pagar='".$acum."',recalculado='".$recalculado."' where idventa='".$idventa."' limit 1");
-					else:
-
+					if($acerto==1){//si acerto al menos una apuesta
+						//mysql_debug_query("update ventas set monto_real_pagar=0, perdedor=0, reembolsar=0, ganador='1', monto_real_pagar='".$acum."',recalculado='".$recalculado."' where idventa='".$idventa."' limit 1");
+						$codeReturn = VentasDAO::verificarSiEsGanador($var["idventa_detalle"]);
+						echo "<br /> codeReturn para ".$idventa." fue: ".$codeReturn."<br />";
+									
+						if($codeReturn == VentasDAO::$RESULTADO_GANADOR || $codeReturn == VentasDAO::$RESULTADO_NO_MAPEADO_AUN){
+							mysql_debug_query("update ventas set monto_real_pagar=0, perdedor=0, reembolsar=0, ganador='1', monto_real_pagar='".$acum."',recalculado='".$recalculado."' where idventa='".$idventa."' limit 1");
+						} else if($codeReturn == VentasDAO::$RESULTADO_PERDEDOR){
+							mysql_debug_query("update ventas set monto_real_pagar=0, reembolsar=0, recalculado=0, ganador=0, perdedor='1' where idventa='".$idventa."' limit 1");
+						} else if($codeReturn == VentasDAO::$RESULTADO_EMPATADO_DEBE_SUSPENDER){
+							mysql_debug_query("update ventas set perdedor=0, recalculado=0, ganador=0, reembolsar='1',monto_real_pagar=apuesta where idventa='".$idventa."' limit 1");
+						}
+					}else{
 						mysql_debug_query("update ventas set perdedor=0, recalculado=0, ganador=0, reembolsar='1',monto_real_pagar=apuesta where idventa='".$idventa."' limit 1");
-
-					endif;
-
+					}
 				elseif($idventa!='' && $evaluar_parley==''):
 
 					mysql_debug_query("update ventas set monto_real_pagar=0, reembolsar=0, recalculado=0, ganador=0, perdedor='1' where idventa='".$idventa."' limit 1");
@@ -676,7 +740,4 @@
 		mysql_query("update ventas set vencido='1' where fecha_prorroga < '".$fecha."' and perdedor=0 and pagado=0 and anulado=0");
 
 	}
-
-		  
-
 ?>
