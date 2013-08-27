@@ -98,12 +98,12 @@ public final class BarCodeIngreso {
         log.info("Creado codigo de barras con el valor " + nroBiopsia);
         
         Paragraph p = new Paragraph();
-        String chunkText = "\n\nNro Biopsia: " + nroBiopsia;
-        chunkText += "\nPaciente: " + nombrePaciente;
+        String chunkText = "\nNro Biopsia: " + nroBiopsia;
+        chunkText += "\nPaciente: \n" + nombrePaciente;
         chunkText += "\nC.I: " + cedula;
         
-        p.add(new Chunk(chunkText, new Font(FontFamily.TIMES_ROMAN, 8F)));
-        p.add(new Chunk(imgFJR, 60F, -20F));
+        p.add(new Chunk(chunkText, new Font(FontFamily.COURIER, 8F)));
+        p.add(new Chunk(imgFJR, 50F, -15F));
         document.add(p);
         
         //step 5
@@ -122,7 +122,7 @@ public final class BarCodeIngreso {
 	
 	public static void main(String[] args) throws IOException, DocumentException {
 		new BarCodeIngreso("13-3467", 
-				"Pedro Perez", 
+				"Josefina Carolina Gonzalez", 
 				"7.958.543").crearEtiquetaIngreso();
 	}
 }
