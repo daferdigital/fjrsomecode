@@ -5,6 +5,10 @@ include_once "BitacoraDAO.php";
 include_once "VentasDAO.php";
 
 class GanadoresBeisbol{
+	public static $BEISBOL_AGANAR_JC_A = 23;
+	public static $BEISBOL_AGANAR_JC_B = 25;
+	public static $BEISBOL_AGANAR_MJ_A = 24;
+	public static $BEISBOL_AGANAR_MJ_B = 26;
 	public static $BEISBOL_RLJC_A = 27;
 	public static $BEISBOL_RLJC_B = 28;
 	public static $BEISBOL_RLMJ_A = 29;
@@ -21,6 +25,295 @@ class GanadoresBeisbol{
 	public static $BEISBOL_RLA_JC_B = 74;
 	public static $BEISBOL_ALTAS_AL_6TO_A = 77;
 	public static $BEISBOL_BAJAS_AL_6TO_A = 78;
+	public static $BEISBOL_AGANAR_2DA_MITAD_A = 80;
+	public static $BEISBOL_AGANAR_2DA_MITAD_B = 81;
+	
+	
+	/**
+	 * Metodo para verificar si determinada venta de una apuesta del tipo AGanar 2da Mitad en beisbol
+	 * resulto ganadora o perdedora.
+	 *
+	 * @param $idventa, codigo del ticket (id de la venta en base de datos)
+	 */
+	private static function checkAGanarBeisbol2DAMitad($rowVistaVentasDetalles){
+		$codeReturn = VentasDAO::$RESULTADO_PERDEDOR;
+	
+		//obtenemos el resultado del equipo a y equipo b para verificar que la metrica apostada implica que el apostador gano o no
+		$query = "SELECT le.idlogro_equipo, lecr.idcategoria_resultado, lecr.resultado "
+		."FROM logros_equipos le, logros_equipos_categorias_resultados lecr "
+		."WHERE le.idlogro = ".$rowVistaVentasDetalles["idlogro"]
+		." AND le.idlogro_equipo = lecr.idlogro_equipo "
+		."AND (lecr.idcategoria_resultado = 9 OR lecr.idcategoria_resultado = 10)";
+			
+		$result = DBUtil::executeSelect($query);
+	
+		//en base al logro, obtenemos los codigos del logro de equipo,
+		//para sacar resultado final A y B
+		if(count($result) > 0){
+			//sacamos el resultado en base a la categoria de la apuesta
+			$resultadoEquipoA = 0;
+			$resultadoEquipoB = 0;
+			foreach ($result as $row){
+				if($row["idcategoria_resultado"] == 9){
+					$resultadoEquipoA = $row["resultado"];
+				}
+				if($row["idcategoria_resultado"] == 10){
+					$resultadoEquipoB = $row["resultado"];
+				}
+			}
+	
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+					." Para la categoria_apuesta de juego [".$rowVistaVentasDetalles["idcategoria_apuesta"]."]"
+					." de nombre[".$rowVistaVentasDetalles["nombre_apuesta"]."]"
+					." los resultados de equipoA/equipoB fueron: (".$resultadoEquipoA."/".$resultadoEquipoB.")");
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+					." Valores a relacionar: resultadoEquipoA[".$resultadoEquipoA."], "
+					."resultadoEquipoB[".$resultadoEquipoB."], "
+					."multiplicando[".$rowVistaVentasDetalles['multiplicando']."]");
+	
+			//tengo el resultado del equipo, veo en base a la categoria de la apuesta si se gano o no
+			if($rowVistaVentasDetalles["idcategoria_apuesta"] == GanadoresBeisbol::$BEISBOL_AGANAR_2DA_MITAD_A){
+				//comparando apuesta de ganador el equipo A
+				$compara= ($resultadoEquipoA + $rowVistaVentasDetalles['multiplicando']);
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] Apuesta equipoA "
+						.$resultadoEquipoA." + ".$rowVistaVentasDetalles['multiplicando']." = ".$compara);
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+						."Si ".$resultadoEquipoA." + ".$rowVistaVentasDetalles['multiplicando']." > ".$resultadoEquipoB
+						." entonces es ganador");
+				if($compara == $resultadoEquipoB){
+					//quedo tabla con respecto al resultado final y su multiplicando
+					//creo que debe incicarse simplemente como suspendido este detalle de venta
+					$codeReturn = VentasDAO::$RESULTADO_EMPATADO_DEBE_SUSPENDER;
+				}else if($compara > $resultadoEquipoB){
+					//aposto al equipo A y su multiplicando lo da como ganador
+					$codeReturn = VentasDAO::$RESULTADO_GANADOR;
+				}
+			} else {
+				//comparando apuesta de ganador el equipo B
+				$compara= ($resultadoEquipoB + $rowVistaVentasDetalles['multiplicando']);
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] Apuesta equipoB "
+						.$resultadoEquipoB." + ".$rowVistaVentasDetalles['multiplicando']." = ".$compara);
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+						."Si ".$resultadoEquipoB." + ".$rowVistaVentasDetalles['multiplicando']." > ".$resultadoEquipoA
+						." entonces es ganador");
+	
+				if($compara == $resultadoEquipoA){
+					//quedo tabla con respecto al resultado final y su multiplicando
+					//creo que debe incicarse simplemente como suspendido este detalle de venta
+					$codeReturn = VentasDAO::$RESULTADO_EMPATADO_DEBE_SUSPENDER;
+				}else if($compara > $resultadoEquipoA){
+					//aposto al equipo A y su multiplicando lo da como ganador
+					$codeReturn = VentasDAO::$RESULTADO_GANADOR;
+				}
+			}
+		}
+	
+		return $codeReturn;
+	}
+		
+	/**
+	 * Metodo para verificar si determinada venta de una apuesta del tipo AGanar JuegoCompleto en beisbol
+	 * resulto ganadora o perdedora.
+	 *
+	 * @param $idventa, codigo del ticket (id de la venta en base de datos)
+	 */
+	private static function checkAGanarBeisbolJuegoCompleto($rowVistaVentasDetalles){
+		$codeReturn = VentasDAO::$RESULTADO_PERDEDOR;
+	
+		//obtenemos el resultado del equipo a y equipo b para verificar que la metrica apostada implica que el apostador gano o no
+		$query = "SELECT le.idlogro_equipo, lecr.idcategoria_resultado, lecr.resultado "
+		."FROM logros_equipos le, logros_equipos_categorias_resultados lecr "
+		."WHERE le.idlogro = ".$rowVistaVentasDetalles["idlogro"]
+		." AND le.idlogro_equipo = lecr.idlogro_equipo "
+		."AND (lecr.idcategoria_resultado = 4 OR lecr.idcategoria_resultado = 5)";
+			
+		$result = DBUtil::executeSelect($query);
+	
+		//en base al logro, obtenemos los codigos del logro de equipo,
+		//para sacar resultado final A y B
+		if(count($result) > 0){
+			//sacamos el resultado en base a la categoria de la apuesta
+			$resultadoEquipoA = 0;
+			$resultadoEquipoB = 0;
+			foreach ($result as $row){
+				if($row["idcategoria_resultado"] == 4){
+					$resultadoEquipoA = $row["resultado"];
+				}
+				if($row["idcategoria_resultado"] == 5){
+					$resultadoEquipoB = $row["resultado"];
+				}
+			}
+	
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+					." Para la categoria_apuesta de juego [".$rowVistaVentasDetalles["idcategoria_apuesta"]."]"
+					." de nombre[".$rowVistaVentasDetalles["nombre_apuesta"]."]"
+					." los resultados de equipoA/equipoB fueron: (".$resultadoEquipoA."/".$resultadoEquipoB.")");
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+					." Valores a relacionar: resultadoEquipoA[".$resultadoEquipoA."], "
+					."resultadoEquipoB[".$resultadoEquipoB."], "
+					."multiplicando[".$rowVistaVentasDetalles['multiplicando']."]");
+	
+			//tengo el resultado del equipo, veo en base a la categoria de la apuesta si se gano o no
+			if($rowVistaVentasDetalles["idcategoria_apuesta"] == GanadoresBeisbol::$BEISBOL_AGANAR_JC_A){
+				//comparando apuesta de ganador el equipo A
+				/*
+				$compara= ($resultadoEquipoA + $rowVistaVentasDetalles['multiplicando']);
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] Apuesta equipoA "
+						.$resultadoEquipoA." + ".$rowVistaVentasDetalles['multiplicando']." = ".$compara);
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+						."Si ".$resultadoEquipoA." + ".$rowVistaVentasDetalles['multiplicando']." > ".$resultadoEquipoB
+						." entonces es ganador");
+				*/
+				$compara= $resultadoEquipoA;
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+						."Si ".$resultadoEquipoA." > ".$resultadoEquipoB." entonces es ganador");
+				
+				if($compara == $resultadoEquipoB){
+					//quedo tabla con respecto al resultado final y su multiplicando
+					//creo que debe incicarse simplemente como suspendido este detalle de venta
+					$codeReturn = VentasDAO::$RESULTADO_EMPATADO_DEBE_SUSPENDER;
+				}else if($compara > $resultadoEquipoB){
+					//aposto al equipo A y su multiplicando lo da como ganador
+					$codeReturn = VentasDAO::$RESULTADO_GANADOR;
+				}
+			} else {
+				//comparando apuesta de ganador el equipo B
+				/*
+				$compara= ($resultadoEquipoB + $rowVistaVentasDetalles['multiplicando']);
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] Apuesta equipoB "
+						.$resultadoEquipoB." + ".$rowVistaVentasDetalles['multiplicando']." = ".$compara);
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+						."Si ".$resultadoEquipoB." + ".$rowVistaVentasDetalles['multiplicando']." > ".$resultadoEquipoA
+						." entonces es ganador");
+				*/
+				$compara= $resultadoEquipoB;
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+						."Si ".$resultadoEquipoB." > ".$resultadoEquipoA." entonces es ganador");
+				
+				if($compara == $resultadoEquipoA){
+					//quedo tabla con respecto al resultado final y su multiplicando
+					//creo que debe incicarse simplemente como suspendido este detalle de venta
+					$codeReturn = VentasDAO::$RESULTADO_EMPATADO_DEBE_SUSPENDER;
+				}else if($compara > $resultadoEquipoA){
+					//aposto al equipo A y su multiplicando lo da como ganador
+					$codeReturn = VentasDAO::$RESULTADO_GANADOR;
+				}
+			}
+		}
+	
+		return $codeReturn;
+	}
+	
+	/**
+	 * Metodo para verificar si determinada venta de una apuesta del tipo AGanar Medio Juego en beisbol
+	 * resulto ganadora o perdedora.
+	 *
+	 * @param $idventa, codigo del ticket (id de la venta en base de datos)
+	 */
+	private static function checkAGanarBeisbolMedioJuego($rowVistaVentasDetalles){
+		$codeReturn = VentasDAO::$RESULTADO_PERDEDOR;
+	
+		//obtenemos el resultado del equipo a y equipo b para verificar que la metrica apostada implica que el apostador gano o no
+		$query = "SELECT le.idlogro_equipo, lecr.idcategoria_resultado, lecr.resultado "
+		."FROM logros_equipos le, logros_equipos_categorias_resultados lecr "
+		."WHERE le.idlogro = ".$rowVistaVentasDetalles["idlogro"]
+		." AND le.idlogro_equipo = lecr.idlogro_equipo "
+		."AND (lecr.idcategoria_resultado = 1 OR lecr.idcategoria_resultado = 2)";
+			
+		$result = DBUtil::executeSelect($query);
+	
+		//en base al logro, obtenemos los codigos del logro de equipo,
+		//para sacar resultado final A y B
+		if(count($result) > 0){
+			//sacamos el resultado en base a la categoria de la apuesta
+			$resultadoEquipoA = 0;
+			$resultadoEquipoB = 0;
+			foreach ($result as $row){
+				if($row["idcategoria_resultado"] == 1){
+					$resultadoEquipoA = $row["resultado"];
+				}
+				if($row["idcategoria_resultado"] == 2){
+					$resultadoEquipoB = $row["resultado"];
+				}
+			}
+	
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+					." Para la categoria_apuesta de juego [".$rowVistaVentasDetalles["idcategoria_apuesta"]."]"
+					." de nombre[".$rowVistaVentasDetalles["nombre_apuesta"]."]"
+					." los resultados de equipoA/equipoB fueron: (".$resultadoEquipoA."/".$resultadoEquipoB.")");
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+					." Valores a relacionar: resultadoEquipoA[".$resultadoEquipoA."], "
+					."resultadoEquipoB[".$resultadoEquipoB."], "
+					."multiplicando[".$rowVistaVentasDetalles['multiplicando']."]");
+	
+			//tengo el resultado del equipo, veo en base a la categoria de la apuesta si se gano o no
+			if($rowVistaVentasDetalles["idcategoria_apuesta"] == GanadoresBeisbol::$BEISBOL_AGANAR_MJ_A){
+				//comparando apuesta de ganador el equipo A
+				/*
+				$compara= ($resultadoEquipoA + $rowVistaVentasDetalles['multiplicando']);
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] Apuesta equipoA "
+						.$resultadoEquipoA." + ".$rowVistaVentasDetalles['multiplicando']." = ".$compara);
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+						."Si ".$resultadoEquipoA." + ".$rowVistaVentasDetalles['multiplicando']." > ".$resultadoEquipoB
+						." entonces es ganador");
+				if($compara == $resultadoEquipoB){
+					//quedo tabla con respecto al resultado final y su multiplicando
+					//creo que debe incicarse simplemente como suspendido este detalle de venta
+					$codeReturn = VentasDAO::$RESULTADO_EMPATADO_DEBE_SUSPENDER;
+				}else if($compara > $resultadoEquipoB){
+					//aposto al equipo A y su multiplicando lo da como ganador
+					$codeReturn = VentasDAO::$RESULTADO_GANADOR;
+				}
+				*/
+				$compara= $resultadoEquipoA;
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+						."Si ".$resultadoEquipoA." > ".$resultadoEquipoB." entonces es ganador");
+				
+				if($compara == $resultadoEquipoB){
+					//quedo tabla con respecto al resultado final y su multiplicando
+					//creo que debe incicarse simplemente como suspendido este detalle de venta
+					$codeReturn = VentasDAO::$RESULTADO_EMPATADO_DEBE_SUSPENDER;
+				}else if($compara > $resultadoEquipoB){
+					//aposto al equipo A y su multiplicando lo da como ganador
+					$codeReturn = VentasDAO::$RESULTADO_GANADOR;
+				}
+			} else {
+				//comparando apuesta de ganador el equipo B
+				/*
+				$compara= ($resultadoEquipoB + $rowVistaVentasDetalles['multiplicando']);
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] Apuesta equipoB "
+						.$resultadoEquipoB." + ".$rowVistaVentasDetalles['multiplicando']." = ".$compara);
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+						."Si ".$resultadoEquipoB." + ".$rowVistaVentasDetalles['multiplicando']." > ".$resultadoEquipoA
+						." entonces es ganador");
+	
+				if($compara == $resultadoEquipoA){
+					//quedo tabla con respecto al resultado final y su multiplicando
+					//creo que debe incicarse simplemente como suspendido este detalle de venta
+					$codeReturn = VentasDAO::$RESULTADO_EMPATADO_DEBE_SUSPENDER;
+				}else if($compara > $resultadoEquipoA){
+					//aposto al equipo A y su multiplicando lo da como ganador
+					$codeReturn = VentasDAO::$RESULTADO_GANADOR;
+				}
+				*/
+				$compara= $resultadoEquipoB;
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+						."Si ".$resultadoEquipoB." > ".$resultadoEquipoA." entonces es ganador");
+				
+				if($compara == $resultadoEquipoA){
+					//quedo tabla con respecto al resultado final y su multiplicando
+					//creo que debe incicarse simplemente como suspendido este detalle de venta
+					$codeReturn = VentasDAO::$RESULTADO_EMPATADO_DEBE_SUSPENDER;
+				}else if($compara > $resultadoEquipoA){
+					//aposto al equipo A y su multiplicando lo da como ganador
+					$codeReturn = VentasDAO::$RESULTADO_GANADOR;
+				}
+			}
+		}
+		
+		return $codeReturn;
+	}
+	
 	
 	/**
 	 * Metodo para verificar si determinada venta de una apuesta del tipo RunLine JuegoCompleto en beisbol
@@ -677,6 +970,18 @@ class GanadoresBeisbol{
 				|| $rowVistaVentasDetalles["idcategoria_apuesta"] == GanadoresBeisbol::$BEISBOL_BAJAS_CHE_A){
 			// es ALTAS y BAJAS CHE
 			$codeReturn = GanadoresBeisbol::checkAltasBajasCHE($rowVistaVentasDetalles);
+		} else if($rowVistaVentasDetalles["idcategoria_apuesta"] == GanadoresBeisbol::$BEISBOL_AGANAR_MJ_A
+				|| $rowVistaVentasDetalles["idcategoria_apuesta"] == GanadoresBeisbol::$BEISBOL_AGANAR_MJ_B){
+			// es A GANAR MEDIO JUEGO
+			$codeReturn = GanadoresBeisbol::checkAGanarBeisbolMedioJuego($rowVistaVentasDetalles);
+		} else if($rowVistaVentasDetalles["idcategoria_apuesta"] == GanadoresBeisbol::$BEISBOL_AGANAR_JC_A
+				|| $rowVistaVentasDetalles["idcategoria_apuesta"] == GanadoresBeisbol::$BEISBOL_AGANAR_JC_B){
+			// es A GANAR JUEGO COMPLETO
+			$codeReturn = GanadoresBeisbol::checkAGanarBeisbolJuegoCompleto($rowVistaVentasDetalles);
+		} else if($rowVistaVentasDetalles["idcategoria_apuesta"] == GanadoresBeisbol::$BEISBOL_AGANAR_2DA_MITAD_A
+				|| $rowVistaVentasDetalles["idcategoria_apuesta"] == GanadoresBeisbol::$BEISBOL_AGANAR_2DA_MITAD_B){
+			// es A GANAR 2DA MITAD
+			$codeReturn = GanadoresBeisbol::checkAGanarBeisbol2DAMitad($rowVistaVentasDetalles);
 		} else {
 			//categoria de apuesta aun no mapeada, retornamos true por defecto.
 			$codeReturn = VentasDAO::$RESULTADO_NO_MAPEADO_AUN;
