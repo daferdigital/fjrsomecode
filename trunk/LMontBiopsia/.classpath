@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="libs/mysql-connector-java-5.1.24-bin.jar"/>
 	<classpathentry kind="lib" path="libs/substance.jar"/>
 	<classpathentry kind="lib" path="libs/nimrodlf.jar"/>
+	<classpathentry kind="lib" path="libs/itextpdf-5.4.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

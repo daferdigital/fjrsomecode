@@ -87,21 +87,34 @@ public class MenuPanel extends JPanel {
 			//valido los permisos del usuario para saber a que menus tiene acceso
 			JMenu menuRecepcion = new JMenu("Recepci\u00F3n");
 			menuRecepcion.setHorizontalAlignment(SwingConstants.LEFT);
-			menuBar.add(menuRecepcion);
 			
-			JMenuItem mntmNewMenuItem = new JMenuItem("Ingreso");
-			mntmNewMenuItem.addActionListener(new ActionListener() {
+			JMenuItem mntmIngreso = new JMenuItem("Ingreso");
+			mntmIngreso.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					//debemos mostrar el panel de recepcion
-					AppWindow.getInstance().setPanelContenido(new RecepcionPanel());
+					AppWindow.getInstance().setPanelContenido(new IngresoPanel());
 				}
 			});
-			menuRecepcion.add(mntmNewMenuItem);
+			menuRecepcion.add(mntmIngreso);
 			
-			JMenuItem mntmNewMenuItem_1 = new JMenuItem("Facturaci\u00F3n");
-			menuRecepcion.add(mntmNewMenuItem_1);
+			JMenuItem mntmFacturacion = new JMenuItem("Facturaci\u00F3n");
+			menuRecepcion.add(mntmFacturacion);
 			
 			JMenu menuMacroscopica = new JMenu("Macrosc\u00F3pica");
+			menuMacroscopica.setHorizontalAlignment(SwingConstants.LEFT);
+			
+			JMenuItem mntmMacro = new JMenuItem("Macrosc\u00F3pica");
+			mntmMacro.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					//debemos mostrar el panel de recepcion
+					AppWindow.getInstance().setPanelContenido(new MacroscopicaPanel());
+				}
+			});
+			menuMacroscopica.add(mntmMacro);
+			
+			
+			//agregamos los menus principales
+			menuBar.add(menuRecepcion);
 			menuBar.add(menuMacroscopica);
 		}
 	}

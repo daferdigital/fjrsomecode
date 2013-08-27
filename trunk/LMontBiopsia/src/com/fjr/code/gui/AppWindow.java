@@ -107,11 +107,15 @@ public class AppWindow {
 	 * @param contenido
 	 */
 	public void setPanelContenido(JPanel contenido){
+		panelContenido.setVisible(false);
 		frmSistemaDeGestion.getContentPane().remove(panelContenido);
+		frmSistemaDeGestion.getContentPane().validate();
+		frmSistemaDeGestion.getContentPane().repaint();
+		
 		frmSistemaDeGestion.getContentPane().add(contenido);
-		//panelContenido = contenido;
-		//panelContenido.repaint();
-		//panelContenido.validate();
+		panelContenido = contenido;
+		panelContenido.repaint();
+		panelContenido.validate();
 		
 		frmSistemaDeGestion.getContentPane().validate();
 		frmSistemaDeGestion.getContentPane().repaint();
