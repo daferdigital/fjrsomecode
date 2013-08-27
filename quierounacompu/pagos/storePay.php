@@ -2,6 +2,7 @@
 include_once "../sis/classes/Constants.php";
 include_once "../sis/classes/DBUtil.php";
 include_once "../sis/classes/EnvioDAO.php";
+include_once "../sis/classes/EnvioDTO.php";
 include_once "../sis/classes/BitacoraDAO.php";
 include_once "../sis/classes/SendEmail.php";
 
@@ -103,11 +104,37 @@ if(isset($_POST["terminos"]) && $cuenta == 0){
 		DBUtil::executeQuery($query);
 		
 		//enviamos el correo
-		$message = file_get_contents("../sis/emailTemplates/templatePagoRegistrado.html");
-		$message = str_replace("{0}", $_POST["nombre"]." (".$_POST["seudonimo"].")", $message);
+		$envioDTO = EnvioDAO::getEnvioInfo($lastId);
 		
-		SendEmail::sendMail($_POST["email"], 
-			SendEmail::$SUBJECT_PAGO_REGISTRADO, 
+		$message = file_get_contents("../sis/emailTemplates/templatePagoRegistrado.html");
+		$message = str_replace("{0}", $envioDTO->getNombreCompleto(), $message);
+		$message = str_replace("{1}", $envioDTO->getSeudonimoML(), $message);
+		$message = str_replace("{2}", $envioDTO->getNombreCompleto(), $message);
+		$message = str_replace("{3}", $envioDTO->getSeudonimoML(), $message);
+		$message = str_replace("{4}", $envioDTO->getCiRIF(), $message);
+		$message = str_replace("{5}", $envioDTO->getCorreo(), $message);
+		$message = str_replace("{6}", $envioDTO->getTlfCliente(), $message);
+		$message = str_replace("{7}", $envioDTO->getTlfLocalCliente(), $message);
+		$message = str_replace("{8}", $envioDTO->getDescMedioPago(), $message);
+		$message = str_replace("{9}", $envioDTO->getDescBancoOrigen(), $message);
+		$message = str_replace("{10}", $envioDTO->getDescBanco(), $message);
+		$message = str_replace("{11}", $envioDTO->getNumVoucher(), $message);
+		$message = str_replace("{12}", $envioDTO->getFechaPago(), $message);
+		$message = str_replace("{13}", $envioDTO->getMontoPago(), $message);
+		$message = str_replace("{14}", $envioDTO->getDetalleCompra(), $message);
+		$message = str_replace("{15}", $envioDTO->getDescEmpresaEnvio(), $message);
+		$message = str_replace("{16}", $envioDTO->getNombreDestinatario(), $message);
+		$message = str_replace("{17}", $envioDTO->getCedulaDestinatario(), $message);
+		$message = str_replace("{18}", $envioDTO->getDireccionDestino(), $message);
+		$message = str_replace("{19}", $envioDTO->getCiudadDestino(), $message);
+		$message = str_replace("{20}", $envioDTO->getEstadoDestino(), $message);
+		$message = str_replace("{21}", $envioDTO->getTlfCelularDestinatario(), $message);
+		$message = str_replace("{22}", $envioDTO->getTlfLocalDestinatario(), $message);
+		$message = str_replace("{23}", $envioDTO->getObservacionesEnvio(), $message);
+		$message = str_replace("{24}", $envioDTO->getIdEncriptado(), $message);
+		
+		SendEmail::sendMail($_POST["email"],
+			SendEmail::$SUBJECT_PAGO_REGISTRADO,
 			$message);
 	} else {
 		$response = 1;
