@@ -335,7 +335,7 @@
     			* N&uacute;mero del dep&oacute;sito o transferencia:
     			<br />
     			<span class="Estilo20">
-    				Copie el n&uacute;mero de trasferencia o baucher
+    				Copie el n&uacute;mero de transferencia o baucher
     			</span>
     		</td>
     		<td colspan="<?php echo $columnas -1;?>">
