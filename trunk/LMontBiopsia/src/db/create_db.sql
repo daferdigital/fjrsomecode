@@ -80,6 +80,9 @@ DROP TABLE IF EXISTS `examenes_biopsias`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `examenes_biopsias` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `codigo` varchar(45) NOT NULL,
+  `dias_resultado` int(11) NOT NULL,
+  `nombre` varchar(250) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='tabla para registrar los distintos examenes de biopsias';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -93,6 +96,38 @@ LOCK TABLES `examenes_biopsias` WRITE;
 /*!40000 ALTER TABLE `examenes_biopsias` DISABLE KEYS */;
 /*!40000 ALTER TABLE `examenes_biopsias` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `cliente`
+--
+
+DROP TABLE IF EXISTS `cliente`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cliente` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_premium` varchar(15) DEFAULT NULL COMMENT 'campo para ser usado en las sincronizaciones con premium',
+  `cedula` varchar(45) NOT NULL,
+  `nombres` varchar(100) NOT NULL,
+  `apellidos` varchar(100) NOT NULL,
+  `edad` int(11) NOT NULL,
+  `telefono` varchar(45) NOT NULL,
+  `correo` varchar(100) DEFAULT NULL,
+  `direccion` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COMMENT='pacientes a los que se les realice algun examen de biopsia';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cliente`
+--
+-- ORDER BY:  `id`
+
+LOCK TABLES `cliente` WRITE;
+/*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
+INSERT INTO `cliente` (`id`, `id_premium`, `cedula`, `nombres`, `apellidos`, `edad`, `telefono`, `correo`, `direccion`) VALUES (1,NULL,'V-15507019','Felipe Jose','Rojas Gonzalez',30,'0412-2354731','felipe.rojasg@gmail.com','Guarenas');
+/*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -103,4 +138,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-08-20  7:20:28
+-- Dump completed on 2013-08-28  8:36:29
