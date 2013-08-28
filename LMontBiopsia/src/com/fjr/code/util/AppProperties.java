@@ -28,7 +28,8 @@ public class AppProperties {
 	 * @return
 	 */
 	public static String getBaseAppDirectory(){
-		return props.getProperty("base.app.directory");
+		//return props.getProperty("base.app.directory");
+		return Constants.BASE_PATH;
 	}
 	
 	/**

@@ -23,7 +23,7 @@ public final class DBConnectionUtil {
 	static {
 		try {
 			Properties props = new Properties();
-			props.load(DBConnectionUtil.class.getResourceAsStream("/META-INF/context.properties"));
+			props.load(DBConnectionUtil.class.getResourceAsStream("/META-INF/db.properties"));
 			
 			BasicDataSource basicDataSource = new BasicDataSource();
 			basicDataSource.setDriverClassName(props.getProperty("bd.driverClassName"));
@@ -41,6 +41,12 @@ public final class DBConnectionUtil {
 		}
 	}
 	
+	/**
+	 * Metodo para obtener conexiones del data source.
+	 * 
+	 * @return
+	 * @throws SQLException
+	 */
 	public static Connection getConnection() throws SQLException{
 		return dataSource.getConnection();
 	}
