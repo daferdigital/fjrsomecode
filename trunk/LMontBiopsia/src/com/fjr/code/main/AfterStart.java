@@ -8,7 +8,6 @@ import javax.swing.JOptionPane;
 
 import org.apache.log4j.Logger;
 
-import com.fjr.code.gui.AppWindow;
 import com.fjr.code.gui.LoginWindow;
 import com.fjr.code.util.Constants;
 import com.fjr.code.util.LicenseUtil;
@@ -24,7 +23,7 @@ import com.fjr.code.util.SystemLogger;
 public class AfterStart {
 	private static final Logger log = Logger.getLogger(AfterStart.class);
 	
-	public static AppWindow mainWindow = null;
+	//public static AppWindow mainWindow = null;
 	
 	static {
 		//iniciamos el log para la aplicacion

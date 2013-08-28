@@ -27,7 +27,7 @@ public class Start {
 		} catch (Throwable e) {
 			// TODO: handle exception
 			JOptionPane.showMessageDialog(null, 
-					"Error ajustando classpath automático. La aplicación no pudo ser iniciada",
+					"Error ajustando classpath automático. La aplicación no pudo ser iniciada. El error fue: " + e.getMessage(),
 					"Error iniciando aplicación", 
 					JOptionPane.ERROR_MESSAGE);
 		}	
