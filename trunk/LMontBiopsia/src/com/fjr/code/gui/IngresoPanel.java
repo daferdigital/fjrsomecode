@@ -4,19 +4,32 @@ import javax.swing.JPanel;
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
+
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 
 import com.fjr.code.dao.TipoCedulaDAO;
+import com.fjr.code.gui.operations.IngresoPanelOperations;
 import com.fjr.code.util.Constants;
 
 import java.awt.Component;
 import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
 import javax.swing.SwingConstants;
+import java.awt.Rectangle;
 
+/**
+ * 
+ * Class: IngresoPanel
+ * Creation Date: 28/08/2013
+ * (c) 2013
+ *
+ * @author T&T
+ *
+ */
 public class IngresoPanel extends JPanel {
 
 	/**
@@ -51,6 +64,7 @@ public class IngresoPanel extends JPanel {
 		add(lblNroBiopsia);
 		
 		textNroBiopsia = new JTextField();
+		textNroBiopsia.setActionCommand(IngresoPanelOperations.ACTION_COMMAND_NRO_BIOPSIA);
 		textNroBiopsia.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		textNroBiopsia.setToolTipText("<html>\r\nIndique aqu&iacute; el codigo manual a asignar a esta biopsia\r\n<br />\r\nPor ejemplo 13-0192.\r\n<br />\r\nDejar en blanco si esta creando una biopsia nueva\r\n</html>");
 		textNroBiopsia.setBounds(180, 11, 184, 20);
@@ -68,6 +82,7 @@ public class IngresoPanel extends JPanel {
 		add(lblCedula);
 		
 		textCedula = new JTextField();
+		textCedula.setActionCommand(IngresoPanelOperations.ACTION_COMMAND_NRO_CEDULA);
 		textCedula.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		textCedula.setColumns(10);
 		textCedula.setBounds(237, 40, 127, 20);
@@ -79,6 +94,7 @@ public class IngresoPanel extends JPanel {
 		add(lblNombrePaciente);
 		
 		textNombrePaciente = new JTextField();
+		textNombrePaciente.setEnabled(false);
 		textNombrePaciente.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		textNombrePaciente.setColumns(10);
 		textNombrePaciente.setBounds(180, 65, 184, 20);
@@ -90,6 +106,7 @@ public class IngresoPanel extends JPanel {
 		add(lblapellidoDelPaciente);
 		
 		txtFApellido = new JTextField();
+		txtFApellido.setEnabled(false);
 		txtFApellido.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		txtFApellido.setColumns(10);
 		txtFApellido.setBounds(180, 94, 184, 20);
@@ -101,6 +118,7 @@ public class IngresoPanel extends JPanel {
 		add(lblEdad);
 		
 		textEdad = new JTextField();
+		textEdad.setEnabled(false);
 		textEdad.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		textEdad.setBounds(180, 123, 184, 20);
 		textEdad.setColumns(10);
@@ -134,8 +152,8 @@ public class IngresoPanel extends JPanel {
 		add(lblExamenARealizar);
 		
 		comboExamen= new JComboBox();
+		comboExamen.setActionCommand(IngresoPanelOperations.ACTION_COMMAND_COMBO_EXAMEN);
 		comboExamen.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		comboExamen.setEditable(false);
 		comboExamen.setBounds(180, 203, 184, 22);
 		add(comboExamen);
 		
@@ -166,11 +184,14 @@ public class IngresoPanel extends JPanel {
 		add(lblIdx);
 		
 		textAreaIDx = new JTextArea();
+		textAreaIDx.setLineWrap(true);
 		textAreaIDx.setBorder(new LineBorder(new Color(0, 0, 0)));
 		textAreaIDx.setWrapStyleWord(true);
-		textAreaIDx.setLineWrap(true);
-		textAreaIDx.setBounds(75, 314, 289, 97);
-		add(textAreaIDx);
+		textAreaIDx.setBounds(72, 314, 290, 100);
+		JScrollPane sp = new JScrollPane(textAreaIDx);
+		sp.setBounds(new Rectangle(72, 314, 290, 100));
+		add(sp);
+		
 		
 		JLabel lblDejeEnBlanco = new JLabel("<html><b>* Deje en blanco para <br />asignaci&oacute;n autom&aacute;tica</b></html>");
 		lblDejeEnBlanco.setHorizontalAlignment(SwingConstants.CENTER);
@@ -200,6 +221,18 @@ public class IngresoPanel extends JPanel {
 		btnCancelar.setBounds(393, 429, 91, 23);
 		add(btnCancelar);
 		setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{textNroBiopsia, cBoxTipoCedula, textCedula, textNombrePaciente, txtFApellido, textEdad, textProcedencia, textPiezaRecibida, comboExamen, textReferido, comboPatologo, textAreaIDx, btnGuardar, btnPrintLabels, btnSendToMacro, btnCancelar}));
+		
+		//asignamos el listener
+		IngresoPanelOperations listener = new IngresoPanelOperations(this);
+		textCedula.addKeyListener(listener);
+		textNroBiopsia.addKeyListener(listener);
+		comboExamen.addItemListener(listener);
+		comboExamen.addKeyListener(listener);
+		btnPrintLabels.addActionListener(listener);
+		btnGuardar.addActionListener(listener);
+		btnSendToMacro.addActionListener(listener);
+		btnCancelar.addActionListener(listener);
+		
 		setVisible(true);
 	}
 }
