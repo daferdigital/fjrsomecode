@@ -72,6 +72,34 @@ INSERT INTO `usuarios` (`id`, `login`, `clave`, `nombre`) VALUES (1,'admin','e10
 UNLOCK TABLES;
 
 --
+-- Table structure for table `tipo_examenes`
+--
+
+DROP TABLE IF EXISTS `tipo_examenes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tipo_examenes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(45) NOT NULL,
+  `codigo` varchar(45) NOT NULL,
+  `descripcion` varchar(250) NOT NULL,
+  `activo` char(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COMMENT='Tabla de grupos de examenes de biopsias';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tipo_examenes`
+--
+-- ORDER BY:  `id`
+
+LOCK TABLES `tipo_examenes` WRITE;
+/*!40000 ALTER TABLE `tipo_examenes` DISABLE KEYS */;
+INSERT INTO `tipo_examenes` (`id`, `nombre`, `codigo`, `descripcion`, `activo`) VALUES (1,'Tipo1','001','Tipo de examenes de prueba','1');
+/*!40000 ALTER TABLE `tipo_examenes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `examenes_biopsias`
 --
 
@@ -83,8 +111,12 @@ CREATE TABLE `examenes_biopsias` (
   `codigo` varchar(45) NOT NULL,
   `dias_resultado` int(11) NOT NULL,
   `nombre` varchar(250) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='tabla para registrar los distintos examenes de biopsias';
+  `activo` char(1) NOT NULL DEFAULT '1',
+  `id_grupo_examen` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_EXAMEN_GRUPO` (`id_grupo_examen`),
+  CONSTRAINT `FK_EXAMEN_GRUPO` FOREIGN KEY (`id_grupo_examen`) REFERENCES `tipo_examenes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COMMENT='tabla para registrar los distintos examenes de biopsias';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -94,7 +126,34 @@ CREATE TABLE `examenes_biopsias` (
 
 LOCK TABLES `examenes_biopsias` WRITE;
 /*!40000 ALTER TABLE `examenes_biopsias` DISABLE KEYS */;
+INSERT INTO `examenes_biopsias` (`id`, `codigo`, `dias_resultado`, `nombre`, `activo`, `id_grupo_examen`) VALUES (1,'001',15,'Examen de Prueba','1',1);
 /*!40000 ALTER TABLE `examenes_biopsias` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `patologos`
+--
+
+DROP TABLE IF EXISTS `patologos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `patologos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(250) NOT NULL,
+  `activo` char(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COMMENT='tabla de patologos';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `patologos`
+--
+-- ORDER BY:  `id`
+
+LOCK TABLES `patologos` WRITE;
+/*!40000 ALTER TABLE `patologos` DISABLE KEYS */;
+INSERT INTO `patologos` (`id`, `nombre`, `activo`) VALUES (1,'Jésus Enrique González Alfonzo','1'),(2,'José David Mota Gamboa','1'),(3,'Enrique López Loyo','1');
+/*!40000 ALTER TABLE `patologos` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -138,4 +197,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-08-28  8:36:29
+-- Dump completed on 2013-08-29  7:04:00
