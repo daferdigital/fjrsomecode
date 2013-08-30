@@ -10,5 +10,95 @@ package com.fjr.code.dto;
  *
  */
 public class ExamenBiopsiaDTO {
+	private int id;
+	private String codigoExamen;
+	private String nombreExamen;
+	private int diasParaResultado;
+	private int idTipoExamen;
+	private String codigoTipoExamen;
+	private String nombreTipoExamen;
+	
+	/**
+	 * 
+	 * @param id
+	 * @param codigoExamen
+	 * @param nombreExamen
+	 * @param diasParaResultado
+	 * @param idTipoExamen
+	 * @param codigoTipoExamen
+	 * @param nombreTipoExamen
+	 */
+	public ExamenBiopsiaDTO(int id, String codigoExamen, String nombreExamen,
+			int diasParaResultado, int idTipoExamen, String codigoTipoExamen,
+			String nombreTipoExamen) {
+		// TODO Auto-generated constructor stub
+		this.id = id;
+		this.codigoExamen = codigoExamen;
+		this.nombreExamen = nombreExamen;
+		this.diasParaResultado = diasParaResultado;
+		this.idTipoExamen = idTipoExamen;
+		this.codigoTipoExamen = codigoTipoExamen;
+		this.nombreTipoExamen = nombreTipoExamen;
+	}
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getCodigoExamen() {
+		return codigoExamen;
+	}
+
+	public void setCodigoExamen(String codigoExamen) {
+		this.codigoExamen = codigoExamen;
+	}
+
+	public String getNombreExamen() {
+		return nombreExamen;
+	}
+
+	public void setNombreExamen(String nombreExamen) {
+		this.nombreExamen = nombreExamen;
+	}
+
+	public int getDiasParaResultado() {
+		return diasParaResultado;
+	}
+
+	public void setDiasParaResultado(int diasParaResultado) {
+		this.diasParaResultado = diasParaResultado;
+	}
+
+	public int getIdTipoExamen() {
+		return idTipoExamen;
+	}
+
+	public void setIdTipoExamen(int idTipoExamen) {
+		this.idTipoExamen = idTipoExamen;
+	}
+
+	public String getCodigoTipoExamen() {
+		return codigoTipoExamen;
+	}
+
+	public void setCodigoTipoExamen(String codigoTipoExamen) {
+		this.codigoTipoExamen = codigoTipoExamen;
+	}
+
+	public String getNombreTipoExamen() {
+		return nombreTipoExamen;
+	}
+
+	public void setNombreTipoExamen(String nombreTipoExamen) {
+		this.nombreTipoExamen = nombreTipoExamen;
+	}
+
+	@Override
+	public String toString() {
+		return codigoTipoExamen + "-" + codigoExamen + " " + nombreExamen;
+	}
 }

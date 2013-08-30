@@ -11,6 +11,7 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 
+import com.fjr.code.dao.ExamenBiopsiaDAO;
 import com.fjr.code.dao.TipoCedulaDAO;
 import com.fjr.code.gui.operations.IngresoPanelOperations;
 import com.fjr.code.util.Constants;
@@ -48,6 +49,7 @@ public class IngresoPanel extends JPanel {
 	private JTextField textReferido;
 	private JComboBox comboPatologo;
 	private JTextArea textAreaIDx;
+	private JLabel lblTipoExamen;
 	
 	/**
 	 * Create the panel.
@@ -148,39 +150,40 @@ public class IngresoPanel extends JPanel {
 		
 		JLabel lblExamenARealizar = new JLabel("<html><b>Examen a Realizar: </b></html>");
 		lblExamenARealizar.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblExamenARealizar.setBounds(20, 208, 127, 14);
+		lblExamenARealizar.setBounds(20, 211, 127, 14);
 		add(lblExamenARealizar);
 		
 		comboExamen= new JComboBox();
 		comboExamen.setActionCommand(IngresoPanelOperations.ACTION_COMMAND_COMBO_EXAMEN);
 		comboExamen.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		comboExamen.setBounds(180, 203, 184, 22);
+		comboExamen.setBounds(180, 206, 184, 22);
+		ExamenBiopsiaDAO.populateJCombo(comboExamen);
 		add(comboExamen);
 		
 		JLabel lblReferidoMedico = new JLabel("<html><b>Referido / M&eacute;dico:</b></html>");
 		lblReferidoMedico.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblReferidoMedico.setBounds(20, 244, 127, 14);
+		lblReferidoMedico.setBounds(20, 282, 127, 14);
 		add(lblReferidoMedico);
 		
 		textReferido = new JTextField();
 		textReferido.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		textReferido.setColumns(10);
-		textReferido.setBounds(180, 239, 184, 20);
+		textReferido.setBounds(180, 277, 184, 20);
 		add(textReferido);
 		
 		JLabel lblpatoacutelogoDeTurno = new JLabel("<html><b>Pat&oacute;logo de turno: </b></html>");
 		lblpatoacutelogoDeTurno.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblpatoacutelogoDeTurno.setBounds(20, 276, 127, 20);
+		lblpatoacutelogoDeTurno.setBounds(20, 314, 127, 20);
 		add(lblpatoacutelogoDeTurno);
 		
 		comboPatologo = new JComboBox();
 		comboPatologo.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		comboPatologo.setBounds(180, 274, 184, 22);
+		comboPatologo.setBounds(180, 312, 184, 22);
 		add(comboPatologo);
 		
 		JLabel lblIdx = new JLabel("<html><b>IDx:</b></html>");
 		lblIdx.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblIdx.setBounds(20, 317, 31, 14);
+		lblIdx.setBounds(20, 355, 31, 14);
 		add(lblIdx);
 		
 		textAreaIDx = new JTextArea();
@@ -189,7 +192,7 @@ public class IngresoPanel extends JPanel {
 		textAreaIDx.setWrapStyleWord(true);
 		textAreaIDx.setBounds(72, 314, 290, 100);
 		JScrollPane sp = new JScrollPane(textAreaIDx);
-		sp.setBounds(new Rectangle(72, 314, 290, 100));
+		sp.setBounds(new Rectangle(72, 352, 290, 100));
 		add(sp);
 		
 		
@@ -198,32 +201,42 @@ public class IngresoPanel extends JPanel {
 		lblDejeEnBlanco.setBounds(364, 11, 136, 28);
 		add(lblDejeEnBlanco);
 		
-		setSize(500, 464);
+		setSize(500, 588);
 		setLocation(0, Constants.APP_MENU_HEIGTH);
 		
 		JButton btnGuardar = new JButton("Guardar");
 		btnGuardar.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnGuardar.setBounds(10, 429, 91, 23);
+		btnGuardar.setBounds(10, 467, 91, 23);
 		add(btnGuardar);
 		
 		JButton btnPrintLabels = new JButton("Imprimir Etiquetas");
 		btnPrintLabels.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnPrintLabels.setBounds(111, 429, 145, 23);
+		btnPrintLabels.setBounds(111, 467, 145, 23);
 		add(btnPrintLabels);
 		
 		JButton btnSendToMacro = new JButton("Enviar a Macro");
 		btnSendToMacro.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnSendToMacro.setBounds(266, 429, 117, 23);
+		btnSendToMacro.setBounds(266, 467, 117, 23);
 		add(btnSendToMacro);
 		
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnCancelar.setBounds(393, 429, 91, 23);
+		btnCancelar.setBounds(393, 467, 91, 23);
 		add(btnCancelar);
 		setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{textNroBiopsia, cBoxTipoCedula, textCedula, textNombrePaciente, txtFApellido, textEdad, textProcedencia, textPiezaRecibida, comboExamen, textReferido, comboPatologo, textAreaIDx, btnGuardar, btnPrintLabels, btnSendToMacro, btnCancelar}));
 		
 		//asignamos el listener
 		IngresoPanelOperations listener = new IngresoPanelOperations(this);
+		
+		JLabel lbltipoDeExamen = new JLabel("<html><b>Tipo de Examen: </b></html>");
+		lbltipoDeExamen.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lbltipoDeExamen.setBounds(20, 249, 127, 14);
+		add(lbltipoDeExamen);
+		
+		lblTipoExamen = new JLabel("");
+		lblTipoExamen.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblTipoExamen.setBounds(180, 250, 184, 14);
+		add(lblTipoExamen);
 		textCedula.addKeyListener(listener);
 		textNroBiopsia.addKeyListener(listener);
 		comboExamen.addItemListener(listener);
