@@ -43,6 +43,9 @@ public final class Constants {
 	
 	//iconos
 	public static final Icon icoMain = new ImageIcon(Constants.class.getResource("/resources/images/LmontTech.jpg"));
+
+	
+	public static final int MAX_RECORDS_PER_PAGE = 50;
 	
 	/**
 	 * 

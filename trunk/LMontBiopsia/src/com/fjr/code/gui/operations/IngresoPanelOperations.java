@@ -7,6 +7,8 @@ import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import org.apache.log4j.Logger;
+
 import com.fjr.code.gui.IngresoPanel;
 
 /**
@@ -19,6 +21,10 @@ import com.fjr.code.gui.IngresoPanel;
  *
  */
 public class IngresoPanelOperations implements ActionListener, KeyListener, ItemListener{
+	/**
+	 * log de la clase
+	 */
+	private static final Logger log = Logger.getLogger(IngresoPanelOperations.class);
 	
 	public static final String ACTION_COMMAND_NRO_BIOPSIA = "nroBiopsia";
 	public static final String ACTION_COMMAND_NRO_CEDULA = "nroCedula";
@@ -45,13 +51,13 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
+		log.info("Evento disparado con comando: " + e.getActionCommand());
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println("aqui");
+		
 	}
 
 	@Override

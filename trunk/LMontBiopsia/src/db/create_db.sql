@@ -112,11 +112,11 @@ CREATE TABLE `examenes_biopsias` (
   `dias_resultado` int(11) NOT NULL,
   `nombre` varchar(250) NOT NULL,
   `activo` char(1) NOT NULL DEFAULT '1',
-  `id_grupo_examen` int(11) NOT NULL,
+  `id_tipo_examen` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_EXAMEN_GRUPO` (`id_grupo_examen`),
-  CONSTRAINT `FK_EXAMEN_GRUPO` FOREIGN KEY (`id_grupo_examen`) REFERENCES `tipo_examenes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COMMENT='tabla para registrar los distintos examenes de biopsias';
+  KEY `FK_EXAMEN_GRUPO` (`id_tipo_examen`),
+  CONSTRAINT `FK_EXAMEN_GRUPO` FOREIGN KEY (`id_tipo_examen`) REFERENCES `tipo_examenes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COMMENT='tabla para registrar los distintos examenes de biopsias';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -126,7 +126,7 @@ CREATE TABLE `examenes_biopsias` (
 
 LOCK TABLES `examenes_biopsias` WRITE;
 /*!40000 ALTER TABLE `examenes_biopsias` DISABLE KEYS */;
-INSERT INTO `examenes_biopsias` (`id`, `codigo`, `dias_resultado`, `nombre`, `activo`, `id_grupo_examen`) VALUES (1,'001',15,'Examen de Prueba','1',1);
+INSERT INTO `examenes_biopsias` (`id`, `codigo`, `dias_resultado`, `nombre`, `activo`, `id_tipo_examen`) VALUES (1,'001',15,'Examen de Prueba','1',1),(2,'002',7,'Examen2','1',1);
 /*!40000 ALTER TABLE `examenes_biopsias` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -197,4 +197,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-08-29  7:04:00
+-- Dump completed on 2013-08-30  7:10:44
