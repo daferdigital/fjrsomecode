@@ -64,6 +64,7 @@ public class AppWindow {
 		frmSistemaDeGestion.setLocationRelativeTo(null);
 		frmSistemaDeGestion.requestFocusInWindow();
 		frmSistemaDeGestion.setVisible(true);
+		frmSistemaDeGestion.toFront();
 	}
 	
 	/**

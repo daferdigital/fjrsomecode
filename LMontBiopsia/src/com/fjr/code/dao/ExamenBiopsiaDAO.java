@@ -75,6 +75,13 @@ public final class ExamenBiopsiaDAO {
 	public static void populateJCombo(JComboBox comboBox){
 		List<ExamenBiopsiaDTO> items = getAll();
 		
+		comboBox.addItem(new ExamenBiopsiaDTO(0, 
+				"", 
+				"Seleccione", 
+				0, 
+				0, 
+				"", 
+				""));
 		for (ExamenBiopsiaDTO examenBiopsiaDTO : items) {
 			comboBox.addItem(examenBiopsiaDTO);
 		}
