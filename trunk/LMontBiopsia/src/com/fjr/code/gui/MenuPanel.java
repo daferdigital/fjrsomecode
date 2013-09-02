@@ -92,7 +92,7 @@ public class MenuPanel extends JPanel {
 			mntmIngreso.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					//debemos mostrar el panel de recepcion
-					AppWindow.getInstance().setPanelContenido(new IngresoPanel());
+					AppWindow.getInstance().setPanelContenido(new IngresoPanel(null));
 				}
 			});
 			menuRecepcion.add(mntmIngreso);

@@ -280,7 +280,7 @@ public final class DBUtil {
 	 * Rutina para ejecutar inserts donde nos interesa obtener el id del registro insertado (maestro-detalle)
 	 * 
 	 * @param query
-	 * @return
+	 * @return valor del id insertado o -1 en caso de error
 	 */
 	public static int executeInsertQuery(String query){
 		return executeInsertQuery(query, null);
@@ -291,7 +291,7 @@ public final class DBUtil {
 	 * 
 	 * @param query
 	 * @param queryParameters
-	 * @return
+	 * @return valor del id insertado o -1 en caso de error
 	 */
 	public static int executeInsertQuery(String query, List<Object> queryParameters){
 		int insertedId = -1;

@@ -96,7 +96,7 @@ public class ExamenBiopsiaDTO {
 	public void setNombreTipoExamen(String nombreTipoExamen) {
 		this.nombreTipoExamen = nombreTipoExamen;
 	}
-
+	
 	@Override
 	public String toString() {
 		return codigoTipoExamen + "-" + codigoExamen + " " + nombreExamen;
