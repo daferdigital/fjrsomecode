@@ -38,6 +38,8 @@ public class IngresoPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 5763855986388595232L;
+	
+	private boolean isNewBiopsia = true;
 	private JTextField textNroBiopsia;
 	private JComboBox comboTipoCedula;
 	private JTextField textCedula;
@@ -57,11 +59,13 @@ public class IngresoPanel extends JPanel {
 	 * 
 	 * @param numeroBiopsia
 	 */
-	public IngresoPanel(String numeroBiopsia) {
+	public IngresoPanel(boolean isNewBiopsia) {
 		//amarillo pastel
 		//setBackground(new Color(255, 255, 153));
 		setBackground(new Color(255, 255, 255));
 		setLayout(null);
+
+		this.isNewBiopsia = isNewBiopsia;
 		
 		JLabel lblNroBiopsia = new JLabel("<html><b>N&deg; de Biopsia *:</b></html>");
 		lblNroBiopsia.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -74,10 +78,6 @@ public class IngresoPanel extends JPanel {
 		textNroBiopsia.setToolTipText("<html>\r\nIndique aqu&iacute; el codigo manual a asignar a esta biopsia\r\n<br />\r\nPor ejemplo 13-0192.\r\n<br />\r\nDejar en blanco si esta creando una biopsia nueva\r\n</html>");
 		textNroBiopsia.setBounds(180, 11, 184, 20);
 		textNroBiopsia.setColumns(10);
-		if(numeroBiopsia != null){
-			textNroBiopsia.setText(numeroBiopsia);
-			textNroBiopsia.setEnabled(false);
-		}
 		add(textNroBiopsia);
 		
 		comboTipoCedula = new JComboBox();
@@ -259,6 +259,7 @@ public class IngresoPanel extends JPanel {
 		//asignamos el listener
 		IngresoPanelOperations listener = new IngresoPanelOperations(this);
 		textCedula.addKeyListener(listener);
+		textNroBiopsia.addInputMethodListener(listener);
 		textNroBiopsia.addKeyListener(listener);
 		comboExamen.addItemListener(listener);
 		comboExamen.addKeyListener(listener);
@@ -270,8 +271,12 @@ public class IngresoPanel extends JPanel {
 		setVisible(true);
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	/**
+	 * Metodo para fijar el foco en el elemento por defecto de la ventana
+	 * 
+	 */
+	public void setFocusAtDefaultElement(){
+		this.textCedula.requestFocusInWindow();
 	}
 
 	public JTextField getTextNroBiopsia() {
@@ -328,5 +333,9 @@ public class IngresoPanel extends JPanel {
 	
 	public JLabel getLblNumeroDias() {
 		return lblNumeroDias;
+	}
+	
+	public boolean isNewBiopsia() {
+		return isNewBiopsia;
 	}
 }
