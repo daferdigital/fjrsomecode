@@ -2,6 +2,8 @@ package com.fjr.code.gui.operations;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputMethodEvent;
+import java.awt.event.InputMethodListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
@@ -13,12 +15,17 @@ import javax.swing.JTextField;
 
 import org.apache.log4j.Logger;
 
+import com.fjr.code.dao.BiopsiaInfoDAO;
 import com.fjr.code.dao.ClienteDAO;
+import com.fjr.code.dao.definitions.FasesBiopsia;
+import com.fjr.code.dto.BiopsiaInfoDTO;
+import com.fjr.code.dto.BiopsiaIngresoDTO;
 import com.fjr.code.dto.ClienteDTO;
 import com.fjr.code.dto.ExamenBiopsiaDTO;
 import com.fjr.code.dto.TipoCedulaDTO;
 import com.fjr.code.gui.ClienteFormDialog;
 import com.fjr.code.gui.IngresoPanel;
+import com.fjr.code.util.BiopsiaValidationUtil;
 import com.fjr.code.util.KeyEventsUtil;
 
 /**
@@ -30,7 +37,7 @@ import com.fjr.code.util.KeyEventsUtil;
  * @author T&T
  *
  */
-public class IngresoPanelOperations implements ActionListener, KeyListener, ItemListener{
+public class IngresoPanelOperations implements ActionListener, KeyListener, ItemListener, InputMethodListener{
 	/**
 	 * log de la clase
 	 */
@@ -57,6 +64,84 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 		// TODO Auto-generated constructor stub
 		this.ventana = ventana;
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	private BiopsiaInfoDTO buildDTOFromVentana(){
+		BiopsiaInfoDTO ingreso = new BiopsiaInfoDTO();
+		
+		ingreso.setNumero(ventana.getTextNroBiopsia().getText());
+		ingreso.setFaseActual(FasesBiopsia.INGRESO);
+		
+		return ingreso;
+	}
+	
+	/**
+	 * Se desea guardar una biopsia, veo si es una nueva o si se esta editando una ya existente.
+	 * 
+	 * @param isNewBiopsia
+	 */
+	public boolean validateWindowData(boolean isNewBiopsia){
+		boolean isValid = true;
+		
+		if(isNewBiopsia){
+			//se tipeo un codigo de biopsia
+			//en cuyo caso debo validar si existe o no
+			//o si cumple con el fomato del mismo
+			if(! "".equals(ventana.getTextNroBiopsia().getText())){
+				if(! BiopsiaValidationUtil.isAValidNroBiopsia(ventana.getTextNroBiopsia().getText())){
+					isValid = false;
+					log.error("El numero de biopsia '" + ventana.getTextNroBiopsia().getText() 
+							+ "' no tiene la estructura esperada");
+					JOptionPane.showMessageDialog(ventana, 
+							"El formato del número de biopsia no es el esperado.\nDebe ser por ejemplo: 14-5272", 
+							"Error en formato de número de biopsia", 
+							JOptionPane.ERROR_MESSAGE);
+				} else {
+					//es un numero valido de biopsia, debemos usarlo
+					//previa verificacion
+					if(BiopsiaInfoDAO.biopsiaAlreadyExists(ventana.getTextNroBiopsia().getText())){
+						isValid = false;
+						log.error("El numero de biopsia '" + ventana.getTextNroBiopsia().getText()
+								+ "' ya existe, para modificarla, debe ingresarse en la opcion de actualizar.");
+						JOptionPane.showMessageDialog(ventana, 
+								"El número de biopsia ya existe.\nPara actualizar ingrese en el módulo Recepción -> Actualizar", 
+								"Número de biopsia ya existe", 
+								JOptionPane.ERROR_MESSAGE);
+					} else {
+						log.info("Se va a intentar guardar el ingreso de la biopsia '" + ventana.getTextNroBiopsia().getText() + "'");
+					}
+				}
+			}
+		}
+		
+		//validamos los campos restantes del formulario
+		String errors = "";
+		if(ClienteDAO.getByCedula(((TipoCedulaDTO) ventana.getComboTipoCedula().getSelectedItem()).getKeyCedula() + ventana.getTextCedula().getText()) == null){
+			errors += "La cedula indicada no existe.\n";
+		}
+		if("".equals(ventana.getTextProcedencia().getText())){
+			errors += "Debe indicar un valor para la procedencia de esta pieza.\n";
+		}
+		if("".equals(ventana.getTextPiezaRecibida().getText())){
+			errors += "Debe indicar la pieza recibida para esta biopsia.\n";
+		}
+		if("".equals(ventana.getLblTipoExamen().getText())){
+			errors += "Debe indicar el tipo de examen asociado a esta biopsia.\n";
+		}
+		
+		if(! "".equals(errors)){
+			isValid = false;
+			JOptionPane.showMessageDialog(ventana, 
+					"Se han presentado los siguientes errores:\n" + errors, 
+					"Faltan campos para guardar el ingreso", 
+					JOptionPane.ERROR_MESSAGE);
+		}
+		
+		return isValid;
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -66,7 +151,12 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 			ventana.setVisible(false);
 		} else if(ACTION_COMMAND_BTN_GUARDAR.equals(e.getActionCommand())){
 			log.info("Se desea guardar una biopsia, se verifica el contenido del formulario");
-			
+			if(validateWindowData(ventana.isNewBiopsia())){
+				//la informacion esta completa y valida
+				//guardamos la biopsia
+				BiopsiaInfoDTO ingreso = buildDTOFromVentana();
+				BiopsiaInfoDAO.insertBiopsiaInfo(ingreso);
+			}
 		}
 	}
 
@@ -196,5 +286,17 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 				ventana.getLblNumeroDias().setText(Integer.toString(examen.getDiasParaResultado()));
 			}
 		}	
+	}
+
+	@Override
+	public void inputMethodTextChanged(InputMethodEvent event) {
+		// TODO Auto-generated method stub
+		log.info("inputMethodTextChanged");
+	}
+
+	@Override
+	public void caretPositionChanged(InputMethodEvent event) {
+		// TODO Auto-generated method stub
+		
 	}
 }

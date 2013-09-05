@@ -88,14 +88,27 @@ public class MenuPanel extends JPanel {
 			JMenu menuRecepcion = new JMenu("Recepci\u00F3n");
 			menuRecepcion.setHorizontalAlignment(SwingConstants.LEFT);
 			
-			JMenuItem mntmIngreso = new JMenuItem("Ingreso");
+			JMenuItem mntmIngreso = new JMenuItem("Nuevo Ingreso");
 			mntmIngreso.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					//debemos mostrar el panel de recepcion
-					AppWindow.getInstance().setPanelContenido(new IngresoPanel(null));
+					IngresoPanel panel = new IngresoPanel(true);
+					AppWindow.getInstance().setPanelContenido(panel);
+					panel.setFocusAtDefaultElement();
 				}
 			});
 			menuRecepcion.add(mntmIngreso);
+			
+			JMenuItem mntmUpdIngreso = new JMenuItem("Actualizar Ingreso");
+			mntmUpdIngreso.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					//debemos mostrar el panel de recepcion
+					IngresoPanel panel = new IngresoPanel(false);
+					AppWindow.getInstance().setPanelContenido(panel);
+					panel.getTextNroBiopsia().requestFocusInWindow();
+				}
+			});
+			menuRecepcion.add(mntmUpdIngreso);
 			
 			JMenuItem mntmFacturacion = new JMenuItem("Facturaci\u00F3n");
 			menuRecepcion.add(mntmFacturacion);
