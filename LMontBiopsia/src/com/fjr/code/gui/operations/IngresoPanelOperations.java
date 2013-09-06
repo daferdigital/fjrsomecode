@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 
 import com.fjr.code.dao.BiopsiaInfoDAO;
 import com.fjr.code.dao.ClienteDAO;
+import com.fjr.code.dao.ExamenBiopsiaDAO;
 import com.fjr.code.dao.definitions.FasesBiopsia;
 import com.fjr.code.dto.BiopsiaInfoDTO;
 import com.fjr.code.dto.BiopsiaIngresoDTO;
@@ -66,6 +67,8 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 	}
 	
 	/**
+	 * Se construye el ingreso de la biopsia
+	 * en base a la informacion de la ventana.
 	 * 
 	 * @return
 	 */
@@ -74,6 +77,10 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 		
 		ingreso.setNumero(ventana.getTextNroBiopsia().getText());
 		ingreso.setFaseActual(FasesBiopsia.INGRESO);
+		ingreso.setCliente(ClienteDAO.getByCedula((
+				(TipoCedulaDTO) ventana.getComboTipoCedula().getSelectedItem()).getKeyCedula() + ventana.getTextCedula().getText()));
+		ingreso.setExamenBiopsia(ExamenBiopsiaDAO.);
+		ingreso.setIngresoDTO(ingresoDTO);
 		
 		return ingreso;
 	}
