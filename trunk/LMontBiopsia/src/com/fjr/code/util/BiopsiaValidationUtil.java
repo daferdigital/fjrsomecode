@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
  *
  */
 public final class BiopsiaValidationUtil {
-	private static final Pattern REG_EXP_NRO_BIOPSIA = Pattern.compile("([0-9]{2}\\-)[0-9]+");
+	private static final Pattern REG_EXP_NRO_BIOPSIA = Pattern.compile("([0-9]{2}\\-)[0-9]{1,6}");
 	
 	private BiopsiaValidationUtil() {
 		// TODO Auto-generated constructor stub

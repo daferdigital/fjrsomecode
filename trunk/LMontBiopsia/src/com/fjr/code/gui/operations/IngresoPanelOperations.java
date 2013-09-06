@@ -15,14 +15,17 @@ import javax.swing.JTextField;
 
 import org.apache.log4j.Logger;
 
+import com.fjr.code.barcode.BarCodeIngreso;
 import com.fjr.code.dao.BiopsiaInfoDAO;
 import com.fjr.code.dao.ClienteDAO;
 import com.fjr.code.dao.ExamenBiopsiaDAO;
+import com.fjr.code.dao.PatologoDAO;
 import com.fjr.code.dao.definitions.FasesBiopsia;
 import com.fjr.code.dto.BiopsiaInfoDTO;
 import com.fjr.code.dto.BiopsiaIngresoDTO;
 import com.fjr.code.dto.ClienteDTO;
 import com.fjr.code.dto.ExamenBiopsiaDTO;
+import com.fjr.code.dto.PatologoDTO;
 import com.fjr.code.dto.TipoCedulaDTO;
 import com.fjr.code.gui.ClienteFormDialog;
 import com.fjr.code.gui.IngresoPanel;
@@ -73,16 +76,33 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 	 * @return
 	 */
 	private BiopsiaInfoDTO buildDTOFromVentana(){
-		BiopsiaInfoDTO ingreso = new BiopsiaInfoDTO();
+		BiopsiaInfoDTO registro = new BiopsiaInfoDTO();
 		
-		ingreso.setNumero(ventana.getTextNroBiopsia().getText());
-		ingreso.setFaseActual(FasesBiopsia.INGRESO);
-		ingreso.setCliente(ClienteDAO.getByCedula((
+		if("".equals(ventana.getTextNroBiopsia().getText())){
+			registro.setYearBiopsia(-1);
+			registro.setNumeroBiopsia(-1);
+		}else{
+			String[] values = ventana.getTextNroBiopsia().getText().split("\\-");
+			registro.setYearBiopsia(Integer.parseInt(values[0]));
+			registro.setNumeroBiopsia(Integer.parseInt(values[1]));
+		}
+		
+		registro.setFaseActual(FasesBiopsia.INGRESO);
+		registro.setCliente(ClienteDAO.getByCedula((
 				(TipoCedulaDTO) ventana.getComboTipoCedula().getSelectedItem()).getKeyCedula() + ventana.getTextCedula().getText()));
-		ingreso.setExamenBiopsia(ExamenBiopsiaDAO.);
-		ingreso.setIngresoDTO(ingresoDTO);
+		registro.setExamenBiopsia(
+				ExamenBiopsiaDAO.getById(((ExamenBiopsiaDTO) ventana.getComboExamen().getSelectedItem()).getId()));
 		
-		return ingreso;
+		BiopsiaIngresoDTO ingreso = new BiopsiaIngresoDTO();
+		ingreso.setIdx(ventana.getTextAreaIDx().getText());
+		ingreso.setPatologoTurno(PatologoDAO.getById(((PatologoDTO) ventana.getComboPatologo().getSelectedItem()).getId()));
+		ingreso.setPiezaRecibida(ventana.getTextPiezaRecibida().getText());
+		ingreso.setProcedencia(ventana.getTextProcedencia().getText());
+		ingreso.setReferidoMedico(ventana.getTextReferido().getText());
+		
+		registro.setIngresoDTO(ingreso);
+		
+		return registro;
 	}
 	
 	/**
@@ -162,9 +182,59 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 				//la informacion esta completa y valida
 				//guardamos la biopsia
 				BiopsiaInfoDTO ingreso = buildDTOFromVentana();
-				BiopsiaInfoDAO.insertBiopsiaInfo(ingreso);
+				if(BiopsiaInfoDAO.insertBiopsiaInfo(ingreso) > 0){
+					JOptionPane.showMessageDialog(ventana, 
+							"La biopsia de código " + ingreso.getCodigo() + " fue creada de manera exitosa.", 
+							"Almacenada biopsia " + ingreso.getCodigo(), 
+							JOptionPane.INFORMATION_MESSAGE);
+					ventana.setNewBiopsia(false);
+					ventana.getTextNroBiopsia().setText(ingreso.getCodigo());
+				} else {
+					log.error("No pudo guardarse la biopsia");
+					JOptionPane.showMessageDialog(ventana, 
+							"Se produjo un error al almacenar la biopsia.\nPor favor, intente de nuevo.", 
+							"Error al guardar", 
+							JOptionPane.ERROR_MESSAGE);
+				}
+			} else {
+				//se desea modificar una biopsia
+				
 			}
-		}
+		} else if(ACTION_COMMAND_BTN_PRINT_LABELS.equals(e.getActionCommand())){
+			log.info("Peticion para imprimir las etiquetas");
+			//validamos los datos minimos requeridos
+			String errors = "";
+			if("".equals(ventana.getTextNroBiopsia().getText())){
+				errors += "\nEl número de biopsia.";
+			}
+			if("".equals(ventana.getTextCedula().getText())){
+				errors += "\nLa cédula.";
+			}
+			if("".equals(ventana.getTextNombrePaciente().getText()) 
+					&& "".equals(ventana.getTextApellido().getText())){
+				errors += "\nEl nombre del paciente";
+			}
+			
+			if("".equals(errors)){
+				log.info("Informacion completa para imprimir las etiquetas.");
+				BarCodeIngreso codeIngreso = new BarCodeIngreso(ventana.getTextNroBiopsia().getText(), 
+						ventana.getTextNombrePaciente().getText() + "\n" + ventana.getTextApellido().getText(), 
+						((TipoCedulaDTO) ventana.getComboTipoCedula().getSelectedItem()).getKeyCedula() + ventana.getTextCedula().getText());
+				try {
+					codeIngreso.crearEtiquetaIngreso();
+					codeIngreso.printLabelFile();
+				} catch (Exception ex) {
+					// TODO: handle exception
+					log.error(ex.getLocalizedMessage(), ex);
+				}
+			} else {
+				log.info("Informacion incompleta para imprimir las etiquetas.");
+				JOptionPane.showMessageDialog(ventana, 
+						"Disculpe, los siguientes valores son requeridos para la impresión de las etiquetas:\n" + errors, 
+						"Faltan atributos para la impresión.", 
+						JOptionPane.ERROR_MESSAGE);
+			}
+		}	
 	}
 
 	@Override
@@ -265,10 +335,45 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 					}
 				}
 			} else if(ACTION_COMMAND_NRO_BIOPSIA.equals(field.getName())){
-				if(KeyEventsUtil.wasPressedAEnter(e)){
+				if(KeyEventsUtil.wasPressedAEnter(e) || KeyEventsUtil.wasPressedABackSpace(e)){
+					//verifico si la biopsia existe para cargar los datos
+					//solo si el campo no es vacio
 					if(! "".equals(field.getText().trim())){
-						//solicitud para cargar el nro de biopsia que indica el valor del campo
+						String nroBiopsia = field.getText();
+						if(KeyEventsUtil.wasPressedABackSpace(e)){
+							nroBiopsia = nroBiopsia.substring(0, nroBiopsia.length() - 1);
+						}
 						
+						log.info("Debo verificar la biopsia '" + nroBiopsia + "'");
+						//verificamos los datos basicos del cliente para esa cedula
+						BiopsiaInfoDTO biopsia = BiopsiaInfoDAO.getBiopsiaByNumero(nroBiopsia);
+						
+						ventana.getTextNombrePaciente().setText("");
+						ventana.getTextApellido().setText("");
+						ventana.getTextEdad().setText("");
+						
+						if(biopsia == null && KeyEventsUtil.wasPressedAEnter(e)){
+							JOptionPane.showMessageDialog(ventana, 
+									"Disculpe, el número de biopsia indicado no existe.",
+									"Biopsia " + nroBiopsia + " no existe.",
+									JOptionPane.ERROR_MESSAGE);
+
+						} else {
+							//el cliente existe, cargamos su data
+							if(biopsia != null){
+								//el cliente no existe, posible backspace en el valor de la cedula
+								if(FasesBiopsia.INGRESO.equals(biopsia.getFaseActual())){
+									ventana.getTextNombrePaciente().setText(biopsia.getCliente().getNombres());
+									ventana.getTextApellido().setText(biopsia.getCliente().getApellidos());
+									ventana.getTextEdad().setText(Integer.toString(biopsia.getCliente().getEdad()));
+								} else {
+									JOptionPane.showMessageDialog(ventana,
+											"Esta biopsia no esta en estatus de ingreso, por lo tanto no podrá ser modificada.",
+											"Biopsia no modificable",
+											JOptionPane.INFORMATION_MESSAGE);
+								}
+							}
+						}
 					}
 				}
 			}

@@ -30,7 +30,7 @@ public class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO>
 	 */
 	private static final Logger log = Logger.getLogger(BiopsiaInfoDAOListBuilder.class);
 	
-	private static final String BEGIN = "SELECT b.id, b.numero, fb.id AS faseId,"
+	private static final String BEGIN = "SELECT b.id, b.year_biopsia, b.numero_biopsia, fb.id AS faseId,"
 			//datos de ingreso
 			+ " bi.procedencia, bi.pieza_recibida, bi.referido_medico, bi.idx, p.id AS idPatologo, p.nombre AS nombrePatologo, p.activo"
 			+ " FROM  biopsias b LEFT JOIN biopsias_ingresos bi ON b.id = bi.id"
@@ -41,7 +41,7 @@ public class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO>
 			+ " AND eb.id = b.id_examen_biopsia"
 			+ " AND b.id_fase_actual = fb.id";
 	
-	private static final String END = "ORDER BY b.numero";
+	private static final String END = "ORDER BY b.year_biopsia, b.numero_biopsia";
 	
 	private String customWhere;
 	private List<Object> parameters;
@@ -74,7 +74,7 @@ public class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO>
 	}
 	
 	public void searchByNumeroBiopsia(String nroBiopsia){
-		customWhere += " AND b.numero = ?";
+		customWhere += " AND CONCAT(b.year_biopsia, '-', b.numero_biopsia) = ?";
 		parameters.add(nroBiopsia);
 	}
 	
@@ -102,17 +102,18 @@ public class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO>
 			while (rowSet.next()) {
 				BiopsiaInfoDTO biopsiaAllInfo = new BiopsiaInfoDTO();
 				biopsiaAllInfo.setId(rowSet.getInt(1));
-				biopsiaAllInfo.setNumero(rowSet.getString(2));
-				biopsiaAllInfo.setFaseActual(FasesBiopsia.getInfoByCode(rowSet.getInt(3)));
+				biopsiaAllInfo.setYearBiopsia(rowSet.getInt(2));
+				biopsiaAllInfo.setNumeroBiopsia(rowSet.getInt(3));
+				biopsiaAllInfo.setFaseActual(FasesBiopsia.getInfoByCode(rowSet.getInt(4)));
 				
 				//datos especificos de ingreso
 				BiopsiaIngresoDTO ingresoDTO = new BiopsiaIngresoDTO();
 				ingresoDTO.setIdBiopsia(rowSet.getInt(1));
-				ingresoDTO.setProcedencia(rowSet.getString(4));
-				ingresoDTO.setPiezaRecibida(rowSet.getString(5));
-				ingresoDTO.setReferidoMedico(rowSet.getString(6));
-				ingresoDTO.setIdx(rowSet.getString(7));
-				ingresoDTO.setPatologoTurno(new PatologoDTO(rowSet.getInt(8), rowSet.getString(9), rowSet.getBoolean(10)));
+				ingresoDTO.setProcedencia(rowSet.getString(5));
+				ingresoDTO.setPiezaRecibida(rowSet.getString(6));
+				ingresoDTO.setReferidoMedico(rowSet.getString(7));
+				ingresoDTO.setIdx(rowSet.getString(8));
+				ingresoDTO.setPatologoTurno(new PatologoDTO(rowSet.getInt(9), rowSet.getString(10), rowSet.getBoolean(11)));
 				
 				//datos especificos de macro
 				BiopsiaMacroscopicaDTO macroDTO = new BiopsiaMacroscopicaDTO();
