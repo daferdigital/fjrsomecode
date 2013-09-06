@@ -8,7 +8,7 @@ import javax.sql.rowset.CachedRowSet;
 import org.apache.log4j.Logger;
 
 import com.fjr.code.dao.definitions.DAOListBuilder;
-import com.fjr.code.dto.ExamenBiopsiaDTO;
+import com.fjr.code.dto.PatologoDTO;
 import com.fjr.code.util.DBUtil;
 
 /**
@@ -20,20 +20,18 @@ import com.fjr.code.util.DBUtil;
  * @author T&T
  *
  */
-public final class ExamenBiopsiaDAOListBuilder implements DAOListBuilder<ExamenBiopsiaDTO>{
+public final class PatologoDAOListBuilder implements DAOListBuilder<PatologoDTO>{
 	/**
 	 * 
 	 */
-	private static final Logger log = Logger.getLogger(ExamenBiopsiaDAOListBuilder.class);
+	private static final Logger log = Logger.getLogger(PatologoDAOListBuilder.class);
 	
 	
-	private static final String BEGIN = "SELECT te.id AS idTipoExamen, te.codigo AS codigoTipoExamen, te.nombre AS nombreTipoExamen, "
-			+ " eb.id AS idExamen, eb.codigo AS codigoExamen, eb.nombre AS nombreExamen, eb.dias_resultado "
-			+ " FROM tipo_examenes te, examenes_biopsias eb"
-			+ " WHERE te.activo='1'"
-			+ " AND eb.activo='1'"
-			+ " AND te.id = eb.id_tipo_examen";
-	private static final String END = " ORDER BY eb.codigo, eb.nombre";
+	private static final String BEGIN = "SELECT p.id, p.nombre, p.activo "
+				+ " FROM patologos p"
+				+ " WHERE p.activo='1'";
+	
+	private static final String END = " ORDER BY p.nombre";
 
 
 	private List<Object> parameters;
@@ -42,7 +40,7 @@ public final class ExamenBiopsiaDAOListBuilder implements DAOListBuilder<ExamenB
 	/**
 	 * 
 	 */
-	public ExamenBiopsiaDAOListBuilder() {
+	public PatologoDAOListBuilder() {
 		// TODO Auto-generated constructor stub
 		parameters = new LinkedList<Object>();
 		customWhere = "";
@@ -50,12 +48,13 @@ public final class ExamenBiopsiaDAOListBuilder implements DAOListBuilder<ExamenB
 
 	/**
 	 * 
-	 * @param idExamen
+	 * @param id
 	 */
-	public void searchByExamenId(int idExamen){
-		customWhere += " AND eb.id = ?";
-		parameters.add(idExamen);
+	public void searchById(int id){
+		customWhere += " AND p.id = ?";
+		parameters.add(id);
 	}
+	
 	/**
 	 * 
 	 * @return
@@ -77,20 +76,16 @@ public final class ExamenBiopsiaDAOListBuilder implements DAOListBuilder<ExamenB
 	 * 
 	 * @return
 	 */
-	public List<ExamenBiopsiaDTO> getResults(){
-		List<ExamenBiopsiaDTO> results = new LinkedList<ExamenBiopsiaDTO>();
+	public List<PatologoDTO> getResults(){
+		List<PatologoDTO> results = new LinkedList<PatologoDTO>();
 		
 		try {
 			CachedRowSet rowSet = DBUtil.executeSelectQuery(getQuery(), getParameters());
 			
 			while (rowSet.next()) {
-				results.add(new ExamenBiopsiaDTO(rowSet.getInt(4),
-						rowSet.getString(5),
-						rowSet.getString(6),
-						rowSet.getInt(7),
-						rowSet.getInt(1),
+				results.add(new PatologoDTO(rowSet.getInt(1),
 						rowSet.getString(2),
-						rowSet.getString(3)));
+						"1".equals(rowSet.getString(3))));
 			}
 		} catch (Exception e) {
 			// TODO: handle exception

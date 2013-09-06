@@ -108,6 +108,7 @@ public final class BarCodeMacroscopica {
             
             document.add(imgFJR);
             document.add(p);
+            //document.newPage();
             
             //step 5
             document.close();

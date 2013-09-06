@@ -27,7 +27,7 @@ import com.itextpdf.text.pdf.PdfWriter;
  * @author T&T <br />
  *
  */
-public final class BarCodeIngreso {
+public final class BarCodeIngreso extends BarCodePrint {
 	private static final Logger log = Logger.getLogger(BarCodeIngreso.class);
 	
 	/**
@@ -46,6 +46,7 @@ public final class BarCodeIngreso {
 	private String nombrePaciente;
 	private String cedula;
 	private String labelFileName;
+	private String labelFilePath;
 	
 	/**
 	 * 
@@ -56,10 +57,12 @@ public final class BarCodeIngreso {
 	public BarCodeIngreso(String nroBiopsia, String nombrePaciente,
 			String cedula) {
 		// TODO Auto-generated constructor stub
+		super(log);
 		this.nroBiopsia = nroBiopsia;
 		this.nombrePaciente = nombrePaciente;
 		this.cedula = cedula;
 		this.labelFileName = "ingreso_" + nroBiopsia + ".pdf";
+		this.labelFilePath = Constants.LABELS_PATH + File.separator + labelFileName;
 	}
 	
 	/**
@@ -83,7 +86,7 @@ public final class BarCodeIngreso {
     	
         // step 2
         PdfWriter writer = PdfWriter.getInstance(document, 
-        		new FileOutputStream(Constants.LABELS_PATH + File.separator + labelFileName));
+        		new FileOutputStream(labelFilePath));
         
         // step 3
         document.open();
@@ -98,12 +101,12 @@ public final class BarCodeIngreso {
         log.info("Creado codigo de barras con el valor " + nroBiopsia);
         
         Paragraph p = new Paragraph();
-        String chunkText = "\nNro Biopsia: " + nroBiopsia;
+        String chunkText = "Nro Biopsia: " + nroBiopsia;
         chunkText += "\nPaciente: \n" + nombrePaciente;
         chunkText += "\nC.I: " + cedula;
         
         p.add(new Chunk(chunkText, new Font(FontFamily.COURIER, 8F)));
-        p.add(new Chunk(imgFJR, 50F, -15F));
+        p.add(new Chunk(imgFJR, 47F, -15F));
         document.add(p);
         
         //step 5
@@ -113,6 +116,11 @@ public final class BarCodeIngreso {
     			+ this);
     }
 
+    public void printLabelFile() {
+    	// TODO Auto-generated method stub
+    	super.printLabelFile(new File(this.labelFilePath));
+    }
+    
 	@Override
 	public String toString() {
 		return "BarCodeIngreso [nroBiopsia=" + nroBiopsia + ", nombrePaciente="
@@ -121,8 +129,11 @@ public final class BarCodeIngreso {
 	}
 	
 	public static void main(String[] args) throws IOException, DocumentException {
-		new BarCodeIngreso("13-3467", 
-				"Josefina Carolina Gonzalez", 
-				"7.958.543").crearEtiquetaIngreso();
+		BarCodeIngreso ingreso = new BarCodeIngreso("13-3467", 
+				"Josefina Carolina\nGonzalez Aristigueta", 
+				"7.958.543");
+		
+		ingreso.crearEtiquetaIngreso();
+		//ingreso.printLabelFile();
 	}
 }

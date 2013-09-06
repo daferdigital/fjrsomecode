@@ -1,15 +1,12 @@
 package com.fjr.code.dao;
 
-import java.util.LinkedList;
 import java.util.List;
 
-import javax.sql.rowset.CachedRowSet;
 import javax.swing.JComboBox;
 
 import org.apache.log4j.Logger;
 
 import com.fjr.code.dto.ExamenBiopsiaDTO;
-import com.fjr.code.util.DBUtil;
 
 /**
  * 
@@ -34,38 +31,33 @@ public final class ExamenBiopsiaDAO {
 	}
 	
 	/**
+	 * Obtenemos todos los examenes posibles de las biopsias.
 	 * 
 	 * @return
 	 */
 	public static final List<ExamenBiopsiaDTO> getAll(){
-		final String query = "SELECT te.id AS idTipoExamen, te.codigo AS codigoTipoExamen, te.nombre AS nombreTipoExamen, "
-				+ " eb.id AS idExamen, eb.codigo AS codigoExamen, eb.nombre AS nombreExamen, eb.dias_resultado "
-				+ " FROM tipo_examenes te, examenes_biopsias eb"
-				+ " WHERE te.activo='1'"
-				+ " AND eb.activo='1'"
-				+ " AND te.id = eb.id_tipo_examen"
-				+ " ORDER BY eb.codigo, eb.nombre";
+		ExamenBiopsiaDAOListBuilder builder = new ExamenBiopsiaDAOListBuilder();
 		
-		List<ExamenBiopsiaDTO> result = new LinkedList<ExamenBiopsiaDTO>();
-		
-		try {
-			CachedRowSet rowSet = DBUtil.executeSelectQuery(query);
-			
-			while (rowSet.next()) {
-				result.add(new ExamenBiopsiaDTO(rowSet.getInt(4),
-						rowSet.getString(5),
-						rowSet.getString(6),
-						rowSet.getInt(7),
-						rowSet.getInt(1),
-						rowSet.getString(2),
-						rowSet.getString(3)));
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
-			log.error(e.getMessage(), e);
-		}
+		List<ExamenBiopsiaDTO> result = builder.getResults();
 		
 		return result;
+	}
+	
+	/**
+	 * Obtenemos el examen en base a su id.
+	 * 
+	 * @return
+	 */
+	public static final ExamenBiopsiaDTO getById(int idExamen){
+		ExamenBiopsiaDAOListBuilder builder = new ExamenBiopsiaDAOListBuilder();
+		builder.searchByExamenId(idExamen);
+		
+		List<ExamenBiopsiaDTO> result = builder.getResults();
+		if(result != null && result.size() > 0){
+			return result.get(0);
+		}
+		
+		return null;
 	}
 	
 	/**

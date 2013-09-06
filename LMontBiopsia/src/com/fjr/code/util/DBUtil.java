@@ -276,22 +276,26 @@ public final class DBUtil {
 		return result;
 	}
 	
+	public static boolean executeInsertQueryAsBoolean(String query, List<Object> queryParameters){
+		return true;
+	}
+	
 	/**
 	 * Rutina para ejecutar inserts donde nos interesa obtener el id del registro insertado (maestro-detalle)
 	 * 
 	 * @param query
-	 * @return valor del id insertado o -1 en caso de error
+	 * @return valor del id insertado o -1 en caso de error (solo aplica si la tabla tiene un campo de autoincremento)
 	 */
 	public static int executeInsertQuery(String query){
 		return executeInsertQuery(query, null);
 	}
 	
 	/**
-	 * Rutina para ejecutar cualquier tipo de query que no sea un SELECT
+	 * Rutina para ejecutar cualquier querys del tipo INSERT
 	 * 
 	 * @param query
 	 * @param queryParameters
-	 * @return valor del id insertado o -1 en caso de error
+	 * @return valor del id insertado o -1 en caso de error (solo aplica si la tabla tiene un campo de autoincremento)
 	 */
 	public static int executeInsertQuery(String query, List<Object> queryParameters){
 		int insertedId = -1;

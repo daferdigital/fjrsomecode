@@ -13,7 +13,8 @@ import com.fjr.code.dao.definitions.FasesBiopsia;
  */
 public class BiopsiaInfoDTO {
 	private int id;
-	private String numero;
+	private int yearBiopsia;
+	private int numeroBiopsia;
 	private ExamenBiopsiaDTO examenBiopsia;
 	private ClienteDTO cliente;
 	private FasesBiopsia faseActual;
@@ -35,12 +36,24 @@ public class BiopsiaInfoDTO {
 		this.id = id;
 	}
 
-	public String getNumero() {
-		return numero;
+	public int getYearBiopsia() {
+		return yearBiopsia;
 	}
-
-	public void setNumero(String numero) {
-		this.numero = numero;
+	
+	public void setYearBiopsia(int yearBiopsia) {
+		this.yearBiopsia = yearBiopsia;
+	}
+	
+	public int getNumeroBiopsia() {
+		return numeroBiopsia;
+	}
+	
+	public void setNumeroBiopsia(int numeroBiopsia) {
+		this.numeroBiopsia = numeroBiopsia;
+	}
+	
+	public String getCodigo() {
+		return yearBiopsia + "-" + numeroBiopsia;
 	}
 
 	public ExamenBiopsiaDTO getExamenBiopsia() {

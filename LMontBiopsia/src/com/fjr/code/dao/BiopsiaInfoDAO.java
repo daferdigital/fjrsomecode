@@ -35,16 +35,32 @@ public class BiopsiaInfoDAO {
 	public static boolean biopsiaAlreadyExists(String nroBiopsia){
 		boolean biopsiaExists = false;
 		
-		BiopsiaInfoDAOListBuilder builder = new BiopsiaInfoDAOListBuilder();
-		builder.searchByNumeroBiopsia(nroBiopsia);
-		List<BiopsiaInfoDTO> records = builder.getResults();
-		
-		if(records != null && records.size() > 0){
+		if(getBiopsiaByNumero(nroBiopsia) != null){
 			biopsiaExists = true;
 			log.info("La biopsia con numero " + nroBiopsia + " ya esta registrada");
 		}
 		
 		return biopsiaExists;
+	}
+	
+	/**
+	 * Obtenemos el registro completo de una determinada biopsia.
+	 * 
+	 * @param numero
+	 * @return
+	 */
+	public static BiopsiaInfoDTO getBiopsiaByNumero(String numero){
+		BiopsiaInfoDTO biopsia = null;
+		
+		BiopsiaInfoDAOListBuilder builder = new BiopsiaInfoDAOListBuilder();
+		builder.searchByNumeroBiopsia(numero);
+		List<BiopsiaInfoDTO> records = builder.getResults();
+		
+		if(records != null && records.size() > 0){
+			biopsia = records.get(0);
+		}
+		
+		return biopsia;
 	}
 	
 	/**
@@ -55,15 +71,30 @@ public class BiopsiaInfoDAO {
 	public static int insertBiopsiaInfo(BiopsiaInfoDTO biopsiaInfo){
 		int insertedId = 0;
 		
-		final String queryBasico = "INSERT INTO biopsias (numero, fecha_registro, id_examen_biopsia, id_cliente, id_fase_actual)"
-				+ " VALUES(?,?,?,?,?)";
+		final String queryBasico = "INSERT INTO biopsias (year_biopsia, numero_biopsia, fecha_registro, id_examen_biopsia, id_cliente, id_fase_actual)"
+				+ " VALUES(?,?,?,?,?,?)";
 		final String queryIngreso = "INSERT INTO biopsias_ingresos(id, procedencia, pieza_recibida, referido_medico, idx, id_patologo_turno)"
 				+ " VALUES(?,?,?,?,?,?)";
+		
+		int[] result = null;
+		if(biopsiaInfo.getNumeroBiopsia() < 0){
+			result = BiopsiaCodigoDAO.getAutomaticYearAndNumber();
+			if(result[0] < 0){
+				//no se pudo obtener de manera automatica el valor del codigo de biopsia
+				//debemos salir
+				log.error("No se pudo obtener el codigo de la biopsia de manera automatica.");
+				return -1;
+			}else {
+				biopsiaInfo.setYearBiopsia(result[0]);
+				biopsiaInfo.setNumeroBiopsia(result[1]);
+			}
+		}
 		
 		try {
 			//preparamos el query basico
 			List<Object> parameters = new LinkedList<Object>();
-			parameters.add(biopsiaInfo.getNumero());
+			parameters.add(biopsiaInfo.getYearBiopsia());
+			parameters.add(biopsiaInfo.getNumeroBiopsia());
 			parameters.add(new Timestamp(System.currentTimeMillis()));
 			parameters.add(biopsiaInfo.getExamenBiopsia().getId());
 			parameters.add(biopsiaInfo.getCliente().getId());
@@ -72,7 +103,7 @@ public class BiopsiaInfoDAO {
 			insertedId = DBUtil.executeInsertQuery(queryBasico, parameters);
 			
 			if(insertedId > 0){
-				log.info("Se inserto el registro maestro de la biopsia " + biopsiaInfo.getNumero());
+				log.info("Se inserto el registro maestro de la biopsia " + biopsiaInfo.getCodigo());
 				
 				parameters.clear();
 				parameters.add(insertedId);
@@ -82,10 +113,11 @@ public class BiopsiaInfoDAO {
 				parameters.add(biopsiaInfo.getIngresoDTO().getIdx());
 				parameters.add(biopsiaInfo.getIngresoDTO().getPatologoTurno().getId());
 				
+				//la tabla de ingreso
 				if(DBUtil.executeInsertQuery(queryIngreso, parameters) > 0){
-					log.info("Registrado el detalle de ingreso para la biopsia " + biopsiaInfo.getNumero());
+					log.info("Registrado el detalle de ingreso para la biopsia " + biopsiaInfo.getCodigo());
 				} else {
-					log.error("No pudo registrarse el detalle de ingreso para la biopsia " + biopsiaInfo.getNumero());
+					log.error("No pudo registrarse el detalle de ingreso para la biopsia " + biopsiaInfo.getCodigo());
 				}
 			}
 		} catch (Exception e) {

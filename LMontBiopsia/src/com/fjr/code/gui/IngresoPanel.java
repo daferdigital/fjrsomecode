@@ -78,6 +78,9 @@ public class IngresoPanel extends JPanel {
 		textNroBiopsia.setToolTipText("<html>\r\nIndique aqu&iacute; el codigo manual a asignar a esta biopsia\r\n<br />\r\nPor ejemplo 13-0192.\r\n<br />\r\nDejar en blanco si esta creando una biopsia nueva\r\n</html>");
 		textNroBiopsia.setBounds(180, 11, 184, 20);
 		textNroBiopsia.setColumns(10);
+		if(isNewBiopsia){
+			textNroBiopsia.setEnabled(false);
+		}
 		add(textNroBiopsia);
 		
 		comboTipoCedula = new JComboBox();
@@ -245,13 +248,13 @@ public class IngresoPanel extends JPanel {
 		
 		JButton btnSendToMacro = new JButton("Enviar a Macro");
 		btnSendToMacro.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnSendToMacro.setBounds(266, 471, 117, 23);
+		btnSendToMacro.setBounds(266, 471, 127, 23);
 		btnSendToMacro.setActionCommand(IngresoPanelOperations.ACTION_COMMAND_BTN_SEND_TO_MACRO);
 		add(btnSendToMacro);
 		
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnCancelar.setBounds(393, 471, 91, 23);
+		btnCancelar.setBounds(403, 471, 91, 23);
 		btnCancelar.setActionCommand(IngresoPanelOperations.ACTION_COMMAND_BTN_CANCELAR);
 		add(btnCancelar);
 		setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{textNroBiopsia, comboTipoCedula, textCedula, textNombrePaciente, textApellido, textEdad, textProcedencia, textPiezaRecibida, comboExamen, textReferido, comboPatologo, textAreaIDx, btnGuardar, btnPrintLabels, btnSendToMacro, btnCancelar}));
@@ -259,8 +262,10 @@ public class IngresoPanel extends JPanel {
 		//asignamos el listener
 		IngresoPanelOperations listener = new IngresoPanelOperations(this);
 		textCedula.addKeyListener(listener);
-		textNroBiopsia.addInputMethodListener(listener);
-		textNroBiopsia.addKeyListener(listener);
+		if(! isNewBiopsia){
+			textNroBiopsia.addInputMethodListener(listener);
+			textNroBiopsia.addKeyListener(listener);
+		}
 		comboExamen.addItemListener(listener);
 		comboExamen.addKeyListener(listener);
 		btnPrintLabels.addActionListener(listener);
@@ -333,6 +338,10 @@ public class IngresoPanel extends JPanel {
 	
 	public JLabel getLblNumeroDias() {
 		return lblNumeroDias;
+	}
+	
+	public void setNewBiopsia(boolean isNewBiopsia) {
+		this.isNewBiopsia = isNewBiopsia;
 	}
 	
 	public boolean isNewBiopsia() {
