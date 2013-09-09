@@ -12,6 +12,8 @@ import com.fjr.code.dao.definitions.FasesBiopsia;
 import com.fjr.code.dto.BiopsiaInfoDTO;
 import com.fjr.code.dto.BiopsiaIngresoDTO;
 import com.fjr.code.dto.BiopsiaMacroscopicaDTO;
+import com.fjr.code.dto.ClienteDTO;
+import com.fjr.code.dto.ExamenBiopsiaDTO;
 import com.fjr.code.dto.PatologoDTO;
 import com.fjr.code.util.DBUtil;
 
@@ -30,13 +32,19 @@ public class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO>
 	 */
 	private static final Logger log = Logger.getLogger(BiopsiaInfoDAOListBuilder.class);
 	
-	private static final String BEGIN = "SELECT b.id, b.year_biopsia, b.numero_biopsia, fb.id AS faseId,"
-			//datos de ingreso
-			+ " bi.procedencia, bi.pieza_recibida, bi.referido_medico, bi.idx, p.id AS idPatologo, p.nombre AS nombrePatologo, p.activo"
+	private static final String BEGIN = "SELECT b.id, b.year_biopsia, b.numero_biopsia, fb.id AS faseId," //1-4
+			//datos de ingreso //5-11
+			+ " bi.procedencia, bi.pieza_recibida, bi.referido_medico, bi.idx, p.id AS idPatologo, p.nombre AS nombrePatologo, p.activo,"
+			//datos de cliente //12-21 
+			+ " c.id, c.id_premium, c.cedula, c.nombres, c.apellidos, c.edad, c.telefono, c.correo, c.direccion, c.activo, "
+			//datos del tipo de examen 22-28
+			+ " eb.id, eb.codigo, eb.dias_resultado, eb.nombre, te.id, te.nombre, te.codigo,"
+			//datos basicos de macro 29 - 30
+			+ " bm.desc_macro, bm.desc_per_operatoria"
 			+ " FROM  biopsias b LEFT JOIN biopsias_ingresos bi ON b.id = bi.id"
 			+ " LEFT JOIN biopsias_macroscopicas bm ON b.id = bm.id"
 			+ " LEFT JOIN patologos p ON bi.id_patologo_turno = p.id,"
-			+ " fases_biopsia fb, cliente c, examenes_biopsias eb"
+			+ " tipo_examenes te, fases_biopsia fb, cliente c, examenes_biopsias eb"
 			+ " WHERE b.id_cliente = c.id"
 			+ " AND eb.id = b.id_examen_biopsia"
 			+ " AND b.id_fase_actual = fb.id";
@@ -115,8 +123,35 @@ public class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO>
 				ingresoDTO.setIdx(rowSet.getString(8));
 				ingresoDTO.setPatologoTurno(new PatologoDTO(rowSet.getInt(9), rowSet.getString(10), rowSet.getBoolean(11)));
 				
+				//datos especificos del cliente
+				biopsiaAllInfo.setCliente(
+						new ClienteDTO(rowSet.getInt(12), 
+								rowSet.getString(13), 
+								rowSet.getString(14), 
+								rowSet.getString(15), 
+								rowSet.getString(16), 
+								rowSet.getInt(17), 
+								rowSet.getString(18), 
+								rowSet.getString(19), 
+								rowSet.getString(20), 
+								rowSet.getBoolean(21)));
+				
+				//datos especificos del examen de la biopsia
+				biopsiaAllInfo.setExamenBiopsia(
+						new ExamenBiopsiaDTO(
+								rowSet.getInt(22), 
+								rowSet.getString(23), 
+								rowSet.getString(25), 
+								rowSet.getInt(24), 
+								rowSet.getInt(26), 
+								rowSet.getString(27),
+								rowSet.getString(28)));
+				
 				//datos especificos de macro
 				BiopsiaMacroscopicaDTO macroDTO = new BiopsiaMacroscopicaDTO();
+				macroDTO.setId(rowSet.getInt(1));
+				macroDTO.setDescMacroscopica(rowSet.getString(29));
+				macroDTO.setDescPerOperatoria(rowSet.getString(30));
 				
 				biopsiaAllInfo.setIngresoDTO(ingresoDTO);
 				biopsiaAllInfo.setMacroscopicaDTO(macroDTO);

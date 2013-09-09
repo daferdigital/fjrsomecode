@@ -61,6 +61,22 @@ public final class KeyEventsUtil {
 	}
 	
 	/**
+	 * Metodo para saber si se tipeo un guion control de ventana.
+	 * 
+	 * @param e Evento asociado al tipeo del caracter
+	 * @return
+	 */
+	public static boolean wasTypedADash(KeyEvent e){
+		boolean wasTyped = false;
+		
+		if("-".equals(Character.toString(e.getKeyChar()))){
+			wasTyped = true;
+		}
+		
+		return wasTyped;
+	}
+	
+	/**
 	 * Metodo para saber si se tipeo un digito en un control de ventana.
 	 * 
 	 * @param e Evento asociado al tipeo del caracter

@@ -1,5 +1,7 @@
 package com.fjr.code.barcode;
 
+import java.awt.print.PageFormat;
+import java.awt.print.Paper;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -28,6 +30,8 @@ import com.itextpdf.text.pdf.PdfWriter;
  *
  */
 public final class BarCodeIngreso extends BarCodePrint {
+	private static final PageFormat PAGE_FORMAT = new PageFormat();
+	
 	private static final Logger log = Logger.getLogger(BarCodeIngreso.class);
 	
 	/**
@@ -48,6 +52,15 @@ public final class BarCodeIngreso extends BarCodePrint {
 	private String labelFileName;
 	private String labelFilePath;
 	
+	static {
+		Paper p = new Paper();
+		p.setImageableArea(0, 0, 2.24*72, 1.73*72);
+		p.setSize(2.24*72, 1.73*72);
+		
+		PAGE_FORMAT.setPaper(p);
+		PAGE_FORMAT.setOrientation(PageFormat.LANDSCAPE);
+	}
+	
 	/**
 	 * 
 	 * @param nroBiopsia
@@ -57,7 +70,7 @@ public final class BarCodeIngreso extends BarCodePrint {
 	public BarCodeIngreso(String nroBiopsia, String nombrePaciente,
 			String cedula) {
 		// TODO Auto-generated constructor stub
-		super(log);
+		super(log, PAGE_FORMAT);
 		this.nroBiopsia = nroBiopsia;
 		this.nombrePaciente = nombrePaciente;
 		this.cedula = cedula;
@@ -96,8 +109,10 @@ public final class BarCodeIngreso extends BarCodePrint {
         
         Barcode128 barCode = new Barcode128();
         barCode.setCode(nroBiopsia);
+        
         Image imgFJR = barCode.createImageWithBarcode(cb, null, null);
         imgFJR.setRotationDegrees(90F);
+        
         log.info("Creado codigo de barras con el valor " + nroBiopsia);
         
         Paragraph p = new Paragraph();
@@ -105,8 +120,8 @@ public final class BarCodeIngreso extends BarCodePrint {
         chunkText += "\nPaciente: \n" + nombrePaciente;
         chunkText += "\nC.I: " + cedula;
         
-        p.add(new Chunk(chunkText, new Font(FontFamily.COURIER, 8F)));
-        p.add(new Chunk(imgFJR, 47F, -15F));
+        p.add(new Chunk(chunkText, new Font(FontFamily.COURIER, 8F, Font.BOLD)));
+        p.add(new Chunk(imgFJR, 35F, -15F));
         document.add(p);
         
         //step 5

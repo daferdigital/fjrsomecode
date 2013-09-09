@@ -27,6 +27,7 @@ import com.sun.rowset.CachedRowSetImpl;
 public final class DBUtil {
 	
 	private static final Logger log = Logger.getLogger(DBUtil.class);
+	public static final String NULL_PARAMETER = "null";
 	
 	private DBUtil() {
 		// TODO Auto-generated constructor stub
@@ -73,7 +74,7 @@ public final class DBUtil {
 				//iteramos sobre los parametros
 				int index = 1;
 				for (Object object : queryParameters) {
-					if(object == null || "null".equals(object.toString().toLowerCase())){
+					if(object == null || NULL_PARAMETER.equals(object.toString().toLowerCase())){
 						//queremos colocar este valor como nulo para la base de datos
 						ps.setNull(index, Types.NULL);
 					}else{
@@ -239,7 +240,7 @@ public final class DBUtil {
 				//iteramos sobre los parametros
 				int index = 1;
 				for (Object object : queryParameters) {
-					if(object == null || "null".equals(object.toString().toLowerCase())){
+					if(object == null || NULL_PARAMETER.equals(object.toString().toLowerCase())){
 						//queremos colocar este valor como nulo para la base de datos
 						ps.setNull(index, Types.NULL);
 					}else{
@@ -314,7 +315,7 @@ public final class DBUtil {
 				//iteramos sobre los parametros
 				int index = 1;
 				for (Object object : queryParameters) {
-					if(object == null || "null".equals(object.toString().toLowerCase())){
+					if(object == null || NULL_PARAMETER.equals(object.toString().toLowerCase())){
 						//queremos colocar este valor como nulo para la base de datos
 						ps.setNull(index, Types.NULL);
 					}else{

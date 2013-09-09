@@ -10,5 +10,35 @@ package com.fjr.code.dto;
  *
  */
 public class BiopsiaMacroscopicaDTO {
+	private int id;
+	private String descMacroscopica;
+	private String descPerOperatoria;
 	
+	public BiopsiaMacroscopicaDTO() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getDescMacroscopica() {
+		return descMacroscopica;
+	}
+
+	public void setDescMacroscopica(String descMacroscopica) {
+		this.descMacroscopica = descMacroscopica;
+	}
+
+	public String getDescPerOperatoria() {
+		return descPerOperatoria;
+	}
+
+	public void setDescPerOperatoria(String descPerOperatoria) {
+		this.descPerOperatoria = descPerOperatoria;
+	}
 }

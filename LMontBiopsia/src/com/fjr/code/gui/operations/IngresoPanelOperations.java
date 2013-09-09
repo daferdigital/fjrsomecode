@@ -30,6 +30,7 @@ import com.fjr.code.dto.TipoCedulaDTO;
 import com.fjr.code.gui.ClienteFormDialog;
 import com.fjr.code.gui.IngresoPanel;
 import com.fjr.code.util.BiopsiaValidationUtil;
+import com.fjr.code.util.GUIPressedOrTypedNroBiopsia;
 import com.fjr.code.util.KeyEventsUtil;
 
 /**
@@ -60,6 +61,8 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 	 */
 	private IngresoPanel ventana;
 	
+	private BiopsiaInfoDTO biopsiaInfoDTO;
+	
 	/**
 	 * 
 	 * @param ventana
@@ -70,13 +73,70 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 	}
 	
 	/**
+	 * Recibimos el DTO de la biopsia y los cargamos en la ventana
+	 * 
+	 * @param biopsia
+	 */
+	private void loadVentanaFromBiopsiaDTO(BiopsiaInfoDTO biopsia){
+		ventana.getComboTipoCedula().setSelectedIndex(0);
+		ventana.getTextCedula().setText("");
+		ventana.getTextNombrePaciente().setText("");
+		ventana.getTextApellido().setText("");
+		ventana.getTextEdad().setText("");
+		ventana.getTextProcedencia().setText("");
+		ventana.getTextPiezaRecibida().setText("");
+		ventana.getComboExamen().setSelectedIndex(0);
+		ventana.getTextReferido().setText("");
+		ventana.getComboPatologo().setSelectedIndex(0);
+		ventana.getTextAreaIDx().setText("");
+		
+		if(biopsia != null){
+			//cargamos los valores
+			ventana.getTextNroBiopsia().setText(biopsia.getCodigo());
+			
+			String[] cedula = biopsia.getCliente().getCedula().split("\\-");
+			for(int i = 0; i < ventana.getComboTipoCedula().getItemCount(); i++){
+				if(((TipoCedulaDTO) ventana.getComboTipoCedula().getItemAt(i)).getKeyCedula().startsWith(cedula[0])){
+					ventana.getComboTipoCedula().setSelectedIndex(i);
+					break;
+				}
+			}
+			ventana.getTextCedula().setText(cedula[1]);
+			
+			ventana.getTextNombrePaciente().setText(biopsia.getCliente().getNombres());
+			ventana.getTextApellido().setText(biopsia.getCliente().getApellidos());
+			ventana.getTextEdad().setText(Integer.toString(biopsia.getCliente().getEdad()));
+			ventana.getTextProcedencia().setText(biopsia.getIngresoDTO().getProcedencia());
+			ventana.getTextPiezaRecibida().setText(biopsia.getIngresoDTO().getPiezaRecibida());
+			
+			for(int i = 0; i < ventana.getComboExamen().getItemCount(); i++){
+				if(((ExamenBiopsiaDTO) ventana.getComboExamen().getItemAt(i)).getId() == biopsia.getExamenBiopsia().getId()){
+					ventana.getComboExamen().setSelectedIndex(i);
+					break;
+				}
+			}
+			
+			ventana.getTextReferido().setText(biopsia.getIngresoDTO().getReferidoMedico());
+			
+			for(int i = 0; i < ventana.getComboPatologo().getItemCount(); i++){
+				if(((PatologoDTO) ventana.getComboPatologo().getItemAt(i)).getId() == biopsia.getIngresoDTO().getPatologoTurno().getId()){
+					ventana.getComboPatologo().setSelectedIndex(i);
+					break;
+				}
+			}
+			
+			ventana.getTextAreaIDx().setText(biopsia.getIngresoDTO().getIdx());
+		}
+	}
+	
+	/**
 	 * Se construye el ingreso de la biopsia
 	 * en base a la informacion de la ventana.
 	 * 
 	 * @return
 	 */
 	private BiopsiaInfoDTO buildDTOFromVentana(){
-		BiopsiaInfoDTO registro = new BiopsiaInfoDTO();
+		BiopsiaInfoDTO registro = biopsiaInfoDTO;
 		
 		if("".equals(ventana.getTextNroBiopsia().getText())){
 			registro.setYearBiopsia(-1);
@@ -176,29 +236,14 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 		if(ACTION_COMMAND_BTN_CANCELAR.equals(e.getActionCommand())){
 			log.info("Cerrando panel de Ingreso por boton cancelar");
 			ventana.setVisible(false);
-		} else if(ACTION_COMMAND_BTN_GUARDAR.equals(e.getActionCommand())){
+		} else if(ACTION_COMMAND_BTN_GUARDAR.equals(e.getActionCommand())
+				|| ACTION_COMMAND_BTN_SEND_TO_MACRO.equals(e.getActionCommand())){
 			log.info("Se desea guardar una biopsia, se verifica el contenido del formulario");
 			if(validateWindowData(ventana.isNewBiopsia())){
 				//la informacion esta completa y valida
 				//guardamos la biopsia
-				BiopsiaInfoDTO ingreso = buildDTOFromVentana();
-				if(BiopsiaInfoDAO.insertBiopsiaInfo(ingreso) > 0){
-					JOptionPane.showMessageDialog(ventana, 
-							"La biopsia de código " + ingreso.getCodigo() + " fue creada de manera exitosa.", 
-							"Almacenada biopsia " + ingreso.getCodigo(), 
-							JOptionPane.INFORMATION_MESSAGE);
-					ventana.setNewBiopsia(false);
-					ventana.getTextNroBiopsia().setText(ingreso.getCodigo());
-				} else {
-					log.error("No pudo guardarse la biopsia");
-					JOptionPane.showMessageDialog(ventana, 
-							"Se produjo un error al almacenar la biopsia.\nPor favor, intente de nuevo.", 
-							"Error al guardar", 
-							JOptionPane.ERROR_MESSAGE);
-				}
-			} else {
-				//se desea modificar una biopsia
-				
+				biopsiaInfoDTO = buildDTOFromVentana();
+				whatToDowithBiopsia(biopsiaInfoDTO);
 			}
 		} else if(ACTION_COMMAND_BTN_PRINT_LABELS.equals(e.getActionCommand())){
 			log.info("Peticion para imprimir las etiquetas");
@@ -237,6 +282,50 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 		}	
 	}
 
+	private void whatToDowithBiopsia(BiopsiaInfoDTO ingreso) {
+		// TODO Auto-generated method stub
+		if(ventana.isNewBiopsia()){
+			if(BiopsiaInfoDAO.insertBiopsiaInfo(ingreso) > 0){
+				JOptionPane.showMessageDialog(ventana, 
+						"La biopsia de código " + ingreso.getCodigo() + " fue creada de manera exitosa.", 
+						"Almacenada biopsia " + ingreso.getCodigo(), 
+						JOptionPane.INFORMATION_MESSAGE);
+				ventana.setNewBiopsia(false);
+				ventana.getTextNroBiopsia().setText(ingreso.getCodigo());
+			} else {
+				log.error("No pudo guardarse la biopsia");
+				JOptionPane.showMessageDialog(ventana, 
+						"Se produjo un error al almacenar la biopsia.\nPor favor, intente de nuevo.", 
+						"Error al guardar", 
+						JOptionPane.ERROR_MESSAGE);
+			}
+		} else {
+			log.info("Se desea actualizar una biopsia ya existente");
+			if(ingreso.getId() > 0){
+				if(BiopsiaInfoDAO.updateIngreso(ingreso)){
+					log.info("Biopsia '" + ingreso.getCodigo() + "' actualizada con exito.");
+					JOptionPane.showMessageDialog(ventana, 
+							"La biopsia " + ingreso.getCodigo() + " fue actualizada de manera exitosa.", 
+							"Biopsia " + ingreso.getCodigo() + " actualizada", 
+							JOptionPane.ERROR_MESSAGE);
+				} else {
+					log.error("Biopsia '" + ingreso.getCodigo() + "' no pudo ser actualizada");
+					JOptionPane.showMessageDialog(ventana, 
+							"Se produjo un error al actualizar la biopsia.\nPor favor, intente de nuevo.", 
+							"Error al actualizar", 
+							JOptionPane.ERROR_MESSAGE);
+				}
+			} else {
+				JOptionPane.showMessageDialog(ventana, 
+						"Disculpe, debe cargar el formulario de manera correcta.\n"
+						+ "Intente cargar el código de la biopsia usando el lector de código de barras ó\n"
+						+ "Escriba el código y presione ENTER para auto-llenar la información de la biopsia.", 
+						"Información de Biopsia incompleta.", 
+						JOptionPane.ERROR_MESSAGE);
+			}
+		}
+	}
+
 	@Override
 	public void keyTyped(KeyEvent e) {
 		if(e.getSource() instanceof JTextField){
@@ -273,6 +362,18 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 									"Cliente inactivo",
 									JOptionPane.INFORMATION_MESSAGE);
 						}
+					}
+				}
+			} else if(ACTION_COMMAND_NRO_BIOPSIA.equals(field.getName())){
+				biopsiaInfoDTO = GUIPressedOrTypedNroBiopsia.manageKeyEvent(ventana, e, field);
+				loadVentanaFromBiopsiaDTO(biopsiaInfoDTO);
+				
+				if(biopsiaInfoDTO != null){
+					if(! FasesBiopsia.INGRESO.equals(biopsiaInfoDTO.getFaseActual())){
+						String editKey = JOptionPane.showInputDialog(ventana, 
+								"Disculpe, este registro no esta en fase de Ingreso.\nSi desea editarlo debe introducir la clave de edición.", 
+								"Indique la clave para edición", 
+								JOptionPane.QUESTION_MESSAGE);
 					}
 				}
 			}
@@ -335,45 +436,15 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 					}
 				}
 			} else if(ACTION_COMMAND_NRO_BIOPSIA.equals(field.getName())){
-				if(KeyEventsUtil.wasPressedAEnter(e) || KeyEventsUtil.wasPressedABackSpace(e)){
-					//verifico si la biopsia existe para cargar los datos
-					//solo si el campo no es vacio
-					if(! "".equals(field.getText().trim())){
-						String nroBiopsia = field.getText();
-						if(KeyEventsUtil.wasPressedABackSpace(e)){
-							nroBiopsia = nroBiopsia.substring(0, nroBiopsia.length() - 1);
-						}
-						
-						log.info("Debo verificar la biopsia '" + nroBiopsia + "'");
-						//verificamos los datos basicos del cliente para esa cedula
-						BiopsiaInfoDTO biopsia = BiopsiaInfoDAO.getBiopsiaByNumero(nroBiopsia);
-						
-						ventana.getTextNombrePaciente().setText("");
-						ventana.getTextApellido().setText("");
-						ventana.getTextEdad().setText("");
-						
-						if(biopsia == null && KeyEventsUtil.wasPressedAEnter(e)){
-							JOptionPane.showMessageDialog(ventana, 
-									"Disculpe, el número de biopsia indicado no existe.",
-									"Biopsia " + nroBiopsia + " no existe.",
-									JOptionPane.ERROR_MESSAGE);
-
-						} else {
-							//el cliente existe, cargamos su data
-							if(biopsia != null){
-								//el cliente no existe, posible backspace en el valor de la cedula
-								if(FasesBiopsia.INGRESO.equals(biopsia.getFaseActual())){
-									ventana.getTextNombrePaciente().setText(biopsia.getCliente().getNombres());
-									ventana.getTextApellido().setText(biopsia.getCliente().getApellidos());
-									ventana.getTextEdad().setText(Integer.toString(biopsia.getCliente().getEdad()));
-								} else {
-									JOptionPane.showMessageDialog(ventana,
-											"Esta biopsia no esta en estatus de ingreso, por lo tanto no podrá ser modificada.",
-											"Biopsia no modificable",
-											JOptionPane.INFORMATION_MESSAGE);
-								}
-							}
-						}
+				biopsiaInfoDTO = GUIPressedOrTypedNroBiopsia.manageKeyEvent(ventana, e, field); 
+				loadVentanaFromBiopsiaDTO(biopsiaInfoDTO);
+				if(biopsiaInfoDTO != null){
+					//verificamos el status de la biopsia
+					if(! FasesBiopsia.INGRESO.equals(biopsiaInfoDTO.getFaseActual())){
+						String editKey = JOptionPane.showInputDialog(ventana, 
+								"Disculpe, este registro no esta en fase de Ingreso.\nSi desea editarlo debe introducir la clave de edición.", 
+								"Indique la clave para edición", 
+								JOptionPane.QUESTION_MESSAGE);
 					}
 				}
 			}
@@ -409,6 +480,7 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 	@Override
 	public void caretPositionChanged(InputMethodEvent event) {
 		// TODO Auto-generated method stub
+		log.info("inputMethodTextChanged");
 		
 	}
 }

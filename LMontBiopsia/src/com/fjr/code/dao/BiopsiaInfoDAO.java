@@ -127,4 +127,59 @@ public class BiopsiaInfoDAO {
 		
 		return insertedId;
 	}
+
+	/**
+	 * Actualizacion en base de datos de una biopsia y su ingreso.
+	 * 
+	 * @param ingreso
+	 * @return
+	 */
+	public static boolean updateIngreso(BiopsiaInfoDTO ingreso) {
+		// TODO Auto-generated method stub
+		/*
+		 * en este punto debo garantizar tener el id de la biopsia en el DTO 
+		 */
+		boolean result = false;
+		
+		final String updateBiopsia = "UPDATE biopsias "
+				+ " SET year_biopsia = ?, numero_biopsia = ?, id_examen_biopsia = ?,"
+				+ " id_cliente = ? WHERE id = ?";
+		final String updateIngreso = "UPDATE biopsias_ingresos "
+				+ " SET procedencia = ?, pieza_recibida = ?, referido_medico = ?,"
+				+ "idx = ?, id_patologo_turno = ? WHERE id = ?";
+		
+		List<Object> parameters = new LinkedList<Object>();
+		
+		try {
+			parameters.add(ingreso.getYearBiopsia());
+			parameters.add(ingreso.getNumeroBiopsia());
+			parameters.add(ingreso.getExamenBiopsia().getId());
+			parameters.add(ingreso.getCliente().getId());
+			parameters.add(ingreso.getId());
+			
+			if(DBUtil.executeNonSelectQuery(updateBiopsia, parameters)){
+				log.info("Actualizado registro maestro de la biopsia " + ingreso.getCodigo());
+				parameters.clear();
+			
+				parameters.add(ingreso.getIngresoDTO().getProcedencia());
+				parameters.add(ingreso.getIngresoDTO().getPiezaRecibida());
+				parameters.add(ingreso.getIngresoDTO().getReferidoMedico());
+				parameters.add(ingreso.getIngresoDTO().getIdx());
+				if(ingreso.getIngresoDTO().getPatologoTurno() == null){
+					parameters.add(DBUtil.NULL_PARAMETER);
+				} else {
+					parameters.add(ingreso.getIngresoDTO().getPatologoTurno().getId());
+				}
+				
+				parameters.add(ingreso.getId());
+					
+				result = DBUtil.executeNonSelectQuery(updateIngreso, parameters);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			log.error(e.getLocalizedMessage(), e);
+		}
+		
+		return result;
+	}
 }

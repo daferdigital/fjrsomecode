@@ -53,7 +53,7 @@ public class BiopsiaInfoDTO {
 	}
 	
 	public String getCodigo() {
-		return yearBiopsia + "-" + numeroBiopsia;
+		return String.format("%02d-%06d", yearBiopsia, numeroBiopsia);
 	}
 
 	public ExamenBiopsiaDTO getExamenBiopsia() {
