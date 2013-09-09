@@ -35,4 +35,22 @@ public final class BiopsiaValidationUtil {
 		
 		return isValid;
 	}
+	
+	/**
+	 * 
+	 * @param year
+	 * @param number
+	 * @return
+	 */
+	public static String formatCodigoBiopsia(int year, int number){
+		return String.format("%02d-%06d", year, number);
+	}
+	
+	public static String formatCodigoBiopsia(String number){
+		return String.format("%02s-%06s", number, number);
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(formatCodigoBiopsia("3-5"));
+	}
 }

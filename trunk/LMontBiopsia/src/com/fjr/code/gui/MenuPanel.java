@@ -120,15 +120,34 @@ public class MenuPanel extends JPanel {
 			mntmMacro.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					//debemos mostrar el panel de recepcion
-					AppWindow.getInstance().setPanelContenido(new MacroscopicaPanel());
+					MacroscopicaPanel panel = new MacroscopicaPanel();
+					AppWindow.getInstance().setPanelContenido(panel);
+					panel.setFocusAtDefaultElement();
 				}
 			});
 			menuMacroscopica.add(mntmMacro);
 			
 			
+			JMenu menuHistologia = new JMenu("Histologia");
+			menuHistologia.setHorizontalAlignment(SwingConstants.LEFT);
+			
+			JMenuItem mntmHistologia = new JMenuItem("Histologia");
+			
+			menuHistologia.add(mntmHistologia);
+			
+			JMenu menuMicroscopica = new JMenu("Microscopica");
+			menuMicroscopica.setHorizontalAlignment(SwingConstants.LEFT);
+			
+			JMenuItem mntmMicroscopica = new JMenuItem("Microscopica");
+			
+			menuMicroscopica.add(mntmMicroscopica);
+			
+			
 			//agregamos los menus principales
 			menuBar.add(menuRecepcion);
 			menuBar.add(menuMacroscopica);
+			menuBar.add(menuHistologia);
+			menuBar.add(menuMicroscopica);
 		}
 	}
 }
