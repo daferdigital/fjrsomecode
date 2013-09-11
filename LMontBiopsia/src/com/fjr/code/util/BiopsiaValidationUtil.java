@@ -46,11 +46,21 @@ public final class BiopsiaValidationUtil {
 		return String.format("%02d-%06d", year, number);
 	}
 	
-	public static String formatCodigoBiopsia(String number){
-		return String.format("%02s-%06s", number, number);
-	}
-	
-	public static void main(String[] args) {
-		System.out.println(formatCodigoBiopsia("3-5"));
+	/**
+	 * 
+	 * @param year
+	 * @param number
+	 * @return
+	 */
+	public static String formatCodigoBiopsia(String codigo){
+		if(isAValidNroBiopsia(codigo)){
+			String[] pieces = codigo.split("\\-");
+			int year = Integer.parseInt(pieces[0]);
+			int numero  = Integer.parseInt(pieces[1]);
+			
+			return String.format("%02d-%06d", year, numero);
+		}
+		
+		return codigo;
 	}
 }

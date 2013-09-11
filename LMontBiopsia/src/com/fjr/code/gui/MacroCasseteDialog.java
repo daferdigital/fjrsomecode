@@ -10,10 +10,13 @@ import javax.swing.border.EmptyBorder;
 import java.awt.Toolkit;
 import java.awt.Font;
 import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
+
+import com.fjr.code.gui.operations.MacroCasseteDialogOperations;
+import com.fjr.code.gui.tables.JTableMacroCassetes;
+
 import java.awt.Color;
 
 /**
@@ -32,14 +35,17 @@ public class MacroCasseteDialog extends JDialog {
 	 */
 	private static final long serialVersionUID = -5322307343213510295L;
 	
+	private JTableMacroCassetes relatedTable;
 	private final JPanel contentPanel = new JPanel();
-
+	private JTextArea textADescCassete;
+	private int rowOrigin = -1;
+	
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			MacroCasseteDialog dialog = new MacroCasseteDialog();
+			MacroCasseteDialog dialog = new MacroCasseteDialog(null, "", -1);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -48,9 +54,16 @@ public class MacroCasseteDialog extends JDialog {
 	}
 
 	/**
-	 * Create the dialog.
+	 * Creamos el dialogo
+	 * 
+	 * @param relatedTable
+	 * @param descripcion
 	 */
-	public MacroCasseteDialog() {
+	public MacroCasseteDialog(JTableMacroCassetes relatedTable, String descripcion,
+			int rowOrigin) {
+		this.relatedTable = relatedTable;
+		this.rowOrigin = rowOrigin;
+		
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setResizable(false);
 		setModal(true);
@@ -71,30 +84,49 @@ public class MacroCasseteDialog extends JDialog {
 		scrollPane.setBounds(127, 26, 278, 133);
 		contentPanel.add(scrollPane);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setBorder(new LineBorder(new Color(0, 0, 0)));
-		textArea.setLineWrap(true);
-		textArea.setWrapStyleWord(true);
-		textArea.setBounds(127, 26, 278, 133);
-		scrollPane.setViewportView(textArea);
+		textADescCassete = new JTextArea();
+		textADescCassete.setBorder(new LineBorder(new Color(0, 0, 0)));
+		textADescCassete.setLineWrap(true);
+		textADescCassete.setWrapStyleWord(true);
+		textADescCassete.setBounds(127, 26, 278, 133);
+		textADescCassete.setText(descripcion);
+		scrollPane.setViewportView(textADescCassete);
 		
-		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			{
-				JButton okButton = new JButton("OK");
-				okButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
-			}
-			{
-				JButton cancelButton = new JButton("Cancel");
-				cancelButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
-			}
-		}
+		JPanel buttonPane = new JPanel();
+		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		getContentPane().add(buttonPane, BorderLayout.SOUTH);
+		
+		JButton okButton = new JButton("Aceptar");
+		okButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		okButton.setActionCommand(MacroCasseteDialogOperations.ACTION_COMMAND_BTN_ACEPTAR);
+		buttonPane.add(okButton);
+		getRootPane().setDefaultButton(okButton);
+		
+		JButton cancelButton = new JButton("Cancelar");
+		cancelButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		cancelButton.setActionCommand(MacroCasseteDialogOperations.ACTION_COMMAND_BTN_CANCELAR);
+		buttonPane.add(cancelButton);
+		
+		MacroCasseteDialogOperations listener = new MacroCasseteDialogOperations(this);
+		okButton.addActionListener(listener);
+		cancelButton.addActionListener(listener);
+		
+		this.setLocationRelativeTo(null);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public JTextArea getTextADescCassete(){
+		return textADescCassete;
+	}
+	
+	public JTableMacroCassetes getRelatedTable() {
+		return relatedTable;
+	}
+	
+	public int getRowOrigin() {
+		return rowOrigin;
 	}
 }

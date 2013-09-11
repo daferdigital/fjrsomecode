@@ -35,13 +35,17 @@ public final class GUIPressedOrTypedNroBiopsia {
 	
 	/**
 	 * 
+	 * @param ventana
 	 * @param event
 	 * @param textNroBiopsia
+	 * @param oldValue
 	 * @return
 	 */
-	public static BiopsiaInfoDTO manageKeyEvent(Component ventana, KeyEvent event, JTextField textNroBiopsia){
+	public static BiopsiaInfoDTO manageKeyEvent(Component ventana, KeyEvent event, JTextField textNroBiopsia,
+			BiopsiaInfoDTO oldValue){
 		BiopsiaInfoDTO biopsia = null;
 		String nroBiopsia = "";
+		boolean doProcess = false;
 		
 		//vemos el tipo de evento para manipular el texto del campo como corresponda
 		if(event.getID() == KeyEvent.KEY_PRESSED){
@@ -49,10 +53,13 @@ public final class GUIPressedOrTypedNroBiopsia {
 				//verifico si la biopsia existe para cargar los datos
 				//solo si el campo no es vacio
 				if(! "".equals(textNroBiopsia.getText().trim())){
+					doProcess = true;
 					nroBiopsia = textNroBiopsia.getText();
 					if(KeyEventsUtil.wasPressedABackSpace(event)){
 						nroBiopsia = nroBiopsia.substring(0, nroBiopsia.length() - 1);
 					}
+					
+					nroBiopsia = BiopsiaValidationUtil.formatCodigoBiopsia(nroBiopsia);
 				}
 			}
 		} else if(event.getID() == KeyEvent.KEY_TYPED){
@@ -61,40 +68,47 @@ public final class GUIPressedOrTypedNroBiopsia {
 				event.consume();
 				nroBiopsia = textNroBiopsia.getText();
 			} else {
+				doProcess = true;
 				nroBiopsia = textNroBiopsia.getText() + event.getKeyChar();
 			}
 		}
 		
-		try {
-			log.info("Debo verificar la biopsia '" + nroBiopsia + "'");
-			//verificamos los datos basicos del cliente para esa cedula
-			biopsia = BiopsiaInfoDAO.getBiopsiaByNumero(nroBiopsia);
-			
-			if(event.getID() == KeyEvent.KEY_PRESSED){
-				if(biopsia == null && KeyEventsUtil.wasPressedAEnter(event)){
-					log.info("Biopsia '" + nroBiopsia + "' no existe");
-					JOptionPane.showMessageDialog(ventana, 
-							"Disculpe, el número de biopsia indicado no existe.",
-							"Biopsia " + nroBiopsia + " no existe.",
-							JOptionPane.ERROR_MESSAGE);
-				} else if(biopsia != null){
-					log.info("Biopsia '" + nroBiopsia + "' si existe");
-					event.consume();
-					textNroBiopsia.setText(biopsia.getCodigo());
-					event.consume();
+		if(doProcess){
+			try {
+				log.info("Debo verificar la biopsia '" + nroBiopsia + "'");
+				
+				//verificamos los datos basicos del cliente para esa cedula
+				biopsia = BiopsiaInfoDAO.getBiopsiaByNumero(nroBiopsia);
+				
+				if(event.getID() == KeyEvent.KEY_PRESSED){
+					if(biopsia == null && KeyEventsUtil.wasPressedAEnter(event)){
+						log.info("Biopsia '" + nroBiopsia + "' no existe");
+						JOptionPane.showMessageDialog(ventana, 
+								"Disculpe, el número de biopsia indicado no existe.",
+								"Biopsia " + nroBiopsia + " no existe.",
+								JOptionPane.ERROR_MESSAGE);
+					} else if(biopsia != null){
+						log.info("Biopsia '" + nroBiopsia + "' si existe");
+						//event.consume();
+						//textNroBiopsia.setText(biopsia.getCodigo());
+						//event.consume();
+					}
+				} else {
+					if(biopsia != null){
+						event.consume();
+						//textNroBiopsia.setText(biopsia.getCodigo());
+						//event.consume();
+						log.info("Biopsia '" + nroBiopsia + "' si existe");
+					}
 				}
-			} else {
-				if(biopsia != null){
-					event.consume();
-					//textNroBiopsia.setText(biopsia.getCodigo());
-					event.consume();
-					log.info("Biopsia '" + nroBiopsia + "' si existe");
-				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				log.error(e.getMessage(), e);
 			}
-		} catch (Exception e) {
-			// TODO: handle exception
-			log.error(e.getMessage(), e);
+		} else {
+			biopsia = oldValue;
 		}
+		
 		
 		return biopsia;
 	}

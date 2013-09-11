@@ -182,4 +182,42 @@ public class BiopsiaInfoDAO {
 		
 		return result;
 	}
+	
+	/**
+	 * 
+	 * @param biopsia
+	 * @param nuevaFase
+	 * @return
+	 */
+	public static boolean moveBiopsiaToFase(BiopsiaInfoDTO biopsia, FasesBiopsia nuevaFase) {
+		// TODO Auto-generated method stub
+		final String query = "UPDATE biopsias SET id_fase_actual = ? WHERE id = ?";
+		boolean result = false;
+		
+		try {
+			List<Object> parameters = new LinkedList<Object>();
+			parameters.add(nuevaFase.getCodigoFase());
+			parameters.add(biopsia.getId());
+			
+			result = DBUtil.executeNonSelectQuery(query, parameters);
+			log.info("Biopsia " + biopsia.getCodigo() + ", llevada a fase " + nuevaFase.getNombreFase());
+		} catch (Exception e) {
+			// TODO: handle exception
+			log.error("Biopsia " + biopsia.getCodigo() + " no pudo ser llevada a fase " + nuevaFase.getNombreFase(), e);
+		}
+		
+		return result;
+	}
+
+	public static boolean updateMacro(BiopsiaInfoDTO biopsiaInfoDTO) {
+		final String queryMacro = "";
+		final String queryCassetes = "";
+		final String queryFotos = "";
+		
+		boolean result = false;
+		
+		
+		// TODO Auto-generated method stub
+		return result ;
+	}
 }

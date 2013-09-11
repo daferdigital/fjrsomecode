@@ -11,11 +11,13 @@ import javax.swing.border.LineBorder;
 import javax.swing.JButton;
 
 import com.fjr.code.gui.operations.MacroscopicaPanelOperations;
+import com.fjr.code.gui.tables.JTableMacroCassetes;
+import com.fjr.code.gui.tables.JTableMacroFotos;
 import com.fjr.code.util.Constants;
 import javax.swing.JTable;
 import javax.swing.JSeparator;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+
+import javax.swing.JScrollPane;
 
 /**
  * 
@@ -36,11 +38,13 @@ public class MacroscopicaPanel extends JPanel {
 	private JTextField textNombrePaciente;
 	private JTextField textPiezaRecibida;
 	private JTextField textExamenARealizar;
-	private JTable tblFotos;
-	private JTable tblCassetes;
 	private JTextArea textADescMacroscopica;
 	private JTextArea textADescPerOperatoria;
-
+	private JTable tblCassetes;
+	private JTableMacroCassetes tableMacroCassetes = JTableMacroCassetes.getNewInstance();
+	private JTable tblFotos;
+	private JTableMacroFotos tableMacroFotos = JTableMacroFotos.getNewInstance();
+	
 	/**
 	 * Create the panel.
 	 */
@@ -165,10 +169,12 @@ public class MacroscopicaPanel extends JPanel {
 		btnAgregarCassete.setBounds(608, 10, 134, 23);
 		add(btnAgregarCassete);
 		
-		tblCassetes = new JTable(2,2);
-		tblCassetes.setCellSelectionEnabled(true);
-		tblCassetes.setBounds(546, 39, 289, 145);
-		add(tblCassetes);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(546, 39, 444, 145);
+		add(scrollPane);
+		
+		tblCassetes = tableMacroCassetes.getTable();
+		scrollPane.setViewportView(tblCassetes);
 		
 		JLabel lblFotos = new JLabel("Fotos:");
 		lblFotos.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -180,10 +186,12 @@ public class MacroscopicaPanel extends JPanel {
 		btnAddFoto.setActionCommand(MacroscopicaPanelOperations.ACTION_COMMAND_BTN_ADD_FOTO);
 		add(btnAddFoto);
 		
-		tblFotos = new JTable(2, 2);
-		tblFotos.setCellSelectionEnabled(true);
-		tblFotos.setBounds(546, 238, 289, 145);
-		add(tblFotos);
+		JScrollPane scrollPaneFotos = new JScrollPane();
+		scrollPaneFotos.setBounds(546, 238, 444, 145);
+		add(scrollPaneFotos);
+		
+		tblFotos = tableMacroFotos.getTable();
+		scrollPaneFotos.setViewportView(tblFotos);
 		
 		MacroscopicaPanelOperations listener = new MacroscopicaPanelOperations(this);
 		btnCancel.addActionListener(listener);
@@ -221,11 +229,27 @@ public class MacroscopicaPanel extends JPanel {
 		return textADescPerOperatoria;
 	}
 	
+	public JTable getTblCassetes() {
+		return tblCassetes;
+	}
+	
+	public JTable getTblFotos() {
+		return tblFotos;
+	}
+	
 	/**
 	 * Metodo para fijar el foco en el elemento por defecto de la ventana
 	 * 
 	 */
 	public void setFocusAtDefaultElement(){
 		this.textNroBiopsia.requestFocusInWindow();
+	}
+	
+	public JTableMacroCassetes getTableMacroCassetes() {
+		return tableMacroCassetes;
+	}
+	
+	public JTableMacroFotos getTableMacroFotos() {
+		return tableMacroFotos;
 	}
 }

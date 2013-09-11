@@ -32,6 +32,7 @@ import com.fjr.code.gui.IngresoPanel;
 import com.fjr.code.util.BiopsiaValidationUtil;
 import com.fjr.code.util.GUIPressedOrTypedNroBiopsia;
 import com.fjr.code.util.KeyEventsUtil;
+import com.fjr.code.util.SecurityEditCode;
 
 /**
  * 
@@ -243,7 +244,24 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 				//la informacion esta completa y valida
 				//guardamos la biopsia
 				biopsiaInfoDTO = buildDTOFromVentana();
-				whatToDowithBiopsia(biopsiaInfoDTO);
+				boolean goToMacro = ACTION_COMMAND_BTN_SEND_TO_MACRO.equals(e.getActionCommand());
+				
+				if(whatToDoWithBiopsia(biopsiaInfoDTO, goToMacro)){
+					if(goToMacro){
+						if(BiopsiaInfoDAO.moveBiopsiaToFase(biopsiaInfoDTO, FasesBiopsia.MACROSCOPICA)){
+							JOptionPane.showMessageDialog(ventana,
+									"La biopsia " + biopsiaInfoDTO.getCodigo() + " fue colocada en fase " + FasesBiopsia.MACROSCOPICA.getNombreFase(),
+									"Actualización realizada",
+									JOptionPane.INFORMATION_MESSAGE);
+							ventana.setVisible(false);
+						} else {
+							JOptionPane.showMessageDialog(ventana,
+									"No pudo actualizarse la fase de esta biopsia a Macroscopica",
+									"Error en actualización",
+									JOptionPane.ERROR_MESSAGE);
+						}
+					}
+				}
 			}
 		} else if(ACTION_COMMAND_BTN_PRINT_LABELS.equals(e.getActionCommand())){
 			log.info("Peticion para imprimir las etiquetas");
@@ -282,8 +300,10 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 		}	
 	}
 
-	private void whatToDowithBiopsia(BiopsiaInfoDTO ingreso) {
+	private boolean whatToDoWithBiopsia(BiopsiaInfoDTO ingreso, boolean goToMacro) {
 		// TODO Auto-generated method stub
+		boolean result = true;
+		
 		if(ventana.isNewBiopsia()){
 			if(BiopsiaInfoDAO.insertBiopsiaInfo(ingreso) > 0){
 				JOptionPane.showMessageDialog(ventana, 
@@ -294,6 +314,7 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 				ventana.getTextNroBiopsia().setText(ingreso.getCodigo());
 			} else {
 				log.error("No pudo guardarse la biopsia");
+				result = false;
 				JOptionPane.showMessageDialog(ventana, 
 						"Se produjo un error al almacenar la biopsia.\nPor favor, intente de nuevo.", 
 						"Error al guardar", 
@@ -304,12 +325,16 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 			if(ingreso.getId() > 0){
 				if(BiopsiaInfoDAO.updateIngreso(ingreso)){
 					log.info("Biopsia '" + ingreso.getCodigo() + "' actualizada con exito.");
-					JOptionPane.showMessageDialog(ventana, 
-							"La biopsia " + ingreso.getCodigo() + " fue actualizada de manera exitosa.", 
-							"Biopsia " + ingreso.getCodigo() + " actualizada", 
-							JOptionPane.ERROR_MESSAGE);
+					
+					if(!goToMacro){
+						JOptionPane.showMessageDialog(ventana, 
+								"La biopsia " + ingreso.getCodigo() + " fue actualizada de manera exitosa.", 
+								"Biopsia " + ingreso.getCodigo() + " actualizada", 
+								JOptionPane.INFORMATION_MESSAGE);
+					}
 				} else {
 					log.error("Biopsia '" + ingreso.getCodigo() + "' no pudo ser actualizada");
+					result = false;
 					JOptionPane.showMessageDialog(ventana, 
 							"Se produjo un error al actualizar la biopsia.\nPor favor, intente de nuevo.", 
 							"Error al actualizar", 
@@ -322,8 +347,11 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 						+ "Escriba el código y presione ENTER para auto-llenar la información de la biopsia.", 
 						"Información de Biopsia incompleta.", 
 						JOptionPane.ERROR_MESSAGE);
+				result = false;
 			}
 		}
+		
+		return result;
 	}
 
 	@Override
@@ -365,7 +393,7 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 					}
 				}
 			} else if(ACTION_COMMAND_NRO_BIOPSIA.equals(field.getName())){
-				biopsiaInfoDTO = GUIPressedOrTypedNroBiopsia.manageKeyEvent(ventana, e, field);
+				biopsiaInfoDTO = GUIPressedOrTypedNroBiopsia.manageKeyEvent(ventana, e, field, biopsiaInfoDTO);
 				loadVentanaFromBiopsiaDTO(biopsiaInfoDTO);
 				
 				if(biopsiaInfoDTO != null){
@@ -374,6 +402,9 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 								"Disculpe, este registro no esta en fase de Ingreso.\nSi desea editarlo debe introducir la clave de edición.", 
 								"Indique la clave para edición", 
 								JOptionPane.QUESTION_MESSAGE);
+						if(! SecurityEditCode.checkIfValueIsTheSecurityCode(editKey)){
+							ventana.setVisible(false);
+						}
 					}
 				}
 			}
@@ -436,7 +467,7 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 					}
 				}
 			} else if(ACTION_COMMAND_NRO_BIOPSIA.equals(field.getName())){
-				biopsiaInfoDTO = GUIPressedOrTypedNroBiopsia.manageKeyEvent(ventana, e, field); 
+				biopsiaInfoDTO = GUIPressedOrTypedNroBiopsia.manageKeyEvent(ventana, e, field, biopsiaInfoDTO); 
 				loadVentanaFromBiopsiaDTO(biopsiaInfoDTO);
 				if(biopsiaInfoDTO != null){
 					//verificamos el status de la biopsia
@@ -445,6 +476,9 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 								"Disculpe, este registro no esta en fase de Ingreso.\nSi desea editarlo debe introducir la clave de edición.", 
 								"Indique la clave para edición", 
 								JOptionPane.QUESTION_MESSAGE);
+						if(! SecurityEditCode.checkIfValueIsTheSecurityCode(editKey)){
+							ventana.setVisible(false);
+						}
 					}
 				}
 			}
