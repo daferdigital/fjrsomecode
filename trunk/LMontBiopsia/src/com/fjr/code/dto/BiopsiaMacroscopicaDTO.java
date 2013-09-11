@@ -1,5 +1,7 @@
 package com.fjr.code.dto;
 
+import java.util.List;
+
 /**
  * 
  * Class: BiopsiaInfoDTO
@@ -13,6 +15,8 @@ public class BiopsiaMacroscopicaDTO {
 	private int id;
 	private String descMacroscopica;
 	private String descPerOperatoria;
+	private List<BiopsiaCasseteDTO> cassetesDTO;
+	private List<BiopsiaMacroFotoDTO> macroFotosDTO;
 	
 	public BiopsiaMacroscopicaDTO() {
 		// TODO Auto-generated constructor stub
@@ -40,5 +44,21 @@ public class BiopsiaMacroscopicaDTO {
 
 	public void setDescPerOperatoria(String descPerOperatoria) {
 		this.descPerOperatoria = descPerOperatoria;
+	}
+	
+	public void setCassetesDTO(List<BiopsiaCasseteDTO> cassetesDTO) {
+		this.cassetesDTO = cassetesDTO;
+	}
+	
+	public List<BiopsiaCasseteDTO> getCassetesDTO() {
+		return cassetesDTO;
+	}
+	
+	public void setMacroFotosDTO(List<BiopsiaMacroFotoDTO> macroFotosDTO) {
+		this.macroFotosDTO = macroFotosDTO;
+	}
+	
+	public List<BiopsiaMacroFotoDTO> getMacroFotosDTO() {
+		return macroFotosDTO;
 	}
 }

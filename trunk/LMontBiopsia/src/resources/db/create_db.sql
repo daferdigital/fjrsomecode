@@ -46,7 +46,7 @@ CREATE TABLE `biopsias_ingresos` (
 
 LOCK TABLES `biopsias_ingresos` WRITE;
 /*!40000 ALTER TABLE `biopsias_ingresos` DISABLE KEYS */;
-INSERT INTO `biopsias_ingresos` (`id`, `procedencia`, `pieza_recibida`, `referido_medico`, `idx`, `id_patologo_turno`) VALUES (2,'procedencia','pieza','medico','idx de prueba',3),(3,'procedencia modificada','pieza modificada','referido modificada','idx 9823\nhfdewj modificada',NULL),(4,'procede','piezado','medicucho','idx prueba',1);
+INSERT INTO `biopsias_ingresos` (`id`, `procedencia`, `pieza_recibida`, `referido_medico`, `idx`, `id_patologo_turno`) VALUES (2,'procedencia','pieza','medico','idx de prueba',3),(3,'procedencia modificada','pieza modificada','referido modificada','idx 9823\nhfdewj modificada 2',NULL),(4,'procede','piezado','medicucho','idx prueba',1);
 /*!40000 ALTER TABLE `biopsias_ingresos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -100,6 +100,63 @@ CREATE TABLE `biopsias_macroscopicas` (
 LOCK TABLES `biopsias_macroscopicas` WRITE;
 /*!40000 ALTER TABLE `biopsias_macroscopicas` DISABLE KEYS */;
 /*!40000 ALTER TABLE `biopsias_macroscopicas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `macro_fotos`
+--
+
+DROP TABLE IF EXISTS `macro_fotos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `macro_fotos` (
+  `id` int(11) NOT NULL,
+  `notacion` varchar(45) NOT NULL,
+  `descripcion` text NOT NULL,
+  `foto` binary(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_MACRO_FOTO_BIOPSIA` (`id`),
+  CONSTRAINT `FK_MACRO_FOTO_BIOPSIA` FOREIGN KEY (`id`) REFERENCES `biopsias` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='registro de fotos de la etapa macro';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `macro_fotos`
+--
+-- ORDER BY:  `id`
+
+LOCK TABLES `macro_fotos` WRITE;
+/*!40000 ALTER TABLE `macro_fotos` DISABLE KEYS */;
+/*!40000 ALTER TABLE `macro_fotos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `macro_cassetes`
+--
+
+DROP TABLE IF EXISTS `macro_cassetes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `macro_cassetes` (
+  `id` int(11) NOT NULL,
+  `numero` int(11) NOT NULL,
+  `descripcion` text NOT NULL,
+  `bloques` int(11) NOT NULL,
+  `laminas` int(11) NOT NULL,
+  PRIMARY KEY (`id`,`numero`),
+  KEY `FK_CASSETE_BIOPSIA` (`id`),
+  CONSTRAINT `FK_CASSETE_BIOPSIA` FOREIGN KEY (`id`) REFERENCES `biopsias` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='tabla con la informacion de los cassetes de las biopsias';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `macro_cassetes`
+--
+-- ORDER BY:  `id`,`numero`
+
+LOCK TABLES `macro_cassetes` WRITE;
+/*!40000 ALTER TABLE `macro_cassetes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `macro_cassetes` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -216,7 +273,7 @@ CREATE TABLE `biopsias` (
 
 LOCK TABLES `biopsias` WRITE;
 /*!40000 ALTER TABLE `biopsias` DISABLE KEYS */;
-INSERT INTO `biopsias` (`id`, `year_biopsia`, `numero_biopsia`, `fecha_registro`, `id_examen_biopsia`, `id_cliente`, `id_fase_actual`) VALUES (1,13,000001,'0000-00-00',1,1,1),(2,13,000002,'2013-09-06',1,1,1),(3,13,000003,'2013-09-06',2,1,1),(4,13,000004,'2013-09-06',2,1,1);
+INSERT INTO `biopsias` (`id`, `year_biopsia`, `numero_biopsia`, `fecha_registro`, `id_examen_biopsia`, `id_cliente`, `id_fase_actual`) VALUES (1,13,000001,'0000-00-00',1,1,1),(2,13,000002,'2013-09-06',1,1,1),(3,13,000003,'2013-09-06',2,1,2),(4,13,000004,'2013-09-06',2,1,1);
 /*!40000 ALTER TABLE `biopsias` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -321,4 +378,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-09-08 18:14:17
+-- Dump completed on 2013-09-11  5:54:37
