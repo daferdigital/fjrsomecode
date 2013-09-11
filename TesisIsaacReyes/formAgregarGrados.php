@@ -6,39 +6,39 @@ include_once "includes/header.php";
 ?>
 <tr>
 	<td colspan="2" align="center">
-		<form name="agregarAlumnoForm" action="formProcess/addAlumno.php" method="post" onsubmit="return validarAgregarAlumnoForm(this);">
+		<form name="agregarAlumnoForm" action="formProcess/addGrado.php" method="post" onsubmit="return validarAgregarGradoForm(this);">
 			<table>
 				<tr>
 					<td colspan="2" align="right">
 						<div id="loginErrorMsg">
-							<?php
-								if(isset($_SESSION[Constants::$KEY_MESSAGE_OPERATION])){
-							?>
-									<h3><?php echo $_SESSION[Constants::$KEY_MESSAGE_OPERATION];?></h3>
-							<?php
-									unset($_SESSION[Constants::$KEY_MESSAGE_OPERATION]);
-								}
-							?>
+							<h3>
+								<?php
+									if(isset($_SESSION[Constants::$KEY_MESSAGE_OPERATION])){
+										echo $_SESSION[Constants::$KEY_MESSAGE_OPERATION];
+										unset($_SESSION[Constants::$KEY_MESSAGE_OPERATION]);
+									}
+								?>
+							</h3>
 						</div>
 					</td>
 				</tr>
 				<tr>
-					<td>Nombre:</td>
+					<td>Turno:</td>
 					<td>
-						<input type="text" name="nombre" id="nombre"/>
-						<span class="isMandatory" id="mandatoryNombre" style="display: none;">
+						<input type="text" name="turno" id="turno"/>
+						<span class="isMandatory" id="mandatoryTurno" style="display: none;">
 							<br />
-							Disculpe, debe indicar el nombre.
+							Disculpe, debe indicar el turno de este grado.
 						</span>
 					</td>
 				</tr>
 				<tr>
-					<td>Apellido:</td>
+					<td>Grado:</td>
 					<td>
-						<input type="text" name="apellido" id="apellido"/>
-						<span class="isMandatory" id="mandatoryApellido" style="display: none;">
+						<input type="text" name="grado" id="grado"/>
+						<span class="isMandatory" id="mandatoryGrado" style="display: none;">
 							<br />
-							Disculpe, debe indicar el apellido.
+							Disculpe, debe indicar el grado.
 						</span>
 					</td>
 				</tr>

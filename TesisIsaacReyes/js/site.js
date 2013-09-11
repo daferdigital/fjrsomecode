@@ -241,7 +241,7 @@ function validarAgregarAlumnoForm(forma){
 	document.getElementById("mandatoryNombre").style.display = "none";
 	document.getElementById("mandatoryApellido").style.display = "none";
 	document.getElementById("mandatoryCedula").style.display = "none";
-	document.getElementById("mandatoryCiudad").style.display = "none";
+	document.getElementById("mandatoryLugarNacimiento").style.display = "none";
 	document.getElementById("mandatoryDireccion").style.display = "none";
 	document.getElementById("mandatoryFechaNacimiento").style.display = "none";
 	
@@ -264,9 +264,9 @@ function validarAgregarAlumnoForm(forma){
 		doSubmit = false;
 	}
 	
-	if(forma.ciudad.value.trim() == ""){
-		document.getElementById("mandatoryCiudad").style.display = "";
-		forma.ciudad.focus();
+	if(forma.lugarNacimiento.value.trim() == ""){
+		document.getElementById("mandatoryLugarNacimiento").style.display = "";
+		forma.lugarNacimiento.focus();
 		doSubmit = false;
 	}
 	
