@@ -21,14 +21,32 @@ print();
 	<?Php
 $ancho=1060;
 $soloimp='1';
-if(!$_REQUEST['fecha'])	$_REQUEST['fecha']=date('Y-m-d');
+$extraWhereFecha = "";
+
+if(!$_REQUEST['fecha']){
+	//$_REQUEST['fecha']=date('Y-m-d');
+	//ajustamos la fecha en base al timezone
+	//para mostrar los logros del dia
+	$timeZone = 'America/Caracas';  // timezone VZLA
+	$dateSrc = date('Y-m-d H:i:s e');
+	$dateTime = new DateTime($dateSrc);
+	$dateTime->setTimeZone(new DateTimeZone($timeZone));
+	$_REQUEST["fecha"] = $dateTime->format('Y-m-d H:i:s');
+	$extraWhereFecha = " fecha >= '".$_REQUEST['fecha']."'";
+	$extraWhereFecha .= " AND fecha < ADDDATE('".$dateTime->format('Y-m-d')."', 1)";
+} else {
+	$extraWhereFecha = " fecha='".$_REQUEST['fecha']."'";
+}
+
 list($ano,$mes,$dia)=explode("-",$_REQUEST['fecha']);
 		//$selectlogros="select * from vista_logros where fecha='".$_REQUEST['fecha']."' and idliga='".$_REQUEST['liga']."' ORDER BY idlogro,que_equipo ASC, nombre_tipo_apuesta ASC";
 		$selectlogros="SELECT *,date_format(CONCAT(fecha,' ',hora),'%r') as hora_f, l.nombre 
 						FROM vista_logros 
 						LEFT JOIN ligas l ON (vista_logros.idliga=l.idliga)
-						WHERE fecha='".$_REQUEST['fecha']."' and estatus_logro='1'
+						WHERE ".$extraWhereFecha." and estatus_logro='1'
 		ORDER BY l.orden_visual,vista_logros.idliga,hora,nombre_categoria,idlogro,que_equipo ASC, nombre_tipo_apuesta ASC";
+		//echo "<br />".$selectlogros."<br />";
+		
 		$querylogros=mysql_query($selectlogros);
 			if(mysql_num_rows($querylogros)>0){
 				$equipoA='';$equipoB='';$bandera='';$categoria='';
