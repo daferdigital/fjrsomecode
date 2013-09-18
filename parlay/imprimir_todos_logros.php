@@ -32,7 +32,7 @@ if(!$_REQUEST['fecha']){
 	$dateTime = new DateTime($dateSrc);
 	$dateTime->setTimeZone(new DateTimeZone($timeZone));
 	$_REQUEST["fecha"] = $dateTime->format('Y-m-d H:i:s');
-	$extraWhereFecha = " fecha >= '".$_REQUEST['fecha']."'";
+	$extraWhereFecha = " CONCAT(fecha,' ',hora) >= '".$_REQUEST['fecha']."'";
 	$extraWhereFecha .= " AND fecha < ADDDATE('".$dateTime->format('Y-m-d')."', 1)";
 } else {
 	$extraWhereFecha = " fecha='".$_REQUEST['fecha']."'";
