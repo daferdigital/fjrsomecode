@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import com.fjr.installer.gui.operations.DataBaseCreateOperations;
+import com.fjr.installer.gui.operations.DataBaseSyncOperations;
 
 public class DataBaseSync extends JDialog {
 
@@ -123,7 +124,7 @@ public class DataBaseSync extends JDialog {
 		btnCancel.setActionCommand(DataBaseCreateOperations.ACTION_COMMAND_BTN_CANCEL);
 		buttonPane.add(btnCancel);
 		
-		DataBaseCreateOperations listener = new DataBaseCreateOperations(this);
+		DataBaseSyncOperations listener = new DataBaseSyncOperations(this);
 		btnCancel.addActionListener(listener);
 		btnCreateDB.addActionListener(listener);
 		btnTestConnection.addActionListener(listener);
