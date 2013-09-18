@@ -20,7 +20,7 @@ import com.fjr.code.util.DBUtil;
  * @author T&T
  *
  */
-public final class PatologoDAOListBuilder implements DAOListBuilder<PatologoDTO>{
+final class PatologoDAOListBuilder implements DAOListBuilder<PatologoDTO>{
 	/**
 	 * 
 	 */

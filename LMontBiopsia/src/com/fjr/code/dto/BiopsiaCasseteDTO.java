@@ -59,4 +59,11 @@ public class BiopsiaCasseteDTO {
 	public void setLaminas(int laminas) {
 		this.laminas = laminas;
 	}
+	
+	@Override
+	public String toString() {
+		return "BiopsiaCasseteDTO [id=" + id + ", numero=" + numero
+				+ ", descripcion=" + descripcion + ", bloques=" + bloques
+				+ ", laminas=" + laminas + "]";
+	}
 }

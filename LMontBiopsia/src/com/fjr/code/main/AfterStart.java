@@ -1,6 +1,5 @@
 package com.fjr.code.main;
 
- import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 
@@ -8,9 +7,10 @@ import javax.swing.JOptionPane;
 
 import org.apache.log4j.Logger;
 
+import com.fjr.code.gui.DataBaseConfigDialog;
 import com.fjr.code.gui.LoginWindow;
 import com.fjr.code.util.Constants;
-import com.fjr.code.util.LicenseUtil;
+import com.fjr.code.util.DBConnectionUtil;
 import com.fjr.code.util.SystemLogger;
 
 /**
@@ -23,11 +23,9 @@ import com.fjr.code.util.SystemLogger;
 public class AfterStart {
 	private static final Logger log = Logger.getLogger(AfterStart.class);
 	
-	//public static AppWindow mainWindow = null;
-	
 	static {
 		//iniciamos el log para la aplicacion
-		SystemLogger.init(Constants.BASE_PATH + File.separator + "logs" + File.separator);
+		SystemLogger.init(Constants.LOGS_PATH);
 	}
 	
 	/**
@@ -55,21 +53,14 @@ public class AfterStart {
 				}
 			});
 			
-			//verificamos si la licencia es valida
-			if(! LicenseUtil.isValidLicense()){
-				//debo mostrar el cuadro de activacion
-				log.info("La licencia no es valida, debemos mostrar el cuadro de activacion");
-				
-			} else {
-				//verificamos la existencia de la conexion a base de datos
-				//si no existe debe ser indicada
-			}
-			
 			//verificamos la conexion a base de datos
-			
-			
-			//como es la corrida inicial, debemos mostrar la ventana de login
-			new LoginWindow();
+			if(DBConnectionUtil.haveValidConnectionConfiguration()){
+				//como es la corrida inicial, debemos mostrar la ventana de login
+				new LoginWindow();
+			} else {
+				log.error("No se posee una configuracion valida de base de datos. Debe solicitarse");
+				new DataBaseConfigDialog().setVisible(true);
+			}
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null,
 					"Ya existe una instancia corriendo de " + Constants.APP_SOFTWARE_NAME,

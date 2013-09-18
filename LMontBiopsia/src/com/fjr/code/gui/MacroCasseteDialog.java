@@ -35,8 +35,8 @@ public class MacroCasseteDialog extends JDialog {
 	 */
 	private static final long serialVersionUID = -5322307343213510295L;
 	
-	private JTableMacroCassetes relatedTable;
 	private final JPanel contentPanel = new JPanel();
+	private JTableMacroCassetes relatedTable;
 	private JTextArea textADescCassete;
 	private int rowOrigin = -1;
 	

@@ -177,6 +177,15 @@ public class JTableMacroFotos {
 	}
 	
 	/**
+	 * Eliminamos las filas de la tabla
+	 */
+	public void deleteAllRows(){
+		for (int i = model.getRowCount(); i > 0; i--) {
+			model.removeRow(i - 1);
+		}
+	}
+	
+	/**
 	 * 
 	 * @return
 	 */
@@ -186,11 +195,14 @@ public class JTableMacroFotos {
 			lista = new LinkedList<BiopsiaMacroFotoDTO>();
 			
 			for (int i = 0; i < model.getRowCount(); i++) {
+				File fotoFile = new File(model.getValueAt(i, 3).toString());
 				BiopsiaMacroFotoDTO macroFoto = new BiopsiaMacroFotoDTO();
 				macroFoto.setNotacion(model.getValueAt(i, 1).toString());
 				macroFoto.setDescripcion(model.getValueAt(i, 2).toString());
+				macroFoto.setFotoFile(fotoFile);
+				
 				try {
-					macroFoto.setFotoBlob(new FileInputStream(new File(model.getValueAt(i, 3).toString())));
+					macroFoto.setFotoBlob(new FileInputStream(fotoFile));
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

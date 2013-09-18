@@ -51,6 +51,14 @@ public class MenuPanel extends JPanel {
 		});
 		menuArchivo.add(mntmActivar);
 		
+		JMenuItem mntmDelTemp = new JMenuItem("Borrar archivos temporales");
+		mntmDelTemp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				LicenseDialog.showDialog();
+			}
+		});
+		menuArchivo.add(mntmDelTemp);
+		
 		//simple separador
 		menuArchivo.add(new JSeparator());
 		
@@ -132,22 +140,54 @@ public class MenuPanel extends JPanel {
 			menuHistologia.setHorizontalAlignment(SwingConstants.LEFT);
 			
 			JMenuItem mntmHistologia = new JMenuItem("Histologia");
-			
+			mntmHistologia.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					//debemos mostrar el panel de recepcion
+					HistologiaPanel panel = new HistologiaPanel();
+					AppWindow.getInstance().setPanelContenido(panel);
+					panel.setFocusAtDefaultElement();
+				}
+			});
 			menuHistologia.add(mntmHistologia);
 			
 			JMenu menuMicroscopica = new JMenu("Microscopica");
 			menuMicroscopica.setHorizontalAlignment(SwingConstants.LEFT);
 			
 			JMenuItem mntmMicroscopica = new JMenuItem("Microscopica");
-			
+			mntmMicroscopica.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					//debemos mostrar el panel de recepcion
+					MicroscopicaPanel panel = new MicroscopicaPanel();
+					AppWindow.getInstance().setPanelContenido(panel);
+					panel.setFocusAtDefaultElement();
+				}
+			});
 			menuMicroscopica.add(mntmMicroscopica);
 			
+			JMenu menuIHQ = new JMenu("IHQ");
+			menuIHQ.setHorizontalAlignment(SwingConstants.LEFT);
+			
+			JMenuItem mntmIHQ = new JMenuItem("IHQ");
+			mntmIHQ.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					//debemos mostrar el panel de recepcion
+					HistologiaIHQPanel panel = new HistologiaIHQPanel();
+					AppWindow.getInstance().setPanelContenido(panel);
+					panel.setFocusAtDefaultElement();
+				}
+			});
+			menuIHQ.add(mntmIHQ);
+			
+			JMenu menuMaestros = new JMenu("Maestros");
+			menuMaestros.setHorizontalAlignment(SwingConstants.LEFT);
 			
 			//agregamos los menus principales
 			menuBar.add(menuRecepcion);
 			menuBar.add(menuMacroscopica);
 			menuBar.add(menuHistologia);
 			menuBar.add(menuMicroscopica);
+			menuBar.add(menuIHQ);
+			menuBar.add(menuMaestros);
 		}
 	}
 }

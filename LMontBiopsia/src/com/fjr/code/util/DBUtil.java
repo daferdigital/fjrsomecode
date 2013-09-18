@@ -24,12 +24,12 @@ import com.sun.rowset.CachedRowSetImpl;
  * @author T&T
  *
  */
-public final class DBUtil {
+public class DBUtil {
 	
 	private static final Logger log = Logger.getLogger(DBUtil.class);
 	public static final String NULL_PARAMETER = "null";
 	
-	private DBUtil() {
+	public DBUtil() {
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -69,21 +69,7 @@ public final class DBUtil {
 		try {
 			con = getConnection();
 			ps = con.prepareStatement(query);
-			
-			if(queryParameters != null && queryParameters.size() > 0){
-				//iteramos sobre los parametros
-				int index = 1;
-				for (Object object : queryParameters) {
-					if(object == null || NULL_PARAMETER.equals(object.toString().toLowerCase())){
-						//queremos colocar este valor como nulo para la base de datos
-						ps.setNull(index, Types.NULL);
-					}else{
-						ps.setObject(index, object);
-					}
-					
-					index++;
-				}
-			}
+			ps = putParameters(queryParameters, ps);
 			
 			rs = ps.executeQuery();
 			
@@ -235,21 +221,7 @@ public final class DBUtil {
 		try {
 			con = getConnection();
 			ps = con.prepareStatement(query);
-			
-			if(queryParameters != null && queryParameters.size() > 0){
-				//iteramos sobre los parametros
-				int index = 1;
-				for (Object object : queryParameters) {
-					if(object == null || NULL_PARAMETER.equals(object.toString().toLowerCase())){
-						//queremos colocar este valor como nulo para la base de datos
-						ps.setNull(index, Types.NULL);
-					}else{
-						ps.setObject(index, object);
-					}
-					
-					index++;
-				}
-			}
+			ps = putParameters(queryParameters, ps);
 			
 			ps.execute();
 			
@@ -277,8 +249,47 @@ public final class DBUtil {
 		return result;
 	}
 	
+	/**
+	 * Ejecucion de un insert, dando como resultado true o false (aplica para tablas sin campo de auto incremento)
+	 * 
+	 * @param query
+	 * @param queryParameters
+	 * @return
+	 */
 	public static boolean executeInsertQueryAsBoolean(String query, List<Object> queryParameters){
-		return true;
+		Connection con = null;
+		PreparedStatement ps = null;
+		
+		long time0 = System.currentTimeMillis();
+		boolean result = false;
+		try {
+			con = getConnection();
+			ps = con.prepareStatement(query);
+			ps = putParameters(queryParameters, ps);
+			
+			ps.executeUpdate();
+			result = true;
+			
+			log.info("Ejecutado query " + query + " de manera exitosa");
+		} catch (Exception e) {
+			// TODO: handle exception
+			log.error("Error ejecutando query: " + query + ". Error fue: " + e.getMessage(), e);
+		} finally {
+			try {
+				ps.close();
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
+			
+			try {
+				con.close();
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
+		}
+		
+		log.info("Ejecucion de query " + query + " duro " + (System.currentTimeMillis() - time0) +" ms. Retornamos " + result);
+		return result;
 	}
 	
 	/**
@@ -310,21 +321,7 @@ public final class DBUtil {
 		try {
 			con = getConnection();
 			ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-			
-			if(queryParameters != null && queryParameters.size() > 0){
-				//iteramos sobre los parametros
-				int index = 1;
-				for (Object object : queryParameters) {
-					if(object == null || NULL_PARAMETER.equals(object.toString().toLowerCase())){
-						//queremos colocar este valor como nulo para la base de datos
-						ps.setNull(index, Types.NULL);
-					}else{
-						ps.setObject(index, object);
-					}
-					
-					index++;
-				}
-			}
+			ps = putParameters(queryParameters, ps);
 			
 			//insertedId = ps.executeUpdate();
 			ps.executeUpdate();
@@ -355,5 +352,37 @@ public final class DBUtil {
 		log.info("Ejecucion de query " + query + " duro " + (System.currentTimeMillis() - time0) +" ms. Retornamos " + insertedId);
 		
 		return insertedId;
+	}
+	
+	/**
+	 * 
+	 * @param queryParameters
+	 * @param ps
+	 * @return
+	 */
+	private static PreparedStatement putParameters(List<Object> queryParameters, PreparedStatement ps){
+		try {
+			if(queryParameters != null && queryParameters.size() > 0){
+				//iteramos sobre los parametros
+				int index = 1;
+				for (Object object : queryParameters) {
+					if(object == null || NULL_PARAMETER.equals(object.toString().toLowerCase())){
+						//queremos colocar este valor como nulo para la base de datos
+						ps.setNull(index, Types.NULL);
+					} else if(object instanceof byte[]){
+						ps.setBytes(index, ((byte[]) object));
+					} else {
+						ps.setObject(index, object);
+					}
+					
+					index++;
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			log.error("Error ajustando PreparedStatement. " + e.getLocalizedMessage(), e);
+		}
+		
+		return ps;
 	}
 }

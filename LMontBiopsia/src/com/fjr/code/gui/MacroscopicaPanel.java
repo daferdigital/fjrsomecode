@@ -105,12 +105,15 @@ public class MacroscopicaPanel extends JPanel {
 		labelDescMacroscopica.setBounds(10, 148, 117, 37);
 		add(labelDescMacroscopica);
 		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(157, 145, 289, 97);
+		add(scrollPane_1);
+		
 		textADescMacroscopica = new JTextArea();
+		scrollPane_1.setViewportView(textADescMacroscopica);
 		textADescMacroscopica.setWrapStyleWord(true);
 		textADescMacroscopica.setLineWrap(true);
 		textADescMacroscopica.setBorder(new LineBorder(new Color(0, 0, 0)));
-		textADescMacroscopica.setBounds(157, 145, 289, 97);
-		add(textADescMacroscopica);
 		
 		JLabel lblDescPeroperatoria = new JLabel("<html><b>Descripci&oacute;n Per-operatoria:</b></html>");
 		lblDescPeroperatoria.setHorizontalAlignment(SwingConstants.CENTER);
@@ -118,12 +121,15 @@ public class MacroscopicaPanel extends JPanel {
 		lblDescPeroperatoria.setBounds(10, 256, 117, 37);
 		add(lblDescPeroperatoria);
 		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.setBounds(157, 253, 289, 97);
+		add(scrollPane_2);
+		
 		textADescPerOperatoria = new JTextArea();
+		scrollPane_2.setViewportView(textADescPerOperatoria);
 		textADescPerOperatoria.setWrapStyleWord(true);
 		textADescPerOperatoria.setLineWrap(true);
 		textADescPerOperatoria.setBorder(new LineBorder(new Color(0, 0, 0)));
-		textADescPerOperatoria.setBounds(157, 253, 289, 97);
-		add(textADescPerOperatoria);
 		
 		JButton btnGuardar = new JButton("Guardar");
 		btnGuardar.setFont(new Font("Tahoma", Font.PLAIN, 12));

@@ -20,7 +20,7 @@ import com.fjr.code.util.DBUtil;
  * @author T&T
  *
  */
-class ClienteDAOListBuilder implements DAOListBuilder<ClienteDTO>{
+final class ClienteDAOListBuilder implements DAOListBuilder<ClienteDTO>{
 	private static final Logger log = Logger.getLogger(ClienteDAOListBuilder.class);
 	
 	private static final String BEGIN = "SELECT c.id, c.id_premium, c.cedula, c.nombres, c.apellidos, "

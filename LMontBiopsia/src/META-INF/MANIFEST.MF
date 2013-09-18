@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Ant-Version: Apache Ant 1.8.3
 Class-Path: ./libs/ 
-Main-Class: com.fjr.code.main.Start
+Main-Class: com.fjr.code.main.StartAsBatFile
 Created-By: 1.6.0_32-b05 (Sun Microsystems Inc.)
 

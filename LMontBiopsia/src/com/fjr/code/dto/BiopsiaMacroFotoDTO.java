@@ -1,5 +1,6 @@
 package com.fjr.code.dto;
 
+import java.io.File;
 import java.io.FileInputStream;
 
 /**
@@ -15,7 +16,7 @@ public class BiopsiaMacroFotoDTO {
 	private int id;
 	private String notacion;
 	private String descripcion;
-	private String fotoName;
+	private File fotoFile;
 	private FileInputStream fotoBlob;
 	
 	public BiopsiaMacroFotoDTO() {
@@ -54,11 +55,17 @@ public class BiopsiaMacroFotoDTO {
 		this.fotoBlob = fotoBlob;
 	}
 	
-	public void setFotoName(String fotoName) {
-		this.fotoName = fotoName;
+	public void setFotoFile(File fotoFile) {
+		this.fotoFile = fotoFile;
 	}
 	
-	public String getFotoName() {
-		return fotoName;
+	public File getFotoFile() {
+		return fotoFile;
+	}
+
+	@Override
+	public String toString() {
+		return "BiopsiaMacroFotoDTO [id=" + id + ", notacion=" + notacion
+				+ ", descripcion=" + descripcion + ", fotoFile=" + fotoFile.getName() + "]";
 	}
 }

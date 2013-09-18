@@ -176,6 +176,15 @@ public class JTableMacroCassetes {
 	}
 	
 	/**
+	 * Eliminamos las filas de la tabla
+	 */
+	public void deleteAllRows(){
+		for (int i = model.getRowCount(); i > 0; i--) {
+			model.removeRow(i - 1);
+		}
+	}
+	
+	/**
 	 * 
 	 * @return
 	 */
