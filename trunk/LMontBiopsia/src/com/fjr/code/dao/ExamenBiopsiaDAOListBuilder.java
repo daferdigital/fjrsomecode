@@ -20,7 +20,7 @@ import com.fjr.code.util.DBUtil;
  * @author T&T
  *
  */
-public final class ExamenBiopsiaDAOListBuilder implements DAOListBuilder<ExamenBiopsiaDTO>{
+final class ExamenBiopsiaDAOListBuilder implements DAOListBuilder<ExamenBiopsiaDTO>{
 	/**
 	 * 
 	 */

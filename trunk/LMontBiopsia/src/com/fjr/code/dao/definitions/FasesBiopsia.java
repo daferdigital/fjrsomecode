@@ -10,24 +10,27 @@ package com.fjr.code.dao.definitions;
  *
  */
 public enum FasesBiopsia {
-	INGRESO(1, "Ingreso"),
-	MACROSCOPICA(2, "Macroscópica"),
-	HISTOLOGIA(3, "Histología"),
-	MICROSCOPICA(4, "Microscópica"),
-	IHQ(5, "IHQ");
+	INGRESO(1, "Ingreso", "biopsias_ingresos"),
+	MACROSCOPICA(2, "Macroscópica", "biopsias_macroscopicas"),
+	HISTOLOGIA(3, "Histología", "biopsias_histologias"),
+	MICROSCOPICA(4, "Microscópica", "biopsias_microscopicas"),
+	IHQ(5, "IHQ", "biopsias_ihq");
 	
 	private int codigoFase;
 	private String nombreFase;
+	private String tablaRelacionada;
 	
 	/**
 	 * 
 	 * @param codigoFase
 	 * @param nombreFase
 	 */
-	private FasesBiopsia(int codigoFase, String nombreFase) {
+	private FasesBiopsia(int codigoFase, String nombreFase,
+			String tablaRelacionada) {
 		// TODO Auto-generated constructor stub
 		this.codigoFase = codigoFase;
 		this.nombreFase = nombreFase;
+		this.tablaRelacionada = tablaRelacionada;
 	}
 	
 	/**
@@ -51,6 +54,10 @@ public enum FasesBiopsia {
 	
 	public String getNombreFase() {
 		return nombreFase;
+	}
+	
+	public String getTablaRelacionada() {
+		return tablaRelacionada;
 	}
 	
 	@Override

@@ -9,9 +9,11 @@ import org.apache.log4j.Logger;
 
 import com.fjr.code.dao.definitions.DAOListBuilder;
 import com.fjr.code.dao.definitions.FasesBiopsia;
+import com.fjr.code.dto.BiopsiaHistologiaDTO;
 import com.fjr.code.dto.BiopsiaInfoDTO;
 import com.fjr.code.dto.BiopsiaIngresoDTO;
 import com.fjr.code.dto.BiopsiaMacroscopicaDTO;
+import com.fjr.code.dto.BiopsiaMicroscopicaDTO;
 import com.fjr.code.dto.ClienteDTO;
 import com.fjr.code.dto.ExamenBiopsiaDTO;
 import com.fjr.code.dto.PatologoDTO;
@@ -26,7 +28,7 @@ import com.fjr.code.util.DBUtil;
  * @author T&T
  * 
  */
-public class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO> {
+class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO> {
 	/**
 	 * 
 	 */
@@ -40,12 +42,19 @@ public class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO>
 			//datos del tipo de examen 22-28
 			+ " eb.id, eb.codigo, eb.dias_resultado, eb.nombre, te.id, te.nombre, te.codigo,"
 			//datos basicos de macro 29 - 30
-			+ " bm.desc_macro, bm.desc_per_operatoria"
+			+ " bm.desc_macro, bm.desc_per_operatoria,"
+			//datos basicos de histologia 31
+			+ " bh.descripcion,"
+			//datos basicos de micro 32-33
+			+ " bmi.idx, bmi.diagnostico"
 			+ " FROM  biopsias b LEFT JOIN biopsias_ingresos bi ON b.id = bi.id"
 			+ " LEFT JOIN biopsias_macroscopicas bm ON b.id = bm.id"
+			+ " LEFT JOIN biopsias_histologias bh ON b.id = bh.id"
+			+ " LEFT JOIN biopsias_microscopicas bmi ON b.id = bmi.id"
 			+ " LEFT JOIN patologos p ON bi.id_patologo_turno = p.id,"
 			+ " tipo_examenes te, fases_biopsia fb, cliente c, examenes_biopsias eb"
 			+ " WHERE b.id_cliente = c.id"
+			+ " AND c.activo = '1'"
 			+ " AND eb.id = b.id_examen_biopsia"
 			+ " AND b.id_fase_actual = fb.id";
 	
@@ -153,8 +162,23 @@ public class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO>
 				macroDTO.setDescMacroscopica(rowSet.getString(29));
 				macroDTO.setDescPerOperatoria(rowSet.getString(30));
 				
+				//datos especificos de histologia
+				BiopsiaHistologiaDTO histoDTO = new BiopsiaHistologiaDTO();
+				histoDTO.setId(rowSet.getInt(1));
+				histoDTO.setDescripcion(rowSet.getString(31));
+				
+				//datos especificos de micro
+				BiopsiaMicroscopicaDTO microDTO = new BiopsiaMicroscopicaDTO();
+				microDTO.setId(rowSet.getInt(1));
+				microDTO.setIdx(rowSet.getString(32));
+				microDTO.setDiagnostico(rowSet.getString(33));
+				
+				//agregamos los DTO
 				biopsiaAllInfo.setIngresoDTO(ingresoDTO);
 				biopsiaAllInfo.setMacroscopicaDTO(macroDTO);
+				biopsiaAllInfo.setHistologiaDTO(histoDTO);
+				biopsiaAllInfo.setMicroscopicaDTO(microDTO);
+				
 				results.add(biopsiaAllInfo);
 			}
 		} catch (Exception e) {

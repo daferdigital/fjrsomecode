@@ -393,6 +393,7 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 					}
 				}
 			} else if(ACTION_COMMAND_NRO_BIOPSIA.equals(field.getName())){
+				/*
 				biopsiaInfoDTO = GUIPressedOrTypedNroBiopsia.manageKeyEvent(ventana, e, field, biopsiaInfoDTO);
 				loadVentanaFromBiopsiaDTO(biopsiaInfoDTO);
 				
@@ -407,6 +408,7 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 						}
 					}
 				}
+				*/
 			}
 		}
 	}

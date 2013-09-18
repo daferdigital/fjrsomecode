@@ -10,7 +10,7 @@ package com.fjr.code.util;
  *
  */
 public class SecurityEditCode {
-	private static final String SECURITY_CODE = "1234560";
+	private static final String SECURITY_CODE = "123456";
 	
 	/**
 	 * 

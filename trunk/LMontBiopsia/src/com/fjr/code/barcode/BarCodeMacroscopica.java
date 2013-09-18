@@ -1,5 +1,7 @@
 package com.fjr.code.barcode;
 
+import java.awt.print.PageFormat;
+import java.awt.print.Paper;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -26,7 +28,8 @@ import com.itextpdf.text.pdf.PdfWriter;
  * @author T&T <br />
  *
  */
-public final class BarCodeMacroscopica {
+public final class BarCodeMacroscopica extends BarCodePrint{
+	private static final PageFormat PAGE_FORMAT = new PageFormat();
 	private static final Logger log = Logger.getLogger(BarCodeMacroscopica.class);
 	
 	/**
@@ -43,7 +46,16 @@ public final class BarCodeMacroscopica {
 	
 	private String nroBiopsia;
 	private int nroCassetes;
-	private String labelBaseFileName;
+	private String labelFileName;
+	
+	static {
+		Paper p = new Paper();
+		p.setImageableArea(0, 0, (largoMMTransformados * 2.54 / 10)*72, (anchoMMTransformados * 2.54 / 10)*72);
+		p.setSize((largoMMTransformados * 2.54 / 10)*72, (anchoMMTransformados * 2.54 / 10)*72);
+		
+		PAGE_FORMAT.setPaper(p);
+		PAGE_FORMAT.setOrientation(PageFormat.LANDSCAPE);
+	}
 	
 	/**
 	 * 
@@ -52,9 +64,10 @@ public final class BarCodeMacroscopica {
 	 */
 	public BarCodeMacroscopica(String nroBiopsia, int nroCassetes) {
 		// TODO Auto-generated constructor stub
+		super(log, PAGE_FORMAT);
 		this.nroBiopsia = nroBiopsia;
 		this.nroCassetes = nroCassetes;
-		this.labelBaseFileName = "macroscopica_" + nroBiopsia + "_";
+		this.labelFileName = "macroscopica_" + nroBiopsia + ".pdf";
 	}
 	
 	/**
@@ -66,30 +79,31 @@ public final class BarCodeMacroscopica {
     public void crearEtiquetaMacroscopica() throws IOException, DocumentException {
     	log.info("Iniciando creacion de etiqueta para la peticion de macroscopica: "
     			+ this);
-    	new File(Constants.LABELS_PATH).mkdirs();
     	
+    	final String fileOut = Constants.LABELS_PATH + File.separator + labelFileName;
+    	
+    	// step 1
+        Document document = new Document(
+    			new Rectangle(largoMMTransformados, anchoMMTransformados), 
+    			5, 
+    			1, 
+    			1, 
+    			1);
+        
+        // step 2
+        PdfWriter writer = PdfWriter.getInstance(document, 
+        		new FileOutputStream(fileOut));
+        
+        // step 3
+        document.open();
+        
+        // step 4
+        PdfContentByte cb = writer.getDirectContent();
+        
     	for (int i = 0; i < nroCassetes; i++) {
-    		String fileOut = Constants.LABELS_PATH + File.separator + labelBaseFileName + (i + 1) + ".pdf";
+    		document.newPage();
     		
-    		// step 1
-            Document document = new Document(
-        			new Rectangle(largoMMTransformados, anchoMMTransformados), 
-        			5, 
-        			1, 
-        			1, 
-        			1);
-        	
-            // step 2
-            PdfWriter writer = PdfWriter.getInstance(document, 
-            		new FileOutputStream(fileOut));
-            
-            // step 3
-            document.open();
-            
-            // step 4
-            PdfContentByte cb = writer.getDirectContent();
-            
-            Barcode128 barCode = new Barcode128();
+    	    Barcode128 barCode = new Barcode128();
             barCode.setCode(nroBiopsia);
             barCode.setBarHeight(40);
             barCode.setAltText("");
@@ -102,28 +116,36 @@ public final class BarCodeMacroscopica {
             log.info("Creado codigo de barras con el valor " + nroBiopsia);
             
             String chunkText = nroBiopsia + " \n\nC" + (i+1) + "/" + nroCassetes;
-            Paragraph p = new Paragraph(Paragraph.ALIGN_MIDDLE, 
+            Paragraph p = new Paragraph(Paragraph.ALIGN_TOP, 
             		chunkText,
-            		new Font(FontFamily.COURIER, 8F));
+            		new Font(FontFamily.COURIER, 8F, Font.BOLD));
             
             document.add(imgFJR);
             document.add(p);
-            //document.newPage();
             
-            //step 5
-            document.close();
-            log.info("Creada etiqueta " + (i+1) + " de " + nroBiopsia);
+            log.info("Creada etiqueta macro " + (i+1) + " de " + nroBiopsia);
 		}
     	
+    	//step 5
+        document.close();
+        
     	log.info("Finalizada creacion de etiqueta para la peticion de ingreso: "
     			+ this);
     }
 
+    /**
+     * 
+     */
+    public void printLabelFile() {
+    	// TODO Auto-generated method stub
+    	super.printLabelFile(new File(Constants.LABELS_PATH + File.separator + this.labelFileName));
+    }
+    
 	@Override
 	public String toString() {
 		return "BarCodeMacroscopica [nroBiopsia=" + nroBiopsia
-				+ ", nroCassetes=" + nroCassetes + ", labelBaseFileName="
-				+ labelBaseFileName + "]";
+				+ ", nroCassetes=" + nroCassetes + ", labelFileName="
+				+ labelFileName + "]";
 	}
 
 	public static void main(String[] args) throws IOException, DocumentException {

@@ -7,7 +7,11 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.fjr.code.dao.definitions.FasesBiopsia;
+import com.fjr.code.dto.BiopsiaCasseteDTO;
 import com.fjr.code.dto.BiopsiaInfoDTO;
+import com.fjr.code.dto.BiopsiaMacroFotoDTO;
+import com.fjr.code.dto.BiopsiaMicroLaminasDTO;
+import com.fjr.code.dto.BiopsiaMicroLaminasFileDTO;
 import com.fjr.code.util.DBUtil;
 
 /**
@@ -114,9 +118,10 @@ public class BiopsiaInfoDAO {
 				parameters.add(biopsiaInfo.getIngresoDTO().getPatologoTurno().getId());
 				
 				//la tabla de ingreso
-				if(DBUtil.executeInsertQuery(queryIngreso, parameters) > 0){
+				if(DBUtil.executeInsertQueryAsBoolean(queryIngreso, parameters)){
 					log.info("Registrado el detalle de ingreso para la biopsia " + biopsiaInfo.getCodigo());
 				} else {
+					insertedId = -1;
 					log.error("No pudo registrarse el detalle de ingreso para la biopsia " + biopsiaInfo.getCodigo());
 				}
 			}
@@ -208,16 +213,368 @@ public class BiopsiaInfoDAO {
 		
 		return result;
 	}
-
-	public static boolean updateMacro(BiopsiaInfoDTO biopsiaInfoDTO) {
-		final String queryMacro = "";
-		final String queryCassetes = "";
-		final String queryFotos = "";
-		
+	
+	/**
+	 * Confirmamos si la biopsia indicada comoo parametro existe en la tabla asociada
+	 * a la fase que se desea consultar.
+	 * 
+	 * @param biopsiaInfoDTO
+	 * @param faseAConsultar
+	 * @return
+	 */
+	public static boolean existsBiopsiaEnFase(BiopsiaInfoDTO biopsiaInfoDTO,
+			FasesBiopsia faseAConsultar){
+		final String query = "SELECT * FROM " + faseAConsultar.getTablaRelacionada() + " WHERE id=?";
 		boolean result = false;
 		
+		try {
+			List<Object> parameters = new LinkedList<Object>();
+			parameters.add(biopsiaInfoDTO.getId());
+			if(DBUtil.getRecordCountToQuery(query, parameters) > 0){
+				result = true;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			log.error(e.getLocalizedMessage(), e);
+		}
+		
+		log.info("Verificacion de existencia de biopsia '" + biopsiaInfoDTO.getCodigo() 
+				+ "' en fase " + faseAConsultar.getNombreFase() + " = " + result);
+		
+		return result;
+	}
+	
+	/**
+	 * 
+	 * @param biopsiaInfoDTO
+	 * @param goToHisto
+	 * @return
+	 */
+	public static boolean updateMacro(BiopsiaInfoDTO biopsiaInfoDTO, boolean goToHisto) {
+		final String queryInsertMacro = "INSERT INTO biopsias_macroscopicas (id, desc_macro, desc_per_operatoria) "
+				+ "VALUES (?,?,?)";
+		final String queryUpdateMacro = "UPDATE biopsias_macroscopicas SET desc_macro=?, desc_per_operatoria=? WHERE id=? ";
+		final String queryCassetes = "INSERT INTO macro_cassetes (id, numero, descripcion) VALUES (?,?,?)";
+		final String queryDeleteCassetes = "DELETE FROM macro_cassetes WHERE id = ?";
+		final String queryFotos = "INSERT INTO macro_fotos (id, notacion, descripcion, foto, file_name, fecha_registro) VALUES (?,?,?,?,?, NOW())";
+		final String queryDeleteFotos = "DELETE FROM macro_fotos WHERE id = ?";
+		
+		boolean result = false;
+		List<Object> parameters = new LinkedList<Object>();
+		
+		if(existsBiopsiaEnFase(biopsiaInfoDTO, FasesBiopsia.MACROSCOPICA)){
+			//la biopsia ya existe, ejecutamos el update
+			log.info("La biopsia macro '" + biopsiaInfoDTO.getCodigo() + "' ya existe, ejecutamos el update");
+			parameters.add(biopsiaInfoDTO.getMacroscopicaDTO().getDescMacroscopica());
+			parameters.add(biopsiaInfoDTO.getMacroscopicaDTO().getDescPerOperatoria());
+			parameters.add(biopsiaInfoDTO.getId());
+			
+			if(DBUtil.executeNonSelectQuery(queryUpdateMacro, parameters)){
+				result = true;
+			}
+		} else {
+			log.info("La biopsia macro '" + biopsiaInfoDTO.getCodigo() + "' no existia, ejecutamos el insert");
+			
+			parameters.add(biopsiaInfoDTO.getId());
+			parameters.add(biopsiaInfoDTO.getMacroscopicaDTO().getDescMacroscopica());
+			parameters.add(biopsiaInfoDTO.getMacroscopicaDTO().getDescPerOperatoria());
+			
+			if(DBUtil.executeInsertQueryAsBoolean(queryInsertMacro, parameters)){
+				result = true;
+			}
+		}
+		
+		if(! result){
+			log.error("No pudo guardarse el maestro de la biopsia en fase macroscopica. Se aborta el resto del proceso.");
+		}else {
+			log.info("El maestro de la biopsia en fase macroscopica fue almacenado sin problemas, "
+					+ "continuamos con los detalles de fotos y cassetes");
+			//almacenamos las fotos
+			parameters.clear();
+			parameters.add(biopsiaInfoDTO.getId());
+			
+			if(DBUtil.executeNonSelectQuery(queryDeleteFotos, parameters)){
+				result = true;
+				
+				//guardamos las fotos de la biopsia en cuestion
+				List<BiopsiaMacroFotoDTO> fotos = biopsiaInfoDTO.getMacroscopicaDTO().getMacroFotosDTO();
+				for (BiopsiaMacroFotoDTO foto : fotos) {
+					parameters.clear();
+					
+					byte[] bytesFile = new byte[(int) foto.getFotoFile().length()];
+					try {
+						foto.getFotoBlob().read(bytesFile);
+					} catch (Exception e) {
+						// TODO: handle exception
+						log.error(e.getLocalizedMessage(), e);
+					}
+					
+					parameters.add(biopsiaInfoDTO.getId());
+					parameters.add(foto.getNotacion());
+					parameters.add(foto.getDescripcion());
+					parameters.add(bytesFile);
+					parameters.add(foto.getFotoFile().getName());
+					
+					if(! DBUtil.executeInsertQueryAsBoolean(queryFotos, parameters)){
+						result = false;
+						break;
+					} else {
+						log.info("Almacenada foto: " + foto);
+					}
+				}
+				
+				//ya se procesaron las fotos
+				//verificamos que todo esta OK para continuar con los cassetes
+				if(! result){
+					log.error("Las fotos de la biopsia '" + biopsiaInfoDTO.getCodigo() 
+							+ "' no pudieron almacenarse correctamente, abortamos el proceso de los cassetes");
+				} else {
+					log.info("Se almacenaran los cassetes de la biopsia '" + biopsiaInfoDTO.getCodigo() + "'");
+					parameters.clear();
+					parameters.add(biopsiaInfoDTO.getId());
+					
+					if(DBUtil.executeNonSelectQuery(queryDeleteCassetes, parameters)){
+						result = true;
+						
+						//guardamos las fotos de la biopsia en cuestion
+						List<BiopsiaCasseteDTO> cassetes = biopsiaInfoDTO.getMacroscopicaDTO().getCassetesDTO();
+						for (BiopsiaCasseteDTO cassete : cassetes) {
+							parameters.clear();
+							
+							parameters.add(biopsiaInfoDTO.getId());
+							parameters.add(cassete.getNumero());
+							parameters.add(cassete.getDescripcion());
+							
+							if(! DBUtil.executeInsertQueryAsBoolean(queryCassetes, parameters)){
+								result = false;
+								break;
+							} else {
+								log.info("Almacenado cassete: " + cassete);
+							}
+						}
+					} else {
+						log.error("No pudieron eliminarse los cassetes de la biopsia '" + biopsiaInfoDTO.getCodigo() + "'");
+						result = false;
+					}
+				}
+			} else {
+				log.error("No pudieron eliminarse las fotos de la biopsia '" + biopsiaInfoDTO.getCodigo() + "'");
+				result = false;
+			}
+		}
 		
 		// TODO Auto-generated method stub
+		log.info("Resultado de almacenar informacion macroscopica de la biopsia '" + biopsiaInfoDTO.getCodigo() 
+				+ "' fue: " + result);
+		return result ;
+	}
+	
+	/**
+	 * 
+	 * @param biopsiaInfoDTO
+	 * @param goToHisto
+	 * @return
+	 */
+	public static boolean updateHisto(BiopsiaInfoDTO biopsiaInfoDTO, boolean goToMicro) {
+		final String queryInsertHisto = "INSERT INTO biopsias_histologias (id, descripcion) VALUES (?,?)";
+		final String queryUpdateHisto = "UPDATE biopsias_histologias SET descripcion=? WHERE id=? ";
+		final String queryCassetes = "UPDATE macro_cassetes SET bloques=?, laminas=? WHERE id=? AND numero=?";
+		final String queryMicroLaminas = "INSERT INTO micro_laminas (id, cassete, bloque, lamina) VALUES (?,?,?,?)";
+		final String queryMicroLaminasDelete = "DELETE FROM micro_laminas WHERE id=?";
+		
+		boolean result = false;
+		List<Object> parameters = new LinkedList<Object>();
+		
+		if(existsBiopsiaEnFase(biopsiaInfoDTO, FasesBiopsia.HISTOLOGIA)){
+			//la biopsia ya existe, ejecutamos el update
+			log.info("La biopsia histo '" + biopsiaInfoDTO.getCodigo() + "' ya existe, ejecutamos el update");
+			parameters.add(biopsiaInfoDTO.getHistologiaDTO().getDescripcion());
+			parameters.add(biopsiaInfoDTO.getId());
+			
+			if(DBUtil.executeNonSelectQuery(queryUpdateHisto, parameters)){
+				result = true;
+			}
+		} else {
+			log.info("La biopsia histo '" + biopsiaInfoDTO.getCodigo() + "' no existia, ejecutamos el insert");
+			
+			parameters.add(biopsiaInfoDTO.getId());
+			parameters.add(biopsiaInfoDTO.getHistologiaDTO().getDescripcion());
+			
+			if(DBUtil.executeInsertQueryAsBoolean(queryInsertHisto, parameters)){
+				result = true;
+			}
+		}
+		
+		if(! result){
+			log.error("No pudo guardarse el maestro de la biopsia en fase histologia. Se aborta el resto del proceso.");
+		}else {
+			log.info("El maestro de la biopsia en fase histologia fue almacenado sin problemas, "
+					+ "continuamos con los detalles de los cassetes");
+			//guardamos los cassetes de la biopsia en cuestion
+			List<BiopsiaCasseteDTO> cassetes = biopsiaInfoDTO.getHistologiaDTO().getCassetesDTO();
+			for (BiopsiaCasseteDTO cassete : cassetes) {
+				parameters.clear();
+				parameters.add(cassete.getBloques());
+				parameters.add(cassete.getLaminas());
+				parameters.add(biopsiaInfoDTO.getId());
+				parameters.add(cassete.getNumero());
+				
+				if(! DBUtil.executeNonSelectQuery(queryCassetes, parameters)){
+					result = false;
+					break;
+				} else {
+					log.info("Almacenado cassete: " + cassete);
+				}
+			}
+			
+			//ya se procesaron los cassetes
+			if(! result){
+				log.error("Los cassetes de la biopsia '" + biopsiaInfoDTO.getCodigo() 
+						+ "' no pudieron almacenarse correctamente");
+			} else {
+				//procesamos las laminas para la fase de micro
+				log.info("Procesamos las laminas para la fase micro.");
+				//limpiamos el ambiente previo
+				parameters.clear();
+				parameters.add(biopsiaInfoDTO.getId());
+				
+				if(DBUtil.executeNonSelectQuery(queryMicroLaminasDelete, parameters)){
+					//guardamos los cassetes de la biopsia en cuestion
+					for (BiopsiaCasseteDTO cassete : cassetes) {
+						for (int j = 1; j < cassete.getBloques() + 1; j++) {
+							for (int i = 1; i < cassete.getLaminas() + 1; i++) {
+								parameters.clear();
+								parameters.add(biopsiaInfoDTO.getId());
+								parameters.add(cassete.getNumero());
+								parameters.add(j);
+								parameters.add(i);
+								
+								if(! DBUtil.executeNonSelectQuery(queryMicroLaminas, parameters)){
+									result = false;
+									break;
+								} else {
+									log.info("Almacenada micro_lamina: " + cassete + ", con bloque/lamina " + j + "/" + i);
+								}
+							}
+						}
+					}
+				} else {
+					log.error("No pudieron eliminarse las laminas previas de la fase de micro, debemos abortar.");
+					result = false;
+				}
+			}
+		}
+		
+		// TODO Auto-generated method stub
+		log.info("Resultado de almacenar informacion de histologia de la biopsia '" + biopsiaInfoDTO.getCodigo() 
+				+ "' fue: " + result);
+		return result ;
+	}
+	
+	/**
+	 * 
+	 * @param biopsiaInfoDTO
+	 * @return
+	 */
+	public static boolean updateMicro(BiopsiaInfoDTO biopsiaInfoDTO) {
+		final String queryInsertMicro = "INSERT INTO biopsias_microscopicas (id, idx, diagnostico) VALUES (?,?,?)";
+		final String queryUpdateMicro = "UPDATE biopsias_microscopicas SET idx=?, diagnostico=? WHERE id=? ";
+		final String queryLaminas = "UPDATE micro_laminas SET descripcion=?, id_reactivo=? WHERE id=? AND cassete=? AND bloque=? AND lamina=?";
+		final String queryDeleteLaminasFiles = "DELETE FROM micro_laminas_files WHERE id=? AND cassete=? AND bloque=? AND lamina=?";
+		final String queryLaminasFiles = "INSERT INTO micro_laminas_files (id, cassete, bloque, lamina, file_name, file_content) VALUES (?,?,?,?,?,?)";
+		
+		boolean result = false;
+		List<Object> parameters = new LinkedList<Object>();
+		
+		if(existsBiopsiaEnFase(biopsiaInfoDTO, FasesBiopsia.MICROSCOPICA)){
+			//la biopsia ya existe, ejecutamos el update
+			log.info("La biopsia micro '" + biopsiaInfoDTO.getCodigo() + "' ya existe, ejecutamos el update");
+			parameters.add(biopsiaInfoDTO.getMicroscopicaDTO().getIdx());
+			parameters.add(biopsiaInfoDTO.getMicroscopicaDTO().getDiagnostico());
+			parameters.add(biopsiaInfoDTO.getId());
+			
+			if(DBUtil.executeNonSelectQuery(queryUpdateMicro, parameters)){
+				result = true;
+			}
+		} else {
+			log.info("La biopsia histo '" + biopsiaInfoDTO.getCodigo() + "' no existia, ejecutamos el insert");
+			
+			parameters.add(biopsiaInfoDTO.getId());
+			parameters.add(biopsiaInfoDTO.getMicroscopicaDTO().getIdx());
+			parameters.add(biopsiaInfoDTO.getMicroscopicaDTO().getDiagnostico());
+			
+			if(DBUtil.executeInsertQueryAsBoolean(queryInsertMicro, parameters)){
+				result = true;
+			}
+		}
+		
+		if(! result){
+			log.error("No pudo guardarse el maestro de la biopsia en fase microscopica. Se aborta el resto del proceso.");
+		}else {
+			log.info("El maestro de la biopsia en fase microscopica fue almacenado sin problemas, "
+					+ "continuamos con los detalles de las laminas");
+			//guardamos las laminas de la biopsia en cuestion
+			List<BiopsiaMicroLaminasDTO> laminas = biopsiaInfoDTO.getMicroscopicaDTO().getLaminasDTO();
+			for (BiopsiaMicroLaminasDTO lamina : laminas) {
+				parameters.clear();
+				parameters.add(lamina.getDescripcion());
+				if(lamina.getReactivoDTO() == null){
+					parameters.add(DBUtil.NULL_PARAMETER);
+				} else {
+					parameters.add(lamina.getReactivoDTO().getId());
+				}
+				parameters.add(biopsiaInfoDTO.getId());
+				parameters.add(lamina.getCassete());
+				parameters.add(lamina.getBloque());
+				parameters.add(lamina.getLamina());
+				
+				if(! DBUtil.executeNonSelectQuery(queryLaminas, parameters)){
+					result = false;
+					break;
+				} else {
+					log.info("Almacenada micro_lamina: " + lamina + " procedemos a almacenar sus files");
+					List<BiopsiaMicroLaminasFileDTO> listaFiles = lamina.getMicroLaminasFilesDTO();
+					
+					if(listaFiles != null && listaFiles.size() > 0) {
+						parameters.clear();
+						parameters.add(biopsiaInfoDTO.getId());
+						parameters.add(lamina.getCassete());
+						parameters.add(lamina.getBloque());
+						parameters.add(lamina.getLamina());
+						
+						if(! DBUtil.executeNonSelectQuery(queryDeleteLaminasFiles, parameters)){
+							result = false;
+						} else {
+							//se eliminaron los files anteriores, se almacenaran los nuevos
+							for (BiopsiaMicroLaminasFileDTO biopsiaMicroLaminasFileDTO : listaFiles) {
+								parameters.clear();
+								parameters.add(biopsiaInfoDTO.getId());
+								parameters.add(lamina.getCassete());
+								parameters.add(lamina.getBloque());
+								parameters.add(lamina.getLamina());
+								parameters.add(biopsiaMicroLaminasFileDTO.getMediaFile().getName());
+								parameters.add(biopsiaMicroLaminasFileDTO.getFileStream());
+								
+								if(!DBUtil.executeInsertQueryAsBoolean(queryLaminasFiles, parameters)){
+									result = false;
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+			
+			//ya se procesaron los cassetes
+			if(! result){
+				log.error("Los cassetes de la biopsia '" + biopsiaInfoDTO.getCodigo() 
+						+ "' no pudieron almacenarse correctamente");
+			}
+		}
+		
+		// TODO Auto-generated method stub
+		log.info("Resultado de almacenar informacion de histologia de la biopsia '" + biopsiaInfoDTO.getCodigo() 
+				+ "' fue: " + result);
 		return result ;
 	}
 }

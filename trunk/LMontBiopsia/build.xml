@@ -1,13 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="modules" default="makejar" basedir="./">
-    <target name="makejar"> 
+<project name="modules" default="makejars" basedir="./">
+	
+	<!-- TARGET PARA CREAR EL JAR QUE CONTIENE LA APLICACION COMO TAL -->
+	<target name="makejar"> 
         <jar jarfile="LMontBiopsia.jar"
-            includes="*/*/*/*/*.class,
+            includes="*/*/*/*.class,,
+                     */*/*/*/*.class,
         	         */*/*/*/*/*.class,
         	         resources/*,
-        	         resources/images/*,
+        	         resources/*/*,
         	         META-INF/context.properties"
-        	manifest="./src/META-INF/MANIFEST.MF"
+        	excludes="*/*/*/*/StartAsBatFile.class"
             basedir="./bin/"/>
     </target>
+	
+	<!-- TARGET PARA CREAR EL JAR QUE SOLO EJECUTARA POR DEBAJO EL JAR QUE INICIA LA APLICACION -->
+	<target name="createJarToLaunchApp">
+		<jar jarfile="LaunchApp.jar"
+			includes="com/fjr/code/main/StartAsBatFile.class"
+	        manifest="./src/META-INF/MANIFEST.MF"
+	        basedir="./bin/"/>
+	</target>
+	
+	<target name="createJarToLaunchSetUp">
+        <jar jarfile="LaunchAppSetUp.jar"
+            includes="com/fjr/installer/StartAsBatFile.class"
+            manifest="./src/META-INF/MANIFEST-SETUP.MF"
+            basedir="./bin/"/>
+    </target>
+	
+	<target name="makejars">
+	    <antcall target="createJarToLaunchSetUp"></antcall>
+		<antcall target="createJarToLaunchApp"></antcall>
+		<antcall target="makejar"></antcall>
+	</target>
 </project>

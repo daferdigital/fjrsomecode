@@ -77,9 +77,9 @@ public class MacroFotosDialog extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
-		JLabel lblNotacion = new JLabel("<html>Notaci&oacute;n</html>");
+		JLabel lblNotacion = new JLabel("<html>Observaci&oacute;n</html>");
 		lblNotacion.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNotacion.setBounds(10, 25, 70, 14);
+		lblNotacion.setBounds(10, 25, 89, 14);
 		contentPanel.add(lblNotacion);
 		
 		txtNotacion = new JTextField();

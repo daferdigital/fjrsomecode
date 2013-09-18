@@ -23,6 +23,12 @@ public class Start {
 		try {
 			CustomClasspathLoader.addJarsToClasspath(Constants.BASE_PATH + File.separator 
 					+ "libs" + File.separator);
+			CustomClasspathLoader.addJarsToClasspath(Constants.BASE_PATH + File.separator);
+			
+			new File(Constants.LABELS_PATH).mkdirs();
+			new File(Constants.LOGS_PATH).mkdirs();
+			new File(Constants.TMP_PATH).mkdirs();
+			
 			AfterStart.startProgram(args);
 		} catch (Throwable e) {
 			// TODO: handle exception
