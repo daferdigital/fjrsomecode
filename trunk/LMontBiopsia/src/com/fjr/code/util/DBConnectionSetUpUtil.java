@@ -29,6 +29,7 @@ public final class DBConnectionSetUpUtil {
 	private static final String DB_HOST_PROPERTY = "db.host";
 	private static final String DB_PORT_PROPERTY = "db.port";
 	private static final String DB_ROOTKEY_PROPERTY = "db.root.key";
+	private static final String DB_TO_CONNECT = "db.to.connect";
 	
 	/**
 	 * App SetUp DataSource
@@ -41,12 +42,14 @@ public final class DBConnectionSetUpUtil {
 	 * @param port
 	 * @param rootKey
 	 */
-	public static void writePropertiesToFile(String host, String port, String rootKey){
+	public static void writePropertiesToFile(String host, String port, String rootKey,
+			String nombreBaseDeDatos){
 		try {
 			dataSource = null;
 			props.setProperty(DB_HOST_PROPERTY, host);
 			props.setProperty(DB_PORT_PROPERTY, port);
 			props.setProperty(DB_ROOTKEY_PROPERTY, rootKey);
+			props.setProperty(DB_TO_CONNECT, nombreBaseDeDatos);
 		} catch (Exception e) {
 			// TODO: handle exception
 			log.error("Error creando archivo de propiedades. Error fue: " + e.getLocalizedMessage(), e);

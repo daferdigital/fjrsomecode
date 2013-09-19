@@ -71,6 +71,9 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 	public IngresoPanelOperations(IngresoPanel ventana) {
 		// TODO Auto-generated constructor stub
 		this.ventana = ventana;
+		if (ventana.isNewBiopsia()){
+			biopsiaInfoDTO = new BiopsiaInfoDTO();
+		}
 	}
 	
 	/**
