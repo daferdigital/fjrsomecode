@@ -1,92 +1,74 @@
-<div id="Accordion1" class="Accordion_menu" style="z-index: 2" cellpadding="0" cellspacing="0" border="0">
-                    <div class="AccordionPanel_menu AccordionPanelClosed_menu">
-                        <div class="AccordionPanelTab_menu">
-                            Facturas y<br>
-                            Formas Fiscales
-                        </div>
-                        <div class="AccordionPanelContent_menu" style="height: 0px; display: none;">
-                            <div class="DivAccordionSubMenu">
-                                <a href="Facturas.aspx">Facturas</a>
-                            </div>
-                            <div class="DivAccordionSubMenu">
-                                <a href="Formas-Libres.aspx">Formas Libres</a>
-                            </div>
-                            
-                            <div class="DivAccordionSubMenu">
-                                <a href="Notas-Fiscales.aspx">Notas Fiscales</a>
-                            </div>
-                          
-                            <div class="DivAccordionSubMenu">
-                                <a href="Facturas-Tipo-Serie.aspx">Facturas Tipo Serie</a>
-                            </div>
-                            <div class="DivAccordionSubMenu">
-                                <a href="Facturas-de-Contingencia.aspx">Facturas de Contingencia</a>
-                            </div>
-                            <div class="DivAccordionSubMenu">
-                                <a href="Facturas-Proforma.aspx">Facturas Profoma</a>
-                            </div>
-                            <div class="DivAccordionSubMenu">
-                                <a href="Formas-Continuas.aspx">Formas Continuas</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="AccordionPanel_menu AccordionPanelClosed_menu">
-                        <div class="AccordionPanelTab_menu">
-                            Tarjetas de Presentación<br>
-                            Volantes y Papelería
-                        </div>
-                        <div class="AccordionPanelContent_menu" style="height: 0px; display: none;">
-                            <div class="DivAccordionSubMenu">
-                                <a href="Tarjetas-de-Presentacion.aspx">Tarjetas de Presentación</a>
-                            </div>
-                            <div class="DivAccordionSubMenu">
-                                <a href="Volantes-Publicitarios.aspx">Volantes Publicitarios</a>
-                            </div>
-                            <div class="DivAccordionSubMenu">
-                                <a href="Recipes-Medicos.aspx">Récipes Médicos</a>
-                            </div>
-                            <div class="DivAccordionSubMenu">
-                                <a href="Hojas-Membretadas.aspx">Hojas Membretadas</a>
-                            </div>
-                            
-                            <div class="DivAccordionSubMenu">
-                                <a href="Carteles-Comerciales.aspx">Carteles Comerciales</a>
-                            </div>
-                            <div class="DivAccordionSubMenu">
-                                <a href="Comprobantes-De-Egreso.aspx">Comprobantes de Egreso</a>
-                            </div>
-
-
-
-
-                        </div>
-                    </div>
-
-                    
-                    <div class="AccordionPanel_menu AccordionPanelOpen_menu">
-                        <div class="AccordionPanelTab_menu">
-                            Cuadernos y Agendas
-                        </div>
-                        <div class="AccordionPanelContent_menu" style="height: auto; display: block;">
-                            <div class="DivAccordionSubMenu">
-                                <a href="Cuadernos.aspx">Cuadernos</a>
-                            </div>
-                            <div class="DivAccordionSubMenu">
-                               
-                                <a href="Agendas.aspx">Agendas</a>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="AccordionPanel_menu AccordionPanelClosed_menu">
-                        <div class="AccordionPanelTab_menu">
-                            Calendarios
-                        </div>
-                        <div class="AccordionPanelContent_menu" style="height: 0px; display: none;">
-                            <div class="DivAccordionSubMenu">
-                                <a href="Calendarios.aspx">Calendarios</a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                </div>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <title>jQuery UI Accordion - Default functionality</title>
+  <link rel="stylesheet" href="css/smoothness/jquery-ui.css" />
+  <script type="text/javascript" src="js/jquery-1.9.1.js"></script>
+  <script type="text/javascript" src="js/jquery-ui.js"></script>
+  <script>
+  	$(function() {
+    	$( "#accordion" ).accordion();
+  	});
+  </script>
+</head>
+<body>
+	<div id="accordion" style="width: 25%; display: inline-block;">
+  		<h3>Papeleria Fiscal</h3>
+  		<div style="padding: 0px;">
+    		<ul>
+    			<li>Facturas</li>
+    			<li>Notas de D&eacute;bito</li>
+    			<li>Notas de Cr&eacute;dito</li>
+    			<li>Orden de Entrega</li>
+    			<li>Forma Libre</li>
+    			<li>Formas Continuas</li>
+    		</ul>
+  		</div>
+  		<h3>Papeleria Corporativa</h3>
+  		<div style="padding: 0px;">
+    		<ul>
+    			<li>Tarjetas de Presentaci&oacute;n</li>
+    			<li>Membretes</li>
+    			<li>Carpetas</li>
+    			<li>Sobres</li>
+    			<li>Manuales</li>
+    			<li>Presentaciones <br /> Corporativas</li>
+    			<li>Otros</li>
+    		</ul>
+  		</div>
+  		<h3>Papeleria Publicitaria</h3>
+  		<div style="padding: 0px;">
+    		<ul>
+    			<li>Afiches</li>
+    			<li>Tr&iacute;pticos / D&iacute;pticos</li>
+    			<li>Volantes</li>
+    			<li>Calendario</li>
+    			<li>Almanaque</li>
+    			<li>Carteles Comerciales</li>
+    			<li>Otros</li>
+    		</ul>
+  		</div>
+  		<h3>Papeleria Publicitaria</h3>
+  		<div style="padding: 0px;">
+    		<ul>
+    			<li>Afiches</li>
+    			<li>Tr&iacute;pticos / D&iacute;pticos</li>
+    			<li>Volantes</li>
+    			<li>Calendario</li>
+    			<li>Almanaque</li>
+    			<li>Carteles Comerciales</li>
+    			<li>Otros</li>
+    		</ul>
+  		</div>
+	</div>
+	<div style="display: inline-block; width: 25%; vertical-align: top; text-align: center;">
+		<span id="imageLoaging1" style="display: none;">
+			<img src="images/loadIndicator.gif" />
+		</span>
+		<form enctype="multipart/form-data" name="formFase1" method="post">
+			
+		</form>
+	</div>
+</body>
+</html>
