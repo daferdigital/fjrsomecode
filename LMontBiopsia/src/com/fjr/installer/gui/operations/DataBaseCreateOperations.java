@@ -12,7 +12,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 import org.apache.log4j.Logger;
 
@@ -56,7 +55,8 @@ public class DataBaseCreateOperations implements ActionListener {
 			//probamos la conexion
 			DBConnectionSetUpUtil.writePropertiesToFile(ventana.getTxtServidor().getText(), 
 					ventana.getTxtPuerto().getText(), 
-					ventana.getTxtClaveRoot().getText());
+					ventana.getTxtClaveRoot().getText(),
+					"lmont_biopsia");
 			boolean connectionIsValid = DBConnectionSetUpUtil.haveValidConnectionConfiguration();
 			
 			if(connectionIsValid){
@@ -199,19 +199,7 @@ public class DataBaseCreateOperations implements ActionListener {
 	 * @param value
 	 */
 	private void updateProgresBarValue(final int value){
-		SwingUtilities.invokeLater(new Runnable(){
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				ventana.getProgressBar().setValue(value);
-				try {
-					Thread.sleep(10);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
-		
+		ventana.getProgressBar().setValue(value);
+		ventana.getProgressBar().repaint();
 	}
 }

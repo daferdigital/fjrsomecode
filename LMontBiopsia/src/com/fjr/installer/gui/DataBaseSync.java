@@ -9,13 +9,13 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Toolkit;
 import java.awt.Font;
-import java.util.Calendar;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import com.fjr.installer.gui.operations.DataBaseCreateOperations;
 import com.fjr.installer.gui.operations.DataBaseSyncOperations;
+import javax.swing.JProgressBar;
 
 public class DataBaseSync extends JDialog {
 
@@ -28,6 +28,7 @@ public class DataBaseSync extends JDialog {
 	private JTextField txtPuerto;
 	private JTextField txtClaveRoot;
 	private JTextField txtNombreBaseDatos;
+	private JProgressBar progressBar;
 
 	/**
 	 * Launch the application.
@@ -88,21 +89,20 @@ public class DataBaseSync extends JDialog {
 		txtClaveRoot.setBounds(130, 73, 160, 20);
 		contentPanel.add(txtClaveRoot);
 		
-		JLabel lblCdigoraBiopsia = new JLabel("C\u00F3digo 1ra Biopsia:");
+		JLabel lblCdigoraBiopsia = new JLabel("Base de Datos:");
 		lblCdigoraBiopsia.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblCdigoraBiopsia.setBounds(10, 110, 124, 20);
 		contentPanel.add(lblCdigoraBiopsia);
 		
 		txtNombreBaseDatos = new JTextField();
 		txtNombreBaseDatos.setColumns(10);
-		txtNombreBaseDatos.setBounds(171, 111, 119, 20);
+		txtNombreBaseDatos.setBounds(130, 111, 160, 20);
 		contentPanel.add(txtNombreBaseDatos);
 		
-		JLabel label = new JLabel("");
-		label.setFont(new Font("Tahoma", Font.BOLD, 13));
-		label.setBounds(140, 110, 30, 20);
-		label.setText((Calendar.getInstance().get(Calendar.YEAR) - 2000) + " - ");
-		contentPanel.add(label);
+		progressBar = new JProgressBar();
+		progressBar.setStringPainted(true);
+		progressBar.setBounds(97, 140, 247, 20);
+		contentPanel.add(progressBar);
 		
 		JPanel buttonPane = new JPanel();
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -113,7 +113,7 @@ public class DataBaseSync extends JDialog {
 		btnTestConnection.setActionCommand(DataBaseCreateOperations.ACTION_COMMAND_BTN_TEST_CONNECTION);
 		buttonPane.add(btnTestConnection);
 		
-		JButton btnCreateDB = new JButton("Crear Base de Datos");
+		JButton btnCreateDB = new JButton("Sincronizar Base de Datos");
 		btnCreateDB.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnCreateDB.setActionCommand(DataBaseCreateOperations.ACTION_COMMAND_BTN_CREATE_DB);
 		buttonPane.add(btnCreateDB);
@@ -146,5 +146,9 @@ public class DataBaseSync extends JDialog {
 	
 	public JTextField getTxtNombreBaseDatos() {
 		return txtNombreBaseDatos;
+	}
+	
+	public JProgressBar getProgressBar() {
+		return progressBar;
 	}
 }
