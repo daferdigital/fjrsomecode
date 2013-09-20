@@ -2,15 +2,16 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-  <title>jQuery UI Accordion - Default functionality</title>
-  <link rel="stylesheet" href="css/smoothness/jquery-ui.css" />
-  <script type="text/javascript" src="js/jquery-1.9.1.js"></script>
-  <script type="text/javascript" src="js/jquery-ui.js"></script>
-  <script>
-  	$(function() {
-    	$( "#accordion" ).accordion();
-  	});
-  </script>
+  	<title></title>
+  	<link rel="stylesheet" href="css/smoothness/jquery-ui.css" />
+  	<script type="text/javascript" src="js/jquery-1.9.1.js"></script>
+  	<script type="text/javascript" src="js/jquery-ui.js"></script>
+  	<script type="text/javascript" src="js/papeleria.js"></script>
+  	<script>
+  		$(function() {
+    		$( "#accordion" ).accordion();
+  		});
+  	</script>
 </head>
 <body>
 	<div id="accordion" style="width: 25%; display: inline-block;">
@@ -28,7 +29,7 @@
   		<h3>Papeleria Corporativa</h3>
   		<div style="padding: 0px;">
     		<ul>
-    			<li>Tarjetas de Presentaci&oacute;n</li>
+    			<li><a href="#" onclick="loadFrame('papeleriaCorporativa', 'formPart1')">Tarjetas de Presentaci&oacute;n</a></li>
     			<li>Membretes</li>
     			<li>Carpetas</li>
     			<li>Sobres</li>
@@ -62,12 +63,10 @@
     		</ul>
   		</div>
 	</div>
-	<div style="display: inline-block; width: 25%; vertical-align: top; text-align: center;">
-		<span id="imageLoaging1" style="display: none;">
-			<img src="images/loadIndicator.gif" />
-		</span>
+	<div style="display: inline-block; width: 25%; vertical-align: top; margin-left: 15px;">
 		<form enctype="multipart/form-data" name="formFase1" method="post">
-			
+			<span id="formPart1">
+			</span>
 		</form>
 	</div>
 </body>
