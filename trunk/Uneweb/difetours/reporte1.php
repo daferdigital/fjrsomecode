@@ -1,43 +1,15 @@
 <?php
-/**
- * @author David Antunes
- * @project 3WEditable - 2009
- */
-session_start();
- 
-extract($_REQUEST);
 include("conexion.php");
-
-if($_SESSION["usuario"]==1315){
-	//$i=0; //Nada
-}else{
-	header("location: formulario2.php?$linkp");
-}
-
-//datos de la cuenta
-$banco = "Banesco";
-$tipo_cta = "Corriente";
-$num_cta = "XXXXX-XXXXX-XXXXX-XXXXX";
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<link href="admin/botonera/css-styles/style.css" type="text/css" rel="stylesheet"/>
-<link href="scripts/estilos.css" rel="stylesheet" type="text/css" />
-<link href="css/jsDatePick_ltr.css" rel="stylesheet" type="text/css" />
-<script src="scripts/jsDatePick.full.1.3.js" type="text/javascript"></script>
+
 <script type="text/javascript">
 <!--
-function fillFields(formulario, selectId){
-	//colocamos los campos
-	formulario.nombre.value = document.getElementById("nombre_" + selectId).value;
-	formulario.cedula_rif.value = document.getElementById("cedula_" + selectId).value;
-	formulario.email.value = document.getElementById("email_" + selectId).value;
-	formulario.direccion.value = document.getElementById("direccion_" + selectId).value;
-	formulario.telefono.value = document.getElementById("telefono_" + selectId).value;
-}
 function MM_validateForm() { //v4.0
   if (document.getElementById){
     var i,p,q,nm,test,num,min,max,errors='',args=MM_validateForm.arguments;
@@ -59,6 +31,7 @@ function MM_validateForm() { //v4.0
 </head>
 
 <body>
+<?php include ('inyeccion.php') ;?> 
    	<table align="center"  width="1025"cellpadding="0" border="0" cellspacing="0" >	
   <tr>
     <td width="68%" valign="top" align="center" style="padding-left: 15px; padding-right: 15px;">
@@ -82,7 +55,13 @@ function MM_validateForm() { //v4.0
 		}
 	?>
   		
-		<div style="height:20px;"></div>
+  		  <table width="95%" border="0" cellpadding="0" cellspacing="0" align="center">
+  		    <tr>
+  		      <td width="34%" align="center" ><a href="reporte1.php"><img src="boton_contactor.png"  border="0" width="130" height="24" /></a></td>
+  		      <td width="32%" align="center" valign="top"><a href="formulario4.php"><img border="0" src="boton_contactoh.png" width="130" height="24" /></a></td>
+  		      <td width="34%" height="21" align="center" valign="top"><a href="formulario3.php"><img  border="0" src="boton_contactoc.png" width="130" height="24" /></a></td>
+	        </tr>
+	      </table>  <div style="height:20px;"></div>
   		  <p><br />
   		    <br />
 <br />
@@ -113,7 +92,6 @@ function MM_validateForm() { //v4.0
 			<div align="center" name="nota" id="nota">
 			  	Una vez realizado el dep&oacute;sito, favor notificarlo <br /> suministrando los siguientes datos:
 			</div>
-			</td>
         </tr>
     </table>
 	
@@ -122,39 +100,13 @@ function MM_validateForm() { //v4.0
 	<table width="365" border="0" style="border: 1px solid black;" align="center" cellpadding="2" cellspacing="0">   
         <tr>
             <td width="148" style="padding-left: 6px;">
-				Cliente:
-			</td>
-			<td width="207">
-				<select name="cliente" id="cliente" onchange="fillFields(this.form, this.options[this.selectedIndex].value)">
-				<?php
-					$query = "SELECT id, nombre, apellido, cedula, login, direccionh, telefono FROM clientes ORDER BY LOWER(nombre), LOWER(apellido)";
-					$result = mysql_query($query);
-					$hiddenFields = "";
-					
-					while($row = mysql_fetch_array($result)){
-						$hiddenFields .= "<input type=\"hidden\" id=\"nombre_".$row["id"]."\" value=\"".$row["nombre"]." ".$row["apellido"]."\"/> \n";
-						$hiddenFields .= "<input type=\"hidden\" id=\"cedula_".$row["id"]."\" value=\"".$row["cedula"]."\"/> \n";
-						$hiddenFields .= "<input type=\"hidden\" id=\"email_".$row["id"]."\" value=\"".$row["login"]."\"/> \n";
-						$hiddenFields .= "<input type=\"hidden\" id=\"direccion_".$row["id"]."\" value=\"".$row["direccionh"]."\"/> \n";
-						$hiddenFields .= "<input type=\"hidden\" id=\"telefono_".$row["id"]."\" value=\"".$row["telefono"]."\"/> \n";
-				?>
-					<option value="<?php echo $row["id"]?>"><?php echo $row["nombre"]." ".$row["apellido"]?></option>
-				<?php
-					}
-				?>
-				</select>
-				<?php echo $hiddenFields;?>
-			</td>
-		</tr>
-		<tr style="background: #CCCCCC;">
-            <td width="148" style="padding-left: 6px;">
 				Nombre y Apellido:
 			</td>
 			<td width="207" align="center">
 				<input name="nombre" type="text" id="nombre" size="25" maxlength="30" />
 			</td>
 		</tr>
-		<tr>
+		<tr style="background: #CCCCCC;">
             <td style="padding-left: 6px;">
 				Compa&ntilde;ia (opcional):
 			</td>
@@ -162,23 +114,23 @@ function MM_validateForm() { //v4.0
 				<input type="text" name="compania" size="25" maxlength="30" />
 			</td>
 		</tr>
-		<tr style="background: #CCCCCC;">
+		<tr>
             <td style="padding-left: 6px;">
 				C&eacute;dula / RIF
 			</td>
 			<td align="center">
-				<input name="cedula_rif" type="text" id="cedula_rif" size="25" maxlength="30" readonly="readonly"/>
+				<input name="cedula_rif" type="text" id="cedula_rif" size="25" maxlength="30" />
 			</td>
 		</tr>
-		<tr>
+		<tr style="background: #CCCCCC;">
             <td style="padding-left: 6px;">
 				Email
 			</td>
 			<td align="center">
-				<input name="email" type="text" id="email" size="25" maxlength="30" readonly="readonly"/>
+				<input name="email" type="text" id="email" size="25" maxlength="30" />
 			</td>
 		</tr>
-		<tr style="background: #CCCCCC;">
+		<tr>
             <td style="padding-left: 6px;">
 				Direcci&oacute;n
 			</td>
@@ -186,7 +138,7 @@ function MM_validateForm() { //v4.0
 				<textarea name="direccion" cols="19" rows="4" id="direccion"></textarea>
 			</td>
 		</tr>
-		<tr>
+		<tr style="background: #CCCCCC;">
             <td style="padding-left: 6px;">
 				Tel&eacute;fono
 			</td>
@@ -194,7 +146,7 @@ function MM_validateForm() { //v4.0
 				<input name="telefono" type="text" id="telefono" size="25" maxlength="30" />
 			</td>
 		</tr>
-		<tr style="background: #CCCCCC;">
+		<tr>
             <td style="padding-left: 6px;">
 				Celular
 			</td>
@@ -202,7 +154,7 @@ function MM_validateForm() { //v4.0
 				<input name="celular" type="text" id="celular" size="25" maxlength="30" />
 			</td>
 		</tr>
-		<tr>
+		<tr style="background: #CCCCCC;">
             <td style="padding-left: 6px;">
 				Nro de Transacci&oacute;n
 			</td>
@@ -210,7 +162,7 @@ function MM_validateForm() { //v4.0
 				<input name="transaccion" type="text" id="transaccion" size="25" maxlength="30" />
 			</td>
 		</tr>
-		<tr style="background: #CCCCCC;">
+		<tr>
             <td style="padding-left: 6px;">Banco</td>
 			<td align="center"><input name="factura" type="text" id="factura" size="25" maxlength="30" /></td>
 		</tr>
@@ -254,11 +206,38 @@ function MM_validateForm() { //v4.0
 		
 		<!-- Espacio para el contenido -->
 	</td>
+    <td width="32%" valign="top" align="center">
+		<!-- Espacio para los banners -->
+		<div align="center">
+        	<form id="form1" name="form1" method="post" action="buscar.php">
+        		<div align="center">
+          		<p>
+          			<input name="buscar" type="text" class="blue" id="buscar" />
+            		<input type="submit" name="Submit" value="Buscar" />
+				</p>
+          			
+  		
+        	</form>
+        
+			<div style="height: 20px;"></div>
+            
+			<label><?php banner1(1,220,220,$mira); ?></label><div style="height: 20px;"></div>
+	        <label><?php banner1(2,220,220,$mira); ?></label><div style="height: 20px;"></div>
+	        <label><?php banner1(3,220,220,$mira); ?></label><div style="height: 20px;"></div>
+	        <label><?php banner1(4,220,220,$mira); ?></label><div style="height: 20px;"></div>
+            <label><?php banner1(5,220,220,$mira); ?></label><div style="height: 20px;"></div>
+            <label><?php banner1(6,220,220,$mira); ?></label><div style="height: 20px;"></div>
+            <label><?php banner1(7,220,220,$mira); ?></label><div style="height: 20px;"></div>
+            <label><?php banner1(8,220,220,$mira); ?></label><div style="height: 20px;"></div>
+            <label><?php banner1(9,220,220,$mira); ?></label><div style="height: 20px;"></div>
+            <label><?php banner1(10,220,220,$mira); ?></label><div style="height: 20px;"></div>
+	        
+	        
+      	</div>
+      	<!-- Espacio para los banners -->
+	</td>
   </tr>
 </table>
-<script type="text/javascript">
-					fillFields(document.getElementById("cliente").form, 
-							document.getElementById("cliente").value);
-				</script>
+</div>
 </body>
 </html>

@@ -15,37 +15,8 @@
 			."cod_factura,comentarios,fecha_pago,id_cliente)"
 			. " VALUES('".$_POST["nombre"]."', '".$_POST["compania"]."', '".$_POST["cedula_rif"]."', '".$_POST["email"]
 			."', '".$_POST["direccion"]."', '".$_POST["telefono"]."', '".$_POST["celular"]."', '".$_POST["transaccion"]
-			."', '".$_POST["factura"]."', '".$_POST["comentarios"]."', '".$_POST["fechaPago"]."', ".$_POST["cliente"].")";
+			."', '".$_POST["factura"]."', '".$_POST["comentarios"]."', '".$_POST["fechaPago"]."', ".$_SESSION["codigo"].")";
 		mysql_query($query);
-		
-		//Envio de Correo del Reporte
-		$subject = "Reporte de pago Difetours";
-		$fromEmail = "soporte@uneweb.com";
-		$comentarios= nl2br($comentarios);
-			
-		$body=  "Reporte de Pago de Factura Nro ".$_POST["factura"]." <br /><br />";
-		$body.= "Nombre y Apellido: ".$_POST["nombre"]." <br />";
-		$body.= "Compania: ".$_POST["compania"]." <br />";
-		$body.= "Cedula o RIF: ".$_POST["cedula_rif"]." <br />";
-		$body.= "Email: ".$_POST["email"]." <br />";
-		$body.= "Direccion: ".$_POST["direccion"]." <br />";
-		$body.= "Telefono: ".$_POST["telefono"]." <br />";
-		//$body.= "Celular: $celular <br />";
-		$body.= "Nro de Transaccion: ".$_POST["transaccion"]." <br />";
-		$body.= "Comentarios: $comentarios <br />";
-		
-		$body = ereg_replace("<br />","\r\n",$body);
-		$body= html_entity_decode($body);
-			
-		if(mail($_POST["email"],
-				$subject,
-				$body,
-				"From:".$fromEmail." \r\nContent-type: text/html\r\n")){
-			//echo "<script> alert('Su Reporte ha sido enviado!')</script>";
-			//print "Gracias por su compra, espere nuestra respuesta.";
-		}else{
-			//echo "<script> alert('No se pudo enviar el Reporte, intente mas tarde ')</script>";
-		}
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -55,7 +26,7 @@
 <body>
 <?php
 		if(mysql_error()) {
-			//echo mysql_error();
+			echo mysql_error();
 ?>
 			<script type="text/javascript">
 				alert("Disculpe, hubo un error al registrar su pago, favor intente de nuevo.");
