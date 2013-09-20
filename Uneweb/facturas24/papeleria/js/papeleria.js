@@ -1,4 +1,4 @@
-var ajaxImageName = "ajax.gif";
+var ajaxImageName = "loadIndicator.gif";
 
 String.prototype.trim=function(){
 	return this.replace(/^\s+|\s+$/g, '');
@@ -10,16 +10,15 @@ String.prototype.trim=function(){
  * @param loadingImageId
  * @param containerName
  */
-function loadFrame(frameName, loadingImageId, containerName) {
-	var container = document.getElementById(containerName);
-	var imageLoading = document.getElementById(loadingImageId);
+function loadFrame(frameName, containerId) {
+	var container = document.getElementById(containerId);
+	var url = "frames/" + frameName + ".php";
+	var parameters = "";
 	
 	if(container == null){
-		alert("No se encontro el container '" + containerName + "'");
+		alert("No se encontro el container '" + containerId + "'");
 	} else {
-		imageLoading.style.display = "";
-		container.innerHTML = "";
-		container.innerHTML = "";
+		callAjax(url, parameters, containerId, null);
 	}
 }
 
@@ -57,6 +56,7 @@ function createXMLHTTPRequest(){
  * @param url
  * @param parameters
  * @param idAnswerContainer si es null mostramos la respuesta del ajax como un alert
+ * @param urlToRefresh url to refresh after ajax, can be null
  */
 function callAjax(url, parameters, idAnswerContainer, urlToRefresh){
 	var ajaxObject =  createXMLHTTPRequest();
