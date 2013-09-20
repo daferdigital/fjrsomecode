@@ -2,7 +2,7 @@
 	header("Content-Type: text/html; charset=iso-8859-1");
 	$tipoContenido = $_POST["contenido"];
 ?>
-	<input type="hidden" name="tipo" value="Papeleria Corporativa"/>
+	<input type="hidden" name="tipo" value="Papeleria Publicitaria"/>
 	<input type="hidden" name="contenido" value="<?php echo $tipoContenido;?>"/>
 	<div>
 		Cantidad:
@@ -29,6 +29,17 @@
 	</div>
 	<div>
 		<br />
+		Impresi&oacute;n:
+		<br />
+		<input type="radio" name="impresion" id="impresion_unlado" value="1 Lado"/> 1 Lado
+		<br />
+		<input type="radio" name="impresion" id="impresion_doslado" value="2 Lados"/> 2 Lados
+		<span id="mandatoryImpresion" class="isMandatory" style="display: none;">
+			<br />
+			Debe indicar el tipo de impresi&oacute;n que desea para su articulo.
+		</span>
+	</div>
+	<div>
 		<br />
 		Cargar Arte:
 		<br />
@@ -42,3 +53,4 @@
 	</div>
 	
 	<input type="submit" value="Solicitar" />
+	

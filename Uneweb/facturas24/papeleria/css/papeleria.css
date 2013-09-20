@@ -1,0 +1,11 @@
+@CHARSET "ISO-8859-1";
+
+.isMandatory {
+	color: red;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+a:HOVER {
+	text-decoration: none;	
+}

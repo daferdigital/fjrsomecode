@@ -10,10 +10,10 @@ String.prototype.trim=function(){
  * @param loadingImageId
  * @param containerName
  */
-function loadFrame(frameName, containerId) {
+function loadFrame(frameName, containerId, tipoContenido) {
 	var container = document.getElementById(containerId);
 	var url = "frames/" + frameName + ".php";
-	var parameters = "";
+	var parameters = "contenido=" + tipoContenido;
 	
 	if(container == null){
 		alert("No se encontro el container '" + containerId + "'");
@@ -85,4 +85,59 @@ function callAjax(url, parameters, idAnswerContainer, urlToRefresh){
 	//sin la linea siguiente no podemos enviar parametros via POST, solo seria por GET
 	ajaxObject.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	ajaxObject.send(parameters);
+}
+
+/**
+ * 
+ * @param forma
+ * @returns {Boolean}
+ */
+function validarSolicitud(forma){
+	var doSubmit = true;
+	
+	//verificamos los campos existentes para validarlos
+	var spanCantidad = document.getElementById("mandatoryCantidad");
+	if(spanCantidad != null){
+		spanCantidad.style.display= "none";
+		var field = document.getElementById("cantidad");
+		if(field != null && field.value == ""){
+			spanCantidad.style.display= "";
+			doSubmit = false;
+		}
+	}
+	
+	var spanImpresion = document.getElementById("mandatoryImpresion");
+	if(spanImpresion != null){
+		spanImpresion.style.display= "none";
+		var items = document.getElementsByName("impresion");
+		var oneIsChecked = false;
+		
+		if(items != null){
+			for ( var i = 0; i < items.length; i++) {
+				if(items[i].checked){
+					oneIsChecked = true;
+					break;
+				}
+			}
+			
+			doSubmit = oneIsChecked;
+			if(! oneIsChecked){
+				spanImpresion.style.display= "";
+			}
+		}
+	}
+	
+	var spanArtFile = document.getElementById("mandatoryArtFile");
+	if(spanArtFile != null){
+		spanArtFile.style.display= "none";
+		var field = document.getElementById("artFile");
+		if(field != null && field.value == ""){
+			spanArtFile.style.display= "";
+			doSubmit = false;
+		}
+	}
+	
+	
+	
+	return doSubmit;
 }
