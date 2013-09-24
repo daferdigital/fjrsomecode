@@ -24,8 +24,8 @@ public class CommTest
      * Wrapper around {@link CommPortIdentifier#getPortIdentifiers()} to be
      * avoid unchecked warnings.
      */
-    private static Enumeration<CommPortIdentifier> getCleanPortIdentifiers()
-    {
+    @SuppressWarnings("unchecked")
+	private static Enumeration<CommPortIdentifier> getCleanPortIdentifiers(){
         return CommPortIdentifier.getPortIdentifiers();
     }
 
