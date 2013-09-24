@@ -2,6 +2,7 @@
 include_once("DBConnection.php");
 
 class DBUtil {
+	private static $STORE_LOGS = false;
 	
 	/**
 	 * 
@@ -29,7 +30,7 @@ class DBUtil {
 					$resultArray[] = $r;
 				}
 				
-				//DBUtil::insertIntoSystemLog($querySelect, print_r($resultArray, true), ((int) time() - $time0));
+				DBUtil::insertIntoSystemLog($querySelect, print_r($resultArray, true), ((int) time() - $time0));
 			} else {
 				DBUtil::storeError($querySelect, mysql_error());
 			}
@@ -61,7 +62,7 @@ class DBUtil {
 				$result = false;
 				DBUtil::storeError($query, mysql_error());
 			} else {
-				//DBUtil::insertIntoSystemLog($query, "", time() - $time0);
+				DBUtil::insertIntoSystemLog($query, "", time() - $time0);
 			}
 		} catch (Exception $e) {
 			$result = false;
@@ -91,7 +92,7 @@ class DBUtil {
 				DBUtil::storeError($query, mysql_error());
 			} else {
 				$lastId = mysql_insert_id($dbConObj->getConnection());
-				//DBUtil::insertIntoSystemLog($query, "", time() - $time0);
+				DBUtil::insertIntoSystemLog($query, "", time() - $time0);
 			}
 		} catch (Exception $e) {
 			$lastId = 0;
@@ -132,9 +133,10 @@ class DBUtil {
 	 * @param unknown_type $query
 	 * @param unknown_type $pageToGet
 	 */
-	public static function getRecordsByPage($query, $pageToGet){
-		$userDTO = $_SESSION[Constants::$KEY_USUARIO_DTO];
-		$maxRecordsPerPage = $userDTO->getRegistrosPorPagina();
+	public static function getRecordsByPage($query, $pageToGet, $maxRecordsPerPage = 50){
+		//$userDTO = $_SESSION[Constants::$KEY_USUARIO_DTO];
+		//$maxRecordsPerPage = $userDTO->getRegistrosPorPagina();
+		//$maxRecordsPerPage = 50;
 		
 		$minIndex = (($pageToGet - 1) * $maxRecordsPerPage);
 		
@@ -154,25 +156,27 @@ class DBUtil {
 	 * @param int $timeExecution
 	 */
 	private static function insertIntoSystemLog($queryOperation, $result, $timeExecution){
-		$dbConObj = new DBConnection();
-		$usuario = "NULL";
-		
-		if(isset($_SESSION["usuario"])){
-			$usuario = $_SESSION["usuario"]->getId();
-		}
-		try {
-			$query = "INSERT INTO system_log (fecha, query, result, query_time, id_usuario)"
-			." VALUES(now(),'".str_replace("'","\\'", $queryOperation)."','".str_replace("'","\\'",$result)."',".$timeExecution.",".$usuario.")";
+		if(DBUtil::$STORE_LOGS){
+			$dbConObj = new DBConnection();
+			$usuario = "NULL";
 			
-			mysql_query($query, $dbConObj->getConnection());
-			if(mysql_error()){
-				DBUtil::storeError($query, mysql_error());
+			if(isset($_SESSION["usuario"])){
+				$usuario = $_SESSION["usuario"]->getId();
 			}
-		} catch (Exception $e) {
-			die("Error en insert de log del sistema ".$e->getMessage());
+			try {
+				$query = "INSERT INTO system_log (fecha, query, result, query_time, id_usuario)"
+				." VALUES(now(),'".str_replace("'","\\'", $queryOperation)."','".str_replace("'","\\'",$result)."',".$timeExecution.",".$usuario.")";
+				
+				mysql_query($query, $dbConObj->getConnection());
+				if(mysql_error()){
+					DBUtil::storeError($query, mysql_error());
+				}
+			} catch (Exception $e) {
+				die("Error en insert de log del sistema ".$e->getMessage());
+			}
+			
+			$dbConObj->closeConnection();
 		}
-		
-		$dbConObj->closeConnection();
 	}
 	
 	/**
@@ -182,19 +186,23 @@ class DBUtil {
 	 * @param string $result
 	 */
 	private static function storeError($queryOperation, $result){
-		$idUsuario = "NULL";
-		$time0 = time();
-		
-		if(isset($_SESSION["usuario"])){
-			$idUsuario = $_SESSION["usuario"]->getId();
+		if(DBUtil::$STORE_LOGS){
+			$idUsuario = "NULL";
+			$time0 = time();
+			
+			if(isset($_SESSION["usuario"])){
+				$idUsuario = $_SESSION["usuario"]->getId();
+			}
+			
+			$query = "INSERT INTO system_log (fecha, query, result, was_error, query_time, id_usuario)"
+					." VALUES(now(),'".str_replace("'","\\'", $queryOperation)."','".str_replace("'","\\'",$result)."','1',".(time() - $time0).",".$idUsuario.")";
+			
+			$dbConObj = new DBConnection();
+			mysql_query($query, $dbConObj->getConnection());
+			$dbConObj->closeConnection();
+		} else {
+			echo $result;
 		}
-		
-		$query = "INSERT INTO system_log (fecha, query, result, was_error, query_time, id_usuario)"
-		." VALUES(now(),'".str_replace("'","\\'", $queryOperation)."','".str_replace("'","\\'",$result)."','1',".(time() - $time0).",".$idUsuario.")";
-		
-		$dbConObj = new DBConnection();
-		mysql_query($query, $dbConObj->getConnection());
-		$dbConObj->closeConnection();	
 	}
 }
 ?>

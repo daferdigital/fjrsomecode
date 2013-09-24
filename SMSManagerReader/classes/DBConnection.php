@@ -1,9 +1,9 @@
 <?php
 class DBConnection {
 	private $server = "localhost";
-	private $username = "smsmanager";
-	private $password = "sms_r4d10";
-	private $dbSchema = "sms_db";
+	private $username = "root";
+	private $password = "root1006";
+	private $dbSchema = "seguridad3";
 	
 	private $dbConnection;
 	
