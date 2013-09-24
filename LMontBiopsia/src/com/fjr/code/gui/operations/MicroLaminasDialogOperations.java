@@ -42,6 +42,8 @@ public class MicroLaminasDialogOperations implements ActionListener, ListSelecti
 	private String fileToOpen;
 	private Vector<File> listFilesDataHidden = new Vector<File>();
 	private Vector<String> listFilesData = new Vector<String>();
+	private Vector<Integer> listReactivosDataHidden = new Vector<Integer>(0);
+	private Vector<String> listReactivosData = new Vector<String>(0);
 	
 	/**
 	 * 
@@ -95,12 +97,32 @@ public class MicroLaminasDialogOperations implements ActionListener, ListSelecti
 						filesItems += ";" + listFilesDataHidden.elementAt(i).getAbsolutePath();
 					}
 				}
+				
+				String listadoReactivos = null;
+				String idsReactivos = null;
+				//vaciamos la informacion de los reactivos
+				if(! listReactivosData.isEmpty()){
+					for (int i = 0; i < listReactivosData.size(); i++) {
+						if(listadoReactivos != null){
+							listadoReactivos += ";";
+							idsReactivos += ";";
+						} else {
+							listadoReactivos = "";
+							idsReactivos = "";
+						}
+						
+						listadoReactivos += listReactivosData.get(i);
+						idsReactivos += listReactivosDataHidden.get(i);
+					}
+				} else {
+					listadoReactivos = "";
+					idsReactivos = "-1";
+				}
+				
 				ventana.getRelatedTable().updateRow(ventana.getRowOrigin(), 
 						ventana.getTextADescripcion().getText(), 
-						ventana.getcBoxReactivo().getSelectedIndex() > 0 ? 
-								ventana.getcBoxReactivo().getSelectedItem().toString() : "",
-						ventana.getcBoxReactivo().getSelectedIndex() > 0 ? 
-								((ReactivoDTO) ventana.getcBoxReactivo().getSelectedItem()).getId() : 0,
+						listadoReactivos,
+						idsReactivos,
 						filesItems);
 			}
 			
@@ -116,6 +138,37 @@ public class MicroLaminasDialogOperations implements ActionListener, ListSelecti
 				listFilesData.trimToSize();
 				
 				ventana.getListLaminasFiles().setListData(listFilesData);
+			}
+		} else if (ACTION_COMMAND_BTN_ADD_REACTIVO.equals(e.getActionCommand())){
+			//tomamos la lista de reactivos y vemos si se marco alguno
+			//en ese caso lo agregamos solo si no estaba ya antes
+			int idReactivo = -2;
+			if(ventana.getcBoxReactivo().getSelectedIndex() > 0){
+				ReactivoDTO reactivo = (ReactivoDTO) ventana.getcBoxReactivo().getSelectedItem();
+				idReactivo = reactivo.getId();
+				
+				if(! listReactivosDataHidden.contains(idReactivo)){
+					//debo agregar del reactivo
+					listReactivosDataHidden.add(idReactivo);
+					listReactivosData.add(reactivo.getNombre());
+					
+					listReactivosDataHidden.trimToSize();
+					listReactivosData.trimToSize();
+					
+					ventana.getListReactivosAsignados().setListData(listReactivosData);
+				}
+			}
+		} else if (ACTION_COMMAND_BTN_DEL_REACTIVO.equals(e.getActionCommand())){
+			//tomamos la lista de reactivos y eliminamos el seleccionado si es que hay alguno marcado
+			int selectedIndex = ventana.getListReactivosAsignados().getSelectedIndex();
+			if(selectedIndex > -1){
+				listReactivosDataHidden.remove(selectedIndex);
+				listReactivosData.remove(selectedIndex);
+				
+				listReactivosDataHidden.trimToSize();
+				listReactivosData.trimToSize();
+				
+				ventana.getListReactivosAsignados().setListData(listReactivosData);
 			}
 		}
 	}

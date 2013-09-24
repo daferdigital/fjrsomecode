@@ -50,13 +50,14 @@ public class MicroLaminasDialog extends JDialog {
 	private JFileChooser fileChooser;
 	private JLabel lblFilePreview;
 	private String filesMicroPaths;
+	private JList listReactivosAsignados;
 	
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			MicroLaminasDialog dialog = new MicroLaminasDialog(null, 0, 0, "", "", "", 0, "");
+			MicroLaminasDialog dialog = new MicroLaminasDialog(null, 0, 0, "", "", "", "", "");
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -72,11 +73,11 @@ public class MicroLaminasDialog extends JDialog {
 	 * @param bloque
 	 * @param lamina
 	 * @param descripcion
-	 * @param idReactivo
+	 * @param idsReactivo
 	 * @param filesMicroPaths
 	 */
 	public MicroLaminasDialog(JTableMicroLaminas relatedTable, int rowOrigin, int cassete, String bloque, 
-			String lamina, String descripcion, int idReactivo, String filesMicroPaths) {
+			String lamina, String descripcion, String idsReactivo, String filesMicroPaths) {
 		this.relatedTable = relatedTable;
 		this.rowOrigin = rowOrigin;
 		this.filesMicroPaths = filesMicroPaths;
@@ -108,7 +109,7 @@ public class MicroLaminasDialog extends JDialog {
 		
 		cBoxReactivo = new JComboBox();
 		cBoxReactivo.setBounds(111, 34, 194, 23);
-		ReactivoDAO.populateJCombo(cBoxReactivo, idReactivo);
+		ReactivoDAO.populateJCombo(cBoxReactivo, 0);
 		
 		contentPanel.add(cBoxReactivo);
 		
@@ -128,8 +129,9 @@ public class MicroLaminasDialog extends JDialog {
 		scrollPane_2.setBounds(379, 11, 251, 106);
 		contentPanel.add(scrollPane_2);
 		
-		JList listReactivosAsignados = new JList();
+		listReactivosAsignados = new JList();
 		listReactivosAsignados.setBorder(new LineBorder(new Color(0, 0, 0)));
+		
 		scrollPane_2.setViewportView(listReactivosAsignados);
 		{
 			JLabel lbldescripcioacuten = new JLabel("<html>Descripci&oacute;n:</html>");
@@ -166,7 +168,7 @@ public class MicroLaminasDialog extends JDialog {
 		contentPanel.add(lblArchivos);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(144, 274, 144, 203);
+		scrollPane_1.setBounds(144, 274, 225, 203);
 		contentPanel.add(scrollPane_1);
 		
 		listLaminasFiles = new JList();
@@ -176,13 +178,13 @@ public class MicroLaminasDialog extends JDialog {
 		lblFilePreview = new JLabel("");
 		lblFilePreview.setToolTipText("Doble click para abrir el archivo con la aplicaci\u00F3n por defecto");
 		lblFilePreview.setBorder(new LineBorder(new Color(0, 0, 0)));
-		lblFilePreview.setBounds(297, 274, 141, 172);
+		lblFilePreview.setBounds(402, 274, 194, 172);
 		lblFilePreview.setName(MicroLaminasDialogOperations.ACTION_COMMAND_OPEN_FILE);
 		contentPanel.add(lblFilePreview);
 		
 		JButton btnEliminarArchivo = new JButton("Eliminar Archivo");
 		btnEliminarArchivo.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnEliminarArchivo.setBounds(307, 454, 124, 23);
+		btnEliminarArchivo.setBounds(442, 454, 124, 23);
 		btnEliminarArchivo.setActionCommand(MicroLaminasDialogOperations.ACTION_COMMAND_BTN_DELETE_FOTO);
 		contentPanel.add(btnEliminarArchivo);
 		
@@ -207,7 +209,10 @@ public class MicroLaminasDialog extends JDialog {
 		cancelButton.addActionListener(listener);
 		btnAnexarArchivo.addActionListener(listener);
 		btnEliminarArchivo.addActionListener(listener);
+		btnAddReactivo.addActionListener(listener);
+		btnDelReactivo.addActionListener(listener);
 		listLaminasFiles.addListSelectionListener(listener);
+		listReactivosAsignados.addListSelectionListener(listener);
 		fileChooser = new JFileChooser();
 		fileChooser.setMultiSelectionEnabled(true);
 		
@@ -268,6 +273,10 @@ public class MicroLaminasDialog extends JDialog {
 	 */
 	public JList getListLaminasFiles() {
 		return listLaminasFiles;
+	}
+	
+	public JList getListReactivosAsignados() {
+		return listReactivosAsignados;
 	}
 	
 	public String getFilesMicroPaths() {

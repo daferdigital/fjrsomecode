@@ -14,7 +14,9 @@ public enum FasesBiopsia {
 	MACROSCOPICA(2, "Macroscópica", "biopsias_macroscopicas"),
 	HISTOLOGIA(3, "Histología", "biopsias_histologias"),
 	MICROSCOPICA(4, "Microscópica", "biopsias_microscopicas"),
-	IHQ(5, "IHQ", "biopsias_ihq");
+	IHQ(5, "IHQ", "biopsias_ihq"),
+	ENTREGA(6, "Entrega", "biopsias_ingresos"),
+	CONFIRMAR_IHQ(6, "Confirmar IHQ", "biopsias_ihq");
 	
 	private int codigoFase;
 	private String nombreFase;

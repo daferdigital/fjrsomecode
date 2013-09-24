@@ -12,6 +12,8 @@ import com.fjr.code.dto.BiopsiaInfoDTO;
 import com.fjr.code.dto.BiopsiaMacroFotoDTO;
 import com.fjr.code.dto.BiopsiaMicroLaminasDTO;
 import com.fjr.code.dto.BiopsiaMicroLaminasFileDTO;
+import com.fjr.code.dto.ReactivoDTO;
+import com.fjr.code.util.Constants;
 import com.fjr.code.util.DBUtil;
 
 /**
@@ -474,12 +476,14 @@ public class BiopsiaInfoDAO {
 	/**
 	 * 
 	 * @param biopsiaInfoDTO
+	 * @param goToIHQ
 	 * @return
 	 */
-	public static boolean updateMicro(BiopsiaInfoDTO biopsiaInfoDTO) {
+	public static boolean updateMicro(BiopsiaInfoDTO biopsiaInfoDTO, boolean goToIHQ) {
 		final String queryInsertMicro = "INSERT INTO biopsias_microscopicas (id, idx, diagnostico) VALUES (?,?,?)";
 		final String queryUpdateMicro = "UPDATE biopsias_microscopicas SET idx=?, diagnostico=? WHERE id=? ";
-		final String queryLaminas = "UPDATE micro_laminas SET descripcion=?, id_reactivo=? WHERE id=? AND cassete=? AND bloque=? AND lamina=?";
+		final String queryInsertLaminasReactivos = "INSERT INTO micro_laminas (descripcion, id_reactivo, id, cassete, bloque, lamina) VALUES(?,?,?,?,?,?)";
+		final String queryLaminasReactivos = "DELETE FROM micro_laminas WHERE id=? AND cassete=? AND bloque=? AND lamina=?";
 		final String queryDeleteLaminasFiles = "DELETE FROM micro_laminas_files WHERE id=? AND cassete=? AND bloque=? AND lamina=?";
 		final String queryLaminasFiles = "INSERT INTO micro_laminas_files (id, cassete, bloque, lamina, file_name, file_content) VALUES (?,?,?,?,?,?)";
 		
@@ -516,49 +520,69 @@ public class BiopsiaInfoDAO {
 			//guardamos las laminas de la biopsia en cuestion
 			List<BiopsiaMicroLaminasDTO> laminas = biopsiaInfoDTO.getMicroscopicaDTO().getLaminasDTO();
 			for (BiopsiaMicroLaminasDTO lamina : laminas) {
-				parameters.clear();
-				parameters.add(lamina.getDescripcion());
-				if(lamina.getReactivoDTO() == null){
-					parameters.add(DBUtil.NULL_PARAMETER);
-				} else {
-					parameters.add(lamina.getReactivoDTO().getId());
-				}
-				parameters.add(biopsiaInfoDTO.getId());
-				parameters.add(lamina.getCassete());
-				parameters.add(lamina.getBloque());
-				parameters.add(lamina.getLamina());
-				
-				if(! DBUtil.executeNonSelectQuery(queryLaminas, parameters)){
-					result = false;
-					break;
-				} else {
-					log.info("Almacenada micro_lamina: " + lamina + " procedemos a almacenar sus files");
-					List<BiopsiaMicroLaminasFileDTO> listaFiles = lamina.getMicroLaminasFilesDTO();
+				log.info("Almacenada micro_lamina: " + lamina + " procedemos a almacenar sus files");
+				List<BiopsiaMicroLaminasFileDTO> listaFiles = lamina.getMicroLaminasFilesDTO();
 					
-					if(listaFiles != null && listaFiles.size() > 0) {
-						parameters.clear();
-						parameters.add(biopsiaInfoDTO.getId());
-						parameters.add(lamina.getCassete());
-						parameters.add(lamina.getBloque());
-						parameters.add(lamina.getLamina());
+				if(listaFiles != null && listaFiles.size() > 0) {
+					parameters.clear();
+					parameters.add(biopsiaInfoDTO.getId());
+					parameters.add(lamina.getCassete());
+					parameters.add(lamina.getBloque());
+					parameters.add(lamina.getLamina());
 						
-						if(! DBUtil.executeNonSelectQuery(queryDeleteLaminasFiles, parameters)){
-							result = false;
-						} else {
-							//se eliminaron los files anteriores, se almacenaran los nuevos
-							for (BiopsiaMicroLaminasFileDTO biopsiaMicroLaminasFileDTO : listaFiles) {
-								parameters.clear();
-								parameters.add(biopsiaInfoDTO.getId());
-								parameters.add(lamina.getCassete());
-								parameters.add(lamina.getBloque());
-								parameters.add(lamina.getLamina());
-								parameters.add(biopsiaMicroLaminasFileDTO.getMediaFile().getName());
-								parameters.add(biopsiaMicroLaminasFileDTO.getFileStream());
-								
-								if(!DBUtil.executeInsertQueryAsBoolean(queryLaminasFiles, parameters)){
-									result = false;
-									break;
-								}
+					if(! DBUtil.executeNonSelectQuery(queryDeleteLaminasFiles, parameters)){
+						result = false;
+					} else {
+						//se eliminaron los files anteriores, se almacenaran los nuevos
+						for (BiopsiaMicroLaminasFileDTO biopsiaMicroLaminasFileDTO : listaFiles) {
+							parameters.clear();
+							parameters.add(biopsiaInfoDTO.getId());
+							parameters.add(lamina.getCassete());
+							parameters.add(lamina.getBloque());
+							parameters.add(lamina.getLamina());
+							parameters.add(biopsiaMicroLaminasFileDTO.getMediaFile().getName());
+							parameters.add(biopsiaMicroLaminasFileDTO.getFileStream());
+							
+							if(!DBUtil.executeInsertQueryAsBoolean(queryLaminasFiles, parameters)){
+								result = false;
+								break;
+							}
+						}
+					}
+					
+					List<ReactivoDTO> reactivos = lamina.getReactivosDTO();
+					
+					parameters.clear();
+					parameters.add(biopsiaInfoDTO.getId());
+					parameters.add(lamina.getCassete());
+					parameters.add(lamina.getBloque());
+					parameters.add(lamina.getLamina());
+					DBUtil.executeNonSelectQuery(queryLaminasReactivos, parameters);
+					
+					parameters.clear();
+					parameters.add(lamina.getDescripcion());
+					parameters.add(Constants.REACTIVO_VACIO);
+					parameters.add(biopsiaInfoDTO.getId());
+					parameters.add(lamina.getCassete());
+					parameters.add(lamina.getBloque());
+					parameters.add(lamina.getLamina());
+					if(! DBUtil.executeNonSelectQuery(queryInsertLaminasReactivos, parameters)){
+						result = false;
+					}
+					
+					if(result && reactivos != null && reactivos.size() > 0) {
+						for (ReactivoDTO reactivo : reactivos) {
+							parameters.clear();
+							parameters.add(lamina.getDescripcion());
+							parameters.add(reactivo.getId());
+							parameters.add(biopsiaInfoDTO.getId());
+							parameters.add(lamina.getCassete());
+							parameters.add(lamina.getBloque());
+							parameters.add(lamina.getLamina());
+							
+							if(!DBUtil.executeNonSelectQuery(queryInsertLaminasReactivos, parameters)){
+								result = false;
+								break;
 							}
 						}
 					}

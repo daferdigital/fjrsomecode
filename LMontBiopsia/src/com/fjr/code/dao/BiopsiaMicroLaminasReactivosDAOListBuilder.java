@@ -14,80 +14,72 @@ import com.fjr.code.util.DBUtil;
 
 /**
  * 
- * Class: ReactivoDAOListBuilder
- * Creation Date: 28/08/2013
+ * Class: BiopsiaMicroLaminasReactivosDAOListBuilder
+ * Creation Date: 14/09/2013
  * (c) 2013
  *
  * @author T&T
  *
  */
-final class ReactivoDAOListBuilder implements DAOListBuilder<ReactivoDTO>{
-	/**
-	 * 
-	 */
-	private static final Logger log = Logger.getLogger(ReactivoDAOListBuilder.class);
-	
+final class BiopsiaMicroLaminasReactivosDAOListBuilder implements DAOListBuilder<ReactivoDTO> {
+	private static final Logger log = Logger.  getLogger(BiopsiaMicroLaminasReactivosDAOListBuilder.class);
 	
 	private static final String BEGIN = "SELECT cr.id, cr.nombre, r.id, r.nombre, r.abreviatura, r.precio "
-				+ " FROM reactivos r, categorias_reactivos cr"
-				+ " WHERE r.id > 0"
-				+ " AND r.id_categoria_reactivo = cr.id";
+			+ " FROM micro_laminas ml, reactivos r, categorias_reactivos cr"
+			+ " WHERE r.id > 0"
+			+ " AND r.id_categoria_reactivo = cr.id "
+			+ " AND ml.id_reactivo = r.id";
 	
 	private static final String END = " ORDER BY r.nombre";
 	
-	
-	private List<Object> parameters;
 	private String customWhere;
+	private List<Object> parameters;
 	
 	/**
 	 * 
 	 */
-	public ReactivoDAOListBuilder() {
+	public BiopsiaMicroLaminasReactivosDAOListBuilder() {
 		// TODO Auto-generated constructor stub
-		parameters = new LinkedList<Object>();
 		customWhere = "";
+		parameters = new LinkedList<Object>();
 	}
-
-	/**
-	 * 
-	 * @param id
-	 */
-	public void searchById(int id){
-		customWhere += " AND r.id = ?";
+	
+	
+	public void searchByIdBiopsia(int id){
+		customWhere += " AND ml.id = ?";
 		parameters.add(id);
 	}
 	
-	/**
-	 * 
-	 * @param id
-	 */
-	public void searchByCategoryId(int categoryId){
-		customWhere += " AND cr.id = ?";
-		parameters.add(categoryId);
+	public void searchByCassete(int cassete){
+		customWhere += " AND ml.cassete = ?";
+		parameters.add(cassete);
 	}
 	
-	/**
-	 * 
-	 * @return
-	 */
-	public String getQuery(){
-		return BEGIN + customWhere + END;
+	public void searchByBloque(int bloque){
+		customWhere += " AND ml.bloque = ?";
+		parameters.add(bloque);
 	}
 	
-	/**
-	 * 
-	 * @return
-	 */
-	public List<Object> getParameters(){
+	public void searchByLamina(int lamina){
+		customWhere += " AND ml.lamina = ?";
+		parameters.add(lamina);
+	}
+	
+	@Override
+	public List<Object> getParameters() {
+		// TODO Auto-generated method stub
 		return parameters;
 	}
-	
-	/**
-	 * Ejecutamos el query contenido en el objeto y retornamos los resultados en una lista.
-	 * 
-	 * @return
-	 */
-	public List<ReactivoDTO> getResults(){
+
+	@Override
+	public String getQuery() {
+		// TODO Auto-generated method stub
+		return BEGIN + customWhere + END;
+	}
+
+	@Override
+	public List<ReactivoDTO> getResults() {
+		// TODO Auto-generated method stub
 		List<ReactivoDTO> results = new LinkedList<ReactivoDTO>();
 		
 		try {
@@ -105,6 +97,8 @@ final class ReactivoDAOListBuilder implements DAOListBuilder<ReactivoDTO>{
 				tempDTO.setPrecio(rowSet.getDouble(6));
 				tempDTO.setCategoriaReactivoDTO(categoriaDTO);
 				
+				
+				log.info("Leida de la base de datos reactivo de lamina micro: " + tempDTO);
 				results.add(tempDTO);
 			}
 		} catch (Exception e) {
