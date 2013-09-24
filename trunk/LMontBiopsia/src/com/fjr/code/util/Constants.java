@@ -59,6 +59,12 @@ public final class Constants {
 	public static final int MAX_RECORDS_PER_PAGE = 50;
 	
 	/**
+	 * Codigo de reactivo a usar como vacio para poder cumplir con la FK de micro laminas recien creadas
+	 * 
+	 */
+	public static final int REACTIVO_VACIO = -1;
+	
+	/**
 	 * 
 	 */
 	public static void setLookAndFeel() {

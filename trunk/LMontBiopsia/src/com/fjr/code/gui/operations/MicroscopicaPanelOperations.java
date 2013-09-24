@@ -16,6 +16,7 @@ import com.fjr.code.dao.definitions.FasesBiopsia;
 import com.fjr.code.dto.BiopsiaInfoDTO;
 import com.fjr.code.dto.BiopsiaMicroLaminasDTO;
 import com.fjr.code.dto.BiopsiaMicroLaminasFileDTO;
+import com.fjr.code.dto.ReactivoDTO;
 import com.fjr.code.gui.MicroscopicaPanel;
 import com.fjr.code.util.GUIPressedOrTypedNroBiopsia;
 import com.fjr.code.util.SecurityEditCode;
@@ -94,13 +95,29 @@ public class MicroscopicaPanelOperations implements KeyListener, ActionListener{
 					}
 				}
 				
+				String reactivos = "";
+				String ids = "-1";
+				
+				if(lamina.getReactivosDTO() != null
+						&& lamina.getReactivosDTO().size() > 0){
+					for (ReactivoDTO reactivo : lamina.getReactivosDTO()) {
+						if("".equals(files)){
+							files += reactivo.getNombre();
+							ids = "" + reactivo.getId();
+						} else {
+							files += ";" + reactivo.getNombre();
+							ids += ";" + reactivo.getId();
+						}
+					}
+				}
+				
 				ventana.getTableMicroLaminas().addRow(
 						Integer.toString(lamina.getCassete()), 
 						Integer.toString(lamina.getBloque()), 
 						Integer.toString(lamina.getLamina()), 
 						lamina.getDescripcion() == null ? "" : lamina.getDescripcion(),
-						lamina.getReactivoDTO() == null ? 0 : lamina.getReactivoDTO().getId(),
-						lamina.getReactivoDTO() == null ? "" : lamina.getReactivoDTO().getNombre(), 
+						ids,
+						reactivos, 
 						files);
 			}
 		}
@@ -123,7 +140,7 @@ public class MicroscopicaPanelOperations implements KeyListener, ActionListener{
 				//la informacion esta completa y valida
 				//guardamos la biopsia
 				biopsiaInfoDTO = buildDTOFromVentana();
-				whatToDowithBiopsia(biopsiaInfoDTO, goToIHQ, goToIHQ);
+				whatToDowithBiopsia(biopsiaInfoDTO, goToDiagnostico, goToIHQ);
 			}
 		}
 	}
@@ -179,7 +196,7 @@ public class MicroscopicaPanelOperations implements KeyListener, ActionListener{
 			errors += "Debe introcudir un número de biopsia\n";
 		} else {
 			if("".equals(ventana.getTextNombrePaciente().getText())
-					|| "".equals(ventana.getTextPiezaRecibida().getText())
+					//|| "".equals(ventana.getTextPiezaRecibida().getText())
 					|| "".equals(ventana.getTextExamenARealizar().getText())){
 				errors += "Verifique que el número de biopsia es correcto.\n";
 			}
@@ -264,27 +281,42 @@ public class MicroscopicaPanelOperations implements KeyListener, ActionListener{
 		// TODO Auto-generated method stub
 		//ya tenemos verificada la informacion basica de la biopsia
 		//procedemos a guardarla
-		if(BiopsiaInfoDAO.updateMicro(biopsiaInfoDTO)){
+		if(BiopsiaInfoDAO.updateMicro(biopsiaInfoDTO, goToIHQ)){
 			if(goToDiagnostico){
-				if(biopsiaInfoDTO.getMacroscopicaDTO().getCassetesDTO() == null
-						|| biopsiaInfoDTO.getMacroscopicaDTO().getCassetesDTO().size() < 1
-						|| biopsiaInfoDTO.getMacroscopicaDTO().getMacroFotosDTO() == null
-						|| biopsiaInfoDTO.getMacroscopicaDTO().getMacroFotosDTO().size() < 1){
-					//tenemos el objeto, pero se desea pasar a info sin fotos ni cassetes
-					JOptionPane.showMessageDialog(ventana, 
-							"Se desea avanzar a la fase de Histologia, pero no se han registrado fotos ni cassetes.",
-							"Información incompleta", 
-							JOptionPane.ERROR_MESSAGE);
-				} else {
-					//tenemos todo para pasar a histo
-					if(BiopsiaInfoDAO.moveBiopsiaToFase(biopsiaInfoDTO, FasesBiopsia.HISTOLOGIA)){
+				if(BiopsiaInfoDAO.moveBiopsiaToFase(biopsiaInfoDTO, FasesBiopsia.ENTREGA)){
+					//tenemos todo para pasar a entrega
+					if(BiopsiaInfoDAO.moveBiopsiaToFase(biopsiaInfoDTO, FasesBiopsia.ENTREGA)){
 						JOptionPane.showMessageDialog(ventana, 
 								"La biopsia " + biopsiaInfoDTO.getCodigo() + " fue actualizada correctamente.\n"
-								+ "Y llevada a la fase de Histologia",
+								+ "Y llevada a la fase de Entrega",
 								"Operación Realizada", 
 								JOptionPane.INFORMATION_MESSAGE);
 						ventana.setVisible(false);
 					}
+				} else {
+					//tenemos el objeto, pero se desea pasar a info sin fotos ni cassetes
+					JOptionPane.showMessageDialog(ventana, 
+							"No pudo llevarse la biopsia a la fase de entrega.",
+							"Actualización Incompleta", 
+							JOptionPane.ERROR_MESSAGE);
+				}
+			} else if(goToIHQ){
+				if(BiopsiaInfoDAO.moveBiopsiaToFase(biopsiaInfoDTO, FasesBiopsia.CONFIRMAR_IHQ)){
+					//tenemos todo para pasar a entrega
+					if(BiopsiaInfoDAO.moveBiopsiaToFase(biopsiaInfoDTO, FasesBiopsia.ENTREGA)){
+						JOptionPane.showMessageDialog(ventana, 
+								"La biopsia " + biopsiaInfoDTO.getCodigo() + " fue actualizada correctamente.\n"
+								+ "Y se esta esperando la aprobación para la petición de IHQ de la misma",
+								"Operación Realizada", 
+								JOptionPane.INFORMATION_MESSAGE);
+						ventana.setVisible(false);
+					}
+				} else {
+					//tenemos el objeto, pero se desea pasar a info sin fotos ni cassetes
+					JOptionPane.showMessageDialog(ventana, 
+							"No pudo llevarse la biopsia a la fase de IHQ.",
+							"Actualización Incompleta", 
+							JOptionPane.ERROR_MESSAGE);
 				}
 			} else {
 				JOptionPane.showMessageDialog(ventana, 

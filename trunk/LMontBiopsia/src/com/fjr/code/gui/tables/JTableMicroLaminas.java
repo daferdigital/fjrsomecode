@@ -12,10 +12,11 @@ import java.util.Vector;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import com.fjr.code.dao.ReactivoDAO;
 import com.fjr.code.dto.BiopsiaMicroLaminasDTO;
 import com.fjr.code.dto.BiopsiaMicroLaminasFileDTO;
+import com.fjr.code.dto.ReactivoDTO;
 import com.fjr.code.gui.MicroLaminasDialog;
+import com.fjr.code.util.Constants;
 
 /**
  * 
@@ -86,7 +87,7 @@ public class JTableMicroLaminas {
 							model.getValueAt(table.getSelectedRow(), 1).toString(),
 							model.getValueAt(table.getSelectedRow(), 2).toString(),
 							model.getValueAt(table.getSelectedRow(), 3).toString(),
-							Integer.parseInt(model.getValueAt(table.getSelectedRow(), 5).toString()),
+							model.getValueAt(table.getSelectedRow(), 5).toString(),
 							model.getValueAt(table.getSelectedRow(), 6).toString()).setVisible(true);
 					e.consume();
 				}
@@ -148,14 +149,14 @@ public class JTableMicroLaminas {
 	 * @param pathToPictures
 	 */
 	public void addRow(String cassete, String bloque, String lamina, String descripcion, 
-			int idReactivo, String nombreReactivo, String pathToPictures){
+			String idsReactivo, String nombreReactivo, String pathToPictures){
 		Vector<Object> rowData = new Vector<Object>();
 		rowData.add(cassete);
 		rowData.add(bloque);
 		rowData.add(lamina);
 		rowData.add(descripcion);
 		rowData.add(nombreReactivo);
-		rowData.add(idReactivo);
+		rowData.add(idsReactivo);
 		rowData.add(pathToPictures);
 		
 		model.addRow(rowData);
@@ -168,11 +169,11 @@ public class JTableMicroLaminas {
 	 * @param reactivo
 	 * @param pathToPictures
 	 */
-	public void updateRow(int row, String descripcion, String reactivo, int idReactivo, String pathToPictures){
+	public void updateRow(int row, String descripcion, String reactivos, String idsReactivo, String pathToPictures){
 		if(row > -1){
 			model.setValueAt(descripcion, row, 3);
-			model.setValueAt(reactivo, row, 4);
-			model.setValueAt(idReactivo, row, 5);
+			model.setValueAt(reactivos, row, 4);
+			model.setValueAt(idsReactivo, row, 5);
 			model.setValueAt(pathToPictures, row, 6);
 		}
 	}
@@ -201,10 +202,23 @@ public class JTableMicroLaminas {
 				laminasDTO.setBloque(Integer.parseInt(model.getValueAt(i, 1).toString()));
 				laminasDTO.setLamina(Integer.parseInt(model.getValueAt(i, 2).toString()));
 				laminasDTO.setDescripcion(model.getValueAt(i, 3).toString());
-				laminasDTO.setReactivoDTO(ReactivoDAO.getById(
-						Integer.parseInt(model.getValueAt(i, 5).toString())));
 				
-				String[] pieces = model.getValueAt(i, 6).toString().split(";");
+				String[] pieces = model.getValueAt(i, 5).toString().split(";");
+				if(pieces != null && pieces.length > 0){
+					List<ReactivoDTO> reactivos = new LinkedList<ReactivoDTO>();
+					for (String id : pieces) {
+						if(! Integer.toString(Constants.REACTIVO_VACIO).equals(id)){
+							ReactivoDTO tmp = new ReactivoDTO();
+							tmp.setId(Integer.parseInt(id));
+							
+							reactivos.add(tmp);
+						}
+					}
+					
+					laminasDTO.setReactivosDTO(reactivos);
+				}
+				
+				pieces = model.getValueAt(i, 6).toString().split(";");
 				if(pieces != null && pieces.length > 0){
 					List<BiopsiaMicroLaminasFileDTO> files = new LinkedList<BiopsiaMicroLaminasFileDTO>();
 					

@@ -222,6 +222,9 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 		if("".equals(ventana.getLblTipoExamen().getText())){
 			errors += "Debe indicar el tipo de examen asociado a esta biopsia.\n";
 		}
+		if(ventana.getComboPatologo().getSelectedIndex() < 1){
+			errors += "Debe indicar el Patologo encargado de esta biopsia.\n";
+		}
 		
 		if(! "".equals(errors)){
 			isValid = false;

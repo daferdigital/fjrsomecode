@@ -22,6 +22,8 @@ import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
 import javax.swing.SwingConstants;
 import java.awt.Rectangle;
+import javax.swing.JSeparator;
+import javax.swing.JTable;
 
 /**
  * 
@@ -54,6 +56,7 @@ public class IngresoPanel extends JPanel {
 	private JTextArea textAreaIDx;
 	private JLabel lblTipoExamen;
 	private JLabel lblNumeroDias;
+	private JTable table;
 	
 	/**
 	 * 
@@ -231,7 +234,7 @@ public class IngresoPanel extends JPanel {
 		lblDejeEnBlanco.setBounds(364, 11, 136, 28);
 		add(lblDejeEnBlanco);
 		
-		setSize(500, 500);
+		setSize(1000, 500);
 		setLocation(0, Constants.APP_MENU_HEIGTH);
 		
 		JButton btnGuardar = new JButton("Guardar");
@@ -261,6 +264,25 @@ public class IngresoPanel extends JPanel {
 		
 		//asignamos el listener
 		IngresoPanelOperations listener = new IngresoPanelOperations(this);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBorder(new LineBorder(new Color(0, 0, 0)));
+		separator.setBackground(Color.BLACK);
+		separator.setBounds(510, 0, 2, 500);
+		add(separator);
+		
+		JLabel lblBiopsiasEntregadasA = new JLabel("Biopsias Entregadas a Diagnostico");
+		lblBiopsiasEntregadasA.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblBiopsiasEntregadasA.setBounds(522, 11, 230, 17);
+		add(lblBiopsiasEntregadasA);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBorder(new LineBorder(new Color(130, 135, 144)));
+		scrollPane.setBounds(546, 40, 340, 180);
+		add(scrollPane);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
 		textCedula.addKeyListener(listener);
 		if(! isNewBiopsia){
 			textNroBiopsia.addInputMethodListener(listener);

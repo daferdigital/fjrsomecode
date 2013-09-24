@@ -99,6 +99,6 @@ public class ExamenBiopsiaDTO {
 	
 	@Override
 	public String toString() {
-		return codigoTipoExamen + "-" + codigoExamen + " " + nombreExamen;
+		return nombreExamen;
 	}
 }

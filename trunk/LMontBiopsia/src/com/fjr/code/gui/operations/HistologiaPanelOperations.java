@@ -197,7 +197,7 @@ public class HistologiaPanelOperations implements ActionListener, KeyListener{
 			errors += "Debe introcudir un número de biopsia\n";
 		} else {
 			if("".equals(ventana.getTextNombrePaciente().getText())
-					|| "".equals(ventana.getTextPiezaRecibida().getText())
+					//|| "".equals(ventana.getTextPiezaRecibida().getText())
 					|| "".equals(ventana.getTextExamenARealizar().getText())){
 				errors += "Verifique que el número de biopsia es correcto.\n";
 			}

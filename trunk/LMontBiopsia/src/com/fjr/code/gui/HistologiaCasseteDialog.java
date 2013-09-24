@@ -141,6 +141,8 @@ public class HistologiaCasseteDialog extends JDialog {
 		HistologiaCasseteDialogOperations listener = new HistologiaCasseteDialogOperations(this);
 		okButton.addActionListener(listener);
 		cancelButton.addActionListener(listener);
+		
+		setLocationRelativeTo(null);
 	}
 	
 	public JLabel getLblNumeroCassete() {

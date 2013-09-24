@@ -17,7 +17,7 @@ public class BiopsiaMicroLaminasDTO {
 	private int bloque;
 	private int lamina;
 	private String descripcion;
-	private ReactivoDTO reactivoDTO;
+	private List<ReactivoDTO> reactivosDTO;
 	private List<BiopsiaMicroLaminasFileDTO> microLaminasFilesDTO; 
 	
 	public BiopsiaMicroLaminasDTO() {
@@ -64,12 +64,12 @@ public class BiopsiaMicroLaminasDTO {
 		this.descripcion = descripcion;
 	}
 
-	public ReactivoDTO getReactivoDTO() {
-		return reactivoDTO;
+	public List<ReactivoDTO> getReactivosDTO() {
+		return reactivosDTO;
 	}
 
-	public void setReactivoDTO(ReactivoDTO reactivoDTO) {
-		this.reactivoDTO = reactivoDTO;
+	public void setReactivosDTO(List<ReactivoDTO> reactivosDTO) {
+		this.reactivosDTO = reactivosDTO;
 	}
 	
 	public List<BiopsiaMicroLaminasFileDTO> getMicroLaminasFilesDTO() {
@@ -86,7 +86,7 @@ public class BiopsiaMicroLaminasDTO {
 		return "BiopsiaMicroLaminasDTO [id=" + id + ", cassete=" + cassete
 				+ ", bloque=" + bloque + ", lamina=" + lamina
 				+ ", descripcion=" + descripcion + ", reactivoDTO="
-				+ reactivoDTO + ", microLaminasFilesDTO="
+				+ reactivosDTO + ", microLaminasFilesDTO="
 				+ microLaminasFilesDTO + "]";
 	}
 }
