@@ -9,6 +9,8 @@ import javax.comm.SerialPort;
 
 import org.apache.log4j.Logger;
 
+import com.fjr.serialport.events.SerialPortEventHandler;
+
 /**
  * 
  * Class: SendCommandUtil
@@ -22,6 +24,37 @@ public final class SendCommandUtil {
 	private static final Logger log = Logger.getLogger(SendCommandUtil.class);
 	
 	private static final int BAUDS = 9600;
+	
+	/**
+	 * Metodo para ejecutar un comando AT en el puerto indicado.
+	 * 
+	 * @param port Puerto en el cual se ejecutara el comando indicado
+	 * @param command Comando AT a ejecutar
+	 */
+	public static String sendCommandToPortListener(CommPortIdentifier port, String command){
+		String response = null;
+		SerialPort serialPort = null;
+		InputStream is = null;
+		OutputStream os = null;
+		int c;
+		
+		String fixedCommand = command + "\r";
+		
+		try{
+			//ajustamos el puerto
+			serialPort = (SerialPort) port.open("SMSLibCommTester", 1971);
+			serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN);
+            serialPort.setSerialPortParams(BAUDS, 
+            		SerialPort.DATABITS_8, 
+            		SerialPort.STOPBITS_1, 
+            		SerialPort.PARITY_NONE);
+            serialPort.addEventListener(new SerialPortEventHandler());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		
+		return "";
+	}
 	
 	/**
 	 * Metodo para ejecutar un comando AT en el puerto indicado.
@@ -46,6 +79,7 @@ public final class SendCommandUtil {
             		SerialPort.DATABITS_8, 
             		SerialPort.STOPBITS_1, 
             		SerialPort.PARITY_NONE);
+            serialPort.addEventListener(new SerialPortEventHandler());
             
             //obtenemos los flujos de entrada y salida
             is = serialPort.getInputStream();

@@ -69,6 +69,7 @@ public final class PortScanManager extends TimerTask {
 				if(! availablePorts.containsKey(commPortIdentifier.getName())){
 					log.info("Registrando puerto '" + commPortIdentifier.getName() 
 							+ "' por primera vez");
+					
 					availablePorts.put(commPortIdentifier.getName(),
 							new SMSReadThread(commPortIdentifier.getName(),
 									commPortIdentifier));
