@@ -1,4 +1,4 @@
-var ajaxImageName = "ajax.gif";
+var ajaxImageName = "loadIndicator.gif";
 
 String.prototype.trim=function(){
 	return this.replace(/^\s+|\s+$/g, '');
@@ -363,16 +363,15 @@ function searchPersonal(pageNumber){
  * Llamada Ajax para obtener el listado del solicitudes de permisos del sistema
  * @param pageNumber
  */
-function searchSolicitudes(pageNumber){
+function searchSMSAjax(pageNumber){
 	var parameters = "pageNumber="+pageNumber;
-	parameters += "&scriptFunction=searchSolicitudes";
-	parameters += "&funcionario=" + document.getElementById("funcionario").value;
-	parameters += "&tipoSolicitud=" + document.getElementById("tipoSolicitud").value;
-	parameters += "&fechaSalida=" + document.getElementById("fechaSalidaHidden").value.trim();
-	parameters += "&fechaLlegada=" + document.getElementById("fechaLlegadaHidden").value;
-	parameters += "&activo=" + document.getElementById("activo").value;
+	parameters += "&scriptFunction=searchSMSAjax";
+	parameters += "&texto=" + document.getElementById("texto").value.trim();
+	parameters += "&remitente=" + document.getElementById("remitente").value.trim();
+	parameters += "&fechaDesde=" + document.getElementById("fechaDesde").value.trim();
+	parameters += "&fechaHasta=" + document.getElementById("fechaHasta").value.trim();
 	
-	callAjax("ajax/getListarSolicitudes.php",
+	callAjax("ajax/getSMSRecibidos.php",
 			parameters,
 			"ajaxPageResult",
 			null);
