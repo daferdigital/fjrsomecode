@@ -2,23 +2,15 @@
 	include_once 'classes/UsuarioDTO.php';
 	include_once 'classes/Constants.php';
 	include_once 'classes/SessionUtil.php';
-	
 	session_start();
-	$imageName = "images/header3.jpg";
-	$isLogged = false;
 	
-	if(isset($_SESSION["imageHeader"])){
-		$imageName = $_SESSION["imageHeader"];
-	}
-	if(isset($_SESSION[SessionUtil::$KEY_USER_LOGGED])){
-		$isLogged = $_SESSION[SessionUtil::$KEY_USER_LOGGED];
-	}
+	$isLogged = SessionUtil::checkIfUserIsLogged();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Strict//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-		<title>.::: Coordinaci&oacute;n de Seguridad :::.</title>
+		<title>.::: SMSManager Reader :::.</title>
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
 		<link rel="stylesheet" type="text/css" href="css/jquerycssmenu.css" />
 		<link rel="stylesheet" type="text/css" href="css/jsDatePick_ltr.css" />
@@ -34,7 +26,7 @@
 <body>
 <table width="1000"  border="0" align="center" cellpadding="0" cellspacing="0" id="tab" >
 	<tr>
-    	<th colspan="2" scope="col"><img src="<?php echo $imageName;?>" id="td1"/></th>
+    	<th colspan="2" scope="col"><img src="images/header.png" id="td1"/></th>
   	</tr>
   	<?php
   		//si el usuario esta logueado, mostramos el menu

@@ -1,31 +1,26 @@
 	<div id="myjquerymenu" class="jquerycssmenu" style="height: 25px;">
 		<ul>
 			<li>
-				<a href="#" class="MenuBarItemSubmenu">Personal</a>
+				<a href="#" class="MenuBarItemSubmenu">Mensajes</a>
 				<ul>
 					<li>
-						<a href="formAgregarPersonal.php">
-							Agregar
+						<a href="formListarMensajes.php">
+							Listar
 						</a>
 					</li>
 					<li>
-						<a href="formListarPersonal.php">
-							Listar
+						<a href="formListarEliminados.php">
+							Ver Mensajes Eliminados
 						</a>
 					</li>
 				</ul>
 			</li>
 			<li>
-				<a href="#" class="MenuBarItemSubmenu">Solicitudes</a>
+				<a href="#" class="MenuBarItemSubmenu">Correos</a>
 				<ul>
 					<li>
-						<a href="formAgregarSolicitud.php">
-							Agregar
-						</a>
-					</li>
-					<li>
-						<a href="formListarSolicitudes.php">
-							Listar
+						<a href="formSendMassiveMail.php">
+							Envio Masivo
 						</a>
 					</li>
 				</ul>

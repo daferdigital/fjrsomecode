@@ -9,7 +9,8 @@ class UsuarioDTO {
 	private $tiempoSesion;
 	private $active;
 	private $registrosPorPagina;
-	private $modulesAllowed;
+	private $horaMinimaLecturaSMS;
+	private $horaMaximaLecturaSMS;
 	
 	/**
 	 * 
@@ -24,7 +25,8 @@ class UsuarioDTO {
 	 * @param $registrosPorPagina cantidad de registros a observar en paginados
 	 */
 	public function UsuarioDTO($id, $nombre, $apellido, $login, $clave, $correo, 
-			$tiempoSesion, $active, $registrosPorPagina){
+			$tiempoSesion, $active, $registrosPorPagina, $horaMinimaLecturaSMS,
+			$horaMaximaLecturaSMS){
 		$this->id = $id;
 		$this->nombre = $nombre;
 		$this->apellido = $apellido;
@@ -34,6 +36,8 @@ class UsuarioDTO {
 		$this->tiempoSesion = $tiempoSesion;
 		$this->active = $active;
 		$this->registrosPorPagina = $registrosPorPagina;
+		$this->horaMinimaLecturaSMS = $horaMinimaLecturaSMS;
+		$this->horaMaximaLecturaSMS = $horaMaximaLecturaSMS;
 	}
 	
 	public function getId(){
@@ -80,53 +84,25 @@ class UsuarioDTO {
 		return $this->registrosPorPagina;
 	}
 	
-	public function setModulesAllowed($modulesAllowed){
-		$this->modulesAllowed = $modulesAllowed;
+	public function setHoraMinimaLecturaSMS($horaMinimaLecturaSMS){
+		$this->horaMinimaLecturaSMS = $horaMinimaLecturaSMS;
 	}
 	
-	public function getModulesAllowed(){
-		return $this->modulesAllowed;
+	public function getHoraMinimaLecturaSMS(){
+		return $this->horaMinimaLecturaSMS;
 	}
 	
-	/**
-	 * 
-	 * @param string $categoryModule
-	 * @return true si existen al menos un modulo permitido para la categoria que se desea verificar
-	 */
-	public function canAccessCategoryModule($categoryModule){
-		if(isset($this->modulesAllowed[$categoryModule])){
-			if(count($this->modulesAllowed[$categoryModule]) > 0){
-				return true;
-			}
-		}
-		
-		return false;
+	public function setHoraMaximaLecturaSMS($horaMaximaLecturaSMS){
+		$this->horaMaximaLecturaSMS = $horaMaximaLecturaSMS;
 	}
 	
-	/**
-	 *
-	 * @param string $keyModule
-	 * @return true si el usuario tiene entre los modulos activados el indicado en el parametro $keyModule
-	 */
-	public function canAccessKeyModule($keyModule){
-		$categories = $this->modulesAllowed;
-		foreach ($categories as $categoryDetail){
-			foreach ($categoryDetail as $moduleKey => $moduleValue){
-				if($moduleKey == $keyModule){
-					return true;
-				}
-			}
-		}
-	
-		return false;
+	public function getHoraMaximaLecturaSMS(){
+		return $this->horaMaximaLecturaSMS;
 	}
-	
 	public function __toString(){
 		return "UsuarioDTO["
 				."nombre='".$this->nombre."'"
-				.",apellido='".$this->apellido."'"
-				.",modules=".print_r($this->modulesAllowed, true)
-				."]";
+				.",apellido='".$this->apellido."']";
 	}
 }
 ?>

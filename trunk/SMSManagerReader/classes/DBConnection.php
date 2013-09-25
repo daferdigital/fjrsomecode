@@ -2,8 +2,8 @@
 class DBConnection {
 	private $server = "localhost";
 	private $username = "root";
-	private $password = "root1006";
-	private $dbSchema = "seguridad3";
+	private $password = "F0cusvision91";
+	private $dbSchema = "sms_reader_web";
 	
 	private $dbConnection;
 	
