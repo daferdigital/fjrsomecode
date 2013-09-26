@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 
 import com.fjr.code.gui.LicenseDialog;
+import com.fjr.code.main.AfterStart;
 import com.fjr.code.util.LicenseUtil;
 
 /**
@@ -50,6 +51,8 @@ public class LicenseDialogOperations implements ActionListener{
 							"Licencia activada de manera exitosa", 
 							"Activación Completada", 
 							JOptionPane.INFORMATION_MESSAGE);
+					AfterStart.startApp();
+					ventana.dispose();
 				} else {
 					JOptionPane.showMessageDialog(ventana, 
 							"La licencia es invalida, verifique o solicitela nuevamente.", 

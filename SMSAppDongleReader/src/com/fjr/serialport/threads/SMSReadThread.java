@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 
 import com.fjr.serialport.dao.SMSDAO;
 import com.fjr.serialport.dto.SMSDTO;
+import com.fjr.code.util.DBConnectionUtil;
 import com.fjr.code.util.SendCommandUtil;
 
 /**
@@ -107,8 +108,22 @@ public class SMSReadThread implements Runnable{
 					
 				if(gotMetaData){
 					smsDTO.setMessage(smsText);
+					boolean wasStored = false;
 					if(SMSDAO.storeSMSAtDataBase(smsDTO)){
-						//deleteSMSAtIndex(i);
+						wasStored = true;
+						SMSDAO.storeSMSInReaderPHPSystem(smsDTO);
+					} else {
+						if(! DBConnectionUtil.haveValidConnectionConfiguration()){
+							log.info("No se tiene base de datos local, por lo tanto, vamos directo a web");
+							if(SMSDAO.storeSMSInReaderPHPSystem(smsDTO)){
+								wasStored = true;
+							}
+						}
+					}
+					
+					if(wasStored){
+						log.info("Eliminando SMS[" + i + "] del dongle");
+						deleteSMSAtIndex(i);
 					}
 				}
 			}
