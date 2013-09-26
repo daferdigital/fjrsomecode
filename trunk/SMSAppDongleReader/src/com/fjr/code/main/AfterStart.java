@@ -31,6 +31,29 @@ public class AfterStart {
 	
 	/**
 	 * 
+	 */
+	public static final void startApp(){
+		//verificamos la conexion a base de datos
+		MainDialog ventana = new MainDialog();
+		ventana.setVisible(true);
+		
+		if(! DBConnectionUtil.haveValidConnectionConfiguration()){
+			//en este punto, la licencia y la base de datos son validas, procedemos a iniciar la aplicacion
+			JOptionPane.showMessageDialog(ventana, 
+					"No fue detectada la configuracion local de base de datos.\n"
+					+ "Si desea usar el programa para almacenar los mensajes en una base de datos que no esta en internet,\n"
+					+ " debera configurar dicha conexion en el menu correspondiente.", 
+					"Conexion local", 
+					JOptionPane.WARNING_MESSAGE);
+			log.error("No se posee una configuracion valida de base de datos. Debe solicitarse");
+		}
+		
+		//iniciamos ejecucion
+		new PortScanManager();
+	}
+	
+	/**
+	 * 
 	 * @param args
 	 */
 	public static void startProgram(String[] args) {
@@ -59,23 +82,7 @@ public class AfterStart {
 				//mostramos la ventana para introducir la licencia
 				new LicenseDialog().setVisible(true);
 			} else {
-				//verificamos la conexion a base de datos
-				MainDialog ventana = new MainDialog();
-				ventana.setVisible(true);
-				
-				if(! DBConnectionUtil.haveValidConnectionConfiguration()){
-					//en este punto, la licencia y la base de datos son validas, procedemos a iniciar la aplicacion
-					JOptionPane.showMessageDialog(ventana, 
-							"No fue detectada la configuracion local de base de datos.\n"
-							+ "Si desea usar el programa para almacenar los mensajes en una base de datos que no esta en internet,\n"
-							+ " debera configurar dicha conexion en el menu correspondiente.", 
-							"Conexion local", 
-							JOptionPane.WARNING_MESSAGE);
-					log.error("No se posee una configuracion valida de base de datos. Debe solicitarse");
-				}
-				
-				//iniciamos ejecucion
-				new PortScanManager();
+				startApp();
 			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null,

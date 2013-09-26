@@ -11,10 +11,12 @@ import javax.swing.JPanel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.JMenu;
 
-public class MainDialog extends JDialog {
+public class MainDialog extends JDialog implements WindowListener {
 
 	/**
 	 * 
@@ -76,20 +78,11 @@ public class MainDialog extends JDialog {
 		mnConfiguracion_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		menuBar.add(mnConfiguracion_1);
 		
+		JMenuItem mntmBaseDeDatos = new JMenuItem("Base de Datos");
+		mnConfiguracion_1.add(mntmBaseDeDatos);
+		
 		JMenuItem mntmSistema = new JMenuItem("Sistema");
 		mnConfiguracion_1.add(mntmSistema);
-		
-		JMenu mnConfiguracion = new JMenu("Base de Datos");
-		mnConfiguracion.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		menuBar.add(mnConfiguracion);
-		
-		JMenuItem mntmLocal = new JMenuItem("Local");
-		mntmLocal.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		mnConfiguracion.add(mntmLocal);
-		
-		JMenuItem mntmRemota = new JMenuItem("Remota");
-		mntmRemota.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		mnConfiguracion.add(mntmRemota);
 		
 		JMenu mnPuertos = new JMenu("Puertos");
 		mnPuertos.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -109,6 +102,8 @@ public class MainDialog extends JDialog {
 		JMenuItem mntmSmsappreader = new JMenuItem("SMSAPPReader");
 		mntmSmsappreader.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		mnAcercaDe.add(mntmSmsappreader);
+		
+		addWindowListener(this);
 	}
 	
 	/**
@@ -123,5 +118,47 @@ public class MainDialog extends JDialog {
 		getContentPane().add(panelToShow);
 		getContentPane().setVisible(true);
 		getContentPane().repaint();
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+		// TODO Auto-generated method stub
+		System.exit(0);
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -76,12 +76,12 @@ public final class DBConnectionUtil {
 			url = url.concat(props.getProperty(DB_HOST_PROPERTY));
 			url = url.concat(":");
 			url = url.concat(props.getProperty(DB_PORT_PROPERTY));
-			url = url.concat("/lmont_biopsia");
+			url = url.concat("/sms_db");
 			
 			BasicDataSource basicDataSource = new BasicDataSource();
 			basicDataSource.setDriverClassName("com.mysql.jdbc.Driver");
-			basicDataSource.setUsername("lm_biopsia_user");
-			basicDataSource.setPassword("lm0ntUs3rB10ps1a");
+			basicDataSource.setUsername("smsmanager");
+			basicDataSource.setPassword("5m5m4n4g3r");
 			basicDataSource.setUrl(url);
 			basicDataSource.setPoolPreparedStatements(true);
 			basicDataSource.setLogAbandoned(true);

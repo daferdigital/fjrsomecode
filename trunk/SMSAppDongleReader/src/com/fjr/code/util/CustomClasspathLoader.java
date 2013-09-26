@@ -32,27 +32,14 @@ public final class CustomClasspathLoader {
 			if(f.exists()){
 				File[] jars = f.listFiles();
 				for (File jarFile : jars) {
-					if(jarFile.getName().endsWith(".dll")){
-						String currentLP = System.getProperty("java.library.path");
-						currentLP = dir.substring(0,  dir.length()-1) + ";" + currentLP;
+					URL u = jarFile.toURI().toURL();
+					URLClassLoader urlClassLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
+					Class<URLClassLoader> urlClass = URLClassLoader.class;
+					Method method = urlClass.getDeclaredMethod("addURL", new Class[]{URL.class});
+					method.setAccessible(true);
+					method.invoke(urlClassLoader, new Object[]{u});
 						
-						System.setProperty("java.library.path", currentLP);
-						System.out.println(currentLP);
-						
-						System.loadLibrary(jarFile.getName().substring(0, 
-								jarFile.getName().length() - 4));
-						
-						System.out.println("Cargada en el sistema la libreria " + jarFile.getAbsolutePath());
-					} else {
-						URL u = jarFile.toURI().toURL();
-						URLClassLoader urlClassLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
-					    Class<URLClassLoader> urlClass = URLClassLoader.class;
-					    Method method = urlClass.getDeclaredMethod("addURL", new Class[]{URL.class});
-					    method.setAccessible(true);
-					    method.invoke(urlClassLoader, new Object[]{u});
-					    
-					    System.out.println("Agregado " + jarFile.getAbsolutePath() + " al classpath");
-					}
+					System.out.println("Agregado " + jarFile.getAbsolutePath() + " al classpath");
 				}
 				
 			    System.out.println("Procesado " + dir + ", para busqueda de jars");	
