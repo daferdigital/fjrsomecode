@@ -6,7 +6,7 @@ include_once "includes/header.php";
 ?>
 <tr>
 	<td colspan="2" align="center">
-		<form name="agregarAlumnoForm" action="formProcess/addAlumno.php" method="post" onsubmit="return validarAgregarAlumnoForm(this);">
+		<form name="agregarAlumnoForm" action="formProcess/addProfesor.php" method="post" onsubmit="return validarAgregarProfesorForm(this);">
 			<table>
 				<tr>
 					<td colspan="2" align="right">
@@ -57,16 +57,6 @@ include_once "includes/header.php";
 					</td>
 				</tr>
 				<tr>
-					<td>Lugar de Nacimiento:</td>
-					<td>
-						<input type="text" name="lugarNacimiento" id="lugarNacimiento"/>
-						<span class="isMandatory" id="mandatoryLugarNacimiento" style="display: none;">
-							<br />
-							Disculpe, debe indicar el lugar de nacimiento.
-						</span>
-					</td>
-				</tr>
-				<tr>
 					<td>Direcci&oacute;n:</td>
 					<td>
 						<textarea rows="6" cols="30" id="direccion" name="direccion"></textarea>
@@ -77,27 +67,13 @@ include_once "includes/header.php";
 					</td>
 				</tr>
 				<tr>
-					<td>Fecha de Nacimiento:</td>
+					<td>Tel&eacute;fono:</td>
 					<td>
-						<input type="text" name="fechaNacimiento" id="fechaNacimiento" readonly="readonly"/>
-						<input type="hidden" id="fechaNacimientoHidden" name="fechaNacimientoHidden" />
-						<script>
-							new JsDatePick({
-						        useMode:2,
-						        target:"fechaNacimiento",
-						        targetHidden:"fechaNacimientoHidden",
-						        isStripped:true,
-						       	weekStartDay:0,
-						        limitToToday:true,
-						        dateFormat:"%d/%m/%Y",
-						        dateFormatHidden:"%Y-%m-%d",
-						        imgPath:"./images/"
-						    });
-						</script>
-						<div class="isMandatory" id="mandatoryFechaNacimiento" style="display: none;">
+						<input type="text" name="telefono" id="telefono" />
+						<span class="isMandatory" id="mandatoryTelefono" style="display: none;">
 							<br />
-							Disculpe, debe indicar la fecha de nacimiento del alumno.
-						</div>
+							Disculpe, debe indicar el Tel&eacute;fono.
+						</span>
 					</td>
 				</tr>
 				<tr>

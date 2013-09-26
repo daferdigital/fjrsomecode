@@ -25,9 +25,10 @@ function openPopUp(urlToOpen){
  */
 function checkAll(checkName){
 	var checkList = document.getElementsByName(checkName);
+	var valueToPut = document.getElementById("checkAll").checked;
 	
 	for ( var i = 0; i < checkList.length; i++) {
-		checkList[i].checked = true;
+		checkList[i].checked = valueToPut;
 	}
 }
 
@@ -160,61 +161,52 @@ function textInputOnlyNumbers(e){
 	}
 }
 
-function validarAgregarSolicitudForm(forma){
+/**
+ * 
+ * @param forma
+ * @returns {Boolean}
+ */
+function validarAgregarGradoForm(forma){
 	var doSubmit = true;
 	
-	document.getElementById("mandatoryFuncionario").style.display = "none";
-	document.getElementById("mandatoryTipoSolicitud").style.display = "none";
-	document.getElementById("mandatoryFechaSalida").style.display = "none";
-	document.getElementById("mandatoryFechaLlegada").style.display = "none";
-	document.getElementById("mandatoryFechaRango").style.display = "none";
-	document.getElementById("mandatoryComentario").style.display = "none";
+	document.getElementById("mandatoryProfesor").style.display = "none";
+	document.getElementById("mandatoryTurno").style.display = "none";
+	document.getElementById("mandatoryGrado").style.display = "none";
+	document.getElementById("mandatoryDescripcion").style.display = "none";
 	
 	//validamos los campos
-	if(forma.funcionario.value.trim() == ""){
-		document.getElementById("mandatoryFuncionario").style.display = "";
-		forma.funcionario.focus();
+	if(forma.profesor.value == "0"){
+		document.getElementById("mandatoryProfesor").style.display = "";
+		forma.profesor.focus();
 		doSubmit = false;
 	}
 	
-	if(forma.tipoSolicitud.value.trim() == ""){
-		document.getElementById("mandatoryTipoSolicitud").style.display = "";
-		forma.tipoSolicitud.focus();
+	if(forma.turno.value.trim() == ""){
+		document.getElementById("mandatoryTurno").style.display = "";
+		forma.turno.focus();
 		doSubmit = false;
 	}
 	
-	if(forma.fechaSalida.value.trim() == ""){
-		document.getElementById("mandatoryFechaSalida").style.display = "";
+	if(forma.grado.value.trim() == ""){
+		document.getElementById("mandatoryGrado").style.display = "";
+		forma.grado.focus();
 		doSubmit = false;
 	}
 	
-	if(forma.fechaLlegada.value.trim() == ""){
-		document.getElementById("mandatoryFechaLlegada").style.display = "";
-		doSubmit = false;
-	}
-	
-	//validamos que la fecha de llegada no sea menor a la de salida
-	if(forma.fechaSalida.value.trim() != "" && forma.fechaLlegada.value.trim() != ""){
-		var fechaSalidaArray = forma.fechaSalida.value.split("/");
-		var fechaLlegadaArray = forma.fechaLlegada.value.split("/");
-		
-		var fechaSalida = new Date(fechaSalidaArray[2], fechaSalidaArray[1] -1, fechaSalidaArray[0]);
-		var fechaLlegada = new Date(fechaLlegadaArray[2], fechaLlegadaArray[1] -1, fechaLlegadaArray[0]);
-		
-		if(fechaSalida > fechaLlegada){
-			document.getElementById("mandatoryFechaRango").style.display = "";
-		}
-	}
-	
-	if(forma.comentario.value.trim() == ""){
-		document.getElementById("mandatoryComentario").style.display = "";
-		forma.comentario.focus();
+	if(forma.descripcion.value.trim() == ""){
+		document.getElementById("mandatoryDescripcion").style.display = "";
+		forma.descripcion.focus();
 		doSubmit = false;
 	}
 	
 	return doSubmit;
 }
 
+/**
+ * 
+ * @param forma
+ * @returns {Boolean}
+ */
 function validarLoginForm(forma){
 	var doSubmit = true;
 	
@@ -235,6 +227,11 @@ function validarLoginForm(forma){
 	return doSubmit;
 }
 
+/**
+ * 
+ * @param forma
+ * @returns {Boolean}
+ */
 function validarAgregarAlumnoForm(forma){
 	var doSubmit = true;
 	
@@ -281,6 +278,54 @@ function validarAgregarAlumnoForm(forma){
 	if(forma.fechaNacimiento.value.trim() == ""){
 		document.getElementById("mandatoryFechaNacimiento").style.display = "";
 		$(window).scrollTop($('#mandatoryFechaNacimiento').offset().top);
+		doSubmit = false;
+	}
+	
+	return doSubmit;
+}
+
+/**
+ * 
+ * @param forma
+ * @returns {Boolean}
+ */
+function validarAgregarProfesorForm(forma){
+	var doSubmit = true;
+	
+	document.getElementById("mandatoryNombre").style.display = "none";
+	document.getElementById("mandatoryApellido").style.display = "none";
+	document.getElementById("mandatoryCedula").style.display = "none";
+	document.getElementById("mandatoryDireccion").style.display = "none";
+	document.getElementById("mandatoryTelefono").style.display = "none";
+	
+	//validamos los campos
+	if(forma.nombre.value.trim() == ""){
+		document.getElementById("mandatoryNombre").style.display = "";
+		forma.nombre.focus();
+		doSubmit = false;
+	}
+	
+	if(forma.apellido.value.trim() == ""){
+		document.getElementById("mandatoryApellido").style.display = "";
+		forma.apellido.focus();
+		doSubmit = false;
+	}
+	
+	if(forma.cedula.value.trim() == ""){
+		document.getElementById("mandatoryCedula").style.display = "";
+		forma.cedula.focus();
+		doSubmit = false;
+	}
+	
+	if(forma.direccion.value.trim() == ""){
+		document.getElementById("mandatoryDireccion").style.display = "";
+		forma.direccion.focus();
+		doSubmit = false;
+	}
+	
+	if(forma.telefono.value.trim() == ""){
+		document.getElementById("mandatoryTelefono").style.display = "";
+		forma.telefono.focus();
 		doSubmit = false;
 	}
 	
@@ -340,19 +385,39 @@ function searchAlumnos(pageNumber){
 }
 
 /**
- * Llamada Ajax para obtener el listado del solicitudes de permisos del sistema
+ * Llamada Ajax para obtener el listado del personal del sistema
  * @param pageNumber
  */
-function searchSolicitudes(pageNumber){
-	var parameters = "pageNumber="+pageNumber;
-	parameters += "&scriptFunction=searchSolicitudes";
-	parameters += "&funcionario=" + document.getElementById("funcionario").value;
-	parameters += "&tipoSolicitud=" + document.getElementById("tipoSolicitud").value;
-	parameters += "&fechaSalida=" + document.getElementById("fechaSalidaHidden").value.trim();
-	parameters += "&fechaLlegada=" + document.getElementById("fechaLlegadaHidden").value;
-	parameters += "&activo=" + document.getElementById("activo").value;
+function searchProfesores(pageNumber){
+	var cedula = document.getElementById("ci").value;
+	if(cedula != ""){
+		cedula += "-";
+	}
 	
-	callAjax("ajax/getListarSolicitudes.php",
+	var parameters = "pageNumber="+pageNumber;
+	parameters += "&scriptFunction=searchProfesores";
+	parameters += "&nombre=" + document.getElementById("nombre").value;
+	parameters += "&apellido=" + document.getElementById("apellido").value;
+	parameters += "&cedula=" + cedula + document.getElementById("cedula").value.trim();
+	
+	callAjax("ajax/getListarProfesores.php",
+			parameters,
+			"ajaxPageResult",
+			null);
+}
+
+/**
+ * Llamada Ajax para obtener el listado del personal del sistema
+ * @param pageNumber
+ */
+function searchGrados(pageNumber){
+	var parameters = "pageNumber="+pageNumber;
+	parameters += "&scriptFunction=searchGrados";
+	parameters += "&nombre=" + document.getElementById("nombre").value;
+	parameters += "&apellido=" + document.getElementById("apellido").value;
+	parameters += "&grado=" + document.getElementById("grado").value.trim();
+	
+	callAjax("ajax/getListarGrados.php",
 			parameters,
 			"ajaxPageResult",
 			null);

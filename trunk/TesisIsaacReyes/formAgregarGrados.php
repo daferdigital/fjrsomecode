@@ -23,6 +23,32 @@ include_once "includes/header.php";
 					</td>
 				</tr>
 				<tr>
+					<td>Profesor Encargado:</td>
+					<td>
+						<select name="profesor" id="profesor">
+							<option value="0">Seleccione</option>
+							<?php
+								$query = "SELECT id, nombre, apellido, cedula";
+								$query .= " FROM profesores";
+								$query .= " ORDER BY nombre, apellido";
+								
+								$results = DBUtil::executeSelect($query);
+								foreach ($results AS $row){
+							?>
+									<option value="<?php echo $row["id"];?>">
+										<?php echo $row["nombre"]." ".$row["apellido"]." (".$row["cedula"].")";?>
+									</option>
+							<?php
+								}
+							?>
+						</select>
+						<span class="isMandatory" id="mandatoryProfesor" style="display: none;">
+							<br />
+							Disculpe, debe indicar el profesor encargado de este turno.
+						</span>
+					</td>
+				</tr>
+				<tr>
 					<td>Turno:</td>
 					<td>
 						<input type="text" name="turno" id="turno"/>
@@ -43,61 +69,13 @@ include_once "includes/header.php";
 					</td>
 				</tr>
 				<tr>
-					<td>C&eacute;dula:</td>
+					<td>Descripci&oacute;n:</td>
 					<td>
-						<select name="ci">
-					        <option value="V">V</option>
-					        <option value="E">E</option>
-		      			</select>
-						<input type="text" name="cedula" id="cedula" maxlength="10" onkeypress="return textInputOnlyNumbers(event)"/>
-						<span class="isMandatory" id="mandatoryCedula" style="display: none;">
+						<textarea rows="5" id="descripcion" name="descripcin"></textarea>
+						<span class="isMandatory" id="mandatoryDescripcion" style="display: none;">
 							<br />
-							Disculpe, debe indicar la c&eacute;dula.
+							Disculpe, debe indicar una descripci&oacute;n.
 						</span>
-					</td>
-				</tr>
-				<tr>
-					<td>Lugar de Nacimiento:</td>
-					<td>
-						<input type="text" name="lugarNacimiento" id="lugarNacimiento"/>
-						<span class="isMandatory" id="mandatoryLugarNacimiento" style="display: none;">
-							<br />
-							Disculpe, debe indicar el lugar de nacimiento.
-						</span>
-					</td>
-				</tr>
-				<tr>
-					<td>Direcci&oacute;n:</td>
-					<td>
-						<textarea rows="6" cols="30" id="direccion" name="direccion"></textarea>
-						<span class="isMandatory" id="mandatoryDireccion" style="display: none;">
-							<br />
-							Disculpe, debe indicar la direcci&oacute;n.
-						</span>
-					</td>
-				</tr>
-				<tr>
-					<td>Fecha de Nacimiento:</td>
-					<td>
-						<input type="text" name="fechaNacimiento" id="fechaNacimiento" readonly="readonly"/>
-						<input type="hidden" id="fechaNacimientoHidden" name="fechaNacimientoHidden" />
-						<script>
-							new JsDatePick({
-						        useMode:2,
-						        target:"fechaNacimiento",
-						        targetHidden:"fechaNacimientoHidden",
-						        isStripped:true,
-						       	weekStartDay:0,
-						        limitToToday:true,
-						        dateFormat:"%d/%m/%Y",
-						        dateFormatHidden:"%Y-%m-%d",
-						        imgPath:"./images/"
-						    });
-						</script>
-						<div class="isMandatory" id="mandatoryFechaNacimiento" style="display: none;">
-							<br />
-							Disculpe, debe indicar la fecha de nacimiento del alumno.
-						</div>
 					</td>
 				</tr>
 				<tr>
