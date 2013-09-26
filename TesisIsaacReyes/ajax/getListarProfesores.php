@@ -13,24 +13,20 @@ $scriptFunction = $_POST[Constants::$SCRIPT_FUNCTION];
 //obtenemos el extra where
 $extraWhere = "";
 if($_POST["nombre"] != ""){
-	$extraWhere .= " AND LOWER(a.nombre) LIKE('%".strtolower($_POST["nombre"])."%')";	
+	$extraWhere .= " AND LOWER(p.nombre) LIKE('%".strtolower($_POST["nombre"])."%')";	
 }
 if($_POST["apellido"] != ""){
-	$extraWhere .= " AND LOWER(a.apellido) LIKE('%".strtolower($_POST["apellido"])."%')";
+	$extraWhere .= " AND LOWER(p.apellido) LIKE('%".strtolower($_POST["apellido"])."%')";
 }
 if($_POST["cedula"] != ""){
-	$extraWhere .= " AND a.cedula LIKE('%".$_POST["cedula"]."%')";
-}
-if($_POST["activo"] != ""){
-	$extraWhere .= " AND a.activo = '".$_POST["activo"]."'";
+	$extraWhere .= " AND p.cedula LIKE('%".$_POST["cedula"]."%')";
 }
 
-//$query = "SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(a.fecha_nacimiento)), '%Y') + 0 AS edad, a.* "
-$query = "SELECT a.* "
-." FROM alumnos a"
+$query = "SELECT p.* "
+." FROM profesores p"
 ." WHERE 1 = 1 "
 .$extraWhere
-." ORDER BY a.nombre, a.apellido, a.cedula, a.fecha_nacimiento DESC";
+." ORDER BY p.nombre, p.apellido, p.cedula";
 
 //echo $query."<br />	";
 
@@ -56,33 +52,39 @@ if(count($pageRecords) == 0){
 } else {
 ?>
 	<div id="row">
-		<div id="tdElement">
+		<div id="tdElement" style="width: 10%;">
 		</div>
-		<div id="tdElement">
+		<div id="tdElement" style="width: 30%;">
 		</div>
-		<div align="center" id="tdElement">
+		<div align="center" id="tdElement" style="width: 15%;">
 			<?php echo $pagingDAO->getTRFooterPaging();?>
 		</div>
-		<div id="tdElement">
+		<div id="tdElement" style="width: 30%;">
+		</div>
+		<div id="tdElement" style="width: 10%;">
+		</div>
+		<div id="tdElement" style="width: 10%;">
 		</div>
 	</div>
 	<div id="row">
-		<div style="width: 10%;" id="tdHeader">
+		<div id="tdHeader">
       		<input type="checkbox" id="checkAll" onclick="checkAll('delete[]')" title="Marcar Todos"/>
       		<input type="button" value="Eliminar" onclick="doDelete('alumnos', 'delete[]');"/>
     	</div>
-    	<div style="width: 35%;" id="tdHeader">
+    	<div id="tdHeader">
       		Nombre
     	</div>
-    	<div style="width: 15%;" id="tdHeader">
+    	<div id="tdHeader">
       		C&eacute;dula
     	</div>
-    	<div style="width: 10%;" id="tdHeader">
-      		Edad
+    	<div id="tdHeader">
+      		Tel&eacute;fono
     	</div>
-    	<div style="width: 15%;" id="tdHeader">
+    	<div id="tdHeader">
+    		Direcci&oacute;n
     	</div>
-    	<div style="width: 15%;" id="tdHeader">
+    	<div id="tdHeader">
+    		Modificar?
     	</div>
 	</div>
 	<?php
@@ -92,32 +94,21 @@ if(count($pageRecords) == 0){
 			<div id="tdElement">
 				<input type="checkbox" name="delete[]" value="<?php echo $row["id"];?>"/>
 			</div>
-			<div style="width: 35%;" id="tdElement">
-				<?php echo $row["nombre"]." ".$row["apellido"].($row["activo"] == "0" ? " (Retirado)" : "");?>
+			<div id="tdElement">
+				<?php echo $row["nombre"]." ".$row["apellido"];?>
 			</div>
-			<div style="width: 15%;" id="tdElement">
+			<div id="tdElement">
 				<?php echo $row["cedula"];?>
 			</div>
-			<div style="width: 10%;" id="tdElement">
-				<?php
-					$age = floor((strtotime(date('Y-m-d')) - strtotime($row["fecha_nacimiento"])) / 31556926);
-					echo $age;
-				?>
+			<div id="tdElement">
+				<?php echo $row["telefono"];?>
 			</div>
-			<div style="width: 15%;" id="tdElement">
-				<?php 
-					if($row["activo"] == "1"){
-				?>
-					<a href="formUpdatePersonal.php?id=<?php echo $row["id"];?>">
-						<img src="./images/icons/edit.gif" title="Modificar Registro" border="0" />
-					</a>
-				<?php 
-					}
-				?>
+			<div id="tdElement">
+				<?php echo $row["direccion"];?>
 			</div>
-			<div style="width: 15%;" id="tdElement">
-				<a href="#" onclick="openPopUp('fichaPDF.php?id=<?php echo $row["id"];?>')">
-					<img src="./images/icons/pdfExport.png" title="Exportar a PDF" border="0" />
+			<div id="tdElement">
+				<a href="formUpdateProfesor.php?id=<?php echo $row["id"];?>">
+					<img src="./images/icons/edit.gif" title="Modificar Registro" border="0" />
 				</a>
 			</div>
 		</div>
@@ -133,8 +124,8 @@ if(count($pageRecords) == 0){
 			<?php echo $pagingDAO->getTRFooterPaging();?>
 		</div>
 		<div id="tdElement">
-		</div>
-		<div id="tdElement">
+    	</div>
+    	<div id="tdElement">
     	</div>
     	<div id="tdElement">
     	</div>
