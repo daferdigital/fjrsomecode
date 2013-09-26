@@ -1,0 +1,5 @@
+Placed the comm.jar file in the jre/lib/ext directory.
+
+Placed the javax.comm.properties file in the jre/lib directory.
+
+Placed the win32com.dll in the jre/bin directory.

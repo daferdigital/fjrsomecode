@@ -13,6 +13,6 @@ import java.io.IOException;
  */
 public class StartAsBatFile {
 	public static void main(String[] args) throws IOException {
-		Runtime.getRuntime().exec("java -cp App.jar;. com/fjr/code/main/Start");
+		Runtime.getRuntime().exec("java -Djava.library.path=./libs -cp App.jar;. com/fjr/code/main/Start");
 	}
 }
