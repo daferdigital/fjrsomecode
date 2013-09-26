@@ -7,10 +7,12 @@ import javax.swing.JOptionPane;
 import org.apache.log4j.Logger;
 
 import com.fjr.code.gui.LicenseDialog;
+import com.fjr.code.gui.MainDialog;
 import com.fjr.code.util.Constants;
 import com.fjr.code.util.DBConnectionUtil;
 import com.fjr.code.util.LicenseUtil;
 import com.fjr.code.util.SystemLogger;
+import com.fjr.serialport.threads.PortScanManager;
 
 /**
  * 
@@ -58,12 +60,22 @@ public class AfterStart {
 				new LicenseDialog().setVisible(true);
 			} else {
 				//verificamos la conexion a base de datos
-				if(DBConnectionUtil.haveValidConnectionConfiguration()){
+				MainDialog ventana = new MainDialog();
+				ventana.setVisible(true);
+				
+				if(! DBConnectionUtil.haveValidConnectionConfiguration()){
 					//en este punto, la licencia y la base de datos son validas, procedemos a iniciar la aplicacion
-				} else {
+					JOptionPane.showMessageDialog(ventana, 
+							"No fue detectada la configuracion local de base de datos.\n"
+							+ "Si desea usar el programa para almacenar los mensajes en una base de datos que no esta en internet,\n"
+							+ " debera configurar dicha conexion en el menu correspondiente.", 
+							"Conexion local", 
+							JOptionPane.WARNING_MESSAGE);
 					log.error("No se posee una configuracion valida de base de datos. Debe solicitarse");
-					//new DataBaseConfigDialog().setVisible(true);
 				}
+				
+				//iniciamos ejecucion
+				new PortScanManager();
 			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null,

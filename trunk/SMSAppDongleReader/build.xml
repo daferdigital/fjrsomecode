@@ -3,13 +3,12 @@
 	
 	<!-- TARGET PARA CREAR EL JAR QUE CONTIENE LA APLICACION COMO TAL -->
 	<target name="makejar"> 
-        <jar jarfile="LMontBiopsia.jar"
+        <jar jarfile="App.jar"
             includes="*/*/*/*.class,,
                      */*/*/*/*.class,
         	         */*/*/*/*/*.class,
         	         resources/*,
-        	         resources/*/*,
-        	         META-INF/context.properties"
+        	         resources/*/*"
         	excludes="*/*/*/*/StartAsBatFile.class"
             basedir="./bin/"/>
     </target>
@@ -30,7 +29,7 @@
     </target>
 	
 	<target name="makejars">
-	    <antcall target="createJarToLaunchSetUp"></antcall>
+	    <!--  <antcall target="createJarToLaunchSetUp"></antcall>  -->
 		<antcall target="createJarToLaunchApp"></antcall>
 		<antcall target="makejar"></antcall>
 	</target>
