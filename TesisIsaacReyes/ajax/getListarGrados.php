@@ -91,7 +91,7 @@ if(count($pageRecords) == 0){
 				<?php echo $row["nombre"]." ".$row["apellido"]." (".$row["cedula"].")";?>
 			</div>
 			<div id="tdElement">
-				<a href="formUpdateGrado.php?id=<?php echo $row["id"];?>">
+				<a href="formUpdateGrado.php?id=<?php echo $row["idGrado"];?>">
 					<img src="./images/icons/edit.gif" title="Modificar Registro" border="0" />
 				</a>
 			</div>

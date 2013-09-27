@@ -108,7 +108,7 @@ if(count($pageRecords) == 0){
 				<?php 
 					if($row["activo"] == "1"){
 				?>
-					<a href="formUpdatePersonal.php?id=<?php echo $row["id"];?>">
+					<a href="formUpdateAlumno.php?id=<?php echo $row["id"];?>">
 						<img src="./images/icons/edit.gif" title="Modificar Registro" border="0" />
 					</a>
 				<?php 

@@ -46,6 +46,21 @@
 				</ul>
 			</li>
 			<li>
+				<a href="#" class="MenuBarItemSubmenu">Matr&iacute;cula</a>
+				<ul>
+					<li>
+						<a href="formAgregarGrados.php">
+							Por Profesor
+						</a>
+					</li>
+					<li>
+						<a href="formListarGrados.php">
+							Por Secci&oacute;n
+						</a>
+					</li>
+				</ul>
+			</li>
+			<li>
 				<a href="perfil.php">Perfil</a>
 			</li>
 		</ul>
