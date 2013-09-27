@@ -62,24 +62,30 @@ class GanadoresBeisbol{
 				}
 			}
 	
-			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 					." Para la categoria_apuesta de juego [".$rowVistaVentasDetalles["idcategoria_apuesta"]."]"
 					." de nombre[".$rowVistaVentasDetalles["nombre_apuesta"]."]"
 					." los resultados de equipoA/equipoB fueron: (".$resultadoEquipoA."/".$resultadoEquipoB.")");
-			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+			/*
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 					." Valores a relacionar: resultadoEquipoA[".$resultadoEquipoA."], "
 					."resultadoEquipoB[".$resultadoEquipoB."], "
 					."multiplicando[".$rowVistaVentasDetalles['multiplicando']."]");
-	
+			*/
 			//tengo el resultado del equipo, veo en base a la categoria de la apuesta si se gano o no
 			if($rowVistaVentasDetalles["idcategoria_apuesta"] == GanadoresBeisbol::$BEISBOL_AGANAR_2DA_MITAD_A){
 				//comparando apuesta de ganador el equipo A
+				/*
 				$compara= ($resultadoEquipoA + $rowVistaVentasDetalles['multiplicando']);
-				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] Apuesta equipoA "
-						.$resultadoEquipoA." + ".$rowVistaVentasDetalles['multiplicando']." = ".$compara);
-				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
+						." Apuesta equipoA ".$resultadoEquipoA." + ".$rowVistaVentasDetalles['multiplicando']." = ".$compara);
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 						."Si ".$resultadoEquipoA." + ".$rowVistaVentasDetalles['multiplicando']." > ".$resultadoEquipoB
 						." entonces es ganador");
+				*/
+				$compara= $resultadoEquipoA;
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
+						."Si ".$resultadoEquipoA." > ".$resultadoEquipoB." entonces es ganador");
 				if($compara == $resultadoEquipoB){
 					//quedo tabla con respecto al resultado final y su multiplicando
 					//creo que debe incicarse simplemente como suspendido este detalle de venta
@@ -90,13 +96,17 @@ class GanadoresBeisbol{
 				}
 			} else {
 				//comparando apuesta de ganador el equipo B
+				/*
 				$compara= ($resultadoEquipoB + $rowVistaVentasDetalles['multiplicando']);
-				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] Apuesta equipoB "
-						.$resultadoEquipoB." + ".$rowVistaVentasDetalles['multiplicando']." = ".$compara);
-				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
+						." Apuesta equipoB ".$resultadoEquipoB." + ".$rowVistaVentasDetalles['multiplicando']." = ".$compara);
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 						."Si ".$resultadoEquipoB." + ".$rowVistaVentasDetalles['multiplicando']." > ".$resultadoEquipoA
 						." entonces es ganador");
-	
+				*/
+				$compara= $resultadoEquipoB;
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
+						."Si ".$resultadoEquipoB." > ".$resultadoEquipoA." entonces es ganador");
 				if($compara == $resultadoEquipoA){
 					//quedo tabla con respecto al resultado final y su multiplicando
 					//creo que debe incicarse simplemente como suspendido este detalle de venta
@@ -106,6 +116,10 @@ class GanadoresBeisbol{
 					$codeReturn = VentasDAO::$RESULTADO_GANADOR;
 				}
 			}
+		} else {
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
+					."El query de busqueda de resultados no trajo valores, esto no debe pasar en este punto.");
+			$codeReturn = VentasDAO::$RESULTADO_SOLO_VENDIDO;
 		}
 	
 		return $codeReturn;
@@ -144,11 +158,11 @@ class GanadoresBeisbol{
 				}
 			}
 	
-			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 					." Para la categoria_apuesta de juego [".$rowVistaVentasDetalles["idcategoria_apuesta"]."]"
 					." de nombre[".$rowVistaVentasDetalles["nombre_apuesta"]."]"
 					." los resultados de equipoA/equipoB fueron: (".$resultadoEquipoA."/".$resultadoEquipoB.")");
-			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 					." Valores a relacionar: resultadoEquipoA[".$resultadoEquipoA."], "
 					."resultadoEquipoB[".$resultadoEquipoB."], "
 					."multiplicando[".$rowVistaVentasDetalles['multiplicando']."]");
@@ -165,7 +179,7 @@ class GanadoresBeisbol{
 						." entonces es ganador");
 				*/
 				$compara= $resultadoEquipoA;
-				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 						."Si ".$resultadoEquipoA." > ".$resultadoEquipoB." entonces es ganador");
 				
 				if($compara == $resultadoEquipoB){
@@ -187,7 +201,7 @@ class GanadoresBeisbol{
 						." entonces es ganador");
 				*/
 				$compara= $resultadoEquipoB;
-				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 						."Si ".$resultadoEquipoB." > ".$resultadoEquipoA." entonces es ganador");
 				
 				if($compara == $resultadoEquipoA){
@@ -199,6 +213,10 @@ class GanadoresBeisbol{
 					$codeReturn = VentasDAO::$RESULTADO_GANADOR;
 				}
 			}
+		} else {
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
+					."El query de busqueda de resultados no trajo valores, esto no debe pasar en este punto.");
+			$codeReturn = VentasDAO::$RESULTADO_SOLO_VENDIDO;
 		}
 	
 		return $codeReturn;
@@ -237,11 +255,11 @@ class GanadoresBeisbol{
 				}
 			}
 	
-			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 					." Para la categoria_apuesta de juego [".$rowVistaVentasDetalles["idcategoria_apuesta"]."]"
 					." de nombre[".$rowVistaVentasDetalles["nombre_apuesta"]."]"
 					." los resultados de equipoA/equipoB fueron: (".$resultadoEquipoA."/".$resultadoEquipoB.")");
-			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 					." Valores a relacionar: resultadoEquipoA[".$resultadoEquipoA."], "
 					."resultadoEquipoB[".$resultadoEquipoB."], "
 					."multiplicando[".$rowVistaVentasDetalles['multiplicando']."]");
@@ -266,7 +284,7 @@ class GanadoresBeisbol{
 				}
 				*/
 				$compara= $resultadoEquipoA;
-				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 						."Si ".$resultadoEquipoA." > ".$resultadoEquipoB." entonces es ganador");
 				
 				if($compara == $resultadoEquipoB){
@@ -297,7 +315,7 @@ class GanadoresBeisbol{
 				}
 				*/
 				$compara= $resultadoEquipoB;
-				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 						."Si ".$resultadoEquipoB." > ".$resultadoEquipoA." entonces es ganador");
 				
 				if($compara == $resultadoEquipoA){
@@ -309,6 +327,10 @@ class GanadoresBeisbol{
 					$codeReturn = VentasDAO::$RESULTADO_GANADOR;
 				}
 			}
+		} else {
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
+					."El query de busqueda de resultados no trajo valores, esto no debe pasar en este punto.");
+			$codeReturn = VentasDAO::$RESULTADO_SOLO_VENDIDO;
 		}
 		
 		return $codeReturn;
@@ -348,11 +370,11 @@ class GanadoresBeisbol{
 				}
 			}
 	
-			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 					." Para la categoria_apuesta de juego [".$rowVistaVentasDetalles["idcategoria_apuesta"]."]"
 					." de nombre[".$rowVistaVentasDetalles["nombre_apuesta"]."]"
 					." los resultados de equipoA/equipoB fueron: (".$resultadoEquipoA."/".$resultadoEquipoB.")");
-			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 					." Valores a relacionar: resultadoEquipoA[".$resultadoEquipoA."], "
 					."resultadoEquipoB[".$resultadoEquipoB."], "
 					."multiplicando[".$rowVistaVentasDetalles['multiplicando']."]");
@@ -361,9 +383,9 @@ class GanadoresBeisbol{
 			if($rowVistaVentasDetalles["idcategoria_apuesta"] == GanadoresBeisbol::$BEISBOL_RLJC_A){
 				//comparando apuesta de ganador el equipo A
 				$compara= ($resultadoEquipoA + $rowVistaVentasDetalles['multiplicando']);
-				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] Apuesta equipoA "
-						.$resultadoEquipoA." + ".$rowVistaVentasDetalles['multiplicando']." = ".$compara);
-				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
+						." Apuesta equipoA ".$resultadoEquipoA." + ".$rowVistaVentasDetalles['multiplicando']." = ".$compara);
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 						."Si ".$resultadoEquipoA." + ".$rowVistaVentasDetalles['multiplicando']." > ".$resultadoEquipoB
 						." entonces es ganador");
 				if($compara == $resultadoEquipoB){
@@ -377,9 +399,9 @@ class GanadoresBeisbol{
 			} else {
 				//comparando apuesta de ganador el equipo B
 				$compara= ($resultadoEquipoB + $rowVistaVentasDetalles['multiplicando']);
-				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] Apuesta equipoB "
-						.$resultadoEquipoB." + ".$rowVistaVentasDetalles['multiplicando']." = ".$compara);
-				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
+						." Apuesta equipoB ".$resultadoEquipoB." + ".$rowVistaVentasDetalles['multiplicando']." = ".$compara);
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 						."Si ".$resultadoEquipoB." + ".$rowVistaVentasDetalles['multiplicando']." > ".$resultadoEquipoA
 						." entonces es ganador");
 				
@@ -392,6 +414,10 @@ class GanadoresBeisbol{
 					$codeReturn = VentasDAO::$RESULTADO_GANADOR;
 				}
 			}
+		} else {
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
+					."El query de busqueda de resultados no trajo valores, esto no debe pasar en este punto.");
+			$codeReturn = VentasDAO::$RESULTADO_SOLO_VENDIDO;
 		}
 	
 		return $codeReturn;
@@ -430,11 +456,11 @@ class GanadoresBeisbol{
 				}
 			}
 	
-			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 					." Para la categoria_apuesta de juego [".$rowVistaVentasDetalles["idcategoria_apuesta"]."]"
 					." de nombre[".$rowVistaVentasDetalles["nombre_apuesta"]."]"
 					." los resultados de equipoA/equipoB fueron: (".$resultadoEquipoA."/".$resultadoEquipoB.")");
-			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 					." Valores a relacionar: resultadoEquipoA[".$resultadoEquipoA."], "
 					."resultadoEquipoB[".$resultadoEquipoB."], "
 					."multiplicando[".$rowVistaVentasDetalles['multiplicando']."]");
@@ -443,9 +469,9 @@ class GanadoresBeisbol{
 			if($rowVistaVentasDetalles["idcategoria_apuesta"] == GanadoresBeisbol::$BEISBOL_SUPERRUNLINE_A){
 				//comparando apuesta de ganador el equipo A
 				$compara= ($resultadoEquipoA + $rowVistaVentasDetalles['multiplicando']);
-				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] Apuesta equipoA "
-						.$resultadoEquipoA." + ".$rowVistaVentasDetalles['multiplicando']." = ".$compara);
-				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
+						." Apuesta equipoA ".$resultadoEquipoA." + ".$rowVistaVentasDetalles['multiplicando']." = ".$compara);
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 						."Si ".$resultadoEquipoA." + ".$rowVistaVentasDetalles['multiplicando']." > ".$resultadoEquipoB
 						." entonces es ganador");
 				if($compara == $resultadoEquipoB){
@@ -459,9 +485,9 @@ class GanadoresBeisbol{
 			} else {
 				//comparando apuesta de ganador el equipo B
 				$compara= ($resultadoEquipoB + $rowVistaVentasDetalles['multiplicando']);
-				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] Apuesta equipoB "
-						.$resultadoEquipoB." + ".$rowVistaVentasDetalles['multiplicando']." = ".$compara);
-				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
+						." Apuesta equipoB ".$resultadoEquipoB." + ".$rowVistaVentasDetalles['multiplicando']." = ".$compara);
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 						."Si ".$resultadoEquipoB." + ".$rowVistaVentasDetalles['multiplicando']." > ".$resultadoEquipoA
 						." entonces es ganador");
 	
@@ -474,6 +500,10 @@ class GanadoresBeisbol{
 					$codeReturn = VentasDAO::$RESULTADO_GANADOR;
 				}
 			}
+		} else {
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
+					."El query de busqueda de resultados no trajo valores, esto no debe pasar en este punto.");
+			$codeReturn = VentasDAO::$RESULTADO_SOLO_VENDIDO;
 		}
 	
 		return $codeReturn;
@@ -495,7 +525,7 @@ class GanadoresBeisbol{
 		."FROM logros_equipos le, logros_equipos_categorias_resultados lecr "
 		."WHERE le.idlogro = ".$rowVistaVentasDetalles["idlogro"]
 		." AND le.idlogro_equipo = lecr.idlogro_equipo "
-		."AND (lecr.idcategoria_resultado = 9 OR lecr.idcategoria_resultado = 10)";
+		."AND (lecr.idcategoria_resultado = 1 OR lecr.idcategoria_resultado = 2)";
 			
 		$result = DBUtil::executeSelect($query);
 		if(count($result) > 0){
@@ -503,19 +533,19 @@ class GanadoresBeisbol{
 			$resultadoEquipoA = 0;
 			$resultadoEquipoB = 0;
 			foreach ($result as $row){
-				if($row["idcategoria_resultado"] == 9){
+				if($row["idcategoria_resultado"] == 1){
 					$resultadoEquipoA = $row["resultado"];
 				}
-				if($row["idcategoria_resultado"] == 10){
+				if($row["idcategoria_resultado"] == 2){
 					$resultadoEquipoB = $row["resultado"];
 				}
 			}
 	
-			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 					." Para la categoria_apuesta de juego [".$rowVistaVentasDetalles["idcategoria_apuesta"]."]"
 					." de nombre[".$rowVistaVentasDetalles["nombre_apuesta"]."]"
 					." los resultados de equipoA/equipoB fueron: (".$resultadoEquipoA."/".$resultadoEquipoB.")");
-			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 					." Valores a relacionar: resultadoEquipoA[".$resultadoEquipoA."], "
 					."resultadoEquipoB[".$resultadoEquipoB."], "
 					."multiplicando[".$rowVistaVentasDetalles['multiplicando']."]");
@@ -524,7 +554,7 @@ class GanadoresBeisbol{
 			if($rowVistaVentasDetalles["idcategoria_apuesta"] == GanadoresBeisbol::$BEISBOL_RLMJ_A){
 				//comparando apuesta de ganador el equipo A
 				$compara= ($resultadoEquipoA + $rowVistaVentasDetalles['multiplicando']);
-				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 						."Si ".$resultadoEquipoA." + ".$rowVistaVentasDetalles['multiplicando']." > ".$resultadoEquipoB
 						." entonces es ganador");
 					
@@ -539,7 +569,7 @@ class GanadoresBeisbol{
 			} else {
 				//comparando apuesta de ganador el equipo B
 				$compara= ($resultadoEquipoB + $rowVistaVentasDetalles['multiplicando']);
-				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 						."Si ".$resultadoEquipoB." + ".$rowVistaVentasDetalles['multiplicando']." > ".$resultadoEquipoA
 						." entonces es ganador");
 				
@@ -552,6 +582,10 @@ class GanadoresBeisbol{
 					$codeReturn = VentasDAO::$RESULTADO_GANADOR;
 				}
 			}
+		} else {
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
+					."El query de busqueda de resultados no trajo valores, esto no debe pasar en este punto.");
+			$codeReturn = VentasDAO::$RESULTADO_SOLO_VENDIDO;
 		}
 	
 		return $codeReturn;
@@ -589,11 +623,11 @@ class GanadoresBeisbol{
 				}
 			}
 	
-			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 					." Para la categoria_apuesta de juego [".$rowVistaVentasDetalles["idcategoria_apuesta"]."]"
 					." de nombre[".$rowVistaVentasDetalles["nombre_apuesta"]."]"
 					." los resultados de equipoA/equipoB fueron: (".$resultadoEquipoA."/".$resultadoEquipoB.")");
-			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 					." Valores a relacionar: resultadoEquipoA[".$resultadoEquipoA."], "
 					."resultadoEquipoB[".$resultadoEquipoB."], "
 					."multiplicando[".$rowVistaVentasDetalles['multiplicando']."]");
@@ -602,8 +636,8 @@ class GanadoresBeisbol{
 			if($rowVistaVentasDetalles["idcategoria_apuesta"] == GanadoresBeisbol::$BEISBOL_RLA_JC_A){
 				//comparando apuesta de ganador el equipo A
 				$compara = ($resultadoEquipoA + $rowVistaVentasDetalles['multiplicando']);
-				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] Apuesta equipoA "
-						.$resultadoEquipoA." + ".$rowVistaVentasDetalles['multiplicando']." = ".$compara);
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
+						." Apuesta equipoA ".$resultadoEquipoA." + ".$rowVistaVentasDetalles['multiplicando']." = ".$compara);
 					
 				if($compara == $resultadoEquipoB){
 					//quedo tabla con respecto al resultado final y su multiplicando
@@ -616,8 +650,8 @@ class GanadoresBeisbol{
 			} else {
 				//comparando apuesta de ganador el equipo B
 				$compara= ($resultadoEquipoB + $rowVistaVentasDetalles['multiplicando']);
-				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] Apuesta equipoB "
-						.$resultadoEquipoB." + ".$rowVistaVentasDetalles['multiplicando']." = ".$compara);
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
+						." Apuesta equipoB ".$resultadoEquipoB." + ".$rowVistaVentasDetalles['multiplicando']." = ".$compara);
 					
 				if($compara == $resultadoEquipoA){
 					//quedo tabla con respecto al resultado final y su multiplicando
@@ -628,6 +662,10 @@ class GanadoresBeisbol{
 					$codeReturn = VentasDAO::$RESULTADO_GANADOR;
 				}
 			}
+		} else {
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
+					."El query de busqueda de resultados no trajo valores, esto no debe pasar en este punto.");
+			$codeReturn = VentasDAO::$RESULTADO_SOLO_VENDIDO;
 		}
 	
 		return $codeReturn;
@@ -662,19 +700,19 @@ class GanadoresBeisbol{
 				}
 			}
 			
-			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 					."Resultado altas-bajas juego completo(equipoA/equipoB) (".$resultadoEquipoA."/".$resultadoEquipoB.") "
 					."Mi multiplicando -> ".$rowVistaVentasDetalles['multiplicando']);
 			
 			//primero vemos si no es tabla
 			if(($resultadoEquipoA + $resultadoEquipoB) == $rowVistaVentasDetalles["multiplicando"]){
-				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 						."Resultados iguales, no gano ni perdio");
 				$codeReturn = VentasDAO::$RESULTADO_EMPATADO_DEBE_SUSPENDER;
 			} else {
 				//vemos que tipo de apuesta tiene este ticket
 				if($rowVistaVentasDetalles["idcategoria_apuesta"] == GanadoresBeisbol::$BEISBOL_ALTAS_JC_A){
-					BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+					BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 							."Si (".$resultadoEquipoA." + ".$resultadoEquipoB.") > ".$rowVistaVentasDetalles['multiplicando']
 							." soy ganador ");
 					if(($resultadoEquipoA + $resultadoEquipoB) > $rowVistaVentasDetalles["multiplicando"]){
@@ -682,7 +720,7 @@ class GanadoresBeisbol{
 						$codeReturn = VentasDAO::$RESULTADO_GANADOR;
 					}
 				} else {
-					BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+					BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 							."Si ".$rowVistaVentasDetalles['multiplicando']." > (".$resultadoEquipoA." + ".$resultadoEquipoB.") "
 							."soy ganador ");
 					if($rowVistaVentasDetalles["multiplicando"] > ($resultadoEquipoA + $resultadoEquipoB)){
@@ -691,11 +729,9 @@ class GanadoresBeisbol{
 					}
 				}
 			}
-			
-			
 		} else {
 			$codeReturn = VentasDAO::$RESULTADO_NO_MAPEADO_AUN;
-			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 					."colocamos este resultado de altas-bajas juego completo como no mapeado "
 					."porque no esta almacenado aun el resultado final de este juego.");
 		}
@@ -732,19 +768,19 @@ class GanadoresBeisbol{
 				}
 			}
 				
-			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 					."Resultado altas-bajas medio juego (equipoA/equipoB) (".$resultadoEquipoA."/".$resultadoEquipoB.") "
 					."Mi multiplicando -> ".$rowVistaVentasDetalles['multiplicando']);
 				
 			//primero vemos si no es tabla
 			if(($resultadoEquipoA + $resultadoEquipoB) == $rowVistaVentasDetalles["multiplicando"]){
-				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 						."Resultados iguales, no gano ni perdio");
 				$codeReturn = VentasDAO::$RESULTADO_EMPATADO_DEBE_SUSPENDER;
 			} else {
 				//vemos que tipo de apuesta tiene este ticket
 				if($rowVistaVentasDetalles["idcategoria_apuesta"] == GanadoresBeisbol::$BEISBOL_ALTAS_MJ_A){
-					BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+					BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 							."Si (".$resultadoEquipoA." + ".$resultadoEquipoB.") > ".$rowVistaVentasDetalles['multiplicando']
 							." soy ganador ");
 					if(($resultadoEquipoA + $resultadoEquipoB) > $rowVistaVentasDetalles["multiplicando"]){
@@ -752,7 +788,7 @@ class GanadoresBeisbol{
 						$codeReturn = VentasDAO::$RESULTADO_GANADOR;
 					}
 				} else {
-					BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+					BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 							."Si ".$rowVistaVentasDetalles['multiplicando']." > (".$resultadoEquipoA." + ".$resultadoEquipoB.") "
 							."soy ganador ");
 					if($rowVistaVentasDetalles["multiplicando"] > ($resultadoEquipoA + $resultadoEquipoB)){
@@ -763,7 +799,7 @@ class GanadoresBeisbol{
 			}
 		} else {
 			$codeReturn = VentasDAO::$RESULTADO_NO_MAPEADO_AUN;
-			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 					."colocamos este resultado de altas-bajas medio juego como no mapeado "
 					."porque no esta almacenado aun el resultado final de este juego.");
 		}
@@ -800,19 +836,19 @@ class GanadoresBeisbol{
 				}
 			}
 	
-			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 					."Resultado altas-bajas medio juego (equipoA/equipoB) (".$resultadoEquipoA."/".$resultadoEquipoB.") "
 					."Mi multiplicando -> ".$rowVistaVentasDetalles['multiplicando']);
 	
 			//primero vemos si no es tabla
 			if(($resultadoEquipoA + $resultadoEquipoB) == $rowVistaVentasDetalles["multiplicando"]){
-				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 						."Resultados iguales, no gano ni perdio");
 				$codeReturn = VentasDAO::$RESULTADO_EMPATADO_DEBE_SUSPENDER;
 			} else {
 				//vemos que tipo de apuesta tiene este ticket
 				if($rowVistaVentasDetalles["idcategoria_apuesta"] == GanadoresBeisbol::$BEISBOL_ALTAS_AL_6TO_A){
-					BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+					BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 							."Si (".$resultadoEquipoA." + ".$resultadoEquipoB.") > ".$rowVistaVentasDetalles['multiplicando']
 							." soy ganador ");
 					if(($resultadoEquipoA + $resultadoEquipoB) > $rowVistaVentasDetalles["multiplicando"]){
@@ -820,7 +856,7 @@ class GanadoresBeisbol{
 						$codeReturn = VentasDAO::$RESULTADO_GANADOR;
 					}
 				} else {
-					BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+					BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 							."Si ".$rowVistaVentasDetalles['multiplicando']." > (".$resultadoEquipoA." + ".$resultadoEquipoB.") "
 							."soy ganador ");
 					if($rowVistaVentasDetalles["multiplicando"] > ($resultadoEquipoA + $resultadoEquipoB)){
@@ -831,7 +867,7 @@ class GanadoresBeisbol{
 			}
 		} else {
 			$codeReturn = VentasDAO::$RESULTADO_NO_MAPEADO_AUN;
-			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 					."colocamos este resultado de altas-bajas medio juego como no mapeado "
 					."porque no esta almacenado aun el resultado final de este juego.");
 		}
@@ -887,20 +923,20 @@ class GanadoresBeisbol{
 				}
 			}
 	
-			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 					."Resultado altas-bajas CHE medio juego (equipoA,hitsA,erroresA/equipoB,hitsB,erroresB) "
 					. "(".$resultadoEquipoA.",".$hitsEquipoA.",".$erroresEquipoA."/".$resultadoEquipoB.",".$hitsEquipoB.",".$erroresEquipoB.") "
 					."Mi multiplicando -> ".$rowVistaVentasDetalles['multiplicando']);
 	
 			//primero vemos si no es tabla
 			if(($resultadoEquipoA + $resultadoEquipoB + $hitsEquipoA + $hitsEquipoB + $erroresEquipoA + $erroresEquipoB) == $rowVistaVentasDetalles["multiplicando"]){
-				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 						."Resultados iguales, no gano ni perdio");
 				$codeReturn = VentasDAO::$RESULTADO_EMPATADO_DEBE_SUSPENDER;
 			} else {
 				//vemos que tipo de apuesta tiene este ticket
 				if($rowVistaVentasDetalles["idcategoria_apuesta"] == GanadoresBeisbol::$BEISBOL_ALTAS_CHE_A){
-					BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+					BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 							."Si (".$resultadoEquipoA." + ".$resultadoEquipoB." + ".$hitsEquipoA." + ".$hitsEquipoB." + ".$erroresEquipoA." + ".$erroresEquipoB
 							.") > ".$rowVistaVentasDetalles['multiplicando']
 							." soy ganador ");
@@ -909,7 +945,7 @@ class GanadoresBeisbol{
 						$codeReturn = VentasDAO::$RESULTADO_GANADOR;
 					}
 				} else {
-					BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+					BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 							."Si ".$rowVistaVentasDetalles['multiplicando']." > "
 							."(".$resultadoEquipoA." + ".$resultadoEquipoB." + ".$hitsEquipoA." + ".$hitsEquipoB." + ".$erroresEquipoA." + ".$erroresEquipoB.")"
 							." soy ganador ");
@@ -921,7 +957,7 @@ class GanadoresBeisbol{
 			}
 		} else {
 			$codeReturn = VentasDAO::$RESULTADO_NO_MAPEADO_AUN;
-			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 					."colocamos este resultado de altas-bajas medio juego como no mapeado "
 					."porque no esta almacenado aun el resultado final de este juego.");
 		}
@@ -985,7 +1021,7 @@ class GanadoresBeisbol{
 		} else {
 			//categoria de apuesta aun no mapeada, retornamos true por defecto.
 			$codeReturn = VentasDAO::$RESULTADO_NO_MAPEADO_AUN;
-			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa_detalle"]."] "
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 					."idcategoria_apuesta[".$rowVistaVentasDetalles["idcategoria_apuesta"]."] "
 					."aun no ha sido mapeada en VentasDAO.");
 		}
