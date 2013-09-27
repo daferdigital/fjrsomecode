@@ -26,13 +26,17 @@ DROP TABLE IF EXISTS `alumnos`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `alumnos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `cedula` varchar(45) DEFAULT NULL,
+  `cedula_alumno` varchar(45) NOT NULL,
   `nombre` varchar(250) NOT NULL,
   `apellido` varchar(250) NOT NULL,
   `fecha_nacimiento` date NOT NULL,
   `lugar_nacimiento` varchar(250) NOT NULL,
   `direccion` text,
   `activo` char(1) NOT NULL DEFAULT '1',
+  `sexo` char(1) NOT NULL,
+  `literal` text,
+  `nombre_representante` varchar(250) NOT NULL,
+  `cedula_representante` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1 COMMENT='Tabla para almacenar la informacion de los alumnos';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -43,7 +47,7 @@ CREATE TABLE `alumnos` (
 
 LOCK TABLES `alumnos` WRITE;
 /*!40000 ALTER TABLE `alumnos` DISABLE KEYS */;
-INSERT INTO `alumnos` (`id`, `cedula`, `nombre`, `apellido`, `fecha_nacimiento`, `lugar_nacimiento`, `direccion`, `activo`) VALUES (1,'V-12876765','Felipe','Rojas','1982-08-30','Guarenas','Menca de Leoni','1'),(2,'V-16006989','isaac','reyes','1983-03-29','caracas','las minas','1'),(3,'V-65431','isa','ret','1983-03-03','caracas','lasa minas ','1'),(4,'V-2154','aja','res','1980-08-05','dsfds','dfdfds','0'),(5,'V-33232','avila','sddsdsds','1983-09-07','sdsad','dsfsdsdf','0'),(6,'V-434334','toyota','dffd','1987-08-04','3dffddsf','dffdsfds','1'),(7,'V-125478','humber','reye','1983-03-29','ede','Caracas','1');
+INSERT INTO `alumnos` (`id`, `cedula_alumno`, `nombre`, `apellido`, `fecha_nacimiento`, `lugar_nacimiento`, `direccion`, `activo`, `sexo`, `literal`, `nombre_representante`, `cedula_representante`) VALUES (1,'V-12876765','Felipe','Rojas','1982-08-30','Guarenas','Menca de Leoni','1','',NULL,'',''),(2,'V-16006989','isaac','reyes','1983-03-29','caracas','las minas','1','',NULL,'',''),(3,'V-65431','isa','ret','1983-03-03','caracas','lasa minas ','1','',NULL,'',''),(4,'V-2154','aja','res','1980-08-05','dsfds','dfdfds','0','',NULL,'',''),(5,'V-33232','avila','sddsdsds','1983-09-07','sdsad','dsfsdsdf','0','',NULL,'',''),(6,'V-434334','toyota','dffd','1987-08-04','3dffddsf','dffdsfds','1','',NULL,'',''),(7,'V-125478','humber','reye','1983-03-29','ede','Caracas','1','',NULL,'','');
 /*!40000 ALTER TABLE `alumnos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -72,7 +76,7 @@ CREATE TABLE `grados` (
 
 LOCK TABLES `grados` WRITE;
 /*!40000 ALTER TABLE `grados` DISABLE KEYS */;
-INSERT INTO `grados` (`id`, `turno`, `grado`, `descripcion`, `id_profesor`) VALUES (1,'tarde','1ro A','primer grado sección a del turno de la tarde',1);
+INSERT INTO `grados` (`id`, `turno`, `grado`, `descripcion`, `id_profesor`) VALUES (1,'tarde','1ro A','primer grado sección a del turno de la tarde de la tarde',1);
 /*!40000 ALTER TABLE `grados` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -100,7 +104,7 @@ CREATE TABLE `profesores` (
 
 LOCK TABLES `profesores` WRITE;
 /*!40000 ALTER TABLE `profesores` DISABLE KEYS */;
-INSERT INTO `profesores` (`id`, `cedula`, `nombre`, `apellido`, `telefono`, `direccion`) VALUES (1,'V-2222222222','Felipe','Rojas','i3746293854 ik3uh4','boreiofireb');
+INSERT INTO `profesores` (`id`, `cedula`, `nombre`, `apellido`, `telefono`, `direccion`) VALUES (1,'E-2222222222','Felipe 1','Rojas 2','02121234567','boreiofireb\r\n\r\nOK\r\n');
 /*!40000 ALTER TABLE `profesores` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -142,4 +146,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-09-26 17:30:23
+-- Dump completed on 2013-09-27 17:06:40
