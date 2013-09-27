@@ -13,7 +13,7 @@ $scriptFunction = $_POST[Constants::$SCRIPT_FUNCTION];
 //obtenemos el extra where
 $extraWhere = "";
 if($_POST["texto"] != ""){
-	$extraWhere .= " AND LOWER(sms.texto_sms) LIKE LOWER('%".$_POST["usuario"]."%')";	
+	$extraWhere .= " AND LOWER(sms.texto_sms) LIKE LOWER('%".$_POST["texto"]."%')";	
 }
 if($_POST["fechaDesde"] != ""){
 	$extraWhere .= " AND b.fecha >= '".$_POST["fechaDesde"]."'";
@@ -29,7 +29,7 @@ $query = "SELECT sms.*"
 ." FROM mensajes sms"
 ." WHERE 1 = 1"
 .$extraWhere
-." ORDER BY sms.fecha_sms, sms.hora_sms DESC";
+." ORDER BY sms.fecha_sms DESC, sms.hora_sms DESC";
 
 $totalRecords = DBUtil::getRecordCountToQuery($query);
 $pageRecords = DBUtil::getRecordsByPage($query, $pageNumber);
@@ -41,6 +41,9 @@ $pagingDAO = new PagingDAO($pageNumber, $scriptFunction, $totalRecords);
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 </head>
 <body>
+	<div>
+		Listado actualizado al: <b><?php echo date("Y-m-d H:i:s");?></b>
+	</div>
 <div id="container" class="centered">
 <?php
 if(count($pageRecords) == 0){
@@ -79,7 +82,7 @@ if(count($pageRecords) == 0){
       		Mensaje
     	</div>
     	<div style="width: 10%;" id="tdHeader">
-      		Exportar
+      		Exportar?
     	</div>
 	</div>
 	<?php
@@ -101,8 +104,8 @@ if(count($pageRecords) == 0){
 				</span>
 			</div>
 			<div style="width: 10%;" id="tdElement">
-				<img style="display: inline; border: 0px;" alt="PDF" src="images/exportToPDF.png" />
-				<img style="display: inline; border: 0px;" alt="XLS" src="images/exportToExcel.png" />
+				<img style="display: inline; border: 0px; cursor: pointer;" title="Exportar a PDF" alt="PDF" src="images/exportToPDF.png" />
+				<img style="display: inline; border: 0px; cursor: pointer;" title="Exportar a Excel" alt="XLS" src="images/exportToXLS.png" />
 			</div>
 		</div>
 	<?php
