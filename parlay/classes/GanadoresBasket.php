@@ -5,17 +5,30 @@ include_once "BitacoraDAO.php";
 include_once "VentasDAO.php";
 
 class GanadoresBasket{
-	private static $BASKET_UNOMEDIOA_RLJC = 60;
-	private static $BASKET_UNOMEDIOB_RLJC = 61;
-	private static $BASKET_CEROMEDIOA_RLMJ = 62;
-	private static $BASKET_CEROMEDIOB_RLMJ = 63;
-	private static $BASKET_ALTA_JC_A = 64;
-	private static $BASKET_BAJA_JC_A = 65;
-	private static $BASKET_ALTA_MEDIOJUEGO_A = 66;
-	private static $BASKET_BAJA_MEDIOJUEGO_A = 67;
-	private static $BASKET_RUNLINE_ALTERNATIVO_A = 84;
-	private static $BASKET_RUNLINE_ALTERNATIVO_B = 85;
-	
+	private static $BASKET_AGANAR_JC_A = 56; //resultado en 19
+	private static $BASKET_AGANAR_JC_B = 58; //resultado en 20
+	private static $BASKET_AGANAR_MJ_A = 57; //resultado en 17
+	private static $BASKET_AGANAR_MJ_B = 59; //resultado en 18
+	private static $BASKET_UNOMEDIOA_RLJC = 60; //resultado en 19
+	private static $BASKET_UNOMEDIOB_RLJC = 61; //resultado en 20
+	private static $BASKET_CEROMEDIOA_RLMJ = 62; //resultado en 17
+	private static $BASKET_CEROMEDIOB_RLMJ = 63; //resultado en 18
+	private static $BASKET_ALTA_JC_A = 64; //resultado en 19
+	private static $BASKET_BAJA_JC_A = 65; //resultado en 20
+	private static $BASKET_ALTA_MEDIOJUEGO_A = 66; //resultado en 17
+	private static $BASKET_BAJA_MEDIOJUEGO_A = 67; //resultado en 18
+	private static $BASKET_AGANAR_2DA_MITAD_A = 82; //resultado en 21
+	private static $BASKET_AGANAR_2DA_MITAD_B = 83; //resultado en 22
+	private static $BASKET_RUNLINE_ALTERNATIVO_A = 84; //resultado en 19
+	private static $BASKET_RUNLINE_ALTERNATIVO_B = 85; //resultado en 20
+	private static $BASKET_PRIMER_TIEMPO_A = 86; //resultado en 23
+	private static $BASKET_PRIMER_TIEMPO_B = 87; //resultado en 24
+	private static $BASKET_SEGUNDO_TIEMPO_A = 88; //resultado en 25
+	private static $BASKET_SEGUNDO_TIEMPO_B = 89; //resultado en 26
+	private static $BASKET_TERCER_TIEMPO_A = 90; //resultado en 27
+	private static $BASKET_TERCER_TIEMPO_B = 91; //resultado en 28
+	private static $BASKET_ALTA_SEXTO_A = 92; //resultado en 21
+	private static $BASKET_BAJA_SEXTO_A = 93; //resultado en 22
 	
 	/**
 	 * Metodo para verificar si determinada venta de una apuesta del tipo RunLine JuegoCompleto en basket
@@ -392,8 +405,38 @@ class GanadoresBasket{
 	 */
 	public static function calcularGanador($rowVistaVentasDetalles){
 		$codeReturn = VentasDAO::$RESULTADO_PERDEDOR;
+
+		private static $BASKET_UNOMEDIOA_RLJC = 60; //resultado en 19
+		private static $BASKET_UNOMEDIOB_RLJC = 61; //resultado en 20
+		private static $BASKET_CEROMEDIOA_RLMJ = 62; //resultado en 17
+		private static $BASKET_CEROMEDIOB_RLMJ = 63; //resultado en 18
+		private static $BASKET_ALTA_JC_A = 64; //resultado en 19
+		private static $BASKET_BAJA_JC_A = 65; //resultado en 20
+		private static $BASKET_ALTA_MEDIOJUEGO_A = 66; //resultado en 17
+		private static $BASKET_BAJA_MEDIOJUEGO_A = 67; //resultado en 18
+		private static $BASKET_AGANAR_2DA_MITAD_A = 82; //resultado en 21
+		private static $BASKET_AGANAR_2DA_MITAD_B = 83; //resultado en 22
+		private static $BASKET_RUNLINE_ALTERNATIVO_A = 84; //resultado en 19
+		private static $BASKET_RUNLINE_ALTERNATIVO_B = 85; //resultado en 20
+		private static $BASKET_PRIMER_TIEMPO_A = 86; //resultado en 23
+		private static $BASKET_PRIMER_TIEMPO_B = 87; //resultado en 24
+		private static $BASKET_SEGUNDO_TIEMPO_A = 88; //resultado en 25
+		private static $BASKET_SEGUNDO_TIEMPO_B = 89; //resultado en 26
+		private static $BASKET_TERCER_TIEMPO_A = 90; //resultado en 27
+		private static $BASKET_TERCER_TIEMPO_B = 91; //resultado en 28
+		private static $BASKET_ALTA_SEXTO_A = 92; //resultado en 21
+		private static $BASKET_BAJA_SEXTO_A = 93; //resultado en 22
 		
-		if($rowVistaVentasDetalles["idcategoria_apuesta"] == GanadoresBasket::$BASKET_UNOMEDIOA_RLJC
+		
+		if($rowVistaVentasDetalles["idcategoria_apuesta"] == GanadoresBasket::$BASKET_AGANAR_JC_A
+				|| $rowVistaVentasDetalles["idcategoria_apuesta"] == GanadoresBasket:: $BASKET_AGANAR_JC_B){
+			// es A GANAR JUEGO COMPLETO de basket
+			$codeReturn = GanadoresBasket::checkAGanarBasketJuegoCompleto($rowVistaVentasDetalles);
+		} else if($rowVistaVentasDetalles["idcategoria_apuesta"] == GanadoresBasket::$BASKET_AGANAR_MJ_A
+				|| $rowVistaVentasDetalles["idcategoria_apuesta"] == GanadoresBasket:: $BASKET_AGANAR_MJ_B){
+			// es A GANAR MEDIO JUEGO de basket
+			$codeReturn = GanadoresBasket::checkAGanarBasketMedioJuego($rowVistaVentasDetalles);
+		} else if($rowVistaVentasDetalles["idcategoria_apuesta"] == GanadoresBasket::$BASKET_UNOMEDIOA_RLJC
 				|| $rowVistaVentasDetalles["idcategoria_apuesta"] == GanadoresBasket:: $BASKET_UNOMEDIOB_RLJC){
 			// es RUNLINE JUEGO COMPLETO de basket
 			$codeReturn = GanadoresBasket::checkRunLineBasketJuegoCompleto($rowVistaVentasDetalles);

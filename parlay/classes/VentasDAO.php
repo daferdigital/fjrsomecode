@@ -161,6 +161,9 @@ class VentasDAO {
 				if($existe[0]["idlogro_equipo_categoria_resultado"] > 0){
 					//si tenemos resultado
 					//calculamos si es ganador, perdedor o tablas
+					BitacoraDAO::registrarComentario("La venta [".$venta["idventa"]
+							."][".$venta["idventa_detalle"]."] si tiene resultado guardado");
+					
 					$codeReturn = VentasDAO::verificarSiEsGanador($venta["idventa_detalle"]);
 					
 					$ventaObj->setEstadoFinal($codeReturn);
@@ -213,7 +216,7 @@ class VentasDAO {
 						BitacoraDAO::registrarComentario("[".$idVenta."-".$apuesta->getIdVentaDetalle()."] calculando factor=(1 + (".$apuesta->getPago()."/100))");
 					}
 					
-					BitacoraDAO::registrarComentario("[".$idVenta."-".$apuesta->getIdVentaDetalle()."] actualizada a estado Ganador con factor".$factor);
+					BitacoraDAO::registrarComentario("[".$idVenta."-".$apuesta->getIdVentaDetalle()."] actualizada a estado Ganador con factor ".$factor);
 				} else if($apuesta->getEstadoFinal() == VentasDAO::$RESULTADO_PERDEDOR){
 					$apuestasPerdedoras++;
 					//actualizamos el estado especifico de la apuesta dentro del ticket
