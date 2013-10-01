@@ -89,7 +89,7 @@ public class MacroFotosDialog extends JDialog {
 		txtNotacion.setColumns(10);
 		
 		
-		JLabel lblNewLabel = new JLabel("<html>Descripci&oacute;n de la foto</html>");
+		JLabel lblNewLabel = new JLabel("<html>Descripci&oacute;n <br />Macro fotograf&iacute;a</html>");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblNewLabel.setBounds(10, 54, 120, 32);
 		contentPanel.add(lblNewLabel);

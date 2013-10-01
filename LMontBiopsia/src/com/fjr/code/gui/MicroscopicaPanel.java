@@ -12,6 +12,7 @@ import javax.swing.JButton;
 
 import com.fjr.code.gui.operations.MicroscopicaPanelOperations;
 import com.fjr.code.gui.tables.JTableMicroLaminas;
+import com.fjr.code.gui.tables.JTableMicroLaminasIHQ;
 import com.fjr.code.util.Constants;
 import javax.swing.JTable;
 import javax.swing.JSeparator;
@@ -41,6 +42,8 @@ public class MicroscopicaPanel extends JPanel {
 	private JTextArea textADiagnostico;
 	private JTable tblLaminas;
 	private JTableMicroLaminas tableMicroLaminas = JTableMicroLaminas.getNewInstance();
+	private JTable tblLaminasIHQ;
+	private JTableMicroLaminasIHQ tableMicroLaminasIHQ = JTableMicroLaminasIHQ.getNewInstance();
 	
 	/**
 	 * Create the panel.
@@ -132,36 +135,36 @@ public class MicroscopicaPanel extends JPanel {
 		
 		JButton btnGuardar = new JButton("Guardar");
 		btnGuardar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnGuardar.setBounds(10, 359, 91, 37);
+		btnGuardar.setBounds(10, 467, 91, 37);
 		btnGuardar.setActionCommand(MicroscopicaPanelOperations.ACTION_COMMAND_BTN_GUARDAR);
 		add(btnGuardar);
 		
 		JButton btnSendToDiagnostico = new JButton("<html>Enviar <br />Diagnostico</html>");
 		btnSendToDiagnostico.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnSendToDiagnostico.setBounds(111, 359, 134, 37);
+		btnSendToDiagnostico.setBounds(111, 467, 134, 37);
 		btnSendToDiagnostico.setActionCommand(MicroscopicaPanelOperations.ACTION_COMMAND_BTN_SEND_TO_DIAGNOSTICO);
 		add(btnSendToDiagnostico);
 		
 		JButton btnSendToIHQ = new JButton("<html>Solicitar <br />IHQ</html>");
 		btnSendToIHQ.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnSendToIHQ.setBounds(263, 359, 110, 37);
+		btnSendToIHQ.setBounds(263, 467, 110, 37);
 		btnSendToIHQ.setActionCommand(MicroscopicaPanelOperations.ACTION_COMMAND_BTN_SEND_TO_IHQ);
 		add(btnSendToIHQ);
 		
 		JButton btnCancel = new JButton("Cancelar");
 		btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnCancel.setBounds(383, 359, 91, 37);
+		btnCancel.setBounds(383, 467, 91, 37);
 		btnCancel.setActionCommand(MicroscopicaPanelOperations.ACTION_COMMAND_BTN_CANCELAR);
 		add(btnCancel);
 		
-		setSize(Constants.APP_WINDOW_MAX_X, 400);
+		setSize(1000, 518);
 		setLocation(0, Constants.APP_MENU_HEIGTH);
 		
 		JSeparator separator = new JSeparator();
 		separator.setOrientation(SwingConstants.VERTICAL);
 		separator.setBackground(new Color(0, 0, 0));
 		separator.setForeground(new Color(0, 0, 0));
-		separator.setBounds(500, 0, 2, 400);
+		separator.setBounds(500, 0, 2, 518);
 		add(separator);
 		
 		JLabel lblNewLabel = new JLabel("<html>L&aacute;minas: </html>:");
@@ -170,7 +173,7 @@ public class MicroscopicaPanel extends JPanel {
 		add(lblNewLabel);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(546, 39, 444, 327);
+		scrollPane.setBounds(546, 39, 444, 203);
 		add(scrollPane);
 		
 		tblLaminas = tableMicroLaminas.getTable();
@@ -181,6 +184,36 @@ public class MicroscopicaPanel extends JPanel {
 		JLabel lblNewLabel_1 = new JLabel("<html><b>(Doble click en cualquier registro para realizar su edici&oacute;n)</b></html>");
 		lblNewLabel_1.setBounds(595, 22, 326, 14);
 		add(lblNewLabel_1);
+		
+		JLabel lbldiagnosticoPorIhq = new JLabel("<html><b>Diagnostico por IHQ:</b></html>");
+		lbldiagnosticoPorIhq.setVerticalAlignment(SwingConstants.TOP);
+		lbldiagnosticoPorIhq.setHorizontalAlignment(SwingConstants.LEFT);
+		lbldiagnosticoPorIhq.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lbldiagnosticoPorIhq.setBounds(10, 363, 117, 37);
+		add(lbldiagnosticoPorIhq);
+		
+		JTextArea textArea = new JTextArea();
+		textArea.setWrapStyleWord(true);
+		textArea.setLineWrap(true);
+		textArea.setBorder(new LineBorder(new Color(0, 0, 0)));
+		textArea.setBounds(158, 361, 287, 95);
+		add(textArea);
+		
+		JLabel lbllaacuteminasIhq = new JLabel("<html>L&aacute;minas IHQ: </html>:");
+		lbllaacuteminasIhq.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lbllaacuteminasIhq.setBounds(512, 256, 127, 26);
+		add(lbllaacuteminasIhq);
+		
+		JLabel lbldobleClickEn = new JLabel("<html><b>(Doble click en cualquier registro para consultarlo)</b></html>");
+		lbldobleClickEn.setBounds(628, 264, 326, 14);
+		add(lbldobleClickEn);
+		
+		JScrollPane scrollPane_3 = new JScrollPane();
+		scrollPane_3.setBounds(552, 286, 438, 221);
+		add(scrollPane_3);
+		
+		tblLaminasIHQ = tableMicroLaminasIHQ.getTable();
+		scrollPane_3.setViewportView(tblLaminasIHQ);
 		btnCancel.addActionListener(listener);
 		btnGuardar.addActionListener(listener);
 		btnSendToDiagnostico.addActionListener(listener);
@@ -228,5 +261,13 @@ public class MicroscopicaPanel extends JPanel {
 	
 	public JTableMicroLaminas getTableMicroLaminas() {
 		return tableMicroLaminas;
+	}
+
+	public JTable getTblLaminasIHQ() {
+		return tblLaminasIHQ;
+	}
+
+	public JTableMicroLaminasIHQ getTableMicroLaminasIHQ() {
+		return tableMicroLaminasIHQ;
 	}
 }

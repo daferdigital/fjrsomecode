@@ -1,5 +1,6 @@
 package com.fjr.code.dao;
 
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -46,7 +47,9 @@ class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO> {
 			//datos basicos de histologia 31
 			+ " bh.descripcion,"
 			//datos basicos de micro 32-33
-			+ " bmi.idx, bmi.diagnostico"
+			+ " bmi.idx, bmi.diagnostico,"
+			//otros valores 34
+			+ " b.fecha_registro"
 			+ " FROM  biopsias b LEFT JOIN biopsias_ingresos bi ON b.id = bi.id"
 			+ " LEFT JOIN biopsias_macroscopicas bm ON b.id = bm.id"
 			+ " LEFT JOIN biopsias_histologias bh ON b.id = bh.id"
@@ -56,9 +59,10 @@ class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO> {
 			+ " WHERE b.id_cliente = c.id"
 			+ " AND c.activo = '1'"
 			+ " AND eb.id = b.id_examen_biopsia"
+			+ " AND te.id =  eb.id_tipo_examen"
 			+ " AND b.id_fase_actual = fb.id";
 	
-	private static final String END = "ORDER BY b.year_biopsia, b.numero_biopsia";
+	private static final String END = " ORDER BY b.year_biopsia, b.numero_biopsia";
 	
 	private String customWhere;
 	private List<Object> parameters;
@@ -90,9 +94,22 @@ class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO> {
 		parameters.add(cedula);
 	}
 	
+	/**
+	 * 
+	 * @param nroBiopsia
+	 */
 	public void searchByNumeroBiopsia(String nroBiopsia){
 		customWhere += " AND CONCAT(b.year_biopsia, '-', b.numero_biopsia) = ?";
 		parameters.add(nroBiopsia);
+	}
+	
+	/**
+	 * 
+	 * @param nroBiopsia
+	 */
+	public void searchByFase(FasesBiopsia fase){
+		customWhere += " AND b.id_fase_actual = ?";
+		parameters.add(fase.getCodigoFase());
 	}
 	
 	@Override
@@ -122,6 +139,10 @@ class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO> {
 				biopsiaAllInfo.setYearBiopsia(rowSet.getInt(2));
 				biopsiaAllInfo.setNumeroBiopsia(rowSet.getInt(3));
 				biopsiaAllInfo.setFaseActual(FasesBiopsia.getInfoByCode(rowSet.getInt(4)));
+				
+				Calendar fechaRegistro = Calendar.getInstance();
+				fechaRegistro.setTimeInMillis(rowSet.getTimestamp(34).getTime());
+				biopsiaAllInfo.setFechaRegistro(fechaRegistro);
 				
 				//datos especificos de ingreso
 				BiopsiaIngresoDTO ingresoDTO = new BiopsiaIngresoDTO();

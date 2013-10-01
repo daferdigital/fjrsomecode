@@ -29,14 +29,17 @@ final class BiopsiaMicroLaminasDAOListBuilder implements DAOListBuilder<BiopsiaM
 	private static final String END = " GROUP BY ml.id, ml.cassete, ml.bloque, ml.lamina"
 			+ " ORDER BY ml.id, ml.cassete, ml.bloque, ml.lamina";
 	
+	private boolean isIHQ;
 	private String customWhere;
 	private List<Object> parameters;
 	
 	/**
 	 * 
+	 * @param isIHQ
 	 */
-	public BiopsiaMicroLaminasDAOListBuilder() {
+	public BiopsiaMicroLaminasDAOListBuilder(boolean isIHQ) {
 		// TODO Auto-generated constructor stub
+		this.isIHQ = isIHQ;
 		customWhere = "";
 		parameters = new LinkedList<Object>();
 	}
@@ -76,8 +79,8 @@ final class BiopsiaMicroLaminasDAOListBuilder implements DAOListBuilder<BiopsiaM
 				lamina.setDescripcion(rowSet.getString(5));
 				
 				BiopsiaMicroLaminasReactivosDAO.setMicroLaminasReactivos(lamina);
-				BiopsiaMicroLaminasFileDAO.setMicroLaminasFotos(lamina);
-				
+				BiopsiaMicroLaminasFileDAO.setMicroLaminasFotos(lamina, isIHQ);
+								
 				log.info("Leida de la base de datos lamina micro: " + lamina);
 				results.add(lamina);
 			}

@@ -24,7 +24,8 @@ import com.fjr.code.util.DBUtil;
 final class BiopsiaMicroLaminasReactivosDAOListBuilder implements DAOListBuilder<ReactivoDTO> {
 	private static final Logger log = Logger.  getLogger(BiopsiaMicroLaminasReactivosDAOListBuilder.class);
 	
-	private static final String BEGIN = "SELECT cr.id, cr.nombre, r.id, r.nombre, r.abreviatura, r.precio "
+	private static final String BEGIN = "SELECT cr.id, cr.nombre, r.id, r.nombre, r.abreviatura, r.precio, "
+			+ " ml.descripcion, ml.procesado"
 			+ " FROM micro_laminas ml, reactivos r, categorias_reactivos cr"
 			+ " WHERE r.id > 0"
 			+ " AND r.id_categoria_reactivo = cr.id "
@@ -95,6 +96,8 @@ final class BiopsiaMicroLaminasReactivosDAOListBuilder implements DAOListBuilder
 				tempDTO.setNombre(rowSet.getString(4));
 				tempDTO.setAbreviatura(rowSet.getString(5));
 				tempDTO.setPrecio(rowSet.getDouble(6));
+				tempDTO.setDescripcionIHQ(rowSet.getString(7));
+				tempDTO.setProcesadoIHQ(rowSet.getBoolean(8));
 				tempDTO.setCategoriaReactivoDTO(categoriaDTO);
 				
 				

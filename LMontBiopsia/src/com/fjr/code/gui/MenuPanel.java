@@ -54,7 +54,7 @@ public class MenuPanel extends JPanel {
 		JMenuItem mntmDelTemp = new JMenuItem("Borrar archivos temporales");
 		mntmDelTemp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				LicenseDialog.showDialog();
+				//LicenseDialog.showDialog();
 			}
 		});
 		menuArchivo.add(mntmDelTemp);
@@ -78,6 +78,7 @@ public class MenuPanel extends JPanel {
 		JMenuItem mntmAcercaDe = new JMenuItem("Acerca de ...");
 		mntmAcercaDe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				AppWindow.getInstance().setExtraTitle("");
 				AcercaDeDialog acercaDe = new AcercaDeDialog();
 				acercaDe.setVisible(true);
 			}
@@ -102,6 +103,7 @@ public class MenuPanel extends JPanel {
 					//debemos mostrar el panel de recepcion
 					IngresoPanel panel = new IngresoPanel(true);
 					AppWindow.getInstance().setPanelContenido(panel);
+					AppWindow.getInstance().setExtraTitle("Recepci\u00F3n");
 					panel.setFocusAtDefaultElement();
 				}
 			});
@@ -113,6 +115,7 @@ public class MenuPanel extends JPanel {
 					//debemos mostrar el panel de recepcion
 					IngresoPanel panel = new IngresoPanel(false);
 					AppWindow.getInstance().setPanelContenido(panel);
+					AppWindow.getInstance().setExtraTitle("Recepci\u00F3n");
 					panel.getTextNroBiopsia().requestFocusInWindow();
 				}
 			});
@@ -129,6 +132,7 @@ public class MenuPanel extends JPanel {
 				public void actionPerformed(ActionEvent arg0) {
 					//debemos mostrar el panel de recepcion
 					MacroscopicaPanel panel = new MacroscopicaPanel();
+					AppWindow.getInstance().setExtraTitle("Macrosc\u00F3pica");
 					AppWindow.getInstance().setPanelContenido(panel);
 					panel.setFocusAtDefaultElement();
 				}
@@ -145,6 +149,7 @@ public class MenuPanel extends JPanel {
 					//debemos mostrar el panel de recepcion
 					HistologiaPanel panel = new HistologiaPanel();
 					AppWindow.getInstance().setPanelContenido(panel);
+					AppWindow.getInstance().setExtraTitle("Histologia");
 					panel.setFocusAtDefaultElement();
 				}
 			});
@@ -159,6 +164,7 @@ public class MenuPanel extends JPanel {
 					//debemos mostrar el panel de recepcion
 					MicroscopicaPanel panel = new MicroscopicaPanel();
 					AppWindow.getInstance().setPanelContenido(panel);
+					AppWindow.getInstance().setExtraTitle("Microscopica");
 					panel.setFocusAtDefaultElement();
 				}
 			});
@@ -173,6 +179,7 @@ public class MenuPanel extends JPanel {
 					//debemos mostrar el panel de recepcion
 					HistologiaIHQPanel panel = new HistologiaIHQPanel();
 					AppWindow.getInstance().setPanelContenido(panel);
+					AppWindow.getInstance().setExtraTitle("IHQ");
 					panel.setFocusAtDefaultElement();
 				}
 			});

@@ -45,7 +45,7 @@ public class AppWindow {
 	private void initialize() {
 		frmSistemaDeGestion = new JFrame();
 		//frmSistemaDeGestion.setExtendedState(JFrame.MAXIMIZED_BOTH); // ventana maximizada
-		frmSistemaDeGestion.setTitle("Sistema de Gesti\u00F3n de Biopsias");
+		frmSistemaDeGestion.setTitle(Constants.APP_WINDOW_TITLE);
 		frmSistemaDeGestion.setIconImage(Toolkit.getDefaultToolkit().getImage(AppWindow.class.getResource("/resources/images/iconLogo1.jpg")));
 		frmSistemaDeGestion.setSize(Constants.APP_WINDOW_MAX_X, Constants.APP_WINDOW_MAX_Y);
 		frmSistemaDeGestion.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -130,6 +130,14 @@ public class AppWindow {
 		return appWindow;
 	}
 
+	/**
+	 * 
+	 * @param extraTitle
+	 */
+	public void setExtraTitle(String extraTitle){
+		frmSistemaDeGestion.setTitle(Constants.APP_WINDOW_TITLE + " - " + extraTitle);
+	}
+	
 	public static void show() {
 		// TODO Auto-generated method stub
 		if(appWindow == null){

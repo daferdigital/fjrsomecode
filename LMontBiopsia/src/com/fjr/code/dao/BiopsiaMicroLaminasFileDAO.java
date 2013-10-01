@@ -32,12 +32,12 @@ public class BiopsiaMicroLaminasFileDAO {
 	 * @param biopsia
 	 * @return
 	 */
-	public static void setMicroLaminasFotos(BiopsiaMicroLaminasDTO biopsia) {
+	public static void setMicroLaminasFotos(BiopsiaMicroLaminasDTO biopsia, boolean isIHQ) {
 		if(biopsia == null){
 			log.error("Se desea almacenar la informacion de fotos macro, pero no existe el DTO maestro de la fase macro.");
 		} else {
 			//ubicamos las fotos de la fase macro, para colocarlas en la informacion de la biopsia
-			BiopsiaMicroLaminasFileDAOListBuilder builder = new BiopsiaMicroLaminasFileDAOListBuilder();
+			BiopsiaMicroLaminasFileDAOListBuilder builder = new BiopsiaMicroLaminasFileDAOListBuilder(isIHQ);
 			builder.searchByIdBiopsia(biopsia.getId());
 			builder.searchByCassete(biopsia.getCassete());
 			builder.searchByBloque(biopsia.getBloque());

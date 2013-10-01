@@ -17,6 +17,7 @@ public class BiopsiaMicroLaminasDTO {
 	private int bloque;
 	private int lamina;
 	private String descripcion;
+	
 	private List<ReactivoDTO> reactivosDTO;
 	private List<BiopsiaMicroLaminasFileDTO> microLaminasFilesDTO; 
 	

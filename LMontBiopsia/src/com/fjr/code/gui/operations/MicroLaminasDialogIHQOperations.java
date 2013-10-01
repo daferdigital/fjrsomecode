@@ -17,8 +17,7 @@ import javax.swing.JList;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import com.fjr.code.dto.ReactivoDTO;
-import com.fjr.code.gui.MicroLaminasDialog;
+import com.fjr.code.gui.MicroLaminasIHQDialog;
 
 /**
  * 
@@ -29,9 +28,7 @@ import com.fjr.code.gui.MicroLaminasDialog;
  * @author T&T
  *
  */
-public class MicroLaminasDialogOperations implements ActionListener, ListSelectionListener, MouseListener{
-	public static final String ACTION_COMMAND_BTN_ADD_REACTIVO = "btnAddReactivo";
-	public static final String ACTION_COMMAND_BTN_DEL_REACTIVO = "btnDelReactivo";
+public class MicroLaminasDialogIHQOperations implements ActionListener, ListSelectionListener, MouseListener{
 	public static final String ACTION_COMMAND_BTN_SUBIR_FOTO = "btnSubirFoto";
 	public static final String ACTION_COMMAND_BTN_DELETE_FOTO = "btnDeleteFoto";
 	public static final String ACTION_COMMAND_BTN_ACEPTAR = "btnAceptar";
@@ -39,18 +36,16 @@ public class MicroLaminasDialogOperations implements ActionListener, ListSelecti
 	public static final String ACTION_COMMAND_OPEN_FILE = "openFile";
 	public static final String NAME_LIST_FILES = "nameListFiles";
 	
-	private MicroLaminasDialog ventana;
+	private MicroLaminasIHQDialog ventana;
 	private String fileToOpen;
 	private Vector<File> listFilesDataHidden = new Vector<File>();
 	private Vector<String> listFilesData = new Vector<String>();
-	private Vector<Integer> listReactivosDataHidden = new Vector<Integer>(0);
-	private Vector<String> listReactivosData = new Vector<String>(0);
 	
 	/**
 	 * 
 	 * @param ventana
 	 */
-	public MicroLaminasDialogOperations(MicroLaminasDialog ventana) {
+	public MicroLaminasDialogIHQOperations(MicroLaminasIHQDialog ventana) {
 		// TODO Auto-generated constructor stub
 		this.ventana = ventana;
 		if(ventana.getFilesMicroPaths() != null && !"".equals(ventana.getFilesMicroPaths())){
@@ -65,12 +60,6 @@ public class MicroLaminasDialogOperations implements ActionListener, ListSelecti
 			listFilesData.trimToSize();
 			listFilesDataHidden.trimToSize();
 			ventana.getListLaminasFiles().setListData(listFilesData);
-		}
-		
-		if(ventana.getListReactivosAsignados().getModel().getSize() > 0){
-			//tenemos reactivos pre asignados
-			listReactivosData = ventana.getListDataReactivos();
-			listReactivosDataHidden = ventana.getListDataReactivosHidden();
 		}
 	}
 
@@ -105,31 +94,8 @@ public class MicroLaminasDialogOperations implements ActionListener, ListSelecti
 					}
 				}
 				
-				String listadoReactivos = null;
-				String idsReactivos = null;
-				//vaciamos la informacion de los reactivos
-				if(! listReactivosData.isEmpty()){
-					for (int i = 0; i < listReactivosData.size(); i++) {
-						if(listadoReactivos != null){
-							listadoReactivos += ";";
-							idsReactivos += ";";
-						} else {
-							listadoReactivos = "";
-							idsReactivos = "";
-						}
-						
-						listadoReactivos += listReactivosData.get(i);
-						idsReactivos += listReactivosDataHidden.get(i);
-					}
-				} else {
-					listadoReactivos = "";
-					idsReactivos = "-1";
-				}
-				
 				ventana.getRelatedTable().updateRow(ventana.getRowOrigin(), 
 						ventana.getTextADescripcion().getText(), 
-						listadoReactivos,
-						idsReactivos,
 						filesItems);
 			}
 			
@@ -145,37 +111,6 @@ public class MicroLaminasDialogOperations implements ActionListener, ListSelecti
 				listFilesData.trimToSize();
 				
 				ventana.getListLaminasFiles().setListData(listFilesData);
-			}
-		} else if (ACTION_COMMAND_BTN_ADD_REACTIVO.equals(e.getActionCommand())){
-			//tomamos la lista de reactivos y vemos si se marco alguno
-			//en ese caso lo agregamos solo si no estaba ya antes
-			int idReactivo = -2;
-			if(ventana.getcBoxReactivo().getSelectedIndex() > 0){
-				ReactivoDTO reactivo = (ReactivoDTO) ventana.getcBoxReactivo().getSelectedItem();
-				idReactivo = reactivo.getId();
-				
-				if(! listReactivosDataHidden.contains(idReactivo)){
-					//debo agregar del reactivo
-					listReactivosDataHidden.add(idReactivo);
-					listReactivosData.add(reactivo.getNombre());
-					
-					listReactivosDataHidden.trimToSize();
-					listReactivosData.trimToSize();
-					
-					ventana.getListReactivosAsignados().setListData(listReactivosData);
-				}
-			}
-		} else if (ACTION_COMMAND_BTN_DEL_REACTIVO.equals(e.getActionCommand())){
-			//tomamos la lista de reactivos y eliminamos el seleccionado si es que hay alguno marcado
-			int selectedIndex = ventana.getListReactivosAsignados().getSelectedIndex();
-			if(selectedIndex > -1){
-				listReactivosDataHidden.remove(selectedIndex);
-				listReactivosData.remove(selectedIndex);
-				
-				listReactivosDataHidden.trimToSize();
-				listReactivosData.trimToSize();
-				
-				ventana.getListReactivosAsignados().setListData(listReactivosData);
 			}
 		}
 	}
