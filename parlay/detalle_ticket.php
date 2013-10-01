@@ -1,4 +1,12 @@
 <?Php session_start();
+$multiplicandosPermitidos = array();
+$multiplicandosPermitidos["9"] = "ALTA_JC_A";
+$multiplicandosPermitidos["10"] = "BAJA_JC_A";
+$multiplicandosPermitidos["12"] = "BAJA_MJ_A";
+$multiplicandosPermitidos["17"] = "RL_JC_A";
+$multiplicandosPermitidos["18"] = "RL_JC_B";
+$multiplicandosPermitidos["19"] = "RL_MJ_A";
+
 $concat='';
 	switch($_SESSION["perfil"]){
 		case '2':
@@ -110,7 +118,8 @@ $concat='';
 													$var_imp['multiplicando']=$multi_ale['pago'];
 												}
 												$var_imp['multiplicando']=str_replace(".0","",$var_imp['multiplicando']);
-												echo ($var_imp['multiplicando']!='' && $var_imp['multiplicando']!='1' ? $var_imp['multiplicando'].' / ' : '').$var_imp['pago'];
+												
+												echo (isset($multiplicandosPermitidos[$var_imp["idapuesta"]]) ? $var_imp['multiplicando'].' / ' : '').$var_imp['pago'];
 											?>
 	                      	    		</div>
 	                      	    	</td>
