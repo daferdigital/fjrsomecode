@@ -6,6 +6,36 @@ String.prototype.trim=function(){
 
 /**
  * 
+ * @param mail
+ * @returns {Boolean}
+ */
+function checkIfIsAValidMail(mail){
+	var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	
+	if(! re.test(mail.trim())){
+		return false;
+	}
+	
+	return true;
+}
+
+/**
+ * 
+ * @param urlToOpen
+ */
+function openPopUp(urlToOpen){
+	var w = 750;
+	var h = 600;
+	var title = "Detalles del Pedido";
+	
+	var left = (screen.width/2)-(w/2);
+	var top = (screen.height/2)-(h/2)-50;
+	
+	return window.open(urlToOpen, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left); 
+}
+
+/**
+ * 
  * @param frameName
  * @param loadingImageId
  * @param containerName
@@ -138,6 +168,50 @@ function validarSolicitud(forma){
 	}
 	
 	
+	
+	return doSubmit;
+}
+
+/**
+ * 
+ * @param forma
+ * @returns {Boolean}
+ */
+function validateRegistro(forma){
+	var doSubmit = true;
+	
+	document.getElementById("mandatoryPersonaContacto").style.display= "none";
+	document.getElementById("mandatoryCorreoContacto").style.display= "none";
+	document.getElementById("mandatoryCedulaContacto").style.display= "none";
+	document.getElementById("mandatoryTelefonoContacto").style.display= "none";
+	
+	var field = document.getElementById("personaContacto");
+	if(field != null && field.value == ""){
+		field.focus();
+		document.getElementById("mandatoryPersonaContacto").style.display= "";
+		doSubmit = false;
+	}
+	
+	field = document.getElementById("correoContacto");
+	if(field != null && ! checkIfIsAValidMail(field.value)){
+		field.focus();
+		document.getElementById("mandatoryCorreoContacto").style.display= "";
+		doSubmit = false;
+	}
+	
+	field = document.getElementById("cedulaContacto");
+	if(field != null && field.value == ""){
+		field.focus();
+		document.getElementById("mandatoryCedulaContacto").style.display= "";
+		doSubmit = false;
+	}
+	
+	field = document.getElementById("telefonoContacto");
+	if(field != null && field.value == ""){
+		field.focus();
+		document.getElementById("mandatoryTelefonoContacto").style.display= "";
+		doSubmit = false;
+	}
 	
 	return doSubmit;
 }

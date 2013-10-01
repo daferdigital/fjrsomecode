@@ -2,7 +2,7 @@
 	header("Content-Type: text/html; charset=iso-8859-1");
 	$tipoContenido = $_POST["contenido"];
 ?>
-	<input type="hidden" name="tipo" value="Papeleria Corporativa"/>
+	<input type="hidden" name="tipo" value="Papeleria Fiscal"/>
 	<input type="hidden" name="contenido" value="<?php echo $tipoContenido;?>"/>
 	<div>
 		Cantidad:
