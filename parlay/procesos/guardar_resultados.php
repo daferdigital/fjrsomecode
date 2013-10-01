@@ -193,233 +193,38 @@ foreach($_POST['resultado'] as $idlogro_equipo=>$valor){
 				break;
 			case 'basket':
 				/*INICIA BASKET****************************************************************************************************************************/			
-				//PARA 1H MONEY LINE
-							if($_POST['resultado'][$equipoA][17]>$_POST['resultado'][$equipoB][18]):
-									genera_aciertos('57',$equipoA);
-							elseif($_POST['resultado'][$equipoA][17]<$_POST['resultado'][$equipoB][18]):
-								//gana apuesta 26 {
-									genera_aciertos('59',$equipoB);
-								//gana apuesta 26 }
-								
-							endif;
-						//TERMINA PARA 1H MONEY LINE
-						
-						//PARA 2H MONEY LINE
-							if($_POST['resultado'][$equipoA][21]>$_POST['resultado'][$equipoB][22]):
-									genera_aciertos('82',$equipoA);
-							elseif($_POST['resultado'][$equipoA][21]<$_POST['resultado'][$equipoB][22]):
-								//gana apuesta 26 {
-									genera_aciertos('83',$equipoB);
-								//gana apuesta 26 }
-								
-							endif;
-						//TERMINA PARA 2H MONEY LINE
-						
-						//PARA 1T MONEY LINE
-							if($_POST['resultado'][$equipoA][23]>$_POST['resultado'][$equipoB][24]):
-									genera_aciertos('86',$equipoA);
-							elseif($_POST['resultado'][$equipoA][23]<$_POST['resultado'][$equipoB][24]):
-								//gana apuesta 26 {
-									genera_aciertos('87',$equipoB);
-								//gana apuesta 26 }
-								
-							endif;
-						//TERMINA PARA 1T MONEY LINE	
-						
-						//PARA 2T MONEY LINE
-							if($_POST['resultado'][$equipoA][25]>$_POST['resultado'][$equipoB][26]):
-									genera_aciertos('88',$equipoA);
-							elseif($_POST['resultado'][$equipoA][25]<$_POST['resultado'][$equipoB][26]):
-								//gana apuesta 26 {
-									genera_aciertos('89',$equipoB);
-								//gana apuesta 26 }
-								
-							endif;
-						//TERMINA PARA 2T MONEY LINE
-						
-						//PARA 3T MONEY LINE
-							if($_POST['resultado'][$equipoA][27]>$_POST['resultado'][$equipoB][28]):
-									genera_aciertos('90',$equipoA);
-							elseif($_POST['resultado'][$equipoA][27]<$_POST['resultado'][$equipoB][28]):
-								//gana apuesta 26 {
-									genera_aciertos('91',$equipoB);
-								//gana apuesta 26 }
-								
-							endif;
-						//TERMINA PARA 3T MONEY LINE
-						
-						//PARA JUEGOS C MONEY LINE
-						if($_POST['resultado'][$equipoA][19]==$_POST['resultado'][$equipoB][20]){
-										$_SESSION['suspendido']=1;
-										genera_aciertos('56',$equipoA);
-										genera_aciertos('58',$equipoB);
-										$_SESSION['suspendido']=0;
-						}else{
-								if($_POST['resultado'][$equipoA][19]>$_POST['resultado'][$equipoB][20]):
-										genera_aciertos('56',$equipoA);
-								elseif($_POST['resultado'][$equipoA][19]<$_POST['resultado'][$equipoB][20]):
-										genera_aciertos('58',$equipoB);								
-								endif;
-						}
-						//TERMINA PARA JUEGOS C MONEY LINE						
-						
-						//PARA RUNLINE JC
-							$multi=dame_datos("select * from logros_equipos_categorias_apuestas 
-											  WHERE idlogro_equipo='".$equipoA."' and idcategoria_apuesta='60' limit 1");
-							//echo $multi['multiplicando'];
-							$resultado_completo_A=$_POST['resultado'][$equipoA][19];
-							$resultado_completo_B=$_POST['resultado'][$equipoB][20];
-							
-							//FJR
-							//por la nueva figura de verificacion de ganadores
-							//registramos acoertos completos para que ninguna transacccion de estas quede por fuera
-							genera_aciertos('60',$equipoA);
-							genera_aciertos('61',$equipoB);
-							
-							///ale prueba
-							$compara=(float)($resultado_completo_A+$multi['multiplicando']);
-							
-							/*
-							if($compara==$resultado_completo_B){
-								$_SESSION['suspendido']=1;
-								genera_aciertos('60',$equipoA);
-								genera_aciertos('61',$equipoB);
-								$_SESSION['suspendido']=0;
-							
-							}else if($compara>$resultado_completo_B){
-								genera_aciertos('60',$equipoA);															
-							}else{
-								genera_aciertos('61',$equipoB);
-							}						
-							*/
-						//TERMINA PARA RUNLINE JC
-						
-						//PARA RUNLINE 1H (1er. tiempo o primera mitad)
-						$multi=dame_datos("select * from logros_equipos_categorias_apuestas 
-										  WHERE idlogro_equipo='".$equipoA."' and idcategoria_apuesta='62' limit 1");
-						//echo $multi['multiplicando'];
-						$resultado_completo_A=$_POST['resultado'][$equipoA][17];
-						$resultado_completo_B=$_POST['resultado'][$equipoB][18];
-						
-						//FJR
-						//por la nueva figura de verificacion de ganadores
-						//registramos acoertos completos para que ninguna transacccion de estas quede por fuera
-						genera_aciertos('62',$equipoA);
-						genera_aciertos('63',$equipoB);
-						
-						/*
-						$compara=(float)($resultado_completo_A+$multi['multiplicando']);
-						if($compara==$resultado_completo_B){
-							$_SESSION['suspendido']=1;
-							genera_aciertos('62',$equipoA);
-							genera_aciertos('63',$equipoB);
-							$_SESSION['suspendido']=0;
-						}else if($compara>$resultado_completo_B){
-							genera_aciertos('62',$equipoA);															
-						}else{
-							genera_aciertos('63',$equipoB);
-						}
-						*/
-						//TERMINA PARA RUNLINE 1H
-						
-						//PARA RUNLINE 2H
-							$multi=dame_datos("select * from logros_equipos_categorias_apuestas where idlogro_equipo='".$equipoA."' and idcategoria_apuesta='84' limit 1");
-							//echo $multi['multiplicando'];
-							$resultado_completo_A=$_POST['resultado'][$equipoA][19];
-							$resultado_completo_B=$_POST['resultado'][$equipoB][20];
-							
-							//por la nueva figura de verificacion de ganadores
-							//registramos acoertos completos para que ninguna transacccion de estas quede por fuera
-							genera_aciertos('84',$equipoA);
-							genera_aciertos('85',$equipoB);
-							
-							/*
-							$compara=(float)($resultado_completo_A+$multi['multiplicando']);
-							if($compara==$resultado_completo_B){
-								$_SESSION['suspendido']=1;
-								genera_aciertos('84',$equipoA);
-								genera_aciertos('85',$equipoB);
-								$_SESSION['suspendido']=0;
-							}else if($compara>$resultado_completo_B){
-								genera_aciertos('84',$equipoA);															
-							}else{
-								genera_aciertos('85',$equipoB);
-							}								
-							*/
-						//TERMINA PARA RUNLINE 2H	
-						
-						//PARA ALTAS Y BAJAS JUEGO COMPLETO
-							$multi=dame_datos("select * from logros_equipos_categorias_apuestas where idlogro_equipo='".$equipoA."' and idcategoria_apuesta='64' limit 1");
-							//echo $multi['multiplicando'];
-							$suma_carreras= (int) $_POST['resultado'][$equipoA][19]+$_POST['resultado'][$equipoB][20];
-							
-							//FJR
-							//por la nueva figura de verificacion de ganadores
-							//registramos acoertos completos para que ninguna transacccion de estas quede por fuera
-							genera_aciertos('64',$equipoA);
-							genera_aciertos('65',$equipoB);
-							
-							//$multi_ale
-							/*
-							if($suma_carreras==$multi['multiplicando']){
-								$_SESSION['suspendido']=1;
-								genera_aciertos('65',$equipoA);
-								genera_aciertos('64',$equipoA);
-								$_SESSION['suspendido']=0;
-							}else{
-								if($multi['multiplicando']>$suma_carreras): //ganan las bajas									
-									genera_aciertos('65',$equipoA);
-								else: //ganan las altas									
-									genera_aciertos('64',$equipoA);
-								endif;									
-							}
-							*/
-						//TERMINA PARA ALTAS Y BAJAS JUEGO COMPLETO
-						
-						//PARA ALTAS Y BAJAS 1H
-							$multi=dame_datos("select * from logros_equipos_categorias_apuestas where idlogro_equipo='".$equipoA."' and idcategoria_apuesta='66' limit 1");
-							
-							//FJR
-							//por la nueva figura de verificacion de ganadores
-							//registramos acoertos completos para que ninguna transacccion de estas quede por fuera
-							genera_aciertos('66',$equipoA);
-							genera_aciertos('67',$equipoB);
-							
-							//echo $multi['multiplicando'];
-							/*
-							$suma_carreras_m= (int) $_POST['resultado'][$equipoA][17]+$_POST['resultado'][$equipoB][18];
-							if($suma_carreras_m==$multi['multiplicando']){
-								$_SESSION['suspendido']=1;
-								genera_aciertos('67',$equipoA);
-								genera_aciertos('66',$equipoA);
-								$_SESSION['suspendido']=0;
-							}else{
-								if($multi['multiplicando']>$suma_carreras_m): //ganan las bajas									
-									genera_aciertos('67',$equipoA);
-								else: //ganan las altas									
-									genera_aciertos('66',$equipoA);	
-								endif;
-							}
-							*/
-						//TERMINA PARA ALTAS Y BAJAS 1H
-						
-						//PARA ALTAS Y BAJAS 2H
-							$multi=dame_datos("select * from logros_equipos_categorias_apuestas where idlogro_equipo='".$equipoA."' and idcategoria_apuesta='92' limit 1");
-							//echo $multi['multiplicando'];
-							$suma_carreras_m= (int) $_POST['resultado'][$equipoA][21]+$_POST['resultado'][$equipoB][22];
-							
-								if($multi['multiplicando']>$suma_carreras_m): //ganan las bajas									
-									genera_aciertos('93',$equipoA);
-								else: //ganan las altas									
-									genera_aciertos('92',$equipoA);	
-								endif;									
-						//TERMINA PARA ALTAS Y BAJAS 2H
-						
-			/*TERMINA BASKET****************************************************************************************************************************/
-					break;
-					
-					case 'futbolamericano':
-/*INICIA FUTBOL AMERICANO******************************************************************************************/
+				$_SESSION[] ;
+				
+				$_SESSION['suspendido']=0;
+				//INICIAMOS TODAS LAS APUESTAS COMO VALIDAS, PARA LUEGO PROCESARLAS
+				genera_aciertos('56',$equipoA); // A GANAR JUEGO COMPLETO A
+				genera_aciertos('58',$equipoB); // A GANAR JUEGO COMPLETO B
+				genera_aciertos('57',$equipoA); // A GANAR MEDIO JUEGO A
+				genera_aciertos('59',$equipoB); // A GANAR MEDIO JUEGO B
+				genera_aciertos('60',$equipoA); // RUN LINE JUEGO COMPLETO A
+				genera_aciertos('61',$equipoB); // RUN LINE JUEGO COMPLETO B
+				genera_aciertos('62',$equipoA); // RUN LINE MEDIO JUEGO A
+				genera_aciertos('63',$equipoB); // RUN LINE MEDIO JUEGO B
+				genera_aciertos('64',$equipoA); // ALTA JUEGO COMPLETO A
+				genera_aciertos('65',$equipoB); // BAJA JUEGO COMPLETO A
+				genera_aciertos('66',$equipoA); // ALTA MEDIO JUEGO A
+				genera_aciertos('67',$equipoB); // BAJA MEDIO JUEGO A
+				genera_aciertos('82',$equipoA); // A GANAR 2DA MITAD A
+				genera_aciertos('83',$equipoB); // A GANAR 2DA MITAD B
+				genera_aciertos('84',$equipoA); // RUN LINE ALTERNATIVO A
+				genera_aciertos('85',$equipoB); // RUN LINE ALTERNATIVO B
+				genera_aciertos('86',$equipoA); // PRIMER TIEMPO A
+				genera_aciertos('87',$equipoB); // PRIMER TIEMPO B
+				genera_aciertos('88',$equipoA); // SEGUNDO TIEMPO A
+				genera_aciertos('89',$equipoB); // SEGUNDO TIEMPO B
+				genera_aciertos('90',$equipoA); // TERCER TIEMPO A
+				genera_aciertos('91',$equipoB); // TERCER TIEMPO B
+				genera_aciertos('92',$equipoA); // ALTAS 2H A
+				genera_aciertos('93',$equipoB); // BAJAS 2H A
+				/*TERMINA BASKET ************************************************************************************************/
+				break;
+			case 'futbolamericano':
+				/*INICIA FUTBOL AMERICANO    ************************************************************************************/
 						if($_POST['resultado'][$equipoA][32]>0){
 							$suspendido_2m=1;
 						}else{
