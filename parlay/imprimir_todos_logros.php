@@ -38,6 +38,7 @@ if(!$_REQUEST['fecha']){
 	$extraWhereFecha = " fecha='".$_REQUEST['fecha']."'";
 }
 
+
 list($ano,$mes,$dia)=explode("-",$_REQUEST['fecha']);
 		//$selectlogros="select * from vista_logros where fecha='".$_REQUEST['fecha']."' and idliga='".$_REQUEST['liga']."' ORDER BY idlogro,que_equipo ASC, nombre_tipo_apuesta ASC";
 		$selectlogros="SELECT *,date_format(CONCAT(fecha,' ',hora),'%r') as hora_f, l.nombre 
