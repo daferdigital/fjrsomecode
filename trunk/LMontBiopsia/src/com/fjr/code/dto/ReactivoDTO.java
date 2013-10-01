@@ -6,6 +6,8 @@ public class ReactivoDTO {
 	private String abreviatura;
 	private double precio;
 	private CategoriaReactivoDTO categoriaReactivoDTO;
+	private boolean procesadoIHQ;
+	private String descripcionIHQ;
 	
 	public ReactivoDTO() {
 		// TODO Auto-generated constructor stub
@@ -49,6 +51,22 @@ public class ReactivoDTO {
 
 	public void setCategoriaReactivoDTO(CategoriaReactivoDTO categoriaReactivoDTO) {
 		this.categoriaReactivoDTO = categoriaReactivoDTO;
+	}
+	
+	public boolean isProcesadoIHQ() {
+		return procesadoIHQ;
+	}
+
+	public void setProcesadoIHQ(boolean procesadoIHQ) {
+		this.procesadoIHQ = procesadoIHQ;
+	}
+
+	public String getDescripcionIHQ() {
+		return descripcionIHQ;
+	}
+
+	public void setDescripcionIHQ(String descripcionIHQ) {
+		this.descripcionIHQ = descripcionIHQ;
 	}
 	
 	@Override

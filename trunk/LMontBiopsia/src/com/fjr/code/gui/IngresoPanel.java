@@ -15,6 +15,8 @@ import com.fjr.code.dao.ExamenBiopsiaDAO;
 import com.fjr.code.dao.PatologoDAO;
 import com.fjr.code.dao.TipoCedulaDAO;
 import com.fjr.code.gui.operations.IngresoPanelOperations;
+import com.fjr.code.gui.tables.JTableDiagnosticos;
+import com.fjr.code.gui.tables.JTableIHQSolicitadas;
 import com.fjr.code.util.Constants;
 
 import java.awt.Component;
@@ -56,7 +58,8 @@ public class IngresoPanel extends JPanel {
 	private JTextArea textAreaIDx;
 	private JLabel lblTipoExamen;
 	private JLabel lblNumeroDias;
-	private JTable table;
+	private JTable tableDiagnosticos;
+	private JTable tableConfirmarIHQ;
 	
 	/**
 	 * 
@@ -150,9 +153,9 @@ public class IngresoPanel extends JPanel {
 		textProcedencia.setBounds(180, 152, 184, 20);
 		add(textProcedencia);
 		
-		JLabel lblPiezaRecibida = new JLabel("<html><b>Pieza Recibida:</b></html>");
+		JLabel lblPiezaRecibida = new JLabel("<html><b>Procedencia del material:</b></html>");
 		lblPiezaRecibida.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblPiezaRecibida.setBounds(20, 181, 127, 14);
+		lblPiezaRecibida.setBounds(10, 178, 164, 18);
 		add(lblPiezaRecibida);
 		
 		textPiezaRecibida = new JTextField();
@@ -271,18 +274,33 @@ public class IngresoPanel extends JPanel {
 		separator.setBounds(510, 0, 2, 500);
 		add(separator);
 		
-		JLabel lblBiopsiasEntregadasA = new JLabel("Biopsias Entregadas a Diagnostico");
+		JLabel lblBiopsiasEntregadasA = new JLabel("Biopsias Listas para Entrega");
 		lblBiopsiasEntregadasA.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblBiopsiasEntregadasA.setBounds(522, 11, 230, 17);
 		add(lblBiopsiasEntregadasA);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBorder(new LineBorder(new Color(130, 135, 144)));
-		scrollPane.setBounds(546, 40, 340, 180);
+		scrollPane.setBounds(546, 40, 425, 180);
 		add(scrollPane);
 		
-		table = new JTable();
-		scrollPane.setViewportView(table);
+		tableDiagnosticos = new JTableDiagnosticos().getTable();
+		scrollPane.setViewportView(tableDiagnosticos);
+		
+		JLabel lblBiopsiasEnEspera = new JLabel("Biopsias En Espera de Confirmar IHQ");
+		lblBiopsiasEnEspera.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblBiopsiasEnEspera.setBounds(522, 256, 281, 17);
+		add(lblBiopsiasEnEspera);
+		
+		JScrollPane scrollPane1 = new JScrollPane();
+		scrollPane1.setBorder(new LineBorder(new Color(130, 135, 144)));
+		scrollPane1.setBounds(546, 285, 425, 180);
+		
+		tableConfirmarIHQ = new JTableIHQSolicitadas().getTable();
+		scrollPane1.setViewportView(tableConfirmarIHQ);
+		
+		add(scrollPane1);
+		
 		textCedula.addKeyListener(listener);
 		if(! isNewBiopsia){
 			textNroBiopsia.addInputMethodListener(listener);

@@ -9,8 +9,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JButton;
 
 import com.fjr.code.gui.operations.HistologiaIHQPanelOperations;
-import com.fjr.code.gui.operations.MicroscopicaPanelOperations;
-import com.fjr.code.gui.tables.JTableMicroLaminas;
+import com.fjr.code.gui.tables.JTableMicroLaminasIHQ;
 import com.fjr.code.util.Constants;
 import javax.swing.JTable;
 import javax.swing.JSeparator;
@@ -37,7 +36,7 @@ public class HistologiaIHQPanel extends JPanel {
 	private JTextField textPiezaRecibida;
 	private JTextField textExamenARealizar;
 	private JTable tblLaminasIHQ;
-	private JTableMicroLaminas tableMicroLaminasIHQ = JTableMicroLaminas.getNewInstance();
+	private JTableMicroLaminasIHQ tableMicroLaminasIHQ = JTableMicroLaminasIHQ.getNewInstance();
 	
 	/**
 	 * Create the panel.
@@ -54,7 +53,7 @@ public class HistologiaIHQPanel extends JPanel {
 		textNroBiopsia = new JTextField();
 		textNroBiopsia.setBounds(157, 11, 184, 20);
 		textNroBiopsia.setColumns(10);
-		textNroBiopsia.setName(MicroscopicaPanelOperations.ACTION_COMMAND_NRO_BIOPSIA);
+		textNroBiopsia.setName(HistologiaIHQPanelOperations.ACTION_COMMAND_NRO_BIOPSIA);
 		add(textNroBiopsia);
 		
 		JLabel lblnombreDelPaciente = new JLabel("<html><b>Nombre del Paciente:</b></html>");
@@ -95,26 +94,26 @@ public class HistologiaIHQPanel extends JPanel {
 		
 		JButton btnGuardar = new JButton("Guardar");
 		btnGuardar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnGuardar.setBounds(10, 359, 91, 37);
-		btnGuardar.setActionCommand(MicroscopicaPanelOperations.ACTION_COMMAND_BTN_GUARDAR);
+		btnGuardar.setBounds(24, 359, 91, 37);
+		btnGuardar.setActionCommand(HistologiaIHQPanelOperations.ACTION_COMMAND_BTN_GUARDAR);
 		add(btnGuardar);
 		
-		JButton btnSendToDiagnostico = new JButton("<html>Enviar a <br />Diagnostico</html>");
-		btnSendToDiagnostico.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnSendToDiagnostico.setBounds(111, 359, 134, 37);
-		btnSendToDiagnostico.setActionCommand(MicroscopicaPanelOperations.ACTION_COMMAND_BTN_SEND_TO_DIAGNOSTICO);
-		add(btnSendToDiagnostico);
+		JButton btnPrintLabels = new JButton("<html>Imprimir <br /> Etiquetas</html>");
+		btnPrintLabels.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnPrintLabels.setActionCommand(HistologiaIHQPanelOperations.ACTION_COMMAND_BTN_PRINT_LABELS);
+		btnPrintLabels.setBounds(125, 359, 107, 37);
+		add(btnPrintLabels);
 		
-		JButton btnSendToIHQ = new JButton("<html>Solicitar <br />IHQ</html>");
-		btnSendToIHQ.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnSendToIHQ.setBounds(263, 359, 110, 37);
-		btnSendToIHQ.setActionCommand(MicroscopicaPanelOperations.ACTION_COMMAND_BTN_SEND_TO_IHQ);
-		add(btnSendToIHQ);
+		JButton btnSendToMicro = new JButton("<html>Enviar a Micro</html>");
+		btnSendToMicro.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnSendToMicro.setBounds(249, 359, 107, 37);
+		btnSendToMicro.setActionCommand(HistologiaIHQPanelOperations.ACTION_COMMAND_BTN_SEND_TO_MICRO);
+		add(btnSendToMicro);
 		
 		JButton btnCancel = new JButton("Cancelar");
 		btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnCancel.setBounds(383, 359, 91, 37);
-		btnCancel.setActionCommand(MicroscopicaPanelOperations.ACTION_COMMAND_BTN_CANCELAR);
+		btnCancel.setBounds(366, 359, 91, 37);
+		btnCancel.setActionCommand(HistologiaIHQPanelOperations.ACTION_COMMAND_BTN_CANCELAR);
 		add(btnCancel);
 		
 		setSize(Constants.APP_WINDOW_MAX_X, 400);
@@ -144,10 +143,11 @@ public class HistologiaIHQPanel extends JPanel {
 		JLabel lblNewLabel_1 = new JLabel("<html><b>(Doble click en cualquier registro para realizar su edici&oacute;n)</b></html>");
 		lblNewLabel_1.setBounds(595, 22, 326, 14);
 		add(lblNewLabel_1);
+		
 		btnCancel.addActionListener(listener);
 		btnGuardar.addActionListener(listener);
-		btnSendToDiagnostico.addActionListener(listener);
-		btnSendToIHQ.addActionListener(listener);
+		btnSendToMicro.addActionListener(listener);
+		btnPrintLabels.addActionListener(listener);
 		textNroBiopsia.addKeyListener(listener);
 		
 		setVisible(true);
@@ -181,7 +181,7 @@ public class HistologiaIHQPanel extends JPanel {
 		this.textNroBiopsia.requestFocusInWindow();
 	}
 	
-	public JTableMicroLaminas getTableMicroLaminas() {
+	public JTableMicroLaminasIHQ getTableMicroLaminasIHQ() {
 		return tableMicroLaminasIHQ;
 	}
 }

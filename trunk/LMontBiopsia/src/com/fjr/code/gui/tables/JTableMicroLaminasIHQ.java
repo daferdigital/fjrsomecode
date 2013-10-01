@@ -9,34 +9,35 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.JCheckBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import com.fjr.code.dao.ReactivoDAO;
 import com.fjr.code.dto.BiopsiaMicroLaminasDTO;
 import com.fjr.code.dto.BiopsiaMicroLaminasFileDTO;
 import com.fjr.code.dto.ReactivoDTO;
-import com.fjr.code.gui.MicroLaminasDialog;
-import com.fjr.code.util.Constants;
+import com.fjr.code.gui.MicroLaminasIHQDialog;
 
 /**
  * 
- * Class: JTableMacroCassetes
+ * Class: JTableMicroLaminasIHQ
  * Creation Date: 10/09/2013
  * (c) 2013
  *
  * @author T&T
  *
  */
-public class JTableMicroLaminas {
+public class JTableMicroLaminasIHQ {
 	
 	private DefaultTableModel model;
 	private JTable table;
-	private static JTableMicroLaminas instance;
+	private static JTableMicroLaminasIHQ instance;
 	
 	/**
 	 * 
 	 */
-	private JTableMicroLaminas() {
+	private JTableMicroLaminasIHQ() {
 		// TODO Auto-generated constructor stub
 		table = new JTable(){
 			/**
@@ -48,6 +49,18 @@ public class JTableMicroLaminas {
 			public boolean isCellEditable(int row, int column) {
 				// TODO Auto-generated method stub
 				return false;
+			}
+			
+			@Override
+			public Object getValueAt(int row, int column) {
+				// TODO Auto-generated method stub
+				if(column == 0){
+					JCheckBox check = new JCheckBox();
+					check.setSelected(Boolean.parseBoolean(super.getValueAt(row, column).toString()));
+					return check;
+				} else {
+					return super.getValueAt(row, column);
+				}
 			}
 		};
 		
@@ -80,16 +93,24 @@ public class JTableMicroLaminas {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
-				if(e.getClickCount() == 2 && !e.isConsumed()) {
-					new MicroLaminasDialog(instance, 
-							table.getSelectedRow(),
-							Integer.parseInt(model.getValueAt(table.getSelectedRow(), 0).toString()),
-							model.getValueAt(table.getSelectedRow(), 1).toString(),
-							model.getValueAt(table.getSelectedRow(), 2).toString(),
-							model.getValueAt(table.getSelectedRow(), 3).toString(),
-							model.getValueAt(table.getSelectedRow(), 5).toString(),
-							model.getValueAt(table.getSelectedRow(), 6).toString()).setVisible(true);
+				if(table.getSelectedColumn() == 0 && table.getSelectedRow() > -1){
 					e.consume();
+					boolean selected = Boolean.parseBoolean(model.getValueAt(table.getSelectedRow(), 0).toString());
+					model.setValueAt(! selected, table.getSelectedRow(), 0);
+					JCheckBox check = new JCheckBox();
+					check.setSelected(! selected);
+				} else {
+					if(e.getClickCount() == 2 && !e.isConsumed()) {
+						new MicroLaminasIHQDialog(instance, 
+								table.getSelectedRow(),
+								Integer.parseInt(model.getValueAt(table.getSelectedRow(), 1).toString()),
+								model.getValueAt(table.getSelectedRow(), 2).toString(),
+								model.getValueAt(table.getSelectedRow(), 3).toString(),
+								model.getValueAt(table.getSelectedRow(), 4).toString(),
+								model.getValueAt(table.getSelectedRow(), 5).toString(),
+								model.getValueAt(table.getSelectedRow(), 7).toString()).setVisible(true);
+						e.consume();
+					}
 				}
 			}
 		});
@@ -102,8 +123,8 @@ public class JTableMicroLaminas {
 	 * 
 	 * @return
 	 */
-	public static JTableMicroLaminas getNewInstance(){
-		instance = new JTableMicroLaminas();
+	public static JTableMicroLaminasIHQ getNewInstance(){
+		instance = new JTableMicroLaminasIHQ();
 		
 		return instance;
 	}
@@ -113,6 +134,7 @@ public class JTableMicroLaminas {
 	 * 
 	 */
 	private void buildTable(){
+		model.addColumn("");
 		model.addColumn("Cassete");
 		model.addColumn("Bloque");
 		model.addColumn("Lamina");
@@ -122,13 +144,15 @@ public class JTableMicroLaminas {
 		model.addColumn("FilesMicro");
 		
 		table.getColumnModel().getColumn(0).setPreferredWidth(25);
-		table.getColumnModel().getColumn(1).setPreferredWidth(20);
+		table.getColumnModel().getColumn(1).setPreferredWidth(25);
 		table.getColumnModel().getColumn(2).setPreferredWidth(20);
-		table.getColumnModel().getColumn(3).setPreferredWidth(150);
-		table.getColumnModel().getColumn(4).setPreferredWidth(100);
+		table.getColumnModel().getColumn(3).setPreferredWidth(20);
+		table.getColumnModel().getColumn(4).setPreferredWidth(150);
+		table.getColumnModel().getColumn(5).setPreferredWidth(100);
+		table.getColumnModel().removeColumn(table.getColumnModel().getColumn(7));
 		table.getColumnModel().removeColumn(table.getColumnModel().getColumn(6));
-		table.getColumnModel().removeColumn(table.getColumnModel().getColumn(5));
 		
+		table.getColumn("").setCellRenderer(new JTableCheckBoxRenderer());
 		table.setColumnSelectionAllowed(false);
 		table.setRowSelectionAllowed(false);
 		table.setCellSelectionEnabled(false);
@@ -140,23 +164,25 @@ public class JTableMicroLaminas {
 	
 	/**
 	 * 
+	 * @param isSelected
 	 * @param cassete
 	 * @param bloque
 	 * @param lamina
 	 * @param descripcion
-	 * @param reactivo
-	 * @param pathToMacroFoto
+	 * @param idReactivo
+	 * @param nombreReactivo
 	 * @param pathToPictures
 	 */
-	public void addRow(String cassete, String bloque, String lamina, String descripcion, 
-			String idsReactivo, String nombreReactivo, String pathToPictures){
+	public void addRow(boolean isSelected, String cassete, String bloque, String lamina, String descripcion, 
+			int idReactivo, String nombreReactivo, String pathToPictures){
 		Vector<Object> rowData = new Vector<Object>();
+		rowData.add(isSelected);
 		rowData.add(cassete);
 		rowData.add(bloque);
 		rowData.add(lamina);
 		rowData.add(descripcion);
 		rowData.add(nombreReactivo);
-		rowData.add(idsReactivo);
+		rowData.add(idReactivo);
 		rowData.add(pathToPictures);
 		
 		model.addRow(rowData);
@@ -169,12 +195,10 @@ public class JTableMicroLaminas {
 	 * @param reactivo
 	 * @param pathToPictures
 	 */
-	public void updateRow(int row, String descripcion, String reactivos, String idsReactivo, String pathToPictures){
+	public void updateRow(int row, String descripcion, String pathToPictures){
 		if(row > -1){
-			model.setValueAt(descripcion, row, 3);
-			model.setValueAt(reactivos, row, 4);
-			model.setValueAt(idsReactivo, row, 5);
-			model.setValueAt(pathToPictures, row, 6);
+			model.setValueAt(descripcion, row, 4);
+			model.setValueAt(pathToPictures, row, 7);
 		}
 	}
 	
@@ -198,27 +222,18 @@ public class JTableMicroLaminas {
 			
 			for (int i = 0; i < model.getRowCount(); i++) {
 				BiopsiaMicroLaminasDTO laminasDTO = new BiopsiaMicroLaminasDTO();
-				laminasDTO.setCassete(Integer.parseInt(model.getValueAt(i, 0).toString()));
-				laminasDTO.setBloque(Integer.parseInt(model.getValueAt(i, 1).toString()));
-				laminasDTO.setLamina(Integer.parseInt(model.getValueAt(i, 2).toString()));
-				laminasDTO.setDescripcion(model.getValueAt(i, 3).toString());
+				laminasDTO.setCassete(Integer.parseInt(model.getValueAt(i, 1).toString()));
+				laminasDTO.setBloque(Integer.parseInt(model.getValueAt(i, 2).toString()));
+				laminasDTO.setLamina(Integer.parseInt(model.getValueAt(i, 3).toString()));
 				
-				String[] pieces = model.getValueAt(i, 5).toString().split(";");
-				if(pieces != null && pieces.length > 0){
-					List<ReactivoDTO> reactivos = new LinkedList<ReactivoDTO>();
-					for (String id : pieces) {
-						if(! Integer.toString(Constants.REACTIVO_VACIO).equals(id)){
-							ReactivoDTO tmp = new ReactivoDTO();
-							tmp.setId(Integer.parseInt(id));
-							
-							reactivos.add(tmp);
-						}
-					}
-					
-					laminasDTO.setReactivosDTO(reactivos);
-				}
+				List<ReactivoDTO> reactivos = new LinkedList<ReactivoDTO>();
+				ReactivoDTO tmpDTO = ReactivoDAO.getById(Integer.parseInt(model.getValueAt(i, 6).toString()));
+				tmpDTO.setDescripcionIHQ(model.getValueAt(i, 4).toString());
+				tmpDTO.setProcesadoIHQ(Boolean.parseBoolean(model.getValueAt(i, 0).toString()));
+				reactivos.add(tmpDTO);
+				laminasDTO.setReactivosDTO(reactivos);
 				
-				pieces = model.getValueAt(i, 6).toString().split(";");
+				String[] pieces = model.getValueAt(i, 7).toString().split(";");
 				if(pieces != null && pieces.length > 0){
 					List<BiopsiaMicroLaminasFileDTO> files = new LinkedList<BiopsiaMicroLaminasFileDTO>();
 					
@@ -254,14 +269,14 @@ public class JTableMicroLaminas {
 	 * @return
 	 */
 	public boolean isValidForIHQ(){
-		boolean isValid = false;
+		boolean isValid = true;
 		
 		if(model.getRowCount() > 0){
 			for (int i = 0; i < model.getRowCount(); i++) {
 				//verificamos todos los campos re reactivos
 				//para ver si es valido enviar a IHQ
-				if(! "".equals(model.getValueAt(i, 4).toString().trim())){
-					isValid = true;
+				if(! Boolean.parseBoolean(model.getValueAt(i, 0).toString().trim())){
+					isValid = false;
 					break;
 				}
 			}

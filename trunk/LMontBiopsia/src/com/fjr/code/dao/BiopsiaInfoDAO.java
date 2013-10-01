@@ -70,6 +70,20 @@ public class BiopsiaInfoDAO {
 	}
 	
 	/**
+	 * Obtenemos el registro completo de una determinada biopsia.
+	 * 
+	 * @param numero
+	 * @return
+	 */
+	public static List<BiopsiaInfoDTO> getBiopsiasByFase(FasesBiopsia fase){
+		BiopsiaInfoDAOListBuilder builder = new BiopsiaInfoDAOListBuilder();
+		builder.searchByFase(fase);
+		List<BiopsiaInfoDTO> records = builder.getResults();
+		
+		return records;
+	}
+	
+	/**
 	 * 
 	 * @param biopsiaInfo
 	 * @return
@@ -130,7 +144,10 @@ public class BiopsiaInfoDAO {
 		} catch (Exception e) {
 			// TODO: handle exception
 			log.error(e.getLocalizedMessage(), e);
+			e.printStackTrace();
 		}
+		
+		biopsiaInfo.setId(insertedId);
 		
 		return insertedId;
 	}
@@ -188,6 +205,22 @@ public class BiopsiaInfoDAO {
 		}
 		
 		return result;
+	}
+	
+	/**
+	 * 
+	 * @param idBiopsia
+	 * @param nuevaFase
+	 * @return
+	 */
+	public static boolean moveBiopsiaToFase(int idBiopsia, FasesBiopsia nuevaFase) {
+		// TODO Auto-generated method stub
+		BiopsiaInfoDTO biopsia = new BiopsiaInfoDTO();
+		biopsia.setId(idBiopsia);
+		biopsia.setYearBiopsia(0);
+		biopsia.setNumeroBiopsia(0);
+		
+		return moveBiopsiaToFase(biopsia, nuevaFase);
 	}
 	
 	/**
@@ -549,41 +582,41 @@ public class BiopsiaInfoDAO {
 							}
 						}
 					}
+				}
 					
-					List<ReactivoDTO> reactivos = lamina.getReactivosDTO();
+				List<ReactivoDTO> reactivos = lamina.getReactivosDTO();
+				
+				parameters.clear();
+				parameters.add(biopsiaInfoDTO.getId());
+				parameters.add(lamina.getCassete());
+				parameters.add(lamina.getBloque());
+				parameters.add(lamina.getLamina());
+				DBUtil.executeNonSelectQuery(queryLaminasReactivos, parameters);
 					
-					parameters.clear();
-					parameters.add(biopsiaInfoDTO.getId());
-					parameters.add(lamina.getCassete());
-					parameters.add(lamina.getBloque());
-					parameters.add(lamina.getLamina());
-					DBUtil.executeNonSelectQuery(queryLaminasReactivos, parameters);
+				parameters.clear();
+				parameters.add(lamina.getDescripcion());
+				parameters.add(Constants.REACTIVO_VACIO);
+				parameters.add(biopsiaInfoDTO.getId());
+				parameters.add(lamina.getCassete());
+				parameters.add(lamina.getBloque());
+				parameters.add(lamina.getLamina());
+				if(! DBUtil.executeNonSelectQuery(queryInsertLaminasReactivos, parameters)){
+					result = false;
+				}
 					
-					parameters.clear();
-					parameters.add(lamina.getDescripcion());
-					parameters.add(Constants.REACTIVO_VACIO);
-					parameters.add(biopsiaInfoDTO.getId());
-					parameters.add(lamina.getCassete());
-					parameters.add(lamina.getBloque());
-					parameters.add(lamina.getLamina());
-					if(! DBUtil.executeNonSelectQuery(queryInsertLaminasReactivos, parameters)){
-						result = false;
-					}
-					
-					if(result && reactivos != null && reactivos.size() > 0) {
-						for (ReactivoDTO reactivo : reactivos) {
-							parameters.clear();
-							parameters.add(lamina.getDescripcion());
-							parameters.add(reactivo.getId());
-							parameters.add(biopsiaInfoDTO.getId());
-							parameters.add(lamina.getCassete());
-							parameters.add(lamina.getBloque());
-							parameters.add(lamina.getLamina());
-							
-							if(!DBUtil.executeNonSelectQuery(queryInsertLaminasReactivos, parameters)){
-								result = false;
-								break;
-							}
+				if(result && reactivos != null && reactivos.size() > 0) {
+					for (ReactivoDTO reactivo : reactivos) {
+						parameters.clear();
+						parameters.add(lamina.getDescripcion());
+						parameters.add(reactivo.getId());
+						parameters.add(biopsiaInfoDTO.getId());
+						parameters.add(lamina.getCassete());
+						parameters.add(lamina.getBloque());
+						parameters.add(lamina.getLamina());
+						
+						if(!DBUtil.executeNonSelectQuery(queryInsertLaminasReactivos, parameters)){
+							result = false;
+							break;
 						}
 					}
 				}
@@ -595,6 +628,93 @@ public class BiopsiaInfoDAO {
 						+ "' no pudieron almacenarse correctamente");
 			}
 		}
+		
+		// TODO Auto-generated method stub
+		log.info("Resultado de almacenar informacion de histologia de la biopsia '" + biopsiaInfoDTO.getCodigo() 
+				+ "' fue: " + result);
+		return result ;
+	}
+	
+	/**
+	 * 
+	 * @param biopsiaInfoDTO
+	 * @param goToMicro
+	 * @return
+	 */
+	public static boolean updateMicroIHQ(BiopsiaInfoDTO biopsiaInfoDTO, boolean goToMicro) {
+		final String queryUpdateLaminasReactivos = "UPDATE micro_laminas SET"
+				+ " descripcion=?, procesado=?"
+				+ " WHERE id_reactivo=?"
+				+ " AND id=?"
+				+ " AND cassete=?"
+				+ " AND bloque=?"
+				+ " AND lamina=?";
+		final String queryDeleteLaminasFiles = "DELETE FROM micro_laminas_ihq_files WHERE id=? AND cassete=? AND bloque=? AND lamina=? AND id_reactivo=?";
+		final String queryLaminasFiles = "INSERT INTO micro_laminas_ihq_files (id, cassete, bloque, lamina, file_name, file_content, id_reactivo) VALUES (?,?,?,?,?,?,?)";
+		
+		boolean result = true;
+		List<Object> parameters = new LinkedList<Object>();
+
+		//modificamos la descripcion de las laminas que representan a IHQ
+		List<BiopsiaMicroLaminasDTO> laminas = biopsiaInfoDTO.getMicroscopicaDTO().getLaminasDTO();
+		for (BiopsiaMicroLaminasDTO biopsiaMicroLaminasDTO : laminas) {
+			List<ReactivoDTO> reactivos = biopsiaMicroLaminasDTO.getReactivosDTO();
+			
+			for (ReactivoDTO reactivoDTO : reactivos) {
+				parameters.clear();
+				parameters.add(reactivoDTO.getDescripcionIHQ());
+				parameters.add(reactivoDTO.isProcesadoIHQ());
+				parameters.add(reactivoDTO.getId());
+				parameters.add(biopsiaInfoDTO.getId());
+				parameters.add(biopsiaMicroLaminasDTO.getCassete());
+				parameters.add(biopsiaMicroLaminasDTO.getBloque());
+				parameters.add(biopsiaMicroLaminasDTO.getLamina());
+				
+				if(! DBUtil.executeNonSelectQuery(queryUpdateLaminasReactivos, parameters)){
+					result = false;
+					break;
+				} else {
+					log.info("Almacenada micro_lamina: " + biopsiaMicroLaminasDTO + " procedemos a almacenar sus files");
+					List<BiopsiaMicroLaminasFileDTO> listaFiles = biopsiaMicroLaminasDTO.getMicroLaminasFilesDTO();
+							
+					if(listaFiles != null && listaFiles.size() > 0) {
+						parameters.clear();
+						parameters.add(biopsiaInfoDTO.getId());
+						parameters.add(biopsiaMicroLaminasDTO.getCassete());
+						parameters.add(biopsiaMicroLaminasDTO.getBloque());
+						parameters.add(biopsiaMicroLaminasDTO.getLamina());
+						parameters.add(reactivoDTO.getId());
+						
+						if(! DBUtil.executeNonSelectQuery(queryDeleteLaminasFiles, parameters)){
+							result = false;
+						} else {
+							//se eliminaron los files anteriores, se almacenaran los nuevos
+							for (BiopsiaMicroLaminasFileDTO biopsiaMicroLaminasFileDTO : listaFiles) {
+								parameters.clear();
+								parameters.add(biopsiaInfoDTO.getId());
+								parameters.add(biopsiaMicroLaminasDTO.getCassete());
+								parameters.add(biopsiaMicroLaminasDTO.getBloque());
+								parameters.add(biopsiaMicroLaminasDTO.getLamina());
+								parameters.add(biopsiaMicroLaminasFileDTO.getMediaFile().getName());
+								parameters.add(biopsiaMicroLaminasFileDTO.getFileStream());
+								parameters.add(reactivoDTO.getId());
+								
+								if(!DBUtil.executeInsertQueryAsBoolean(queryLaminasFiles, parameters)){
+									result = false;
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		//ya se procesaron los cassetes
+		if(! result){
+			log.error("Los cassetes de la biopsia '" + biopsiaInfoDTO.getCodigo() 
+					+ "' no pudieron almacenarse correctamente");
+		}	
 		
 		// TODO Auto-generated method stub
 		log.info("Resultado de almacenar informacion de histologia de la biopsia '" + biopsiaInfoDTO.getCodigo() 

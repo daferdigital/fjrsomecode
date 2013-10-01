@@ -29,16 +29,22 @@ final class BiopsiaMicroLaminasFileDAOListBuilder implements DAOListBuilder<Biop
 	private static final String BEGIN = "SELECT mlf.id, mlf.cassete, mlf.bloque, mlf.lamina, mlf.file_name, mlf.file_content"
 			+ " FROM micro_laminas_files mlf "
 			+ " WHERE 1 = 1";
+	private static final String BEGIN_IHQ = "SELECT mlf.id, mlf.cassete, mlf.bloque, mlf.lamina, mlf.file_name, mlf.file_content"
+			+ " FROM micro_laminas_ihq_files mlf "
+			+ " WHERE 1 = 1";
 	private static final String END = " ORDER BY mlf.id, mlf.cassete, mlf.bloque, mlf.lamina, mlf.file_name";
 	
+	private boolean isIHQ;
 	private String customWhere;
 	private List<Object> parameters;
 	
 	/**
 	 * 
+	 * @param isIHQ
 	 */
-	public BiopsiaMicroLaminasFileDAOListBuilder() {
+	public BiopsiaMicroLaminasFileDAOListBuilder(boolean isIHQ) {
 		// TODO Auto-generated constructor stub
+		this.isIHQ = isIHQ;
 		customWhere = "";
 		parameters = new LinkedList<Object>();
 	}
@@ -73,7 +79,11 @@ final class BiopsiaMicroLaminasFileDAOListBuilder implements DAOListBuilder<Biop
 	@Override
 	public String getQuery() {
 		// TODO Auto-generated method stub
-		return BEGIN + customWhere + END;
+		if(isIHQ){
+			return BEGIN_IHQ + customWhere + END;
+		} else {
+			return BEGIN + customWhere + END;
+		}
 	}
 
 	@Override

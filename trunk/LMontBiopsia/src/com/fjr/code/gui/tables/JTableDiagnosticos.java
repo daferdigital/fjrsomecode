@@ -2,10 +2,6 @@ package com.fjr.code.gui.tables;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
@@ -13,28 +9,30 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import com.fjr.code.dto.BiopsiaMacroFotoDTO;
-import com.fjr.code.gui.MacroFotosDialog;
+import com.fjr.code.dao.BiopsiaInfoDAO;
+import com.fjr.code.dao.definitions.FasesBiopsia;
+import com.fjr.code.dto.BiopsiaInfoDTO;
+import com.fjr.code.pdf.BiopsiaDiagnostico;
 
 /**
  * 
- * Class: JTableMacroFotos
+ * Class: JTableDiagnosticos
  * Creation Date: 10/09/2013
  * (c) 2013
  *
  * @author T&T
  *
  */
-public class JTableMacroFotos {
+public class JTableDiagnosticos {
 	
 	private DefaultTableModel model;
 	private JTable table;
-	private static JTableMacroFotos instance;
+	private static JTableDiagnosticos instance;
 	
 	/**
 	 * 
 	 */
-	private JTableMacroFotos() {
+	public JTableDiagnosticos() {
 		// TODO Auto-generated constructor stub
 		table = new JTable(){
 			/**
@@ -90,16 +88,11 @@ public class JTableMacroFotos {
 				// TODO Auto-generated method stub
 				if(table.getSelectedColumn() == 0 && table.getSelectedRow() > -1){
 					e.consume();
-					model.removeRow(table.getSelectedRow());
+					openDiagnostico(table.getSelectedRow());
 				} else {
 					//no hice click en la primera columna, quiere decir que quiero editar
 					//el contenido del cassete
 					if(e.getClickCount() == 2 && !e.isConsumed()) {
-						new MacroFotosDialog(instance, 
-								model.getValueAt(table.getSelectedRow(), 1).toString(),
-								model.getValueAt(table.getSelectedRow(), 2).toString(),
-								table.getSelectedRow(),
-								model.getValueAt(table.getSelectedRow(), 3).toString()).setVisible(true);
 						e.consume();
 					}
 				}
@@ -114,8 +107,8 @@ public class JTableMacroFotos {
 	 * 
 	 * @return
 	 */
-	public static JTableMacroFotos getNewInstance(){
-		instance = new JTableMacroFotos();
+	public static JTableDiagnosticos getNewInstance(){
+		instance = new JTableDiagnosticos();
 		
 		return instance;
 	}
@@ -126,14 +119,14 @@ public class JTableMacroFotos {
 	 */
 	private void buildTable(){
 		model.addColumn("");
-		model.addColumn("Notación");
-		model.addColumn("Descripción");
-		model.addColumn("Foto");
+		model.addColumn("N° de Biopsia");
+		model.addColumn("Examen");
+		model.addColumn("Paciente");
 		
-		table.getColumnModel().getColumn(0).setPreferredWidth(10);
-		table.getColumnModel().getColumn(1).setPreferredWidth(30);
-		table.getColumnModel().getColumn(2).setPreferredWidth(250);
-		table.getColumnModel().removeColumn(table.getColumnModel().getColumn(3));
+		table.getColumnModel().getColumn(0).setPreferredWidth(55);
+		table.getColumnModel().getColumn(1).setPreferredWidth(55);
+		table.getColumnModel().getColumn(2).setPreferredWidth(150);
+		table.getColumnModel().getColumn(3).setPreferredWidth(150);
 		
 		table.setColumnSelectionAllowed(false);
 		table.setRowSelectionAllowed(false);
@@ -141,6 +134,16 @@ public class JTableMacroFotos {
 		
 		//indicamos que la primera columna tendra un renderizado de boton
 		table.getColumn("").setCellRenderer(new JTableButtonRenderer());
+		
+		//buscamos los registros que esten en fase de diagnostico ya realizado
+		List<BiopsiaInfoDTO> biopsias = BiopsiaInfoDAO.getBiopsiasByFase(FasesBiopsia.ENTREGA);
+		if(biopsias != null){
+			for (BiopsiaInfoDTO biopsiaInfoDTO : biopsias) {
+				addRow(biopsiaInfoDTO.getCodigo(), 
+						biopsiaInfoDTO.getExamenBiopsia().getNombreExamen(), 
+						biopsiaInfoDTO.getCliente().getNombres() + biopsiaInfoDTO.getCliente().getApellidos());
+			}
+		}
 	}
 	
 	public JTable getTable() {
@@ -149,14 +152,16 @@ public class JTableMacroFotos {
 	
 	/**
 	 * 
-	 * @param descripcion
+	 * @param codigo
+	 * @param examen
+	 * @param cliente
 	 */
-	public void addRow(String notacion, String descripcion, String pathToPicture){
+	public void addRow(String codigo, String examen, String cliente){
 		Vector<Object> rowData = new Vector<Object>();
-		rowData.add("X");
-		rowData.add(notacion);
-		rowData.add(descripcion);
-		rowData.add(pathToPicture);
+		rowData.add("ABRIR");
+		rowData.add(codigo);
+		rowData.add(examen);
+		rowData.add(cliente);
 		
 		model.addRow(rowData);
 	}
@@ -164,15 +169,15 @@ public class JTableMacroFotos {
 	/**
 	 * 
 	 * @param row
-	 * @param notacion
-	 * @param descripcion
-	 * @param pathToPicture
+	 * @param codigo
+	 * @param examen
+	 * @param cliente
 	 */
-	public void updateRow(int row, String notacion, String descripcion, String pathToPicture){
+	public void updateRow(int row, String codigo, String examen, String cliente){
 		if(row > -1){
-			model.setValueAt(notacion, row, 1);
-			model.setValueAt(descripcion, row, 2);
-			model.setValueAt(pathToPicture, row, 3);
+			model.setValueAt(codigo, row, 1);
+			model.setValueAt(examen, row, 2);
+			model.setValueAt(cliente, row, 3);
 		}
 	}
 	
@@ -187,32 +192,15 @@ public class JTableMacroFotos {
 	
 	/**
 	 * 
-	 * @return
+	 * @param selectedRow
 	 */
-	public List<BiopsiaMacroFotoDTO> getList(){
-		List<BiopsiaMacroFotoDTO> lista = null;
-		if(model.getRowCount() > 0){
-			lista = new LinkedList<BiopsiaMacroFotoDTO>();
-			
-			for (int i = 0; i < model.getRowCount(); i++) {
-				File fotoFile = new File(model.getValueAt(i, 3).toString());
-				BiopsiaMacroFotoDTO macroFoto = new BiopsiaMacroFotoDTO();
-				macroFoto.setNotacion(model.getValueAt(i, 1).toString());
-				macroFoto.setDescripcion(model.getValueAt(i, 2).toString());
-				macroFoto.setFotoFile(fotoFile);
-				
-				try {
-					macroFoto.setFotoBlob(new FileInputStream(fotoFile));
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				lista.add(macroFoto);
-			}
-		}
-		
-		return lista;
+	private void openDiagnostico(int selectedRow) {
+		// TODO Auto-generated method stub
+		BiopsiaDiagnostico diagnostico = new BiopsiaDiagnostico(
+				BiopsiaInfoDAO.getBiopsiaByNumero(
+						model.getValueAt(selectedRow, 1).toString()));
+		diagnostico.buildDiagnostico();
+		diagnostico.open();
 	}
 }
 

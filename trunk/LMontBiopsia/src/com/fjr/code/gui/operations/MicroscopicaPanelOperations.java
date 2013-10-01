@@ -101,11 +101,11 @@ public class MicroscopicaPanelOperations implements KeyListener, ActionListener{
 				if(lamina.getReactivosDTO() != null
 						&& lamina.getReactivosDTO().size() > 0){
 					for (ReactivoDTO reactivo : lamina.getReactivosDTO()) {
-						if("".equals(files)){
-							files += reactivo.getNombre();
+						if("".equals(reactivos)){
+							reactivos += reactivo.getNombre();
 							ids = "" + reactivo.getId();
 						} else {
-							files += ";" + reactivo.getNombre();
+							reactivos += ";" + reactivo.getNombre();
 							ids += ";" + reactivo.getId();
 						}
 					}
@@ -119,6 +119,36 @@ public class MicroscopicaPanelOperations implements KeyListener, ActionListener{
 						ids,
 						reactivos, 
 						files);
+			}
+			
+			biopsiaInfoDTO = BiopsiaMicroLaminasDAO.setMicroLaminas(biopsiaInfoDTO, true);
+			for (BiopsiaMicroLaminasDTO lamina : biopsia.getMicroscopicaDTO().getLaminasDTO()) {
+				String files = "";
+				if(lamina.getMicroLaminasFilesDTO() != null
+						&& lamina.getMicroLaminasFilesDTO().size() > 0){
+					for (BiopsiaMicroLaminasFileDTO microFoto : lamina.getMicroLaminasFilesDTO()) {
+						if("".equals(files)){
+							files += microFoto.getMediaFile().getAbsolutePath();
+						} else {
+							files += ";" + microFoto.getMediaFile().getAbsolutePath();
+						}
+					}
+				}
+				
+				if(lamina.getReactivosDTO() != null
+						&& lamina.getReactivosDTO().size() > 0){
+					for (ReactivoDTO reactivo : lamina.getReactivosDTO()) {
+						ventana.getTableMicroLaminasIHQ().addRow(
+								reactivo.isProcesadoIHQ(),
+								Integer.toString(lamina.getCassete()), 
+								Integer.toString(lamina.getBloque()), 
+								Integer.toString(lamina.getLamina()), 
+								reactivo.getDescripcionIHQ() == null ? "" : reactivo.getDescripcionIHQ(),
+								reactivo.getId(),
+								reactivo.getNombre(), 
+								files);
+					}
+				}
 			}
 		}
 	}
@@ -207,12 +237,14 @@ public class MicroscopicaPanelOperations implements KeyListener, ActionListener{
 			if("".equals(ventana.getTextADiagnostico().getText())){
 				errors += "Debe indicar un diagnostico.\n";
 			}
-			
+			if(ventana.getTableMicroLaminas().getTable().getRowCount() < 1){
+				errors += "Falta actualizar algunas laminas en esta fase.\n";
+			}
 		}
 		
 		if(goToIHQ){
-			if(ventana.getTableMicroLaminas().getTable().getRowCount() < 1){
-				errors += "Falta actualizar algunas laminas en esta fase.\n";
+			if(! ventana.getTableMicroLaminas().isValidForIHQ()){
+				errors += "Está solicitando IHQ sin haber indicado reactivos en alguna lamina.\n";
 			}
 		}
 		
@@ -236,7 +268,7 @@ public class MicroscopicaPanelOperations implements KeyListener, ActionListener{
 			
 			if(ACTION_COMMAND_NRO_BIOPSIA.equals(field.getName())){
 				biopsiaInfoDTO = GUIPressedOrTypedNroBiopsia.manageKeyEvent(ventana, e, field, biopsiaInfoDTO);
-				biopsiaInfoDTO = BiopsiaMicroLaminasDAO.setMicroLaminas(biopsiaInfoDTO);
+				biopsiaInfoDTO = BiopsiaMicroLaminasDAO.setMicroLaminas(biopsiaInfoDTO, false);
 				loadVentanaFromBiopsiaDTO(biopsiaInfoDTO);
 				
 				if(biopsiaInfoDTO != null){
@@ -283,16 +315,14 @@ public class MicroscopicaPanelOperations implements KeyListener, ActionListener{
 		//procedemos a guardarla
 		if(BiopsiaInfoDAO.updateMicro(biopsiaInfoDTO, goToIHQ)){
 			if(goToDiagnostico){
+				//tenemos todo para pasar a entrega
 				if(BiopsiaInfoDAO.moveBiopsiaToFase(biopsiaInfoDTO, FasesBiopsia.ENTREGA)){
-					//tenemos todo para pasar a entrega
-					if(BiopsiaInfoDAO.moveBiopsiaToFase(biopsiaInfoDTO, FasesBiopsia.ENTREGA)){
-						JOptionPane.showMessageDialog(ventana, 
-								"La biopsia " + biopsiaInfoDTO.getCodigo() + " fue actualizada correctamente.\n"
-								+ "Y llevada a la fase de Entrega",
-								"Operación Realizada", 
-								JOptionPane.INFORMATION_MESSAGE);
-						ventana.setVisible(false);
-					}
+					JOptionPane.showMessageDialog(ventana, 
+							"La biopsia " + biopsiaInfoDTO.getCodigo() + " fue actualizada correctamente.\n"
+							+ "Y llevada a la fase de Entrega de Diagnostico en Recepción",
+							"Operación Realizada", 
+							JOptionPane.INFORMATION_MESSAGE);
+					ventana.setVisible(false);
 				} else {
 					//tenemos el objeto, pero se desea pasar a info sin fotos ni cassetes
 					JOptionPane.showMessageDialog(ventana, 
@@ -301,16 +331,14 @@ public class MicroscopicaPanelOperations implements KeyListener, ActionListener{
 							JOptionPane.ERROR_MESSAGE);
 				}
 			} else if(goToIHQ){
+				//tenemos todo para solicitar la confirmacion de IHQ
 				if(BiopsiaInfoDAO.moveBiopsiaToFase(biopsiaInfoDTO, FasesBiopsia.CONFIRMAR_IHQ)){
-					//tenemos todo para pasar a entrega
-					if(BiopsiaInfoDAO.moveBiopsiaToFase(biopsiaInfoDTO, FasesBiopsia.ENTREGA)){
-						JOptionPane.showMessageDialog(ventana, 
-								"La biopsia " + biopsiaInfoDTO.getCodigo() + " fue actualizada correctamente.\n"
-								+ "Y se esta esperando la aprobación para la petición de IHQ de la misma",
-								"Operación Realizada", 
-								JOptionPane.INFORMATION_MESSAGE);
-						ventana.setVisible(false);
-					}
+					JOptionPane.showMessageDialog(ventana, 
+							"La biopsia " + biopsiaInfoDTO.getCodigo() + " fue actualizada correctamente.\n"
+							+ "Y se esta esperando la aprobación para la petición de IHQ de la misma",
+							"Operación Realizada", 
+							JOptionPane.INFORMATION_MESSAGE);
+					ventana.setVisible(false);
 				} else {
 					//tenemos el objeto, pero se desea pasar a info sin fotos ni cassetes
 					JOptionPane.showMessageDialog(ventana, 

@@ -23,14 +23,15 @@ public class BiopsiaMicroLaminasDAO {
 	 * Obtenemos la informacion de las laminas en fase de micro.
 	 * 
 	 * @param biopsiaInfoDTO
+	 * @param isIHQ
 	 * @return
 	 */
-	public static BiopsiaInfoDTO setMicroLaminas(BiopsiaInfoDTO biopsiaInfoDTO) {
+	public static BiopsiaInfoDTO setMicroLaminas(BiopsiaInfoDTO biopsiaInfoDTO, boolean isIHQ) {
 		// TODO Auto-generated method stub
 		if(biopsiaInfoDTO == null || biopsiaInfoDTO.getMicroscopicaDTO() == null){
 			log.error("Se desea almacenar la informacion de las laminas micro, pero no existe el DTO maestro de la fase micro.");
 		} else {
-			BiopsiaMicroLaminasDAOListBuilder builder = new BiopsiaMicroLaminasDAOListBuilder();
+			BiopsiaMicroLaminasDAOListBuilder builder = new BiopsiaMicroLaminasDAOListBuilder(isIHQ);
 			builder.searchByIdBiopsia(biopsiaInfoDTO.getId());
 			
 			List<BiopsiaMicroLaminasDTO> microLaminasDTO = builder.getResults();
@@ -45,5 +46,4 @@ public class BiopsiaMicroLaminasDAO {
 		
 		return biopsiaInfoDTO;
 	}
-
 }

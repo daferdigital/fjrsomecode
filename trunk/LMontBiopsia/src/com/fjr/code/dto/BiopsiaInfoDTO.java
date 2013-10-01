@@ -1,5 +1,7 @@
 package com.fjr.code.dto;
 
+import java.util.Calendar;
+
 import com.fjr.code.dao.definitions.FasesBiopsia;
 
 /**
@@ -15,6 +17,7 @@ public class BiopsiaInfoDTO {
 	private int id;
 	private int yearBiopsia;
 	private int numeroBiopsia;
+	private Calendar fechaRegistro;
 	private ExamenBiopsiaDTO examenBiopsia;
 	private ClienteDTO cliente;
 	private FasesBiopsia faseActual;
@@ -50,6 +53,14 @@ public class BiopsiaInfoDTO {
 	
 	public void setNumeroBiopsia(int numeroBiopsia) {
 		this.numeroBiopsia = numeroBiopsia;
+	}
+	
+	public Calendar getFechaRegistro() {
+		return fechaRegistro;
+	}
+	
+	public void setFechaRegistro(Calendar fechaRegistro) {
+		this.fechaRegistro = fechaRegistro;
 	}
 	
 	public String getCodigo() {
