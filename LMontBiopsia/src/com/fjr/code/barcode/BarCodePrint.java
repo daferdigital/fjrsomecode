@@ -4,6 +4,7 @@ import java.awt.print.PageFormat;
 import java.awt.print.Paper;
 import java.awt.print.PrinterJob;
 import java.io.File;
+import java.io.FileInputStream;
 import java.net.URL;
 
 import javax.print.attribute.HashPrintRequestAttributeSet;
@@ -67,7 +68,8 @@ public abstract class BarCodePrint {
 			URL url = new URL("file:///".concat(fileToPrint.getAbsolutePath()));
 
 			// PDFPrint pdfPrint = new PDFPrint (url, this);
-			PDFPrint pdfPrint = new PDFPrint(url, null);
+			//PDFPrint pdfPrint = new PDFPrint(url, null);
+			PDFPrint pdfPrint = new PDFPrint(new FileInputStream(fileToPrint), null);
 			PrintSettings ps = pdfPrint.getPrintSettings();
 			ps.setForceUserPageFormat(true);
 			

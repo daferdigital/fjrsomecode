@@ -58,7 +58,7 @@ public final class GUIPressedOrTypedNroBiopsia {
 					if(KeyEventsUtil.wasPressedABackSpace(event)){
 						nroBiopsia = nroBiopsia.substring(0, nroBiopsia.length() - 1);
 					}
-					
+					nroBiopsia = nroBiopsia.replaceAll("'", "-");
 					nroBiopsia = BiopsiaValidationUtil.formatCodigoBiopsia(nroBiopsia);
 				}
 			}
@@ -71,6 +71,8 @@ public final class GUIPressedOrTypedNroBiopsia {
 				doProcess = true;
 				nroBiopsia = textNroBiopsia.getText() + event.getKeyChar();
 			}
+			
+			nroBiopsia = nroBiopsia.replaceAll("'", "-");
 		}
 		
 		if(doProcess){

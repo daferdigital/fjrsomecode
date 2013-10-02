@@ -107,6 +107,7 @@ public final class DBConnectionUtil {
 		} catch (Exception e) {
 			// TODO: handle exception
 			dataSource = null;
+			log.error(e.getLocalizedMessage(), e);
 		}
 		
 		return isValid;

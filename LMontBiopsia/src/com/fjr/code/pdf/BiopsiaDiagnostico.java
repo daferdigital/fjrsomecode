@@ -4,6 +4,7 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 
 import org.apache.log4j.Logger;
 
@@ -12,6 +13,7 @@ import com.fjr.code.dto.BiopsiaInfoDTO;
 import com.fjr.code.util.Constants;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -75,6 +77,8 @@ public class BiopsiaDiagnostico {
 	        
 	        //agregamos la tabla de detalle de la biopsia
 	        document.add(addDetailBiopsiaTable());
+	        //agregamos la info de Macro
+	        addDetailMacro();
 	        
 	        //step 5
 	        document.close();
@@ -135,7 +139,8 @@ public class BiopsiaDiagnostico {
 		cell10.setBorder(0);
 		cell10.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
 		
-		PdfPCell cell11 = new PdfPCell(new Phrase(biopsia.getFechaRegistro().getTime().toString()));
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		PdfPCell cell11 = new PdfPCell(new Phrase(sdf.format(biopsia.getFechaRegistro().getTime())));
 		cell11.setBorder(0);
 		
 		table.addCell(cell);
@@ -152,6 +157,16 @@ public class BiopsiaDiagnostico {
 		table.addCell(cell11);
 		
 		return table;
+	}
+	
+	/**
+	 * 
+	 * @param biopsia
+	 * @return
+	 */
+	private void addDetailMacro(){
+		Paragraph p = new Paragraph();
+		
 	}
 
 	/**

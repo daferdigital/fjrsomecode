@@ -116,11 +116,12 @@ public final class BarCodeIngreso extends BarCodePrint {
         log.info("Creado codigo de barras con el valor " + nroBiopsia);
         
         Paragraph p = new Paragraph();
-        String chunkText = "Nro Biopsia: " + nroBiopsia;
-        chunkText += "\nPaciente: \n" + nombrePaciente;
-        chunkText += "\nC.I: " + cedula;
+        String chunkText = "Nro: " + nroBiopsia;
+        String chunkText1 = "\nPaciente: \n" + nombrePaciente;
+        chunkText1 += "\nC.I: " + cedula;
         
-        p.add(new Chunk(chunkText, new Font(FontFamily.COURIER, 8F, Font.BOLD)));
+        p.add(new Chunk(chunkText, new Font(FontFamily.COURIER, 10F, Font.BOLD)));
+        p.add(new Chunk(chunkText1, new Font(FontFamily.COURIER, 8F, Font.BOLD)));
         p.add(new Chunk(imgFJR, 35F, -15F));
         document.add(p);
         
