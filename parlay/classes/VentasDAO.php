@@ -81,6 +81,7 @@ class VentasDAO {
 	public static $CATEGORIA_FUTBOL = "1";
 	public static $CATEGORIA_BEISBOL = "2";
 	public static $CATEGORIA_BASKET = "3";
+	public static $CATEGORIA_FUTBOL_AMERICANO = "6";
 	
 	/**
 	 * Recibimos el id de la venta y verificamos si el tipo de apuesta realizada
@@ -108,7 +109,11 @@ class VentasDAO {
 			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."-".$rowVistaVentasDetalles["idventa_detalle"]."] "
 					."Revisando ticket en categoria futbol.");
 			$codeReturn = GanadoresFutbol::calcularGanador($rowVistaVentasDetalles);
-		} else {
+		} else if($rowVistaVentasDetalles["idcategoria"] == VentasDAO::$CATEGORIA_FUTBOL_AMERICANO){
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."-".$rowVistaVentasDetalles["idventa_detalle"]."] "
+					."Revisando ticket en categoria futbol.");
+			$codeReturn = GanadoresFutbolAmericano::calcularGanador($rowVistaVentasDetalles);
+		}else {
 			//categoria no mapeada aun
 			$codeReturn = VentasDAO::$RESULTADO_NO_MAPEADO_AUN;
 			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."-".$rowVistaVentasDetalles["idventa_detalle"]."] "
