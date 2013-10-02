@@ -84,9 +84,6 @@ public class IngresoPanel extends JPanel {
 		textNroBiopsia.setToolTipText("<html>\r\nIndique aqu&iacute; el codigo manual a asignar a esta biopsia\r\n<br />\r\nPor ejemplo 13-0192.\r\n<br />\r\nDejar en blanco si esta creando una biopsia nueva\r\n</html>");
 		textNroBiopsia.setBounds(180, 11, 184, 20);
 		textNroBiopsia.setColumns(10);
-		if(isNewBiopsia){
-			textNroBiopsia.setEnabled(false);
-		}
 		add(textNroBiopsia);
 		
 		comboTipoCedula = new JComboBox();

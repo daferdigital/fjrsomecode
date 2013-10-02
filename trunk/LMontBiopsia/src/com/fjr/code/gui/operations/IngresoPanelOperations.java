@@ -311,20 +311,30 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 		boolean result = true;
 		
 		if(ventana.isNewBiopsia()){
-			if(BiopsiaInfoDAO.insertBiopsiaInfo(ingreso) > 0){
-				JOptionPane.showMessageDialog(ventana, 
-						"La biopsia de código " + ingreso.getCodigo() + " fue creada de manera exitosa.", 
-						"Almacenada biopsia " + ingreso.getCodigo(), 
-						JOptionPane.INFORMATION_MESSAGE);
-				ventana.setNewBiopsia(false);
-				ventana.getTextNroBiopsia().setText(ingreso.getCodigo());
-			} else {
-				log.error("No pudo guardarse la biopsia");
+			if(BiopsiaInfoDAO.biopsiaAlreadyExists(ingreso.getCodigo())){
+				log.error("No pudo guardarse la biopsia porque ya existe");
 				result = false;
 				JOptionPane.showMessageDialog(ventana, 
-						"Se produjo un error al almacenar la biopsia.\nPor favor, intente de nuevo.", 
-						"Error al guardar", 
+						"Se produjo un error al almacenar la biopsia '" + ingreso.getCodigo() + "'.\n"
+						+ "La misma ya existe. Por favor, intente de nuevo.", 
+						"Biopsia " + ingreso.getCodigo() + " ya existe", 
 						JOptionPane.ERROR_MESSAGE);
+			} else {
+				if(BiopsiaInfoDAO.insertBiopsiaInfo(ingreso) > 0){
+					JOptionPane.showMessageDialog(ventana, 
+							"La biopsia de código " + ingreso.getCodigo() + " fue creada de manera exitosa.", 
+							"Almacenada biopsia " + ingreso.getCodigo(), 
+							JOptionPane.INFORMATION_MESSAGE);
+					ventana.setNewBiopsia(false);
+					ventana.getTextNroBiopsia().setText(ingreso.getCodigo());
+				} else {
+					log.error("No pudo guardarse la biopsia");
+					result = false;
+					JOptionPane.showMessageDialog(ventana, 
+							"Se produjo un error al almacenar la biopsia.\nPor favor, intente de nuevo.", 
+							"Error al guardar", 
+							JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		} else {
 			log.info("Se desea actualizar una biopsia ya existente");

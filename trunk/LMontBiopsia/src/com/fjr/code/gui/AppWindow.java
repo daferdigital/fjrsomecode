@@ -1,21 +1,28 @@
 package com.fjr.code.gui;
 
 import java.awt.EventQueue;
+import java.awt.Rectangle;
 
 import javax.swing.JFrame;
+import javax.swing.JTable;
+
 import java.awt.Toolkit;
 import javax.swing.JPanel;
 
+import com.fjr.code.gui.tables.JTableTodasBiopsias;
 import com.fjr.code.util.Constants;
 
 import java.awt.Color;
+import javax.swing.JScrollPane;
 
 public class AppWindow {
 	private static AppWindow appWindow;
 	private JPanel panelMenu = new JPanel();
 	private JPanel panelContenido = new JPanel();
 	private JFrame frmSistemaDeGestion;
-
+	private JTable tableTodasBiopsias;
+	private JScrollPane scrollPane;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -113,6 +120,8 @@ public class AppWindow {
 		frmSistemaDeGestion.getContentPane().validate();
 		frmSistemaDeGestion.getContentPane().repaint();
 		
+		putTableBiopsiasActivas((int) contenido.getSize().getHeight());
+		
 		frmSistemaDeGestion.getContentPane().add(contenido);
 		panelContenido = contenido;
 		panelContenido.repaint();
@@ -120,6 +129,37 @@ public class AppWindow {
 		
 		frmSistemaDeGestion.getContentPane().validate();
 		frmSistemaDeGestion.getContentPane().repaint();
+	}
+
+	/**
+	 * Colocamos una guia de las biopsias activas para acceso directo
+	 * 
+	 * @param startHeight
+	 */
+	private void putTableBiopsiasActivas(int startHeight){
+		if(tableTodasBiopsias != null){
+			scrollPane.removeAll();
+			frmSistemaDeGestion.getContentPane().remove(scrollPane);
+			frmSistemaDeGestion.getContentPane().remove(tableTodasBiopsias);
+			tableTodasBiopsias = null;
+			scrollPane = null;
+			System.gc();
+		}
+		
+		scrollPane = new JScrollPane();
+		tableTodasBiopsias = new JTableTodasBiopsias().getTable();
+		
+		Rectangle bounds = new Rectangle(0, 
+				startHeight + panelMenu.getHeight(), 
+				Constants.APP_WINDOW_MAX_X, 
+				Constants.APP_WINDOW_MAX_Y - (startHeight + panelMenu.getHeight()));
+		
+		scrollPane.setBounds(bounds);
+		tableTodasBiopsias.setBounds(bounds);
+		
+		scrollPane.setViewportView(tableTodasBiopsias);
+		
+		frmSistemaDeGestion.getContentPane().add(scrollPane);
 	}
 	
 	/**
