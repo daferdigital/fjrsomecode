@@ -193,8 +193,6 @@ foreach($_POST['resultado'] as $idlogro_equipo=>$valor){
 				break;
 			case 'basket':
 				/*INICIA BASKET****************************************************************************************************************************/			
-				$_SESSION[] ;
-				
 				$_SESSION['suspendido']=0;
 				//INICIAMOS TODAS LAS APUESTAS COMO VALIDAS, PARA LUEGO PROCESARLAS
 				genera_aciertos('56',$equipoA); // A GANAR JUEGO COMPLETO A
