@@ -49,13 +49,8 @@
 				<a href="#" class="MenuBarItemSubmenu">Matr&iacute;cula</a>
 				<ul>
 					<li>
-						<a href="formAgregarGrados.php">
-							Por Profesor
-						</a>
-					</li>
-					<li>
-						<a href="formListarGrados.php">
-							Por Secci&oacute;n
+						<a href="formExportarMatricula.php">
+							Exportar en Excel
 						</a>
 					</li>
 				</ul>
