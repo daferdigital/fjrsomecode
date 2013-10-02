@@ -2,10 +2,18 @@
 $multiplicandosPermitidos = array();
 $multiplicandosPermitidos["9"] = "ALTA_JC_A";
 $multiplicandosPermitidos["10"] = "BAJA_JC_A";
+$multiplicandosPermitidos["11"] = "ALTA_MJ_A";
 $multiplicandosPermitidos["12"] = "BAJA_MJ_A";
 $multiplicandosPermitidos["17"] = "RL_JC_A";
 $multiplicandosPermitidos["18"] = "RL_JC_B";
 $multiplicandosPermitidos["19"] = "RL_MJ_A";
+$multiplicandosPermitidos["20"] = "RL_MJ_B";
+$multiplicandosPermitidos["21"] = "SRL_A";
+$multiplicandosPermitidos["22"] = "SRL_B";
+$multiplicandosPermitidos["30"] = "RL_ALT_JC_A";
+$multiplicandosPermitidos["31"] = "RL_ALT_JC_B";
+$multiplicandosPermitidos["32"] = "RL_ALT_MJ_A";
+$multiplicandosPermitidos["33"] = "RL_ALT_MJ_B";
 
 $concat='';
 	switch($_SESSION["perfil"]){
