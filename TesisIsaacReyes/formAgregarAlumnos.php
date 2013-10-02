@@ -57,6 +57,10 @@ include_once "includes/header.php";
 					<td>
 						<input type="radio" name="sexo" id="sexo_f" value="f"/> Femenino
 						<input type="radio" name="sexo" id="sexo_m" value="m"/> Masculino
+						<span class="isMandatory" id="mandatorySexo" style="display: none;">
+							<br />
+							Disculpe, debe indicar el sexo del Alumno.
+						</span>
 					</td>
 				</tr>
 				<tr>
@@ -136,7 +140,7 @@ include_once "includes/header.php";
 						<input type="text" name="representante" id="representante" />
 						<div class="isMandatory" id="mandatoryRepresentante" style="display: none;">
 							<br />
-							Disculpe, debe indicar el nombre del Reprsentante.
+							Disculpe, debe indicar el nombre del Representante.
 						</div>
 					</td>
 				</tr>

@@ -238,9 +238,13 @@ function validarAgregarAlumnoForm(forma){
 	document.getElementById("mandatoryNombre").style.display = "none";
 	document.getElementById("mandatoryApellido").style.display = "none";
 	document.getElementById("mandatoryCedula").style.display = "none";
+	document.getElementById("mandatorySexo").style.display = "none";
 	document.getElementById("mandatoryLugarNacimiento").style.display = "none";
+	document.getElementById("mandatoryGrado").style.display = "none";
 	document.getElementById("mandatoryDireccion").style.display = "none";
 	document.getElementById("mandatoryFechaNacimiento").style.display = "none";
+	document.getElementById("mandatoryRepresentante").style.display = "none";
+	document.getElementById("mandatoryCedulaRepresentante").style.display = "none";
 	
 	//validamos los campos
 	if(forma.nombre.value.trim() == ""){
@@ -261,9 +265,22 @@ function validarAgregarAlumnoForm(forma){
 		doSubmit = false;
 	}
 	
+	if(!document.getElementById("sexo_f").checked
+			&& ! document.getElementById("sexo_m").checked){
+		document.getElementById("sexo_f").focus();
+		document.getElementById("mandatorySexo").style.display = "";
+		doSubmit = false;
+	}
+	
 	if(forma.lugarNacimiento.value.trim() == ""){
 		document.getElementById("mandatoryLugarNacimiento").style.display = "";
 		forma.lugarNacimiento.focus();
+		doSubmit = false;
+	}
+	
+	if(forma.grado.value.trim() == ""){
+		document.getElementById("mandatoryGrado").style.display = "";
+		forma.grado.focus();
 		doSubmit = false;
 	}
 	
@@ -278,6 +295,18 @@ function validarAgregarAlumnoForm(forma){
 	if(forma.fechaNacimiento.value.trim() == ""){
 		document.getElementById("mandatoryFechaNacimiento").style.display = "";
 		$(window).scrollTop($('#mandatoryFechaNacimiento').offset().top);
+		doSubmit = false;
+	}
+	
+	if(forma.representante.value.trim() == ""){
+		document.getElementById("mandatoryRepresentante").style.display = "";
+		forma.representante.focus();
+		doSubmit = false;
+	}
+	
+	if(forma.cedulaR.value.trim() == ""){
+		document.getElementById("mandatoryCedulaRepresentante").style.display = "";
+		forma.cedulaR.focus();
 		doSubmit = false;
 	}
 	
