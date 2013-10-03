@@ -14,6 +14,8 @@ $multiplicandosPermitidos["30"] = "RL_ALT_JC_A";
 $multiplicandosPermitidos["31"] = "RL_ALT_JC_B";
 $multiplicandosPermitidos["32"] = "RL_ALT_MJ_A";
 $multiplicandosPermitidos["33"] = "RL_ALT_MJ_B";
+$multiplicandosPermitidos["39"] = "RL_ALT_BASKET_A";
+$multiplicandosPermitidos["40"] = "RL_ALT_BASKET_B";
 
 $concat='';
 	switch($_SESSION["perfil"]){
