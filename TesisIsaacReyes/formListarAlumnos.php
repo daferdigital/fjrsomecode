@@ -3,8 +3,6 @@ include_once 'classes/Constants.php';
 include_once 'classes/DBUtil.php';
 include_once 'classes/UsuarioDTO.php';
 
-session_start();
-
 include_once "includes/header.php";
 ?>
 <tr>

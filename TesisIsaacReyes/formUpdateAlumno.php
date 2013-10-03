@@ -3,10 +3,23 @@ include_once 'classes/Constants.php';
 include_once 'classes/DBUtil.php';
 
 include_once "includes/header.php";
+
+$query = "SELECT *";
+$query .= " FROM alumnos a";
+$query .= " WHERE a.id=".$_GET["id"];
+
+$alumno = DBUtil::executeSelect($query);
+if(count($alumno) < 1){
+	$_SESSION[Constants::$KEY_MESSAGE_OPERATION] = "La informaci&oacute;n solicitada no pudo ser localizada.";
+	header("Location: formListarAlumnos.php");
+} else {
+	$alumno = $alumno[0];
+}
 ?>
 <tr>
 	<td colspan="2" align="center">
-		<form name="agregarAlumnoForm" action="formProcess/addAlumno.php" method="post" onsubmit="return validarAgregarAlumnoForm(this);">
+		<form name="agregarAlumnoForm" action="formProcess/updateAlumno.php" method="post" onsubmit="return validarAgregarAlumnoForm(this);">
+			<input type="hidden" name="id" value="<?php echo $_GET["id"];?>" />
 			<table>
 				<tr>
 					<td colspan="2" align="right">
@@ -25,7 +38,7 @@ include_once "includes/header.php";
 				<tr>
 					<td>Nombre:</td>
 					<td>
-						<input type="text" name="nombre" id="nombre"/>
+						<input type="text" name="nombre" id="nombre" value="<?php echo $alumno["nombre"];?>" />
 						<span class="isMandatory" id="mandatoryNombre" style="display: none;">
 							<br />
 							Disculpe, debe indicar el nombre.
@@ -35,7 +48,7 @@ include_once "includes/header.php";
 				<tr>
 					<td>Apellido:</td>
 					<td>
-						<input type="text" name="apellido" id="apellido"/>
+						<input type="text" name="apellido" id="apellido" value="<?php echo $alumno["apellido"];?>" />
 						<span class="isMandatory" id="mandatoryApellido" style="display: none;">
 							<br />
 							Disculpe, debe indicar el apellido.
@@ -45,7 +58,7 @@ include_once "includes/header.php";
 				<tr>
 					<td>C&eacute;dula Alumno:</td>
 					<td>
-						<input type="text" name="cedula" id="cedula" maxlength="10" onkeypress="return textInputOnlyNumbers(event)"/>
+						<input type="text" name="cedula" id="cedula" maxlength="10" onkeypress="return textInputOnlyNumbers(event)" value="<?php echo $alumno["cedula_alumno"];?>" />
 						<span class="isMandatory" id="mandatoryCedula" style="display: none;">
 							<br />
 							Disculpe, debe indicar la c&eacute;dula del Alumno.
@@ -55,8 +68,8 @@ include_once "includes/header.php";
 				<tr>
 					<td>Sexo:</td>
 					<td>
-						<input type="radio" name="sexo" id="sexo_f" value="f"/> Femenino
-						<input type="radio" name="sexo" id="sexo_m" value="m"/> Masculino
+						<input type="radio" name="sexo" id="sexo_f" value="f" <?php echo $alumno["sexo"] == "f" ? " checked " : "";?> /> Femenino
+						<input type="radio" name="sexo" id="sexo_m" value="m" <?php echo $alumno["sexo"] == "m" ? " checked " : "";?> /> Masculino
 						<span class="isMandatory" id="mandatorySexo" style="display: none;">
 							<br />
 							Disculpe, debe indicar el sexo del Alumno.
@@ -66,7 +79,7 @@ include_once "includes/header.php";
 				<tr>
 					<td>Lugar de Nacimiento:</td>
 					<td>
-						<input type="text" name="lugarNacimiento" id="lugarNacimiento"/>
+						<input type="text" name="lugarNacimiento" id="lugarNacimiento" value="<?php echo $alumno["lugar_nacimiento"];?>" />
 						<span class="isMandatory" id="mandatoryLugarNacimiento" style="display: none;">
 							<br />
 							Disculpe, debe indicar el lugar de nacimiento.
@@ -83,11 +96,11 @@ include_once "includes/header.php";
 								$query .= " FROM grados g, profesores p";
 								$query .= " WHERE g.id_profesor = p.id ";
 								$query .= " ORDER BY g.grado, g.turno, p.nombre, p.apellido, p.cedula";
-								
+
 								$results = DBUtil::executeSelect($query);
 								foreach ($results AS $row){
 							?>
-								<option value="<?php echo $row["idGrado"];?>">
+								<option value="<?php $row["idGrado"];?>" <?php echo $row["idGrado"] == $alumno["id_grado"] ? " selected " : ""?>>
 									<?php echo $row["grado"]." (".$row["turno"].") Prof: ".$row["nombre"]." ".$row["apellido"];?>
 								</option>
 							<?php
@@ -103,7 +116,7 @@ include_once "includes/header.php";
 				<tr>
 					<td>Direcci&oacute;n:</td>
 					<td>
-						<textarea rows="6" cols="30" id="direccion" name="direccion"></textarea>
+						<textarea rows="6" cols="30" id="direccion" name="direccion"><?php echo $alumno["direccion"];?></textarea>
 						<span class="isMandatory" id="mandatoryDireccion" style="display: none;">
 							<br />
 							Disculpe, debe indicar la direcci&oacute;n.
@@ -113,8 +126,8 @@ include_once "includes/header.php";
 				<tr>
 					<td>Fecha de Nacimiento:</td>
 					<td>
-						<input type="text" name="fechaNacimiento" id="fechaNacimiento" readonly="readonly"/>
-						<input type="hidden" id="fechaNacimientoHidden" name="fechaNacimientoHidden" />
+						<input type="text" name="fechaNacimiento" id="fechaNacimiento" readonly="readonly" value="<?php echo $alumno["fecha_nacimiento"];?>"/>
+						<input type="hidden" id="fechaNacimientoHidden" name="fechaNacimientoHidden" value="<?php echo $alumno["fecha_nacimiento"];?>" />
 						<script>
 							new JsDatePick({
 						        useMode:2,
@@ -137,7 +150,7 @@ include_once "includes/header.php";
 				<tr>
 					<td>Nombre Representante</td>
 					<td>
-						<input type="text" name="representante" id="representante" />
+						<input type="text" name="representante" id="representante" value="<?php echo $alumno["nombre_representante"];?>" />
 						<div class="isMandatory" id="mandatoryRepresentante" style="display: none;">
 							<br />
 							Disculpe, debe indicar el nombre del Representante.
@@ -147,11 +160,14 @@ include_once "includes/header.php";
 				<tr>
 					<td>C&eacute;dula Representante:</td>
 					<td>
+						<?php
+							$ciPieces = explode("-", $alumno["cedula_representante"]); 
+						?>
 						<select name="ci">
-					        <option value="V">V</option>
-					        <option value="E">E</option>
+					        <option value="V" <?php $ciPieces[0] == "V" ? " selected " : "";?>>V</option>
+					        <option value="E" <?php $ciPieces[0] == "E" ? " selected " : "";?>>E</option>
 		      			</select>
-						<input type="text" name="cedulaR" id="cedulaR" maxlength="10" onkeypress="return textInputOnlyNumbers(event)"/>
+						<input type="text" name="cedulaR" id="cedulaR" maxlength="10" onkeypress="return textInputOnlyNumbers(event)" value="<?php echo $ciPieces[1];?>" />
 						<span class="isMandatory" id="mandatoryCedulaRepresentante" style="display: none;">
 							<br />
 							Disculpe, debe indicar la c&eacute;dula del Representante.
@@ -161,7 +177,7 @@ include_once "includes/header.php";
 				<tr>
 					<td>Literal:</td>
 					<td>
-						<textarea rows="6" cols="30" name="literal" id="literal"></textarea>
+						<textarea rows="6" cols="30" name="literal" id="literal"><?php echo $alumno["literal"];?></textarea>
 					</td>
 				</tr>
 				<tr>
@@ -176,7 +192,7 @@ include_once "includes/header.php";
 				</tr>
 				<tr>
 					<td colspan="2" align="center">
-						<input type="submit" value="Guardar" name="botonSubmit"/>
+						<input type="submit" value="Actualizar" name="botonSubmit"/>
 					</td>
 				</tr>
 			</table>

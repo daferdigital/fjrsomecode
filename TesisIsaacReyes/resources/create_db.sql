@@ -37,8 +37,12 @@ CREATE TABLE `alumnos` (
   `literal` text,
   `nombre_representante` varchar(250) NOT NULL,
   `cedula_representante` varchar(45) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1 COMMENT='Tabla para almacenar la informacion de los alumnos';
+  `telefono` varchar(250) NOT NULL,
+  `id_grado` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_GRADO_ALUMNO_idx` (`id_grado`),
+  CONSTRAINT `FK_GRADO_ALUMNO` FOREIGN KEY (`id_grado`) REFERENCES `grados` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1 COMMENT='Tabla para almacenar la informacion de los alumnos';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,7 +51,7 @@ CREATE TABLE `alumnos` (
 
 LOCK TABLES `alumnos` WRITE;
 /*!40000 ALTER TABLE `alumnos` DISABLE KEYS */;
-INSERT INTO `alumnos` (`id`, `cedula_alumno`, `nombre`, `apellido`, `fecha_nacimiento`, `lugar_nacimiento`, `direccion`, `activo`, `sexo`, `literal`, `nombre_representante`, `cedula_representante`) VALUES (1,'V-12876765','Felipe','Rojas','1982-08-30','Guarenas','Menca de Leoni','1','',NULL,'',''),(2,'V-16006989','isaac','reyes','1983-03-29','caracas','las minas','1','',NULL,'',''),(3,'V-65431','isa','ret','1983-03-03','caracas','lasa minas ','1','',NULL,'',''),(4,'V-2154','aja','res','1980-08-05','dsfds','dfdfds','0','',NULL,'',''),(5,'V-33232','avila','sddsdsds','1983-09-07','sdsad','dsfsdsdf','0','',NULL,'',''),(6,'V-434334','toyota','dffd','1987-08-04','3dffddsf','dffdsfds','1','',NULL,'',''),(7,'V-125478','humber','reye','1983-03-29','ede','Caracas','1','',NULL,'','');
+INSERT INTO `alumnos` (`id`, `cedula_alumno`, `nombre`, `apellido`, `fecha_nacimiento`, `lugar_nacimiento`, `direccion`, `activo`, `sexo`, `literal`, `nombre_representante`, `cedula_representante`, `telefono`, `id_grado`) VALUES (8,'123456','Felipe','Rojas','2000-10-02','Caracas','Guarenas','1','m','literaleando','pepeto lopez','E-827346','',1);
 /*!40000 ALTER TABLE `alumnos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -146,4 +150,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-09-27 17:06:40
+-- Dump completed on 2013-10-03 16:10:34
