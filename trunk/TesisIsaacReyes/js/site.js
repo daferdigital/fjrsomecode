@@ -245,6 +245,7 @@ function validarAgregarAlumnoForm(forma){
 	document.getElementById("mandatoryFechaNacimiento").style.display = "none";
 	document.getElementById("mandatoryRepresentante").style.display = "none";
 	document.getElementById("mandatoryCedulaRepresentante").style.display = "none";
+	document.getElementById("mandatoryTelefono").style.display = "none";
 	
 	//validamos los campos
 	if(forma.nombre.value.trim() == ""){
@@ -307,6 +308,12 @@ function validarAgregarAlumnoForm(forma){
 	if(forma.cedulaR.value.trim() == ""){
 		document.getElementById("mandatoryCedulaRepresentante").style.display = "";
 		forma.cedulaR.focus();
+		doSubmit = false;
+	}
+	
+	if(forma.telefono.value.trim() == ""){
+		document.getElementById("mandatoryTelefono").style.display = "";
+		forma.telefono.focus();
 		doSubmit = false;
 	}
 	

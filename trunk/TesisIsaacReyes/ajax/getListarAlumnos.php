@@ -19,7 +19,7 @@ if($_POST["apellido"] != ""){
 	$extraWhere .= " AND LOWER(a.apellido) LIKE('%".strtolower($_POST["apellido"])."%')";
 }
 if($_POST["cedula"] != ""){
-	$extraWhere .= " AND a.cedula LIKE('%".$_POST["cedula"]."%')";
+	$extraWhere .= " AND a.cedula_alumno LIKE('%".$_POST["cedula"]."%')";
 }
 if($_POST["activo"] != ""){
 	$extraWhere .= " AND a.activo = '".$_POST["activo"]."'";
@@ -30,7 +30,7 @@ $query = "SELECT a.* "
 ." FROM alumnos a"
 ." WHERE 1 = 1 "
 .$extraWhere
-." ORDER BY a.nombre, a.apellido, a.cedula, a.fecha_nacimiento DESC";
+." ORDER BY a.nombre, a.apellido, a.cedula_alumno, a.fecha_nacimiento DESC";
 
 //echo $query."<br />	";
 
@@ -96,7 +96,7 @@ if(count($pageRecords) == 0){
 				<?php echo $row["nombre"]." ".$row["apellido"].($row["activo"] == "0" ? " (Retirado)" : "");?>
 			</div>
 			<div style="width: 15%;" id="tdElement">
-				<?php echo $row["cedula"];?>
+				<?php echo $row["cedula_alumno"];?>
 			</div>
 			<div style="width: 10%;" id="tdElement">
 				<?php
