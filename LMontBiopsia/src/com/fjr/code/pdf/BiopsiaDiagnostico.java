@@ -4,6 +4,7 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import org.apache.log4j.Logger;
@@ -11,7 +12,11 @@ import org.apache.log4j.Logger;
 import com.fjr.code.dao.BiopsiaInfoDAO;
 import com.fjr.code.dto.BiopsiaInfoDTO;
 import com.fjr.code.util.Constants;
+import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font.FontFamily;
+import com.itextpdf.text.Font;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
@@ -19,6 +24,7 @@ import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.sun.org.apache.bcel.internal.generic.BIPUSH;
 
 /**
  * 
@@ -37,6 +43,10 @@ public class BiopsiaDiagnostico {
 	private String fileName;
 	private String filePath;
 	
+	/**
+	 * 
+	 * @param biopsia
+	 */
 	public BiopsiaDiagnostico(BiopsiaInfoDTO biopsia) {
 		// TODO Auto-generated constructor stub
 		this.biopsia = biopsia;
@@ -78,7 +88,7 @@ public class BiopsiaDiagnostico {
 	        //agregamos la tabla de detalle de la biopsia
 	        document.add(addDetailBiopsiaTable());
 	        //agregamos la info de Macro
-	        addDetailMacro();
+	        addDetailMacro(document);
 	        
 	        //step 5
 	        document.close();
@@ -132,15 +142,15 @@ public class BiopsiaDiagnostico {
 		PdfPCell cell8 = new PdfPCell(new Phrase("Referencia:"));
 		cell8.setBorder(0);
 		
-		PdfPCell cell9 = new PdfPCell(new Phrase());
+		PdfPCell cell9 = new PdfPCell(new Phrase(biopsia.getCodigo()));
 		cell9.setBorder(0);
 		
 		PdfPCell cell10 = new PdfPCell(new Phrase("Fecha:"));
 		cell10.setBorder(0);
 		cell10.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-		PdfPCell cell11 = new PdfPCell(new Phrase(sdf.format(biopsia.getFechaRegistro().getTime())));
+		DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+		PdfPCell cell11 = new PdfPCell(new Phrase(df.format(biopsia.getFechaRegistro().getTime())));
 		cell11.setBorder(0);
 		
 		table.addCell(cell);
@@ -161,12 +171,29 @@ public class BiopsiaDiagnostico {
 	
 	/**
 	 * 
+	 * @param document 
 	 * @param biopsia
 	 * @return
+	 * @throws DocumentException 
 	 */
-	private void addDetailMacro(){
-		Paragraph p = new Paragraph();
+	private void addDetailMacro(Document document) throws DocumentException{
+		Chunk title1 = new Chunk("\n\nPROCEDENCIA DEL MATERIAL: ", new Font(FontFamily.TIMES_ROMAN, 14F, Font.BOLD));
+		Phrase value1 = new Phrase(biopsia.getIngresoDTO().getPiezaRecibida(), new Font(FontFamily.TIMES_ROMAN, 12F, Font.NORMAL));
 		
+		Paragraph p1 = new Paragraph();
+		p1.setIndentationLeft(50);
+		p1.add(title1);
+		p1.add(value1);
+		
+		Chunk title2 = new Chunk("\nDESCRIPCION MACROSCOPICA: ", new Font(FontFamily.TIMES_ROMAN, 14F, Font.BOLD));
+		Phrase value2 = new Phrase(biopsia.getMacroscopicaDTO().getDescMacroscopica(), new Font(FontFamily.TIMES_ROMAN, 12F));
+		Paragraph p2 = new Paragraph();
+		p2.setIndentationLeft(50);
+		p2.add(title2);
+		p2.add(value2);
+		
+		document.add(p1);
+		document.add(p2);
 	}
 
 	/**
@@ -182,11 +209,11 @@ public class BiopsiaDiagnostico {
 	}
 	
 	public static void main(String[] args) {
-		BiopsiaInfoDTO biopsia = BiopsiaInfoDAO.getBiopsiaByNumero("13-001236");
+		BiopsiaInfoDTO biopsia = BiopsiaInfoDAO.getBiopsiaByNumero("11-005000");
 		if(biopsia == null){
 			biopsia = new BiopsiaInfoDTO();
+			biopsia.setId(1);
 		}
-		biopsia.setId(1);
 		
 		new BiopsiaDiagnostico(biopsia).buildDiagnostico();
 		System.out.println("Finish...");
