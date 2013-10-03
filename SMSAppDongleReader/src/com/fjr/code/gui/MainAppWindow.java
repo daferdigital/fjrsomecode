@@ -11,6 +11,7 @@ import javax.swing.JMenuItem;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Color;
 
 public class MainAppWindow {
 
@@ -44,6 +45,7 @@ public class MainAppWindow {
 	 */
 	private void initialize() {
 		frmSmsappreaderlectorSms = new JFrame();
+		frmSmsappreaderlectorSms.getContentPane().setBackground(Color.WHITE);
 		frmSmsappreaderlectorSms.setTitle("SMSAPPReader (Lector SMS desde USB)");
 		frmSmsappreaderlectorSms.setIconImage(Toolkit.getDefaultToolkit().getImage(MainAppWindow.class.getResource("/resources/images/smsIcon.png")));
 		frmSmsappreaderlectorSms.setBounds(100, 100, 450, 300);
@@ -57,10 +59,11 @@ public class MainAppWindow {
 		frmSmsappreaderlectorSms.setJMenuBar(menuBar);
 		
 		JMenu mnArchivo = new JMenu("Archivo");
-		mnArchivo.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		mnArchivo.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		menuBar.add(mnArchivo);
 		
 		JMenuItem mntmSalir = new JMenuItem("Salir");
+		mntmSalir.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		mntmSalir.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -73,36 +76,51 @@ public class MainAppWindow {
 		mnArchivo.add(mntmSalir);
 		
 		JMenu mnMensajes = new JMenu("Mensajes");
-		mnMensajes.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		mnMensajes.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		menuBar.add(mnMensajes);
 		
+		JMenuItem mntmConsultar = new JMenuItem("Consultar");
+		mntmConsultar.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		mnMensajes.add(mntmConsultar);
+		
+		JMenuItem mntmEnvoMasivo = new JMenuItem("Env\u00EDo Masivo");
+		mntmEnvoMasivo.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		mnMensajes.add(mntmEnvoMasivo);
+		
 		JMenu mnConfiguracion_1 = new JMenu("Configuracion");
-		mnConfiguracion_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		mnConfiguracion_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		menuBar.add(mnConfiguracion_1);
 		
 		JMenuItem mntmBaseDeDatos = new JMenuItem("Base de Datos");
+		mntmBaseDeDatos.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		mnConfiguracion_1.add(mntmBaseDeDatos);
 		
 		JMenuItem mntmSistema = new JMenuItem("Sistema");
+		mntmSistema.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		mnConfiguracion_1.add(mntmSistema);
 		
 		JMenu mnPuertos = new JMenu("Puertos");
-		mnPuertos.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		mnPuertos.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		menuBar.add(mnPuertos);
 		
 		JMenuItem mntmConfigurar = new JMenuItem("Configurar");
+		mntmConfigurar.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		mnPuertos.add(mntmConfigurar);
 		
 		JMenu mnLogs = new JMenu("Logs");
-		mnLogs.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		mnLogs.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		menuBar.add(mnLogs);
 		
+		JMenuItem mntmErroresRecientes = new JMenuItem("Errores Recientes");
+		mntmErroresRecientes.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		mnLogs.add(mntmErroresRecientes);
+		
 		JMenu mnAcercaDe = new JMenu("Ayuda");
-		mnAcercaDe.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		mnAcercaDe.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		menuBar.add(mnAcercaDe);
 		
 		JMenuItem mntmSmsappreader = new JMenuItem("SMSAPPReader");
-		mntmSmsappreader.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		mntmSmsappreader.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		mnAcercaDe.add(mntmSmsappreader);
 		
 		frmSmsappreaderlectorSms.setLocationRelativeTo(null);
