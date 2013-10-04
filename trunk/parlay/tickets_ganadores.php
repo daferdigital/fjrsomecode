@@ -13,26 +13,32 @@
 	
 	$solo_ganadores=$_GET["fil"];
 	if($solo_ganadores=='G'){
-			$fil1="and ganador='1'";
-		}
-
+		$fil1="AND (ganador='1' OR recalculado='1' OR reembolsar='1') ";
+	}
+	
 	$estado_ticket=$_GET["estado"];
-		if($estado_ticket=='1'){
-			///Anulados
-			echo $fil_ticket="and anulado='1'";
-		}else if($estado_ticket=='2'){
-			///Ganadores y Pagados
-			$fil_ticket="and ganador='1'";			
-		}else if($estado_ticket=='3'){
-			///Perdedores
-			$fil_ticket="and perdedor='1'";
-		}else if($estado_ticket=='4'){
-			///Vendidos
-			$fil_ticket="and anulado='0' and ganador='0' and perdedor='0' and vencido='0'";
-		}else if($estado_ticket=='5'){
-			///Vencido
-			$fil_ticket="and vencido='1'";
-		}else{}
+	if($estado_ticket=='1'){
+		///Anulados
+		echo $fil_ticket="and anulado='1'";
+	}else if($estado_ticket=='2'){
+		///Ganadores y Pagados
+		$fil_ticket="and ganador='1'";			
+	}else if($estado_ticket=='3'){
+		///Perdedores
+		$fil_ticket="and perdedor='1'";
+	}else if($estado_ticket=='4'){
+		///Vendidos
+		$fil_ticket="and anulado='0' and ganador='0' and perdedor='0' and vencido='0'";
+	}else if($estado_ticket=='5'){
+		///Vencido
+		$fil_ticket="and vencido='1'";
+	}else if($estado_ticket=='6'){
+		///recalculados
+		$fil_ticket="and recalculado='1'";
+	}else if($estado_ticket=='7'){
+		///reembolsados
+		$fil_ticket="and reembolsar='1'";
+	}else{}
 ?>
 <input name="fil" id="fil"  type="hidden" value="<?Php echo $solo_ganadores;?>" />
 <div align="center"><strong>Desde:</strong> <input type="text" name="fdesde" id="fdesde" readonly="readonly" value="<?Php echo $fecha_desde;?>" class="fecha" style="cursor:pointer;" /> <strong>Hasta:</strong> <input type="text" name="fhasta" id="fhasta" readonly="readonly" value="<?Php echo $fecha_hasta;?>" class="fecha" style="cursor:pointer;" /> 
@@ -44,6 +50,8 @@ Tickets <select name="estado" id="estado">
  	<option value="3" <? if($estado_ticket=='3')echo "selected='selected'";?>>Perdedores</option>
  	<option value="4" <? if($estado_ticket=='4')echo "selected='selected'";?>>Vendidos</option>
  	<option value="5" <? if($estado_ticket=='5')echo "selected='selected'";?>>Vencido</option>
+ 	<option value="6" <? if($estado_ticket=='6')echo "selected='selected'";?>>Recalculados</option>
+ 	<option value="7" <? if($estado_ticket=='7')echo "selected='selected'";?>>Reembolsados</option>
 </select>
 
  <input type="button" class="boton" id="carga_formulario" value="Buscar" /><br></div>

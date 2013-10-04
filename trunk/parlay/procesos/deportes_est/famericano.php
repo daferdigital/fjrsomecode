@@ -57,7 +57,7 @@
 
 					?><tr class="borde_rigth_bottom_top"  bgcolor="<?Php echo $color;?>">
 
-                            <td colspan="10"><label class="hora_venta"><?php echo '<b>'.$hora.'</b>'; ?></label>
+                            <td colspan="9"><label class="hora_venta"><?php echo '<b>'.$hora.'</b>'; ?></label>
 
                             </td>
 
@@ -119,7 +119,7 @@
 
                     	<tr class="borde_rigth_bottom_top"  bgcolor="<?Php echo $color;?>">
 
-                            <td colspan="10"><label class="hora_venta"><?php echo '<b>'.$hora.'</b>'; ?></label>
+                            <td colspan="9"><label class="hora_venta"><?php echo '<b>'.$hora.'</b>'; ?></label>
 
                             </td>
 
@@ -138,9 +138,9 @@
                             <td align="left"><?Php if($array_datos[101][1]):?><input type="checkbox" combinacion="l<?Php echo $varlogros['idlogro'].'_101';?>" pago="<?php echo $array_datos[101][1] ?>" name="apuesta[]" value="<?php echo $array_datos[101][2] ?>" /><?php echo $array_datos[101][1] ?><?php endif;?></td>
 
 							<td align="center"><?Php if($array_datos[95][1]):?><?php echo ($array_datos[95][0]>0?'&nbsp;'.$array_datos[95][0]:$array_datos[95][0]).' <input type="checkbox" combinacion="l'.$varlogros['idlogro'].'_95" pago="'.$array_datos[95][1].'" name="apuesta[]" value="'.$array_datos[95][2].'" /> '.$array_datos[95][1]; ?><?php endif;?></td>
-
+							<!--
 							<td align="center"><?Php if($array_datos[97][1]):?><?php echo ($array_datos[97][0]>0?'&nbsp;'.$array_datos[97][0]:$array_datos[97][0]).' <input type="checkbox" combinacion="l'.$varlogros['idlogro'].'_97" pago="'.$array_datos[97][1].'" name="apuesta[]" value="'.$array_datos[97][2].'" /> '.$array_datos[97][1]; ?><?php endif;?></td>
-
+							-->
                             <td rowspan="2" align="center"><?Php if($array_datos[102][1]):?><?php echo 'A '.$array_datos[102][1].' <input type="checkbox" combinacion="l'.$varlogros['idlogro'].'_102" pago="'.$array_datos[102][1].'" name="apuesta[]" value="'.$array_datos[102][2].'" /> ('.$array_datos[109][1].')';?><?php endif;?>
 
 														   <?Php if($array_datos[103][1]):?><?Php echo '<br>B '.$array_datos[103][1].' <input type="checkbox" combinacion="l'.$varlogros['idlogro'].'_103" pago="'.$array_datos[103][1].'" name="apuesta[]" value="'.$array_datos[103][2].'" /> ('.$array_datos[109][1].')'; ?><?php endif;?></td>
@@ -168,8 +168,9 @@
                             <td align="left"><?Php if($array_datos[99][1]):?><input type="checkbox" combinacion="l<?Php echo $varlogros['idlogro'].'_99';?>" pago="<?php echo $array_datos[99][1] ?>" name="apuesta[]" value="<?php echo $array_datos[99][2] ?>" /><?php echo $array_datos[99][1] ?><?php endif;?></td>
 
                             <td align="center"><?Php if($array_datos[96][1]):?><?php echo ($array_datos[96][0]>0?'&nbsp;'.$array_datos[96][0]:$array_datos[96][0]).' <input type="checkbox" combinacion="l'.$varlogros['idlogro'].'_96" pago="'.$array_datos[96][1].'" name="apuesta[]" value="'.$array_datos[96][2].'" /> '.$array_datos[96][1]; ?><?php endif;?></td>
-
+							<!--
 							<td align="center"><?Php if($array_datos[108][1]):?><?php echo ($array_datos[108][0]>0?'&nbsp;'.$array_datos[108][0]:$array_datos[108][0]).' <input type="checkbox" combinacion="1'.$varlogros['idlogro'].'_108" pago="'.$array_datos[108][1].'" name="apuesta[]" value="'.$array_datos[108][2].'" /> '.$array_datos[108][1]; ?><?php endif;?></td>
+							-->
 
                         </tr>
 

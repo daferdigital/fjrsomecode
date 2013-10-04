@@ -1,0 +1,8 @@
+Archivos:
+
+parlay/procesos/deportes_est/famericano.php
+parlay/procesos/guardar_logros.php
+
+parlay/reportes/reporte_1.php
+
+parlay/tickets_ganadores.php
