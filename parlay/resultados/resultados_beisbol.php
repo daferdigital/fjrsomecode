@@ -72,8 +72,8 @@
                                 <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoA;?>][1]2" value="<?Php echo $resA[1];?>" size="2" maxlength="2" /></td><td rowspan="2" align="center">
                                 <select name="resultado[<?Php echo $idlogro_equipoA;?>][7]">
                                   <option value="2">Seleccione</option>
-                                  <option <?Php echo($resA[7]==1?'selected="selected"':'');?> value="1">Si</option>
-                                  <option <?Php echo($resA[7]==0?'selected="selected"':'');?> value="0">No</option>                             
+                                  <option <?Php echo($resA[7]=='1'?'selected="selected"':'');?> value="1">Si</option>
+                                  <option <?Php echo($resA[7]=='0'?'selected="selected"':'');?> value="0">No</option>                             
                                 </select></td>
                                 <td rowspan="2" align="left">
                                   <div align="center">
@@ -171,8 +171,8 @@
                                 <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoA;?>][1]" value="<?Php echo $resA[1];?>" size="2" maxlength="2" /></td><td rowspan="2" align="center">
                                 <select name="resultado[<?Php echo $idlogro_equipoA;?>][7]">
                                   <option value="2">Seleccione</option>
-                                  <option <?Php echo($resA[7]==1?'selected="selected"':'');?> value="1">Si</option>
-                                  <option <?Php echo($resA[7]==0?'selected="selected"':'');?> value="0">No</option>                             
+                                  <option <?Php echo($resA[7]=='1'?'selected="selected"':'');?> value="1">Si</option>
+                                  <option <?Php echo($resA[7]=='0'?'selected="selected"':'');?> value="0">No</option>                             
                                 </select></td><td rowspan="2" align="left">
                                   <div align="center">
                                     <select name="resultado[<?Php echo $idlogro_equipoA;?>][8]">

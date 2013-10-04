@@ -1,0 +1,210 @@
+ALTER TABLE `ingenier_sistema`.`logros_equipos_categorias_resultados` CHANGE COLUMN `resultado` `resultado` VARCHAR(10) NULL DEFAULT NULL ;
+
+CREATE  TABLE `ventas_detalles_estados` (
+  `id` INT NOT NULL ,
+  `descripcion` VARCHAR(250) NOT NULL ,
+  PRIMARY KEY (`id`) );
+  
+INSERT INTO `ventas_detalles_estados` (`id`, `descripcion`) VALUES (1, 'Suspendido');
+INSERT INTO `ventas_detalles_estados` (`id`, `descripcion`) VALUES (2, 'Vendido');
+INSERT INTO `ventas_detalles_estados` (`id`, `descripcion`) VALUES (3, 'No Mapeado');
+INSERT INTO `ventas_detalles_estados` (`id`, `descripcion`) VALUES (4, 'Empatado');
+INSERT INTO `ventas_detalles_estados` (`id`, `descripcion`) VALUES (5, 'Ganador');
+INSERT INTO `ventas_detalles_estados` (`id`, `descripcion`) VALUES (6, 'Perdedor');
+INSERT INTO `ventas_detalles_estados` (`id`, `descripcion`) VALUES (7, '');
+INSERT INTO `ventas_detalles_estados` (`id`, `descripcion`) VALUES (8, 'Reembolsar');
+
+ALTER TABLE `ventas_detalles` ADD COLUMN `edo_venta_detalle` INT NOT NULL DEFAULT 2  AFTER `estatus` ;
+
+-- colocamos como estatus de ya procesado los tickets actuales
+UPDATE ventas_detalles set edo_venta_detalle = 7;
+
+DROP VIEW vista_ventas;
+
+CREATE VIEW `vista_ventas` AS 
+    select `ventas_detalles`.`idventa_detalle` AS `idventa_detalle`,
+        `ventas_detalles`.`idventa` AS `idventa`,
+        `ventas_detalles`.`idlogro_equipo_categoria_apuesta_banquero` AS `idlogro_equipo_categoria_apuesta_banquero`,
+        `ventas_detalles`.`estatus` AS `estatus`,
+        `ventas`.`idtaquilla` AS `idtaquilla`,
+        `ventas`.`fecha` AS `fecha_venta`,
+        `ventas`.`fecha_prorroga` AS `fecha_prorroga`,
+        `ventas`.`hora` AS `hora`,
+        `ventas`.`apuesta` AS `apuesta`,
+        `ventas`.`total_ganar` AS `total_ganar`,
+        `taquillas`.`idintermediario` AS `idintermediario`,
+        `taquillas`.`nombre` AS `nombre_taquillla`,
+        `taquillas`.`cedula` AS `cedula_taquilla`,
+        `taquillas`.`telefono` AS `telefono_taquilla`,
+        `taquillas`.`direccion` AS `direccion_taquilla`,
+        `taquillas`.`email` AS `email_taquilla`,
+        `taquillas`.`usuario` AS `usuario_taquilla`,
+        `taquillas`.`tipo` AS `tipo_taquilla`,
+        `taquillas`.`mjpd` AS `mjpd`,
+        `taquillas`.`mpjpd` AS `mpjpd`,
+        `taquillas`.`mjpdrl` AS `mjpdrl`,
+        `taquillas`.`mapt` AS `mapt`,
+        `taquillas`.`mjpp` AS `mjpp`,
+        `taquillas`.`mp` AS `mp`,
+        `taquillas`.`mjr` AS `mjr`,
+        `intermediarios`.`idbanquero` AS `idbanquero`,
+        `intermediarios`.`cedula` AS `cedula_intermediario`,
+        `intermediarios`.`nombre` AS `nombre_intermediario`,
+        `intermediarios`.`direccion` AS `direccion_intermediario`,
+        `intermediarios`.`telefono` AS `telefono_intermediario`,
+        `intermediarios`.`pp` AS `pp`,
+        `intermediarios`.`pd` AS `pd`,
+        `banqueros`.`nombres` AS `nombre_banquero`,
+        `banqueros`.`apellidos` AS `apellido_banquero`,
+        `banqueros`.`ced_rif` AS `ced_rif_banquero`,
+        `banqueros`.`direccion` AS `direccion_banquero`,
+        `banqueros`.`telefonos` AS `telefono_banquero`,
+        `banqueros`.`correo` AS `correo_banquero`,
+        `banqueros`.`web` AS `web_banquero`,
+        `ventas`.`ganador` AS `ganador`,
+        `ventas`.`perdedor` AS `perdedor`,
+        `ventas`.`pagado` AS `pagado`,
+        `ventas`.`anulado` AS `anulado`,
+        `ventas`.`vencido` AS `vencido`,
+        `ventas`.`codigo_cliente` AS `codigo_cliente`,
+        `ventas`.`codigo_ticket` AS `codigo_ticket`,
+        `ventas`.`estatus` AS `estatus_ventas`,
+        `ventas`.`monto_pagado` AS `monto_pagado`,
+        `ventas`.`cantidad_apuesta` AS `cantidad_apuesta`,
+        `ventas`.`tm` AS `tm`,
+        `ventas`.`idtm` AS `idtm`,
+        `ventas`.`idmodificador` AS `idmodificador`,
+        `ventas`.`monto_real_pagar` AS `monto_real_pagar`,
+        `ventas`.`recalculado` AS `recalculado`,
+        `ventas`.`reembolsar` AS `reembolsar`,
+        `ventas`.`reembolsado` AS `reembolsado`,
+        `ventas`.`hora_taquilla` AS `hora_taquilla`,
+        `ventas`.`hora_intermediario` AS `hora_intermediario`,
+        `ventas`.`hora_banquero` AS `hora_banquero`,
+        `ventas_detalles`.`multiplicando` AS `multiplicando`,
+        `ventas_detalles`.`pago` AS `pago`, 
+        `ventas_detalles`.`edo_venta_detalle` AS `edoVentaDetalle`,
+        ventas_detalles_estados.descripcion AS nombreEdoVentaDetalle
+        from ventas_detalles, `ventas`, `taquillas`, `intermediarios`, `banqueros`, ventas_detalles_estados
+        where `ventas_detalles`.`idventa` = `ventas`.`idventa`
+        and `ventas`.`idtaquilla` = `taquillas`.`idtaquilla`
+        and `taquillas`.`idintermediario` = `intermediarios`.`idintermediario`
+        and `intermediarios`.`idbanquero` = `banqueros`.`idbanquero`
+        and ventas_detalles_estados.id = ventas_detalles.edo_venta_detalle;
+
+DROP VIEW vista_ventas_detalles;
+
+CREATE  VIEW `vista_ventas_detalles` AS 
+    select `vista_ventas`.`idventa_detalle` AS `idventa_detalle`,
+            `vista_ventas`.`idventa` AS `idventa`,
+            `vista_ventas`.`idlogro_equipo_categoria_apuesta_banquero` AS `idlogro_equipo_categoria_apuesta_banquero`,
+            `vista_ventas`.`estatus` AS `estatus`,
+            `vista_ventas`.`idtaquilla` AS `idtaquilla`,
+            `vista_ventas`.`fecha_venta` AS `fecha_venta`,
+            `vista_ventas`.`fecha_prorroga` AS `fecha_prorroga`,
+            `vista_ventas`.`hora` AS `hora`,
+            `vista_ventas`.`apuesta` AS `apuesta`,
+            `vista_ventas`.`total_ganar` AS `total_ganar`,
+            `vista_ventas`.`idintermediario` AS `idintermediario`,
+            `vista_ventas`.`nombre_taquillla` AS `nombre_taquillla`,
+            `vista_ventas`.`cedula_taquilla` AS `cedula_taquilla`,
+            `vista_ventas`.`telefono_taquilla` AS `telefono_taquilla`,
+            `vista_ventas`.`direccion_taquilla` AS `direccion_taquilla`,
+            `vista_ventas`.`email_taquilla` AS `email_taquilla`,
+            `vista_ventas`.`usuario_taquilla` AS `usuario_taquilla`,
+            `vista_ventas`.`tipo_taquilla` AS `tipo_taquilla`,
+            `vista_ventas`.`mjpd` AS `mjpd`,
+            `vista_ventas`.`mpjpd` AS `mpjpd`,
+            `vista_ventas`.`mjpdrl` AS `mjpdrl`,
+            `vista_ventas`.`mapt` AS `mapt`,
+            `vista_ventas`.`mjpp` AS `mjpp`,
+            `vista_ventas`.`mp` AS `mp`,
+            `vista_ventas`.`mjr` AS `mjr`,
+            `vista_ventas`.`idbanquero` AS `idbanquero`,
+            `vista_ventas`.`cedula_intermediario` AS `cedula_intermediario`,
+            `vista_ventas`.`nombre_intermediario` AS `nombre_intermediario`,
+            `vista_ventas`.`direccion_intermediario` AS `direccion_intermediario`,
+            `vista_ventas`.`telefono_intermediario` AS `telefono_intermediario`,
+            `vista_ventas`.`pp` AS `pp`,
+            `vista_ventas`.`pd` AS `pd`,
+            `vista_ventas`.`nombre_banquero` AS `nombre_banquero`,
+            `vista_ventas`.`apellido_banquero` AS `apellido_banquero`,
+            `vista_ventas`.`ced_rif_banquero` AS `ced_rif_banquero`,
+            `vista_ventas`.`direccion_banquero` AS `direccion_banquero`,
+            `vista_ventas`.`telefono_banquero` AS `telefono_banquero`,
+            `vista_ventas`.`correo_banquero` AS `correo_banquero`,
+            `vista_ventas`.`web_banquero` AS `web_banquero`,
+            `vista_logros_banqueros`.`idlogro_equipo_categoria_apuesta` AS `idlogro_equipo_categoria_apuesta`,
+            `vista_logros_banqueros`.`idlogro_equipo` AS `idlogro_equipo`,
+            `vista_logros_banqueros`.`idcategoria_apuesta` AS `idcategoria_apuesta`,
+            `vista_logros_banqueros`.`multiplicando` AS `multiplicando_banquero`,
+            `vista_logros_banqueros`.`pago` AS `pago_banquero`,
+            `vista_logros_banqueros`.`idlogro` AS `idlogro`,
+            `vista_logros_banqueros`.`idequipo` AS `idequipo`,
+            `vista_logros_banqueros`.`idroster` AS `idroster`,
+            `vista_logros_banqueros`.`referencia` AS `referencia`,
+            `vista_logros_banqueros`.`idadministrador` AS `idadministrador`,
+            `vista_logros_banqueros`.`fecha` AS `fecha`,
+            `vista_logros_banqueros`.`hora` AS `hora_juego`,
+            `vista_logros_banqueros`.`nombre_equipo` AS `nombre_equipo`,
+            `vista_logros_banqueros`.`idliga` AS `idliga`,
+            `vista_logros_banqueros`.`nombre_liga` AS `nombre_liga`,
+            `vista_logros_banqueros`.`multiplicando_general` AS `multiplicando_general`,
+            `vista_logros_banqueros`.`pago_general` AS `pago_general`,
+            `vista_logros_banqueros`.`idcategoria` AS `idcategoria`,
+            `vista_logros_banqueros`.`idapuesta` AS `idapuesta`,
+            `vista_logros_banqueros`.`nombre_categoria` AS `nombre_categoria`,
+            `vista_logros_banqueros`.`idtipo_apuesta` AS `idtipo_apuesta`,
+            `vista_logros_banqueros`.`nombre_apuesta` AS `nombre_apuesta`,
+            `vista_logros_banqueros`.`descripcion_apuesta` AS `descripcion_apuesta`,
+            `vista_logros_banqueros`.`que_equipo` AS `que_equipo`,
+            `vista_logros_banqueros`.`nombre_tipo_apuesta` AS `nombre_tipo_apuesta`,
+            `vista_logros_banqueros`.`tipo` AS `tipo`,
+            `vista_logros_banqueros`.`estatus` AS `estatus_logro_banquero`,
+            `vista_ventas`.`ganador` AS `ganador`,
+            `vista_ventas`.`perdedor` AS `perdedor`,
+            `vista_ventas`.`pagado` AS `pagado`,
+            `vista_ventas`.`anulado` AS `anulado`,
+            `vista_ventas`.`vencido` AS `vencido`,
+            `vista_ventas`.`codigo_cliente` AS `codigo_cliente`,
+            `vista_ventas`.`codigo_ticket` AS `codigo_ticket`,
+            `vista_ventas`.`estatus_ventas` AS `estatus_ventas`,
+            `vista_ventas`.`monto_pagado` AS `monto_pagado`,
+            `vista_ventas`.`cantidad_apuesta` AS `cantidad_apuesta`,
+            `vista_ventas`.`recalculado` AS `recalculado`,
+            `vista_ventas`.`monto_real_pagar` AS `monto_real_pagar`,
+            `vista_ventas`.`idmodificador` AS `idmodificador`,
+            `vista_ventas`.`idtm` AS `idtm`,
+            `vista_ventas`.`tm` AS `tm`,
+            `vista_ventas`.`reembolsar` AS `reembolsar`,
+            `vista_ventas`.`reembolsado` AS `reembolsado`,
+            `vista_logros_banqueros`.`suspendido` AS `suspendido`,
+            `vista_ventas`.`hora_taquilla` AS `hora_taquilla`,
+            `vista_ventas`.`hora_intermediario` AS `hora_intermediario`,
+            `vista_ventas`.`hora_banquero` AS `hora_banquero`,
+            `vista_ventas`.`multiplicando` AS `multiplicando`,
+            `vista_ventas`.`pago` AS `pago` ,
+            `vista_ventas`.`edoVentaDetalle` AS `edoVentaDetalle`,
+            `vista_ventas`.`nombreEdoVentaDetalle` AS `nombreEdoVentaDetalle` 
+    from (`vista_ventas` join `vista_logros_banqueros`) 
+    where (`vista_ventas`.`idlogro_equipo_categoria_apuesta_banquero` = `vista_logros_banqueros`.`idlogro_equipo_categoria_apuesta_banquero`);
+    
+Archivos:
+
+parlay/classes/BitacoraDAO.php
+parlay/classes/DBConnection.php
+parlay/classes/DBUtil.php
+parlay/classes/GanadoresBasket.php
+parlay/classes/GanadoresBeisbol.php
+parlay/classes/GanadoresFutbol.php
+parlay/classes/GanadoresFutbolAmericano.php
+parlay/classes/VentasDAO.php
+
+parlay/procesos/conexion.php
+parlay/procesos/guardar_resultados.php
+parlay/procesos/guardar_ventas_beisbol.php
+
+parlay/resultados/resultados_beisbol.php
+
+parlay/detalle_ticket.php
+parlay/imprimir_todos_logros.php

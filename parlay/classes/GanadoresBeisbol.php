@@ -17,6 +17,10 @@ class GanadoresBeisbol{
 	public static $BEISBOL_BAJAS_JC_A = 32;
 	public static $BEISBOL_ALTAS_MJ_A = 33;
 	public static $BEISBOL_BAJAS_MJ_A = 34;
+	public static $BEISBOL_ANOTA_1RO_A = 37;
+	public static $BEISBOL_ANOTA_1RO_B = 38;
+	public static $BEISBOL_SI_PRIMER_INNING_A = 39;
+	public static $BEISBOL_NO_PRIMER_INNING_A = 40;
 	public static $BEISBOL_SUPERRUNLINE_A = 47;
 	public static $BEISBOL_SUPERRUNLINE_B = 48;
 	public static $BEISBOL_ALTAS_CHE_A = 71;
@@ -27,7 +31,6 @@ class GanadoresBeisbol{
 	public static $BEISBOL_BAJAS_AL_6TO_A = 78;
 	public static $BEISBOL_AGANAR_2DA_MITAD_A = 80;
 	public static $BEISBOL_AGANAR_2DA_MITAD_B = 81;
-	
 	
 	/**
 	 * Metodo para verificar si determinada venta de una apuesta del tipo AGanar 2da Mitad en beisbol
@@ -966,6 +969,119 @@ class GanadoresBeisbol{
 	}
 	
 	/**
+	 * Metodo para verificar si determinada venta de una apuesta del tipo AGanar 2da Mitad en beisbol
+	* resulto ganadora o perdedora.
+	*
+	* @param $idventa, codigo del ticket (id de la venta en base de datos)
+	*/
+	private static function checkAnotaPrimero($rowVistaVentasDetalles){
+		$codeReturn = VentasDAO::$RESULTADO_PERDEDOR;
+	
+		//obtenemos el resultado del equipo a y equipo b para verificar que la metrica apostada implica que el apostador gano o no
+		$query = "SELECT le.idlogro_equipo, lecr.idcategoria_resultado, lecr.resultado "
+		."FROM logros_equipos le, logros_equipos_categorias_resultados lecr "
+		."WHERE le.idlogro = ".$rowVistaVentasDetalles["idlogro"]
+		." AND le.idlogro_equipo = lecr.idlogro_equipo "
+		."AND lecr.idcategoria_resultado = 8";
+			
+		$result = DBUtil::executeSelect($query);
+	
+		//en base al logro, obtenemos los codigos del logro de equipo,
+		//para sacar resultado final A y B
+		if(count($result) > 0){
+			//sacamos el resultado en base a la categoria de la apuesta
+			$resultado = 0;
+			foreach ($result as $row){
+				if($row["idcategoria_resultado"] == 8){
+					$resultado = $row["resultado"];
+				}
+			}
+	
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
+					." Para la categoria_apuesta de juego [".$rowVistaVentasDetalles["idcategoria_apuesta"]."]"
+					." de nombre[".$rowVistaVentasDetalles["nombre_apuesta"]."]"
+					." el resultado del que anoto primero fue: (".$resultado.") y se aposto a: ".$rowVistaVentasDetalles["idlogro_equipo"]);
+			/*
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
+						." Valores a relacionar: resultadoEquipoA[".$resultadoEquipoA."], "
+						."resultadoEquipoB[".$resultadoEquipoB."], "
+						."multiplicando[".$rowVistaVentasDetalles['multiplicando']."]");
+			*/
+			//tengo el resultado del equipo, veo en base a la categoria de la apuesta si se gano o no
+			if($rowVistaVentasDetalles["idlogro_equipo"] == $resultado){
+				//aposto efectivamente al equipo que anotaba primero, lo verificamos
+				$codeReturn = VentasDAO::$RESULTADO_GANADOR;
+			}
+		} else {
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
+					."El query de busqueda de resultados no trajo valores, esto no debe pasar en este punto.");
+			$codeReturn = VentasDAO::$RESULTADO_SOLO_VENDIDO;
+		}
+	
+		return $codeReturn;
+	}
+	
+	/**
+	 * Metodo para verificar si determinada venta de una apuesta del tipo AGanar 2da Mitad en beisbol
+	 * resulto ganadora o perdedora.
+	 *
+	 * @param $idventa, codigo del ticket (id de la venta en base de datos)
+	 */
+	private static function checkAnotaPrimerInning($rowVistaVentasDetalles){
+		$codeReturn = VentasDAO::$RESULTADO_PERDEDOR;
+	
+		//obtenemos el resultado del equipo a y equipo b para verificar que la metrica apostada implica que el apostador gano o no
+		$query = "SELECT le.idlogro_equipo, lecr.idcategoria_resultado, lecr.resultado "
+		."FROM logros_equipos le, logros_equipos_categorias_resultados lecr "
+		."WHERE le.idlogro = ".$rowVistaVentasDetalles["idlogro"]
+		." AND le.idlogro_equipo = lecr.idlogro_equipo "
+		."AND lecr.idcategoria_resultado = 7";
+			
+		$result = DBUtil::executeSelect($query);
+	
+		//en base al logro, obtenemos los codigos del logro de equipo,
+		//para sacar resultado final A y B
+		if(count($result) > 0){
+			//sacamos el resultado en base a la categoria de la apuesta
+			$resultado = 0;
+			foreach ($result as $row){
+				if($row["idcategoria_resultado"] == 7){
+					$resultado = $row["resultado"];
+				}
+			}
+	
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
+					." Para la categoria_apuesta de juego [".$rowVistaVentasDetalles["idcategoria_apuesta"]."]"
+					." de nombre[".$rowVistaVentasDetalles["nombre_apuesta"]."]"
+					." el resultado fue: (".$resultado.")");
+			/*
+			 BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
+			 		." Valores a relacionar: resultadoEquipoA[".$resultadoEquipoA."], "
+			 		."resultadoEquipoB[".$resultadoEquipoB."], "
+			 		."multiplicando[".$rowVistaVentasDetalles['multiplicando']."]");
+			*/
+			//tengo el resultado del equipo, veo en base a la categoria de la apuesta si se gano o no
+			if($rowVistaVentasDetalles["idcategoria_apuesta"] == GanadoresBeisbol::$BEISBOL_SI_PRIMER_INNING_A){
+				//se aposto a que si habian carreras en el primer inning, vemos si fue verdad
+				if("1" == $resultado){
+					$codeReturn = VentasDAO::$RESULTADO_GANADOR;
+				}
+			} else {
+				//se aposto a que si habian carreras en el primer inning, vemos si fue verdad
+				if("0" == $resultado){
+					$codeReturn = VentasDAO::$RESULTADO_GANADOR;
+				}
+			}
+		} else {
+			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
+					."El query de busqueda de resultados no trajo valores, esto no debe pasar en este punto.");
+			$codeReturn = VentasDAO::$RESULTADO_SOLO_VENDIDO;
+		}
+	
+		return $codeReturn;
+	}
+	
+	/**
 	 * Recibimos el registro del tipo vistas_ventas y verificamos si el mismo representa
 	 * una apuesta ganadora o no.
 	 * 
@@ -1018,6 +1134,14 @@ class GanadoresBeisbol{
 				|| $rowVistaVentasDetalles["idcategoria_apuesta"] == GanadoresBeisbol::$BEISBOL_AGANAR_2DA_MITAD_B){
 			// es A GANAR 2DA MITAD
 			$codeReturn = GanadoresBeisbol::checkAGanarBeisbol2DAMitad($rowVistaVentasDetalles);
+		} else if($rowVistaVentasDetalles["idcategoria_apuesta"] == GanadoresBeisbol::$BEISBOL_ANOTA_1RO_A
+				|| $rowVistaVentasDetalles["idcategoria_apuesta"] == GanadoresBeisbol::$BEISBOL_ANOTA_1RO_B){
+			// es apuesta de Anota 1ro
+			$codeReturn = GanadoresBeisbol::checkAnotaPrimero($rowVistaVentasDetalles);
+		} else if($rowVistaVentasDetalles["idcategoria_apuesta"] == GanadoresBeisbol::$BEISBOL_SI_PRIMER_INNING_A
+				|| $rowVistaVentasDetalles["idcategoria_apuesta"] == GanadoresBeisbol::$BEISBOL_NO_PRIMER_INNING_A){
+			// es apuesta de Anota 1ro
+			$codeReturn = GanadoresBeisbol::checkAnotaPrimerInning($rowVistaVentasDetalles);
 		} else {
 			//categoria de apuesta aun no mapeada, retornamos true por defecto.
 			$codeReturn = VentasDAO::$RESULTADO_NO_MAPEADO_AUN;
