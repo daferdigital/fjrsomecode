@@ -262,7 +262,8 @@ class VentasDAO {
 					.", apuestasPerdedoras=".$apuestasPerdedoras
 					.", apuestasEmpatadas=".$apuestasEmpatadas
 					.", apuestasSuspendidas=".$apuestasSuspendidas
-					.", factor=".$factor);
+					.", factor=".$factor
+					.", montoApuesta=".$ventaObj->getMontoApuesta());
 			
 			//verificamos si es perdedor
 			if($apuestasPerdedoras > 0){
@@ -278,7 +279,7 @@ class VentasDAO {
 				if($apuestasGanadoras == $numeroApuestasEnTicket){
 					//la persona gano todas sus apuestas
 					$query = "UPDATE ventas SET perdedor=0, reembolsar=0, ganador='1', "
-					." monto_real_pagar='".$ventaObj->getMontoApuesta()*$factor."',recalculado='0' "
+					." monto_real_pagar=apuesta*".$factor.",recalculado='0' "
 					." WHERE idventa='".$idVenta."' LIMIT 1";
 					DBUtil::executeQuery($query);
 						
@@ -290,7 +291,7 @@ class VentasDAO {
 						if($apuestasGanadoras + $apuestasEmpatadas + $apuestasSuspendidas == $numeroApuestasEnTicket){
 							//es recalculo
 							$query = "UPDATE ventas SET perdedor=0, recalculado=1, ganador=0, "
-							." reembolsar='0', monto_real_pagar=".$ventaObj->getMontoApuesta()*$factor
+							." reembolsar='0', monto_real_pagar=apuesta*".$factor
 							." WHERE idventa='".$idVenta."' LIMIT 1";
 							DBUtil::executeQuery($query);
 								

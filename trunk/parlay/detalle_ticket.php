@@ -65,43 +65,52 @@ $concat='';
 					ob_start();
 					?>
 						<table width="500" cellspacing="0">
-                        <tr>
-                          <td colspan="4" align="center" bgcolor="#006600" style="color:#FFF; font-weight:bold;">
-                        CENTRO DE APUESTAS..<br />
-						<div style="text-transform:capitalize;">
-						<?Php echo $_SESSION['datos']['nombre'];?>
-                        </div>
-                        </td></tr>						  
+                        	<tr>
+                          		<td colspan="4" align="center" bgcolor="#006600" style="color:#FFF; font-weight:bold;">
+                        			CENTRO DE APUESTAS..<br />
+									<div style="text-transform:capitalize;">
+										<?Php echo $_SESSION['datos']['nombre'];?>
+                        			</div>
+                        		</td>
+                        	</tr>
 					<?Php $cont=0; $apuesta=0;
 					while($var_imp=mysql_fetch_assoc($query_imp)){
 						$recalculado=$var_imp['recalculado'];
 						$mrecalculado=$var_imp['monto_real_pagar'];
 						if($cont==0){
-							?>
-                            	<tr><td colspan="4" align="left" bgcolor="#CCCCCC"  class="encab"><strong>FECHA: <?Php echo $var_imp['fecha_j']."   ";?> HORA <?Php echo $var_imp['hora_j'];?></strong></td></tr>
-                            	  <tr>
-                                    <td align="left" class="encab"><strong>N&Uacute;MERO DE TICKET: </strong></td>
-                                    <td colspan="2" align="left" class="encab"><strong><?Php echo str_pad($var_imp['codigo_ticket'],8,'0',STR_PAD_LEFT);?></strong></td>
-                                    <td align="left">&nbsp;</td>
-                                  </tr>
+					?>
+							<tr>
+								<td colspan="4" align="left" bgcolor="#CCCCCC"  class="encab">
+									<strong>FECHA: <?Php echo $var_imp['fecha_j']."   ";?> HORA <?Php echo $var_imp['hora_j'];?></strong>
+								</td>
+							</tr>
+                            <tr>
+                            	<td align="left" class="encab" colspan="4">
+                            		<strong>
+                            			N&Uacute;MERO DE TICKET: 
+                            			<?Php echo str_pad($var_imp['codigo_ticket'],8,'0',STR_PAD_LEFT);?>
+                            		</strong></td>
+                                </td>
+                            </tr>
                                   <!--<tr>
                                     <td colspan="4" class="td_bottom" align="left">SERIAL COBRO: <?Php echo str_pad($var_imp['codigo_cliente'],8,'0',STR_PAD_LEFT);?></td>
                                   </tr>-->
-                                  <tr>
-                                    <td align="left" class="encab"><strong>MONTO APOSTADO:</strong></td>
-                                    <td colspan="2" class="encab"><strong>
-                                    <?Php $ap2=$var_imp['apuesta']; echo $apuesta=number_format($var_imp['apuesta'],2);?>
-                                    </strong></td>
-                                    <td align="right" class="td_bottom">&nbsp;</td>
-                                  </tr>
-                                  <tr>
-                                    <td colspan="4" class="td_bottom">&nbsp;</td>
-                                  </tr>
-                                  <tr class="sub_text">
-                                    <td colspan="2" align="left" bgcolor="#003300" class="td_bottom"><div align="center"><strong>JUGADAS</strong></div></td>
-                                    <td bgcolor="#003300" class="td_bottom"><div align="center"><strong>LOGRO</strong></div></td>
-                                    <td align="right" bgcolor="#003300" class="td_bottom"><div align="center"><strong>MONTO</strong></div></td>
-                                  </tr>
+                            <tr>
+                            	<td align="left" class="encab" colspan="4">
+                            		<strong>
+                            			MONTO APOSTADO:
+                            			<?Php $ap2=$var_imp['apuesta']; echo $apuesta=number_format($var_imp['apuesta'],2);?>
+                                    </strong>
+                                </td>
+                            </tr>
+                            <tr>
+                            	<td colspan="4" class="td_bottom">&nbsp;</td>
+                            </tr>
+                            <tr class="sub_text">
+                            	<td colspan="2" align="left" bgcolor="#003300" class="td_bottom"><div align="center"><strong>JUGADAS</strong></div></td>
+                                <td bgcolor="#003300" class="td_bottom"><div align="center"><strong>LOGRO</strong></div></td>
+                                <td align="right" bgcolor="#003300" class="td_bottom"><div align="center"><strong>MONTO</strong></div></td>
+                            </tr>
                             <?Php
 							$acum=$var_imp['apuesta'];
 						}

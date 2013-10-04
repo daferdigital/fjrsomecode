@@ -1,6 +1,5 @@
 <?php 
 session_start();
-include_once '../classes/DBUtil.php';
 ?>
 <!--
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -47,19 +46,36 @@ include_once '../classes/DBUtil.php';
 						."WHERE le.idlogro_equipo = lecab.idlogro_equipo "
 						."AND l.idlogro = le.idlogro "
 						."AND lecab.idlogro_equipo_categoria_apuesta_banquero = ".$valor;
-				$selectResults = DBUtil::executeSelect($query);
+				//$selectResults = DBUtil::executeSelect($query);
+				$selectResults = mysql_query($query);
+				$selectResults = mysql_fetch_array($selectResults);
 				
-				$sysdate = time();
+				echo date_default_timezone_get()."<br />";
+				$minutosToAdjust = 5;
+				$sysdate = (int) (time() + (60*$minutosToAdjust));
 				if($sysdate > strtotime($selectResults["fecha"]." ".$selectResults["hora"])){
 					//este logro (evento) (apuesta) esta relacionada con un evento cuya hora de inicio
 					//es menor a la fecha del sistema, lo que quiere decir que dicho evento ya inicio
 					//detenemos la creacion de la venta en este punto
-				
-					die("Evento iniciado, debemos frenar la creacion del ticket.");
+					/*
+					BitacoraDAO::registrarComentario("La fecha de inicio del evento [".$valor."] "
+							."es [".($selectResults["fecha"]." ".$selectResults["hora"])."]"
+							."y la hora actual + ".$minutosToAdjust." minutoses  [".date("Y-m-d H:i:s", $sysdate)
+							."] lo que quiere decir que ya inicio. Finalizamos este proceso");
+					*/
+					die("No esta permitido apostar en juegos ya iniciados, suspendemos este intento de insert");
+				} else {
+					/*
+					BitacoraDAO::registrarComentario("Evento [".$valor."] inicia "
+							."[".($selectResults["fecha"]." ".$selectResults["hora"])."] mas tarde de la hora actual "
+							."[".date("Y-m-d h:i:s")."]");
+					*/
 				}
 			}
 			
-			
+			//siempre despues de usar alguna de mis clases
+			//debo restituir la conexion global en conexion.php
+			//prepareConnection();
 			
 			$codigo_ticket=1;
 			$hora_venta=date('H:i:s');
@@ -68,7 +84,7 @@ include_once '../classes/DBUtil.php';
 							@int=date_format(convert_tz('".$_POST['fecha'].' '.$hora_venta."','+00:00','+00:10'),'%H:%i:%s'),
 							@ban=date_format(convert_tz('".$_POST['fecha'].' '.$hora_venta."','+00:00','+10:00'),'%H:%i:%s')
 						");
-			$cadena=sprintf("insert into ventas() values('','".$_SESSION['datos']['idtaquilla']."','".$_POST['fecha']."',DATE_ADD('".$_POST['fecha']."', INTERVAL 3 DAY),'".$hora_venta."',@taq,@int,@ban,'%s','%s','0','0','0','0','0','0','0','0','0','".rand(10000000,99999999)."','".$codigo_ticket."','0','%s','','','','1')",mysql_escape_string($_POST['monto_apuesta']),mysql_escape_string($_POST['monto_pagar']),mysql_escape_string($_POST['num_apuestas']));
+			$cadena=sprintf("insert into ventas() values('','".$_SESSION['datos']['idtaquilla']."','".$_POST['fecha']."',DATE_ADD('".$_POST['fecha']."', INTERVAL ".Constants::$PRORROGA_VENTA." DAY),'".$hora_venta."',@taq,@int,@ban,'%s','%s','0','0','0','0','0','0','0','0','0','".rand(10000000,99999999)."','".$codigo_ticket."','0','%s','','','','1')",mysql_escape_string($_POST['monto_apuesta']),mysql_escape_string($_POST['monto_pagar']),mysql_escape_string($_POST['num_apuestas']));
 			mysql_query($cadena)or die(mysql_error());			
 			$uid=mysql_insert_id();
 			mysql_query("update ventas set codigo_ticket='".$uid."' where idventa='".$uid."' limit 1");
@@ -76,7 +92,7 @@ include_once '../classes/DBUtil.php';
 			foreach($_POST['apuesta'] as $valor){
 				echo $valor.'<br>';
 				$valor_real_ticket=dame_datos("select multiplicando,pago from logros_equipos_categorias_apuestas_banqueros where idlogro_equipo_categoria_apuesta_banquero='".$valor."' limit 1");
-				mysql_query("insert into ventas_detalles() values('','".$uid."','".$valor."','".$valor_real_ticket['multiplicando']."','".$valor_real_ticket['pago']."','1')");
+				mysql_query("insert into ventas_detalles() values('','".$uid."','".$valor."','".$valor_real_ticket['multiplicando']."','".$valor_real_ticket['pago']."','1','2')");
 			}
 			//genero archivo de impresion
 			$select_imp="select * from vista_ventas_detalles where idventa='".$uid."' order by hora_juego";
@@ -167,8 +183,8 @@ include_once '../classes/DBUtil.php';
                           La jugada sera valida sin importar el pitcher abridor.<br />
                           EL FUTBOL TERMINA CON EL PITAZO FINAL
                           DEL 2DO TIEMPO<br />
-                          El ticket caduca a los 3 dias<br />
-                          Error en horario o transcripción de logro anula la jugada </div>
+                          El ticket caduca a los <?php echo Constants::$PRORROGA_VENTA?> dias<br />
+                          Error en horario o transcripci&oacute;n de logro anula la jugada </div>
                       </div>
                     <br /><div align="center" style="font-size:14px;">WWW.GRANAPUESTA.COM</div></td>
                       </tr>

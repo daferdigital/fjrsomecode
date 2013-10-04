@@ -23,6 +23,7 @@
 	checkIfCanInclude("./classes/VentasDAO.php");
 	checkIfCanInclude("./classes/BitacoraDAO.php");
 	checkIfCanInclude("./classes/GanadoresFutbol.php");
+	checkIfCanInclude("./classes/GanadoresFutbolAmericano.php");
 	checkIfCanInclude("./classes/GanadoresBasket.php");
 	checkIfCanInclude("./classes/GanadoresBeisbol.php");
 	checkIfCanInclude("../classes/Constants.php");
@@ -31,6 +32,7 @@
 	checkIfCanInclude("../classes/VentasDAO.php");
 	checkIfCanInclude("../classes/BitacoraDAO.php");
 	checkIfCanInclude("../classes/GanadoresFutbol.php");
+	checkIfCanInclude("../classes/GanadoresFutbolAmericano.php");
 	checkIfCanInclude("../classes/GanadoresBasket.php");
 	checkIfCanInclude("../classes/GanadoresBeisbol.php");
 	

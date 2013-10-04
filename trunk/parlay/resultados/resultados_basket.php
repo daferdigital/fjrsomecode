@@ -40,14 +40,15 @@
 	  
     </tr>
 	<tr class="titulo_tablas" align="center"><td>Hora</td><td>Equipos</td>
-	<td>Final</td><td>1H</td><td>2H</td>
-	
-	<!--<td>Errores</td>
-	<td>2da Mitad</td>-->
+	<td>Final</td><td>1H</td>
+	<!--
+	<td>2H</td>
+	<td>Errores</td>
+	<td>2da Mitad</td>
 	<td>1T</td>
     <td>2T</td>
     <td>3T</td>
-    
+    -->
 	
 	</tr>
 								<tr class="" bgcolor="<?Php echo $color;?>">
@@ -60,14 +61,14 @@
                                 <td><?php echo $equipoA.$referenciaA; ?></td>
                                 <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoA;?>][19]2" value="<?Php echo $resA[19];?>" size="2" maxlength="3" /></td>
                                 <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoA;?>][17]2" value="<?Php echo $resA[17];?>" size="2" maxlength="3" /></td>
-                                <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoA;?>][21]2" value="<?Php echo $resA[21];?>" size="2" maxlength="3" /></td>
-                                
-                                <!--<td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoA;?>][13]2" value="<?Php echo $resA[13];?>" size="2" maxlength="2" /></td>
-                                <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoA;?>][9]2" value="<?Php echo $resA[9];?>" size="2" maxlength="2" /></td>-->
+                                <!--
+								<td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoA;?>][21]2" value="<?Php echo $resA[21];?>" size="2" maxlength="3" /></td>
+                                <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoA;?>][13]2" value="<?Php echo $resA[13];?>" size="2" maxlength="2" /></td>
+                                <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoA;?>][9]2" value="<?Php echo $resA[9];?>" size="2" maxlength="2" /></td>
                                 <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoA;?>][23]2" value="<?Php echo $resA[23];?>" size="2" maxlength="3" /></td>
                                 <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoA;?>][25]2" value="<?Php echo $resA[25];?>" size="2" maxlength="3" /></td>
                                 <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoA;?>][27]2" value="<?Php echo $resA[27];?>" size="2" maxlength="3" /></td>
-                                
+                                -->
                                 
                                 </tr>
                                 <tr class="" bgcolor="<?Php echo $color;?>">
@@ -75,14 +76,15 @@
                                 <td><?php echo $equipoB.$referenciaB; ?></td>
                                 <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoB;?>][20]2" value="<?Php echo $resB[20];?>" size="2" maxlength="3" /></td>
                                 <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoB;?>][18]2" value="<?Php echo $resB[18];?>" size="2" maxlength="3" /></td>
-                                <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoB;?>][22]2" value="<?Php echo $resB[22];?>" size="2" maxlength="3" /></td>
+                                <!--
+								<td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoB;?>][22]2" value="<?Php echo $resB[22];?>" size="2" maxlength="3" /></td>
                                 <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoB;?>][24]2" value="<?Php echo $resB[24];?>" size="2" maxlength="3" /></td>
                                 <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoB;?>][26]2" value="<?Php echo $resB[26];?>" size="2" maxlength="3" /></td>
                                 <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoB;?>][28]2" value="<?Php echo $resB[28];?>" size="2" maxlength="3" /></td>
                                 
-                                <!--<td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoB;?>][14]2" value="<?Php echo $resB[14];?>" size="2" maxlength="2" /></td>
-                                <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoB;?>][10]2" value="<?Php echo $resB[10];?>" size="2" maxlength="2" /></td>-->
-                                
+                                <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoB;?>][14]2" value="<?Php echo $resB[14];?>" size="2" maxlength="2" /></td>
+                                <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoB;?>][10]2" value="<?Php echo $resB[10];?>" size="2" maxlength="2" /></td>
+                                -->
                                 </tr>
                                 <tr><td colspan="10"><hr /></td></tr>
 							<?Php
@@ -130,15 +132,15 @@
 	  
     </tr>
 	<tr class="titulo_tablas" align="center"><td>Hora</td><td>Equipos</td>
-	<td>Final</td><td>1H</td><td>2H</td>
-	
-	<!--<td>Errores</td>
-	<td>2da Mitad</td>-->
+	<td>Final</td><td>1H</td>
+	<!--
+	<td>2H</td>
+	<td>Errores</td>
+	<td>2da Mitad</td>
 	<td>1T</td>
     <td>2T</td>
     <td>3T</td>
-    
-	
+    -->
 	</tr>
 								<tr class="" bgcolor="<?Php echo $color;?>">
                             	<td rowspan="2"><?php echo $hora; ?><br />
@@ -150,29 +152,28 @@
                                 <td><?php echo $equipoA.$referenciaA; ?></td>
                                 <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoA;?>][19]2" value="<?Php echo $resA[19];?>" size="2" maxlength="3" /></td>
                                 <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoA;?>][17]2" value="<?Php echo $resA[17];?>" size="2" maxlength="3" /></td>
-                                <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoA;?>][21]2" value="<?Php echo $resA[21];?>" size="2" maxlength="3" /></td>
-                                
-                                <!--<td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoA;?>][13]2" value="<?Php echo $resA[13];?>" size="2" maxlength="2" /></td>
-                                <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoA;?>][9]2" value="<?Php echo $resA[9];?>" size="2" maxlength="2" /></td>-->
+                                <!--
+								<td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoA;?>][21]2" value="<?Php echo $resA[21];?>" size="2" maxlength="3" /></td>
+                                <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoA;?>][13]2" value="<?Php echo $resA[13];?>" size="2" maxlength="2" /></td>
+                                <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoA;?>][9]2" value="<?Php echo $resA[9];?>" size="2" maxlength="2" /></td>
                                 <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoA;?>][23]2" value="<?Php echo $resA[23];?>" size="2" maxlength="3" /></td>
                                 <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoA;?>][25]2" value="<?Php echo $resA[25];?>" size="2" maxlength="3" /></td>
                                 <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoA;?>][27]2" value="<?Php echo $resA[27];?>" size="2" maxlength="3" /></td>
-                                
-                                
+                                -->
                                 </tr>
                                 <tr class="" bgcolor="<?Php echo $color;?>">
                             	
                                 <td><?php echo $equipoB.$referenciaB; ?></td>
                                 <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoB;?>][20]2" value="<?Php echo $resB[20];?>" size="2" maxlength="3" /></td>
                                 <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoB;?>][18]2" value="<?Php echo $resB[18];?>" size="2" maxlength="3" /></td>
-                                <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoB;?>][22]2" value="<?Php echo $resB[22];?>" size="2" maxlength="3" /></td>
+                                <!--
+								<td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoB;?>][22]2" value="<?Php echo $resB[22];?>" size="2" maxlength="3" /></td>
                                 <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoB;?>][24]2" value="<?Php echo $resB[24];?>" size="2" maxlength="3" /></td>
                                 <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoB;?>][26]2" value="<?Php echo $resB[26];?>" size="2" maxlength="3" /></td>
                                 <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoB;?>][28]2" value="<?Php echo $resB[28];?>" size="2" maxlength="3" /></td>
-                                
-                                <!--<td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoB;?>][14]2" value="<?Php echo $resB[14];?>" size="2" maxlength="2" /></td>
-                                <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoB;?>][10]2" value="<?Php echo $resB[10];?>" size="2" maxlength="2" /></td>-->
-                                
+                                <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoB;?>][14]2" value="<?Php echo $resB[14];?>" size="2" maxlength="2" /></td>
+                                <td align="center"><input class="numeric" type="text" name="resultado[<?Php echo $idlogro_equipoB;?>][10]2" value="<?Php echo $resB[10];?>" size="2" maxlength="2" /></td>
+								-->
                                 </tr>
                                 <tr><td colspan="10"><hr /></td></tr>
                     <?Php
@@ -194,5 +195,4 @@ nolistado='';
 	}
 	
 	$(".numeric").numeric();
-	
 </script>

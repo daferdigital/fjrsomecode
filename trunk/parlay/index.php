@@ -55,7 +55,7 @@
 				$("#carga").css("display", "none");
 			});
 	   });	   
-	})
+	});
 </script>
 </head>
 
