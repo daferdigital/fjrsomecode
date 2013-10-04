@@ -89,7 +89,7 @@ if($nivel_muestra!='4'){
  $sql="SELECT vsv.*, i.idintermediario, b.idbanquero, i.nombre, 
 		SUM(CASE WHEN vsv.cantidad_apuesta >= '2' THEN vsv.apuesta END) AS ventas_parlay,
 		SUM(CASE WHEN vsv.cantidad_apuesta = '1' THEN vsv.apuesta END) AS ventas_derecho, 
-		SUM(CASE vsv.ganador WHEN '1' THEN vsv.monto_real_pagar END) AS premios,
+		SUM(CASE WHEN vsv.ganador = '1' THEN vsv.monto_real_pagar WHEN vsv.recalculado = '1' THEN vsv.monto_real_pagar WHEN vsv.reembolsar = '1' THEN vsv.monto_real_pagar END) AS premios,
 		SUM(vsv.apuesta) as total	$select $taquilla
 	FROM ventas vsv 
 	LEFT JOIN taquillas t ON (vsv.idtaquilla=t.idtaquilla)	
