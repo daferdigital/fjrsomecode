@@ -1,0 +1,5 @@
+Archivos:
+
+parlay/procesos/guardar_logros.php
+
+parlay/detalle_ticket.php

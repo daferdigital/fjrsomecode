@@ -1,5 +1,6 @@
 <?Php session_start();
 $multiplicandosPermitidos = array();
+//ids de apuestas
 $multiplicandosPermitidos["9"] = "ALTA_JC_A";
 $multiplicandosPermitidos["10"] = "BAJA_JC_A";
 $multiplicandosPermitidos["11"] = "ALTA_MJ_A";
@@ -10,6 +11,8 @@ $multiplicandosPermitidos["19"] = "RL_MJ_A";
 $multiplicandosPermitidos["20"] = "RL_MJ_B";
 $multiplicandosPermitidos["21"] = "SRL_A";
 $multiplicandosPermitidos["22"] = "SRL_B";
+$multiplicandosPermitidos["28"] = "ALTAS_CHE_A";
+$multiplicandosPermitidos["29"] = "BAJAS_CHE_A";
 $multiplicandosPermitidos["30"] = "RL_ALT_JC_A";
 $multiplicandosPermitidos["31"] = "RL_ALT_JC_B";
 $multiplicandosPermitidos["32"] = "RL_ALT_MJ_A";
@@ -127,7 +130,8 @@ $concat='';
                         	  		</td>
                         	  		<td width="75px;">
 	                        	  		<div align="center">
-	                        	    		<?Php 
+	                        	    		<?Php
+	                        	    			/*
 												if($var_imp["idcategoria_apuesta"]==102 || $var_imp["idcategoria_apuesta"]==103){
 													$multi_ale=dame_datos("select * from logros_equipos_categorias_apuestas where idlogro_equipo='".$var_imp['idlogro_equipo']."' and idcategoria_apuesta='109' limit 1");
 													$var_imp['multiplicando']=$multi_ale['pago'];
@@ -136,6 +140,7 @@ $concat='';
 													$multi_ale=dame_datos("select * from logros_equipos_categorias_apuestas where idlogro_equipo='".$var_imp['idlogro_equipo']."' and idcategoria_apuesta='110' limit 1");
 													$var_imp['multiplicando']=$multi_ale['pago'];
 												}
+												*/
 												$var_imp['multiplicando']=str_replace(".0","",$var_imp['multiplicando']);
 												
 												echo (isset($multiplicandosPermitidos[$var_imp["idapuesta"]]) ? $var_imp['multiplicando'].' / ' : '').$var_imp['pago'];

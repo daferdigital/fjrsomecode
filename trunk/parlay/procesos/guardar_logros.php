@@ -139,11 +139,14 @@
 						$mult=($_POST['idapuesta94']>0?$_POST['idapuesta94']:1); //el 53 corresponde al id de goles para medio juego completo
 				}elseif($arraids[$i]==93){ //Baja 2M Basket
 						$mult=($_POST['idapuesta94']>0?$_POST['idapuesta94']:1); //el 53 corresponde al id de goles para medio juego completo
-				}elseif($arraids[$i]==109){ //Puntos JC FutbolAmericano
+				}elseif($arraids[$i]==102 || $arraids[$i]==103){ 
+						//Puntos JC FutbolAmericano
 						$mult=($_POST['idapuesta109']>0?$_POST['idapuesta109']:1);
-				}elseif($arraids[$i]==110){ //Puntos MJ FutbolAmericano
+				}elseif($arraids[$i]==104 || $arraids[$i]==105){ 
+						//Puntos MJ FutbolAmericano
 						$mult=($_POST['idapuesta110']>0?$_POST['idapuesta110']:1);
 				}
+				
 				if($existe){
 					$cadena="update logros_equipos_categorias_apuestas set multiplicando='".$mult."',pago='".$_POST['idapuesta'.$arraids[$i]]."' where idlogro_equipo='".$idleA."' and idcategoria_apuesta='".$arraids[$i]."' limit 1";
 					mysql_debug_query($cadena)or die (mysql_error());
