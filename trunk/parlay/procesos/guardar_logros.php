@@ -7,7 +7,7 @@
 		if($_SESSION['datos']['condicion_esp']!='1')://si no es el asistente de logros
 			if(!$_POST['idlogro']){
 				//if($_SESSION['datos']['condicion_esp']==0):
-					$cadena=sprintf("insert into logros() values(NULL,'".$_SESSION['datos'][$_SESSION['nombre_idtabla']]."',NULL,'%s','%s','%s')",mysql_escape_string($ano.'-'.$mes.'-'.$dia),mysql_escape_string($_POST['hora']),mysql_escape_string($_POST['estatus']));
+					$cadena=sprintf("insert into logros() values('','".$_SESSION['datos'][$_SESSION['nombre_idtabla']]."','','%s','%s','%s')",mysql_escape_string($ano.'-'.$mes.'-'.$dia),mysql_escape_string($_POST['hora']),mysql_escape_string($_POST['estatus']));
 				/*else:
 					$cadena=sprintf("insert into logros(idlogro,idadministrador,idadministrador_actualiza,fecha,hora) values('','".$_SESSION['datos'][$_SESSION['nombre_idtabla']]."','','%s','%s')",mysql_escape_string($ano.'-'.$mes.'-'.$dia),mysql_escape_string($_POST['hora']));
 				endif;*/
@@ -44,10 +44,10 @@
 				$idleA=$_POST['idlogro_equipoA'];
 				$idleB=$_POST['idlogro_equipoB'];
 			}else{
-				$cadena=sprintf("insert into logros_equipos() values(NULL,'".$idg."','%s','%s','".$_POST['referenciaA']."','1')",mysql_escape_string($_POST['visitante']),mysql_escape_string($_POST['lvisitante']));
+				$cadena=sprintf("insert into logros_equipos() values('','".$idg."','%s','%s','".$_POST['referenciaA']."','1')",mysql_escape_string($_POST['visitante']),mysql_escape_string($_POST['lvisitante']));
 				mysql_query($cadena);
 				$idleA=mysql_insert_id();
-				$cadena=sprintf("insert into logros_equipos() values(NULL,'".$idg."','%s','%s','".$_POST['referenciaB']."','1')",mysql_escape_string($_POST['home']),mysql_escape_string($_POST['lhome']));
+				$cadena=sprintf("insert into logros_equipos() values('','".$idg."','%s','%s','".$_POST['referenciaB']."','1')",mysql_escape_string($_POST['home']),mysql_escape_string($_POST['lhome']));
 				mysql_query($cadena);
 				$idleB=mysql_insert_id();
 			}
@@ -89,9 +89,9 @@
 					break;
 					case '63': $mult=($_POST['vm'.$arraids[$i]]!=''?$sig.$_POST['vm'.$arraids[$i]]:'1');
 					break;
-					case '73': $mult=($_POST['vm'.$arraids[$i]]!=''?$sig.$_POST['vm'.$arraids[$i]]:'1');
+					case '84': $mult=($_POST['vm'.$arraids[$i]]!=''?$sig.$_POST['vm'.$arraids[$i]]:'1');
 					break;
-					case '74': $mult=($_POST['vm'.$arraids[$i]]!=''?$sig.$_POST['vm'.$arraids[$i]]:'1');
+					case '85': $mult=($_POST['vm'.$arraids[$i]]!=''?$sig.$_POST['vm'.$arraids[$i]]:'1');
 					break;
 					case '95': $mult=($_POST['vm'.$arraids[$i]]!=''?$sig.$_POST['vm'.$arraids[$i]]:'1');
 					break;
@@ -149,20 +149,20 @@
 				
 				if($existe){
 					$cadena="update logros_equipos_categorias_apuestas set multiplicando='".$mult."',pago='".$_POST['idapuesta'.$arraids[$i]]."' where idlogro_equipo='".$idleA."' and idcategoria_apuesta='".$arraids[$i]."' limit 1";
-					mysql_debug_query($cadena)or die (mysql_error());
+					mysql_query($cadena)or die (mysql_error());
 					//foreach($idbanqueros_e as $idb_e){
 						//$cadena="insert into logros_equipos_categorias_apuestas_banqueros() values('','".$uidinsertado."','".$idleA."','".$arraids[$i]."','".$mult."','".$_POST['idapuesta'.$arraids[$i]]."','".$idb_e."','1')";
 						//$cadena="update logros_equipos_categorias_apuestas_banqueros set multiplicando='".$mult."',pago='".$_POST['idapuesta'.$arraids[$i]]."' where idlogro_equipo='".$idleA."' and idcategoria_apuesta='".$arraids[$i]."' limit 1";
 						$cadena="update logros_equipos_categorias_apuestas_banqueros set multiplicando='".$mult."',pago='".$_POST['idapuesta'.$arraids[$i]]."' where idlogro_equipo='".$idleA."' and idcategoria_apuesta='".$arraids[$i]."'";						
-						mysql_debug_query($cadena)or die (mysql_error());
+						mysql_query($cadena)or die (mysql_error());
 						
 					//}
 				}else{
-					$cadena="insert into logros_equipos_categorias_apuestas() values(NULL,'".$idleA."','".$arraids[$i]."','".$mult."','".$_POST['idapuesta'.$arraids[$i]]."','0','1')";
+					$cadena="insert into logros_equipos_categorias_apuestas() values('','".$idleA."','".$arraids[$i]."','".$mult."','".$_POST['idapuesta'.$arraids[$i]]."','0','1')";
 					mysql_query($cadena)or die (mysql_error());
 					$uidinsertado=mysql_insert_id();
 					foreach($idbanqueros_e as $idb_e){
-						$cadena="insert into logros_equipos_categorias_apuestas_banqueros() values(NULL,'".$uidinsertado."','".$idleA."','".$arraids[$i]."','".$mult."','".$_POST['idapuesta'.$arraids[$i]]."','".$idb_e."','1')";
+						$cadena="insert into logros_equipos_categorias_apuestas_banqueros() values('','".$uidinsertado."','".$idleA."','".$arraids[$i]."','".$mult."','".$_POST['idapuesta'.$arraids[$i]]."','".$idb_e."','1')";
 						mysql_query($cadena)or die (mysql_error());
 					}
 				}
@@ -190,9 +190,9 @@
 					break;
 					case '63': $mult=($_POST['vm'.$arraids[$i]]!=''?$sig.$_POST['vm'.$arraids[$i]]:'1');
 					break;
-					case '73': $mult=($_POST['vm'.$arraids[$i]]!=''?$sig.$_POST['vm'.$arraids[$i]]:'1');
-					break;
-					case '74': $mult=($_POST['vm'.$arraids[$i]]!=''?$sig.$_POST['vm'.$arraids[$i]]:'1');
+					case '84': $mult=($_POST['vm'.$arraids[$i]]!=''?$sig.$_POST['vm'.$arraids[$i]]:'1');
+					break;	
+					case '85': $mult=($_POST['vm'.$arraids[$i]]!=''?$sig.$_POST['vm'.$arraids[$i]]:'1');
 					break;
 					case '95': $mult=($_POST['vm'.$arraids[$i]]!=''?$sig.$_POST['vm'.$arraids[$i]]:'1');
 					break;
@@ -214,11 +214,11 @@
 						mysql_query($cadena)or die (mysql_error());
 					//}
 				}else{
-					$cadena="insert into logros_equipos_categorias_apuestas() values(NULL,'".$idleB."','".$arraids[$i]."','".$mult."','".$_POST['idapuesta'.$arraids[$i]]."','0','1')";
+					$cadena="insert into logros_equipos_categorias_apuestas() values('','".$idleB."','".$arraids[$i]."','".$mult."','".$_POST['idapuesta'.$arraids[$i]]."','0','1')";
 					mysql_query($cadena)or die (mysql_error());
 					$uidinsertado=mysql_insert_id();
 					foreach($idbanqueros_e as $idb_e){
-						$cadena="insert into logros_equipos_categorias_apuestas_banqueros() values(NULL,'".$uidinsertado."','".$idleB."','".$arraids[$i]."','".$mult."','".$_POST['idapuesta'.$arraids[$i]]."','".$idb_e."','1')";
+						$cadena="insert into logros_equipos_categorias_apuestas_banqueros() values('','".$uidinsertado."','".$idleB."','".$arraids[$i]."','".$mult."','".$_POST['idapuesta'.$arraids[$i]]."','".$idb_e."','1')";
 						mysql_query($cadena)or die (mysql_error());
 					}
 				}
