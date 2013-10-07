@@ -84,43 +84,66 @@ Tickets <select name="estado" id="estado">
 			while($var_sql=mysql_fetch_assoc($query_ventas)){
 				if($color=='') $color="#ebebeb"; else $color='';				
 			?>
-            	<tr class=""><td colspan="9" style="height:3px;"></td></tr>
+            	<tr class="">
+            		<td colspan="9" style="height:3px;"></td>
+            	</tr>
             	<tr class="borde_rigth_bottom_top"  bgcolor="<?Php echo $color;?>">
-                <td align="center" class="borde_left"><?Php echo $contador;?></td>
-                <td align="center" style="font-weight:bold;">
-
-                <a href="#" onclick="javascript: window.open('detalle_ticket.php?idticket=<?Php echo $var_sql['idventa'];?>', '', 'toolbar=,location=no,status=no,menubar=yes,scroll bars=yes, resizable=no,width=530,height=400'); return false" class="mainlevel" >
-					<?Php echo str_pad($var_sql['codigo_ticket'],8,'0',STR_PAD_LEFT);/*echo 'T'.str_pad($var_sql['codigo_ticket'],8,'0',STR_PAD_LEFT).' - C'.$var_sql['codigo_cliente'];*/?>
-                </a>
-                </td><td><?Php echo $var_sql['fecha_venta'].' - '.$var_sql['hora'];?></td><td><?Php echo $var_sql['fecha_prorroga'];?></td><td align="right"><?Php echo $var_sql['apuesta'];?> BsF.</td><td align="right"><?Php echo $var_sql['total_ganar'];?> BsF.</td><td align="right"><?Php 
-				
-					if($var_sql['anulado']=='1'){echo "0.00";}else{echo $var_sql['monto_real_pagar'];} 
-					
-					////				echo $var_sql['monto_real_pagar'];?> 
-					BsF.</td><td>
-                	<?Php
-						
-						if($var_sql['reembolsado']):
-							echo "<label class='reembolsar'>Reembolsado</label>";
-						elseif($var_sql['reembolsar']):
-							echo "<label class='reembolsar'>Reembolsar</label>";
-						elseif($var_sql['recalculado']):
-							echo "<label class='recalculado'>Recalculado</label>";
-						elseif($var_sql['anulado']):
-							echo "<label class='anulado'>Anulado</label>";
-						elseif($var_sql['vencido']):
-							echo "<label class='vencido'>Vencido</label>";
-						elseif($var_sql['pagado']):
-							echo "<label class='pagado'>Pagado</label>";
-						elseif($var_sql['ganador']):
-							echo "<label class='ganador'>Ganador</label>";
-						elseif($var_sql['perdedor']):	
-							echo "<label class='perdedor'>Perdedor</label>";
-						else:
-							echo "<label class='pendiente'>Vendido</label>";	
-						endif;
-					?>
-                </td><td><?Php echo $var_sql['nombre_taquillla'];?></td></tr>
+                	<td align="center" class="borde_left"><?Php echo $contador;?></td>
+                	<td align="center" style="font-weight:bold;">
+                		<a href="#" onclick="javascript: window.open('detalle_ticket.php?idticket=<?Php echo $var_sql['idventa'];?>', '', 'toolbar=,location=no,status=no,menubar=yes,scroll bars=yes, resizable=no,width=530,height=400'); return false" class="mainlevel" >
+                			<?Php echo str_pad($var_sql['codigo_ticket'],8,'0',STR_PAD_LEFT);/*echo 'T'.str_pad($var_sql['codigo_ticket'],8,'0',STR_PAD_LEFT).' - C'.$var_sql['codigo_cliente'];*/?>
+               			</a>
+               		</td>
+               		<td>
+               			<?Php echo $var_sql['fecha_venta'].' - '.$var_sql['hora'];?>
+               		</td>
+               		<td>
+               			<?Php echo $var_sql['fecha_prorroga'];?>
+               		</td>
+               		<td align="right">
+               			<?Php echo $var_sql['apuesta'];?> BsF.
+               		</td>
+               		<td align="right">
+               			<?Php echo $var_sql['total_ganar'];?> BsF.
+               		</td>
+               			<td align="right">
+               			<?Php 
+							if($var_sql['anulado']=='1'){
+								echo "0.00";
+							}else{
+								echo $var_sql['monto_real_pagar'];
+							} 
+							////				echo $var_sql['monto_real_pagar'];
+						?> 
+						BsF.
+					</td>
+					<td>
+                		<?Php
+							if($var_sql['reembolsado']):
+								echo "<label class='reembolsar'>Reembolsado</label>";
+							elseif($var_sql['reembolsar']):
+								echo "<label class='reembolsar'>Reembolsar</label>";
+							elseif($var_sql['recalculado']):
+								echo "<label class='recalculado'>Recalculado</label>";
+							elseif($var_sql['anulado']):
+								echo "<label class='anulado'>Anulado</label>";
+							elseif($var_sql['vencido']):
+								echo "<label class='vencido'>Vencido</label>";
+							elseif($var_sql['pagado']):
+								echo "<label class='pagado'>Pagado</label>";
+							elseif($var_sql['ganador']):
+								echo "<label class='ganador'>Ganador</label>";
+							elseif($var_sql['perdedor']):	
+								echo "<label class='perdedor'>Perdedor</label>";
+							else:
+								echo "<label class='pendiente'>Vendido</label>";	
+							endif;
+						?>
+					</td>
+					<td>
+						<?Php echo $var_sql['nombre_taquillla'];?>
+					</td>
+				</tr>
             <?Php
 				$contador++;
 			}
