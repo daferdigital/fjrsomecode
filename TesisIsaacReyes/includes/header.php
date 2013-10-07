@@ -30,7 +30,7 @@
 <body>
 <table width="1000"  border="0" align="center" cellpadding="0" cellspacing="0" id="tab" >
 	<tr>
-    	<th colspan="2" scope="col"><img src="images/header.png" id="td1"/></th>
+    	<th colspan="2" scope="col"><img src="images/LogoHeader.png" id="td1"/></th>
   	</tr>
   	<?php
   		//si el usuario esta logueado, mostramos el menu
