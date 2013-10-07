@@ -6,6 +6,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JMenu;
 import javax.swing.SwingConstants;
 
+import com.fjr.code.dao.definitions.FasesBiopsia;
 import com.fjr.code.util.Constants;
 
 import java.awt.event.ActionListener;
@@ -102,7 +103,7 @@ public class MenuPanel extends JPanel {
 				public void actionPerformed(ActionEvent arg0) {
 					//debemos mostrar el panel de recepcion
 					IngresoPanel panel = new IngresoPanel(true);
-					AppWindow.getInstance().setPanelContenido(panel);
+					AppWindow.getInstance().setPanelContenido(panel, null);
 					AppWindow.getInstance().setExtraTitle("Recepci\u00F3n");
 					panel.setFocusAtDefaultElement();
 				}
@@ -114,7 +115,7 @@ public class MenuPanel extends JPanel {
 				public void actionPerformed(ActionEvent arg0) {
 					//debemos mostrar el panel de recepcion
 					IngresoPanel panel = new IngresoPanel(false);
-					AppWindow.getInstance().setPanelContenido(panel);
+					AppWindow.getInstance().setPanelContenido(panel, null);
 					AppWindow.getInstance().setExtraTitle("Recepci\u00F3n");
 					panel.getTextNroBiopsia().requestFocusInWindow();
 				}
@@ -133,7 +134,7 @@ public class MenuPanel extends JPanel {
 					//debemos mostrar el panel de recepcion
 					MacroscopicaPanel panel = new MacroscopicaPanel();
 					AppWindow.getInstance().setExtraTitle("Macrosc\u00F3pica");
-					AppWindow.getInstance().setPanelContenido(panel);
+					AppWindow.getInstance().setPanelContenido(panel, FasesBiopsia.MACROSCOPICA);
 					panel.setFocusAtDefaultElement();
 				}
 			});
@@ -148,7 +149,7 @@ public class MenuPanel extends JPanel {
 				public void actionPerformed(ActionEvent arg0) {
 					//debemos mostrar el panel de recepcion
 					HistologiaPanel panel = new HistologiaPanel();
-					AppWindow.getInstance().setPanelContenido(panel);
+					AppWindow.getInstance().setPanelContenido(panel, FasesBiopsia.HISTOLOGIA);
 					AppWindow.getInstance().setExtraTitle("Histologia");
 					panel.setFocusAtDefaultElement();
 				}
@@ -163,7 +164,7 @@ public class MenuPanel extends JPanel {
 				public void actionPerformed(ActionEvent arg0) {
 					//debemos mostrar el panel de recepcion
 					MicroscopicaPanel panel = new MicroscopicaPanel();
-					AppWindow.getInstance().setPanelContenido(panel);
+					AppWindow.getInstance().setPanelContenido(panel, FasesBiopsia.MICROSCOPICA);
 					AppWindow.getInstance().setExtraTitle("Microscopica");
 					panel.setFocusAtDefaultElement();
 				}
@@ -178,7 +179,7 @@ public class MenuPanel extends JPanel {
 				public void actionPerformed(ActionEvent arg0) {
 					//debemos mostrar el panel de recepcion
 					HistologiaIHQPanel panel = new HistologiaIHQPanel();
-					AppWindow.getInstance().setPanelContenido(panel);
+					AppWindow.getInstance().setPanelContenido(panel, FasesBiopsia.IHQ);
 					AppWindow.getInstance().setExtraTitle("IHQ");
 					panel.setFocusAtDefaultElement();
 				}

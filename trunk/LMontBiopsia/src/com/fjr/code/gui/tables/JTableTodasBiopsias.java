@@ -10,6 +10,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import com.fjr.code.dao.BiopsiaInfoDAO;
+import com.fjr.code.dao.definitions.FasesBiopsia;
 import com.fjr.code.dto.BiopsiaInfoDTO;
 
 /**
@@ -26,12 +27,15 @@ public class JTableTodasBiopsias {
 	private DefaultTableModel model;
 	private JTable table;
 	private static JTableTodasBiopsias instance;
+	private FasesBiopsia faseABuscar;
 	
 	/**
 	 * 
 	 */
-	public JTableTodasBiopsias() {
+	public JTableTodasBiopsias(FasesBiopsia faseABuscar) {
 		// TODO Auto-generated constructor stub
+		this.faseABuscar = faseABuscar;
+		
 		table = new JTable(){
 			/**
 			 * 
@@ -101,8 +105,8 @@ public class JTableTodasBiopsias {
 	 * 
 	 * @return
 	 */
-	public static JTableTodasBiopsias getNewInstance(){
-		instance = new JTableTodasBiopsias();
+	public static JTableTodasBiopsias getNewInstance(FasesBiopsia faseABuscar){
+		instance = new JTableTodasBiopsias(faseABuscar);
 		
 		return instance;
 	}
@@ -134,7 +138,7 @@ public class JTableTodasBiopsias {
 		table.getColumnModel().getColumn(0).setCellRenderer(new JTableButtonRenderer());
 		
 		//buscamos los registros de biopsias activas para mostrarlos aqui
-		List<BiopsiaInfoDTO> biopsias = BiopsiaInfoDAO.getBiopsiasEnFasesActivas();
+		List<BiopsiaInfoDTO> biopsias = BiopsiaInfoDAO.getBiopsiasEnFasesActivas(faseABuscar);
 		if(biopsias != null){
 			for (BiopsiaInfoDTO biopsiaInfoDTO : biopsias) {
 				addRow(biopsiaInfoDTO.getId(),

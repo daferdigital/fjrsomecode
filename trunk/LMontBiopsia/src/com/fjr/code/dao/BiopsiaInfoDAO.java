@@ -85,13 +85,19 @@ public class BiopsiaInfoDAO {
 	
 	/**
 	 * Obtenemos el registro completo de una determinada biopsia.
+	 * @param faseABuscar 
 	 * 
 	 * @param numero
 	 * @return
 	 */
-	public static List<BiopsiaInfoDTO> getBiopsiasEnFasesActivas(){
+	public static List<BiopsiaInfoDTO> getBiopsiasEnFasesActivas(FasesBiopsia faseABuscar){
 		BiopsiaInfoDAOListBuilder builder = new BiopsiaInfoDAOListBuilder();
-		builder.searchByFasesActivas();
+		
+		if(faseABuscar != null){
+			builder.searchByFase(faseABuscar);
+		} else {
+			builder.searchByFasesActivas();
+		}
 		List<BiopsiaInfoDTO> records = builder.getResults();
 		
 		return records;
