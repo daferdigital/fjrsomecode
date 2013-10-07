@@ -51,6 +51,12 @@ public final class Constants {
 	 */
 	public static final String IMAGES_PATH = Constants.BASE_PATH + File.separator + "images" + File.separator;
 	
+	/**
+	 * Variable para indicar el directorio de images para la aplicacion
+	 * 
+	 */
+	public static final String FONTS_PATH = Constants.BASE_PATH + File.separator + "fonts" + File.separator;
+	
 	public static final String APP_SOFTWARE_NAME = "L'Mont Biopsias";
 	public static final String APP_SOFTWARE_VERSION = "Versión 1.0 Beta";
 	

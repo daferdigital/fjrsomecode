@@ -38,13 +38,13 @@ public final class BarCodeIngreso extends BarCodePrint {
 	 * Largo de la etiqueta a generar en la etapa de ingreso.
 	 * Valor es aproximado a mm_reales * 2.8 (57 * 2,8)
 	 */
-	private static final int largoMMTransformados = 162;
+	private static final int largoMMTransformados = 159;
 	
 	/**
 	 * Ancho de la etiqueta a generar en la etapa de ingreso.
 	 * Valor es aproximado a mm_reales * 2.8 (44 * 2,8)
 	 */
-	private static final int anchoMMTransformados = 125;
+	private static final int anchoMMTransformados = 123;
 	
 	private String nroBiopsia;
 	private String nombrePaciente;
@@ -54,11 +54,14 @@ public final class BarCodeIngreso extends BarCodePrint {
 	
 	static {
 		Paper p = new Paper();
-		p.setImageableArea(0, 0, 2.24*72, 1.73*72);
-		p.setSize(2.24*72, 1.73*72);
+		p.setSize(((largoMMTransformados / 2.8) / 2.54 / 10)*72, ((anchoMMTransformados / 2.8) / 2.54 / 10)*72);
+		p.setImageableArea(0, 
+				0, 
+				p.getWidth(), 
+				p.getHeight());
 		
 		PAGE_FORMAT.setPaper(p);
-		PAGE_FORMAT.setOrientation(PageFormat.LANDSCAPE);
+		PAGE_FORMAT.setOrientation(PageFormat.PORTRAIT);
 	}
 	
 	/**

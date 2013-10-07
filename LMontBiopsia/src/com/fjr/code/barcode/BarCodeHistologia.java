@@ -35,16 +35,16 @@ public final class BarCodeHistologia extends BarCodePrint{
 	private static final Logger log = Logger.getLogger(BarCodeHistologia.class);
 	
 	/**
-	 * Largo de la etiqueta a generar en la etapa de ingreso.
-	 * Valor es aproximado a mm_reales * 2.8 (57 * 2,8)
+	 * Largo de la etiqueta a generar en la etapa de histologia.
+	 * Valor es aproximado a mm_reales * 2.8 (28 * 2,8)
 	 */
-	private static final int largoMMTransformados = 70;
+	private static final int largoMMTransformados = 78;
 	
 	/**
-	 * Ancho de la etiqueta a generar en la etapa de ingreso.
-	 * Valor es aproximado a mm_reales * 2.8 (44 * 2,8)
+	 * Ancho de la etiqueta a generar en la etapa de histologia.
+	 * Valor es aproximado a mm_reales * 2.8 (20 * 2,8)
 	 */
-	private static final int anchoMMTransformados = 50;
+	private static final int anchoMMTransformados = 56;
 	
 	private String nroBiopsia;
 	private List<BiopsiaCasseteDTO> cassetes;
@@ -52,11 +52,14 @@ public final class BarCodeHistologia extends BarCodePrint{
 	
 	static {
 		Paper p = new Paper();
-		p.setImageableArea(0, 0, (largoMMTransformados * 2.54 / 10)*72, (anchoMMTransformados * 2.54 / 10)*72);
-		p.setSize((largoMMTransformados * 2.54 / 10)*72, (anchoMMTransformados * 2.54 / 10)*72);
+		p.setSize(((largoMMTransformados / 2.8) / 2.54 / 10)*72, ((anchoMMTransformados / 2.8) / 2.54 / 10)*72);
+		p.setImageableArea(0, 
+				0, 
+				p.getWidth(), 
+				p.getHeight());
 		
 		PAGE_FORMAT.setPaper(p);
-		PAGE_FORMAT.setOrientation(PageFormat.LANDSCAPE);
+		PAGE_FORMAT.setOrientation(PageFormat.PORTRAIT);
 	}
 	
 	/**

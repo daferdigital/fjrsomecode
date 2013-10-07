@@ -9,6 +9,7 @@ import javax.swing.JTable;
 import java.awt.Toolkit;
 import javax.swing.JPanel;
 
+import com.fjr.code.dao.definitions.FasesBiopsia;
 import com.fjr.code.gui.tables.JTableTodasBiopsias;
 import com.fjr.code.util.Constants;
 
@@ -114,13 +115,14 @@ public class AppWindow {
 	 * 
 	 * @param contenido
 	 */
-	public void setPanelContenido(JPanel contenido){
+	public void setPanelContenido(JPanel contenido, FasesBiopsia faseABuscar){
 		panelContenido.setVisible(false);
 		frmSistemaDeGestion.getContentPane().remove(panelContenido);
 		frmSistemaDeGestion.getContentPane().validate();
 		frmSistemaDeGestion.getContentPane().repaint();
 		
-		putTableBiopsiasActivas((int) contenido.getSize().getHeight());
+		putTableBiopsiasActivas((int) contenido.getSize().getHeight(),
+				faseABuscar);
 		
 		frmSistemaDeGestion.getContentPane().add(contenido);
 		panelContenido = contenido;
@@ -136,7 +138,7 @@ public class AppWindow {
 	 * 
 	 * @param startHeight
 	 */
-	private void putTableBiopsiasActivas(int startHeight){
+	private void putTableBiopsiasActivas(int startHeight, FasesBiopsia faseABuscar){
 		if(tableTodasBiopsias != null){
 			scrollPane.removeAll();
 			frmSistemaDeGestion.getContentPane().remove(scrollPane);
@@ -147,7 +149,7 @@ public class AppWindow {
 		}
 		
 		scrollPane = new JScrollPane();
-		tableTodasBiopsias = new JTableTodasBiopsias().getTable();
+		tableTodasBiopsias = new JTableTodasBiopsias(faseABuscar).getTable();
 		
 		Rectangle bounds = new Rectangle(0, 
 				startHeight + panelMenu.getHeight(), 

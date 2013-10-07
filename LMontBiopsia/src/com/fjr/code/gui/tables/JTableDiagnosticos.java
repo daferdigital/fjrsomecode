@@ -141,7 +141,7 @@ public class JTableDiagnosticos {
 			for (BiopsiaInfoDTO biopsiaInfoDTO : biopsias) {
 				addRow(biopsiaInfoDTO.getCodigo(), 
 						biopsiaInfoDTO.getExamenBiopsia().getNombreExamen(), 
-						biopsiaInfoDTO.getCliente().getNombres() + biopsiaInfoDTO.getCliente().getApellidos());
+						biopsiaInfoDTO.getCliente().getNombres() + " " + biopsiaInfoDTO.getCliente().getApellidos());
 			}
 		}
 	}

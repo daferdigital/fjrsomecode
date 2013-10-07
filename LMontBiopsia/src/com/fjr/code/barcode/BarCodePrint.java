@@ -5,7 +5,6 @@ import java.awt.print.Paper;
 import java.awt.print.PrinterJob;
 import java.io.File;
 import java.io.FileInputStream;
-import java.net.URL;
 
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
@@ -39,8 +38,8 @@ public abstract class BarCodePrint {
         log.info(String.format("printing on %fx%f paper, imageable area=%fx%f",
                 pageFormat.getWidth(),
                 pageFormat.getHeight(),
-                pageFormat.getImageableWidth(),
-                pageFormat.getImageableHeight()
+                pageFormat.getPaper().getImageableWidth(),
+                pageFormat.getPaper().getImageableHeight()
                 ));
     }
 	
@@ -65,7 +64,7 @@ public abstract class BarCodePrint {
 	protected void printLabelFile(File fileToPrint){
 		try {
 			PrinterJob printJob = PrinterJob.getPrinterJob();
-			URL url = new URL("file:///".concat(fileToPrint.getAbsolutePath()));
+			//URL url = new URL("file:///".concat(fileToPrint.getAbsolutePath()));
 
 			// PDFPrint pdfPrint = new PDFPrint (url, this);
 			//PDFPrint pdfPrint = new PDFPrint(url, null);
@@ -76,9 +75,15 @@ public abstract class BarCodePrint {
 			pdfPrint.setPrintSettings(ps);
 			
 			PrintRequestAttributeSet attSet = new HashPrintRequestAttributeSet();
-			MediaPrintableArea m = new MediaPrintableArea(0, 0, 57, 44, MediaPrintableArea.MM);
-			log.info(m.getWidth(MediaPrintableArea.MM));
-			log.info(m.getHeight(MediaPrintableArea.MM));
+			
+			//MediaPrintableArea m = new MediaPrintableArea(0, 0, 28, 20, MediaPrintableArea.MM);
+			MediaPrintableArea m = new MediaPrintableArea(0, 0, 
+					(int) (pageFormat.getPaper().getImageableWidth() * 25.4 /72) , 
+					(int) (pageFormat.getPaper().getImageableHeight() *25.4 /72),
+					MediaPrintableArea.MM);
+			
+			log.info(m.getWidth(MediaPrintableArea.INCH));
+			log.info(m.getHeight(MediaPrintableArea.INCH));
 			
 			attSet.add(m);
 			//attSet.add(new Copies(2));
@@ -92,8 +97,8 @@ public abstract class BarCodePrint {
 			if (printJob.printDialog()) {
 				log.info("Solicitud para imprimir archivo " + fileToPrint.getAbsolutePath()
 						+ " sera procesada.");
-				log.info(m.getWidth(MediaPrintableArea.MM));
-				log.info(m.getHeight(MediaPrintableArea.MM));
+				log.info(m.getWidth(MediaPrintableArea.INCH));
+				log.info(m.getHeight(MediaPrintableArea.INCH));
 				
 				getMinimumMarginPageFormat(printJob);
 				printJob.validatePage(pageFormat);
@@ -106,9 +111,11 @@ public abstract class BarCodePrint {
 				attSet.add(m);
 				
 				printJob.setPrintable(pdfPrint, pageFormat);
-				printJob.print();
+				printJob.print(attSet);
+				
+				log.info("metodo print del job ya invocado");
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			// TODO: handle exception
 			log.error(e.getMessage(), e);
 		}
