@@ -6,6 +6,32 @@ String.prototype.trim=function(){
 
 /**
  * 
+ * @param e
+ * @returns {Boolean}
+ */
+function textInputOnlyLetters(e){
+	var key = (window.Event) ? e.which : e.keyCode;
+	
+	//alert(key);
+	
+	//97-122 a-z
+	//65-90 A-Z
+	//241 ñ
+	//209 Ñ
+	//225-233-237-243-250 á é í ó ú
+	//9 backspace
+	if((key >= 97 && key <= 122) || (key >= 65 && key <= 90)
+			|| (key == 241 || key == 209 || key == 32 || key == 225 || key == 233 
+					|| key == 237 || key == 243 || key == 250 || key == 9 
+					|| key == 8 || key == 32)){
+		return true;
+	} else {
+		return false;
+	}
+}
+
+/**
+ * 
  * @param urlToOpen
  */
 function openPopUp(urlToOpen){

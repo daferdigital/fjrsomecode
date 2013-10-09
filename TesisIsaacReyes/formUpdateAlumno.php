@@ -38,7 +38,7 @@ if(count($alumno) < 1){
 				<tr>
 					<td>Nombre:</td>
 					<td>
-						<input type="text" name="nombre" id="nombre" value="<?php echo $alumno["nombre"];?>" />
+						<input type="text" name="nombre" id="nombre" value="<?php echo $alumno["nombre"];?>" onkeypress="return textInputOnlyLetters(event);" />
 						<span class="isMandatory" id="mandatoryNombre" style="display: none;">
 							<br />
 							Disculpe, debe indicar el nombre.
@@ -48,7 +48,7 @@ if(count($alumno) < 1){
 				<tr>
 					<td>Apellido:</td>
 					<td>
-						<input type="text" name="apellido" id="apellido" value="<?php echo $alumno["apellido"];?>" />
+						<input type="text" name="apellido" id="apellido" value="<?php echo $alumno["apellido"];?>" onkeypress="return textInputOnlyLetters(event);" />
 						<span class="isMandatory" id="mandatoryApellido" style="display: none;">
 							<br />
 							Disculpe, debe indicar el apellido.
@@ -150,7 +150,7 @@ if(count($alumno) < 1){
 				<tr>
 					<td>Nombre Representante</td>
 					<td>
-						<input type="text" name="representante" id="representante" value="<?php echo $alumno["nombre_representante"];?>" />
+						<input type="text" name="representante" id="representante" value="<?php echo $alumno["nombre_representante"];?>" onkeypress="return textInputOnlyLetters(event);" />
 						<div class="isMandatory" id="mandatoryRepresentante" style="display: none;">
 							<br />
 							Disculpe, debe indicar el nombre del Representante.
