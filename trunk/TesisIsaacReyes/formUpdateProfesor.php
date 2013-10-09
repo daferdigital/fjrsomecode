@@ -39,7 +39,7 @@ if(count($profesor) < 1){
 				<tr>
 					<td>Nombre:</td>
 					<td>
-						<input type="text" name="nombre" id="nombre" value="<?php echo $profesor["nombre"];?>" />
+						<input type="text" name="nombre" id="nombre" value="<?php echo $profesor["nombre"];?>" onkeypress="return textInputOnlyLetters(event);" />
 						<span class="isMandatory" id="mandatoryNombre" style="display: none;">
 							<br />
 							Disculpe, debe indicar el nombre.
@@ -49,7 +49,7 @@ if(count($profesor) < 1){
 				<tr>
 					<td>Apellido:</td>
 					<td>
-						<input type="text" name="apellido" id="apellido" value="<?php echo $profesor["apellido"];?>" />
+						<input type="text" name="apellido" id="apellido" value="<?php echo $profesor["apellido"];?>" onkeypress="return textInputOnlyLetters(event);" />
 						<span class="isMandatory" id="mandatoryApellido" style="display: none;">
 							<br />
 							Disculpe, debe indicar el apellido.

@@ -25,7 +25,7 @@ include_once "includes/header.php";
 				<tr>
 					<td>Nombre:</td>
 					<td>
-						<input type="text" name="nombre" id="nombre"/>
+						<input type="text" name="nombre" id="nombre" onkeypress="return textInputOnlyLetters(event);"/>
 						<span class="isMandatory" id="mandatoryNombre" style="display: none;">
 							<br />
 							Disculpe, debe indicar el nombre.
@@ -35,7 +35,7 @@ include_once "includes/header.php";
 				<tr>
 					<td>Apellido:</td>
 					<td>
-						<input type="text" name="apellido" id="apellido"/>
+						<input type="text" name="apellido" id="apellido" onkeypress="return textInputOnlyLetters(event);"/>
 						<span class="isMandatory" id="mandatoryApellido" style="display: none;">
 							<br />
 							Disculpe, debe indicar el apellido.
