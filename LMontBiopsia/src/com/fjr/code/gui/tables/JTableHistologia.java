@@ -135,8 +135,8 @@ public class JTableHistologia {
 	public void addRow(int numero, int bloques, int laminas, String descripcion){
 		Vector<Object> rowData = new Vector<Object>();
 		rowData.add("C" + numero);
-		rowData.add(bloques);
-		rowData.add(laminas);
+		rowData.add(bloques < 0 ? 1 : bloques);
+		rowData.add(laminas < 0 ? 1 : laminas);
 		rowData.add(descripcion);
 		
 		model.addRow(rowData);

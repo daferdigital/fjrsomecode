@@ -40,6 +40,7 @@ public class MicroscopicaPanel extends JPanel {
 	private JTextField textExamenARealizar;
 	private JTextArea textAIDx;
 	private JTextArea textADiagnostico;
+	private JTextArea textADiagnosticoIHQ;
 	private JTable tblLaminas;
 	private JTableMicroLaminas tableMicroLaminas = JTableMicroLaminas.getNewInstance();
 	private JTable tblLaminasIHQ;
@@ -185,19 +186,22 @@ public class MicroscopicaPanel extends JPanel {
 		lblNewLabel_1.setBounds(595, 22, 326, 14);
 		add(lblNewLabel_1);
 		
-		JLabel lbldiagnosticoPorIhq = new JLabel("<html><b>Diagnostico por IHQ:</b></html>");
+		JLabel lbldiagnosticoPorIhq = new JLabel("<html><b>Estudio IHQ:</b></html>");
 		lbldiagnosticoPorIhq.setVerticalAlignment(SwingConstants.TOP);
 		lbldiagnosticoPorIhq.setHorizontalAlignment(SwingConstants.LEFT);
 		lbldiagnosticoPorIhq.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lbldiagnosticoPorIhq.setBounds(10, 363, 117, 37);
 		add(lbldiagnosticoPorIhq);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setWrapStyleWord(true);
-		textArea.setLineWrap(true);
-		textArea.setBorder(new LineBorder(new Color(0, 0, 0)));
-		textArea.setBounds(158, 361, 287, 95);
-		add(textArea);
+		textADiagnosticoIHQ = new JTextArea();
+		textADiagnosticoIHQ.setWrapStyleWord(true);
+		textADiagnosticoIHQ.setLineWrap(true);
+		textADiagnosticoIHQ.setBorder(new LineBorder(new Color(0, 0, 0)));
+		
+		JScrollPane scrollPane_4 = new JScrollPane();
+		scrollPane_4.setBounds(158, 361, 287, 95);
+		add(scrollPane_4);
+		scrollPane_4.setViewportView(textADiagnosticoIHQ);
 		
 		JLabel lbllaacuteminasIhq = new JLabel("<html>L&aacute;minas IHQ: </html>:");
 		lbllaacuteminasIhq.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -245,6 +249,10 @@ public class MicroscopicaPanel extends JPanel {
 
 	public JTextArea getTextADiagnostico() {
 		return textADiagnostico;
+	}
+	
+	public JTextArea getTextADiagnosticoIHQ() {
+		return textADiagnosticoIHQ;
 	}
 	
 	public JTable getTblLaminas() {

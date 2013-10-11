@@ -235,7 +235,7 @@ public class MicroscopicaPanelOperations implements KeyListener, ActionListener{
 		
 		if(goToDiagnostico){
 			if("".equals(ventana.getTextADiagnostico().getText())){
-				errors += "Debe indicar un diagnostico.\n";
+				errors += "Debe indicar un diagnostico (sea el formal o el IHQ).\n";
 			}
 			if(ventana.getTableMicroLaminas().getTable().getRowCount() < 1){
 				errors += "Falta actualizar algunas laminas en esta fase.\n";
@@ -314,6 +314,13 @@ public class MicroscopicaPanelOperations implements KeyListener, ActionListener{
 		//ya tenemos verificada la informacion basica de la biopsia
 		//procedemos a guardarla
 		if(BiopsiaInfoDAO.updateMicro(biopsiaInfoDTO, goToIHQ)){
+			//vemos si hay laminas IHQ para guardarlas
+			if(ventana.getTableMicroLaminasIHQ().getList() != null){
+				biopsiaInfoDTO.getMicroscopicaDTO().setLaminasDTO(
+						ventana.getTableMicroLaminasIHQ().getList());
+				BiopsiaInfoDAO.updateMicroIHQ(biopsiaInfoDTO, false);
+			}
+			
 			if(goToDiagnostico){
 				//tenemos todo para pasar a entrega
 				if(BiopsiaInfoDAO.moveBiopsiaToFase(biopsiaInfoDTO, FasesBiopsia.ENTREGA)){
