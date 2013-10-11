@@ -70,8 +70,8 @@ public class BiopsiaDiagnostico {
 		try {
 			Document document = new Document(PageSize.A4);
 			document.setMargins(document.leftMargin(), 
-					document.rightMargin(), 
-					90, 
+					114, 
+					120, 
 					document.bottomMargin());
 			/*
 			System.out.println(document.leftMargin());
@@ -97,8 +97,13 @@ public class BiopsiaDiagnostico {
 	        document.add(addDetailBiopsiaTable());
 	        //agregamos la info de Macro
 	        addDetailMacro(document);
-	        //agregamos el diagnostico de la fase micro
-	        addDiagnostico(document);
+	        if("".equals(biopsia.getMicroscopicaDTO().getDiagnostico())){
+	        	
+	        } else {
+	        	//agregamos el diagnostico de la fase micro
+		        addDiagnostico(document);
+		        
+	        }
 	        
 	        //step 5
 	        document.close();
@@ -117,17 +122,17 @@ public class BiopsiaDiagnostico {
 	 * @return
 	 */
 	private PdfPTable addDetailBiopsiaTable(){
-		PdfPTable table = new PdfPTable(new float[]{20, 30, 10, 40});
+		PdfPTable table = new PdfPTable(new float[]{18, 45, 10, 35});
 		table.setWidthPercentage(100);
 		
-		PdfPCell cell = new PdfPCell(new Phrase("Dr: ", informeFontNormal));
+		PdfPCell cell = new PdfPCell(new Phrase("\nDr: ", informeFontNormal));
 		cell.setBorder(0);
 		
-		PdfPCell cell1 = new PdfPCell(new Phrase(biopsia.getIngresoDTO().getReferidoMedico(), informeFontNormal));
+		PdfPCell cell1 = new PdfPCell(new Phrase("\n" + biopsia.getIngresoDTO().getReferidoMedico(), informeFontNormal));
 		cell1.setColspan(3);
 		cell1.setBorder(0);
 		
-		PdfPCell cell2 = new PdfPCell(new Phrase("Paciente: ", informeFontNormal));
+		PdfPCell cell2 = new PdfPCell(new Phrase("Paciente: ", new Font(informeFontNormal.getBaseFont(), 10)));
 		cell2.setBorder(0);
 		
 		PdfPCell cell3 = new PdfPCell(new Phrase(biopsia.getCliente().getNombres()
@@ -135,29 +140,29 @@ public class BiopsiaDiagnostico {
 		cell3.setColspan(3);
 		cell3.setBorder(0);
 		
-		PdfPCell cell4 = new PdfPCell(new Phrase("Procedencia:", informeFontNormal));
+		PdfPCell cell4 = new PdfPCell(new Phrase("Procedencia:", new Font(informeFontNormal.getBaseFont(), 10)));
 		cell4.setBorder(0);
 		
 		PdfPCell cell5 = new PdfPCell(new Phrase(biopsia.getIngresoDTO().getProcedencia(), informeFontNormal));
 		cell5.setBorder(0);
 		
-		PdfPCell cell6 = new PdfPCell(new Phrase("Edad:", informeFontNormal));
+		PdfPCell cell6 = new PdfPCell(new Phrase("Edad:", new Font(informeFontNormal.getBaseFont(), 10)));
 		cell6.setBorder(0);
-		cell6.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+		cell6.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 		
 		PdfPCell cell7 = new PdfPCell(new Phrase(biopsia.getCliente().getEdad() + " años C.I. "
 				+ biopsia.getCliente().getCedula(), informeFontNormal));
 		cell7.setBorder(0);
 		
-		PdfPCell cell8 = new PdfPCell(new Phrase("Referencia:", informeFontNormal));
+		PdfPCell cell8 = new PdfPCell(new Phrase("Referencia:", new Font(informeFontNormal.getBaseFont(), 10)));
 		cell8.setBorder(0);
 		
 		PdfPCell cell9 = new PdfPCell(new Phrase(biopsia.getCodigo(), informeFontNormal));
 		cell9.setBorder(0);
 		
-		PdfPCell cell10 = new PdfPCell(new Phrase("Fecha:", informeFontNormal));
+		PdfPCell cell10 = new PdfPCell(new Phrase("Fecha:", new Font(informeFontNormal.getBaseFont(), 10)));
 		cell10.setBorder(0);
-		cell10.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+		cell10.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 		
 		DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 		PdfPCell cell11 = new PdfPCell(new Phrase(df.format(biopsia.getFechaRegistro().getTime()), informeFontNormal));
@@ -187,19 +192,27 @@ public class BiopsiaDiagnostico {
 	 * @throws DocumentException 
 	 */
 	private void addDetailMacro(Document document) throws DocumentException{
-		Chunk title1 = new Chunk("\n\nPROCEDENCIA DEL MATERIAL: ", new Font(informeFontBold.getBaseFont(), 14F));
-		Phrase value1 = new Phrase(biopsia.getIngresoDTO().getPiezaRecibida(), new Font(informeFontNormal.getBaseFont(), 12F));
+		Chunk chunkEnter = new Chunk("\n");
+		
+		Chunk title1 = new Chunk("PROCEDENCIA DEL MATERIAL:", 
+				new Font(informeFontBold.getBaseFont(), 12F, Font.UNDERLINE));
+		Phrase value1 = new Phrase(" " + biopsia.getIngresoDTO().getPiezaRecibida(), 
+				new Font(informeFontNormal.getBaseFont(), 12F));
 		
 		Paragraph p1 = new Paragraph();
 		p1.setIndentationLeft(50);
+		p1.add(chunkEnter);
+		p1.add(chunkEnter);
 		p1.add(title1);
 		p1.add(value1);
 		
-		Chunk title2 = new Chunk("\nDESCRIPCION MACROSCOPICA: ", new Font(informeFontBold.getBaseFont(), 14F));
+		Chunk title2 = new Chunk("DESCRIPCION MACROSCOPICA:", 
+				new Font(informeFontBold.getBaseFont(), 12F, Font.UNDERLINE));
 		Phrase value2 = new Phrase(biopsia.getMacroscopicaDTO().getDescMacroscopica(), new Font(informeFontNormal.getBaseFont(), 12F));
 		Paragraph p2 = new Paragraph();
 		p2.setAlignment(Paragraph.ALIGN_JUSTIFIED);
 		p2.setIndentationLeft(50);
+		p2.add(chunkEnter);
 		p2.add(title2);
 		p2.add(value2);
 		
@@ -235,15 +248,16 @@ public class BiopsiaDiagnostico {
 					log.error(e.getMessage(), e);
 				} 
 				
-				
-				
 				if(revisarPerOperatoria){
 					if(! "".equals(biopsia.getMacroscopicaDTO().getDescPerOperatoria())){
-						Chunk titlePerOperatorio = new Chunk("\nBIOPSIA PER-OPERATORIA: ", new Font(informeFontBold.getBaseFont(), 14F));
-						Phrase valuePerOperatorio = new Phrase(biopsia.getMacroscopicaDTO().getDescPerOperatoria(), new Font(informeFontNormal.getBaseFont(), 12F));
+						Chunk titlePerOperatorio = new Chunk("BIOPSIA PER-OPERATORIA: ", 
+								new Font(informeFontBold.getBaseFont(), 12F, Font.UNDERLINE));
+						Phrase valuePerOperatorio = new Phrase(biopsia.getMacroscopicaDTO().getDescPerOperatoria(), 
+								new Font(informeFontNormal.getBaseFont(), 12F));
 						Paragraph p3 = new Paragraph();
 						p3.setAlignment(Paragraph.ALIGN_JUSTIFIED);
 						p3.setIndentationLeft(50);
+						p3.add(chunkEnter);
 						p3.add(titlePerOperatorio);
 						p3.add(valuePerOperatorio);
 						
@@ -296,7 +310,7 @@ public class BiopsiaDiagnostico {
 	}
 	
 	public static void main(String[] args) {
-		BiopsiaInfoDTO biopsia = BiopsiaInfoDAO.getBiopsiaByNumero("11-005000");
+		BiopsiaInfoDTO biopsia = BiopsiaInfoDAO.getBiopsiaByNumero("13-009002");
 		if(biopsia == null){
 			biopsia = new BiopsiaInfoDTO();
 			biopsia.setId(1);

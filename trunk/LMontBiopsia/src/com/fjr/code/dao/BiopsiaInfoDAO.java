@@ -658,7 +658,7 @@ public class BiopsiaInfoDAO {
 	/**
 	 * 
 	 * @param biopsiaInfoDTO
-	 * @param goToMicro
+	 * @param goToMicro (no usado por ahora)
 	 * @return
 	 */
 	public static boolean updateMicroIHQ(BiopsiaInfoDTO biopsiaInfoDTO, boolean goToMicro) {
