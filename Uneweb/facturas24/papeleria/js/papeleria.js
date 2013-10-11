@@ -24,7 +24,7 @@ function checkIfIsAValidMail(mail){
  * @param urlToOpen
  */
 function openPopUp(urlToOpen){
-	var w = 750;
+	var w = 900;
 	var h = 600;
 	var title = "Detalles del Pedido";
 	
@@ -32,6 +32,16 @@ function openPopUp(urlToOpen){
 	var top = (screen.height/2)-(h/2)-50;
 	
 	return window.open(urlToOpen, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left); 
+}
+
+/**
+ * 
+ * @param idModelo
+ */
+function showModeloForm(idModelo){
+	var url = "showModeloForm.php?id=" + idModelo;
+	
+	openPopUp(url);
 }
 
 /**
