@@ -1,0 +1,9 @@
+Por el disco estar lleno, los querys de muchos resultados estana siendo finalizados de manera automarica
+por el servidor (MySQL Server Gone Away).
+
+Se debio re-pensar la manera en la que se obtenian los registros para el calculo de ganadores para hacerlo en menor tiempo.
+
+Archivos:
+
+parlay/classes/DBUtil.php
+parlay/classes/VentasDAO.php
