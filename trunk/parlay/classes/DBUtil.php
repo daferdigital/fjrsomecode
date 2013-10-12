@@ -26,7 +26,7 @@ class DBUtil {
 		try {
 			$result = mysql_query($querySelect, $dbConObj->getConnection());
 			if(!mysql_error()){
-				while($r = mysql_fetch_assoc($result)){
+				while($r = mysql_fetch_array($result)){
 					$resultArray[] = $r;
 				}
 				
