@@ -10,6 +10,7 @@ import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
 import javax.swing.JButton;
 
+import com.fjr.code.gui.operations.ListenerDobleClickTextArea;
 import com.fjr.code.gui.operations.MicroscopicaPanelOperations;
 import com.fjr.code.gui.tables.JTableMicroLaminas;
 import com.fjr.code.gui.tables.JTableMicroLaminasIHQ;
@@ -116,6 +117,7 @@ public class MicroscopicaPanel extends JPanel {
 		textAIDx.setWrapStyleWord(true);
 		textAIDx.setLineWrap(true);
 		textAIDx.setBorder(new LineBorder(new Color(0, 0, 0)));
+		textAIDx.addMouseListener(new ListenerDobleClickTextArea(textAIDx));
 		
 		JLabel lblDescPeroperatoria = new JLabel("<html><b>Diagnostico:</b></html>");
 		lblDescPeroperatoria.setVerticalAlignment(SwingConstants.TOP);
@@ -133,6 +135,7 @@ public class MicroscopicaPanel extends JPanel {
 		textADiagnostico.setWrapStyleWord(true);
 		textADiagnostico.setLineWrap(true);
 		textADiagnostico.setBorder(new LineBorder(new Color(0, 0, 0)));
+		textADiagnostico.addMouseListener(new ListenerDobleClickTextArea(textADiagnostico));
 		
 		JButton btnGuardar = new JButton("Guardar");
 		btnGuardar.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -197,6 +200,7 @@ public class MicroscopicaPanel extends JPanel {
 		textADiagnosticoIHQ.setWrapStyleWord(true);
 		textADiagnosticoIHQ.setLineWrap(true);
 		textADiagnosticoIHQ.setBorder(new LineBorder(new Color(0, 0, 0)));
+		textADiagnosticoIHQ.addMouseListener(new ListenerDobleClickTextArea(textADiagnosticoIHQ));
 		
 		JScrollPane scrollPane_4 = new JScrollPane();
 		scrollPane_4.setBounds(158, 361, 287, 95);

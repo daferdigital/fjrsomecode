@@ -8,6 +8,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import com.fjr.code.gui.operations.ListenerDobleClickTextArea;
 import com.fjr.code.gui.operations.MicroLaminasDialogIHQOperations;
 import com.fjr.code.gui.tables.JTableMicroLaminasIHQ;
 
@@ -121,6 +122,7 @@ public class MicroLaminasIHQDialog extends JDialog {
 		textADescripcion.setLineWrap(true);
 		textADescripcion.setWrapStyleWord(true);
 		textADescripcion.setText(descripcion);
+		textADescripcion.addMouseListener(new ListenerDobleClickTextArea(textADescripcion));
 		scrollPane.setViewportView(textADescripcion);
 		
 		JButton btnAnexarArchivo = new JButton("Anexar Archivo");

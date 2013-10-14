@@ -10,6 +10,7 @@ import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
 import javax.swing.JButton;
 
+import com.fjr.code.gui.operations.ListenerDobleClickTextArea;
 import com.fjr.code.gui.operations.MacroscopicaPanelOperations;
 import com.fjr.code.gui.tables.JTableMacroCassetes;
 import com.fjr.code.gui.tables.JTableMacroFotos;
@@ -113,6 +114,7 @@ public class MacroscopicaPanel extends JPanel {
 		scrollPane_1.setViewportView(textADescMacroscopica);
 		textADescMacroscopica.setWrapStyleWord(true);
 		textADescMacroscopica.setLineWrap(true);
+		textADescMacroscopica.addMouseListener(new ListenerDobleClickTextArea(textADescMacroscopica));
 		textADescMacroscopica.setBorder(new LineBorder(new Color(0, 0, 0)));
 		
 		JLabel lblDescPeroperatoria = new JLabel("<html><b>Descripci&oacute;n Per-operatoria:</b></html>");
@@ -130,6 +132,7 @@ public class MacroscopicaPanel extends JPanel {
 		textADescPerOperatoria.setWrapStyleWord(true);
 		textADescPerOperatoria.setLineWrap(true);
 		textADescPerOperatoria.setBorder(new LineBorder(new Color(0, 0, 0)));
+		textADescPerOperatoria.addMouseListener(new ListenerDobleClickTextArea(textADescPerOperatoria));
 		
 		JButton btnGuardar = new JButton("Guardar");
 		btnGuardar.setFont(new Font("Tahoma", Font.PLAIN, 12));

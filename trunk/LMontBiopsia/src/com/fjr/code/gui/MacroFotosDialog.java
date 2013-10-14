@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import com.fjr.code.gui.operations.ListenerDobleClickTextArea;
 import com.fjr.code.gui.operations.MacroFotosDialogOperations;
 import com.fjr.code.gui.tables.JTableMacroFotos;
 import javax.swing.JTextField;
@@ -104,6 +105,7 @@ public class MacroFotosDialog extends JDialog {
 		textADescripcion.setWrapStyleWord(true);
 		textADescripcion.setBounds(127, 26, 278, 133);
 		textADescripcion.setText(descripcion);
+		textADescripcion.addMouseListener(new ListenerDobleClickTextArea(textADescripcion));
 		scrollPane.setViewportView(textADescripcion);
 		
 		JButton btnSubirFoto = new JButton("Subir Foto");

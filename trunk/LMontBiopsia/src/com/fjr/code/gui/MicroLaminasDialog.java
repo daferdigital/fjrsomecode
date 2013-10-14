@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.fjr.code.dao.ReactivoDAO;
 import com.fjr.code.dto.ReactivoDTO;
+import com.fjr.code.gui.operations.ListenerDobleClickTextArea;
 import com.fjr.code.gui.operations.MicroLaminasDialogOperations;
 import com.fjr.code.gui.tables.JTableMicroLaminas;
 
@@ -170,6 +171,7 @@ public class MicroLaminasDialog extends JDialog {
 		textADescripcion.setLineWrap(true);
 		textADescripcion.setWrapStyleWord(true);
 		textADescripcion.setText(descripcion);
+		textADescripcion.addMouseListener(new ListenerDobleClickTextArea(textADescripcion));
 		scrollPane.setViewportView(textADescripcion);
 		
 		JButton btnAnexarArchivo = new JButton("Anexar Archivo");

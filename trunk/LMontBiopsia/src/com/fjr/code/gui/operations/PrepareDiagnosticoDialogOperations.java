@@ -3,6 +3,8 @@ package com.fjr.code.gui.operations;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JOptionPane;
+
 import com.fjr.code.dao.BiopsiaInfoDAO;
 import com.fjr.code.gui.PrepareDiagnosticoDialog;
 import com.fjr.code.pdf.BiopsiaDiagnostico;
@@ -44,7 +46,16 @@ public class PrepareDiagnosticoDialogOperations implements ActionListener{
 					ventana.getcBoxFirmante1().getSelectedItem().toString(),
 					ventana.getcBoxFirmante2().getSelectedItem().toString());
 			diagnostico.buildDiagnostico();
-			diagnostico.open();
+			
+			try {
+				diagnostico.open();
+			} catch (Throwable e1) {
+				// TODO: handle exception
+				JOptionPane.showMessageDialog(null, e1.getLocalizedMessage(), 
+						"Error abriendo diagnostico", 
+						JOptionPane.ERROR_MESSAGE);
+				e1.printStackTrace();
+			}
 		}
 	}
 }
