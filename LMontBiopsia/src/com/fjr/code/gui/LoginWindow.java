@@ -148,8 +148,9 @@ public class LoginWindow extends JDialog implements ActionListener, KeyListener 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("aceptar")) {
 			//validamos el login del usuario
-			AppWindow.show();
+			this.setVisible(false);
 			this.dispose();
+			AppWindow.show();
 		} else if (e.getActionCommand().equals("ayuda")) {
 			
 		} else {

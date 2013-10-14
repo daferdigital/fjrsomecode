@@ -5,13 +5,11 @@ import java.net.MalformedURLException;
 
 import com.fjr.code.util.Constants;
 import com.itextpdf.text.BadElementException;
-import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
-import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
@@ -29,6 +27,7 @@ class HeaderFooter extends PdfPageEventHelper {
 	@Override
 	public void onStartPage(PdfWriter writer, Document document) {
 		// TODO Auto-generated method stub
+		/*
 		if(document.getPageNumber() > 1){
 			Paragraph p = new Paragraph();
 			p.setIndentationLeft(50);
@@ -40,6 +39,7 @@ class HeaderFooter extends PdfPageEventHelper {
 				e.printStackTrace();
 			}
 		}
+		*/
 	}
 	
     public void onEndPage (PdfWriter writer, Document document) {

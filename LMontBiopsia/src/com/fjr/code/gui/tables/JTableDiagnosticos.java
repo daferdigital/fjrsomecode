@@ -12,7 +12,7 @@ import javax.swing.table.DefaultTableModel;
 import com.fjr.code.dao.BiopsiaInfoDAO;
 import com.fjr.code.dao.definitions.FasesBiopsia;
 import com.fjr.code.dto.BiopsiaInfoDTO;
-import com.fjr.code.pdf.BiopsiaDiagnostico;
+import com.fjr.code.gui.PrepareDiagnosticoDialog;
 
 /**
  * 
@@ -196,11 +196,8 @@ public class JTableDiagnosticos {
 	 */
 	private void openDiagnostico(int selectedRow) {
 		// TODO Auto-generated method stub
-		BiopsiaDiagnostico diagnostico = new BiopsiaDiagnostico(
-				BiopsiaInfoDAO.getBiopsiaByNumero(
-						model.getValueAt(selectedRow, 1).toString()));
-		diagnostico.buildDiagnostico();
-		diagnostico.open();
+		new PrepareDiagnosticoDialog(
+				model.getValueAt(selectedRow, 1).toString()).setVisible(true);
 	}
 }
 

@@ -21,12 +21,10 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
-import com.itextpdf.text.Font.FontStyle;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
-import com.itextpdf.text.TabStop.Alignment;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -47,6 +45,8 @@ public class BiopsiaDiagnostico {
 	private int idBiopsia;
 	private String fileName;
 	private String filePath;
+	private String firmante1;
+	private String firmante2;
 	
 	Font informeFontNormal = FuenteInformeUtil.getInformeFontNormal();
 	Font informeFontBold = FuenteInformeUtil.getInformeFontBold();
@@ -54,11 +54,16 @@ public class BiopsiaDiagnostico {
 	/**
 	 * 
 	 * @param biopsia
+	 * @param firmante1
+	 * @param firmante2
 	 */
-	public BiopsiaDiagnostico(BiopsiaInfoDTO biopsia) {
+	public BiopsiaDiagnostico(BiopsiaInfoDTO biopsia,
+			String firmante1, String firmante2) {
 		// TODO Auto-generated constructor stub
 		this.biopsia = biopsia;
 		this.idBiopsia = biopsia.getId();
+		this.firmante1 = firmante1;
+		this.firmante2 = firmante2;
 		this.fileName = "diagnostico_" + idBiopsia + ".pdf";
 		this.filePath = Constants.TMP_PATH + File.separator + fileName; 
 	}
@@ -72,7 +77,7 @@ public class BiopsiaDiagnostico {
 			document.setMargins(document.leftMargin(), 
 					114, 
 					120, 
-					document.bottomMargin());
+					document.bottomMargin() + 20);
 			/*
 			System.out.println(document.leftMargin());
 			System.out.println(document.rightMargin());
@@ -97,14 +102,16 @@ public class BiopsiaDiagnostico {
 	        document.add(addDetailBiopsiaTable());
 	        //agregamos la info de Macro
 	        addDetailMacro(document);
+
 	        if("".equals(biopsia.getMicroscopicaDTO().getDiagnostico())){
 	        	
-	        } else {
-	        	//agregamos el diagnostico de la fase micro
-		        addDiagnostico(document);
-		        
-	        }
+	        } 
 	        
+	        //agregamos el diagnostico de la fase micro
+		    addDiagnostico(document);
+		    
+		    addFirmantes(document);
+		    
 	        //step 5
 	        document.close();
 		} catch (Throwable e) {
@@ -297,6 +304,49 @@ public class BiopsiaDiagnostico {
 		document.add(p2);
 	}
 	
+	
+	private void addFirmantes(Document document) throws DocumentException{
+		int cantidadFirmates = 1;
+		if(firmante2 != null 
+				&& ! "".equals(firmante2.trim())
+				&& ! "seleccione".equals(firmante2.trim().toLowerCase())){
+			cantidadFirmates++;
+		}
+		
+		PdfPTable table = null;
+		if(cantidadFirmates == 1){
+			table = new PdfPTable(new float[]{100});
+		} else {
+			table = new PdfPTable(new float[]{50, 50});
+		}
+		table.setWidthPercentage(100);
+		
+		PdfPCell cellSpace = new PdfPCell(new Phrase("\n\n\n_______________________", 
+				informeFontNormal));
+		cellSpace.setBorder(0);
+		cellSpace.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+		
+		PdfPCell cell = new PdfPCell(new Phrase("\n" + firmante1, informeFontNormal));
+		cell.setBorder(0);
+		cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+		
+		PdfPCell cell1 = new PdfPCell(new Phrase("\n" + firmante2, informeFontNormal));
+		cell1.setBorder(0);
+		cell1.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+		
+		table.addCell(cellSpace);
+		if(cantidadFirmates == 2){
+			table.addCell(cellSpace);
+		}
+		
+		table.addCell(cell);
+		if(cantidadFirmates == 2){
+			table.addCell(cell1);
+		}
+		
+		document.add(table);
+	}
+	
 	/**
 	 * 
 	 */
@@ -316,7 +366,7 @@ public class BiopsiaDiagnostico {
 			biopsia.setId(1);
 		}
 		
-		new BiopsiaDiagnostico(biopsia).buildDiagnostico();
+		new BiopsiaDiagnostico(biopsia, "Felipe Rojas", null).buildDiagnostico();
 		System.out.println("Finish...");
 	}
 }

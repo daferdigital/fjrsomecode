@@ -63,9 +63,21 @@ public final class PatologoDAO {
 	 * @param combo
 	 */
 	public static void populateJCombo(JComboBox comboBox){
+		populateJCombo(comboBox, true);
+	}
+	
+	/**
+	 * 
+	 * @param comboBox
+	 * @param addEmptyValue
+	 */
+	public static void populateJCombo(JComboBox comboBox, boolean addEmptyValue){
 		List<PatologoDTO> items = getAll();
 		
-		comboBox.addItem(new PatologoDTO(0, "Seleccione", false));
+		if (addEmptyValue) {
+			comboBox.addItem(new PatologoDTO(0, "Seleccione", false));
+		}
+		
 		for (PatologoDTO patologoDTO : items) {
 			comboBox.addItem(patologoDTO);
 		}
