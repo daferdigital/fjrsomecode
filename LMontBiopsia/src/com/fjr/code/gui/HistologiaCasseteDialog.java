@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.fjr.code.gui.operations.HistologiaCasseteDialogOperations;
+import com.fjr.code.gui.operations.ListenerDobleClickTextArea;
 import com.fjr.code.gui.tables.JTableHistologia;
 
 import java.awt.Toolkit;
@@ -122,6 +123,7 @@ public class HistologiaCasseteDialog extends JDialog {
 		textADescCassete.setWrapStyleWord(true);
 		textADescCassete.setLineWrap(true);
 		textADescCassete.setText(descripcion);
+		textADescCassete.addMouseListener(new ListenerDobleClickTextArea(textADescCassete));
 		
 		scrollPane.setViewportView(textADescCassete);
 		

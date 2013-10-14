@@ -14,6 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
 
+import com.fjr.code.gui.operations.ListenerDobleClickTextArea;
 import com.fjr.code.gui.operations.MacroCasseteDialogOperations;
 import com.fjr.code.gui.tables.JTableMacroCassetes;
 
@@ -90,6 +91,7 @@ public class MacroCasseteDialog extends JDialog {
 		textADescCassete.setWrapStyleWord(true);
 		textADescCassete.setBounds(127, 26, 278, 133);
 		textADescCassete.setText(descripcion);
+		textADescCassete.addMouseListener(new ListenerDobleClickTextArea(textADescCassete));
 		scrollPane.setViewportView(textADescCassete);
 		
 		JPanel buttonPane = new JPanel();

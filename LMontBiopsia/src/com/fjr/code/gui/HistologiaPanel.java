@@ -11,6 +11,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.JButton;
 
 import com.fjr.code.gui.operations.HistologiaPanelOperations;
+import com.fjr.code.gui.operations.ListenerDobleClickTextArea;
 import com.fjr.code.gui.tables.JTableHistologia;
 import com.fjr.code.util.Constants;
 import javax.swing.JTable;
@@ -107,6 +108,7 @@ public class HistologiaPanel extends JPanel {
 		textADescHistologia.setLineWrap(true);
 		textADescHistologia.setBorder(new LineBorder(new Color(0, 0, 0)));
 		textADescHistologia.setBounds(157, 145, 289, 97);
+		textADescHistologia.addMouseListener(new ListenerDobleClickTextArea(textADescHistologia));
 		add(textADescHistologia);
 		
 		JButton btnGuardar = new JButton("Guardar");

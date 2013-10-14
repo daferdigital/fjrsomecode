@@ -15,6 +15,7 @@ import com.fjr.code.dao.ExamenBiopsiaDAO;
 import com.fjr.code.dao.PatologoDAO;
 import com.fjr.code.dao.TipoCedulaDAO;
 import com.fjr.code.gui.operations.IngresoPanelOperations;
+import com.fjr.code.gui.operations.ListenerDobleClickTextArea;
 import com.fjr.code.gui.tables.JTableDiagnosticos;
 import com.fjr.code.gui.tables.JTableIHQSolicitadas;
 import com.fjr.code.util.Constants;
@@ -225,6 +226,8 @@ public class IngresoPanel extends JPanel {
 		textAreaIDx.setBorder(new LineBorder(new Color(0, 0, 0)));
 		textAreaIDx.setWrapStyleWord(true);
 		textAreaIDx.setBounds(72, 314, 290, 100);
+		textAreaIDx.addMouseListener(new ListenerDobleClickTextArea(textAreaIDx));
+		
 		JScrollPane sp = new JScrollPane(textAreaIDx);
 		sp.setBounds(new Rectangle(72, 356, 290, 100));
 		add(sp);
