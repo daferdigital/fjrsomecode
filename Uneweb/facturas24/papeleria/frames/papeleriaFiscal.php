@@ -4,6 +4,7 @@
 	
 	header("Content-Type: text/html; charset=iso-8859-1");
 	$tipoContenido = $_POST["contenido"];
+	$tipoContenidoId = $_POST["contenidoId"];
 ?>
 	<input type="hidden" name="tipo" value="Papeleria Fiscal"/>
 	<input type="hidden" name="contenido" value="<?php echo $tipoContenido;?>"/>
@@ -12,6 +13,7 @@
 		$query = "SELECT tm.id, tm.nombre AS tipo, m.id AS modeloId, m.nombre, m.numero, m.clasico";
 		$query .= " FROM tipos_modelos tm, modelos m";
 		$query .= " WHERE tm.id = m.id_tipo_modelo";
+		$query .= " AND tm.id = ".$tipoContenidoId;
 		$query .= " ORDER BY tm.nombre, m.nombre, m.numero";
 		
 		$results = DBUtil::executeSelect($query);
@@ -36,7 +38,6 @@
 							echo "<tr>";
 						}
 						
-						
 						$imagePath = "../imagenes/miniaturas/";
 						$imagePath .= str_replace(" ", "", $modelo["tipo"])."/";
 						$imagePath .= str_replace(" ", "", $modelo["nombre"]);
@@ -45,8 +46,8 @@
 						$imageName = "[".$modelo["tipo"]."] ";
 						$imageName .= $modelo["nombre"]." ".$modelo["numero"];
 				?>
-						<td>
-							<a href="#" onclick="javascript:showModeloForm(<?php echo $modelo["modeloId"];?>)">
+						<td align="center">
+							<a href="#" class="catalogItem" onclick="javascript:showModeloForm(<?php echo $modelo["modeloId"];?>)">
 								<img border="0" alt="<?php echo $count;?>" src="<?php echo $imagePath;?>" />
 								<br />
 								<?php echo $imageName;?>

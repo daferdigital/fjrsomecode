@@ -19,12 +19,9 @@
   		<h3>Papeleria Fiscal</h3>
   		<div style="padding: 0px;">
     		<ul>
-    			<li><a href="#" onclick="loadFrame('papeleriaFiscal', 'formPart1', 'Facturas')">Facturas</a></li>
-    			<li><a href="#" onclick="loadFrame('papeleriaFiscal', 'formPart1', 'Notas de Debito')">Notas de D&eacute;bito</a></li>
-    			<li><a href="#" onclick="loadFrame('papeleriaFiscal', 'formPart1', 'Notas de Credito')">Notas de Cr&eacute;dito</a></li>
-    			<li><a href="#" onclick="loadFrame('papeleriaFiscal', 'formPart1', 'Orden de Entrega')">Orden de Entrega</a></li>
-    			<li><a href="#" onclick="loadFrame('papeleriaFiscal', 'formPart1', 'Forma Libre')">Forma Libre</a></li>
-    			<li><a href="#" onclick="loadFrame('papeleriaFiscal', 'formPart1', 'Formas Continuas')">Formas Continuas</a></li>
+    			<li><a href="#" onclick="loadFrame('papeleriaFiscal', 'formPart1', 'Forma Libre', 1)">Forma Libre</a></li>
+    			<li><a href="#" onclick="loadFrame('papeleriaFiscal', 'formPart1', 'Modelos Horizontales', 2)">Modelos Horizontales</a></li>
+    			<li><a href="#" onclick="loadFrame('papeleriaFiscal', 'formPart1', 'Modelos Verticales', 3)">Modelos Verticales</a></li>
     		</ul>
   		</div>
   		<h3>Papeleria Corporativa</h3>
@@ -53,7 +50,7 @@
   		</div>
 	</div>
 	<div style="display: inline-block; width: 25%; vertical-align: top; margin-left: 15px;">
-		<form action="aprobarSolicitud.php" enctype="multipart/form-data" name="formFase1" method="post" onsubmit="return validarSolicitud(this);">
+		<form action="aprobarSolicitud.php" enctype="multipart/form-data" name="formFase1" id="formFase1" method="post" onsubmit="return validarSolicitud(this);">
 			<span id="formPart1">
 			</span>
 			<span id="formPart2">
