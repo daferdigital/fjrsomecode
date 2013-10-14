@@ -50,10 +50,18 @@ function showModeloForm(idModelo){
  * @param loadingImageId
  * @param containerName
  */
-function loadFrame(frameName, containerId, tipoContenido) {
+function loadFrame(frameName, containerId, tipoContenido, tipoContenidoId) {
 	var container = document.getElementById(containerId);
 	var url = "frames/" + frameName + ".php";
 	var parameters = "contenido=" + tipoContenido;
+	
+	if(frameName == "papeleriaCorporativa"
+		|| frameName == "papeleriaPublicitaria"){
+		document.getElementById("formFase1").action = "aprobarSolicitudPapeleria.php";
+	} else {
+		document.getElementById("formFase1").action = "aprobarSolicitud.php";
+		parameters += "&contenidoId=" + tipoContenidoId;
+	}
 	
 	if(container == null){
 		alert("No se encontro el container '" + containerId + "'");
@@ -220,6 +228,74 @@ function validateRegistro(forma){
 	if(field != null && field.value == ""){
 		field.focus();
 		document.getElementById("mandatoryTelefonoContacto").style.display= "";
+		doSubmit = false;
+	}
+	
+	return doSubmit;
+}
+
+/**
+ * 
+ * @param forma
+ * @returns {Boolean}
+ */
+function validateRegistroPapeleria(forma){
+	var doSubmit = true;
+	
+	document.getElementById("mandatoryRazonSocial").style.display= "none";
+	document.getElementById("mandatoryRIF").style.display= "none";
+	document.getElementById("mandatoryPersonaContacto").style.display= "none";
+	document.getElementById("mandatoryTelefonoContacto").style.display= "none";
+	document.getElementById("mandatoryCorreoContacto").style.display= "none";
+	document.getElementById("mandatoryDireccion").style.display= "none";
+	document.getElementById("mandatoryObservaciones").style.display= "none";
+	
+	var field = document.getElementById("razonSocial");
+	if(field != null && field.value.trim() == ""){
+		field.focus();
+		document.getElementById("mandatoryRazonSocial").style.display= "";
+		doSubmit = false;
+	}
+	
+	field = document.getElementById("rif");
+	if(field != null && field.value.trim() == ""){
+		field.focus();
+		document.getElementById("mandatoryRIF").style.display= "";
+		doSubmit = false;
+	}
+	
+	field = document.getElementById("personaContacto");
+	if(field != null && field.value.trim() == ""){
+		field.focus();
+		document.getElementById("mandatoryPersonaContacto").style.display= "";
+		doSubmit = false;
+	}
+	
+	field = document.getElementById("telefonoContacto");
+	if(field != null && field.value.trim() == ""){
+		field.focus();
+		document.getElementById("mandatoryTelefonoContacto").style.display= "";
+		doSubmit = false;
+	}
+	
+	field = document.getElementById("correoContacto");
+	if(field != null && ! checkIfIsAValidMail(field.value.trim())){
+		field.focus();
+		document.getElementById("mandatoryCorreoContacto").style.display= "";
+		doSubmit = false;
+	}
+	
+	field = document.getElementById("direccion");
+	if(field != null && field.value.trim() == ""){
+		field.focus();
+		document.getElementById("mandatoryDireccion").style.display= "";
+		doSubmit = false;
+	}
+	
+	field = document.getElementById("observaciones");
+	if(field != null && field.value.trim() == ""){
+		field.focus();
+		document.getElementById("mandatoryObservaciones").style.display= "";
 		doSubmit = false;
 	}
 	

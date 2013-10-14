@@ -9,3 +9,22 @@
 a:HOVER {
 	text-decoration: none;	
 }
+
+a.catalogItem {
+    font-size: 14px;
+    color: #494949;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a.catalogItem:HOVER {
+    text-decoration: underline;
+}
+
+
+.formModelo{
+    font-family: Verdana;
+    font-size: 11px;
+    color: #494949;
+    margin-top: 0px; 
+}
