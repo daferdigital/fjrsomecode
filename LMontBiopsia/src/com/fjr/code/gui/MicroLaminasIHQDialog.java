@@ -108,7 +108,7 @@ public class MicroLaminasIHQDialog extends JDialog {
 		lblReactivo.setBounds(10, 36, 556, 14);
 		contentPanel.add(lblReactivo);
 		
-		JLabel lbldescripcioacuten = new JLabel("<html>Descripci&oacute;n:</html>");
+		JLabel lbldescripcioacuten = new JLabel("Resultado:");
 		lbldescripcioacuten.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lbldescripcioacuten.setBounds(10, 61, 91, 14);
 		contentPanel.add(lbldescripcioacuten);

@@ -138,7 +138,7 @@ public class JTableMicroLaminasIHQ {
 		model.addColumn("Cassete");
 		model.addColumn("Bloque");
 		model.addColumn("Lamina");
-		model.addColumn("Descripción");
+		model.addColumn("Resultado");
 		model.addColumn("Reactivo");
 		model.addColumn("idReactivo");
 		model.addColumn("FilesMicro");
