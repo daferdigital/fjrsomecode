@@ -53,4 +53,31 @@ public final class TipoDePagoDAO {
 		
 		return tiposDePago;
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static TipoDePagoDTO getById(int id){
+		final String query = "SELECT id, descripcion FROM tipo_de_pago WHERE id = ?";
+		
+		TipoDePagoDTO tipoDePago = null;
+		List<Object> queryParemeters = new LinkedList<Object>();
+		queryParemeters.add(id);
+		
+		CachedRowSet rows = DBUtil.executeSelectQuery(query, queryParemeters);
+		
+		try {
+			if (rows.next()){
+				tipoDePago = new TipoDePagoDTO();
+				tipoDePago.setDescripcion(rows.getString(2));
+				tipoDePago.setId(rows.getInt(1));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			log.error("No se pudo obtener el listado de tipos de pago", e);
+		}
+		
+		return tipoDePago;
+	}
 }

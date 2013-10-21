@@ -32,7 +32,7 @@ public class ExportExcelCategoriasReportAction extends Action{
 		
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("dateFrom", reportForm.getDateFrom());
-		parameters.put("dateTo", reportForm.getDateTo());
+		parameters.put("dateTo", reportForm.getDateTo() + " 23:59:59");
 		
 		File report = JasperReportsUtil.fillReport(parameters , pathReport, pathDest);
 		FileInputStream fis = new FileInputStream(report);
