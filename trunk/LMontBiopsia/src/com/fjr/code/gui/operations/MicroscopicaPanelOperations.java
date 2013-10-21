@@ -70,6 +70,7 @@ public class MicroscopicaPanelOperations implements KeyListener, ActionListener{
 		ventana.getTextExamenARealizar().setText("");
 		ventana.getTextAIDx().setText("");
 		ventana.getTextADiagnostico().setText("");
+		ventana.getTextADiagnosticoIHQ().setText("");
 		ventana.getTableMicroLaminas().deleteAllRows();
 		
 		if(biopsia != null){
@@ -81,6 +82,7 @@ public class MicroscopicaPanelOperations implements KeyListener, ActionListener{
 			ventana.getTextExamenARealizar().setText(biopsia.getExamenBiopsia().getNombreExamen());
 			ventana.getTextAIDx().setText(biopsia.getMicroscopicaDTO().getIdx());
 			ventana.getTextADiagnostico().setText(biopsia.getMicroscopicaDTO().getDiagnostico());
+			ventana.getTextADiagnosticoIHQ().setText(biopsia.getMicroscopicaDTO().getEstudioIHQ());
 			
 			for (BiopsiaMicroLaminasDTO lamina : biopsia.getMicroscopicaDTO().getLaminasDTO()) {
 				String files = "";
@@ -380,6 +382,7 @@ public class MicroscopicaPanelOperations implements KeyListener, ActionListener{
 		if(biopsia != null){
 			biopsia.getMicroscopicaDTO().setIdx(ventana.getTextAIDx().getText());
 			biopsia.getMicroscopicaDTO().setDiagnostico(ventana.getTextADiagnostico().getText());
+			biopsia.getMicroscopicaDTO().setEstudioIHQ(ventana.getTextADiagnosticoIHQ().getText());
 			biopsia.getMicroscopicaDTO().setLaminasDTO(ventana.getTableMicroLaminas().getList());
 		}
 		

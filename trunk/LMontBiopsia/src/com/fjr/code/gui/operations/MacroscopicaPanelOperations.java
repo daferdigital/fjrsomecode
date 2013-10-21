@@ -218,9 +218,11 @@ public class MacroscopicaPanelOperations implements KeyListener, ActionListener{
 			if(ventana.getTableMacroCassetes().getTable().getRowCount() < 1){
 				errors += "Falta agregar los cassetes en esta fase.\n";
 			}
+			/*
 			if(ventana.getTableMacroFotos().getTable().getRowCount() < 1){
 				errors += "Falta indicar las fotos de esta fase.\n";
 			}
+			*/
 		}
 		
 		
@@ -288,8 +290,8 @@ public class MacroscopicaPanelOperations implements KeyListener, ActionListener{
 			if(goToHisto){
 				if(biopsiaInfoDTO.getMacroscopicaDTO().getCassetesDTO() == null
 						|| biopsiaInfoDTO.getMacroscopicaDTO().getCassetesDTO().size() < 1
-						|| biopsiaInfoDTO.getMacroscopicaDTO().getMacroFotosDTO() == null
-						|| biopsiaInfoDTO.getMacroscopicaDTO().getMacroFotosDTO().size() < 1){
+						/*|| biopsiaInfoDTO.getMacroscopicaDTO().getMacroFotosDTO() == null
+						|| biopsiaInfoDTO.getMacroscopicaDTO().getMacroFotosDTO().size() < 1*/){
 					//tenemos el objeto, pero se desea pasar a info sin fotos ni cassetes
 					JOptionPane.showMessageDialog(ventana, 
 							"Se desea avanzar a la fase de Histologia, pero no se han registrado fotos ni cassetes.",
