@@ -49,4 +49,27 @@ public final class BancoDAO {
 		
 		return bancos;
 	}
+	
+	public static BancoDTO getById(int id){
+		final String query = "SELECT id, nombre FROM banco WHERE id = ?";
+		
+		BancoDTO banco = null;
+		List<Object> queryParemeters = new LinkedList<Object>();
+		queryParemeters.add(id);
+		
+		CachedRowSet rows = DBUtil.executeSelectQuery(query, queryParemeters);
+		
+		try {
+			if (rows.next()){
+				banco = new BancoDTO();
+				banco.setId(rows.getInt(1));
+				banco.setNombre(rows.getString(2));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			log.error("No se pudo obtener el listado de bancos", e);
+		}
+		
+		return banco;
+	}
 }

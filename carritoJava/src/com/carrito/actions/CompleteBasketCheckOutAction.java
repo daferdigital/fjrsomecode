@@ -18,9 +18,13 @@ import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.apache.struts.util.MessageResources;
 
+import com.carrito.dao.BancoDAO;
 import com.carrito.dao.CarritoItemDAO;
 import com.carrito.dao.CategoriaDAO;
 import com.carrito.dao.CompraDAO;
+import com.carrito.dao.TipoDePagoDAO;
+import com.carrito.dto.BancoDTO;
+import com.carrito.dto.TipoDePagoDTO;
 import com.carrito.dto.UsuarioDTO;
 import com.carrito.forms.BasketForm;
 import com.carrito.util.Constants;
@@ -67,12 +71,20 @@ public class CompleteBasketCheckOutAction extends Action {
 			messages.add("carrito.checkout.completed", new ActionMessage("carrito.checkout.completed"));
 			saveMessages(request, messages);
 			
+			BancoDTO banco = BancoDAO.getById(basketForm.getIdBanco());
+			TipoDePagoDTO tipoDePago = TipoDePagoDAO.getById(basketForm.getIdTipoPago());
+			
 			String template = SendMail.getMailCompraFinalizadaTemplate(
 					request.getSession().getServletContext().getRealPath("/"));
 			template = MessageFormat.format(template, new Object[]{user.getNombre() + " " + user.getApellido(),
 					DateFormat.getDateInstance().format(Calendar.getInstance().getTime()),
 					resultado.get(CompraDAO.KEY_COMPRA_DETALLE),
-					resultado.get(CompraDAO.KEY_COMPRA_TOTAL)});
+					resultado.get(CompraDAO.KEY_COMPRA_TOTAL),
+					user.getTelefono(),
+					user.getEmail(),
+					banco.getNombre(),
+					tipoDePago.getDescripcion(),
+					basketForm.getNroTarjetaCheque()});
 			
 			MessageResources resources = getResources(request);
 			SendMail.sendEmail(resources, 
