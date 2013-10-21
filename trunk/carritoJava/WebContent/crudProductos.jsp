@@ -8,7 +8,7 @@
         <!-- empezar contenido -->
         <div id="content">
             <div id="content-padding">
-                <h1>Manejo de productos  </h1>
+                <h1>Agregar producto</h1>
             
                 <div class="contLbl">
                     <html:form>
