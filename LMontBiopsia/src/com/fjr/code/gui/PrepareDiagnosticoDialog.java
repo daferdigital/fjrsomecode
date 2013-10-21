@@ -34,7 +34,9 @@ public class PrepareDiagnosticoDialog extends JDialog {
 	private String codigoBiopsia;
 	private JComboBox cBoxFirmante1;
 	private JComboBox cBoxFirmante2;
-
+	private JButton btnMarkAsPrint;
+	private JButton btnVisualizar;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -91,15 +93,15 @@ public class PrepareDiagnosticoDialog extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton btnMarcarComoImpreso = new JButton("Marcar Como Impreso");
-				btnMarcarComoImpreso.setVisible(false);
-				btnMarcarComoImpreso.setFont(new Font("Tahoma", Font.PLAIN, 12));
-				btnMarcarComoImpreso.addActionListener(listener);
-				btnMarcarComoImpreso.setActionCommand(PrepareDiagnosticoDialogOperations.ACTION_COMMAND_BTN_MARCAR_COMO_IMPRESO);
-				buttonPane.add(btnMarcarComoImpreso);
+				btnMarkAsPrint = new JButton("Marcar Como Impreso");
+				btnMarkAsPrint.setVisible(false);
+				btnMarkAsPrint.setFont(new Font("Tahoma", Font.PLAIN, 12));
+				btnMarkAsPrint.addActionListener(listener);
+				btnMarkAsPrint.setActionCommand(PrepareDiagnosticoDialogOperations.ACTION_COMMAND_BTN_MARCAR_COMO_IMPRESO);
+				buttonPane.add(btnMarkAsPrint);
 			}
 			{
-				JButton btnVisualizar = new JButton("Visualizar");
+				btnVisualizar = new JButton("Visualizar");
 				btnVisualizar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 				btnVisualizar.addActionListener(listener);
 				btnVisualizar.setActionCommand(PrepareDiagnosticoDialogOperations.ACTION_COMMAND_BTN_VISUALIZAR);
@@ -128,5 +130,13 @@ public class PrepareDiagnosticoDialog extends JDialog {
 	
 	public JComboBox getcBoxFirmante2() {
 		return cBoxFirmante2;
+	}
+	
+	public JButton getBtnMarkAsPrint() {
+		return btnMarkAsPrint;
+	}
+	
+	public JButton getBtnVisualizar() {
+		return btnVisualizar;
 	}
 }

@@ -353,28 +353,30 @@ public class BiopsiaInfoDAO {
 				
 				//guardamos las fotos de la biopsia en cuestion
 				List<BiopsiaMacroFotoDTO> fotos = biopsiaInfoDTO.getMacroscopicaDTO().getMacroFotosDTO();
-				for (BiopsiaMacroFotoDTO foto : fotos) {
-					parameters.clear();
-					
-					byte[] bytesFile = new byte[(int) foto.getFotoFile().length()];
-					try {
-						foto.getFotoBlob().read(bytesFile);
-					} catch (Exception e) {
-						// TODO: handle exception
-						log.error(e.getLocalizedMessage(), e);
-					}
-					
-					parameters.add(biopsiaInfoDTO.getId());
-					parameters.add(foto.getNotacion());
-					parameters.add(foto.getDescripcion());
-					parameters.add(bytesFile);
-					parameters.add(foto.getFotoFile().getName());
-					
-					if(! DBUtil.executeInsertQueryAsBoolean(queryFotos, parameters)){
-						result = false;
-						break;
-					} else {
-						log.info("Almacenada foto: " + foto);
+				if(fotos != null){
+					for (BiopsiaMacroFotoDTO foto : fotos) {
+						parameters.clear();
+						
+						byte[] bytesFile = new byte[(int) foto.getFotoFile().length()];
+						try {
+							foto.getFotoBlob().read(bytesFile);
+						} catch (Exception e) {
+							// TODO: handle exception
+							log.error(e.getLocalizedMessage(), e);
+						}
+						
+						parameters.add(biopsiaInfoDTO.getId());
+						parameters.add(foto.getNotacion());
+						parameters.add(foto.getDescripcion());
+						parameters.add(bytesFile);
+						parameters.add(foto.getFotoFile().getName());
+						
+						if(! DBUtil.executeInsertQueryAsBoolean(queryFotos, parameters)){
+							result = false;
+							break;
+						} else {
+							log.info("Almacenada foto: " + foto);
+						}
 					}
 				}
 				
@@ -393,18 +395,20 @@ public class BiopsiaInfoDAO {
 						
 						//guardamos las fotos de la biopsia en cuestion
 						List<BiopsiaCasseteDTO> cassetes = biopsiaInfoDTO.getMacroscopicaDTO().getCassetesDTO();
-						for (BiopsiaCasseteDTO cassete : cassetes) {
-							parameters.clear();
-							
-							parameters.add(biopsiaInfoDTO.getId());
-							parameters.add(cassete.getNumero());
-							parameters.add(cassete.getDescripcion());
-							
-							if(! DBUtil.executeInsertQueryAsBoolean(queryCassetes, parameters)){
-								result = false;
-								break;
-							} else {
-								log.info("Almacenado cassete: " + cassete);
+						if(cassetes != null) {
+							for (BiopsiaCasseteDTO cassete : cassetes) {
+								parameters.clear();
+								
+								parameters.add(biopsiaInfoDTO.getId());
+								parameters.add(cassete.getNumero());
+								parameters.add(cassete.getDescripcion());
+								
+								if(! DBUtil.executeInsertQueryAsBoolean(queryCassetes, parameters)){
+									result = false;
+									break;
+								} else {
+									log.info("Almacenado cassete: " + cassete);
+								}
 							}
 						}
 					} else {
@@ -533,8 +537,8 @@ public class BiopsiaInfoDAO {
 	 * @return
 	 */
 	public static boolean updateMicro(BiopsiaInfoDTO biopsiaInfoDTO, boolean goToIHQ) {
-		final String queryInsertMicro = "INSERT INTO biopsias_microscopicas (id, idx, diagnostico) VALUES (?,?,?)";
-		final String queryUpdateMicro = "UPDATE biopsias_microscopicas SET idx=?, diagnostico=? WHERE id=? ";
+		final String queryInsertMicro = "INSERT INTO biopsias_microscopicas (id, idx, diagnostico, estudio_ihq) VALUES (?,?,?,?)";
+		final String queryUpdateMicro = "UPDATE biopsias_microscopicas SET idx=?, diagnostico=?, estudio_ihq=? WHERE id=? ";
 		final String queryInsertLaminasReactivos = "INSERT INTO micro_laminas (descripcion, id_reactivo, id, cassete, bloque, lamina) VALUES(?,?,?,?,?,?)";
 		final String queryLaminasReactivos = "DELETE FROM micro_laminas WHERE id=? AND cassete=? AND bloque=? AND lamina=?";
 		final String queryDeleteLaminasFiles = "DELETE FROM micro_laminas_files WHERE id=? AND cassete=? AND bloque=? AND lamina=?";
@@ -548,6 +552,7 @@ public class BiopsiaInfoDAO {
 			log.info("La biopsia micro '" + biopsiaInfoDTO.getCodigo() + "' ya existe, ejecutamos el update");
 			parameters.add(biopsiaInfoDTO.getMicroscopicaDTO().getIdx());
 			parameters.add(biopsiaInfoDTO.getMicroscopicaDTO().getDiagnostico());
+			parameters.add(biopsiaInfoDTO.getMicroscopicaDTO().getEstudioIHQ());
 			parameters.add(biopsiaInfoDTO.getId());
 			
 			if(DBUtil.executeNonSelectQuery(queryUpdateMicro, parameters)){
@@ -559,6 +564,7 @@ public class BiopsiaInfoDAO {
 			parameters.add(biopsiaInfoDTO.getId());
 			parameters.add(biopsiaInfoDTO.getMicroscopicaDTO().getIdx());
 			parameters.add(biopsiaInfoDTO.getMicroscopicaDTO().getDiagnostico());
+			parameters.add(biopsiaInfoDTO.getMicroscopicaDTO().getEstudioIHQ());
 			
 			if(DBUtil.executeInsertQueryAsBoolean(queryInsertMicro, parameters)){
 				result = true;
@@ -627,7 +633,8 @@ public class BiopsiaInfoDAO {
 				if(result && reactivos != null && reactivos.size() > 0) {
 					for (ReactivoDTO reactivo : reactivos) {
 						parameters.clear();
-						parameters.add(lamina.getDescripcion());
+						//parameters.add(lamina.getDescripcion());
+						parameters.add("");
 						parameters.add(reactivo.getId());
 						parameters.add(biopsiaInfoDTO.getId());
 						parameters.add(lamina.getCassete());

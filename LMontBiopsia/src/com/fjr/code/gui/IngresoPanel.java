@@ -232,10 +232,12 @@ public class IngresoPanel extends JPanel {
 		sp.setBounds(new Rectangle(72, 356, 290, 100));
 		add(sp);
 		
-		JLabel lblDejeEnBlanco = new JLabel("<html><b>* Deje en blanco para <br />asignaci&oacute;n autom&aacute;tica</b></html>");
-		lblDejeEnBlanco.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDejeEnBlanco.setBounds(364, 11, 136, 28);
-		add(lblDejeEnBlanco);
+		if(isNewBiopsia){
+			JLabel lblDejeEnBlanco = new JLabel("<html><b>* Deje en blanco para <br />asignaci&oacute;n autom&aacute;tica</b></html>");
+			lblDejeEnBlanco.setHorizontalAlignment(SwingConstants.CENTER);
+			lblDejeEnBlanco.setBounds(364, 11, 136, 28);
+			add(lblDejeEnBlanco);
+		}
 		
 		setSize(1000, 500);
 		setLocation(0, Constants.APP_MENU_HEIGTH);
@@ -274,7 +276,7 @@ public class IngresoPanel extends JPanel {
 		separator.setBounds(510, 0, 2, 500);
 		add(separator);
 		
-		JLabel lblBiopsiasEntregadasA = new JLabel("Biopsias Listas para Entrega");
+		JLabel lblBiopsiasEntregadasA = new JLabel("<html>Informes listos para Impresi&oacute;n</html>");
 		lblBiopsiasEntregadasA.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblBiopsiasEntregadasA.setBounds(522, 11, 230, 17);
 		add(lblBiopsiasEntregadasA);

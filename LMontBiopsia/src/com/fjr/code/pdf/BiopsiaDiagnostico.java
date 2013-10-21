@@ -8,6 +8,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.SortedMap;
 
 import org.apache.log4j.Logger;
 
@@ -47,6 +48,9 @@ public class BiopsiaDiagnostico {
 	private String filePath;
 	private String firmante1;
 	private String firmante2;
+	private SortedMap<Integer, List<String>> mapMacro;
+	private SortedMap<Integer, List<String>> mapIHQ;
+	private SortedMap<Integer, List<String>> mapDiagnostico;
 	
 	Font informeFontNormal = FuenteInformeUtil.getInformeFontNormal();
 	Font informeFontBold = FuenteInformeUtil.getInformeFontBold();
@@ -56,9 +60,13 @@ public class BiopsiaDiagnostico {
 	 * @param biopsia
 	 * @param firmante1
 	 * @param firmante2
+	 * @param sortedMap3 
+	 * @param sortedMap2 
+	 * @param sortedMap 
 	 */
 	public BiopsiaDiagnostico(BiopsiaInfoDTO biopsia,
-			String firmante1, String firmante2) {
+			String firmante1, String firmante2, SortedMap<Integer, List<String>> mapMacro, 
+			SortedMap<Integer, List<String>> mapIHQ, SortedMap<Integer, List<String>> mapDiagnostico) {
 		// TODO Auto-generated constructor stub
 		this.biopsia = biopsia;
 		this.idBiopsia = biopsia.getId();
@@ -66,8 +74,14 @@ public class BiopsiaDiagnostico {
 		this.firmante2 = firmante2;
 		this.fileName = "diagnostico_" + idBiopsia + ".pdf";
 		this.filePath = Constants.TMP_PATH + File.separator + fileName; 
+		this.mapMacro = mapMacro;
+		this.mapIHQ = mapIHQ;
+		this.mapDiagnostico = mapDiagnostico;
 	}
 	
+	/**
+	 * 
+	 */
 	public void buildDiagnostico(){
 		long t0 = System.currentTimeMillis();
 		log.info("+ Iniciando creacion de diagnostico para la biopsia de id=" + idBiopsia);
@@ -78,13 +92,6 @@ public class BiopsiaDiagnostico {
 					114, 
 					120, 
 					document.bottomMargin() + 20);
-			/*
-			System.out.println(document.leftMargin());
-			System.out.println(document.rightMargin());
-			System.out.println(document.topMargin());
-			System.out.println(document.bottomMargin());
-			System.out.println(document.getPageSize());
-			*/
 			//step 2
 			PdfWriter writer = PdfWriter.getInstance(document, 
 	        		new FileOutputStream(filePath));
@@ -103,13 +110,16 @@ public class BiopsiaDiagnostico {
 	        //agregamos la info de Macro
 	        addDetailMacro(document);
 
-	        if("".equals(biopsia.getMicroscopicaDTO().getDiagnostico())){
-	        	
-	        } 
+	        //verificamos info de IHQ
+	        if(biopsia.getMicroscopicaDTO().getEstudioIHQ() != null
+	        		&& ! "".equals(biopsia.getMicroscopicaDTO().getEstudioIHQ())){
+	        	addResultadoIHQ(document);
+	        }
 	        
 	        //agregamos el diagnostico de la fase micro
 		    addDiagnostico(document);
 		    
+		    //agregamos los firmantes
 		    addFirmantes(document);
 		    
 	        //step 5
@@ -223,9 +233,108 @@ public class BiopsiaDiagnostico {
 		p2.add(title2);
 		p2.add(value2);
 		
+		document.add(p1);
+		document.add(p2);
+		
+		//colocamos la descripcion per-operatoria
+		if(! "".equals(biopsia.getMacroscopicaDTO().getDescPerOperatoria())){
+			Chunk titlePerOperatorio = new Chunk("BIOPSIA PER-OPERATORIA: ", 
+					new Font(informeFontBold.getBaseFont(), 12F, Font.UNDERLINE));
+			Phrase valuePerOperatorio = new Phrase(biopsia.getMacroscopicaDTO().getDescPerOperatoria(), 
+					new Font(informeFontNormal.getBaseFont(), 12F));
+			Paragraph p3 = new Paragraph();
+			p3.setAlignment(Paragraph.ALIGN_JUSTIFIED);
+			p3.setIndentationLeft(50);
+			p3.add(chunkEnter);
+			p3.add(titlePerOperatorio);
+			p3.add(valuePerOperatorio);
+			
+			document.add(p3);	
+		}
 		
 		//procesamos las posibles fotos de macro
-		List<Element> parrafosFotos = new LinkedList<Element>();
+		int numeroFoto = 1;
+		for (Integer linea : mapMacro.keySet()) {
+			List<String> mapLinea = mapMacro.get(linea);
+			
+			if(mapLinea.size() == 1 && (! new File(mapLinea.get(0)).exists())){
+				//es solo la descripcion
+				Paragraph parrafoFoto = new Paragraph();
+				parrafoFoto.setAlignment(Paragraph.ALIGN_JUSTIFIED);
+				parrafoFoto.setIndentationLeft(50);
+				parrafoFoto.setFirstLineIndent(100);
+				
+				Phrase phraseFoto = new Phrase("\n" + numeroFoto + ".- " + mapLinea.get(0) + "\n",
+						new Font(informeFontNormal.getBaseFont(), 12F));
+				
+				parrafoFoto.add(phraseFoto);
+				document.add(parrafoFoto);
+				numeroFoto++;
+			} else {
+				//es una seccion con fotos
+				//vemos si tiene descripcion y cuantas fotos
+				boolean haveDesc = false;
+				int numFotos = 0;
+				
+				for (String stringValue : mapLinea) {
+					if(new File(stringValue).exists()){
+						numFotos++;
+					} else {
+						haveDesc = true;
+					}
+				}
+				
+				if(haveDesc){
+					Paragraph parrafoFoto = new Paragraph();
+					parrafoFoto.setAlignment(Paragraph.ALIGN_JUSTIFIED);
+					parrafoFoto.setIndentationLeft(50);
+					parrafoFoto.setFirstLineIndent(100);
+					
+					Phrase phraseFoto = new Phrase("\n" + numeroFoto + ".- " +mapLinea.get(0) + "\n",
+							new Font(informeFontNormal.getBaseFont(), 12F));
+					
+					parrafoFoto.add(phraseFoto);
+					document.add(parrafoFoto);
+					numeroFoto++;
+				}
+				
+				float[] measures = null;
+				if(numFotos == 1){
+					measures = new float[]{40};
+				} else if(numFotos == 2){
+					measures = new float[]{40, 40};
+				} else if(numFotos == 3){
+					measures = new float[]{40, 40, 40};
+				}
+				
+				PdfPTable table = new PdfPTable(measures);
+				table.setWidthPercentage(80);
+				table.setHorizontalAlignment(Element.ALIGN_CENTER);
+				
+				for (String stringValue : mapLinea) {
+					if(new File(stringValue).exists()){
+						try {
+							Image imgFJR = Image.getInstance(stringValue);
+							imgFJR.scaleToFit(200, 100);
+							imgFJR.setIndentationLeft(50);
+							
+							PdfPCell cell = new PdfPCell(imgFJR);
+							cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+							cell.setBorder(0);
+							cell.setIndent(50);
+							
+							table.addCell(cell);
+						} catch (Throwable e) {
+							// TODO Auto-generated catch block
+							log.error(e.getMessage(), e);
+						} 
+					}
+				}
+				
+				document.add(table);
+			}
+		}
+		/*
 		BiopsiaFotosMacroDAO.setMacroFotos(biopsia);
 		if(biopsia.getMacroscopicaDTO().getMacroFotosDTO() != null){
 			boolean revisarPerOperatoria = true;
@@ -255,53 +364,64 @@ public class BiopsiaDiagnostico {
 					log.error(e.getMessage(), e);
 				} 
 				
-				if(revisarPerOperatoria){
-					if(! "".equals(biopsia.getMacroscopicaDTO().getDescPerOperatoria())){
-						Chunk titlePerOperatorio = new Chunk("BIOPSIA PER-OPERATORIA: ", 
-								new Font(informeFontBold.getBaseFont(), 12F, Font.UNDERLINE));
-						Phrase valuePerOperatorio = new Phrase(biopsia.getMacroscopicaDTO().getDescPerOperatoria(), 
-								new Font(informeFontNormal.getBaseFont(), 12F));
-						Paragraph p3 = new Paragraph();
-						p3.setAlignment(Paragraph.ALIGN_JUSTIFIED);
-						p3.setIndentationLeft(50);
-						p3.add(chunkEnter);
-						p3.add(titlePerOperatorio);
-						p3.add(valuePerOperatorio);
-						
-						parrafosFotos.add(p3);	
-					}
-					
-					revisarPerOperatoria = false;
-				}
-				
 				numeroFoto++;
 			}
 		}
-		
-		document.add(p1);
-		document.add(p2);
-		
-		for (Element element : parrafosFotos) {
-			document.add(element);
-		}
+		*/
 	}
-
 	
-	private void addDiagnostico(Document document) throws DocumentException{
-		Chunk title1 = new Chunk("\n\nDIAGNOSTICO: ", new Font(informeFontBold.getBaseFont(), 14F));
-		Phrase value1 = new Phrase(biopsia.getMicroscopicaDTO().getDiagnostico(), new Font(informeFontNormal.getBaseFont(), 12F));
+	/**
+	 * 
+	 * @param document
+	 * @throws DocumentException 
+	 */
+	private void addResultadoIHQ(Document document) throws DocumentException{
+		Chunk chunkEnter = new Chunk("\n");
+		Chunk title1 = new Chunk("ESTUDIO INMUNOHISTOQUIMICO:", 
+				new Font(informeFontBold.getBaseFont(), 12F, Font.UNDERLINE));
+		
+		Phrase value1 = new Phrase(" " + biopsia.getMicroscopicaDTO().getEstudioIHQ(), 
+				new Font(informeFontNormal.getBaseFont(), 12F));
 		
 		Paragraph p1 = new Paragraph();
 		p1.setIndentationLeft(50);
+		p1.add(chunkEnter);
+		p1.add(chunkEnter);
 		p1.add(title1);
+		p1.add(value1);
+		
+		Chunk title2 = new Chunk("RESULTADO:", 
+				new Font(informeFontBold.getBaseFont(), 12F, Font.UNDERLINE));
 		
 		Paragraph p2 = new Paragraph();
 		p2.setIndentationLeft(50);
-		p2.setAlignment(Paragraph.ALIGN_JUSTIFIED);
-		p2.add(value1);
+		p2.add(chunkEnter);
+		p2.add(chunkEnter);
+		p2.add(title2);
 		
 		document.add(p1);
-		document.add(p2);
+	}
+	
+	/**
+	 * 
+	 * @param document
+	 * @throws DocumentException
+	 */
+	private void addDiagnostico(Document document) throws DocumentException{
+		Chunk chunkEnter = new Chunk("\n");
+		Chunk title1 = new Chunk("DIAGNOSTICO:", 
+				new Font(informeFontBold.getBaseFont(), 12F, Font.UNDERLINE));
+		Phrase value1 = new Phrase(" " + biopsia.getMicroscopicaDTO().getDiagnostico(), 
+				new Font(informeFontNormal.getBaseFont(), 12F));
+		
+		Paragraph p1 = new Paragraph();
+		p1.setIndentationLeft(50);
+		p1.add(chunkEnter);
+		p1.add(chunkEnter);
+		p1.add(title1);
+		p1.add(value1);
+		
+		document.add(p1);
 	}
 	
 	
@@ -326,11 +446,11 @@ public class BiopsiaDiagnostico {
 		cellSpace.setBorder(0);
 		cellSpace.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
 		
-		PdfPCell cell = new PdfPCell(new Phrase("\n" + firmante1, informeFontNormal));
+		PdfPCell cell = new PdfPCell(new Phrase("\n Dr(a): " + firmante1, informeFontNormal));
 		cell.setBorder(0);
 		cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
 		
-		PdfPCell cell1 = new PdfPCell(new Phrase("\n" + firmante2, informeFontNormal));
+		PdfPCell cell1 = new PdfPCell(new Phrase("\n Dr(a): " + firmante2, informeFontNormal));
 		cell1.setBorder(0);
 		cell1.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
 		
@@ -366,7 +486,7 @@ public class BiopsiaDiagnostico {
 			biopsia.setId(1);
 		}
 		
-		new BiopsiaDiagnostico(biopsia, "Felipe Rojas", null).buildDiagnostico();
+		//new BiopsiaDiagnostico(biopsia, "Felipe Rojas", null).buildDiagnostico();
 		System.out.println("Finish...");
 	}
 }

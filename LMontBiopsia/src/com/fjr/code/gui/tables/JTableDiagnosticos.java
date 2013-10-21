@@ -123,10 +123,10 @@ public class JTableDiagnosticos {
 		model.addColumn("Examen");
 		model.addColumn("Paciente");
 		
-		table.getColumnModel().getColumn(0).setPreferredWidth(55);
-		table.getColumnModel().getColumn(1).setPreferredWidth(55);
-		table.getColumnModel().getColumn(2).setPreferredWidth(150);
-		table.getColumnModel().getColumn(3).setPreferredWidth(150);
+		table.getColumnModel().getColumn(0).setPreferredWidth(80);
+		table.getColumnModel().getColumn(1).setPreferredWidth(70);
+		table.getColumnModel().getColumn(2).setPreferredWidth(140);
+		table.getColumnModel().getColumn(3).setPreferredWidth(140);
 		
 		table.setColumnSelectionAllowed(false);
 		table.setRowSelectionAllowed(false);
@@ -158,7 +158,7 @@ public class JTableDiagnosticos {
 	 */
 	public void addRow(String codigo, String examen, String cliente){
 		Vector<Object> rowData = new Vector<Object>();
-		rowData.add("ABRIR");
+		rowData.add("Imprimir");
 		rowData.add(codigo);
 		rowData.add(examen);
 		rowData.add(cliente);

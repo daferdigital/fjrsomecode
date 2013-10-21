@@ -1,5 +1,6 @@
 package com.fjr.code.barcode;
 
+import java.awt.Color;
 import java.io.FileOutputStream;
 import java.io.IOException;
  
@@ -40,7 +41,8 @@ public class BarcodeTest {
      */
     public static void main(String[] args) throws IOException,
             DocumentException {
-        new BarcodeTest().createPdfFJR(RESULT);
+        //new BarcodeTest().createPdfFJR(RESULT);
+    	new BarcodeTest().createPdf(RESULT);
     }
  
     /**
@@ -262,7 +264,7 @@ public class BarcodeTest {
         BarcodeQRCode qrcode = new BarcodeQRCode("Moby Dick by Herman Melville", 1, 1, null);
         img = qrcode.getImage();
         document.add(img);
- 
+        
         // step 5
         document.close();
     }

@@ -46,9 +46,9 @@ class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO> {
 			+ " bm.desc_macro, bm.desc_per_operatoria,"
 			//datos basicos de histologia 31
 			+ " bh.descripcion,"
-			//datos basicos de micro 32-33
-			+ " bmi.idx, bmi.diagnostico,"
-			//otros valores 34
+			//datos basicos de micro 32-34
+			+ " bmi.idx, bmi.diagnostico, bmi.estudio_ihq,"
+			//otros valores 35
 			+ " b.fecha_registro"
 			+ " FROM  biopsias b LEFT JOIN biopsias_ingresos bi ON b.id = bi.id"
 			+ " LEFT JOIN biopsias_macroscopicas bm ON b.id = bm.id"
@@ -151,7 +151,7 @@ class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO> {
 				biopsiaAllInfo.setFaseActual(FasesBiopsia.getInfoByCode(rowSet.getInt(4)));
 				
 				Calendar fechaRegistro = Calendar.getInstance();
-				fechaRegistro.setTimeInMillis(rowSet.getTimestamp(34).getTime());
+				fechaRegistro.setTimeInMillis(rowSet.getTimestamp(35).getTime());
 				biopsiaAllInfo.setFechaRegistro(fechaRegistro);
 				
 				//datos especificos de ingreso
@@ -203,6 +203,7 @@ class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO> {
 				microDTO.setId(rowSet.getInt(1));
 				microDTO.setIdx(rowSet.getString(32));
 				microDTO.setDiagnostico(rowSet.getString(33));
+				microDTO.setEstudioIHQ(rowSet.getString(34));
 				
 				//agregamos los DTO
 				biopsiaAllInfo.setIngresoDTO(ingresoDTO);

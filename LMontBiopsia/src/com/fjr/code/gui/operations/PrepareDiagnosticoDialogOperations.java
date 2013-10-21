@@ -5,9 +5,12 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
+import com.fjr.code.dao.BiopsiaFotosMacroDAO;
 import com.fjr.code.dao.BiopsiaInfoDAO;
+import com.fjr.code.dao.definitions.FasesBiopsia;
+import com.fjr.code.dto.BiopsiaInfoDTO;
+import com.fjr.code.gui.DiagnosticoWizardDialog;
 import com.fjr.code.gui.PrepareDiagnosticoDialog;
-import com.fjr.code.pdf.BiopsiaDiagnostico;
 
 /**
  * 
@@ -41,20 +44,30 @@ public class PrepareDiagnosticoDialogOperations implements ActionListener{
 			ventana.setVisible(false);
 			ventana.dispose();
 		} else if (ACTION_COMMAND_BTN_VISUALIZAR.equals(e.getActionCommand())) {
-			BiopsiaDiagnostico diagnostico = new BiopsiaDiagnostico(
-					BiopsiaInfoDAO.getBiopsiaByNumero(ventana.getCodigoBiopsia()),
+			BiopsiaInfoDTO biopsia = BiopsiaInfoDAO.getBiopsiaByNumero(
+					ventana.getCodigoBiopsia());
+			BiopsiaFotosMacroDAO.setMacroFotos(biopsia);
+			
+			DiagnosticoWizardDialog wizard = new DiagnosticoWizardDialog(biopsia,
 					ventana.getcBoxFirmante1().getSelectedItem().toString(),
 					ventana.getcBoxFirmante2().getSelectedItem().toString());
-			diagnostico.buildDiagnostico();
+			wizard.setVisible(true);
 			
-			try {
-				diagnostico.open();
-			} catch (Throwable e1) {
-				// TODO: handle exception
-				JOptionPane.showMessageDialog(null, e1.getLocalizedMessage(), 
-						"Error abriendo diagnostico", 
-						JOptionPane.ERROR_MESSAGE);
-				e1.printStackTrace();
+			ventana.getBtnVisualizar().setVisible(false);
+			ventana.getBtnMarkAsPrint().setVisible(true);
+		} else if (ACTION_COMMAND_BTN_MARCAR_COMO_IMPRESO.equals(e.getActionCommand())) {
+			BiopsiaInfoDTO biopsia = BiopsiaInfoDAO.getBiopsiaByNumero(
+					ventana.getCodigoBiopsia());
+			if(BiopsiaInfoDAO.moveBiopsiaToFase(biopsia, FasesBiopsia.INFORME_IMPRESO)){
+				JOptionPane.showMessageDialog(ventana, 
+						"La biopsia " + ventana.getCodigoBiopsia() + " fue llevada a la fase de "
+						+ FasesBiopsia.INFORME_IMPRESO.getNombreFase(), 
+						"Operación Realizada", JOptionPane.INFORMATION_MESSAGE);
+			} else {
+				JOptionPane.showMessageDialog(ventana, 
+						"La biopsia " + ventana.getCodigoBiopsia() + " no pude ser llevada a la fase de "
+						+ FasesBiopsia.INFORME_IMPRESO.getNombreFase(), 
+						"Operación NO Realizada", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}

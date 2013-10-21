@@ -72,7 +72,7 @@ public class SimpleTextEditorDialog extends JDialog implements ActionListener{
 		txtArea.setWrapStyleWord(true);
 		txtArea.setLineWrap(true);
 		scrollPane.setViewportView(txtArea);
-		txtArea.setText("");
+		txtArea.setText(referencia.getText());
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
