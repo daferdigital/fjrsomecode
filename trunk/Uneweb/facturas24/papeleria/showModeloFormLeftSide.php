@@ -22,6 +22,13 @@
 		$query .= " AND m.id = ".$_GET["id"];
 		$query .= " ORDER BY tm.nombre, m.nombre, m.numero";
 		
+		$clasico = true;
+		$formaLibre = true;
+		$horizontal = false;
+		$numero = 0;
+		$habilitarFuente = false;
+		$insertarLogo = false;
+		
 		$modelo = DBUtil::executeSelect($query);
 		$imagePath = "";
 		if(count($modelo) < 1){
@@ -32,6 +39,23 @@
 			$imagePath .= str_replace(" ", "", $modelo["tipo"])."/";
 			$imagePath .= str_replace(" ", "", $modelo["nombre"]);
 			$imagePath .= $modelo["numero"].".jpg";
+			
+			$clasico = $modelo["clasico"] == "1" ? true : false;
+			$formaLibre = $modelo["id"] == "1" ? true : false;
+			$horizontal = $modelo["id"] == "2" ? true : false;
+			$numero = $modelo["numero"];
+			
+			if($clasico || $formaLibre){
+				$habilitarFuente = true;
+			}
+			
+			if($clasico || $formaLibre || $horizontal){
+				$insertarLogo = true;
+				
+				if($horizontal && $numero == 4){
+					$insertarLogo = false;
+				}
+			}
 		}
 	?>
 	<div style="display: inline-block;">
@@ -54,11 +78,17 @@
 	  				<input type="text" name="razonSocial" id="razonSocial"/>
 	  			</td>
   			</tr>
+  			<?php
+  				if($habilitarFuente){
+  			?>
   			<tr>
   				<td>
   					<?php echo UtilClass::buildFontTable("1");?>
 	  			</td>
   			</tr>
+  			<?php
+  				}
+  			?>
   			<tr>
   				<td>
   					<br />
@@ -69,11 +99,17 @@
 	  				<input type="text" name="servicio" id="servicio"/>
 	  			</td>
   			</tr>
+  			<?php
+  				if($habilitarFuente){
+  			?>
   			<tr>
   				<td>
   					<?php echo UtilClass::buildFontTable("2");?>
 	  			</td>
   			</tr>
+  			<?php
+  				}
+  			?>
   			<tr>
   				<td>
   					<br />
@@ -86,11 +122,17 @@
 	  				<input type="text" name="dirFiscalLinea2" id="dirFiscalLinea2"/>
 	  			</td>
   			</tr>
+  			<?php
+  				if($habilitarFuente){
+  			?>
   			<tr>
   				<td>
   					<?php echo UtilClass::buildFontTable("3");?>
 	  			</td>
   			</tr>
+  			<?php
+  				}
+  			?>
   			<tr>
   				<td>
   					<br />
@@ -99,11 +141,17 @@
 	  				<input type="text" name="telefono" id="telefono"/>
 	  			</td>
   			</tr>
+  			<?php
+  				if($habilitarFuente){
+  			?>
   			<tr>
   				<td>
   					<?php echo UtilClass::buildFontTable("4");?>
 	  			</td>
   			</tr>
+  			<?php
+  				}
+  			?>
   			<tr>
   				<td>
   					<br />
@@ -112,11 +160,17 @@
 	  				<input type="text" name="email" id="email"/>
 	  			</td>
   			</tr>
+  			<?php
+  				if($habilitarFuente){
+  			?>
   			<tr>
   				<td>
   					<?php echo UtilClass::buildFontTable("5");?>
 	  			</td>
   			</tr>
+  			<?php
+  				}
+  			?>
   			<tr>
   				<td>
   					<br />
@@ -142,11 +196,11 @@
   					<br />
 	  				Ha tenido alg&uacute;n documento fiscal <br />anteriormente?
 	  				<br />
-	  				<input type="radio" name="previoDocFiscal" id="si" value="si"/>S&iacute;
-	  				<input type="radio" name="previoDocFiscal" id="no" value="no"/>No
+	  				<input type="radio" name="previoDocFiscal" id="si" value="si" onclick="javascript:showPrevDocumentAndControl(this);" />S&iacute;
+	  				<input type="radio" name="previoDocFiscal" id="no" value="no" onclick="javascript:showPrevDocumentAndControl(this);" />No
 	  			</td>
   			</tr>
-  			<tr>
+  			<tr id="trUltimoNumDoc" style="display: none;">
   				<td>
   					<br />
 	  				Cual fue su &uacute;ltima numeraci&oacute;n <br /> de documento?
@@ -156,7 +210,7 @@
 	  				Hasta: <input type="text" name="prevNumDocHasta" id="prevNumDocHasta" />
 	  			</td>
   			</tr>
-  			<tr>
+  			<tr id="trUltimoNumControl" style="display: none;">
   				<td>
   					<br />
 	  				Cual fue su &uacute;ltima numeraci&oacute;n <br /> de control?
@@ -190,6 +244,9 @@
 	  				<input type="text" name="numControlInicial" id="numControlInicial" />
 	  			</td>
   			</tr>
+  			<?php
+  				if($insertarLogo){ 
+  			?>
   			<tr>
   				<td>
   					<br />
@@ -200,6 +257,8 @@
 	  					<option value="Mediano">Mediano</option>
 	  					<option value="Grande">Grande</option>
 	  				</select>
+	  				<br />
+	  				<input type="file" name="logo" id="logo" />
 	  			</td>
   			</tr>
   			<tr>
@@ -212,8 +271,13 @@
 	  					<option value="Mediano">Mediano</option>
 	  					<option value="Grande">Grande</option>
 	  				</select>
+	  				<br />
+	  				<input type="file" name="logo" id="logo" />
 	  			</td>
   			</tr>
+  			<?php
+  				} 
+  			?>
   			<tr>
   				<td>
   					<br />

@@ -301,3 +301,23 @@ function validateRegistroPapeleria(forma){
 	
 	return doSubmit;
 }
+
+
+function showPrevDocumentAndControl(checkBoxElement){
+	if(checkBoxElement.value == "si"){
+		document.getElementById("trUltimoNumDoc").style.display = "";
+		document.getElementById("trUltimoNumControl").style.display = "";
+	} else {
+		document.getElementById("trUltimoNumDoc").style.display = "none";
+		document.getElementById("trUltimoNumControl").style.display = "none";
+	}
+}
+
+function validarModelLeftSide(){
+	//verificamos el formulario del modelo 
+	//para ver si tiene todas las indicaciones requeridas
+	var doSubmit = true;
+	
+	
+	
+}

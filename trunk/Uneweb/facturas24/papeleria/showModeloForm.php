@@ -38,8 +38,10 @@
 		<iframe width="275px" height="590px" src="showModeloFormLeftSide.php?id=<?php echo $_GET["id"];?>" scrolling="auto" frameborder="0">
 		</iframe>
 	</div>
-	<div id="imageDiv" style="display: inline-block; width: 67%; vertical-align: top; margin-left: 10px;">
-		
+	<div id="imageDiv" style="overflow: scroll; display: inline-block; width: 67%; vertical-align: top; margin-left: 10px;">
+		<h3>Modelo: <?php echo $modelo["tipo"]." ".$modelo["nombre"]." n&uacute;mero ".$modelo["numero"];?></h3>
+		<input type="button" value="Previsualizar">
+		<input type="button" value="Ordenar">
 		<br />
 		<img border="0" alt="" src="<?php echo $imagePath;?>" />
 	</div>
