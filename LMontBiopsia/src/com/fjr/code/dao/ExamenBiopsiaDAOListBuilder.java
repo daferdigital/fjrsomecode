@@ -33,7 +33,7 @@ final class ExamenBiopsiaDAOListBuilder implements DAOListBuilder<ExamenBiopsiaD
 			+ " WHERE te.activo='1'"
 			+ " AND eb.activo='1'"
 			+ " AND te.id = eb.id_tipo_examen";
-	private static final String END = " ORDER BY eb.codigo, eb.nombre";
+	private static final String END = " ORDER BY eb.nombre";
 
 
 	private List<Object> parameters;

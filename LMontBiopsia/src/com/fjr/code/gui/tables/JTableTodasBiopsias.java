@@ -12,6 +12,7 @@ import javax.swing.table.DefaultTableModel;
 import com.fjr.code.dao.BiopsiaInfoDAO;
 import com.fjr.code.dao.definitions.FasesBiopsia;
 import com.fjr.code.dto.BiopsiaInfoDTO;
+import com.fjr.code.util.OpenBiopsiaUtil;
 
 /**
  * 
@@ -93,6 +94,8 @@ public class JTableTodasBiopsias {
 				if(table.getSelectedColumn() == 0 && table.getSelectedRow() > -1){
 					//se desea abrir el registro de determinada biopsia
 					//en su frame correspondiente
+					OpenBiopsiaUtil.openBiopsia((String) table.getValueAt(table.getSelectedRow(), 1));
+					e.consume();
 				}
 			}
 		});
@@ -165,7 +168,11 @@ public class JTableTodasBiopsias {
 	public void addRow(int idBiopsia, String codigo, String examen, String cliente,
 			String faseActual){
 		Vector<Object> rowData = new Vector<Object>();
-		rowData.add("Abrir");
+		if(FasesBiopsia.INFORME_IMPRESO.getNombreFase().equals(faseActual)){
+			rowData.add("Reimprimir");
+		} else {
+			rowData.add("Abrir");
+		}
 		rowData.add(codigo);
 		rowData.add(examen);
 		rowData.add(cliente);

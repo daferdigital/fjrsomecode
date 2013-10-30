@@ -105,6 +105,15 @@ class HeaderFooter extends PdfPageEventHelper {
         		0);
         
         //footer
+        if(document.getPageNumber() > 1){
+        	ColumnText.showTextAligned(writer.getDirectContent(),
+                    Element.ALIGN_LEFT, 
+                    new Phrase("(continuación " + nroBiopsia + ") " + document.getPageNumber() + ".-", 
+                    		new Font(FuenteInformeUtil.getInformeFontNormal().getBaseFont(), 8)),
+                    50, 
+                    50,
+                    0);
+        }
         ColumnText.showTextAligned(writer.getDirectContent(),
                 Element.ALIGN_CENTER, 
                 new Phrase("INSTITUTO DE CLINICAS Y UROLOGIA TAMANACO", 

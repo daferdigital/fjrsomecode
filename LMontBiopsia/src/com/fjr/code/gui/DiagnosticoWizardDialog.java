@@ -196,7 +196,7 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 		
 		BiopsiaMicroLaminasDAO.setMicroLaminas(biopsia, false);
 		if(biopsia.getMicroscopicaDTO().getLaminasDTO() != null){
-			JLabel label = new JLabel("FOTOS DIAGNOSTICO");
+			JLabel label = new JLabel("FOTOS MICRO");
 			label.setHorizontalAlignment(SwingConstants.LEFT);
 			panelBiopsia.add(label);
 			

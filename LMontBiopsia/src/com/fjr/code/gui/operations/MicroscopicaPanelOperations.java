@@ -331,7 +331,8 @@ public class MicroscopicaPanelOperations implements KeyListener, ActionListener{
 							+ "Y llevada a la fase de Entrega de Diagnostico en Recepción",
 							"Operación Realizada", 
 							JOptionPane.INFORMATION_MESSAGE);
-					ventana.setVisible(false);
+					//ventana.setVisible(false);
+					loadVentanaFromBiopsiaDTO(null);
 				} else {
 					//tenemos el objeto, pero se desea pasar a info sin fotos ni cassetes
 					JOptionPane.showMessageDialog(ventana, 
@@ -347,7 +348,8 @@ public class MicroscopicaPanelOperations implements KeyListener, ActionListener{
 							+ "Y se esta esperando la aprobación para la petición de IHQ de la misma",
 							"Operación Realizada", 
 							JOptionPane.INFORMATION_MESSAGE);
-					ventana.setVisible(false);
+					//ventana.setVisible(false);
+					loadVentanaFromBiopsiaDTO(null);
 				} else {
 					//tenemos el objeto, pero se desea pasar a info sin fotos ni cassetes
 					JOptionPane.showMessageDialog(ventana, 

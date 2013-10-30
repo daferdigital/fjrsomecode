@@ -274,7 +274,8 @@ public class HistologiaIHQPanelOperations implements ActionListener, KeyListener
 							+ "Y llevada a la fase de Micro",
 							"Operación Realizada", 
 							JOptionPane.INFORMATION_MESSAGE);
-					ventana.setVisible(false);
+					//ventana.setVisible(false);
+					loadVentanaFromBiopsiaDTO(null);
 				} else {
 					//tenemos el objeto, pero se desea pasar a info sin fotos ni cassetes
 					JOptionPane.showMessageDialog(ventana, 
