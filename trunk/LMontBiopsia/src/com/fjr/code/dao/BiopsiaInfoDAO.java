@@ -1,5 +1,7 @@
 package com.fjr.code.dao;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.sql.Timestamp;
 import java.util.LinkedList;
 import java.util.List;
@@ -747,5 +749,41 @@ public class BiopsiaInfoDAO {
 		log.info("Resultado de almacenar informacion de histologia de la biopsia '" + biopsiaInfoDTO.getCodigo() 
 				+ "' fue: " + result);
 		return result ;
+	}
+	
+	/**
+	 * 
+	 * @param biopsia
+	 */
+	public static void storeDiagnosticoBLob(BiopsiaInfoDTO biopsia){
+		final String query = "UPDATE biopsias SET ultimo_informe_impreso=? WHERE id=?";
+		List<Object> parameters = new LinkedList<Object>();
+		FileInputStream fis = null;
+		
+		try {
+			File diagnostico = new File(Constants.TMP_PATH + File.separator + "diagnostico_" + biopsia.getId() + ".pdf");
+			byte[] bytesFile = new byte[(int) diagnostico.length()];
+			fis = new FileInputStream(diagnostico); 
+			try {
+				fis.read(bytesFile);
+			} catch (Exception e) {
+				// TODO: handle exception
+				log.error(e.getLocalizedMessage(), e);
+			}
+			
+			parameters.add(bytesFile);
+			parameters.add(biopsia.getId());
+			
+			boolean result = DBUtil.executeNonSelectQuery(query, parameters);
+			log.info("Almacenado binario del diagnostico " + biopsia.getCodigo() + " = " + result);
+		} catch (Exception e2) {
+			// TODO: handle exception
+		} finally {
+			try {
+				fis.close();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
 	}
 }

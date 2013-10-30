@@ -59,6 +59,8 @@ public class PrepareDiagnosticoDialogOperations implements ActionListener{
 			BiopsiaInfoDTO biopsia = BiopsiaInfoDAO.getBiopsiaByNumero(
 					ventana.getCodigoBiopsia());
 			if(BiopsiaInfoDAO.moveBiopsiaToFase(biopsia, FasesBiopsia.INFORME_IMPRESO)){
+				//guardamos el informe actual en la base de datos, para futuras consultas
+				BiopsiaInfoDAO.storeDiagnosticoBLob(biopsia);
 				JOptionPane.showMessageDialog(ventana, 
 						"La biopsia " + ventana.getCodigoBiopsia() + " fue llevada a la fase de "
 						+ FasesBiopsia.INFORME_IMPRESO.getNombreFase(), 

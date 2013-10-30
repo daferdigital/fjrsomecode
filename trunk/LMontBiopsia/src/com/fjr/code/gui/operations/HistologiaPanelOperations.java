@@ -268,7 +268,8 @@ public class HistologiaPanelOperations implements ActionListener, KeyListener{
 								+ "Y llevada a la fase de Miscroscopica",
 								"Operación Realizada", 
 								JOptionPane.INFORMATION_MESSAGE);
-						ventana.setVisible(false);
+						//ventana.setVisible(false);
+						loadVentanaFromBiopsiaDTO(null);
 					}
 				}
 			} else {

@@ -69,7 +69,6 @@ public class MacroscopicaPanelOperations implements KeyListener, ActionListener{
 	 * @param biopsia
 	 */
 	private void loadVentanaFromBiopsiaDTO(BiopsiaInfoDTO biopsia){
-		//ventana.getTextNroBiopsia().setText("");
 		ventana.getTextNombrePaciente().setText("");
 		ventana.getTextPiezaRecibida().setText("");
 		ventana.getTextExamenARealizar().setText("");
@@ -305,7 +304,8 @@ public class MacroscopicaPanelOperations implements KeyListener, ActionListener{
 								+ "Y llevada a la fase de Histologia",
 								"Operación Realizada", 
 								JOptionPane.INFORMATION_MESSAGE);
-						ventana.setVisible(false);
+						//ventana.setVisible(false);
+						loadVentanaFromBiopsiaDTO(null);
 					}
 				}
 			} else {

@@ -6,16 +6,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.SortedMap;
 
 import org.apache.log4j.Logger;
 
-import com.fjr.code.dao.BiopsiaFotosMacroDAO;
 import com.fjr.code.dao.BiopsiaInfoDAO;
+import com.fjr.code.dao.BiopsiaMicroLaminasDAO;
 import com.fjr.code.dto.BiopsiaInfoDTO;
-import com.fjr.code.dto.BiopsiaMacroFotoDTO;
+import com.fjr.code.dto.BiopsiaMicroLaminasDTO;
+import com.fjr.code.dto.ReactivoDTO;
 import com.fjr.code.util.Constants;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
@@ -111,10 +112,9 @@ public class BiopsiaDiagnostico {
 	        addDetailMacro(document);
 
 	        //verificamos info de IHQ
-	        if(biopsia.getMicroscopicaDTO().getEstudioIHQ() != null
-	        		&& ! "".equals(biopsia.getMicroscopicaDTO().getEstudioIHQ())){
-	        	addResultadoIHQ(document);
-	        }
+	        addInfoIHQ(document);
+	        
+	        addFotosMicro(document);
 	        
 	        //agregamos el diagnostico de la fase micro
 		    addDiagnostico(document);
@@ -252,122 +252,7 @@ public class BiopsiaDiagnostico {
 			document.add(p3);	
 		}
 		
-		//procesamos las posibles fotos de macro
-		int numeroFoto = 1;
-		for (Integer linea : mapMacro.keySet()) {
-			List<String> mapLinea = mapMacro.get(linea);
-			
-			if(mapLinea.size() == 1 && (! new File(mapLinea.get(0)).exists())){
-				//es solo la descripcion
-				Paragraph parrafoFoto = new Paragraph();
-				parrafoFoto.setAlignment(Paragraph.ALIGN_JUSTIFIED);
-				parrafoFoto.setIndentationLeft(50);
-				parrafoFoto.setFirstLineIndent(100);
-				
-				Phrase phraseFoto = new Phrase("\n" + numeroFoto + ".- " + mapLinea.get(0) + "\n",
-						new Font(informeFontNormal.getBaseFont(), 12F));
-				
-				parrafoFoto.add(phraseFoto);
-				document.add(parrafoFoto);
-				numeroFoto++;
-			} else {
-				//es una seccion con fotos
-				//vemos si tiene descripcion y cuantas fotos
-				boolean haveDesc = false;
-				int numFotos = 0;
-				
-				for (String stringValue : mapLinea) {
-					if(new File(stringValue).exists()){
-						numFotos++;
-					} else {
-						haveDesc = true;
-					}
-				}
-				
-				if(haveDesc){
-					Paragraph parrafoFoto = new Paragraph();
-					parrafoFoto.setAlignment(Paragraph.ALIGN_JUSTIFIED);
-					parrafoFoto.setIndentationLeft(50);
-					parrafoFoto.setFirstLineIndent(100);
-					
-					Phrase phraseFoto = new Phrase("\n" + numeroFoto + ".- " +mapLinea.get(0) + "\n",
-							new Font(informeFontNormal.getBaseFont(), 12F));
-					
-					parrafoFoto.add(phraseFoto);
-					document.add(parrafoFoto);
-					numeroFoto++;
-				}
-				
-				float[] measures = null;
-				if(numFotos == 1){
-					measures = new float[]{40};
-				} else if(numFotos == 2){
-					measures = new float[]{40, 40};
-				} else if(numFotos == 3){
-					measures = new float[]{40, 40, 40};
-				}
-				
-				PdfPTable table = new PdfPTable(measures);
-				table.setWidthPercentage(80);
-				table.setHorizontalAlignment(Element.ALIGN_CENTER);
-				
-				for (String stringValue : mapLinea) {
-					if(new File(stringValue).exists()){
-						try {
-							Image imgFJR = Image.getInstance(stringValue);
-							imgFJR.scaleToFit(200, 100);
-							imgFJR.setIndentationLeft(50);
-							
-							PdfPCell cell = new PdfPCell(imgFJR);
-							cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-							cell.setBorder(0);
-							cell.setIndent(50);
-							
-							table.addCell(cell);
-						} catch (Throwable e) {
-							// TODO Auto-generated catch block
-							log.error(e.getMessage(), e);
-						} 
-					}
-				}
-				
-				document.add(table);
-			}
-		}
-		/*
-		BiopsiaFotosMacroDAO.setMacroFotos(biopsia);
-		if(biopsia.getMacroscopicaDTO().getMacroFotosDTO() != null){
-			boolean revisarPerOperatoria = true;
-			int numeroFoto = 1;
-			
-			for (BiopsiaMacroFotoDTO macroFoto : biopsia.getMacroscopicaDTO().getMacroFotosDTO()) {
-				//por cada foto colocaremos primero la observacion, la descripcion y luego las fotos
-				Paragraph parrafoFoto = new Paragraph();
-				parrafoFoto.setAlignment(Paragraph.ALIGN_JUSTIFIED);
-				parrafoFoto.setIndentationLeft(50);
-				parrafoFoto.setFirstLineIndent(100);
-				
-				Phrase phraseFoto = new Phrase("\n" + numeroFoto + ".- " + macroFoto.getNotacion() + ": "
-						+ macroFoto.getDescripcion() + "\n",
-						new Font(informeFontNormal.getBaseFont(), 12F));
-				
-				parrafoFoto.add(phraseFoto);
-				parrafosFotos.add(parrafoFoto);
-				
-				try {
-					Image imgFJR = Image.getInstance(macroFoto.getFotoFile().getAbsolutePath());
-					imgFJR.scaleToFit(300, 200);
-					imgFJR.setIndentationLeft(50);
-					parrafosFotos.add(imgFJR);
-				} catch (Throwable e) {
-					// TODO Auto-generated catch block
-					log.error(e.getMessage(), e);
-				} 
-				
-				numeroFoto++;
-			}
-		}
-		*/
+		addMapToDocument(mapMacro, document);
 	}
 	
 	/**
@@ -375,31 +260,89 @@ public class BiopsiaDiagnostico {
 	 * @param document
 	 * @throws DocumentException 
 	 */
-	private void addResultadoIHQ(Document document) throws DocumentException{
-		Chunk chunkEnter = new Chunk("\n");
-		Chunk title1 = new Chunk("ESTUDIO INMUNOHISTOQUIMICO:", 
-				new Font(informeFontBold.getBaseFont(), 12F, Font.UNDERLINE));
-		
-		Phrase value1 = new Phrase(" " + biopsia.getMicroscopicaDTO().getEstudioIHQ(), 
-				new Font(informeFontNormal.getBaseFont(), 12F));
-		
-		Paragraph p1 = new Paragraph();
-		p1.setIndentationLeft(50);
-		p1.add(chunkEnter);
-		p1.add(chunkEnter);
-		p1.add(title1);
-		p1.add(value1);
-		
-		Chunk title2 = new Chunk("RESULTADO:", 
-				new Font(informeFontBold.getBaseFont(), 12F, Font.UNDERLINE));
-		
-		Paragraph p2 = new Paragraph();
-		p2.setIndentationLeft(50);
-		p2.add(chunkEnter);
-		p2.add(chunkEnter);
-		p2.add(title2);
-		
-		document.add(p1);
+	private void addInfoIHQ(Document document) throws DocumentException{
+		//verificamos si se debe agregar informacion de IHQ
+		if(biopsia.getMicroscopicaDTO().getEstudioIHQ() != null
+				&& ! "".equals(biopsia.getMicroscopicaDTO().getEstudioIHQ().trim())){
+			//podemos registrar info IHQ
+			Chunk chunkEnter = new Chunk("\n");
+			Chunk title1 = new Chunk("ESTUDIO INMUNOHISTOQUIMICO:", 
+					new Font(informeFontBold.getBaseFont(), 12F, Font.UNDERLINE));
+			
+			Phrase value1 = new Phrase(" " + biopsia.getMicroscopicaDTO().getEstudioIHQ(), 
+					new Font(informeFontNormal.getBaseFont(), 12F));
+			
+			Paragraph p1 = new Paragraph();
+			p1.setIndentationLeft(50);
+			p1.add(chunkEnter);
+			p1.add(chunkEnter);
+			p1.add(title1);
+			p1.add(value1);
+			
+			document.add(p1);
+			
+			//obtenemos las laminas de IHQ para mostrar los resultados de los reactivos
+			biopsia = BiopsiaMicroLaminasDAO.setMicroLaminas(biopsia, true);
+			if(biopsia.getMicroscopicaDTO().getLaminasDTO() != null){
+				Chunk title2 = new Chunk("RESULTADO:", 
+						new Font(informeFontBold.getBaseFont(), 12F, Font.UNDERLINE));
+				
+				Paragraph p2 = new Paragraph();
+				p2.setIndentationLeft(50);
+				p2.add(chunkEnter);
+				p2.add(chunkEnter);
+				p2.add(title2);
+				document.add(p2);
+				
+				for (BiopsiaMicroLaminasDTO lamina : biopsia.getMicroscopicaDTO().getLaminasDTO()) {
+					if(lamina.getReactivosDTO() != null
+							&& lamina.getReactivosDTO().size() > 0){
+						for (ReactivoDTO reactivo : lamina.getReactivosDTO()) {
+							Paragraph p = new Paragraph();
+							p.setIndentationLeft(100);
+							p.setAlignment(Element.ALIGN_JUSTIFIED);
+							p.setSpacingBefore(0);
+							//p.add(chunkEnter);
+							p.add(new Chunk(reactivo.getNombre() + " (" + reactivo.getAbreviatura() + "): ", 
+									new Font(informeFontBold.getBaseFont(), 12F)));
+							p.add(new Chunk(reactivo.getDescripcionIHQ(), 
+									new Font(informeFontNormal.getBaseFont(), 12F)));
+							
+							document.add(p);
+						}
+					}
+				}
+			}
+			
+			addMapToDocument(mapIHQ, document);
+		}
+	}
+	
+	/**
+	 * 
+	 * @param document
+	 * @throws DocumentException
+	 */
+	private void addFotosMicro(Document document) throws DocumentException{
+		if(mapDiagnostico != null
+				&& mapDiagnostico.size() > 0){
+			Chunk chunkEnter = new Chunk("\n");
+			Chunk title1 = new Chunk("FOTOS MICRO:", 
+					new Font(informeFontBold.getBaseFont(), 12F, Font.UNDERLINE));
+			Phrase value1 = new Phrase(" " + biopsia.getMicroscopicaDTO().getDiagnostico(), 
+					new Font(informeFontNormal.getBaseFont(), 12F));
+			
+			Paragraph p1 = new Paragraph();
+			p1.setIndentationLeft(50);
+			p1.add(chunkEnter);
+			p1.add(chunkEnter);
+			p1.add(title1);
+			p1.add(value1);
+			
+			document.add(p1);
+			
+			addMapToDocument(mapDiagnostico, document);
+		}
 	}
 	
 	/**
@@ -440,9 +383,11 @@ public class BiopsiaDiagnostico {
 			table = new PdfPTable(new float[]{50, 50});
 		}
 		table.setWidthPercentage(100);
-		
+		/*
 		PdfPCell cellSpace = new PdfPCell(new Phrase("\n\n\n_______________________", 
 				informeFontNormal));
+		*/
+		PdfPCell cellSpace = new PdfPCell(new Phrase("\n\n\n\n\n\n\n\n"));
 		cellSpace.setBorder(0);
 		cellSpace.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
 		
@@ -465,6 +410,101 @@ public class BiopsiaDiagnostico {
 		}
 		
 		document.add(table);
+	}
+	
+	/**
+	 * 
+	 * @param mapToProcess
+	 * @param document
+	 * @throws DocumentException 
+	 */
+	private void addMapToDocument(Map<Integer, List<String>> mapToProcess,
+			Document document) throws DocumentException{
+		//procesamos las posibles fotos del mapa indicado
+		int numeroFoto = 1;
+		for (Integer linea : mapToProcess.keySet()) {
+			List<String> mapLinea = mapToProcess.get(linea);
+			
+			if(mapLinea.size() == 1 && (! new File(mapLinea.get(0)).exists())){
+				//es solo la descripcion
+				Paragraph parrafoFoto = new Paragraph();
+				parrafoFoto.setAlignment(Paragraph.ALIGN_JUSTIFIED);
+				parrafoFoto.setIndentationLeft(50);
+				parrafoFoto.setFirstLineIndent(100);
+				
+				Phrase phraseFoto = new Phrase("\n" + numeroFoto + ".- " + mapLinea.get(0) + "\n",
+						new Font(informeFontNormal.getBaseFont(), 12F));
+				
+				parrafoFoto.add(phraseFoto);
+				document.add(parrafoFoto);
+				numeroFoto++;
+			} else {
+				//es una seccion con fotos
+				//vemos si tiene descripcion y cuantas fotos
+				boolean haveDesc = false;
+				int numFotos = 0;
+				
+				for (String stringValue : mapLinea) {
+					if(new File(stringValue).exists()){
+						numFotos++;
+					} else {
+						haveDesc = true;
+					}
+				}
+				
+				if(haveDesc){
+					Paragraph parrafoFoto = new Paragraph();
+					parrafoFoto.setAlignment(Paragraph.ALIGN_JUSTIFIED);
+					parrafoFoto.setIndentationLeft(50);
+					parrafoFoto.setFirstLineIndent(100);
+					
+					Phrase phraseFoto = new Phrase("\n\n" + numeroFoto + ".- " + mapLinea.get(0) + "\n\n",
+							new Font(informeFontNormal.getBaseFont(), 12F));
+					
+					parrafoFoto.add(phraseFoto);
+					document.add(parrafoFoto);
+					numeroFoto++;
+				}
+				
+				float[] measures = null;
+				float value = 60;
+				if(numFotos == 1){
+					measures = new float[]{value};
+				} else if(numFotos == 2){
+					measures = new float[]{value, value};
+				} else if(numFotos == 3){
+					measures = new float[]{value, value, value};
+				}
+				
+				PdfPTable table = new PdfPTable(measures);
+				table.setWidthPercentage(100);
+				table.setHorizontalAlignment(Element.ALIGN_CENTER);
+				
+				for (String stringValue : mapLinea) {
+					if(new File(stringValue).exists()){
+						try {
+							Image imgFJR = Image.getInstance(stringValue);
+							imgFJR.scaleAbsolute(110 + (90 / numFotos), 70 + (90 / numFotos));
+							//imgFJR.setIndentationLeft(50);
+							
+							PdfPCell cell = new PdfPCell(imgFJR);
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							//cell.setVerticalAlignment(Element.ALIGN_CENTER);
+							cell.setBorder(0);
+							cell.setFixedHeight(70 + (90 / numFotos));
+							cell.setIndent(50);
+							
+							table.addCell(cell);
+						} catch (Throwable e) {
+							// TODO Auto-generated catch block
+							log.error(e.getMessage(), e);
+						} 
+					}
+				}
+				
+				document.add(table);
+			}
+		}
 	}
 	
 	/**

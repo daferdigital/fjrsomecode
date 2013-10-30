@@ -82,6 +82,9 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 	 * @param biopsia
 	 */
 	private void loadVentanaFromBiopsiaDTO(BiopsiaInfoDTO biopsia){
+		if(ventana.isNewBiopsia()){
+			ventana.getTextNroBiopsia().setText("");
+		}
 		ventana.getComboTipoCedula().setSelectedIndex(0);
 		ventana.getTextCedula().setText("");
 		ventana.getTextNombrePaciente().setText("");
@@ -259,7 +262,9 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 									"La biopsia " + biopsiaInfoDTO.getCodigo() + " fue colocada en fase " + FasesBiopsia.MACROSCOPICA.getNombreFase(),
 									"Actualización realizada",
 									JOptionPane.INFORMATION_MESSAGE);
-							ventana.setVisible(false);
+							//ventana.setVisible(false);
+							biopsiaInfoDTO = null;
+							loadVentanaFromBiopsiaDTO(biopsiaInfoDTO);
 						} else {
 							JOptionPane.showMessageDialog(ventana,
 									"No pudo actualizarse la fase de esta biopsia a Macroscopica",

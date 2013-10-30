@@ -53,6 +53,7 @@ public class SimpleTextEditorDialog extends JDialog implements ActionListener{
 	 * Create the dialog.
 	 */
 	public SimpleTextEditorDialog(JTextArea referencia) {
+		setModal(true);
 		this.referencia = referencia;
 		
 		setTitle("Editor de texto simple");
