@@ -224,6 +224,7 @@ JsDatePick.prototype.setConfiguration = function(aConf){
 	this.oConfiguration.dateFormatHidden = (aConf["dateFormatHidden"] != null) ? aConf["dateFormatHidden"] : "%Y-%m-%d";
 	this.oConfiguration.imgPath			 = (aConf["imgPath"] != null) ? aConf["imgPath"] : "../img/";
 	this.oConfiguration.weekStartDay   	 = (aConf["weekStartDay"] != null) ? aConf["weekStartDay"] : 1;
+	this.oConfiguration.maxDate          = (aConf["maxDate"] != null) ? aConf["maxDate"] : null;
 	
 	this.selectedDayObject = {};
 	this.flag_DayMarkedBeforeRepopulation = false;
@@ -675,7 +676,18 @@ JsDatePick.prototype.populateMainBox = function(aMainBox){
 				aDayDiv.setAttribute("isJsDatePickDisabled",1);
 			}
 		}
+		
+		if (this.oConfiguration.maxDate != null){
+		    var finishDate2 = new Date(Date.parse(this.oConfiguration.maxDate));
 
+		    if ( (oDay.getFullYear() > finishDate2.getFullYear()) ||
+		         (oDay.getFullYear() == finishDate2.getFullYear() && oDay.getMonth() > finishDate2.getMonth()) ||
+		         ( oDay.getFullYear() == finishDate2.getFullYear() && oDay.getMonth() == finishDate2.getMonth() && oDay.getDate() > finishDate2.getDate() )) {
+		    	disabledDayFlag = true;
+		        aDayDiv.setAttribute("isJsDatePickDisabled",1);
+		    }
+		}
+		
 		aDayDiv.onmouseover = function(){
 			var gRef = JsDatePick.getCalInstanceById(this.getAttribute("globalNumber")),currentColorScheme;
 			currentColorScheme = gRef.getCurrentColorScheme();

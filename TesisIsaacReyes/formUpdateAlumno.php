@@ -129,6 +129,9 @@ if(count($alumno) < 1){
 						<input type="text" name="fechaNacimiento" id="fechaNacimiento" readonly="readonly" value="<?php echo $alumno["fecha_nacimiento"];?>"/>
 						<input type="hidden" id="fechaNacimientoHidden" name="fechaNacimientoHidden" value="<?php echo $alumno["fecha_nacimiento"];?>" />
 						<script>
+							var today = new Date();
+							var maxYear = today.getFullYear() - 5;
+							console.log(maxYear);
 							new JsDatePick({
 						        useMode:2,
 						        target:"fechaNacimiento",
@@ -136,9 +139,16 @@ if(count($alumno) < 1){
 						        isStripped:true,
 						       	weekStartDay:0,
 						        limitToToday:true,
-						        dateFormat:"%d/%m/%Y",
+						        //dateFormat:"%d/%m/%Y",
+						        dateFormat:"%Y-%m-%d",
 						        dateFormatHidden:"%Y-%m-%d",
-						        imgPath:"./images/"
+						        imgPath:"./images/",
+						        maxDate:"12.31." + maxYear,
+						        selectedDate:{
+						        	day:01,
+						        	month:01,
+						        	year:maxYear
+						        }
 						    });
 						</script>
 						<div class="isMandatory" id="mandatoryFechaNacimiento" style="display: none;">
@@ -183,7 +193,7 @@ if(count($alumno) < 1){
 				<tr>
 					<td>Tel&eacute;fono</td>
 					<td>
-						<input type="text" name="telefono" id="telefono" />
+						<input type="text" name="telefono" id="telefono" onkeypress="return textInputOnlyNumbers(event)" />
 						<div class="isMandatory" id="mandatoryTelefono" style="display: none;">
 							<br />
 							Disculpe, debe indicar el tel&eacute;fono del Representante.

@@ -116,6 +116,8 @@ include_once "includes/header.php";
 						<input type="text" name="fechaNacimiento" id="fechaNacimiento" readonly="readonly"/>
 						<input type="hidden" id="fechaNacimientoHidden" name="fechaNacimientoHidden" />
 						<script>
+							var today = new Date();
+							var maxYear = today.getFullYear() - 5;
 							new JsDatePick({
 						        useMode:2,
 						        target:"fechaNacimiento",
@@ -125,7 +127,13 @@ include_once "includes/header.php";
 						        limitToToday:true,
 						        dateFormat:"%d/%m/%Y",
 						        dateFormatHidden:"%Y-%m-%d",
-						        imgPath:"./images/"
+						        imgPath:"./images/",
+						        maxDate:"12.31." + maxYear,
+						        selectedDate:{
+						        	day:01,
+						        	month:01,
+						        	year:maxYear
+						        }
 						    });
 						</script>
 						<div class="isMandatory" id="mandatoryFechaNacimiento" style="display: none;">
@@ -167,7 +175,7 @@ include_once "includes/header.php";
 				<tr>
 					<td>Tel&eacute;fono</td>
 					<td>
-						<input type="text" name="telefono" id="telefono" />
+						<input type="text" name="telefono" id="telefono" onkeypress="return textInputOnlyNumbers(event)"/>
 						<div class="isMandatory" id="mandatoryTelefono" style="display: none;">
 							<br />
 							Disculpe, debe indicar el tel&eacute;fono del Representante.

@@ -84,7 +84,7 @@ if(count($profesor) < 1){
 				<tr>
 					<td>Tel&eacute;fono:</td>
 					<td>
-						<input type="text" name="telefono" id="telefono" value="<?php echo $profesor["telefono"];?>" />
+						<input type="text" name="telefono" id="telefono" onkeypress="return textInputOnlyNumbers(event)" value="<?php echo $profesor["telefono"];?>" />
 						<span class="isMandatory" id="mandatoryTelefono" style="display: none;">
 							<br />
 							Disculpe, debe indicar el Tel&eacute;fono.
