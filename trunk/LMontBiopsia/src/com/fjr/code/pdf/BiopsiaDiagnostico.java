@@ -95,7 +95,7 @@ public class BiopsiaDiagnostico {
 			document.setMargins(document.leftMargin(), 
 					114, 
 					120, 
-					document.bottomMargin() + 40);
+					document.bottomMargin() + 60);
 			
 			//step 2
 			PdfWriter writer = PdfWriter.getInstance(document, 
@@ -103,6 +103,7 @@ public class BiopsiaDiagnostico {
 			
 			HeaderFooter event = new HeaderFooter(biopsia.getCodigo());
             writer.setPageEvent(event);
+            writer.getVerticalPosition(ensureNewLine)
         
 			//step 3
 			document.open();
@@ -253,6 +254,9 @@ public class BiopsiaDiagnostico {
 		//verificamos si se debe agregar informacion de IHQ
 		if(biopsia.getMicroscopicaDTO().getEstudioIHQ() != null
 				&& ! "".equals(biopsia.getMicroscopicaDTO().getEstudioIHQ().trim())){
+			document.newPage();
+			document.add(addDetailBiopsiaTable());
+			
 			//podemos registrar info IHQ
 			Chunk chunkEnter = new Chunk("\n");
 			Chunk title1 = new Chunk("ESTUDIO INMUNOHISTOQUIMICO:", 
@@ -384,14 +388,14 @@ public class BiopsiaDiagnostico {
                 Element.ALIGN_CENTER, 
                 new Phrase(firmante1, new Font(FuenteInformeUtil.getInformeFontNormal().getBaseFont(), 12)),
                 factor, 
-                60,
+                120,
                 0);
 		if(cantidadFirmates == 2){
 			ColumnText.showTextAligned(writer.getDirectContent(),
 	                Element.ALIGN_CENTER, 
 	                new Phrase(firmante2, new Font(FuenteInformeUtil.getInformeFontNormal().getBaseFont(), 12)),
 	                factor * 3, 
-	                60,
+	                120,
 	                0);
 		}
 		/*
