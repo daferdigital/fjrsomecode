@@ -128,33 +128,68 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 			JPanel panelBiopsia){
 		
 		if(biopsia.getMacroscopicaDTO().getMacroFotosDTO() != null){
+			JLabel label = new JLabel("PER-OPERATORIA");
+			label.setHorizontalAlignment(SwingConstants.LEFT);
+			panelBiopsia.add(label);
+			
+			for (BiopsiaMacroFotoDTO macroFoto : biopsia.getMacroscopicaDTO().getMacroFotosDTO()) {
+				if(macroFoto.isFotoPerOperatoria()){
+					JButton btnDesc = new JButton(macroFoto.getNotacion()
+							+ ": " + macroFoto.getDescripcion());
+					btnDesc.setBorderPainted(false);
+					btnDesc.setToolTipText(JTableDiagnosticoWizard.SECCION_PER_OPERATORIA);
+					btnDesc.setName(btnDesc.getText());
+					btnDesc.setHorizontalAlignment(SwingConstants.LEFT);
+					btnDesc.addActionListener(this);
+					panelBiopsia.add(btnDesc);
+					
+					Icon icon = new ImageIcon(new ImageIcon(macroFoto.getFotoFile().getAbsolutePath()).getImage().getScaledInstance(
+							150,
+							120,
+							Image.SCALE_AREA_AVERAGING));
+					//debo colocarla como icono en la etiqueta respectiva
+					
+					JButton btnImg = new JButton(icon);
+					btnImg.setBorderPainted(false);
+					btnImg.setToolTipText(JTableDiagnosticoWizard.SECCION_PER_OPERATORIA);
+					btnImg.setName(macroFoto.getFotoFile().getAbsolutePath());
+					btnImg.setHorizontalAlignment(SwingConstants.LEFT);
+					btnImg.addActionListener(this);
+					panelBiopsia.add(btnImg);
+				}
+			}
+		}
+		
+		if(biopsia.getMacroscopicaDTO().getMacroFotosDTO() != null){
 			JLabel label = new JLabel("FOTOS MACRO");
 			label.setHorizontalAlignment(SwingConstants.LEFT);
 			panelBiopsia.add(label);
 			
 			for (BiopsiaMacroFotoDTO macroFoto : biopsia.getMacroscopicaDTO().getMacroFotosDTO()) {
-				JButton btnDesc = new JButton(macroFoto.getNotacion()
-						+ ": " + macroFoto.getDescripcion());
-				btnDesc.setBorderPainted(false);
-				btnDesc.setToolTipText(JTableDiagnosticoWizard.SECCION_MACRO);
-				btnDesc.setName(btnDesc.getText());
-				btnDesc.setHorizontalAlignment(SwingConstants.LEFT);
-				btnDesc.addActionListener(this);
-				panelBiopsia.add(btnDesc);
-				
-				Icon icon = new ImageIcon(new ImageIcon(macroFoto.getFotoFile().getAbsolutePath()).getImage().getScaledInstance(
-						150,
-						120,
-						Image.SCALE_AREA_AVERAGING));
-				//debo colocarla como icono en la etiqueta respectiva
-				
-				JButton btnImg = new JButton(icon);
-				btnImg.setBorderPainted(false);
-				btnImg.setToolTipText(JTableDiagnosticoWizard.SECCION_MACRO);
-				btnImg.setName(macroFoto.getFotoFile().getAbsolutePath());
-				btnImg.setHorizontalAlignment(SwingConstants.LEFT);
-				btnImg.addActionListener(this);
-				panelBiopsia.add(btnImg);
+				if(! macroFoto.isFotoPerOperatoria()){
+					JButton btnDesc = new JButton(macroFoto.getNotacion()
+							+ ": " + macroFoto.getDescripcion());
+					btnDesc.setBorderPainted(false);
+					btnDesc.setToolTipText(JTableDiagnosticoWizard.SECCION_MACRO);
+					btnDesc.setName(btnDesc.getText());
+					btnDesc.setHorizontalAlignment(SwingConstants.LEFT);
+					btnDesc.addActionListener(this);
+					panelBiopsia.add(btnDesc);
+					
+					Icon icon = new ImageIcon(new ImageIcon(macroFoto.getFotoFile().getAbsolutePath()).getImage().getScaledInstance(
+							150,
+							120,
+							Image.SCALE_AREA_AVERAGING));
+					//debo colocarla como icono en la etiqueta respectiva
+					
+					JButton btnImg = new JButton(icon);
+					btnImg.setBorderPainted(false);
+					btnImg.setToolTipText(JTableDiagnosticoWizard.SECCION_MACRO);
+					btnImg.setName(macroFoto.getFotoFile().getAbsolutePath());
+					btnImg.setHorizontalAlignment(SwingConstants.LEFT);
+					btnImg.addActionListener(this);
+					panelBiopsia.add(btnImg);
+				}
 			}
 		}
 		

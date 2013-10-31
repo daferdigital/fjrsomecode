@@ -99,7 +99,8 @@ public class JTableMacroFotos {
 								model.getValueAt(table.getSelectedRow(), 1).toString(),
 								model.getValueAt(table.getSelectedRow(), 2).toString(),
 								table.getSelectedRow(),
-								model.getValueAt(table.getSelectedRow(), 3).toString()).setVisible(true);
+								model.getValueAt(table.getSelectedRow(), 3).toString(),
+								Boolean.parseBoolean(model.getValueAt(table.getSelectedRow(), 4).toString())).setVisible(true);
 						e.consume();
 					}
 				}
@@ -129,10 +130,12 @@ public class JTableMacroFotos {
 		model.addColumn("Notación");
 		model.addColumn("Descripción");
 		model.addColumn("Foto");
+		model.addColumn("Foto PerOperatoria");
 		
 		table.getColumnModel().getColumn(0).setPreferredWidth(10);
 		table.getColumnModel().getColumn(1).setPreferredWidth(30);
 		table.getColumnModel().getColumn(2).setPreferredWidth(250);
+		table.getColumnModel().removeColumn(table.getColumnModel().getColumn(4));
 		table.getColumnModel().removeColumn(table.getColumnModel().getColumn(3));
 		
 		table.setColumnSelectionAllowed(false);
@@ -149,14 +152,18 @@ public class JTableMacroFotos {
 	
 	/**
 	 * 
+	 * @param notacion
 	 * @param descripcion
+	 * @param pathToPicture
+	 * @param fotoPerOperatoria
 	 */
-	public void addRow(String notacion, String descripcion, String pathToPicture){
+	public void addRow(String notacion, String descripcion, String pathToPicture, boolean fotoPerOperatoria){
 		Vector<Object> rowData = new Vector<Object>();
 		rowData.add("X");
 		rowData.add(notacion);
 		rowData.add(descripcion);
 		rowData.add(pathToPicture);
+		rowData.add(fotoPerOperatoria);
 		
 		model.addRow(rowData);
 	}
@@ -200,6 +207,7 @@ public class JTableMacroFotos {
 				macroFoto.setNotacion(model.getValueAt(i, 1).toString());
 				macroFoto.setDescripcion(model.getValueAt(i, 2).toString());
 				macroFoto.setFotoFile(fotoFile);
+				macroFoto.setFotoPerOperatoria(Boolean.parseBoolean(model.getValueAt(i, 4).toString()));
 				
 				try {
 					macroFoto.setFotoBlob(new FileInputStream(fotoFile));

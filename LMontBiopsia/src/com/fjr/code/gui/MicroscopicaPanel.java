@@ -113,6 +113,8 @@ public class MicroscopicaPanel extends JPanel {
 		add(scrollPane_1);
 		
 		textAIDx = new JTextArea();
+		textAIDx.setEnabled(false);
+		textAIDx.setEditable(false);
 		scrollPane_1.setViewportView(textAIDx);
 		textAIDx.setWrapStyleWord(true);
 		textAIDx.setLineWrap(true);

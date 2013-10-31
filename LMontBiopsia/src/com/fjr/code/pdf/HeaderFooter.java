@@ -24,29 +24,14 @@ class HeaderFooter extends PdfPageEventHelper {
 		this.nroBiopsia = nroBiopsia;
 	}
 	
-	@Override
-	public void onStartPage(PdfWriter writer, Document document) {
-		// TODO Auto-generated method stub
-		/*
-		if(document.getPageNumber() > 1){
-			Paragraph p = new Paragraph();
-			p.setIndentationLeft(50);
-			p.add(new Chunk("(continuación " + nroBiopsia + ") " + document.getPageNumber() + ".- ", FuenteInformeUtil.getInformeFontNormal()));
-			try {
-				document.add(p);
-			} catch (DocumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		*/
-	}
+	
+	
 	
     public void onEndPage (PdfWriter writer, Document document) {
         try {
 			Image imgFJR = Image.getInstance(Constants.IMAGES_PATH + "LogoHeader.jpg");
 			imgFJR.disableBorderSide(Image.LEFT);
-			imgFJR.setAbsolutePosition(20f, 715f);
+			imgFJR.setAbsolutePosition(20f, 670f);
 			document.add(imgFJR);
 		} catch (BadElementException e) {
 			// TODO Auto-generated catch block
@@ -110,7 +95,7 @@ class HeaderFooter extends PdfPageEventHelper {
                     Element.ALIGN_LEFT, 
                     new Phrase("(continuación " + nroBiopsia + ") " + document.getPageNumber() + ".-", 
                     		new Font(FuenteInformeUtil.getInformeFontNormal().getBaseFont(), 8)),
-                    50, 
+                    40, 
                     50,
                     0);
         }

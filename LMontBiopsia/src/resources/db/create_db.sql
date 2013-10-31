@@ -77,6 +77,7 @@ DROP TABLE IF EXISTS `patologos`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `patologos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  genero varchar(10),
   `nombre` varchar(250) NOT NULL,
   `activo` char(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
@@ -90,7 +91,7 @@ CREATE TABLE `patologos` (
 
 LOCK TABLES `patologos` WRITE;
 /*!40000 ALTER TABLE `patologos` DISABLE KEYS */;
-INSERT INTO `patologos` (`id`, `nombre`, `activo`) VALUES (1,'Jésus Enrique González Alfonzo','1'),(2,'José David Mota Gamboa','1'),(3,'Enrique López Loyo','1'),(4,'Dilia Díaz Arreaza','1'),(5,'Annie Planchart','1'),(6,'Ruben Parra Montenegro','1');
+INSERT INTO `patologos` (`id`, genero, `nombre`, `activo`) VALUES (1,'Dr.','Jésus Enrique González Alfonzo','1'),(2,'Dr.','José David Mota Gamboa','1'),(3,'Dr.','Enrique López Loyo','1'),(4,'Dra.','Dilia Díaz Arreaza','1'),(5,'Dra.','Annie Planchart','1'),(6,'Dr.','Ruben Parra Montenegro','1');
 /*!40000 ALTER TABLE `patologos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -155,6 +156,7 @@ CREATE TABLE `macro_fotos` (
   `foto` longblob NOT NULL,
   `file_name` varchar(250) NOT NULL,
   `fecha_registro` datetime NOT NULL,
+  es_foto_per_operatoria char(1) default '0',
   PRIMARY KEY (`id`,`file_name`),
   KEY `FK_MACRO_FOTO_BIOPSIA` (`id`),
   CONSTRAINT `FK_MACRO_FOTO_BIOPSIA` FOREIGN KEY (`id`) REFERENCES `biopsias` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION

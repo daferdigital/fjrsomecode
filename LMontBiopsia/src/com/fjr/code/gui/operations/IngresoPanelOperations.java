@@ -8,6 +8,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.List;
 
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -27,6 +28,7 @@ import com.fjr.code.dto.ClienteDTO;
 import com.fjr.code.dto.ExamenBiopsiaDTO;
 import com.fjr.code.dto.PatologoDTO;
 import com.fjr.code.dto.TipoCedulaDTO;
+import com.fjr.code.dto.TipoExamenDTO;
 import com.fjr.code.gui.ClienteFormDialog;
 import com.fjr.code.gui.IngresoPanel;
 import com.fjr.code.util.BiopsiaValidationUtil;
@@ -48,9 +50,11 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 	 * log de la clase
 	 */
 	private static final Logger log = Logger.getLogger(IngresoPanelOperations.class);
+	private List<ExamenBiopsiaDTO> examenes = ExamenBiopsiaDAO.getAll();
 	
 	public static final String ACTION_COMMAND_NRO_BIOPSIA = "nroBiopsia";
 	public static final String ACTION_COMMAND_NRO_CEDULA = "nroCedula";
+	public static final String ACTION_COMMAND_COMBO_TIPO_EXAMEN = "comboTipoExamenChanged";
 	public static final String ACTION_COMMAND_COMBO_EXAMEN = "comboExamenChanged";
 	public static final String ACTION_COMMAND_BTN_GUARDAR = "btnGuardar";
 	public static final String ACTION_COMMAND_BTN_PRINT_LABELS = "btnPrintLabels";
@@ -92,7 +96,7 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 		ventana.getTextEdad().setText("");
 		ventana.getTextProcedencia().setText("");
 		ventana.getTextPiezaRecibida().setText("");
-		ventana.getComboExamen().setSelectedIndex(0);
+		ventana.getComboTipoExamen().setSelectedIndex(0);
 		ventana.getTextReferido().setText("");
 		ventana.getComboPatologo().setSelectedIndex(0);
 		ventana.getTextAreaIDx().setText("");
@@ -115,6 +119,12 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 			ventana.getTextEdad().setText(Integer.toString(biopsia.getCliente().getEdad()));
 			ventana.getTextProcedencia().setText(biopsia.getIngresoDTO().getProcedencia());
 			ventana.getTextPiezaRecibida().setText(biopsia.getIngresoDTO().getPiezaRecibida());
+			
+			for(int i = 0; i < ventana.getComboTipoExamen().getItemCount(); i++){
+				if(((TipoExamenDTO) ventana.getComboTipoExamen().getItemAt(i)).getId() == biopsia.getExamenBiopsia().getIdTipoExamen()){
+					ventana.getComboTipoExamen().setSelectedIndex(i);
+				}
+			}
 			
 			for(int i = 0; i < ventana.getComboExamen().getItemCount(); i++){
 				if(((ExamenBiopsiaDTO) ventana.getComboExamen().getItemAt(i)).getId() == biopsia.getExamenBiopsia().getId()){
@@ -222,8 +232,11 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 		if("".equals(ventana.getTextPiezaRecibida().getText())){
 			errors += "Debe indicar la pieza recibida para esta biopsia.\n";
 		}
-		if("".equals(ventana.getLblTipoExamen().getText())){
+		if(ventana.getComboTipoExamen().getSelectedIndex() == 0){
 			errors += "Debe indicar el tipo de examen asociado a esta biopsia.\n";
+		}
+		if(ventana.getComboExamen().getItemCount() == 0){
+			errors += "Debe indicar el examen asociado a esta biopsia.\n";
 		}
 		if(ventana.getComboPatologo().getSelectedIndex() < 1){
 			errors += "Debe indicar el Patologo encargado de esta biopsia.\n";
@@ -519,10 +532,18 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 		// TODO Auto-generated method stub
 		//vemos cual de los combo box cambio
 		if(e.getSource() instanceof JComboBox){
-			if(ACTION_COMMAND_COMBO_EXAMEN.equals(((JComboBox) e.getSource()).getActionCommand())){
-				//cambio el combo del tipo de examen, verifico el valor para hacer el ajuste
+			JComboBox combo = (JComboBox) e.getSource();
+			if(ACTION_COMMAND_COMBO_TIPO_EXAMEN.equals((combo).getActionCommand())){
+				//cambio el combo del tipo de examen, verifico el valor para hacer el ajuste de los examenes
+				ventana.getComboExamen().removeAllItems();
+				for (ExamenBiopsiaDTO examen : examenes) {
+					if(((TipoExamenDTO) combo.getSelectedItem()).getId() == examen.getIdTipoExamen()){
+						ventana.getComboExamen().addItem(examen);
+					}
+				}
+			}else if(ACTION_COMMAND_COMBO_EXAMEN.equals((combo).getActionCommand())){
+				//cambio el combo del examen, verifico el valor para hacer el ajuste
 				ExamenBiopsiaDTO examen = (ExamenBiopsiaDTO) e.getItem();
-				ventana.getLblTipoExamen().setText(examen.getNombreTipoExamen());
 				ventana.getLblNumeroDias().setText(Integer.toString(examen.getDiasParaResultado()));
 			}
 		}	

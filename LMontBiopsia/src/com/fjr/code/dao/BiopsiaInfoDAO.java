@@ -313,7 +313,7 @@ public class BiopsiaInfoDAO {
 		final String queryUpdateMacro = "UPDATE biopsias_macroscopicas SET desc_macro=?, desc_per_operatoria=? WHERE id=? ";
 		final String queryCassetes = "INSERT INTO macro_cassetes (id, numero, descripcion) VALUES (?,?,?)";
 		final String queryDeleteCassetes = "DELETE FROM macro_cassetes WHERE id = ?";
-		final String queryFotos = "INSERT INTO macro_fotos (id, notacion, descripcion, foto, file_name, fecha_registro) VALUES (?,?,?,?,?, NOW())";
+		final String queryFotos = "INSERT INTO macro_fotos (id, notacion, descripcion, foto, file_name, fecha_registro, es_foto_per_operatoria) VALUES (?,?,?,?,?, NOW(),?)";
 		final String queryDeleteFotos = "DELETE FROM macro_fotos WHERE id = ?";
 		
 		boolean result = false;
@@ -372,6 +372,7 @@ public class BiopsiaInfoDAO {
 						parameters.add(foto.getDescripcion());
 						parameters.add(bytesFile);
 						parameters.add(foto.getFotoFile().getName());
+						parameters.add(foto.isFotoPerOperatoria() ? "1" : "0");
 						
 						if(! DBUtil.executeInsertQueryAsBoolean(queryFotos, parameters)){
 							result = false;

@@ -25,6 +25,7 @@ import javax.swing.table.DefaultTableModel;
  *
  */
 public class JTableDiagnosticoWizard {
+	public static final String SECCION_PER_OPERATORIA = "perOperatoria_";
 	public static final String SECCION_MACRO = "macro";
 	public static final String SECCION_IHQ = "ihq";
 	public static final String SECCION_DIAGNOSTICO = "diagnostico";
@@ -201,7 +202,8 @@ public class JTableDiagnosticoWizard {
 		}
 		
 		SortedMap<Integer, List<String>> mapToUse = null;
-		if(SECCION_MACRO.equals(data.getToolTipText())){
+		if(SECCION_PER_OPERATORIA.equals(data.getToolTipText())
+				|| SECCION_MACRO.equals(data.getToolTipText())){
 			mapToUse = mapMacro;
 		} else if(SECCION_IHQ.equals(data.getToolTipText())){
 			mapToUse = mapIHQ;
@@ -217,7 +219,9 @@ public class JTableDiagnosticoWizard {
 			listToUse = new LinkedList<String>();
 		}
 		
-		listToUse.add(data.getName());
+		boolean isPerOperatoria = SECCION_PER_OPERATORIA.equals(data.getToolTipText());
+		listToUse.add(isPerOperatoria ? SECCION_PER_OPERATORIA.concat(data.getName()) : data.getName());
+		
 		mapToUse.put(currentRow, listToUse);
 		
 	}

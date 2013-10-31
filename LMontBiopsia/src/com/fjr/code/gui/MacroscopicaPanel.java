@@ -40,7 +40,6 @@ public class MacroscopicaPanel extends JPanel {
 	private JTextField textPiezaRecibida;
 	private JTextField textExamenARealizar;
 	private JTextArea textADescMacroscopica;
-	private JTextArea textADescPerOperatoria;
 	private JTable tblCassetes;
 	private JTableMacroCassetes tableMacroCassetes = JTableMacroCassetes.getNewInstance();
 	private JTable tblFotos;
@@ -73,7 +72,7 @@ public class MacroscopicaPanel extends JPanel {
 		textNombrePaciente.setEditable(false);
 		textNombrePaciente.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		textNombrePaciente.setColumns(10);
-		textNombrePaciente.setBounds(157, 38, 184, 20);
+		textNombrePaciente.setBounds(157, 38, 289, 20);
 		add(textNombrePaciente);
 		
 		JLabel lblpiezaRecibida = new JLabel("<html><b>Pieza Recibida:</b></html>");
@@ -85,7 +84,7 @@ public class MacroscopicaPanel extends JPanel {
 		textPiezaRecibida.setEditable(false);
 		textPiezaRecibida.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		textPiezaRecibida.setColumns(10);
-		textPiezaRecibida.setBounds(157, 69, 184, 20);
+		textPiezaRecibida.setBounds(157, 69, 289, 20);
 		add(textPiezaRecibida);
 		
 		JLabel lblexamenARealizar = new JLabel("<html><b>Examen a Realizar:</b></html>");
@@ -97,7 +96,7 @@ public class MacroscopicaPanel extends JPanel {
 		textExamenARealizar.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		textExamenARealizar.setEditable(false);
 		textExamenARealizar.setColumns(10);
-		textExamenARealizar.setBounds(157, 101, 184, 20);
+		textExamenARealizar.setBounds(157, 101, 289, 20);
 		add(textExamenARealizar);
 		
 		JLabel labelDescMacroscopica = new JLabel("<html><b>Descripci&oacute;n Macrosc&oacute;pica:</b></html>");
@@ -116,23 +115,6 @@ public class MacroscopicaPanel extends JPanel {
 		textADescMacroscopica.setLineWrap(true);
 		textADescMacroscopica.addMouseListener(new ListenerDobleClickTextArea(textADescMacroscopica));
 		textADescMacroscopica.setBorder(new LineBorder(new Color(0, 0, 0)));
-		
-		JLabel lblDescPeroperatoria = new JLabel("<html><b>Descripci&oacute;n Per-operatoria:</b></html>");
-		lblDescPeroperatoria.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDescPeroperatoria.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblDescPeroperatoria.setBounds(10, 256, 117, 37);
-		add(lblDescPeroperatoria);
-		
-		JScrollPane scrollPane_2 = new JScrollPane();
-		scrollPane_2.setBounds(157, 253, 289, 97);
-		add(scrollPane_2);
-		
-		textADescPerOperatoria = new JTextArea();
-		scrollPane_2.setViewportView(textADescPerOperatoria);
-		textADescPerOperatoria.setWrapStyleWord(true);
-		textADescPerOperatoria.setLineWrap(true);
-		textADescPerOperatoria.setBorder(new LineBorder(new Color(0, 0, 0)));
-		textADescPerOperatoria.addMouseListener(new ListenerDobleClickTextArea(textADescPerOperatoria));
 		
 		JButton btnGuardar = new JButton("Guardar");
 		btnGuardar.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -190,8 +172,9 @@ public class MacroscopicaPanel extends JPanel {
 		lblFotos.setBounds(513, 204, 56, 26);
 		add(lblFotos);
 		
-		JButton btnAddFoto = new JButton("Agregar Foto");
-		btnAddFoto.setBounds(608, 208, 134, 23);
+		JButton btnAddFoto = new JButton("Agregar Macro Foto");
+		btnAddFoto.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnAddFoto.setBounds(579, 208, 152, 23);
 		btnAddFoto.setActionCommand(MacroscopicaPanelOperations.ACTION_COMMAND_BTN_ADD_FOTO);
 		add(btnAddFoto);
 		
@@ -203,12 +186,20 @@ public class MacroscopicaPanel extends JPanel {
 		scrollPaneFotos.setViewportView(tblFotos);
 		
 		MacroscopicaPanelOperations listener = new MacroscopicaPanelOperations(this);
+		
+		JButton btnAgregarFotoPeroperatoria = new JButton("Agregar Foto Per-Operatoria");
+		btnAgregarFotoPeroperatoria.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnAgregarFotoPeroperatoria.setActionCommand(MacroscopicaPanelOperations.ACTION_COMMAND_BTN_ADD_FOTO_PER_OPERATORIA);
+		btnAgregarFotoPeroperatoria.setBounds(745, 208, 217, 23);
+		add(btnAgregarFotoPeroperatoria);
+		
 		btnCancel.addActionListener(listener);
 		btnGuardar.addActionListener(listener);
 		btnPrintLabels.addActionListener(listener);
 		btnSendToHistologia.addActionListener(listener);
 		btnAddFoto.addActionListener(listener);
 		btnAgregarCassete.addActionListener(listener);
+		btnAgregarFotoPeroperatoria.addActionListener(listener);
 		textNroBiopsia.addKeyListener(listener);
 		
 		setVisible(true);
@@ -234,10 +225,6 @@ public class MacroscopicaPanel extends JPanel {
 		return textADescMacroscopica;
 	}
 
-	public JTextArea getTextADescPerOperatoria() {
-		return textADescPerOperatoria;
-	}
-	
 	public JTable getTblCassetes() {
 		return tblCassetes;
 	}

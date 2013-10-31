@@ -16,6 +16,7 @@ public class BiopsiaMacroFotoDTO {
 	private int id;
 	private String notacion;
 	private String descripcion;
+	private boolean fotoPerOperatoria;
 	private File fotoFile;
 	private FileInputStream fotoBlob;
 	
@@ -61,6 +62,14 @@ public class BiopsiaMacroFotoDTO {
 	
 	public File getFotoFile() {
 		return fotoFile;
+	}
+	
+	public void setFotoPerOperatoria(boolean fotoPerOperatoria) {
+		this.fotoPerOperatoria = fotoPerOperatoria;
+	}
+	
+	public boolean isFotoPerOperatoria() {
+		return fotoPerOperatoria;
 	}
 
 	@Override
