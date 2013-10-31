@@ -81,7 +81,8 @@ public class MacroFotosDialogOperations implements ActionListener{
 				if(ventana.getRowOrigin() == -1){
 					ventana.getRelatedTable().addRow(ventana.getTxtNotacion().getText(),
 							ventana.getTextADescripcion().getText(), 
-							ventana.getFileChooser().getSelectedFile().getAbsolutePath());
+							ventana.getFileChooser().getSelectedFile().getAbsolutePath(),
+							ventana.getChkBoxFotoPerOperatoria().isSelected());
 				} else {
 					String pathToPicture = ventana.getPathToPicture();
 					if(ventana.getFileChooser() != null

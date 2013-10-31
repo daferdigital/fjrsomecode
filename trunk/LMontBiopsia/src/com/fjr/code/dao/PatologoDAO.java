@@ -75,7 +75,7 @@ public final class PatologoDAO {
 		List<PatologoDTO> items = getAll();
 		
 		if (addEmptyValue) {
-			comboBox.addItem(new PatologoDTO(0, "Seleccione", false));
+			comboBox.addItem(new PatologoDTO(0, "Seleccione", false, ""));
 		}
 		
 		for (PatologoDTO patologoDTO : items) {

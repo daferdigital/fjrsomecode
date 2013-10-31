@@ -48,8 +48,8 @@ class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO> {
 			+ " bh.descripcion,"
 			//datos basicos de micro 32-34
 			+ " bmi.idx, bmi.diagnostico, bmi.estudio_ihq,"
-			//otros valores 35
-			+ " b.fecha_registro"
+			//otros valores 35-36
+			+ " b.fecha_registro, p.genero"
 			+ " FROM  biopsias b LEFT JOIN biopsias_ingresos bi ON b.id = bi.id"
 			+ " LEFT JOIN biopsias_macroscopicas bm ON b.id = bm.id"
 			+ " LEFT JOIN biopsias_histologias bh ON b.id = bh.id"
@@ -161,7 +161,10 @@ class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO> {
 				ingresoDTO.setPiezaRecibida(rowSet.getString(6));
 				ingresoDTO.setReferidoMedico(rowSet.getString(7));
 				ingresoDTO.setIdx(rowSet.getString(8));
-				ingresoDTO.setPatologoTurno(new PatologoDTO(rowSet.getInt(9), rowSet.getString(10), rowSet.getBoolean(11)));
+				ingresoDTO.setPatologoTurno(new PatologoDTO(rowSet.getInt(9), 
+						rowSet.getString(10), 
+						rowSet.getBoolean(11),
+						rowSet.getString(36)));
 				
 				//datos especificos del cliente
 				biopsiaAllInfo.setCliente(

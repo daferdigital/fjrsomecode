@@ -80,7 +80,7 @@ public class MicroscopicaPanelOperations implements KeyListener, ActionListener{
 					+ " " + biopsia.getCliente().getApellidos());
 			ventana.getTextPiezaRecibida().setText(biopsia.getIngresoDTO().getPiezaRecibida());
 			ventana.getTextExamenARealizar().setText(biopsia.getExamenBiopsia().getNombreExamen());
-			ventana.getTextAIDx().setText(biopsia.getMicroscopicaDTO().getIdx());
+			ventana.getTextAIDx().setText(biopsia.getIngresoDTO().getIdx());
 			ventana.getTextADiagnostico().setText(biopsia.getMicroscopicaDTO().getDiagnostico());
 			ventana.getTextADiagnosticoIHQ().setText(biopsia.getMicroscopicaDTO().getEstudioIHQ());
 			

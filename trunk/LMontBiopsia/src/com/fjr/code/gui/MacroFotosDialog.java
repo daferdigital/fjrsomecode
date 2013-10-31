@@ -24,6 +24,7 @@ import com.fjr.code.gui.operations.ListenerDobleClickTextArea;
 import com.fjr.code.gui.operations.MacroFotosDialogOperations;
 import com.fjr.code.gui.tables.JTableMacroFotos;
 import javax.swing.JTextField;
+import javax.swing.JCheckBox;
 
 public class MacroFotosDialog extends JDialog {
 
@@ -41,13 +42,14 @@ public class MacroFotosDialog extends JDialog {
 	private JTableMacroFotos relatedTable;
 	private int rowOrigin;
 	private String pathToPicture;
+	private JCheckBox chkBoxFotoPerOperatoria;
 	
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			MacroFotosDialog dialog = new MacroFotosDialog(null, "", "", -1, "");
+			MacroFotosDialog dialog = new MacroFotosDialog(null, "", "", -1, "", true);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -64,7 +66,7 @@ public class MacroFotosDialog extends JDialog {
 	 * @param pathToPicture
 	 */
 	public MacroFotosDialog(JTableMacroFotos relatedTable, String notacion,
-			String descripcion, int rowOrigin, String pathToPicture) {
+			String descripcion, int rowOrigin, String pathToPicture, boolean fotoPerOperatoria) {
 		this.relatedTable = relatedTable;
 		this.rowOrigin = rowOrigin;
 		this.pathToPicture = pathToPicture;
@@ -72,7 +74,7 @@ public class MacroFotosDialog extends JDialog {
 		setTitle("Fotos Macro");
 		setModal(true);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(MacroFotosDialog.class.getResource("/resources/images/iconLogo1.jpg")));
-		setBounds(100, 100, 450, 470);
+		setBounds(100, 100, 450, 503);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -92,11 +94,11 @@ public class MacroFotosDialog extends JDialog {
 		
 		JLabel lblNewLabel = new JLabel("<html>Descripci&oacute;n <br />Macro fotograf&iacute;a</html>");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel.setBounds(10, 54, 120, 32);
+		lblNewLabel.setBounds(10, 87, 120, 32);
 		contentPanel.add(lblNewLabel);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(127, 51, 278, 133);
+		scrollPane.setBounds(127, 84, 278, 133);
 		contentPanel.add(scrollPane);
 		
 		textADescripcion = new JTextArea();
@@ -110,13 +112,13 @@ public class MacroFotosDialog extends JDialog {
 		
 		JButton btnSubirFoto = new JButton("Subir Foto");
 		btnSubirFoto.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnSubirFoto.setBounds(10, 195, 101, 23);
+		btnSubirFoto.setBounds(10, 228, 101, 23);
 		btnSubirFoto.setActionCommand(MacroFotosDialogOperations.ACTION_COMMAND_BTN_SUBIR_FOTO);
 		contentPanel.add(btnSubirFoto);
 		
 		lblFoto = new JLabel("");
 		lblFoto.setBorder(new LineBorder(new Color(0, 0, 0)));
-		lblFoto.setBounds(127, 200, 278, 186);
+		lblFoto.setBounds(127, 233, 278, 186);
 		if(! "".equals(pathToPicture)){
 			Icon icon = new ImageIcon(new ImageIcon(pathToPicture).getImage().getScaledInstance(lblFoto.getWidth(),
 					lblFoto.getHeight(),
@@ -124,6 +126,17 @@ public class MacroFotosDialog extends JDialog {
 			lblFoto.setIcon(icon);
 		}
 		contentPanel.add(lblFoto);
+		
+		JLabel lblEsFotoPeroperatoria = new JLabel("Es foto Per-Operatoria?");
+		lblEsFotoPeroperatoria.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblEsFotoPeroperatoria.setBounds(10, 50, 163, 32);
+		contentPanel.add(lblEsFotoPeroperatoria);
+		
+		chkBoxFotoPerOperatoria = new JCheckBox("");
+		chkBoxFotoPerOperatoria.setEnabled(false);
+		chkBoxFotoPerOperatoria.setBounds(167, 54, 27, 23);
+		chkBoxFotoPerOperatoria.setSelected(fotoPerOperatoria);
+		contentPanel.add(chkBoxFotoPerOperatoria);
 		
 		JPanel buttonPane = new JPanel();
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -151,6 +164,7 @@ public class MacroFotosDialog extends JDialog {
 		
 		this.setLocationRelativeTo(null);
 		txtNotacion.requestFocusInWindow();
+		
 	}
 	
 	/**
@@ -183,5 +197,9 @@ public class MacroFotosDialog extends JDialog {
 	
 	public JLabel getLblFoto() {
 		return lblFoto;
+	}
+	
+	public JCheckBox getChkBoxFotoPerOperatoria(){
+		return chkBoxFotoPerOperatoria;
 	}
 }

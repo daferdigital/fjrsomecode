@@ -78,6 +78,6 @@ public final class ExamenBiopsiaDAO {
 			comboBox.addItem(examenBiopsiaDTO);
 		}
 		
-		log.info("Agregados elementos al combo-box de los tipos de examenes");
+		log.info("Agregados elementos al combo-box de los examenes");
 	}
 }

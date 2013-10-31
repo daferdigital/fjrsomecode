@@ -12,6 +12,7 @@ package com.fjr.code.dto;
 public class PatologoDTO {
 	private int id;
 	private String nombre;
+	private String genero;
 	private boolean activo;
 	
 	/**
@@ -19,12 +20,15 @@ public class PatologoDTO {
 	 * @param id
 	 * @param nombre
 	 * @param activo
+	 * @param genero
 	 */
-	public PatologoDTO(int id, String nombre, boolean activo) {
+	public PatologoDTO(int id, String nombre, boolean activo,
+			String genero) {
 		// TODO Auto-generated constructor stub
 		this.id = id;
 		this.nombre = nombre;
 		this.activo = activo;
+		this.genero = genero;
 	}
 	
 	public int getId() {
@@ -51,9 +55,17 @@ public class PatologoDTO {
 		return activo;
 	}
 	
+	public void setGenero(String genero) {
+		this.genero = genero;
+	}
+	
+	public String getGenero() {
+		return genero;
+	}
+	
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return nombre;
+		return genero + " " + nombre;
 	}
 }

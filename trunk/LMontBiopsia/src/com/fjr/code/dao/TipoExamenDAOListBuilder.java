@@ -8,7 +8,7 @@ import javax.sql.rowset.CachedRowSet;
 import org.apache.log4j.Logger;
 
 import com.fjr.code.dao.definitions.DAOListBuilder;
-import com.fjr.code.dto.PatologoDTO;
+import com.fjr.code.dto.TipoExamenDTO;
 import com.fjr.code.util.DBUtil;
 
 /**
@@ -20,18 +20,18 @@ import com.fjr.code.util.DBUtil;
  * @author T&T
  *
  */
-final class PatologoDAOListBuilder implements DAOListBuilder<PatologoDTO>{
+final class TipoExamenDAOListBuilder implements DAOListBuilder<TipoExamenDTO>{
 	/**
 	 * 
 	 */
-	private static final Logger log = Logger.getLogger(PatologoDAOListBuilder.class);
+	private static final Logger log = Logger.getLogger(TipoExamenDAOListBuilder.class);
 	
 	
-	private static final String BEGIN = "SELECT p.id, p.nombre, p.activo, p.genero "
-				+ " FROM patologos p"
-				+ " WHERE p.activo='1'";
-	
-	private static final String END = " ORDER BY p.nombre";
+	private static final String BEGIN = "SELECT te.id AS idTipoExamen, te.codigo AS codigoTipoExamen, te.nombre AS nombreTipoExamen, "
+			+ " te.activo, te.descripcion "
+			+ " FROM tipo_examenes te"
+			+ " WHERE te.activo='1'";
+	private static final String END = " ORDER BY te.nombre";
 
 
 	private List<Object> parameters;
@@ -40,7 +40,7 @@ final class PatologoDAOListBuilder implements DAOListBuilder<PatologoDTO>{
 	/**
 	 * 
 	 */
-	public PatologoDAOListBuilder() {
+	public TipoExamenDAOListBuilder() {
 		// TODO Auto-generated constructor stub
 		parameters = new LinkedList<Object>();
 		customWhere = "";
@@ -48,13 +48,12 @@ final class PatologoDAOListBuilder implements DAOListBuilder<PatologoDTO>{
 
 	/**
 	 * 
-	 * @param id
+	 * @param idExamen
 	 */
-	public void searchById(int id){
-		customWhere += " AND p.id = ?";
-		parameters.add(id);
+	public void searchByTipoExamenId(int idExamen){
+		customWhere += " AND eb.id = ?";
+		parameters.add(idExamen);
 	}
-	
 	/**
 	 * 
 	 * @return
@@ -76,17 +75,21 @@ final class PatologoDAOListBuilder implements DAOListBuilder<PatologoDTO>{
 	 * 
 	 * @return
 	 */
-	public List<PatologoDTO> getResults(){
-		List<PatologoDTO> results = new LinkedList<PatologoDTO>();
+	public List<TipoExamenDTO> getResults(){
+		List<TipoExamenDTO> results = new LinkedList<TipoExamenDTO>();
 		
 		try {
 			CachedRowSet rowSet = DBUtil.executeSelectQuery(getQuery(), getParameters());
 			
 			while (rowSet.next()) {
-				results.add(new PatologoDTO(rowSet.getInt(1),
-						rowSet.getString(2),
-						"1".equals(rowSet.getString(3)),
-						rowSet.getString(4)));
+				TipoExamenDTO tipo = new TipoExamenDTO();
+				tipo.setId(rowSet.getInt(1));
+				tipo.setCodigo(rowSet.getString(2));
+				tipo.setNombre(rowSet.getString(3));
+				tipo.setActivo(rowSet.getBoolean(4));
+				tipo.setDescripcion(rowSet.getString(5));
+				
+				results.add(tipo);
 			}
 		} catch (Exception e) {
 			// TODO: handle exception

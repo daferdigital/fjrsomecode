@@ -26,7 +26,7 @@ import com.fjr.code.util.DBUtil;
 final class BiopsiaFotosMacroDAOListBuilder implements DAOListBuilder<BiopsiaMacroFotoDTO> {
 	private static final Logger log = Logger.getLogger(BiopsiaFotosMacroDAOListBuilder.class);
 	
-	private static final String BEGIN = "SELECT mf.id, mf.notacion, mf.descripcion, mf.foto, mf.file_name"
+	private static final String BEGIN = "SELECT mf.id, mf.notacion, mf.descripcion, mf.foto, mf.file_name, mf.es_foto_per_operatoria"
 			+ " FROM macro_fotos mf "
 			+ " WHERE 1 = 1";
 	private static final String END = " ORDER BY mf.fecha_registro";
@@ -84,6 +84,8 @@ final class BiopsiaFotosMacroDAOListBuilder implements DAOListBuilder<BiopsiaMac
 				macroFoto.setNotacion(rowSet.getString(2));
 				macroFoto.setDescripcion(rowSet.getString(3));
 				macroFoto.setFotoFile(destination);
+				macroFoto.setFotoPerOperatoria(rowSet.getBoolean(6));
+				
 				if(! BLOBToDiskUtil.writeBLOBToDisk(destination, rowSet.getBytes(4))){
 					log.error("Error escribiendo contenido en el archivo " + destination.getAbsolutePath());
 				}

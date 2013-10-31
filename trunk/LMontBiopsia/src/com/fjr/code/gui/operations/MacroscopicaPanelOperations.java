@@ -46,6 +46,7 @@ public class MacroscopicaPanelOperations implements KeyListener, ActionListener{
 	public static final String ACTION_COMMAND_BTN_CANCELAR = "btnCancelar";
 	public static final String ACTION_COMMAND_BTN_ADD_CASSETE = "btnCassette";
 	public static final String ACTION_COMMAND_BTN_ADD_FOTO = "btnFoto";
+	public static final String ACTION_COMMAND_BTN_ADD_FOTO_PER_OPERATORIA = "btnFotoPerOperatoria";
 	
 	/**
 	 * Ventana asociada con estos listeners
@@ -73,7 +74,6 @@ public class MacroscopicaPanelOperations implements KeyListener, ActionListener{
 		ventana.getTextPiezaRecibida().setText("");
 		ventana.getTextExamenARealizar().setText("");
 		ventana.getTextADescMacroscopica().setText("");
-		ventana.getTextADescPerOperatoria().setText("");
 		ventana.getTableMacroFotos().deleteAllRows();
 		ventana.getTableMacroCassetes().deleteAllRows();
 		
@@ -85,12 +85,12 @@ public class MacroscopicaPanelOperations implements KeyListener, ActionListener{
 			ventana.getTextPiezaRecibida().setText(biopsia.getIngresoDTO().getPiezaRecibida());
 			ventana.getTextExamenARealizar().setText(biopsia.getExamenBiopsia().getNombreExamen());
 			ventana.getTextADescMacroscopica().setText(biopsia.getMacroscopicaDTO().getDescMacroscopica());
-			ventana.getTextADescPerOperatoria().setText(biopsia.getMacroscopicaDTO().getDescPerOperatoria());
 			
 			for (BiopsiaMacroFotoDTO macroFoto : biopsia.getMacroscopicaDTO().getMacroFotosDTO()) {
 				ventana.getTableMacroFotos().addRow(macroFoto.getNotacion(), 
 						macroFoto.getDescripcion(), 
-						macroFoto.getFotoFile().getAbsolutePath());
+						macroFoto.getFotoFile().getAbsolutePath(),
+						macroFoto.isFotoPerOperatoria());
 			}
 			
 			for (BiopsiaCasseteDTO cassete : biopsia.getMacroscopicaDTO().getCassetesDTO()) {
@@ -119,7 +119,9 @@ public class MacroscopicaPanelOperations implements KeyListener, ActionListener{
 		} else if(ACTION_COMMAND_BTN_ADD_CASSETE.equals(e.getActionCommand())){
 			new MacroCasseteDialog(ventana.getTableMacroCassetes(), "", -1).setVisible(true);
 		} else if(ACTION_COMMAND_BTN_ADD_FOTO.equals(e.getActionCommand())){
-			new MacroFotosDialog(ventana.getTableMacroFotos(), "", "", -1, "").setVisible(true);
+			new MacroFotosDialog(ventana.getTableMacroFotos(), "", "", -1, "", false).setVisible(true);
+		} else if(ACTION_COMMAND_BTN_ADD_FOTO_PER_OPERATORIA.equals(e.getActionCommand())){
+			new MacroFotosDialog(ventana.getTableMacroFotos(), "", "", -1, "", true).setVisible(true);
 		} else if(ACTION_COMMAND_BTN_PRINT_LABELS.equals(e.getActionCommand())){
 			if(biopsiaInfoDTO != null && !"".equals(ventana.getTextNombrePaciente().getText())
 					&& ventana.getTableMacroCassetes().getList() != null
@@ -334,7 +336,7 @@ public class MacroscopicaPanelOperations implements KeyListener, ActionListener{
 		biopsia = BiopsiaInfoDAO.getBiopsiaByNumero(ventana.getTextNroBiopsia().getText());
 		if(biopsia != null){
 			biopsia.getMacroscopicaDTO().setDescMacroscopica(ventana.getTextADescMacroscopica().getText());
-			biopsia.getMacroscopicaDTO().setDescPerOperatoria(ventana.getTextADescPerOperatoria().getText());
+			biopsia.getMacroscopicaDTO().setDescPerOperatoria("");
 			biopsia.getMacroscopicaDTO().setCassetesDTO(ventana.getTableMacroCassetes().getList());
 			biopsia.getMacroscopicaDTO().setMacroFotosDTO(ventana.getTableMacroFotos().getList());
 		}
