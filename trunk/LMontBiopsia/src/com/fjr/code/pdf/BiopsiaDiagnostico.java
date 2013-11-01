@@ -103,8 +103,7 @@ public class BiopsiaDiagnostico {
 			
 			HeaderFooter event = new HeaderFooter(biopsia.getCodigo());
             writer.setPageEvent(event);
-            writer.getVerticalPosition(ensureNewLine)
-        
+            
 			//step 3
 			document.open();
 	        document.newPage();
@@ -117,7 +116,11 @@ public class BiopsiaDiagnostico {
 	        addDetailMacro(document);
 
 	        //verificamos info de IHQ
-	        addInfoIHQ(document);
+	        if(biopsia.getMicroscopicaDTO().getEstudioIHQ() != null
+					&& ! "".equals(biopsia.getMicroscopicaDTO().getEstudioIHQ().trim())){
+	        	addFirmantes(writer, document);
+	        	addInfoIHQ(document);
+	        }
 	        
 	        addFotosMicro(document);
 	        
