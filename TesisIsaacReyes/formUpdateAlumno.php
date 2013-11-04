@@ -100,7 +100,7 @@ if(count($alumno) < 1){
 								$results = DBUtil::executeSelect($query);
 								foreach ($results AS $row){
 							?>
-								<option value="<?php $row["idGrado"];?>" <?php echo $row["idGrado"] == $alumno["id_grado"] ? " selected " : ""?>>
+								<option value="<?php echo $row["idGrado"];?>" <?php echo $row["idGrado"] == $alumno["id_grado"] ? " selected " : ""?>>
 									<?php echo $row["grado"]." (".$row["turno"].") Prof: ".$row["nombre"]." ".$row["apellido"];?>
 								</option>
 							<?php
@@ -109,7 +109,7 @@ if(count($alumno) < 1){
 						</select>
 						<span class="isMandatory" id="mandatoryGrado" style="display: none;">
 							<br />
-							Disculpe, debe indicar el lugar de nacimiento.
+							Disculpe, debe indicar el grado del alumno.
 						</span>
 					</td>
 				</tr>
@@ -193,7 +193,7 @@ if(count($alumno) < 1){
 				<tr>
 					<td>Tel&eacute;fono</td>
 					<td>
-						<input type="text" name="telefono" id="telefono" onkeypress="return textInputOnlyNumbers(event)" />
+						<input type="text" name="telefono" id="telefono" value="<?php echo $alumno["telefono"];?>" onkeypress="return textInputOnlyNumbers(event)" />
 						<div class="isMandatory" id="mandatoryTelefono" style="display: none;">
 							<br />
 							Disculpe, debe indicar el tel&eacute;fono del Representante.

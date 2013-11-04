@@ -68,8 +68,10 @@ if(count($pageRecords) == 0){
 	</div>
 	<div id="row">
 		<div id="tdHeader">
-      		<input type="checkbox" id="checkAll" onclick="checkAll('delete[]')" title="Marcar Todos"/>
+      		<!--
+			<input type="checkbox" id="checkAll" onclick="checkAll('delete[]')" title="Marcar Todos"/>
       		<input type="button" value="Eliminar" onclick="doDelete('alumnos', 'delete[]');"/>
+			-->
     	</div>
     	<div id="tdHeader">
       		Nombre
@@ -92,7 +94,9 @@ if(count($pageRecords) == 0){
 	?>
 		<div id="row">
 			<div id="tdElement">
+				<!--
 				<input type="checkbox" name="delete[]" value="<?php echo $row["id"];?>"/>
+				-->
 			</div>
 			<div id="tdElement">
 				<?php echo $row["nombre"]." ".$row["apellido"];?>

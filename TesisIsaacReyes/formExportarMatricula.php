@@ -57,6 +57,7 @@ $query = "SELECT g.id, g.grado, g.turno, p.nombre, p.apellido, a.nombre, a.apell
 $query .= " FROM grados g, profesores p, alumnos a";
 $query .= " WHERE a.id_grado = g.id";
 $query .= " AND g.id_profesor = p.id";
+$query .= " AND a.activo = '1'";
 $query .= " ORDER BY g.grado, g.turno, g.id, p.nombre, p.apellido";
 
 $prevGradoId = -1;

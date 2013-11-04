@@ -69,7 +69,7 @@ if(count($pageRecords) == 0){
 	<div id="row">
 		<div style="width: 10%;" id="tdHeader">
       		<input type="checkbox" id="checkAll" onclick="checkAll('delete[]')" title="Marcar Todos"/>
-      		<input type="button" value="Eliminar" onclick="doDelete('alumnos', 'delete[]');"/>
+      		<input type="button" value="Retirar" onclick="doDelete('alumnos', 'delete[]');"/>
     	</div>
     	<div style="width: 35%;" id="tdHeader">
       		Nombre
@@ -82,8 +82,10 @@ if(count($pageRecords) == 0){
     	</div>
     	<div style="width: 15%;" id="tdHeader">
     	</div>
-    	<div style="width: 15%;" id="tdHeader">
+    	<!-- 
+    	<div id="tdElement">
     	</div>
+    	 -->
 	</div>
 	<?php
 		foreach ($pageRecords as $row){
@@ -115,11 +117,13 @@ if(count($pageRecords) == 0){
 					}
 				?>
 			</div>
+			<!-- 
 			<div style="width: 15%;" id="tdElement">
 				<a href="#" onclick="openPopUp('fichaPDF.php?id=<?php echo $row["id"];?>')">
 					<img src="./images/icons/pdfExport.png" title="Exportar a PDF" border="0" />
 				</a>
 			</div>
+			 -->
 		</div>
 	<?php
 		}
@@ -136,8 +140,10 @@ if(count($pageRecords) == 0){
 		</div>
 		<div id="tdElement">
     	</div>
+    	<!-- 
     	<div id="tdElement">
     	</div>
+    	 -->
 	</div>
 <?php 
 }

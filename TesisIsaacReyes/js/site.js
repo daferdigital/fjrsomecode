@@ -285,13 +285,13 @@ function validarAgregarAlumnoForm(forma){
 		forma.apellido.focus();
 		doSubmit = false;
 	}
-	
+	/*
 	if(forma.cedula.value.trim() == ""){
 		document.getElementById("mandatoryCedula").style.display = "";
 		forma.cedula.focus();
 		doSubmit = false;
 	}
-	
+	*/
 	if(!document.getElementById("sexo_f").checked
 			&& ! document.getElementById("sexo_m").checked){
 		document.getElementById("sexo_f").focus();
@@ -311,13 +311,12 @@ function validarAgregarAlumnoForm(forma){
 		doSubmit = false;
 	}
 	
-	/*
+	
 	if(forma.direccion.value.trim() == ""){
 		document.getElementById("mandatoryDireccion").style.display = "";
 		forma.direccion.focus();
 		doSubmit = false;
 	}
-	*/
 	
 	if(forma.fechaNacimiento.value.trim() == ""){
 		document.getElementById("mandatoryFechaNacimiento").style.display = "";
