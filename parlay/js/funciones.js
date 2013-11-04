@@ -151,7 +151,7 @@
 			cadena_guardar = $("form").serialize();
 			//alert(cadena_guardar); return false;
 			//alert(cadena_guardar);
-				
+			//console.log(cadena_guardar);
 			
 			//alert(cadena_guardar); 
 			//form.submit();
@@ -244,8 +244,11 @@
 					 //variable imprimir_html se encuentra dentro del archivo ventas_beisbol.php
 					 	window.open(imprimir_html,"parley","menubar=1,resizable=1,width=530,height=400"); 					 
 				 }
-				 if(noreset=='')
-				 	form.reset();
+				 if(noreset==''){
+					 resetEquipoForm();
+				 	 form.reset();
+				 }
+				 	
 				  comentario='';
 				  nolistado='';
 				  noreset='';
@@ -261,8 +264,9 @@
 				   alert(c+' el archivo: '+archivo_guarda);
 				   $("#carga").css("display", "none");
 					$("#carga_load3").css("display", "none");
-					if(noreset=='')
-				 		form.reset();
+					if(noreset==''){
+						form.reset();
+					}
 			   }
 			 });
 			 
@@ -337,6 +341,30 @@
 						   }
 				   });				
 	}
+	
+	function resetEquipoForm(){
+		console.log("Reseteando form de equipos");
+		var field = document.getElementById("imageHidden");
+		if(field != null){
+			field.value = "";
+			document.getElementById("imagenEquipo").src = "";
+			document.getElementById("imagenActual").style.display = "none";
+			document.getElementById("files").innerHTML = "";
+		}
+	}
+	
+	function refreshImageEquipoIngreso(){
+		var field = document.getElementById("imageHidden");
+		if(field != null && field.value != ""){
+			//tengo una imagen, la muestro entonces'
+			document.getElementById("imagenEquipo").src = "imagenes/img_equipos/" + field.value;
+			document.getElementById("imagenActual").style.display = "";
+		} else {
+			document.getElementById("imagenEquipo").src = "";
+			document.getElementById("imagenActual").style.display = "none";
+		}
+	}
+	
 	function editar_datos(ids,valores){
 		
 		//alert(ids+' / '+valores); return false;

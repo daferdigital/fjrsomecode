@@ -1,0 +1,21 @@
+Permitir que en el formulario de equipos se almacene la imagen del mismo
+
+Archivos:
+
+parlay/ingreso_equipos.php
+parlay/index.php
+
+parlay/procesos/listar_equipos.php
+parlay/procesos/guardar_equipos.php
+
+parlay/procesos/deportes_est/basket.php
+parlay/procesos/deportes_est/beisbol.php
+parlay/procesos/deportes_est/famericano.php
+parlay/procesos/deportes_est/futbol.php
+
+parlay/js/funciones.js
+parlay/js/jquery.ui.widget.js
+parlay/js/jquery.iframe-transport.js
+parlay/js/jquery.fileupload.js
+
+parlay/fileUpload/*
