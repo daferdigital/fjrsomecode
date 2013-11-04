@@ -60,7 +60,7 @@
 
                     	<tr class="borde_rigth_bottom_top"  bgcolor="<?Php echo $color;?>"> 
 
-                        	<td width="36px"><?php if(file_exists('imagenes/img_equipos/'.$imagenA)){echo '<img align="absmiddle" src="imagenes/img_equipos/'.$imagenA.'">';}?></td>                         
+                        	<td width="36px"><?php if(file_exists('imagenes/img_equipos/'.$imagenA)){echo '<img align="absmiddle" width="36px" height="24px" src="imagenes/img_equipos/'.$imagenA.'">';}?></td>                         
 
                             <td><?php echo $equipoA; ?></td>
 
@@ -88,7 +88,7 @@
 
                         <tr class="borde_rigth_bottom" bgcolor="<?Php echo $color;?>">
 
-                            <td width="36px"><?php if(file_exists('imagenes/img_equipos/'.$imagenB)){echo '<img align="absmiddle" src="imagenes/img_equipos/'.$imagenB.'">';}?></td>
+                            <td width="36px"><?php if(file_exists('imagenes/img_equipos/'.$imagenB)){echo '<img align="absmiddle" width="36px" height="24px" src="imagenes/img_equipos/'.$imagenB.'">';}?></td>
 
                             <td><?php echo $equipoB; ?></td>
 
@@ -122,7 +122,7 @@
 
                     	<tr class="borde_rigth_bottom_top"  bgcolor="<?Php echo $color;?>"> 
 
-                        	<td width="36px"><?php if(file_exists('imagenes/img_equipos/'.$imagenA)){echo '<img align="absmiddle" src="imagenes/img_equipos/'.$imagenA.'">';}?></td>                         
+                        	<td width="36px"><?php if(file_exists('imagenes/img_equipos/'.$imagenA)){echo '<img align="absmiddle" width="36px" height="24px" src="imagenes/img_equipos/'.$imagenA.'">';}?></td>                         
 
                             <td><?php echo $equipoA; ?></td>
 
@@ -152,7 +152,7 @@
 
                         <tr class="borde_rigth_bottom" bgcolor="<?Php echo $color;?>">
 
-                            <td width="36px"><?php if(file_exists('imagenes/img_equipos/'.$imagenB)){echo '<img align="absmiddle" src="imagenes/img_equipos/'.$imagenB.'">';}?></td>
+                            <td width="36px"><?php if(file_exists('imagenes/img_equipos/'.$imagenB)){echo '<img align="absmiddle" width="36px" height="24px" src="imagenes/img_equipos/'.$imagenB.'">';}?></td>
 
                             <td><?php echo $equipoB; ?></td>
 
