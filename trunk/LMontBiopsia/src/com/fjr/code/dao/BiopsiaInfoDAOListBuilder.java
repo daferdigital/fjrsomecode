@@ -35,7 +35,7 @@ class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO> {
 	 */
 	private static final Logger log = Logger.getLogger(BiopsiaInfoDAOListBuilder.class);
 	
-	private static final String BEGIN = "SELECT b.id, b.year_biopsia, b.numero_biopsia, fb.id AS faseId," //1-4
+	private static final String BEGIN = "SELECT b.id, b.side1_code_biopsia, b.side2_code_biopsia, fb.id AS faseId," //1-4
 			//datos de ingreso //5-11
 			+ " bi.procedencia, bi.pieza_recibida, bi.referido_medico, bi.idx, p.id AS idPatologo, p.nombre AS nombrePatologo, p.activo,"
 			//datos de cliente //12-21 
@@ -48,21 +48,21 @@ class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO> {
 			+ " bh.descripcion,"
 			//datos basicos de micro 32-34
 			+ " bmi.idx, bmi.diagnostico, bmi.estudio_ihq,"
-			//otros valores 35-36
-			+ " b.fecha_registro, p.genero"
+			//otros valores 35-37
+			+ " b.fecha_registro, p.genero, b.id_tipo_estudio"
 			+ " FROM  biopsias b LEFT JOIN biopsias_ingresos bi ON b.id = bi.id"
 			+ " LEFT JOIN biopsias_macroscopicas bm ON b.id = bm.id"
 			+ " LEFT JOIN biopsias_histologias bh ON b.id = bh.id"
 			+ " LEFT JOIN biopsias_microscopicas bmi ON b.id = bmi.id"
 			+ " LEFT JOIN patologos p ON bi.id_patologo_turno = p.id,"
-			+ " tipo_examenes te, fases_biopsia fb, cliente c, examenes_biopsias eb"
+			+ " especialidad te, fases_biopsia fb, cliente c, examenes_biopsias eb"
 			+ " WHERE b.id_cliente = c.id"
 			+ " AND c.activo = '1'"
 			+ " AND eb.id = b.id_examen_biopsia"
 			+ " AND te.id =  eb.id_tipo_examen"
 			+ " AND b.id_fase_actual = fb.id";
 	
-	private static final String END = " ORDER BY b.year_biopsia, b.numero_biopsia";
+	private static String END = " ORDER BY b.side1_code_biopsia, b.side2_code_biopsia";
 	
 	private String customWhere;
 	private List<Object> parameters;
@@ -99,7 +99,7 @@ class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO> {
 	 * @param nroBiopsia
 	 */
 	public void searchByNumeroBiopsia(String nroBiopsia){
-		customWhere += " AND CONCAT(b.year_biopsia, '-', b.numero_biopsia) = ?";
+		customWhere += " AND CONCAT(b.side1_code_biopsia, '-', b.side2_code_biopsia) = ?";
 		parameters.add(nroBiopsia);
 	}
 	
@@ -120,6 +120,11 @@ class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO> {
 		customWhere += " AND (b.id_fase_actual <> ? AND b.id_fase_actual <> ?)";
 		parameters.add(FasesBiopsia.ENTREGADA_A_PACIENTE.getCodigoFase());
 		parameters.add(FasesBiopsia.RECHAZADA_IHQ.getCodigoFase());
+	}
+	
+	public void setOrberByRegistro() {
+		// TODO Auto-generated method stub
+		END = " ORDER BY b.fecha_registro DESC, b.side1_code_biopsia, b.side2_code_biopsia";
 	}
 	
 	@Override
@@ -146,9 +151,10 @@ class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO> {
 			while (rowSet.next()) {
 				BiopsiaInfoDTO biopsiaAllInfo = new BiopsiaInfoDTO();
 				biopsiaAllInfo.setId(rowSet.getInt(1));
-				biopsiaAllInfo.setYearBiopsia(rowSet.getInt(2));
-				biopsiaAllInfo.setNumeroBiopsia(rowSet.getInt(3));
+				biopsiaAllInfo.setSide1CodeBiopsia(rowSet.getString(2));
+				biopsiaAllInfo.setSide2CodeBiopsia(rowSet.getString(3));
 				biopsiaAllInfo.setFaseActual(FasesBiopsia.getInfoByCode(rowSet.getInt(4)));
+				biopsiaAllInfo.setIdTipoEstudio(rowSet.getInt(37));
 				
 				Calendar fechaRegistro = Calendar.getInstance();
 				fechaRegistro.setTimeInMillis(rowSet.getTimestamp(35).getTime());
@@ -223,5 +229,4 @@ class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO> {
 		
 		return results;
 	}
-
 }

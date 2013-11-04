@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.fjr.code.dao.definitions.CriterioBusquedaBiopsia;
 import com.fjr.code.dao.definitions.FasesBiopsia;
 import com.fjr.code.dto.BiopsiaCasseteDTO;
 import com.fjr.code.dto.BiopsiaInfoDTO;
@@ -100,6 +101,9 @@ public class BiopsiaInfoDAO {
 		} else {
 			builder.searchByFasesActivas();
 		}
+		
+		builder.setOrberByRegistro();
+		
 		List<BiopsiaInfoDTO> records = builder.getResults();
 		
 		return records;
@@ -113,13 +117,13 @@ public class BiopsiaInfoDAO {
 	public static int insertBiopsiaInfo(BiopsiaInfoDTO biopsiaInfo){
 		int insertedId = 0;
 		
-		final String queryBasico = "INSERT INTO biopsias (year_biopsia, numero_biopsia, fecha_registro, id_examen_biopsia, id_cliente, id_fase_actual)"
-				+ " VALUES(?,?,?,?,?,?)";
+		final String queryBasico = "INSERT INTO biopsias (side1_code_biopsia, side2_code_biopsia, fecha_registro, id_examen_biopsia, id_cliente, id_fase_actual, id_tipo_estudio)"
+				+ " VALUES(?,?,?,?,?,?,?)";
 		final String queryIngreso = "INSERT INTO biopsias_ingresos(id, procedencia, pieza_recibida, referido_medico, idx, id_patologo_turno)"
 				+ " VALUES(?,?,?,?,?,?)";
 		
 		int[] result = null;
-		if(biopsiaInfo.getNumeroBiopsia() < 0){
+		if("-1".equals(biopsiaInfo.getSide1CodeBiopsia())){
 			result = BiopsiaCodigoDAO.getAutomaticYearAndNumber();
 			if(result[0] < 0){
 				//no se pudo obtener de manera automatica el valor del codigo de biopsia
@@ -127,20 +131,21 @@ public class BiopsiaInfoDAO {
 				log.error("No se pudo obtener el codigo de la biopsia de manera automatica.");
 				return -1;
 			}else {
-				biopsiaInfo.setYearBiopsia(result[0]);
-				biopsiaInfo.setNumeroBiopsia(result[1]);
+				biopsiaInfo.setSide1CodeBiopsia(String.format("%02d", result[0]));
+				biopsiaInfo.setSide2CodeBiopsia(String.format("%06d", result[1]));
 			}
 		}
 		
 		try {
 			//preparamos el query basico
 			List<Object> parameters = new LinkedList<Object>();
-			parameters.add(biopsiaInfo.getYearBiopsia());
-			parameters.add(biopsiaInfo.getNumeroBiopsia());
+			parameters.add(biopsiaInfo.getSide1CodeBiopsia());
+			parameters.add(biopsiaInfo.getSide2CodeBiopsia());
 			parameters.add(new Timestamp(System.currentTimeMillis()));
 			parameters.add(biopsiaInfo.getExamenBiopsia().getId());
 			parameters.add(biopsiaInfo.getCliente().getId());
 			parameters.add(FasesBiopsia.INGRESO.getCodigoFase());
+			parameters.add(biopsiaInfo.getIdTipoEstudio());
 			
 			insertedId = DBUtil.executeInsertQuery(queryBasico, parameters);
 			
@@ -188,8 +193,8 @@ public class BiopsiaInfoDAO {
 		boolean result = false;
 		
 		final String updateBiopsia = "UPDATE biopsias "
-				+ " SET year_biopsia = ?, numero_biopsia = ?, id_examen_biopsia = ?,"
-				+ " id_cliente = ? WHERE id = ?";
+				+ " SET side1_code_biopsia = ?, side2_code_biopsia = ?, id_examen_biopsia = ?,"
+				+ " id_cliente = ?, id_tipo_estudio = ? WHERE id = ?";
 		final String updateIngreso = "UPDATE biopsias_ingresos "
 				+ " SET procedencia = ?, pieza_recibida = ?, referido_medico = ?,"
 				+ "idx = ?, id_patologo_turno = ? WHERE id = ?";
@@ -197,10 +202,11 @@ public class BiopsiaInfoDAO {
 		List<Object> parameters = new LinkedList<Object>();
 		
 		try {
-			parameters.add(ingreso.getYearBiopsia());
-			parameters.add(ingreso.getNumeroBiopsia());
+			parameters.add(ingreso.getSide1CodeBiopsia());
+			parameters.add(ingreso.getSide2CodeBiopsia());
 			parameters.add(ingreso.getExamenBiopsia().getId());
 			parameters.add(ingreso.getCliente().getId());
+			parameters.add(ingreso.getIdTipoEstudio());
 			parameters.add(ingreso.getId());
 			
 			if(DBUtil.executeNonSelectQuery(updateBiopsia, parameters)){
@@ -239,8 +245,8 @@ public class BiopsiaInfoDAO {
 		// TODO Auto-generated method stub
 		BiopsiaInfoDTO biopsia = new BiopsiaInfoDTO();
 		biopsia.setId(idBiopsia);
-		biopsia.setYearBiopsia(0);
-		biopsia.setNumeroBiopsia(0);
+		biopsia.setSide1CodeBiopsia("0");
+		biopsia.setSide2CodeBiopsia("0");
 		
 		return moveBiopsiaToFase(biopsia, nuevaFase);
 	}
@@ -359,9 +365,12 @@ public class BiopsiaInfoDAO {
 					for (BiopsiaMacroFotoDTO foto : fotos) {
 						parameters.clear();
 						
-						byte[] bytesFile = new byte[(int) foto.getFotoFile().length()];
+						byte[] bytesFile = null;
+						String fotoFileName = "";
 						try {
+							bytesFile = new byte[(int) foto.getFotoFile().length()];
 							foto.getFotoBlob().read(bytesFile);
+							fotoFileName = foto.getFotoFile().getName();
 						} catch (Exception e) {
 							// TODO: handle exception
 							log.error(e.getLocalizedMessage(), e);
@@ -371,7 +380,7 @@ public class BiopsiaInfoDAO {
 						parameters.add(foto.getNotacion());
 						parameters.add(foto.getDescripcion());
 						parameters.add(bytesFile);
-						parameters.add(foto.getFotoFile().getName());
+						parameters.add(fotoFileName);
 						parameters.add(foto.isFotoPerOperatoria() ? "1" : "0");
 						
 						if(! DBUtil.executeInsertQueryAsBoolean(queryFotos, parameters)){
@@ -786,5 +795,29 @@ public class BiopsiaInfoDAO {
 				// TODO: handle exception
 			}
 		}
+	}
+	
+	/**
+	 * 
+	 * @param criterio
+	 * @param valor
+	 */
+	public static List<BiopsiaInfoDTO> searchAllByCriteria(CriterioBusquedaBiopsia criterio, 
+			String valor) {
+		// TODO Auto-generated method stub
+		BiopsiaInfoDAOListBuilder builder = new BiopsiaInfoDAOListBuilder();
+		
+		//verificamos el listado de las biopsias
+		if(criterio.equals(CriterioBusquedaBiopsia.DIAGNOSTICO)){
+			
+		} else if(criterio.equals(CriterioBusquedaBiopsia.DIAGNOSTICO)){
+			
+		} else if(criterio.equals(CriterioBusquedaBiopsia.DIAGNOSTICO)){
+			
+		}
+		
+		
+		return builder.getResults();
+		
 	}
 }

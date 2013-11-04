@@ -19,7 +19,7 @@ import org.apache.log4j.Logger;
 import com.fjr.code.barcode.BarCodeIngreso;
 import com.fjr.code.dao.BiopsiaInfoDAO;
 import com.fjr.code.dao.ClienteDAO;
-import com.fjr.code.dao.ExamenBiopsiaDAO;
+import com.fjr.code.dao.ExamenesDAO;
 import com.fjr.code.dao.PatologoDAO;
 import com.fjr.code.dao.definitions.FasesBiopsia;
 import com.fjr.code.dto.BiopsiaInfoDTO;
@@ -28,8 +28,11 @@ import com.fjr.code.dto.ClienteDTO;
 import com.fjr.code.dto.ExamenBiopsiaDTO;
 import com.fjr.code.dto.PatologoDTO;
 import com.fjr.code.dto.TipoCedulaDTO;
-import com.fjr.code.dto.TipoExamenDTO;
+import com.fjr.code.dto.EspecialidadDTO;
+import com.fjr.code.dto.TipoEstudioDTO;
 import com.fjr.code.gui.ClienteFormDialog;
+import com.fjr.code.gui.EspecialidadDialog;
+import com.fjr.code.gui.ExamenDialog;
 import com.fjr.code.gui.IngresoPanel;
 import com.fjr.code.util.BiopsiaValidationUtil;
 import com.fjr.code.util.GUIPressedOrTypedNroBiopsia;
@@ -50,12 +53,15 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 	 * log de la clase
 	 */
 	private static final Logger log = Logger.getLogger(IngresoPanelOperations.class);
-	private List<ExamenBiopsiaDTO> examenes = ExamenBiopsiaDAO.getAll();
+	private List<ExamenBiopsiaDTO> examenes = ExamenesDAO.getAll();
 	
 	public static final String ACTION_COMMAND_NRO_BIOPSIA = "nroBiopsia";
 	public static final String ACTION_COMMAND_NRO_CEDULA = "nroCedula";
 	public static final String ACTION_COMMAND_COMBO_TIPO_EXAMEN = "comboTipoExamenChanged";
 	public static final String ACTION_COMMAND_COMBO_EXAMEN = "comboExamenChanged";
+	public static final String ACTION_COMMAND_BTN_ADD_TIPO_ESTUDIO = "btnAddTipoEstudio";
+	public static final String ACTION_COMMAND_BTN_ADD_ESPECIALIDAD = "btnAddEspecialidad";
+	public static final String ACTION_COMMAND_BTN_ADD_EXAMEN = "btnAddExamen";
 	public static final String ACTION_COMMAND_BTN_GUARDAR = "btnGuardar";
 	public static final String ACTION_COMMAND_BTN_PRINT_LABELS = "btnPrintLabels";
 	public static final String ACTION_COMMAND_BTN_SEND_TO_MACRO = "btnSendToMacro";
@@ -96,7 +102,7 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 		ventana.getTextEdad().setText("");
 		ventana.getTextProcedencia().setText("");
 		ventana.getTextPiezaRecibida().setText("");
-		ventana.getComboTipoExamen().setSelectedIndex(0);
+		ventana.getComboEspecialidad().setSelectedIndex(0);
 		ventana.getTextReferido().setText("");
 		ventana.getComboPatologo().setSelectedIndex(0);
 		ventana.getTextAreaIDx().setText("");
@@ -120,9 +126,15 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 			ventana.getTextProcedencia().setText(biopsia.getIngresoDTO().getProcedencia());
 			ventana.getTextPiezaRecibida().setText(biopsia.getIngresoDTO().getPiezaRecibida());
 			
-			for(int i = 0; i < ventana.getComboTipoExamen().getItemCount(); i++){
-				if(((TipoExamenDTO) ventana.getComboTipoExamen().getItemAt(i)).getId() == biopsia.getExamenBiopsia().getIdTipoExamen()){
-					ventana.getComboTipoExamen().setSelectedIndex(i);
+			for(int i = 0; i < ventana.getComboTipoEstudio().getItemCount(); i++){
+				if(((TipoEstudioDTO) ventana.getComboTipoEstudio().getItemAt(i)).getId() == biopsia.getIdTipoEstudio()){
+					ventana.getComboTipoEstudio().setSelectedIndex(i);
+				}
+			}
+			
+			for(int i = 0; i < ventana.getComboEspecialidad().getItemCount(); i++){
+				if(((EspecialidadDTO) ventana.getComboEspecialidad().getItemAt(i)).getId() == biopsia.getExamenBiopsia().getIdTipoExamen()){
+					ventana.getComboEspecialidad().setSelectedIndex(i);
 				}
 			}
 			
@@ -156,19 +168,20 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 		BiopsiaInfoDTO registro = biopsiaInfoDTO;
 		
 		if("".equals(ventana.getTextNroBiopsia().getText())){
-			registro.setYearBiopsia(-1);
-			registro.setNumeroBiopsia(-1);
+			registro.setSide1CodeBiopsia("-1");
+			registro.setSide2CodeBiopsia("-1");
 		}else{
 			String[] values = ventana.getTextNroBiopsia().getText().split("\\-");
-			registro.setYearBiopsia(Integer.parseInt(values[0]));
-			registro.setNumeroBiopsia(Integer.parseInt(values[1]));
+			registro.setSide1CodeBiopsia(values[0]);
+			registro.setSide2CodeBiopsia(values[1]);
 		}
 		
 		registro.setFaseActual(FasesBiopsia.INGRESO);
 		registro.setCliente(ClienteDAO.getByCedula((
 				(TipoCedulaDTO) ventana.getComboTipoCedula().getSelectedItem()).getKeyCedula() + ventana.getTextCedula().getText()));
 		registro.setExamenBiopsia(
-				ExamenBiopsiaDAO.getById(((ExamenBiopsiaDTO) ventana.getComboExamen().getSelectedItem()).getId()));
+				ExamenesDAO.getById(((ExamenBiopsiaDTO) ventana.getComboExamen().getSelectedItem()).getId()));
+		registro.setIdTipoEstudio(((TipoEstudioDTO) ventana.getComboTipoEstudio().getSelectedItem()).getId());
 		
 		BiopsiaIngresoDTO ingreso = new BiopsiaIngresoDTO();
 		ingreso.setIdx(ventana.getTextAreaIDx().getText());
@@ -230,10 +243,10 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 			errors += "Debe indicar un valor para la procedencia de esta pieza.\n";
 		}
 		if("".equals(ventana.getTextPiezaRecibida().getText())){
-			errors += "Debe indicar la pieza recibida para esta biopsia.\n";
+			errors += "Debe indicar la procedencia del material para esta biopsia.\n";
 		}
-		if(ventana.getComboTipoExamen().getSelectedIndex() == 0){
-			errors += "Debe indicar el tipo de examen asociado a esta biopsia.\n";
+		if(ventana.getComboEspecialidad().getSelectedIndex() == 0){
+			errors += "Debe indicar la especialidad asociada a esta biopsia.\n";
 		}
 		if(ventana.getComboExamen().getItemCount() == 0){
 			errors += "Debe indicar el examen asociado a esta biopsia.\n";
@@ -321,7 +334,13 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 						"Faltan atributos para la impresión.", 
 						JOptionPane.ERROR_MESSAGE);
 			}
-		}	
+		} else if(ACTION_COMMAND_BTN_ADD_TIPO_ESTUDIO.equals(e.getActionCommand())){
+			
+		} else if(ACTION_COMMAND_BTN_ADD_ESPECIALIDAD.equals(e.getActionCommand())){
+			new EspecialidadDialog().setVisible(true);
+		} else if(ACTION_COMMAND_BTN_ADD_EXAMEN.equals(e.getActionCommand())){
+			new ExamenDialog().setVisible(true);
+		}
 	}
 
 	private boolean whatToDoWithBiopsia(BiopsiaInfoDTO ingreso, boolean goToMacro) {
@@ -537,7 +556,7 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 				//cambio el combo del tipo de examen, verifico el valor para hacer el ajuste de los examenes
 				ventana.getComboExamen().removeAllItems();
 				for (ExamenBiopsiaDTO examen : examenes) {
-					if(((TipoExamenDTO) combo.getSelectedItem()).getId() == examen.getIdTipoExamen()){
+					if(((EspecialidadDTO) combo.getSelectedItem()).getId() == examen.getIdTipoExamen()){
 						ventana.getComboExamen().addItem(examen);
 					}
 				}

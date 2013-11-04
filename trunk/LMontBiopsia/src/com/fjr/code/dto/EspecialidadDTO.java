@@ -9,14 +9,14 @@ package com.fjr.code.dto;
  * @author T&T
  *
  */
-public class TipoExamenDTO {
+public class EspecialidadDTO {
 	private int id;
 	private String nombre;
 	private String codigo;
 	private String descripcion;
 	private boolean activo;
 	
-	public TipoExamenDTO() {
+	public EspecialidadDTO() {
 		// TODO Auto-generated constructor stub
 	}
 

@@ -4,7 +4,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
@@ -202,16 +201,20 @@ public class JTableMacroFotos {
 			lista = new LinkedList<BiopsiaMacroFotoDTO>();
 			
 			for (int i = 0; i < model.getRowCount(); i++) {
-				File fotoFile = new File(model.getValueAt(i, 3).toString());
 				BiopsiaMacroFotoDTO macroFoto = new BiopsiaMacroFotoDTO();
 				macroFoto.setNotacion(model.getValueAt(i, 1).toString());
 				macroFoto.setDescripcion(model.getValueAt(i, 2).toString());
-				macroFoto.setFotoFile(fotoFile);
 				macroFoto.setFotoPerOperatoria(Boolean.parseBoolean(model.getValueAt(i, 4).toString()));
 				
+				File fotoFile = null;
+				if(model.getValueAt(i, 3) != null){
+					fotoFile = new File(model.getValueAt(i, 3).toString());
+				}
+				
 				try {
+					macroFoto.setFotoFile(fotoFile);
 					macroFoto.setFotoBlob(new FileInputStream(fotoFile));
-				} catch (FileNotFoundException e) {
+				} catch (Throwable e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}

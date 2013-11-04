@@ -147,7 +147,7 @@ public class JTableTodasBiopsias {
 				addRow(biopsiaInfoDTO.getId(),
 						biopsiaInfoDTO.getCodigo(), 
 						biopsiaInfoDTO.getExamenBiopsia().getNombreExamen(), 
-						biopsiaInfoDTO.getCliente().getNombres() + biopsiaInfoDTO.getCliente().getApellidos(),
+						biopsiaInfoDTO.getCliente().getNombres() + " " + biopsiaInfoDTO.getCliente().getApellidos(),
 						biopsiaInfoDTO.getFaseActual().getNombreFase());
 			}
 		}

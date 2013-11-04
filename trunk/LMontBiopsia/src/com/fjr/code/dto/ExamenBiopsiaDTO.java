@@ -41,6 +41,10 @@ public class ExamenBiopsiaDTO {
 		this.nombreTipoExamen = nombreTipoExamen;
 	}
 
+	public ExamenBiopsiaDTO() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getId() {
 		return id;
 	}
