@@ -207,7 +207,6 @@ public class MenuPanel extends JPanel {
 			});
 			menuIHQ.add(mntmIHQ);
 			
-			
 			//agregamos los menus principales
 			menuBar.add(menuRecepcion);
 			menuBar.add(menuMacroscopica);

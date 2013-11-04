@@ -170,9 +170,12 @@ public class JTableTodasBiopsias {
 		Vector<Object> rowData = new Vector<Object>();
 		if(FasesBiopsia.INFORME_IMPRESO.getNombreFase().equals(faseActual)){
 			rowData.add("Reimprimir");
+		} else if(FasesBiopsia.ENTREGA.getNombreFase().equals(faseActual)){
+			rowData.add("Imprimir");
 		} else {
 			rowData.add("Abrir");
 		}
+		
 		rowData.add(codigo);
 		rowData.add(examen);
 		rowData.add(cliente);
