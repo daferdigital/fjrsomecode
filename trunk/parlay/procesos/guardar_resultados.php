@@ -23,11 +23,13 @@ foreach($_POST['resultado'] as $idlogro_equipo=>$valor){
 
 //CALCULO DE APUESTAS GANADORAS 
 $imp=0;
+
 foreach($_POST['resultado'] as $idlogro_equipo=>$valor){
 	if($imp%2==0):
 		echo "\n<br>idlogro_equipo_: $idlogro_equipo";
 		$equipoA=(int)$idlogro_equipo;
 		$equipoB=(int)$idlogro_equipo+1;
+				
 		//Seteo a estatus cero las apuestas acertadas previamente cargadas			
 		mysql_debug_query("update vista_aciertos set estatus='0' where idlogro_equipo='".$equipoA."' or idlogro_equipo='".$equipoB."'");
 		//Seteo las jugadas suspendidas
@@ -62,16 +64,12 @@ foreach($_POST['resultado'] as $idlogro_equipo=>$valor){
 				$_SESSION['suspendido'] =0;
 				genera_aciertos('23',$equipoA); // A ganar JuegoCompleto - A
 				genera_aciertos('25',$equipoB); // A ganar JuegoCompleto - B
-				genera_aciertos('24',$equipoA); // AGanar MedioJuego - A
-				genera_aciertos('26',$equipoB); // AGanar MedioJuego - B
 				genera_aciertos('27',$equipoA); //RunLine JuegoCompleto - A
 				genera_aciertos('28',$equipoB); //RunLine JuegoCompleto - B
 				genera_aciertos('29',$equipoA); // Runline MJ - A
 				genera_aciertos('30',$equipoB); // Runline MJ - B
 				genera_aciertos('31',$equipoA); //Bajas JuegoCompleto - A
 				genera_aciertos('32',$equipoA); //Altas JuegoCompleto - A
-				genera_aciertos('33',$equipoA); // Altas MedioJuego - A
-				genera_aciertos('34',$equipoA); // Bajas MedioJuego - A
 				genera_aciertos('37',$equipoA); // Anota1ero - A
 				genera_aciertos('38',$equipoB); // Anota1ero - B
 				genera_aciertos('39',$equipoA); // si primer - A
