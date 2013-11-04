@@ -1,0 +1,8 @@
+Cambio para que los tickets recalculados puedan ser efectivamente pagados.
+
+Archivos:
+
+parlay/verificar_datos_ticket.php
+
+parlay/procesos/guardar_pagar_ticket.php
+
