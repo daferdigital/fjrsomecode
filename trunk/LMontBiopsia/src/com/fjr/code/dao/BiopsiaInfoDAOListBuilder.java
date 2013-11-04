@@ -124,7 +124,7 @@ class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO> {
 	
 	public void setOrberByRegistro() {
 		// TODO Auto-generated method stub
-		END = " ORDER BY b.fecha_registro DESC, b.side1_code_biopsia, b.side2_code_biopsia";
+		END = " ORDER BY b.fecha_registro DESC, b.side1_code_biopsia, b.side2_code_biopsia DESC";
 	}
 	
 	@Override

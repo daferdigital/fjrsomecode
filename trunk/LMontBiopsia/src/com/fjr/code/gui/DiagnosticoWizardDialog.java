@@ -142,8 +142,12 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 			
 			for (BiopsiaMacroFotoDTO macroFoto : biopsia.getMacroscopicaDTO().getMacroFotosDTO()) {
 				if(macroFoto.isFotoPerOperatoria()){
+					/*
 					btnDesc = new JButton(macroFoto.getNotacion()
 							+ ": " + macroFoto.getDescripcion());
+					*/
+					btnDesc = new JButton(macroFoto.getDescripcion());
+					
 					btnDesc.setBorderPainted(false);
 					btnDesc.setToolTipText(JTableDiagnosticoWizard.SECCION_PER_OPERATORIA);
 					btnDesc.setName(btnDesc.getText());

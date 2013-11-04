@@ -13,6 +13,6 @@ import java.io.IOException;
  */
 public class StartAsBatFile {
 	public static void main(String[] args) throws IOException {
-		Runtime.getRuntime().exec("java -cp LMontBiopsia.jar;. com/fjr/code/main/Start");
+		Runtime.getRuntime().exec("java -Xverify:none -cp LMontBiopsia.jar;. com/fjr/code/main/Start");
 	}
 }

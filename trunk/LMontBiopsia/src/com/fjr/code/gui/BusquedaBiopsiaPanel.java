@@ -169,6 +169,9 @@ public class BusquedaBiopsiaPanel extends JPanel implements ActionListener{
 			//y el valor dado
 			BiopsiaInfoDAO.searchAllByCriteria((CriterioBusquedaBiopsia) cBoxBusqueda.getSelectedItem(),
 					txtValor1.getText());
+			
+			AppWindow.getInstance().setPanelContenido(this, 
+					null);
 		}
 	}
 }
