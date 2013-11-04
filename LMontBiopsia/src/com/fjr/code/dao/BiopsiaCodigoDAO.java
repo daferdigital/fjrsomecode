@@ -26,9 +26,9 @@ public final class BiopsiaCodigoDAO {
 	 * @return
 	 */
 	public static int[] getAutomaticYearAndNumber(){
-		final String query = "SELECT DATE_FORMAT(NOW(),'%y') AS year, IF(MAX(numero_biopsia) IS NULL, 0, MAX(numero_biopsia)) + 1 AS numeroBiopsia"
+		final String query = "SELECT DATE_FORMAT(NOW(),'%y') AS year, IF(MAX(side2_code_biopsia) IS NULL, 0, CAST(MAX(side2_code_biopsia) + 1 AS SIGNED)) AS numeroBiopsia"
 				+ " FROM biopsias"
-				+ " WHERE year_biopsia = DATE_FORMAT(NOW(),'%y')";
+				+ " WHERE side1_code_biopsia = DATE_FORMAT(NOW(),'%y')";
 		
 		int[] result = {-1, -1};
 		

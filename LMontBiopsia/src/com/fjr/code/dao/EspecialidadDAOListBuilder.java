@@ -8,7 +8,7 @@ import javax.sql.rowset.CachedRowSet;
 import org.apache.log4j.Logger;
 
 import com.fjr.code.dao.definitions.DAOListBuilder;
-import com.fjr.code.dto.TipoExamenDTO;
+import com.fjr.code.dto.EspecialidadDTO;
 import com.fjr.code.util.DBUtil;
 
 /**
@@ -20,16 +20,16 @@ import com.fjr.code.util.DBUtil;
  * @author T&T
  *
  */
-final class TipoExamenDAOListBuilder implements DAOListBuilder<TipoExamenDTO>{
+final class EspecialidadDAOListBuilder implements DAOListBuilder<EspecialidadDTO>{
 	/**
 	 * 
 	 */
-	private static final Logger log = Logger.getLogger(TipoExamenDAOListBuilder.class);
+	private static final Logger log = Logger.getLogger(EspecialidadDAOListBuilder.class);
 	
 	
 	private static final String BEGIN = "SELECT te.id AS idTipoExamen, te.codigo AS codigoTipoExamen, te.nombre AS nombreTipoExamen, "
 			+ " te.activo, te.descripcion "
-			+ " FROM tipo_examenes te"
+			+ " FROM especialidad te"
 			+ " WHERE te.activo='1'";
 	private static final String END = " ORDER BY te.nombre";
 
@@ -40,7 +40,7 @@ final class TipoExamenDAOListBuilder implements DAOListBuilder<TipoExamenDTO>{
 	/**
 	 * 
 	 */
-	public TipoExamenDAOListBuilder() {
+	public EspecialidadDAOListBuilder() {
 		// TODO Auto-generated constructor stub
 		parameters = new LinkedList<Object>();
 		customWhere = "";
@@ -75,14 +75,14 @@ final class TipoExamenDAOListBuilder implements DAOListBuilder<TipoExamenDTO>{
 	 * 
 	 * @return
 	 */
-	public List<TipoExamenDTO> getResults(){
-		List<TipoExamenDTO> results = new LinkedList<TipoExamenDTO>();
+	public List<EspecialidadDTO> getResults(){
+		List<EspecialidadDTO> results = new LinkedList<EspecialidadDTO>();
 		
 		try {
 			CachedRowSet rowSet = DBUtil.executeSelectQuery(getQuery(), getParameters());
 			
 			while (rowSet.next()) {
-				TipoExamenDTO tipo = new TipoExamenDTO();
+				EspecialidadDTO tipo = new EspecialidadDTO();
 				tipo.setId(rowSet.getInt(1));
 				tipo.setCodigo(rowSet.getString(2));
 				tipo.setNombre(rowSet.getString(3));

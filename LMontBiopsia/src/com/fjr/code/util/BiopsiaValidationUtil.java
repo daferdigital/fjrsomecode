@@ -12,7 +12,8 @@ import java.util.regex.Pattern;
  *
  */
 public final class BiopsiaValidationUtil {
-	private static final Pattern REG_EXP_NRO_BIOPSIA = Pattern.compile("([0-9]{2}\\-)[0-9]{1,6}");
+	private static final Pattern REG_EXP_NEW_NRO_BIOPSIA = Pattern.compile("([0-9]{2}\\-)[0-9]{1,6}");
+	private static final Pattern REG_EXP_OLD_NRO_BIOPSIA = Pattern.compile("([0-9]{4}\\-)[A-Z]{1}");
 	
 	private BiopsiaValidationUtil() {
 		// TODO Auto-generated constructor stub
@@ -27,7 +28,11 @@ public final class BiopsiaValidationUtil {
 		boolean isValid = false;
 		
 		try {
-			isValid = REG_EXP_NRO_BIOPSIA.matcher(nroBiopsia).matches();
+			isValid = REG_EXP_NEW_NRO_BIOPSIA.matcher(nroBiopsia).matches();
+			if(!isValid){
+				//verificamos los tipos de codigos viejos, para permitir la carga de esas biopsias
+				isValid = REG_EXP_OLD_NRO_BIOPSIA.matcher(nroBiopsia).matches();
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -53,12 +58,17 @@ public final class BiopsiaValidationUtil {
 	 * @return
 	 */
 	public static String formatCodigoBiopsia(String codigo){
-		if(isAValidNroBiopsia(codigo)){
-			String[] pieces = codigo.split("\\-");
-			int year = Integer.parseInt(pieces[0]);
-			int numero  = Integer.parseInt(pieces[1]);
-			
-			return String.format("%02d-%06d", year, numero);
+		try {
+			if(isAValidNroBiopsia(codigo)){
+				String[] pieces = codigo.split("\\-");
+				int year = Integer.parseInt(pieces[0]);
+				int numero  = Integer.parseInt(pieces[1]);
+				
+				codigo = String.format("%02d-%06d", year, numero);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			//es el formato antiguo de codigo, lo dejamos igual
 		}
 		
 		return codigo;

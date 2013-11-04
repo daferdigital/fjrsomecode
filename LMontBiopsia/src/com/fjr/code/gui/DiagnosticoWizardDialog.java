@@ -132,9 +132,17 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 			label.setHorizontalAlignment(SwingConstants.LEFT);
 			panelBiopsia.add(label);
 			
+			JButton btnDesc = new JButton("");
+			btnDesc.setBorderPainted(false);
+			btnDesc.setToolTipText(JTableDiagnosticoWizard.SECCION_PER_OPERATORIA);
+			btnDesc.setName(btnDesc.getText());
+			btnDesc.setHorizontalAlignment(SwingConstants.LEFT);
+			btnDesc.addActionListener(this);
+			panelBiopsia.add(btnDesc);
+			
 			for (BiopsiaMacroFotoDTO macroFoto : biopsia.getMacroscopicaDTO().getMacroFotosDTO()) {
 				if(macroFoto.isFotoPerOperatoria()){
-					JButton btnDesc = new JButton(macroFoto.getNotacion()
+					btnDesc = new JButton(macroFoto.getNotacion()
 							+ ": " + macroFoto.getDescripcion());
 					btnDesc.setBorderPainted(false);
 					btnDesc.setToolTipText(JTableDiagnosticoWizard.SECCION_PER_OPERATORIA);
@@ -165,9 +173,17 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 			label.setHorizontalAlignment(SwingConstants.LEFT);
 			panelBiopsia.add(label);
 			
+			JButton btnDesc = new JButton("");
+			btnDesc.setBorderPainted(false);
+			btnDesc.setToolTipText(JTableDiagnosticoWizard.SECCION_MACRO);
+			btnDesc.setName(btnDesc.getText());
+			btnDesc.setHorizontalAlignment(SwingConstants.LEFT);
+			btnDesc.addActionListener(this);
+			panelBiopsia.add(btnDesc);
+			
 			for (BiopsiaMacroFotoDTO macroFoto : biopsia.getMacroscopicaDTO().getMacroFotosDTO()) {
 				if(! macroFoto.isFotoPerOperatoria()){
-					JButton btnDesc = new JButton(macroFoto.getNotacion()
+					btnDesc = new JButton(macroFoto.getNotacion()
 							+ ": " + macroFoto.getDescripcion());
 					btnDesc.setBorderPainted(false);
 					btnDesc.setToolTipText(JTableDiagnosticoWizard.SECCION_MACRO);
@@ -199,8 +215,16 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 			label.setHorizontalAlignment(SwingConstants.LEFT);
 			panelBiopsia.add(label);
 			
+			JButton btnDesc = new JButton("");
+			btnDesc.setBorderPainted(false);
+			btnDesc.setToolTipText(JTableDiagnosticoWizard.SECCION_IHQ);
+			btnDesc.setName(btnDesc.getText());
+			btnDesc.setHorizontalAlignment(SwingConstants.LEFT);
+			btnDesc.addActionListener(this);
+			panelBiopsia.add(btnDesc);
+			
 			for (BiopsiaMicroLaminasDTO microLaminaIHQ : biopsia.getMicroscopicaDTO().getLaminasDTO()) {
-				JButton btnDesc = new JButton(microLaminaIHQ.getDescripcion());
+				btnDesc = new JButton(microLaminaIHQ.getDescripcion());
 				btnDesc.setBorderPainted(false);
 				btnDesc.setToolTipText(JTableDiagnosticoWizard.SECCION_IHQ);
 				btnDesc.setName(btnDesc.getText());
@@ -235,8 +259,16 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 			label.setHorizontalAlignment(SwingConstants.LEFT);
 			panelBiopsia.add(label);
 			
+			JButton btnDesc = new JButton("");
+			btnDesc.setBorderPainted(false);
+			btnDesc.setToolTipText(JTableDiagnosticoWizard.SECCION_DIAGNOSTICO);
+			btnDesc.setName(btnDesc.getText());
+			btnDesc.setHorizontalAlignment(SwingConstants.LEFT);
+			btnDesc.addActionListener(this);
+			panelBiopsia.add(btnDesc);
+			
 			for (BiopsiaMicroLaminasDTO microLaminaIHQ : biopsia.getMicroscopicaDTO().getLaminasDTO()) {
-				JButton btnDesc = new JButton(microLaminaIHQ.getDescripcion());
+				btnDesc = new JButton(microLaminaIHQ.getDescripcion());
 				btnDesc.setBorderPainted(false);
 				btnDesc.setToolTipText(JTableDiagnosticoWizard.SECCION_DIAGNOSTICO);
 				btnDesc.setName(btnDesc.getText());

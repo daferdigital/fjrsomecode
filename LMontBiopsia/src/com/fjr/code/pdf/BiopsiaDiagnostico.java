@@ -42,11 +42,14 @@ import com.itextpdf.text.pdf.PdfWriter;
  * @author T&T
  *
  */
-public class BiopsiaDiagnostico {
+public class BiopsiaDiagnostico implements PDFPageChecker {
 	private static final Logger log = Logger.getLogger(BiopsiaDiagnostico.class);
+	private static final Chunk chunkEnter = new Chunk("\n");
+	private static final Chunk tab1 = new Chunk("        ");
 	
 	private BiopsiaInfoDTO biopsia;
 	private int idBiopsia;
+	private boolean fixNumberPage = false;
 	private String fileName;
 	private String filePath;
 	private String firmante1;
@@ -95,13 +98,13 @@ public class BiopsiaDiagnostico {
 			document.setMargins(document.leftMargin(), 
 					114, 
 					120, 
-					document.bottomMargin() + 60);
+					document.bottomMargin() + 70);
 			
 			//step 2
 			PdfWriter writer = PdfWriter.getInstance(document, 
 	        		new FileOutputStream(filePath));
 			
-			HeaderFooter event = new HeaderFooter(biopsia.getCodigo());
+			HeaderFooter event = new HeaderFooter(biopsia.getCodigo(), this);
             writer.setPageEvent(event);
             
 			//step 3
@@ -113,16 +116,16 @@ public class BiopsiaDiagnostico {
 	        //agregamos la tabla de detalle de la biopsia
 	        document.add(addDetailBiopsiaTable());
 	        //agregamos la info de Macro
-	        addDetailMacro(document);
+	        addDetailMacro(document, writer);
 
 	        //verificamos info de IHQ
 	        if(biopsia.getMicroscopicaDTO().getEstudioIHQ() != null
 					&& ! "".equals(biopsia.getMicroscopicaDTO().getEstudioIHQ().trim())){
 	        	addFirmantes(writer, document);
-	        	addInfoIHQ(document);
+	        	addInfoIHQ(document, writer);
 	        }
 	        
-	        addFotosMicro(document);
+	        addFotosMicro(document, writer);
 	        
 	        //agregamos el diagnostico de la fase micro
 		    addDiagnostico(document);
@@ -211,14 +214,11 @@ public class BiopsiaDiagnostico {
 	
 	/**
 	 * 
-	 * @param document 
-	 * @param biopsia
-	 * @return
-	 * @throws DocumentException 
+	 * @param document
+	 * @param writer
+	 * @throws DocumentException
 	 */
-	private void addDetailMacro(Document document) throws DocumentException{
-		Chunk chunkEnter = new Chunk("\n");
-		
+	private void addDetailMacro(Document document, PdfWriter writer) throws DocumentException{
 		Chunk title1 = new Chunk("PROCEDENCIA DEL MATERIAL:", 
 				new Font(informeFontBold.getBaseFont(), 12F, Font.UNDERLINE));
 		Phrase value1 = new Phrase(" " + biopsia.getIngresoDTO().getPiezaRecibida(), 
@@ -245,30 +245,49 @@ public class BiopsiaDiagnostico {
 		document.add(p1);
 		document.add(p2);
 		
-		addMapMacro(document);
+		addMapMacro(document, writer);
 	}
 	
 	/**
 	 * 
 	 * @param document
-	 * @throws DocumentException 
+	 * @param writer
+	 * @throws DocumentException
 	 */
-	private void addInfoIHQ(Document document) throws DocumentException{
+	private void addInfoIHQ(Document document, PdfWriter writer) throws DocumentException{
 		//verificamos si se debe agregar informacion de IHQ
 		if(biopsia.getMicroscopicaDTO().getEstudioIHQ() != null
 				&& ! "".equals(biopsia.getMicroscopicaDTO().getEstudioIHQ().trim())){
+			fixNumberPage = true;
 			document.newPage();
+			fixNumberPage = false;
+			
 			document.add(addDetailBiopsiaTable());
 			
-			//podemos registrar info IHQ
-			Chunk chunkEnter = new Chunk("\n");
-			Chunk title1 = new Chunk("ESTUDIO INMUNOHISTOQUIMICO:", 
+			Chunk title1 = new Chunk("PROCEDENCIA DEL MATERIAL:", 
 					new Font(informeFontBold.getBaseFont(), 12F, Font.UNDERLINE));
-			
-			Phrase value1 = new Phrase(" " + biopsia.getMicroscopicaDTO().getEstudioIHQ(), 
+			Phrase value1 = new Phrase(" " + biopsia.getIngresoDTO().getPiezaRecibida(), 
 					new Font(informeFontNormal.getBaseFont(), 12F));
 			
 			Paragraph p1 = new Paragraph();
+			p1.setIndentationLeft(50);
+			p1.add(chunkEnter);
+			p1.add(chunkEnter);
+			p1.add(chunkEnter);
+			p1.add(title1);
+			p1.add(value1);
+			
+			document.add(p1);
+			
+			//podemos registrar info IHQ
+			title1 = new Chunk("ESTUDIO INMUNOHISTOQUIMICO:", 
+					new Font(informeFontBold.getBaseFont(), 12F, Font.UNDERLINE));
+			
+			value1 = new Phrase(" " + biopsia.getMicroscopicaDTO().getEstudioIHQ(), 
+					new Font(informeFontNormal.getBaseFont(), 12F));
+			
+			p1 = new Paragraph();
+			p1.setAlignment(Element.ALIGN_JUSTIFIED);
 			p1.setIndentationLeft(50);
 			p1.add(chunkEnter);
 			p1.add(chunkEnter);
@@ -310,34 +329,20 @@ public class BiopsiaDiagnostico {
 				}
 			}
 			
-			addMapToDocument(mapIHQ, document);
+			addMapToDocument(mapIHQ, document, writer);
 		}
 	}
 	
 	/**
 	 * 
 	 * @param document
+	 * @param writer
 	 * @throws DocumentException
 	 */
-	private void addFotosMicro(Document document) throws DocumentException{
+	private void addFotosMicro(Document document, PdfWriter writer) throws DocumentException{
 		if(mapDiagnostico != null
 				&& mapDiagnostico.size() > 0){
-			Chunk chunkEnter = new Chunk("\n");
-			Chunk title1 = new Chunk("FOTOS MICRO:", 
-					new Font(informeFontBold.getBaseFont(), 12F, Font.UNDERLINE));
-			Phrase value1 = new Phrase(" " + biopsia.getMicroscopicaDTO().getDiagnostico(), 
-					new Font(informeFontNormal.getBaseFont(), 12F));
-			
-			Paragraph p1 = new Paragraph();
-			p1.setIndentationLeft(50);
-			p1.add(chunkEnter);
-			p1.add(chunkEnter);
-			p1.add(title1);
-			p1.add(value1);
-			
-			document.add(p1);
-			
-			addMapToDocument(mapDiagnostico, document);
+			addMapToDocument(mapDiagnostico, document, writer);
 		}
 	}
 	
@@ -347,7 +352,6 @@ public class BiopsiaDiagnostico {
 	 * @throws DocumentException
 	 */
 	private void addDiagnostico(Document document) throws DocumentException{
-		Chunk chunkEnter = new Chunk("\n");
 		Chunk title1 = new Chunk("DIAGNOSTICO:", 
 				new Font(informeFontBold.getBaseFont(), 12F, Font.UNDERLINE));
 		Phrase value1 = new Phrase(" " + biopsia.getMicroscopicaDTO().getDiagnostico(), 
@@ -444,11 +448,9 @@ public class BiopsiaDiagnostico {
 	 * @param document
 	 * @throws DocumentException
 	 */
-	private void addMapMacro(Document document) throws DocumentException{
+	private void addMapMacro(Document document, PdfWriter writer) throws DocumentException{
 		//procesamos las posibles fotos del mapa indicado
 		int numeroFoto = 1;
-		Chunk tab1 = new Chunk("        ");
-		Chunk enter = new Chunk("\n");
 				
 		for (Integer linea : mapMacro.keySet()) {
 			List<String> mapLinea = mapMacro.get(linea);
@@ -469,10 +471,10 @@ public class BiopsiaDiagnostico {
 					Paragraph p3 = new Paragraph();
 					p3.setAlignment(Paragraph.ALIGN_JUSTIFIED);
 					p3.setIndentationLeft(50);
-					p3.add(enter);
+					p3.add(chunkEnter);
 					p3.add(titlePerOperatorio);
 					p3.add(valuePerOperatorio);
-					p3.add(enter);
+					p3.add(chunkEnter);
 					document.add(p3);	
 				} else {
 					Phrase phraseFoto = new Phrase(numeroFoto + ".- " + element0,
@@ -481,10 +483,10 @@ public class BiopsiaDiagnostico {
 					Paragraph parrafoFoto = new Paragraph();
 					parrafoFoto.setAlignment(Paragraph.ALIGN_JUSTIFIED);
 					parrafoFoto.setIndentationLeft(50);
-					parrafoFoto.add(enter);
+					parrafoFoto.add(chunkEnter);
 					parrafoFoto.add(tab1);
 					parrafoFoto.add(phraseFoto);
-					parrafoFoto.add(enter);
+					parrafoFoto.add(chunkEnter);
 					
 					document.add(parrafoFoto);
 					numeroFoto++;
@@ -516,12 +518,12 @@ public class BiopsiaDiagnostico {
 						Paragraph p3 = new Paragraph();
 						p3.setAlignment(Paragraph.ALIGN_JUSTIFIED);
 						p3.setIndentationLeft(50);
-						p3.add(enter);
-						p3.add(enter);
+						p3.add(chunkEnter);
+						p3.add(chunkEnter);
 						p3.add(titlePerOperatorio);
 						p3.add(valuePerOperatorio);
-						p3.add(enter);
-						p3.add(enter);
+						p3.add(chunkEnter);
+						p3.add(chunkEnter);
 						
 						document.add(p3);	
 					} else {
@@ -532,12 +534,12 @@ public class BiopsiaDiagnostico {
 						parrafoFoto.setAlignment(Paragraph.ALIGN_JUSTIFIED);
 						parrafoFoto.setIndentationLeft(50);
 						
-						parrafoFoto.add(enter);
-						parrafoFoto.add(enter);
+						parrafoFoto.add(chunkEnter);
+						parrafoFoto.add(chunkEnter);
 						parrafoFoto.add(tab1);
 						parrafoFoto.add(phraseFoto);
-						parrafoFoto.add(enter);
-						parrafoFoto.add(enter);
+						parrafoFoto.add(chunkEnter);
+						parrafoFoto.add(chunkEnter);
 						
 						document.add(parrafoFoto);
 						numeroFoto++;
@@ -578,10 +580,15 @@ public class BiopsiaDiagnostico {
 									cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 								}
 								cell.setBorder(0);
+								cell.setNoWrap(true);
 								cell.setFixedHeight(70 + (90 / numFotos));
 								cell.setIndent(50);
-								
 								table.addCell(cell);
+								
+								//verificamos si agregar esta celda, genera un overflow de contenido
+								if (writer.getVerticalPosition(true) - cell.getFixedHeight() < document.bottom()) {
+									document.newPage();
+					            }
 							} catch (Throwable e) {
 								// TODO Auto-generated catch block
 								log.error(e.getMessage(), e);
@@ -602,7 +609,7 @@ public class BiopsiaDiagnostico {
 	 * @throws DocumentException 
 	 */
 	private void addMapToDocument(Map<Integer, List<String>> mapToProcess,
-			Document document) throws DocumentException{
+			Document document, PdfWriter writer) throws DocumentException{
 		//procesamos las posibles fotos del mapa indicado
 		int numeroFoto = 1;
 		Chunk tab1 = new Chunk("        ");
@@ -662,7 +669,7 @@ public class BiopsiaDiagnostico {
 				float[] measures = null;
 				float value = 60;
 				if(numFotos == 1){
-					measures = new float[]{value};
+					measures = new float[]{value * 3};
 				} else if(numFotos == 2){
 					measures = new float[]{value, value};
 				} else if(numFotos == 3){
@@ -681,13 +688,20 @@ public class BiopsiaDiagnostico {
 							//imgFJR.setIndentationLeft(50);
 							
 							PdfPCell cell = new PdfPCell(imgFJR);
-							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-							//cell.setVerticalAlignment(Element.ALIGN_CENTER);
+							if(numFotos == 1){
+								cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+							} else {
+								cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							}
+							cell.setNoWrap(true);
 							cell.setBorder(0);
 							cell.setFixedHeight(70 + (90 / numFotos));
 							cell.setIndent(50);
-							
 							table.addCell(cell);
+							
+							if (writer.getVerticalPosition(true) - cell.getFixedHeight() < document.bottom()) {
+								document.newPage();
+				            }
 						} catch (Throwable e) {
 							// TODO Auto-generated catch block
 							log.error(e.getMessage(), e);
@@ -721,5 +735,11 @@ public class BiopsiaDiagnostico {
 		
 		//new BiopsiaDiagnostico(biopsia, "Felipe Rojas", null).buildDiagnostico();
 		System.out.println("Finish...");
+	}
+
+	@Override
+	public boolean mustFixNumberPage() {
+		// TODO Auto-generated method stub
+		return fixNumberPage;
 	}
 }

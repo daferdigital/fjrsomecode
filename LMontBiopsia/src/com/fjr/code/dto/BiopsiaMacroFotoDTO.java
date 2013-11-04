@@ -75,6 +75,7 @@ public class BiopsiaMacroFotoDTO {
 	@Override
 	public String toString() {
 		return "BiopsiaMacroFotoDTO [id=" + id + ", notacion=" + notacion
-				+ ", descripcion=" + descripcion + ", fotoFile=" + fotoFile.getName() + "]";
+				+ ", descripcion=" + descripcion + ", fotoFile=" 
+				+ (fotoFile == null ? "" : fotoFile.getName()) + "]";
 	}
 }

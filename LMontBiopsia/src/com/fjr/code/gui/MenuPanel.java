@@ -73,6 +73,27 @@ public class MenuPanel extends JPanel {
 		
 		setItemsMenu(menuBar, isLogged, user);
 		
+		JMenu menuMaestros = new JMenu("Maestros");
+		menuMaestros.setHorizontalAlignment(SwingConstants.LEFT);
+		menuBar.add(menuMaestros);
+		
+		JMenu menuBusquedas = new JMenu("Búsquedas");
+		menuBusquedas.setHorizontalAlignment(SwingConstants.LEFT);
+		menuBar.add(menuBusquedas);
+		
+		JMenuItem mntmBiopsias = new JMenuItem("Biopsias");
+		mntmBiopsias.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JPanel panel = new BusquedaBiopsiaPanel();
+				panel.setVisible(true);
+				AppWindow.getInstance().setExtraTitle("Búsquedas");
+				AppWindow.getInstance().setPanelContenido(panel, 
+						null);
+			}
+		});
+		menuBusquedas.add(mntmBiopsias);
+		
+		
 		JMenu menuAyuda = new JMenu("Ayuda");
 		menuBar.add(menuAyuda);
 		
@@ -186,8 +207,6 @@ public class MenuPanel extends JPanel {
 			});
 			menuIHQ.add(mntmIHQ);
 			
-			JMenu menuMaestros = new JMenu("Maestros");
-			menuMaestros.setHorizontalAlignment(SwingConstants.LEFT);
 			
 			//agregamos los menus principales
 			menuBar.add(menuRecepcion);
@@ -195,7 +214,6 @@ public class MenuPanel extends JPanel {
 			menuBar.add(menuHistologia);
 			menuBar.add(menuMicroscopica);
 			menuBar.add(menuIHQ);
-			menuBar.add(menuMaestros);
 		}
 	}
 }

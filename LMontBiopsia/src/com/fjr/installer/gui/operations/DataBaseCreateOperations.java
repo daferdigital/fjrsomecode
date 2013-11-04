@@ -74,7 +74,7 @@ public class DataBaseCreateOperations implements ActionListener {
 							
 							if(executeCommands(commands, indexesToTry, 5, 90)){
 								commands = new String[1];
-								commands[0] = "INSERT INTO biopsias(year_biopsia, numero_biopsia, fecha_registro, id_examen_biopsia, id_cliente, id_fase_actual)"
+								commands[0] = "INSERT INTO biopsias(side1_code_biopsia, side2_code_biopsia, fecha_registro, id_examen_biopsia, id_cliente, id_fase_actual)"
 										+ " VALUES(" + (Calendar.getInstance().get(Calendar.YEAR) - 2000) + ", " + ventana.getTxt1raBiopsia().getText() + ", NOW(), -1, -1, 1)";
 								if(DBUtilSetUp.executeInsertQueryAsBoolean(commands[0], null)){
 									ventana.getProgressBar().setValue(100);

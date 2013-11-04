@@ -86,8 +86,10 @@ final class BiopsiaFotosMacroDAOListBuilder implements DAOListBuilder<BiopsiaMac
 				macroFoto.setFotoFile(destination);
 				macroFoto.setFotoPerOperatoria(rowSet.getBoolean(6));
 				
-				if(! BLOBToDiskUtil.writeBLOBToDisk(destination, rowSet.getBytes(4))){
-					log.error("Error escribiendo contenido en el archivo " + destination.getAbsolutePath());
+				if(rowSet.getBytes(4) != null){
+					if(! BLOBToDiskUtil.writeBLOBToDisk(destination, rowSet.getBytes(4))){
+						log.error("Error escribiendo contenido en el archivo " + destination.getAbsolutePath());
+					}
 				}
 				
 				log.info("Leida de la base de datos foto: " + macroFoto);

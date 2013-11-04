@@ -15,8 +15,9 @@ import com.fjr.code.dao.definitions.FasesBiopsia;
  */
 public class BiopsiaInfoDTO {
 	private int id;
-	private int yearBiopsia;
-	private int numeroBiopsia;
+	private String side1CodeBiopsia;
+	private String side2CodeBiopsia;
+	private int idTipoEstudio;
 	private Calendar fechaRegistro;
 	private ExamenBiopsiaDTO examenBiopsia;
 	private ClienteDTO cliente;
@@ -39,20 +40,29 @@ public class BiopsiaInfoDTO {
 		this.id = id;
 	}
 
-	public int getYearBiopsia() {
-		return yearBiopsia;
+	public String getSide1CodeBiopsia() {
+		return side1CodeBiopsia;
 	}
 	
-	public void setYearBiopsia(int yearBiopsia) {
-		this.yearBiopsia = yearBiopsia;
+	public void setSide1CodeBiopsia(String side1CodeBiopsia) {
+		this.side1CodeBiopsia = side1CodeBiopsia;
 	}
 	
-	public int getNumeroBiopsia() {
-		return numeroBiopsia;
+	public String getSide2CodeBiopsia() {
+		return side2CodeBiopsia;
 	}
 	
-	public void setNumeroBiopsia(int numeroBiopsia) {
-		this.numeroBiopsia = numeroBiopsia;
+	public void setSide2CodeBiopsia(String side2CodeBiopsia) {
+		this.side2CodeBiopsia = side2CodeBiopsia;
+	}
+	
+	
+	public int getIdTipoEstudio() {
+		return idTipoEstudio;
+	}
+	
+	public void setIdTipoEstudio(int idTipoEstudio) {
+		this.idTipoEstudio = idTipoEstudio;
 	}
 	
 	public Calendar getFechaRegistro() {
@@ -64,7 +74,14 @@ public class BiopsiaInfoDTO {
 	}
 	
 	public String getCodigo() {
-		return String.format("%02d-%06d", yearBiopsia, numeroBiopsia);
+		String code = side1CodeBiopsia + "-" + side2CodeBiopsia;
+		try {
+			code = String.format("%02d-%06d", Integer.parseInt(side1CodeBiopsia), Integer.parseInt(side2CodeBiopsia));
+		} catch (Exception e) {
+			// TODO: handle exception
+			//e.printStackTrace();
+		}
+		return code;
 	}
 
 	public ExamenBiopsiaDTO getExamenBiopsia() {

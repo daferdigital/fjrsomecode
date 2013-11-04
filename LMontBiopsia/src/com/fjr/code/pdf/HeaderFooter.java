@@ -5,26 +5,68 @@ import java.net.MalformedURLException;
 
 import com.fjr.code.util.Constants;
 import com.itextpdf.text.BadElementException;
+import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
 
-/** Inner class to add a header and a footer. */
+/**
+ * Inner class to add a header and a footer.
+ *  
+ * Class: HeaderFooter
+ * Creation Date: 03/11/2013
+ * (c) 2013
+ *
+ * @author T&T
+ *
+ */
 class HeaderFooter extends PdfPageEventHelper {
+	private static final Chunk chunkEnter = new Chunk("\n");
+	private PDFPageChecker pageChecker;
 	private String nroBiopsia;
+	private int fixedNum = 0;
 	
-	public HeaderFooter(String nroBiopsia) {
+	/**
+	 * 
+	 * @param nroBiopsia
+	 * @param pageChecker
+	 */
+	public HeaderFooter(String nroBiopsia, PDFPageChecker pageChecker) {
 		// TODO Auto-generated constructor stub
 		this.nroBiopsia = nroBiopsia;
+		this.pageChecker = pageChecker;
 	}
 	
-	
+	@Override
+	public void onStartPage(PdfWriter writer, Document document) {
+		// TODO Auto-generated method stub
+		System.out.println("document.getPageNumber()/fixedNum = " + document.getPageNumber() + "/" + fixedNum);
+		
+		if(pageChecker.mustFixNumberPage() ){
+			fixedNum = document.getPageNumber() -1;
+		}
+		
+		if(document.getPageNumber() - fixedNum > 1){
+			Paragraph p1 = new Paragraph();
+			p1.setIndentationLeft(50);
+			p1.add(chunkEnter);
+			p1.add(chunkEnter);
+			
+			try {
+				document.add(p1);
+			} catch (DocumentException e) {
+				// TODO Auto-generated catch block
+				//e.printStackTrace();
+			}
+		}
+	}
 	
 	
     public void onEndPage (PdfWriter writer, Document document) {
@@ -89,7 +131,20 @@ class HeaderFooter extends PdfPageEventHelper {
         		document.getPageSize().getHeight() - 96, 
         		0);
         
+        if(document.getPageNumber() - fixedNum > 1){
+			Phrase p = new Phrase("(continuación " + nroBiopsia + ") " + (document.getPageNumber() - fixedNum) + ".- ", 
+					new Font(FuenteInformeUtil.getInformeFontNormal().getBaseFont(), 11));
+	        
+			ColumnText.showTextAligned(writer.getDirectContent(),
+	        		Element.ALIGN_LEFT, 
+	        		p,
+	        		50,
+	        		document.getPageSize().getHeight() - 130, 
+	        		0);
+		}
+        
         //footer
+        /*
         if(document.getPageNumber() > 1){
         	ColumnText.showTextAligned(writer.getDirectContent(),
                     Element.ALIGN_LEFT, 
@@ -99,6 +154,7 @@ class HeaderFooter extends PdfPageEventHelper {
                     50,
                     0);
         }
+        */
         ColumnText.showTextAligned(writer.getDirectContent(),
                 Element.ALIGN_CENTER, 
                 new Phrase("INSTITUTO DE CLINICAS Y UROLOGIA TAMANACO", 

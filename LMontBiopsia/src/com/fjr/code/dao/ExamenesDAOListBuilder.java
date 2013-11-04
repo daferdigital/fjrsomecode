@@ -20,16 +20,16 @@ import com.fjr.code.util.DBUtil;
  * @author T&T
  *
  */
-final class ExamenBiopsiaDAOListBuilder implements DAOListBuilder<ExamenBiopsiaDTO>{
+final class ExamenesDAOListBuilder implements DAOListBuilder<ExamenBiopsiaDTO>{
 	/**
 	 * 
 	 */
-	private static final Logger log = Logger.getLogger(ExamenBiopsiaDAOListBuilder.class);
+	private static final Logger log = Logger.getLogger(ExamenesDAOListBuilder.class);
 	
 	
 	private static final String BEGIN = "SELECT te.id AS idTipoExamen, te.codigo AS codigoTipoExamen, te.nombre AS nombreTipoExamen, "
 			+ " eb.id AS idExamen, eb.codigo AS codigoExamen, eb.nombre AS nombreExamen, eb.dias_resultado "
-			+ " FROM tipo_examenes te, examenes_biopsias eb"
+			+ " FROM especialidad te, examenes_biopsias eb"
 			+ " WHERE te.activo='1'"
 			+ " AND eb.activo='1'"
 			+ " AND te.id = eb.id_tipo_examen";
@@ -42,7 +42,7 @@ final class ExamenBiopsiaDAOListBuilder implements DAOListBuilder<ExamenBiopsiaD
 	/**
 	 * 
 	 */
-	public ExamenBiopsiaDAOListBuilder() {
+	public ExamenesDAOListBuilder() {
 		// TODO Auto-generated constructor stub
 		parameters = new LinkedList<Object>();
 		customWhere = "";

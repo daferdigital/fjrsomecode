@@ -68,23 +68,29 @@ public class MacroFotosDialogOperations implements ActionListener{
 			if("".equals(ventana.getTxtNotacion().getText())){
 				errors += "\nLa notación es obligatoria.";
 			}
+			/*
 			if(ventana.getLblFoto().getIcon() == null){
 				errors += "\nLa foto es obligatoria";
 			}
-			
+			*/
 			if(! "".equals(errors)){
 				JOptionPane.showMessageDialog(ventana, 
 						"Disculpe, faltan los siguientes campos: \n" + errors, 
 						"Faltan campos obligatorios", 
 						JOptionPane.ERROR_MESSAGE);
 			} else {
+				String pathToPicture = null;
 				if(ventana.getRowOrigin() == -1){
+					if(ventana.getFileChooser() != null
+							&& ventana.getFileChooser().getSelectedFile() != null){
+						pathToPicture = ventana.getFileChooser().getSelectedFile().getAbsolutePath();
+					}
 					ventana.getRelatedTable().addRow(ventana.getTxtNotacion().getText(),
 							ventana.getTextADescripcion().getText(), 
-							ventana.getFileChooser().getSelectedFile().getAbsolutePath(),
+							pathToPicture,
 							ventana.getChkBoxFotoPerOperatoria().isSelected());
 				} else {
-					String pathToPicture = ventana.getPathToPicture();
+					pathToPicture = ventana.getPathToPicture();
 					if(ventana.getFileChooser() != null
 							&& ventana.getFileChooser().getSelectedFile() != null){
 						pathToPicture = ventana.getFileChooser().getSelectedFile().getAbsolutePath();

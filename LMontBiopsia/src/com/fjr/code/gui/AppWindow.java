@@ -151,13 +151,17 @@ public class AppWindow {
 		scrollPane = new JScrollPane();
 		tableTodasBiopsias = new JTableTodasBiopsias(faseABuscar).getTable();
 		
+		int factorAjuste = 10;
 		Rectangle bounds = new Rectangle(0, 
 				startHeight + panelMenu.getHeight(), 
-				Constants.APP_WINDOW_MAX_X, 
-				Constants.APP_WINDOW_MAX_Y - (startHeight + panelMenu.getHeight()));
+				Constants.APP_WINDOW_MAX_X - factorAjuste, 
+				Constants.APP_WINDOW_MAX_Y - (startHeight + panelMenu.getHeight() + (factorAjuste*3)));
 		
 		scrollPane.setBounds(bounds);
-		tableTodasBiopsias.setBounds(bounds);
+		tableTodasBiopsias.setBounds(0, 
+				startHeight + panelMenu.getHeight(), 
+				Constants.APP_WINDOW_MAX_X - (factorAjuste*2), 
+				Constants.APP_WINDOW_MAX_Y - (startHeight + panelMenu.getHeight() + (factorAjuste*6)));
 		
 		scrollPane.setViewportView(tableTodasBiopsias);
 		
