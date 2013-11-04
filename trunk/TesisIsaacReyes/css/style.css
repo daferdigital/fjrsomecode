@@ -191,11 +191,10 @@ border: 1px solid black;
 }
 #tdElement, #right, #middle {
 	display: table-cell;
-	
 	padding-right: 10px;
     border: thin;
     border-color: black;
-    font-size: 10px;
+    font-size: 12px;
     padding-top: 5px;
 }
 #tdPagingFooter{

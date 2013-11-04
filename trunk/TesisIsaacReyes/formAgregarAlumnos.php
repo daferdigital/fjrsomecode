@@ -96,7 +96,7 @@ include_once "includes/header.php";
 						</select>
 						<span class="isMandatory" id="mandatoryGrado" style="display: none;">
 							<br />
-							Disculpe, debe indicar el lugar de nacimiento.
+							Disculpe, debe indicar el grado del alumno.
 						</span>
 					</td>
 				</tr>

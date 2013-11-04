@@ -51,8 +51,8 @@ include_once "includes/header.php";
 					<td>
 						<select id="activo" name="activo">
 							<option value="">- -</option>
-							<option value="1">S&iacute;</option>
-							<option value="0">No</option>
+							<option value="0">S&iacute;</option>
+							<option value="1">No</option>
 						</select>
 					</td>
 				</tr>
