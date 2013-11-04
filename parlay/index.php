@@ -14,6 +14,15 @@
 <script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
 <script type="text/javascript" src="js/jquery.numeric.js"></script>
 <script type="text/javascript" src="js/jquery.tablehover.js"></script>
+<!-- <script src="js/jquery.min.js"></script> -->
+<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+<script src="js/jquery.ui.widget.js"></script>
+<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+<script src="js/jquery.iframe-transport.js"></script>
+<!-- The basic File Upload plugin -->
+<script src="js/jquery.fileupload.js"></script>
+<!-- Bootstrap JS is not required, but included for the responsive demo navigation -->
+<!-- <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script> -->
 
 <!--Para menu-->
 <link rel="stylesheet" type="text/css" href="css/superfish.css" media="screen">
@@ -55,7 +64,7 @@
 				$("#carga").css("display", "none");
 			});
 	   });	   
-	});
+	})
 </script>
 </head>
 
@@ -87,7 +96,7 @@
 <table align="center" width="100%" bgcolor="#ebebeb" cellpadding="5">
   
   <tr>
-    <td height="91"><form action="validar.php" method="post">	      
+    <td height="91"><form action="validar.php" method="POST">	      
           <div class="titulo"><b>Gestor de entrada </b></div>
 	      <table  align="center" width="300px" height="" style="background: url(imagenes/fondo_logueo.jpg) left top repeat-x; ">
 	        <tr>
