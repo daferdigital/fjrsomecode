@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.sql.Timestamp;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -799,25 +800,46 @@ public class BiopsiaInfoDAO {
 	
 	/**
 	 * 
-	 * @param criterio
-	 * @param valor
+	 * @param valores
+	 * @return 
 	 */
-	public static List<BiopsiaInfoDTO> searchAllByCriteria(CriterioBusquedaBiopsia criterio, 
-			String valor) {
+	public static List<BiopsiaInfoDTO> searchAllByCriteria(
+			Map<CriterioBusquedaBiopsia, String> valores) {
 		// TODO Auto-generated method stub
 		BiopsiaInfoDAOListBuilder builder = new BiopsiaInfoDAOListBuilder();
 		
-		//verificamos el listado de las biopsias
-		if(criterio.equals(CriterioBusquedaBiopsia.DIAGNOSTICO)){
-			
-		} else if(criterio.equals(CriterioBusquedaBiopsia.DIAGNOSTICO)){
-			
-		} else if(criterio.equals(CriterioBusquedaBiopsia.DIAGNOSTICO)){
-			
+		for (CriterioBusquedaBiopsia criterio : valores.keySet()) {
+			if(CriterioBusquedaBiopsia.CEDULA.equals(criterio)){
+				builder.searchByLikeCedulaCliente(valores.get(criterio));
+			} else if(CriterioBusquedaBiopsia.DIAGNOSTICO.equals(criterio)){
+				builder.searchByLikeDiagnostico(valores.get(criterio));
+			} else if(CriterioBusquedaBiopsia.ESPECIALIDAD.equals(criterio)){
+				builder.searchByLikeEspecialidad(valores.get(criterio));
+			} else if(CriterioBusquedaBiopsia.EXAMEN.equals(criterio)){
+				builder.searchByLikeExamen(valores.get(criterio));
+			} else if(CriterioBusquedaBiopsia.FASE.equals(criterio)){
+				builder.searchByLikeFase(valores.get(criterio));
+			} else if(CriterioBusquedaBiopsia.MEDICO_QUE_REFIERE.equals(criterio)){
+				builder.searchByLikeMedicoQueRefiere(valores.get(criterio));
+			} else if(CriterioBusquedaBiopsia.NUMERO_BIOPSIA.equals(criterio)){
+				builder.searchByLikeNumeroBiopsia(valores.get(criterio));
+			} else if(CriterioBusquedaBiopsia.PACIENTE.equals(criterio)){
+				builder.searchByLikePaciente(valores.get(criterio));
+			} else if(CriterioBusquedaBiopsia.PATOLOGO.equals(criterio)){
+				builder.searchByLikePatologo(valores.get(criterio));
+			} else if(CriterioBusquedaBiopsia.PROCEDENCIA_DEL_MATERIAL.equals(criterio)){
+				builder.searchByLikeProcedenciaMaterial(valores.get(criterio));
+			} else if(CriterioBusquedaBiopsia.TIPO_DE_ESTUDIO.equals(criterio)){
+				builder.searchByLikeTipoEstudio(valores.get(criterio));
+			} else if(CriterioBusquedaBiopsia.FECHA_DESDE.equals(criterio)){
+				builder.searchByFechaDesde(valores.get(criterio));
+			} else if(CriterioBusquedaBiopsia.FECHA_HASTA.equals(criterio)){
+				builder.searchByFechaHasta(valores.get(criterio));
+			}
 		}
 		
-		
+		//verificamos las fechas desde y hasta
+		builder.setOrberByRegistro();
 		return builder.getResults();
-		
 	}
 }

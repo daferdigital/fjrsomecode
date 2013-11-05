@@ -2,16 +2,23 @@ package com.fjr.code.gui;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.JComboBox;
 
 import com.fjr.code.dao.BiopsiaInfoDAO;
 import com.fjr.code.dao.definitions.CriterioBusquedaBiopsia;
 import com.fjr.code.dao.definitions.Meses;
+import com.fjr.code.dto.BiopsiaInfoDTO;
 import com.fjr.code.util.Constants;
+
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
@@ -31,14 +38,14 @@ public class BusquedaBiopsiaPanel extends JPanel implements ActionListener{
 	 */
 	private static final long serialVersionUID = 3518439321990846678L;
 	private static final String ACTION_COMMAND_BUSCAR = "buscar";
+	private JComboBox comboBox1;
 	private JTextField txtValor1;
-	private JComboBox cBoxBusqueda;
+	private JComboBox comboBox2;
 	private JTextField txtValor2;
+	private JComboBox comboBox3;
 	private JTextField txtValor3;
 	private JTextField textYearDesde;
 	private JTextField textYearHasta;
-	private JComboBox comboBox2;
-	private JComboBox comboBox3;
 	private JComboBox comboMesDesde;
 	private JComboBox comboMesHasta;
 
@@ -53,12 +60,14 @@ public class BusquedaBiopsiaPanel extends JPanel implements ActionListener{
 		lblCriterioDeBsqueda.setBounds(10, 11, 172, 16);
 		add(lblCriterioDeBsqueda);
 		
-		cBoxBusqueda = new JComboBox();
-		cBoxBusqueda.setBounds(192, 10, 232, 20);
+		comboBox1 = new JComboBox();
+		comboBox1.setBounds(192, 10, 232, 20);
 		for (int i = 0; i < CriterioBusquedaBiopsia.values().length; i++) {
-			cBoxBusqueda.addItem(CriterioBusquedaBiopsia.values()[i]);
+			if(CriterioBusquedaBiopsia.values()[i].isShowInCombo()){
+				comboBox1.addItem(CriterioBusquedaBiopsia.values()[i]);
+			}
 		}
-		add(cBoxBusqueda);
+		add(comboBox1);
 		
 		setSize(1000, 125);
 		setLocation(0, Constants.APP_MENU_HEIGTH);
@@ -77,6 +86,7 @@ public class BusquedaBiopsiaPanel extends JPanel implements ActionListener{
 		btnBuscar.setActionCommand(ACTION_COMMAND_BUSCAR);
 		btnBuscar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnBuscar.setBounds(812, 9, 89, 23);
+		btnBuscar.addActionListener(this);
 		add(btnBuscar);
 		
 		JLabel lblcriterioDeBuacutesqueda = new JLabel("<html><b>Criterio de B&uacute;squeda 2:</b></html>");
@@ -87,7 +97,9 @@ public class BusquedaBiopsiaPanel extends JPanel implements ActionListener{
 		comboBox2 = new JComboBox();
 		comboBox2.setBounds(192, 38, 232, 20);
 		for (int i = 0; i < CriterioBusquedaBiopsia.values().length; i++) {
-			comboBox2.addItem(CriterioBusquedaBiopsia.values()[i]);
+			if(CriterioBusquedaBiopsia.values()[i].isShowInCombo()){
+				comboBox2.addItem(CriterioBusquedaBiopsia.values()[i]);
+			}
 		}
 		add(comboBox2);
 		
@@ -109,7 +121,9 @@ public class BusquedaBiopsiaPanel extends JPanel implements ActionListener{
 		comboBox3 = new JComboBox();
 		comboBox3.setBounds(192, 66, 232, 20);
 		for (int i = 0; i < CriterioBusquedaBiopsia.values().length; i++) {
-			comboBox3.addItem(CriterioBusquedaBiopsia.values()[i]);
+			if(CriterioBusquedaBiopsia.values()[i].isShowInCombo()){
+				comboBox3.addItem(CriterioBusquedaBiopsia.values()[i]);
+			}
 		}
 		add(comboBox3);
 		
@@ -167,11 +181,33 @@ public class BusquedaBiopsiaPanel extends JPanel implements ActionListener{
 		if(ACTION_COMMAND_BUSCAR.equals(e.getActionCommand())){
 			//se deben buscar las biopsias bajo el criterio indicado
 			//y el valor dado
-			BiopsiaInfoDAO.searchAllByCriteria((CriterioBusquedaBiopsia) cBoxBusqueda.getSelectedItem(),
-					txtValor1.getText());
+			Map<CriterioBusquedaBiopsia, String> valores = new HashMap<CriterioBusquedaBiopsia, String>();
+			valores.put((CriterioBusquedaBiopsia) comboBox1.getSelectedItem(), txtValor1.getText());
+			valores.put((CriterioBusquedaBiopsia) comboBox2.getSelectedItem(), txtValor2.getText());
+			valores.put((CriterioBusquedaBiopsia) comboBox3.getSelectedItem(), txtValor3.getText());
 			
-			AppWindow.getInstance().setPanelContenido(this, 
-					null);
+			//verificamos si debemos buscar tambien por fechas
+			if(comboMesDesde.getSelectedIndex() > 0 && !"".equals(textYearDesde.getText())){
+				//tengo fecha desde a consultar
+				valores.put(CriterioBusquedaBiopsia.FECHA_DESDE, textYearDesde.getText() + "-" + comboMesDesde.getSelectedIndex() + "-01");
+			}
+			if(comboMesHasta.getSelectedIndex() > 0 && !"".equals(textYearHasta.getText())){
+				//tengo fecha hasta a consultar
+				valores.put(CriterioBusquedaBiopsia.FECHA_HASTA, textYearHasta.getText() + "-" + comboMesHasta.getSelectedIndex() + "-31");
+			}
+			
+			List<BiopsiaInfoDTO> results = BiopsiaInfoDAO.searchAllByCriteria(valores);
+			
+			if(results == null 
+					|| (results != null && results.size() == 0)){
+				//el listado no trajo resultados
+				JOptionPane.showMessageDialog(this, "Para los criterios de búsqueda indicados no se obtuvieron resultados", 
+						"No se encontraron resultados", 
+						JOptionPane.ERROR_MESSAGE);
+			} else {
+				AppWindow.getInstance().setPanelContenido(null, 
+						results);
+			}
 		}
 	}
 }

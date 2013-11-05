@@ -29,13 +29,19 @@ public class JTableTodasBiopsias {
 	private JTable table;
 	private static JTableTodasBiopsias instance;
 	private FasesBiopsia faseABuscar;
+	private List<BiopsiaInfoDTO> listado;
 	
 	/**
+	 * Si listado es distinto de null, se usa dicho listado
+	 * sino, se usa el valor de la fase
 	 * 
+	 * @param faseABuscar
+	 * @param listado
 	 */
-	public JTableTodasBiopsias(FasesBiopsia faseABuscar) {
+	public JTableTodasBiopsias(FasesBiopsia faseABuscar, List<BiopsiaInfoDTO> listado) {
 		// TODO Auto-generated constructor stub
 		this.faseABuscar = faseABuscar;
+		this.listado = listado;
 		
 		table = new JTable(){
 			/**
@@ -108,8 +114,8 @@ public class JTableTodasBiopsias {
 	 * 
 	 * @return
 	 */
-	public static JTableTodasBiopsias getNewInstance(FasesBiopsia faseABuscar){
-		instance = new JTableTodasBiopsias(faseABuscar);
+	public static JTableTodasBiopsias getNewInstance(FasesBiopsia faseABuscar, List<BiopsiaInfoDTO> listado){
+		instance = new JTableTodasBiopsias(faseABuscar, listado);
 		
 		return instance;
 	}
@@ -141,7 +147,11 @@ public class JTableTodasBiopsias {
 		table.getColumnModel().getColumn(0).setCellRenderer(new JTableButtonRenderer());
 		
 		//buscamos los registros de biopsias activas para mostrarlos aqui
-		List<BiopsiaInfoDTO> biopsias = BiopsiaInfoDAO.getBiopsiasEnFasesActivas(faseABuscar);
+		List<BiopsiaInfoDTO> biopsias = listado;
+		if(listado == null){
+			biopsias = BiopsiaInfoDAO.getBiopsiasEnFasesActivas(faseABuscar);
+		}
+		
 		if(biopsias != null){
 			for (BiopsiaInfoDTO biopsiaInfoDTO : biopsias) {
 				addRow(biopsiaInfoDTO.getId(),

@@ -7,13 +7,17 @@ import javax.swing.JFrame;
 import javax.swing.JTable;
 
 import java.awt.Toolkit;
+
 import javax.swing.JPanel;
 
 import com.fjr.code.dao.definitions.FasesBiopsia;
+import com.fjr.code.dto.BiopsiaInfoDTO;
 import com.fjr.code.gui.tables.JTableTodasBiopsias;
 import com.fjr.code.util.Constants;
 
 import java.awt.Color;
+import java.util.List;
+
 import javax.swing.JScrollPane;
 
 public class AppWindow {
@@ -114,18 +118,43 @@ public class AppWindow {
 	/**
 	 * 
 	 * @param contenido
+	 * @param results
+	 */
+	public void setPanelContenido(JPanel contenido,
+			List<BiopsiaInfoDTO> results) {
+		// TODO Auto-generated method stub
+		setPanelContenido(contenido, null, results);
+	}
+	
+	/**
+	 * 
+	 * @param contenido
+	 * @param faseABuscar
 	 */
 	public void setPanelContenido(JPanel contenido, FasesBiopsia faseABuscar){
-		panelContenido.setVisible(false);
-		frmSistemaDeGestion.getContentPane().remove(panelContenido);
-		frmSistemaDeGestion.getContentPane().validate();
-		frmSistemaDeGestion.getContentPane().repaint();
+		setPanelContenido(contenido, faseABuscar, null);
+	}
+	
+	/**
+	 * 
+	 * @param contenido si este panel es null, dejamos intacto el anterior
+	 * @param faseABuscar
+	 * @param listado
+	 */
+	private void setPanelContenido(JPanel contenido, FasesBiopsia faseABuscar,
+			List<BiopsiaInfoDTO> listado){
+		if(contenido != null){
+			panelContenido.setVisible(false);
+			frmSistemaDeGestion.getContentPane().remove(panelContenido);
+			frmSistemaDeGestion.getContentPane().validate();
+			frmSistemaDeGestion.getContentPane().repaint();
+			frmSistemaDeGestion.getContentPane().add(contenido);
+			panelContenido = contenido;
+		}
 		
-		putTableBiopsiasActivas((int) contenido.getSize().getHeight(),
-				faseABuscar);
+		putTableBiopsiasActivas((int) panelContenido.getSize().getHeight(),
+				faseABuscar, listado);
 		
-		frmSistemaDeGestion.getContentPane().add(contenido);
-		panelContenido = contenido;
 		panelContenido.repaint();
 		panelContenido.validate();
 		
@@ -136,9 +165,11 @@ public class AppWindow {
 	/**
 	 * Colocamos una guia de las biopsias activas para acceso directo
 	 * 
-	 * @param startHeight
+	 * @param startHeight altura inicial del frame con estos resultados
+	 * @param faseABuscar si deseamos buscar por fase
+	 * @param listado si deseamos colocar directo un listado previamente generado
 	 */
-	private void putTableBiopsiasActivas(int startHeight, FasesBiopsia faseABuscar){
+	private void putTableBiopsiasActivas(int startHeight, FasesBiopsia faseABuscar, List<BiopsiaInfoDTO> listado){
 		if(tableTodasBiopsias != null){
 			scrollPane.removeAll();
 			frmSistemaDeGestion.getContentPane().remove(scrollPane);
@@ -149,7 +180,7 @@ public class AppWindow {
 		}
 		
 		scrollPane = new JScrollPane();
-		tableTodasBiopsias = new JTableTodasBiopsias(faseABuscar).getTable();
+		tableTodasBiopsias = new JTableTodasBiopsias(faseABuscar, listado).getTable();
 		
 		int factorAjuste = 10;
 		Rectangle bounds = new Rectangle(0, 
