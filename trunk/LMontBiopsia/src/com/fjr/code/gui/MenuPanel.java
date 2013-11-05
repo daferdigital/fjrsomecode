@@ -88,7 +88,7 @@ public class MenuPanel extends JPanel {
 				panel.setVisible(true);
 				AppWindow.getInstance().setExtraTitle("Búsquedas");
 				AppWindow.getInstance().setPanelContenido(panel, 
-						null);
+						(FasesBiopsia) null);
 			}
 		});
 		menuBusquedas.add(mntmBiopsias);
@@ -124,7 +124,7 @@ public class MenuPanel extends JPanel {
 				public void actionPerformed(ActionEvent arg0) {
 					//debemos mostrar el panel de recepcion
 					IngresoPanel panel = new IngresoPanel(true);
-					AppWindow.getInstance().setPanelContenido(panel, null);
+					AppWindow.getInstance().setPanelContenido(panel, (FasesBiopsia) null);
 					AppWindow.getInstance().setExtraTitle("Recepci\u00F3n");
 					panel.setFocusAtDefaultElement();
 				}
@@ -136,7 +136,7 @@ public class MenuPanel extends JPanel {
 				public void actionPerformed(ActionEvent arg0) {
 					//debemos mostrar el panel de recepcion
 					IngresoPanel panel = new IngresoPanel(false);
-					AppWindow.getInstance().setPanelContenido(panel, null);
+					AppWindow.getInstance().setPanelContenido(panel, (FasesBiopsia) null);
 					AppWindow.getInstance().setExtraTitle("Recepci\u00F3n");
 					panel.getTextNroBiopsia().requestFocusInWindow();
 				}

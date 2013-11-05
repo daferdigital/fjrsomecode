@@ -55,12 +55,13 @@ class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO> {
 			+ " LEFT JOIN biopsias_histologias bh ON b.id = bh.id"
 			+ " LEFT JOIN biopsias_microscopicas bmi ON b.id = bmi.id"
 			+ " LEFT JOIN patologos p ON bi.id_patologo_turno = p.id,"
-			+ " especialidad te, fases_biopsia fb, cliente c, examenes_biopsias eb"
+			+ " especialidad te, fases_biopsia fb, cliente c, examenes_biopsias eb, tipo_estudio tie"
 			+ " WHERE b.id_cliente = c.id"
 			+ " AND c.activo = '1'"
 			+ " AND eb.id = b.id_examen_biopsia"
 			+ " AND te.id =  eb.id_tipo_examen"
-			+ " AND b.id_fase_actual = fb.id";
+			+ " AND b.id_fase_actual = fb.id"
+			+ " AND tie.id = b.id_tipo_estudio";
 	
 	private static String END = " ORDER BY b.side1_code_biopsia, b.side2_code_biopsia";
 	
@@ -92,6 +93,131 @@ class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO> {
 	public void searchByCedulaCliente(String cedula){
 		customWhere += " AND c.cedula = ?";
 		parameters.add(cedula);
+	}
+	
+	/**
+	 * Ajuste para buscar por cedula de cliente usando LIKE
+	 * @param cedula
+	 */
+	public void searchByLikeCedulaCliente(String cedula){
+		customWhere += " AND LOWER(c.cedula) LIKE(?)";
+		parameters.add("%" + cedula.toLowerCase() + "%");
+	}
+	
+	/**
+	 * Ajuste para buscar por diagnostico usando LIKE
+	 * @param texto
+	 */
+	public void searchByLikeDiagnostico(String texto){
+		customWhere += " AND LOWER(bmi.diagnostico) LIKE(?)";
+		parameters.add("%" + texto.toLowerCase() + "%");
+	}
+	
+	/**
+	 * Ajuste para buscar por especialidad usando LIKE
+	 * @param especialidad
+	 */
+	public void searchByLikeEspecialidad(String especialidad){
+		customWhere += " AND LOWER(te.nombre) LIKE(?)";
+		parameters.add("%" + especialidad.toLowerCase() + "%");
+	}
+	
+	/**
+	 * Ajuste para buscar por examen usando LIKE
+	 * @param examen
+	 */
+	public void searchByLikeExamen(String examen){
+		customWhere += " AND LOWER(eb.nombre) LIKE(?)";
+		parameters.add("%" + examen.toLowerCase() + "%");
+	}
+	
+	/**
+	 * Ajuste para buscar por fase usando LIKE
+	 * @param fase
+	 */
+	public void searchByLikeFase(String fase){
+		customWhere += " AND LOWER(fb.nombre) LIKE(?)";
+		parameters.add("%" + fase.toLowerCase() + "%");
+	}
+	
+	/**
+	 * Ajuste para buscar por medico que refiere usando LIKE
+	 * @param medicoQueRefiere
+	 */
+	public void searchByLikeMedicoQueRefiere(String medicoQueRefiere){
+		customWhere += " AND LOWER(bi.referido_medico) LIKE(?)";
+		parameters.add("%" + medicoQueRefiere.toLowerCase() + "%");
+	}
+	
+	/**
+	 * Ajuste para buscar por numero de biopsia usando LIKE
+	 * @param numeroBiopsia
+	 */
+	public void searchByLikeNumeroBiopsia(String numeroBiopsia){
+		if(numeroBiopsia.contains("-")){
+			//tengo guion, debo hacer el split
+			String[] pieces = numeroBiopsia.split("-");
+			customWhere += " AND (LOWER(b.side1_code_biopsia) LIKE(?) AND LOWER(b.side2_code_biopsia) LIKE(?))";
+			parameters.add("%" + pieces[0].toLowerCase() + "%");
+			parameters.add("%" + pieces[1].toLowerCase() + "%");
+		} else {
+			customWhere += " AND LOWER(CONCAT(b.side1_code_biopsia, b.side2_code_biopsia)) LIKE(?)";
+			parameters.add("%" + numeroBiopsia.toLowerCase() + "%");
+		}
+	}
+	
+	/**
+	 * Ajuste para buscar por paciente usando LIKE
+	 * @param paciente
+	 */
+	public void searchByLikePaciente(String paciente){
+		customWhere += " AND LOWER(CONCAT(c.nombres, ' ', c.apellidos)) LIKE(?)";
+		parameters.add("%" + paciente.toLowerCase() + "%");
+	}
+	
+	/**
+	 * Ajuste para buscar por patologo usando LIKE
+	 * @param patologo
+	 */
+	public void searchByLikePatologo(String patologo){
+		customWhere += " AND LOWER(p.nombre) LIKE(?)";
+		parameters.add("%" + patologo.toLowerCase() + "%");
+	}
+	
+	/**
+	 * Ajuste para buscar por procedencia del material (pieza recibida) usando LIKE
+	 * @param procedenciaMaterial
+	 */
+	public void searchByLikeProcedenciaMaterial(String procedenciaMaterial){
+		customWhere += " AND LOWER(bi.pieza_recibida) LIKE(?)";
+		parameters.add("%" + procedenciaMaterial.toLowerCase() + "%");
+	}
+	
+	/**
+	 * Ajuste para buscar por tipo de estudio usando LIKE
+	 * @param tipoEstudio
+	 */
+	public void searchByLikeTipoEstudio(String tipoEstudio){
+		customWhere += " AND LOWER(tie.nombre) LIKE(?)";
+		parameters.add("%" + tipoEstudio.toLowerCase() + "%");
+	}
+	
+	/**
+	 * Ajuste para buscar por fecha desde
+	 * @param fechaDesde
+	 */
+	public void searchByFechaDesde(String fechaDesde){
+		customWhere += " AND b.fecha_registro >= ?";
+		parameters.add(fechaDesde);
+	}
+	
+	/**
+	 * Ajuste para buscar por fecha hasta
+	 * @param fechaHasta
+	 */
+	public void searchByFechaHasta(String fechaHasta){
+		customWhere += " AND b.fecha_registro <= ?";
+		parameters.add(fechaHasta);
 	}
 	
 	/**

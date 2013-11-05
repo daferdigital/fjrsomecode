@@ -74,7 +74,7 @@ public class OpenBiopsiaUtil {
 				new PrepareDiagnosticoDialog(biopsia.getCodigo()).setVisible(true);
 			} else if(FasesBiopsia.INGRESO.equals(biopsia.getFaseActual())){
 				IngresoPanel panel = new IngresoPanel(false);
-				AppWindow.getInstance().setPanelContenido(panel, null);
+				AppWindow.getInstance().setPanelContenido(panel, (FasesBiopsia) null);
 				AppWindow.getInstance().setExtraTitle("Recepci\u00F3n");
 				panel.getTextNroBiopsia().setText(biopsia.getCodigo());
 				panel.getTextNroBiopsia().requestFocusInWindow();
