@@ -1,0 +1,5 @@
+Cambio para permitir la busqueda de tickets por numero en la seccion de tickets vendidos.
+
+Archivos:
+
+parlay/tickets_ganadores.php
