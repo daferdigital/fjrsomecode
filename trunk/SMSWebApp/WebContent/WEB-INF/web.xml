@@ -1,12 +1,117 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
-  <display-name>SMSWebApp</display-name>
-  <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-    <welcome-file>index.htm</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
-  </welcome-file-list>
+    <display-name>SMSWebApp</display-name>
+    
+    <!-- log4j servlet configuration -->
+    <servlet>
+        <servlet-name>log4j-init</servlet-name>
+        <servlet-class>
+            com.fjr.servlets.Log4JServlet
+        </servlet-class>
+        <init-param>
+            <param-name>log4j-init-file</param-name>
+            <param-value>/WEB-INF/classes/resources/log4j.properties</param-value>
+        </init-param>
+        <init-param>
+            <param-name>log-directory</param-name>
+            <param-value>/logs</param-value>
+        </init-param>
+        <init-param>
+            <param-name>watch</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <init-param>
+            <param-name>time-watch</param-name>
+            <param-value>10000</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    
+    <!-- servlet derby -->
+    <servlet>
+        <servlet-name> derbynet </servlet-name>
+        <servlet-class> org.apache.derby.drda.NetServlet </servlet-class>
+        <init-param>
+            <description> 
+                Starts the Network Server at servlet 
+                initialization if 'true'.
+            </description>
+            <param-name>  startNetworkServerOnInit </param-name>
+            <param-value> true </param-value>
+        </init-param>
+        <init-param>
+            <description> Port number to use. The default is 1527. </description>
+            <param-name>  portNumber </param-name>
+            <param-value> 1527 </param-value>
+        </init-param>
+        <!--
+        The "host" parameter allows configuration of the host name that will
+        be used for the listening socket for network connections. By default,
+        the Network Server will listen to requests only on the loopback
+        address, which means that it will only accept connections from the
+        local host. Changing this value could expose the server to
+        external connections, which raises security concerns, so before using
+        the "host" parameter, you should run under the Java security
+        manager and enable user authentication.
+        -->
+        <init-param>
+            <description> Host Name to use. The default is "localhost". Please secure any server which listens on a public address. </description>
+            <param-name>  host </param-name>
+            <param-value> localhost </param-value>
+        </init-param>
+        <init-param>
+            <description> Directory where trace files should be placed. </description>
+            <param-name>  tracingDirectory </param-name>
+            <param-value>/traceFiles/</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <!-- Standard Action Servlet Configuration (with debugging) -->
+    <servlet>
+        <servlet-name>action</servlet-name>
+        <servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
+        <init-param>
+            <param-name>config</param-name>
+            <param-value>
+                /WEB-INF/struts-config.xml
+            </param-value>
+        </init-param>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>main-app-servlet</servlet-name>
+        <servlet-class>
+            com.fjr.servlets.MainAppServlet
+        </servlet-class>
+        <load-on-startup>3</load-on-startup>
+    </servlet>
+    
+    <!-- Standard Action Servlet Mapping -->
+    <servlet-mapping>
+        <servlet-name>action</servlet-name>
+        <url-pattern>*.do</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name> derbynet </servlet-name>
+        <url-pattern> /derbynet </url-pattern>
+    </servlet-mapping>
+    
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+        <welcome-file>index.htm</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>default.html</welcome-file>
+        <welcome-file>default.htm</welcome-file>
+        <welcome-file>default.jsp</welcome-file>
+    </welcome-file-list>
+    
+    <resource-ref>
+        <description>Application DataSource</description>
+        <res-ref-name>jdbc/AppDataSource</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
 </web-app>
