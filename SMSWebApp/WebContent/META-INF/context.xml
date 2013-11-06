@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+    <Resource 
+        name="jdbc/AppDataSource" 
+        auth="Container" 
+        type="javax.sql.DataSource"
+        driverClassName="org.apache.derby.jdbc.EmbeddedDriver" 
+        url="jdbc:derby:SmsWebApp;create=true"
+        username="smsWebUsr" 
+        password="5m5W3bK3y" 
+        maxActive="20" 
+        maxIdle="10" 
+        maxWait="-1" />
+</Context>

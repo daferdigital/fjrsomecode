@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+<struts-config>
+	<form-beans>
+		<form-bean name="loginForm" type="com.fjr.forms.LoginForm" />
+	</form-beans>
+
+	<global-forwards>
+		<forward name="goToIndex" path="/index.jsp" />
+	</global-forwards>
+
+	<action-mappings>
+	    <!-- action para ir a la pagina inicial y obtener los valores necesarios para la misma -->
+        <action path="/index" type="com.carrito.actions.IndexAction">
+            <forward name="success" path="/main.jsp"></forward>
+        </action>
+        
+        <!-- action donde validamos el login de determinado usuario -->
+        <action path="/login" type="com.carrito.actions.LoginAction" name="loginForm">
+            <forward name="success" path="/index.do"></forward>
+        </action>
+        
+        <!-- action para obtener via Ajax los productos de determinada categoria -->
+        <action path="/showProducts" type="com.carrito.actions.ProductosAjaxAction"
+            name="ajaxCategoryForm">
+            <forward name="success" path="/listProducts.jsp"></forward>
+        </action>
+        
+        <!-- action donde se realiza el logout de los usuarios -->
+        <action path="/logout" type="com.carrito.actions.LogOutAction">
+            <forward name="success" path="/index.do"></forward>
+        </action>
+        
+        <!-- action que implementa la logica para agregar elementos en el carrito y proceder a actualizar en la web -->
+        <action path="/addToBasket" type="com.carrito.actions.AddProductToBasketAction"
+            name="productForm">
+            <forward name="success" path="/carritoItems.jsp"></forward>
+        </action>
+        
+        <!-- action que implementa la logica para agregar elementos en el carrito y proceder a actualizar en la web -->
+        <action path="/deleteFromBasket" type="com.carrito.actions.DeleteProductFromBasketAction"
+            name="productForm">
+            <forward name="success" path="/carritoItems.jsp"></forward>
+            <forward name="successPrevcheckOut" path="/carritoItemsCheckOut.jsp"></forward>
+        </action>
+        
+        <!-- action que implementa la logica para hacer el checkout del carrito -->
+        <action path="/prepareBasketCheckOut" type="com.carrito.actions.PrepareBasketCheckOutAction">
+            <forward name="success" path="/prepareBasketCheckOut.jsp"></forward>
+        </action>
+        
+        <!-- action para mostrar el resumen de lo que se desea comprar y permitir que se acepte o se vaya a la pagina anterior -->
+        <action path="/showBasketResume" type="com.carrito.actions.ShowBasketResumeAction"
+            name="basketForm">
+            <forward name="success" path="/showBasketResume.jsp"></forward>
+            <forward name="error" path="/prepareBasketCheckOut.jsp"></forward>
+        </action>
+        
+        <!-- action para completar el proceso de compra como tal  -->
+        <action path="/completeBasketCheckOut" type="com.carrito.actions.CompleteBasketCheckOutAction"
+            name="basketForm">
+            <forward name="success" path="/main.jsp"></forward>
+            <forward name="error" path="/showBasketResume.jsp"></forward>
+        </action>
+        
+        <!-- action que implementa la logica para agregar elementos en el carrito y proceder a actualizar en la web -->
+        <action path="/showProductDetail" type="com.carrito.actions.ShowProductDetailAction"
+            name="productForm">
+            <forward name="success" path="/productDetail.jsp"></forward>
+        </action>
+        
+        <!-- action que implementa la logica para agregar elementos en el carrito y proceder a actualizar en la web -->
+        <action path="/addAccount" type="com.carrito.actions.AddAccountAction"
+            name="usuarioForm" input="/registro.jsp">
+            <forward name="success" path="/registro.jsp"></forward>
+        </action>
+        
+        <!-- action que implementa la logica para agregar elementos en el carrito y proceder a actualizar en la web -->
+        <action path="/crudProducts" type="com.carrito.actions.CrudProducts"
+            name="productoForm" input="/crudProductos.jsp">
+            <forward name="success" path="/crudProductos.jsp"></forward>
+        </action>
+        
+        <!-- action para exportar algun reporte en excel -->
+        <action path="/exportCategoryReport" type="com.carrito.actions.ExportExcelCategoriasReportAction"
+            name="ventasCategoriaForm">
+        </action>
+        
+        <!-- action para exportar algun reporte en excel -->
+        <action path="/exportInventarioReport" type="com.carrito.actions.ExportExcelInventarioReportAction"
+            name="ventasCategoriaForm">
+        </action>
+	</action-mappings>
+	
+	<message-resources parameter="ApplicationResources" null="false"></message-resources>
+</struts-config>
