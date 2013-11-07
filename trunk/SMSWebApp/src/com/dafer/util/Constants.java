@@ -1,4 +1,4 @@
-package com.fjr.util;
+package com.dafer.util;
 
 /**
  * 
@@ -10,5 +10,7 @@ package com.fjr.util;
 public final class Constants {
 
 	public static final int MAX_RECORDS_PER_PAGE = 100;
-
+	
+	//SESSION ATRIBUTE CONSTANTS
+	public static final String SESSION_USER_LOGGED = "userLogged";
 }

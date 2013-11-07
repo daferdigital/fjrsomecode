@@ -1,4 +1,4 @@
-package com.fjr.servlets;
+package com.dafer.servlets;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -6,8 +6,8 @@ import javax.servlet.http.HttpServlet;
 
 import org.apache.log4j.Logger;
 
-import com.fjr.util.DBConnectionUtil;
-import com.fjr.util.DataBaseCreateOperations;
+import com.dafer.util.DBConnectionUtil;
+import com.dafer.util.DataBaseCreateOperations;
 
 /**
  * 

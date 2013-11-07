@@ -6,7 +6,7 @@
     <servlet>
         <servlet-name>log4j-init</servlet-name>
         <servlet-class>
-            com.fjr.servlets.Log4JServlet
+            com.dafer.servlets.Log4JServlet
         </servlet-class>
         <init-param>
             <param-name>log4j-init-file</param-name>
@@ -83,7 +83,7 @@
     <servlet>
         <servlet-name>main-app-servlet</servlet-name>
         <servlet-class>
-            com.fjr.servlets.MainAppServlet
+            com.dafer.servlets.MainAppServlet
         </servlet-class>
         <load-on-startup>3</load-on-startup>
     </servlet>
