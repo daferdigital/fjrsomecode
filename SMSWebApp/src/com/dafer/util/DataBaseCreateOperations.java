@@ -1,4 +1,4 @@
-package com.fjr.util;
+package com.dafer.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;

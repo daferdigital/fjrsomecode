@@ -1,4 +1,4 @@
-package com.fjr.util;
+package com.dafer.util;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
