@@ -13,4 +13,7 @@ public final class Constants {
 	
 	//SESSION ATRIBUTE CONSTANTS
 	public static final String SESSION_USER_LOGGED = "userLogged";
+	
+	//
+	public static final String MAPPING_SUCCESS = "success";
 }

@@ -1,6 +1,22 @@
 @CHARSET "ISO-8859-1";
 
-.bodyTable {
+body{
+	font-family: serif;
+    font-size: 12px;
+}
+
+.centered {
 	margin-left: auto;
 	margin-right: auto;
+}
+
+/* error container */
+.errorContainer {
+    color: red;
+    padding: 5px;
+}
+
+.estilo1 {
+    font-weight: bold;
+    color: #666666;
 }

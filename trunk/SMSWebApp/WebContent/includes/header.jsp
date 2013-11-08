@@ -39,8 +39,6 @@
             <jsp:param value="idTipoUsuario" name="idTipoUsuario"/>
         </jsp:include>
     <%
-    } else {
-    	//debo mostrar la pagina de login
     }
     %>
     <tr>
