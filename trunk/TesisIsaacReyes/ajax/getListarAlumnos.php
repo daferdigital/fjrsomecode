@@ -61,7 +61,7 @@ if(count($pageRecords) == 0){
 		<div id="tdElement">
 		</div>
 		<div align="center" id="tdElement">
-			<?php echo $pagingDAO->getTRFooterPaging();?>
+			<?php //echo $pagingDAO->getTRFooterPaging();?>
 		</div>
 		<div id="tdElement">
 		</div>
@@ -134,7 +134,7 @@ if(count($pageRecords) == 0){
 		<div id="tdElement">
 		</div>
 		<div align="center" id="tdElement">
-			<?php echo $pagingDAO->getTRFooterPaging();?>
+			<?php //echo $pagingDAO->getTRFooterPaging();?>
 		</div>
 		<div id="tdElement">
 		</div>
