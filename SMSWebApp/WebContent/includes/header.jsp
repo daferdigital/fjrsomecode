@@ -24,7 +24,7 @@
     <script type="text/javascript" src="js/site.js"></script>
 </head>
 <body>
-<table class="bodyTable">
+<table class="centered">
     <tr>
         <td colspan="2">
             <img border="0" alt="" id="header" src="imagenes/header.jpg" name="header" />
@@ -59,5 +59,5 @@
         </td>
     </tr>
     <tr>
-        <td colspan="2">
+        <td colspan="2" align="center">
         <!-- fin header.jsp -->
