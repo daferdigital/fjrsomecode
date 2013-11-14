@@ -11,7 +11,7 @@
         //el usuario esta logueado
     %>
         <html:form action="doLogin.do" method="post" styleClass="centered">
-            <table>
+            <table >
                 <tr>
                     <td>Login:</td>
                     <td><html:text property="login"></html:text></td>
@@ -20,8 +20,15 @@
                     <td>Clave:</td>
                     <td><html:password property="password"></html:password></td>
                 </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <html:submit value="Ingresar"></html:submit>
+                    </td>
+                </tr>
             </table>
         </html:form>
+        <br />
+        <br />
     <%
     }
     %>

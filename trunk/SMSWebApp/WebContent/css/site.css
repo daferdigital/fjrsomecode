@@ -2,7 +2,7 @@
 
 body{
 	font-family: serif;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .centered {
@@ -19,4 +19,10 @@ body{
 .estilo1 {
     font-weight: bold;
     color: #666666;
+}
+
+.tdFooter {
+	color: white;
+	font-size: 18px;
+	font-weight: bold;
 }
