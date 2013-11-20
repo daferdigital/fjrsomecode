@@ -1,6 +1,6 @@
 <?php 
 $enviromentProd = false;
-if(substr($tableName[0], 0, strlen($_SERVER["HTTP_HOST"])) === "www.ingenieriadesistemas.com.ve"){
+if($_SERVER["HTTP_HOST"] === "www.ingenieriadesistemas.com.ve"){
 	$enviromentProd = true;
 }
 
