@@ -88,6 +88,11 @@ public class LicenseDialog extends JDialog {
 		textFieldSerial.setBounds(135, 127, 270, 20);
 		contentPanel.add(textFieldSerial);
 		
+		JLabel lblNotaParaSolicitar = new JLabel("Nota: Para solicitar el SERIAL, debe indicarnos su codigo especial");
+		lblNotaParaSolicitar.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblNotaParaSolicitar.setBounds(10, 158, 414, 58);
+		contentPanel.add(lblNotaParaSolicitar);
+		
 		JPanel buttonPane = new JPanel();
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);

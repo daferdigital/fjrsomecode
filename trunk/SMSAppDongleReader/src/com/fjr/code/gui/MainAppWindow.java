@@ -48,7 +48,7 @@ public class MainAppWindow {
 		frmSmsappreaderlectorSms.getContentPane().setBackground(Color.WHITE);
 		frmSmsappreaderlectorSms.setTitle("SMSAPPReader (Lector SMS desde USB)");
 		frmSmsappreaderlectorSms.setIconImage(Toolkit.getDefaultToolkit().getImage(MainAppWindow.class.getResource("/resources/images/smsIcon.png")));
-		frmSmsappreaderlectorSms.setBounds(100, 100, 450, 300);
+		frmSmsappreaderlectorSms.setBounds(100, 100, 482, 417);
 		frmSmsappreaderlectorSms.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmSmsappreaderlectorSms.getContentPane().setLayout(null);
 		
@@ -79,31 +79,15 @@ public class MainAppWindow {
 		mnMensajes.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		menuBar.add(mnMensajes);
 		
-		JMenuItem mntmConsultar = new JMenuItem("Consultar");
-		mntmConsultar.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		mnMensajes.add(mntmConsultar);
-		
 		JMenuItem mntmEnvoMasivo = new JMenuItem("Env\u00EDo Masivo");
 		mntmEnvoMasivo.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		mnMensajes.add(mntmEnvoMasivo);
-		
-		JMenu mnConfiguracion_1 = new JMenu("Configuracion");
-		mnConfiguracion_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		menuBar.add(mnConfiguracion_1);
-		
-		JMenuItem mntmBaseDeDatos = new JMenuItem("Base de Datos");
-		mntmBaseDeDatos.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		mnConfiguracion_1.add(mntmBaseDeDatos);
-		
-		JMenuItem mntmSistema = new JMenuItem("Sistema");
-		mntmSistema.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		mnConfiguracion_1.add(mntmSistema);
 		
 		JMenu mnPuertos = new JMenu("Puertos");
 		mnPuertos.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		menuBar.add(mnPuertos);
 		
-		JMenuItem mntmConfigurar = new JMenuItem("Configurar");
+		JMenuItem mntmConfigurar = new JMenuItem("Ver Puertos Disponibles");
 		mntmConfigurar.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		mnPuertos.add(mntmConfigurar);
 		

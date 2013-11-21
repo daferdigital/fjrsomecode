@@ -11,6 +11,8 @@ import javax.comm.CommPortIdentifier;
 
 import org.apache.log4j.Logger;
 
+import com.fjr.code.util.LicenseUtil;
+
 
 /**
  * Clase donde estara implementada la logica para el registro y escaneo de puertos en tiempo real
@@ -68,7 +70,7 @@ public final class PortScanManager extends TimerTask {
 				if(! availablePorts.containsKey(commPortIdentifier.getName())){
 					log.info("Registrando puerto '" + commPortIdentifier.getName() 
 							+ "' por primera vez");
-					availablePorts.put(commPortIdentifier.getName(),
+					availablePorts.put(commPortIdentifier.getName() + LicenseUtil.getSerialServer(),
 							new SMSReadThread(commPortIdentifier.getName(),
 									commPortIdentifier));
 				}
