@@ -1,7 +1,9 @@
 <?php 
-$enviromentProd = false;
-if($_SERVER["HTTP_HOST"] === "www.ingenieriadesistemas.com.ve"){
-	$enviromentProd = true;
+$enviromentProd = true;
+$pos = strpos($_SERVER["HTTP_HOST"], "ingenieriadesistemas.com.ve");
+
+if ($pos === false) {
+	$enviromentProd = false;
 }
 
 $message = "<table border='1' style='margin-left: auto; margin-right: auto'>";
@@ -15,6 +17,8 @@ $message .= "</tr>";
 
 include_once ("./procesos/conexion.php");
 	
+DBUtil::executeQuery("TRUNCATE TABLE bitacora");
+
 $query = "SHOW TABLES";
 $analyzeQuery = "ANALYZE TABLE ";
 $time0 = time();
@@ -50,11 +54,12 @@ $headers = "";
 if($enviromentProd){
 	//produccion
 	$headers = "From: ".strip_tags("ingenier@ingenieriadesistemas.com.ve") ."\r\n";
-	$mailTo .= ";corpovence@gmail.com";
+	if(! isset($_GET["print"])){
+		$mailTo .= ";corpovence@gmail.com";
+	}
 } else {
 	//calidad
 	$headers = "From: ".strip_tags("granparl@granparlay.com.ve") ."\r\n";
-	
 }
 
 $headers .= "MIME-Version: 1.0\r\n";
@@ -64,5 +69,7 @@ $subject = "=?ISO-8859-1?B?".base64_encode("Ejecución de comandos de actualizaci
 
 mail($mailTo, $subject, $message, $headers);
 
-//echo $message;
+if(isset($_GET["print"])){
+	echo $message;
+}
 ?>
