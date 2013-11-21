@@ -28,6 +28,7 @@ public class SMSReadThread implements Runnable{
 	private static final Logger log = Logger.getLogger(SMSReadThread.class);
 	
 	private String portName;
+	private String portMaskedName;
 	private CommPortIdentifier port;
 	private int failedAttempts = 0;
 	
@@ -59,10 +60,11 @@ public class SMSReadThread implements Runnable{
 		String response = SendCommandUtil.sendCommandToPort(port, AT_AVAILABILITY_COMMAND);
 		boolean isAvailable = true;
 		
-		if(response == null || response.indexOf("OK") < 0){
+		if(response == null || response.toUpperCase().indexOf("OK") < 0){
 			isAvailable = false;
 			failedAttempts++;
-			log.info("El puerto [" + portName + "] esta ocupado, por lo tanto no puede ser leido (aumentamos sus intentos de lectura fallidos)");
+			log.info("El puerto [" + portName 
+					+ "] esta ocupado, por lo tanto no puede ser leido (aumentamos sus intentos de lectura fallidos)");
 		}
 		
 		return isAvailable;

@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 
 import com.fjr.serialport.dto.SMSDTO;
 import com.fjr.code.util.DBConnectionUtil;
+import com.fjr.code.util.LicenseUtil;
 
 /**
  * 
@@ -84,10 +85,14 @@ public class SMSDAO {
 	 */
 	public static final boolean storeSMSInReaderPHPSystem(SMSDTO smsDTO){
 		boolean result = true;
+		DataOutputStream wr = null;
+		BufferedReader in = null;
+		HttpURLConnection con = null;
+		
 		try {
 			String url = "http://www.eftysistem.com/SMSManagerReader/addSMSFromRemote.php";
 			URL obj = new URL(url);
-			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+			con = (HttpURLConnection) obj.openConnection();
 			
 			//add request header
 			con.setRequestMethod("POST");
@@ -101,11 +106,12 @@ public class SMSDAO {
 			urlParameters += "&remitente=" + smsDTO.getNumberFrom();
 			urlParameters += "&fecha=" + fecha;
 			urlParameters += "&hora=" + hora;
+			urlParameters += "&serial=" + LicenseUtil.getSerialServer();
 			urlParameters += "&KEY=SMSReaderAPP";
 			
 			// Send post request
 			con.setDoOutput(true);
-			DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+			wr = new DataOutputStream(con.getOutputStream());
 			wr.writeBytes(urlParameters);
 			wr.flush();
 			wr.close();
@@ -114,22 +120,40 @@ public class SMSDAO {
 			log.info("Post parameters : " + urlParameters);
 			log.info("Response Code : " + responseCode);
 	 
-			BufferedReader in = new BufferedReader(
-			        new InputStreamReader(con.getInputStream()));
+			in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 			String inputLine;
 			StringBuffer response = new StringBuffer();
 	 
 			while ((inputLine = in.readLine()) != null) {
 				response.append(inputLine);
 			}
+			
 			in.close();
-	 
+			
 			//print result
 			log.info("Response: " + response.toString());
 		} catch (Exception e) {
 			// TODO: handle exception
 			result = false;
 			log.error(e.getMessage(), e);
+		} finally {
+			try {
+				wr.close();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			
+			try {
+				in.close();
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
+			
+			try {
+				con.disconnect();
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
 		}
 		
 		return result;
