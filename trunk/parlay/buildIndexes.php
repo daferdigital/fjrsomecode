@@ -55,7 +55,7 @@ if($enviromentProd){
 	//produccion
 	$headers = "From: ".strip_tags("ingenier@ingenieriadesistemas.com.ve") ."\r\n";
 	if(! isset($_GET["print"])){
-		$mailTo .= ";corpovence@gmail.com";
+		$mailTo .= ",corpovence@gmail.com";
 	}
 } else {
 	//calidad
