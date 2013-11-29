@@ -71,7 +71,7 @@ include_once "includes/header.php";
 				<tr>
 					<td>Descripci&oacute;n:</td>
 					<td>
-						<textarea rows="5" id="descripcion" name="descripcin"></textarea>
+						<textarea rows="5" id="descripcion" name="descripcion"></textarea>
 						<span class="isMandatory" id="mandatoryDescripcion" style="display: none;">
 							<br />
 							Disculpe, debe indicar una descripci&oacute;n.
