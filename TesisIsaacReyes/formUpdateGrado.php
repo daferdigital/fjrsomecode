@@ -65,7 +65,7 @@ if(count($grado) < 1){
 				<tr>
 					<td>Turno:</td>
 					<td>
-						<input type="text" name="turno" id="turno" value="<?php echo $grado["turno"];?>"/>
+						<input type="text" name="turno" id="turno" value="<?php echo htmlentities($grado["turno"]);?>"/>
 						<span class="isMandatory" id="mandatoryTurno" style="display: none;">
 							<br />
 							Disculpe, debe indicar el turno de este grado.
@@ -75,7 +75,7 @@ if(count($grado) < 1){
 				<tr>
 					<td>Grado:</td>
 					<td>
-						<input type="text" name="grado" id="grado" value="<?php echo $grado["grado"];?>"/>
+						<input type="text" name="grado" id="grado" value="<?php echo htmlentities($grado["grado"]);?>"/>
 						<span class="isMandatory" id="mandatoryGrado" style="display: none;">
 							<br />
 							Disculpe, debe indicar el grado.
