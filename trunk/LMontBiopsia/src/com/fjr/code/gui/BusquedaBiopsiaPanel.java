@@ -44,11 +44,13 @@ public class BusquedaBiopsiaPanel extends JPanel implements ActionListener{
 	private JTextField txtValor2;
 	private JComboBox comboBox3;
 	private JTextField txtValor3;
-	private JTextField textYearDesde;
-	private JTextField textYearHasta;
+	private JComboBox comboDiaDesde;
 	private JComboBox comboMesDesde;
+	private JTextField textYearDesde;
+	private JComboBox comboDiaHasta;
 	private JComboBox comboMesHasta;
-
+	private JTextField textYearHasta;
+	
 	/**
 	 * Create the panel.
 	 */
@@ -143,8 +145,15 @@ public class BusquedaBiopsiaPanel extends JPanel implements ActionListener{
 		lblfechaDesde.setBounds(10, 94, 152, 16);
 		add(lblfechaDesde);
 		
+		comboDiaDesde = new JComboBox();
+		comboDiaDesde.setBounds(192, 94, 42, 20);
+		for (int i = 1; i < 32; i++) {
+			comboDiaDesde.addItem(i < 10 ? "0" + i: i);
+		}
+		add(comboDiaDesde);
+		
 		comboMesDesde = new JComboBox();
-		comboMesDesde.setBounds(192, 94, 163, 20);
+		comboMesDesde.setBounds(244, 94, 111, 20);
 		for (int i = 0; i < Meses.values().length; i++) {
 			comboMesDesde.addItem(Meses.values()[i]);
 		}
@@ -161,8 +170,15 @@ public class BusquedaBiopsiaPanel extends JPanel implements ActionListener{
 		lblfechaHasta.setBounds(389, 94, 152, 16);
 		add(lblfechaHasta);
 		
+		comboDiaHasta = new JComboBox();
+		comboDiaHasta.setBounds(572, 94, 42, 20);
+		for (int i = 1; i < 32; i++) {
+			comboDiaHasta.addItem(i < 10 ? "0" + i: i);
+		}
+		add(comboDiaHasta);
+		
 		comboMesHasta = new JComboBox();
-		comboMesHasta.setBounds(571, 94, 163, 20);
+		comboMesHasta.setBounds(623, 94, 111, 20);
 		for (int i = 0; i < Meses.values().length; i++) {
 			comboMesHasta.addItem(Meses.values()[i]);
 		}
@@ -172,6 +188,7 @@ public class BusquedaBiopsiaPanel extends JPanel implements ActionListener{
 		textYearHasta.setColumns(10);
 		textYearHasta.setBounds(744, 94, 59, 20);
 		add(textYearHasta);
+		
 		setVisible(true);
 	}
 
@@ -189,11 +206,11 @@ public class BusquedaBiopsiaPanel extends JPanel implements ActionListener{
 			//verificamos si debemos buscar tambien por fechas
 			if(comboMesDesde.getSelectedIndex() > 0 && !"".equals(textYearDesde.getText())){
 				//tengo fecha desde a consultar
-				valores.put(CriterioBusquedaBiopsia.FECHA_DESDE, textYearDesde.getText() + "-" + comboMesDesde.getSelectedIndex() + "-01");
+				valores.put(CriterioBusquedaBiopsia.FECHA_DESDE, textYearDesde.getText() + "-" + comboMesDesde.getSelectedIndex() + "-" + (comboDiaDesde.getSelectedIndex() + 1));
 			}
 			if(comboMesHasta.getSelectedIndex() > 0 && !"".equals(textYearHasta.getText())){
 				//tengo fecha hasta a consultar
-				valores.put(CriterioBusquedaBiopsia.FECHA_HASTA, textYearHasta.getText() + "-" + comboMesHasta.getSelectedIndex() + "-31");
+				valores.put(CriterioBusquedaBiopsia.FECHA_HASTA, textYearHasta.getText() + "-" + comboMesHasta.getSelectedIndex() + "-" + (comboDiaHasta.getSelectedIndex() + 1));
 			}
 			
 			List<BiopsiaInfoDTO> results = BiopsiaInfoDAO.searchAllByCriteria(valores);

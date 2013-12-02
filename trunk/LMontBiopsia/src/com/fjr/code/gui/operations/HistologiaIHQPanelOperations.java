@@ -79,6 +79,7 @@ public class HistologiaIHQPanelOperations implements ActionListener, KeyListener
 				log.info("Se desean imprimir las etiquetas de la fase de IHQ para la biopsia '" 
 						+ biopsiaInfoDTO.getCodigo()  + "'");
 				BarCodeIHQ ihqLabels = new BarCodeIHQ(biopsiaInfoDTO.getCodigo(), 
+						biopsiaInfoDTO.getAbreviaturaTipoEstudio(),
 						ventana.getTableMicroLaminasIHQ().getList());
 				try {
 					ihqLabels.crearEtiquetaIHQ();

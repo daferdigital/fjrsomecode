@@ -48,8 +48,8 @@ class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO> {
 			+ " bh.descripcion,"
 			//datos basicos de micro 32-34
 			+ " bmi.idx, bmi.diagnostico, bmi.estudio_ihq,"
-			//otros valores 35-37
-			+ " b.fecha_registro, p.genero, b.id_tipo_estudio"
+			//otros valores 35-38
+			+ " b.fecha_registro, p.genero, b.id_tipo_estudio, tie.abreviatura"
 			+ " FROM  biopsias b LEFT JOIN biopsias_ingresos bi ON b.id = bi.id"
 			+ " LEFT JOIN biopsias_macroscopicas bm ON b.id = bm.id"
 			+ " LEFT JOIN biopsias_histologias bh ON b.id = bh.id"
@@ -231,6 +231,15 @@ class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO> {
 	
 	/**
 	 * 
+	 * @param tipoEstudioAbreviatura
+	 */
+	public void setTipoEstudioAbreviatura(String tipoEstudioAbreviatura){
+		customWhere += " AND LOWER(tie.abreviatura) = ?";
+		parameters.add(tipoEstudioAbreviatura.toLowerCase());
+	}
+	
+	/**
+	 * 
 	 * @param nroBiopsia
 	 */
 	public void searchByFase(FasesBiopsia fase){
@@ -281,6 +290,7 @@ class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO> {
 				biopsiaAllInfo.setSide2CodeBiopsia(rowSet.getString(3));
 				biopsiaAllInfo.setFaseActual(FasesBiopsia.getInfoByCode(rowSet.getInt(4)));
 				biopsiaAllInfo.setIdTipoEstudio(rowSet.getInt(37));
+				biopsiaAllInfo.setAbreviaturaTipoEstudio(rowSet.getString(38));
 				
 				Calendar fechaRegistro = Calendar.getInstance();
 				fechaRegistro.setTimeInMillis(rowSet.getTimestamp(35).getTime());

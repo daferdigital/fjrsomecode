@@ -27,7 +27,7 @@ final class TipoEstudioDAOListBuilder implements DAOListBuilder<TipoEstudioDTO>{
 	private static final Logger log = Logger.getLogger(TipoEstudioDAOListBuilder.class);
 	
 	
-	private static final String BEGIN = "SELECT te.id AS idTipoEstudio, te.nombre AS nombreTipoEstudio, te.activo "
+	private static final String BEGIN = "SELECT te.id AS idTipoEstudio, te.nombre AS nombreTipoEstudio, te.activo, te.abreviatura "
 			+ " FROM tipo_estudio te"
 			+ " WHERE te.activo='1'";
 	private static final String END = " ORDER BY te.nombre";
@@ -84,6 +84,7 @@ final class TipoEstudioDAOListBuilder implements DAOListBuilder<TipoEstudioDTO>{
 				tipo.setId(rowSet.getInt(1));
 				tipo.setNombre(rowSet.getString(2));
 				tipo.setActivo(rowSet.getBoolean(3));
+				tipo.setAbreviatura(rowSet.getString(4));
 				
 				results.add(tipo);
 			}

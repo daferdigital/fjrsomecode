@@ -128,7 +128,8 @@ public class MacroscopicaPanelOperations implements KeyListener, ActionListener{
 					&& ventana.getTableMacroCassetes().getList().size() > 0){
 				//tengo todo a la mano para proceder a la impresion de las etiquetas de esta fase
 				log.info("Se desean imprimir las etiquetas de la fase macro para la biopsia '" + biopsiaInfoDTO.getCodigo()  + "'");
-				BarCodeMacroscopica macroLabels = new BarCodeMacroscopica(biopsiaInfoDTO.getCodigo(), 
+				BarCodeMacroscopica macroLabels = new BarCodeMacroscopica(biopsiaInfoDTO.getCodigo(),
+						biopsiaInfoDTO.getAbreviaturaTipoEstudio(),
 						ventana.getTableMacroCassetes().getList().size());
 				try {
 					macroLabels.crearEtiquetaMacroscopica();

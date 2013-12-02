@@ -44,8 +44,15 @@ public class BiopsiaInfoDAO {
 	 */
 	public static boolean biopsiaAlreadyExists(String nroBiopsia){
 		boolean biopsiaExists = false;
+		String tipoEstudioAbreviatura = "";
 		
-		if(getBiopsiaByNumero(nroBiopsia) != null){
+		try {
+			tipoEstudioAbreviatura = "-" + nroBiopsia.split("-")[2];
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		if(getBiopsiaByNumero(nroBiopsia, tipoEstudioAbreviatura) != null){
 			biopsiaExists = true;
 			log.info("La biopsia con numero " + nroBiopsia + " ya esta registrada");
 		}
@@ -60,10 +67,34 @@ public class BiopsiaInfoDAO {
 	 * @return
 	 */
 	public static BiopsiaInfoDTO getBiopsiaByNumero(String numero){
+		String tipoEstudioAbreviatura = "";
+		
+		try {
+			tipoEstudioAbreviatura = "-" + numero.split("-")[2];
+			numero = numero.split("-")[0] + "-" + numero.split("-")[1];;
+			log.info("Buscando biopsia: " + numero + "/" + tipoEstudioAbreviatura);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return getBiopsiaByNumero(numero, tipoEstudioAbreviatura);
+	}
+	
+	/**
+	 * Obtenemos el registro completo de una determinada biopsia.
+	 * 
+	 * @param numero
+	 * @param tipoEstudioAbreviatura
+	 * @return
+	 */
+	public static BiopsiaInfoDTO getBiopsiaByNumero(String numero, String tipoEstudioAbreviatura){
 		BiopsiaInfoDTO biopsia = null;
+		
+		log.info("Preparando busqueda de biopsia " + numero + "/" + tipoEstudioAbreviatura);
 		
 		BiopsiaInfoDAOListBuilder builder = new BiopsiaInfoDAOListBuilder();
 		builder.searchByNumeroBiopsia(numero);
+		builder.setTipoEstudioAbreviatura(tipoEstudioAbreviatura);
 		List<BiopsiaInfoDTO> records = builder.getResults();
 		
 		if(records != null && records.size() > 0){
@@ -133,7 +164,7 @@ public class BiopsiaInfoDAO {
 				return -1;
 			}else {
 				biopsiaInfo.setSide1CodeBiopsia(String.format("%02d", result[0]));
-				biopsiaInfo.setSide2CodeBiopsia(String.format("%06d", result[1]));
+				biopsiaInfo.setSide2CodeBiopsia(String.format("%05d", result[1]));
 			}
 		}
 		

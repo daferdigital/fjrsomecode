@@ -18,6 +18,7 @@ public class BiopsiaInfoDTO {
 	private String side1CodeBiopsia;
 	private String side2CodeBiopsia;
 	private int idTipoEstudio;
+	private String abreviaturaTipoEstudio;
 	private Calendar fechaRegistro;
 	private ExamenBiopsiaDTO examenBiopsia;
 	private ClienteDTO cliente;
@@ -56,13 +57,20 @@ public class BiopsiaInfoDTO {
 		this.side2CodeBiopsia = side2CodeBiopsia;
 	}
 	
-	
 	public int getIdTipoEstudio() {
 		return idTipoEstudio;
 	}
 	
 	public void setIdTipoEstudio(int idTipoEstudio) {
 		this.idTipoEstudio = idTipoEstudio;
+	}
+	
+	public String getAbreviaturaTipoEstudio() {
+		return abreviaturaTipoEstudio;
+	}
+	
+	public void setAbreviaturaTipoEstudio(String abreviaturaTipoEstudio) {
+		this.abreviaturaTipoEstudio = abreviaturaTipoEstudio;
 	}
 	
 	public Calendar getFechaRegistro() {
@@ -76,11 +84,13 @@ public class BiopsiaInfoDTO {
 	public String getCodigo() {
 		String code = side1CodeBiopsia + "-" + side2CodeBiopsia;
 		try {
-			code = String.format("%02d-%06d", Integer.parseInt(side1CodeBiopsia), Integer.parseInt(side2CodeBiopsia));
+			code = String.format("%02d-%05d", Integer.parseInt(side1CodeBiopsia), Integer.parseInt(side2CodeBiopsia));
+			code += abreviaturaTipoEstudio;
 		} catch (Exception e) {
 			// TODO: handle exception
 			//e.printStackTrace();
 		}
+		
 		return code;
 	}
 

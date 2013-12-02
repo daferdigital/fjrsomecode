@@ -45,6 +45,7 @@ public final class BarCodeMacroscopica extends BarCodePrint{
 	private static final int anchoMMTransformados = 56;
 	
 	private String nroBiopsia;
+	private String abreviaturaTipoEstudio;
 	private int nroCassetes;
 	private String labelFileName;
 	
@@ -63,12 +64,15 @@ public final class BarCodeMacroscopica extends BarCodePrint{
 	/**
 	 * 
 	 * @param nroBiopsia
+	 * @param abreviaturaTipoEstudio
 	 * @param nroCassetes
 	 */
-	public BarCodeMacroscopica(String nroBiopsia, int nroCassetes) {
+	public BarCodeMacroscopica(String nroBiopsia, String abreviaturaTipoEstudio,
+			int nroCassetes) {
 		// TODO Auto-generated constructor stub
 		super(log, PAGE_FORMAT);
 		this.nroBiopsia = nroBiopsia;
+		
 		this.nroCassetes = nroCassetes;
 		this.labelFileName = "macroscopica_" + nroBiopsia + ".pdf";
 	}
@@ -107,7 +111,7 @@ public final class BarCodeMacroscopica extends BarCodePrint{
     		document.newPage();
     		
     	    Barcode128 barCode = new Barcode128();
-            barCode.setCode(nroBiopsia);
+            barCode.setCode(nroBiopsia + abreviaturaTipoEstudio);
             barCode.setBarHeight(40);
             barCode.setAltText("");
             barCode.setBaseline(0.8F);
@@ -152,7 +156,7 @@ public final class BarCodeMacroscopica extends BarCodePrint{
 	}
 
 	public static void main(String[] args) throws IOException, DocumentException {
-		new BarCodeMacroscopica("13-63892", 10).crearEtiquetaMacroscopica();
+		new BarCodeMacroscopica("13-63892", "", 10).crearEtiquetaMacroscopica();
 		System.out.println("Finish...");
 	}
 }

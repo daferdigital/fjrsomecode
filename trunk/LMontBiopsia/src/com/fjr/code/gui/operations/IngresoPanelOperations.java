@@ -213,7 +213,8 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 					log.error("El numero de biopsia '" + ventana.getTextNroBiopsia().getText() 
 							+ "' no tiene la estructura esperada");
 					JOptionPane.showMessageDialog(ventana, 
-							"El formato del número de biopsia no es el esperado.\nDebe ser por ejemplo: 14-5272", 
+							"El formato del número de biopsia no es el esperado.\nDebe ser por ejemplo: 14-15272.\n"
+							+ "Recuerde que la identificación asociada al tipo de estudio, será agregada automaticamente.", 
 							"Error en formato de número de biopsia", 
 							JOptionPane.ERROR_MESSAGE);
 				} else {
@@ -319,7 +320,8 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 				log.info("Informacion completa para imprimir las etiquetas.");
 				BarCodeIngreso codeIngreso = new BarCodeIngreso(ventana.getTextNroBiopsia().getText(), 
 						ventana.getTextNombrePaciente().getText() + "\n" + ventana.getTextApellido().getText(), 
-						((TipoCedulaDTO) ventana.getComboTipoCedula().getSelectedItem()).getKeyCedula() + ventana.getTextCedula().getText());
+						((TipoCedulaDTO) ventana.getComboTipoCedula().getSelectedItem()).getKeyCedula() + ventana.getTextCedula().getText(),
+						getAbreviatura(ventana.getTextNroBiopsia().getText()));
 				try {
 					codeIngreso.crearEtiquetaIngreso();
 					codeIngreso.printLabelFile();
@@ -573,11 +575,22 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 		// TODO Auto-generated method stub
 		log.info("inputMethodTextChanged");
 	}
-
+	
 	@Override
 	public void caretPositionChanged(InputMethodEvent event) {
 		// TODO Auto-generated method stub
 		log.info("inputMethodTextChanged");
+	}
+	
+	private String getAbreviatura(String numeroBiopsia){
+		String abreviatura = ((TipoEstudioDTO) ventana.getComboTipoEstudio().getSelectedItem()).getAbreviatura();
 		
+		try {
+			abreviatura = "-" + numeroBiopsia.split("-")[2]; 
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return abreviatura;
 	}
 }

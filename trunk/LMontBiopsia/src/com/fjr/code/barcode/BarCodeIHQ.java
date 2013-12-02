@@ -48,6 +48,7 @@ public final class BarCodeIHQ extends BarCodePrint{
 	private static final int anchoMMTransformados = 56;
 	
 	private String nroBiopsia;
+	private String abreviaturaTipoEstudio;
 	private List<BiopsiaMicroLaminasDTO> laminas;
 	private String labelFileName;
 	
@@ -66,12 +67,15 @@ public final class BarCodeIHQ extends BarCodePrint{
 	/**
 	 * 
 	 * @param nroBiopsia
-	 * @param cassetes
+	 * @param abreviaturaTipoEstudio
+	 * @param laminas
 	 */
-	public BarCodeIHQ(String nroBiopsia, List<BiopsiaMicroLaminasDTO> laminas) {
+	public BarCodeIHQ(String nroBiopsia, String abreviaturaTipoEstudio,
+			List<BiopsiaMicroLaminasDTO> laminas) {
 		// TODO Auto-generated constructor stub
 		super(log, PAGE_FORMAT);
 		this.nroBiopsia = nroBiopsia;
+		this.abreviaturaTipoEstudio = abreviaturaTipoEstudio;
 		this.laminas = laminas;
 		this.labelFileName = "ihq" + nroBiopsia + ".pdf";
 	}
@@ -106,7 +110,7 @@ public final class BarCodeIHQ extends BarCodePrint{
         PdfContentByte cb = writer.getDirectContent();
         
         Barcode128 barCode = new Barcode128();
-        barCode.setCode(nroBiopsia);
+        barCode.setCode(nroBiopsia + abreviaturaTipoEstudio);
         barCode.setBarHeight(40);
         barCode.setAltText("");
         barCode.setBaseline(0.8F);
