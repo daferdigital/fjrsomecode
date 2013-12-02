@@ -40,7 +40,7 @@ public class SMSDAO {
 	 * @return
 	 */
 	public static final boolean storeSMSAtDataBase(SMSDTO smsDTO){
-		final String query = "INSERT INTO mensajes (fecha_recibido, number_from, message_value) VALUES (?,?,?)";
+		final String query = "INSERT INTO mensajes (fecha_recibido, number_from, message_value, serial) VALUES (?,?,?,?)";
 		
 		boolean wasStored = false;
 		
@@ -53,6 +53,7 @@ public class SMSDAO {
 			ps.setTimestamp(1, new Timestamp(smsDTO.getDateOfMessage().getTimeInMillis()));
 			ps.setString(2, smsDTO.getNumberFrom());
 			ps.setString(3, smsDTO.getMessage());
+			ps.setString(4, LicenseUtil.getSerialServer());
 			
 			ps.execute();
 			log.info("Almacenado de manera exitosa el mensaje " + smsDTO);

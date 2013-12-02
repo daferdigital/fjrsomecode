@@ -40,7 +40,7 @@ public final class SendCommandUtil {
 		
 		try{
 			//ajustamos el puerto
-			serialPort = (SerialPort) port.open("SMSLibCommTester", 1971);
+			serialPort = (SerialPort) port.open("SMSAppDongleReader", 1971);
 			serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN);
             serialPort.setSerialPortParams(BAUDS, 
             		SerialPort.DATABITS_8, 
