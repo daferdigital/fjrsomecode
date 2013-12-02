@@ -10,8 +10,8 @@ import javax.comm.SerialPort;
 
 public class SendSMS {
 	private static final char cntrlZ = (char) 26;
-	private static final String[] commands = {/*"AT+CSCA?\r",*/ "AT+CMGF=1\r", "AT+CMGS=\"+584122354731\"\r", "mensaje de prueba desde dafer" + cntrlZ +"\r" };
-	//private static final String[] commands = {"AT+GSN\r", "ATD*123#;\r", "ATH\r"};
+	//private static final String[] commands = {/*"AT+CSCA?\r",*/ "AT+CMGF=1\r", "AT+CMGS=\"+584122354731\"\r", "mensaje de prueba desde dafer" + cntrlZ +"\r" };
+	private static final String[] commands = {"AT+GSN\r", "ATD123;\r", "ATH\r", "ATV1\r"};
 	
     private static final String _NO_DEVICE_FOUND = "  no device found";
 
@@ -38,7 +38,7 @@ public class SendSMS {
         
         while (portList.hasMoreElements()){
             portId = portList.nextElement();
-            
+            System.out.println("----- " + portId.getName());
             if (portId.getPortType() == CommPortIdentifier.PORT_SERIAL
             		&& "COM10".equals(portId.getName())){
                 _formatter.format("%nFound port: %-5s%n", portId.getName());

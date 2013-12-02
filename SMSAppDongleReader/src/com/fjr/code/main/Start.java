@@ -26,7 +26,7 @@ public class Start {
 			CustomClasspathLoader.addJarsToClasspath(Constants.BASE_PATH + File.separator);
 			
 			new File(Constants.LOGS_PATH).mkdirs();
-			new File(Constants.TMP_PATH).mkdirs();
+			//new File(Constants.TMP_PATH).mkdirs();
 			
 			AfterStart.startProgram(args);
 		} catch (Throwable e) {

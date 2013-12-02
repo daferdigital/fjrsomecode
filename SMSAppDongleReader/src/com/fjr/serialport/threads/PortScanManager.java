@@ -11,9 +11,6 @@ import javax.comm.CommPortIdentifier;
 
 import org.apache.log4j.Logger;
 
-import com.fjr.code.util.LicenseUtil;
-
-
 /**
  * Clase donde estara implementada la logica para el registro y escaneo de puertos en tiempo real
  * La idea es descartar los puertos que luego de 3 intentos de lectura indiquen que no pueden ser leidos
@@ -30,6 +27,7 @@ public final class PortScanManager extends TimerTask {
 	
 	/**
 	 * Variable para almacenar en tiempo real los puertos de tipo SERIAL disponibles en el sistema
+	 * Se almancenaran de manera unica dependiendo de su EMEI
 	 * 
 	 */
 	private static Map<String, SMSReadThread> availablePorts = new HashMap<String, SMSReadThread>();
@@ -70,7 +68,7 @@ public final class PortScanManager extends TimerTask {
 				if(! availablePorts.containsKey(commPortIdentifier.getName())){
 					log.info("Registrando puerto '" + commPortIdentifier.getName() 
 							+ "' por primera vez");
-					availablePorts.put(commPortIdentifier.getName() + LicenseUtil.getSerialServer(),
+					availablePorts.put(commPortIdentifier.getName(),
 							new SMSReadThread(commPortIdentifier.getName(),
 									commPortIdentifier));
 				}
@@ -85,6 +83,8 @@ public final class PortScanManager extends TimerTask {
 		registerSystemPorts();
 		
 		Iterator<SMSReadThread> iterator = availablePorts.values().iterator();
+		SMSReadThread.resetProcesedPorts();
+		
 		while (iterator.hasNext()) {
 			SMSReadThread smsReadObject = iterator.next();
 			try {

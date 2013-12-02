@@ -1,5 +1,7 @@
 package com.fjr.serialport.threads;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import javax.comm.CommPortIdentifier;
@@ -8,7 +10,6 @@ import org.apache.log4j.Logger;
 
 import com.fjr.serialport.dao.SMSDAO;
 import com.fjr.serialport.dto.SMSDTO;
-import com.fjr.code.util.DBConnectionUtil;
 import com.fjr.code.util.SendCommandUtil;
 
 /**
@@ -21,14 +22,16 @@ import com.fjr.code.util.SendCommandUtil;
  *
  */
 public class SMSReadThread implements Runnable{
-	private static final String AT_AVAILABILITY_COMMAND = "AT+CMGF=1";
+	private static final String AT_TEXTMODE_COMMAND = "AT+CMGF=1";
+	private static final String AT_GET_IMEI_COMMAND = "AT+GSN";
 	private static final String AT_READSMS_AT_INDEX = "AT+CMGR=";
 	private static final String AT_DELETESMS_AT_INDEX = "AT+CMGD=";
 	
+	private static final Map<String, String> imeiPortprocessed = new HashMap<String, String>();
 	private static final Logger log = Logger.getLogger(SMSReadThread.class);
 	
 	private String portName;
-	private String portMaskedName;
+	private String portImei;
 	private CommPortIdentifier port;
 	private int failedAttempts = 0;
 	
@@ -53,11 +56,14 @@ public class SMSReadThread implements Runnable{
 	
 	/**
 	 * Revisamos la disponibilidad del puerto.
+	 * Obteniendo su codigo imei.
 	 * 
 	 * @return
 	 */
-	private boolean checkPortAvailability(){
-		String response = SendCommandUtil.sendCommandToPort(port, AT_AVAILABILITY_COMMAND);
+	private boolean setPortImei(){
+		//preparamos el modo texto del modem (no hay problema si falla)
+		SendCommandUtil.sendCommandToPort(port, AT_TEXTMODE_COMMAND);
+		String response = SendCommandUtil.sendCommandToPort(port, AT_GET_IMEI_COMMAND);
 		boolean isAvailable = true;
 		
 		if(response == null || response.toUpperCase().indexOf("OK") < 0){
@@ -65,6 +71,16 @@ public class SMSReadThread implements Runnable{
 			failedAttempts++;
 			log.info("El puerto [" + portName 
 					+ "] esta ocupado, por lo tanto no puede ser leido (aumentamos sus intentos de lectura fallidos)");
+		} else {
+			log.info("Para el puerto '" + port.getName()
+					+ "' se tiene que su imei es '" + response + "'");
+			String imei = response;
+			imei = imei.replaceAll("\r", "");
+			imei = imei.replaceAll("\n", "");
+			imei = imei.replaceAll("OK", "");
+			
+			log.info("Imei limpiado = " + imei);//comando + imei
+			this.portImei = imei;
 		}
 		
 		return isAvailable;
@@ -113,19 +129,15 @@ public class SMSReadThread implements Runnable{
 					boolean wasStored = false;
 					if(SMSDAO.storeSMSAtDataBase(smsDTO)){
 						wasStored = true;
-						SMSDAO.storeSMSInReaderPHPSystem(smsDTO);
-					} else {
-						if(! DBConnectionUtil.haveValidConnectionConfiguration()){
-							log.info("No se tiene base de datos local, por lo tanto, vamos directo a web");
-							if(SMSDAO.storeSMSInReaderPHPSystem(smsDTO)){
-								wasStored = true;
-							}
-						}
+					}
+					if(SMSDAO.storeSMSInReaderPHPSystem(smsDTO)){
+						log.info("Mensaje Almacenado en el ambiente WEB");
+						wasStored = true;
 					}
 					
 					if(wasStored){
 						log.info("Eliminando SMS[" + i + "] del dongle");
-						deleteSMSAtIndex(i);
+						//deleteSMSAtIndex(i);
 					}
 				}
 			}
@@ -142,16 +154,31 @@ public class SMSReadThread implements Runnable{
 				AT_DELETESMS_AT_INDEX + indexToDelete);
 	}
 	
+	/**
+	 * Metodo para limpiar los imei's de los puertos procesados 
+	 * para la lectura de los SMS.
+	 */
+	public static void resetProcesedPorts(){
+		imeiPortprocessed.clear();
+	}
+	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		final int maxPortAttempts = 10;
+		final int maxPortAttempts = 1;
 		if(failedAttempts == maxPortAttempts){
 			log.info("Este puerto [" + portName + "] alcanzo el maximo de intentos fallidos, por lo tanto no sera revisado");
 		} else {
-			if(checkPortAvailability()){
+			if(setPortImei()){
 				//el puerto esta operativo, entonces lo revisamos
-				processMessages();
+				if(imeiPortprocessed.containsKey(this.portImei)){
+					//ya se proceso un puerto con ese mismo numero de imei
+					//en este caso no hacemos nada
+					log.info("Imei repetido, puerto '" + this.portName + "' no procesamos");
+				} else {
+					imeiPortprocessed.put(this.portImei, this.portImei);
+					processMessages();
+				}
 			}
 		}
 	}
