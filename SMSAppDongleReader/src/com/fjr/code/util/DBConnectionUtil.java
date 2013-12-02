@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import org.apache.commons.dbcp.BasicDataSource;
@@ -40,7 +38,7 @@ public final class DBConnectionUtil {
 	 */
 	private static void setUpDataSource() throws Exception{
 		try {
-			String url = "jdbc:derby:DB/SmsReaderApp;create=true";
+			String url = "jdbc:derby:USB/SmsReaderApp;create=true";
 			
 			BasicDataSource basicDataSource = new BasicDataSource();
 			basicDataSource.setDriverClassName("org.apache.derby.jdbc.EmbeddedDriver");
