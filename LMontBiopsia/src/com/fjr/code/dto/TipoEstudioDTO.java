@@ -13,6 +13,7 @@ public class TipoEstudioDTO {
 	private int id;
 	private String nombre;
 	private boolean activo;
+	private String abreviatura;
 	
 	public TipoEstudioDTO() {
 		// TODO Auto-generated constructor stub
@@ -42,6 +43,14 @@ public class TipoEstudioDTO {
 		this.activo = activo;
 	}
 	
+	public String getAbreviatura() {
+		return abreviatura;
+	}
+
+	public void setAbreviatura(String abreviatura) {
+		this.abreviatura = abreviatura;
+	}
+
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub

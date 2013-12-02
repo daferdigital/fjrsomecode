@@ -114,7 +114,8 @@ public class HistologiaPanelOperations implements ActionListener, KeyListener{
 				//tengo todo a la mano para proceder a la impresion de las etiquetas de esta fase
 				log.info("Se desean imprimir las etiquetas de la fase de histologia para la biopsia '" 
 						+ biopsiaInfoDTO.getCodigo()  + "'");
-				BarCodeHistologia histoLabels = new BarCodeHistologia(biopsiaInfoDTO.getCodigo(), 
+				BarCodeHistologia histoLabels = new BarCodeHistologia(biopsiaInfoDTO.getCodigo(),
+						biopsiaInfoDTO.getAbreviaturaTipoEstudio(),
 						ventana.getTableHistoCassetes().getList());
 				try {
 					histoLabels.crearEtiquetaHistologia();

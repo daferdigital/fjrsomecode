@@ -45,6 +45,7 @@ public final class GUIPressedOrTypedNroBiopsia {
 			BiopsiaInfoDTO oldValue){
 		BiopsiaInfoDTO biopsia = null;
 		String nroBiopsia = "";
+		String abreviatura = "";
 		boolean doProcess = false;
 		
 		//vemos el tipo de evento para manipular el texto del campo como corresponda
@@ -75,12 +76,19 @@ public final class GUIPressedOrTypedNroBiopsia {
 			nroBiopsia = nroBiopsia.replaceAll("'", "-");
 		}
 		
+		try {
+			abreviatura = "-" + nroBiopsia.split("-")[2];
+			nroBiopsia =  nroBiopsia.split("-")[0] + "-" +  nroBiopsia.split("-")[1];
+		} catch (Exception e) {
+			// TODO: handle exception
+		} 
+		
 		if(doProcess){
 			try {
 				log.info("Debo verificar la biopsia '" + nroBiopsia + "'");
 				
 				//verificamos los datos basicos del cliente para esa cedula
-				biopsia = BiopsiaInfoDAO.getBiopsiaByNumero(nroBiopsia);
+				biopsia = BiopsiaInfoDAO.getBiopsiaByNumero(nroBiopsia, abreviatura);
 				
 				if(event.getID() == KeyEvent.KEY_PRESSED){
 					if(biopsia == null && KeyEventsUtil.wasPressedAEnter(event)){

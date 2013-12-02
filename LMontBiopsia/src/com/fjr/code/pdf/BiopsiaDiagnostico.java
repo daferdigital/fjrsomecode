@@ -382,6 +382,8 @@ public class BiopsiaDiagnostico implements PDFPageChecker {
 	 * @throws DocumentException
 	 */
 	private void addFirmantes(PdfWriter writer, Document document) throws DocumentException{
+		int espacioFaltante = (int) (writer.getVerticalPosition(true) - document.bottom());
+		
 		int cantidadFirmates = 1;
 		if(firmante2 != null 
 				&& ! "".equals(firmante2.trim())

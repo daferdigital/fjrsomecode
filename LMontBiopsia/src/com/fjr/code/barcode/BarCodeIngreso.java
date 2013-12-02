@@ -48,6 +48,7 @@ public final class BarCodeIngreso extends BarCodePrint {
 	
 	private String nroBiopsia;
 	private String nombrePaciente;
+	private String abreviaturaTipoEstudio;
 	private String cedula;
 	private String labelFileName;
 	private String labelFilePath;
@@ -69,15 +70,17 @@ public final class BarCodeIngreso extends BarCodePrint {
 	 * @param nroBiopsia
 	 * @param nombrePaciente
 	 * @param cedula
+	 * @param abreviaturaTipoEstudio
 	 */
 	public BarCodeIngreso(String nroBiopsia, String nombrePaciente,
-			String cedula) {
+			String cedula, String abreviaturaTipoEstudio) {
 		// TODO Auto-generated constructor stub
 		super(log, PAGE_FORMAT);
 		this.nroBiopsia = nroBiopsia;
 		this.nombrePaciente = nombrePaciente;
 		this.cedula = cedula;
-		this.labelFileName = "ingreso_" + nroBiopsia + ".pdf";
+		this.abreviaturaTipoEstudio = abreviaturaTipoEstudio;
+		this.labelFileName = "ingreso_" + nroBiopsia + abreviaturaTipoEstudio + ".pdf";
 		this.labelFilePath = Constants.LABELS_PATH + File.separator + labelFileName;
 	}
 	
@@ -111,7 +114,7 @@ public final class BarCodeIngreso extends BarCodePrint {
         PdfContentByte cb = writer.getDirectContent();
         
         Barcode128 barCode = new Barcode128();
-        barCode.setCode(nroBiopsia);
+        barCode.setCode(nroBiopsia + abreviaturaTipoEstudio);
         
         Image imgFJR = barCode.createImageWithBarcode(cb, null, null);
         imgFJR.setRotationDegrees(90F);
@@ -119,13 +122,13 @@ public final class BarCodeIngreso extends BarCodePrint {
         log.info("Creado codigo de barras con el valor " + nroBiopsia);
         
         Paragraph p = new Paragraph();
-        String chunkText = "Nro: " + nroBiopsia;
+        String chunkText = "Nro: " + nroBiopsia + abreviaturaTipoEstudio;
         String chunkText1 = "\nPaciente: \n" + nombrePaciente;
         chunkText1 += "\nC.I: " + cedula;
         
         p.add(new Chunk(chunkText, new Font(FontFamily.COURIER, 10F, Font.BOLD)));
         p.add(new Chunk(chunkText1, new Font(FontFamily.COURIER, 8F, Font.BOLD)));
-        p.add(new Chunk(imgFJR, 35F, -15F));
+        p.add(new Chunk(imgFJR, 35F, -10F));
         document.add(p);
         
         //step 5
@@ -150,7 +153,8 @@ public final class BarCodeIngreso extends BarCodePrint {
 	public static void main(String[] args) throws IOException, DocumentException {
 		BarCodeIngreso ingreso = new BarCodeIngreso("13-3467", 
 				"Josefina Carolina\nGonzalez Aristigueta", 
-				"7.958.543");
+				"7.958.543",
+				"");
 		
 		ingreso.crearEtiquetaIngreso();
 		//ingreso.printLabelFile();
