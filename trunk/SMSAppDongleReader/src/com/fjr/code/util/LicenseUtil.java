@@ -64,7 +64,7 @@ public final class LicenseUtil {
 	 * 
 	 * @return
 	 */
-	private static String readFixedLicenseFile(){
+	private static String readFixedLicenseValue(){
 		String fileContent = null;
 		String result = "";
 		
@@ -120,7 +120,7 @@ public final class LicenseUtil {
 			writer.flush();
 			writer.close();
 			
-			log.info("Almacenado valor de la licencia en el archivo");	
+			log.info("Almacenado valor de la licencia desde el formulario.");	
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			log.error(e.getMessage(), e);
@@ -142,18 +142,17 @@ public final class LicenseUtil {
 	public static boolean isValidLicense(){
 		boolean isValid = false;
 		
-		String maskedMacAddress = maskServerSerial(normalMacAddress);
-		String licenseFileFixed = readFixedLicenseFile();
+		String maskedValue = maskServerSerial(normalMacAddress);
+		String licenseFileFixed = readFixedLicenseValue();
 		//log.info(getSerialAsString());
 		
-		if(maskedMacAddress.equals(licenseFileFixed)){
+		if(maskedValue.equals(licenseFileFixed)){
 			//la licencia es valida
 			isValid = true;
 		}
 		
-		log.info("La validacion de la licencia para '" + maskedMacAddress + "' dio como resultado: " + isValid);
-		//return isValid;
-		return true;
+		//log.info("La validacion de la licencia para '" + maskedMacAddress + "' dio como resultado: " + isValid);
+		return isValid;
 	}
 	
 	/**

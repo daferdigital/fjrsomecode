@@ -4,6 +4,7 @@ CREATE TABLE version (
 );
 
 CREATE TABLE licencia(
+    id INTEGER NOT NULL,
     server_code varchar(100) NOT NULL,
     license_code varchar(100),
     PRIMARY KEY (server_code)
