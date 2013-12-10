@@ -32,12 +32,12 @@ if(!$_REQUEST['fecha']){
 	$dateTime = new DateTime($dateSrc);
 	$dateTime->setTimeZone(new DateTimeZone($timeZone));
 	$_REQUEST["fecha"] = $dateTime->format('Y-m-d H:i:s');
-	$extraWhereFecha = " CONCAT(fecha,' ',hora) >= '".$_REQUEST['fecha']."'";
+	$extraWhereFecha = " fecha = '".$dateTime->format('Y-m-d')."'";
+	$extraWhereFecha .= " AND hora >= '".$dateTime->format('H:i:s')."'";
 	$extraWhereFecha .= " AND fecha < ADDDATE('".$dateTime->format('Y-m-d')."', 1)";
 } else {
 	$extraWhereFecha = " fecha='".$_REQUEST['fecha']."'";
 }
-
 
 list($ano,$mes,$dia)=explode("-",$_REQUEST['fecha']);
 		//$selectlogros="select * from vista_logros where fecha='".$_REQUEST['fecha']."' and idliga='".$_REQUEST['liga']."' ORDER BY idlogro,que_equipo ASC, nombre_tipo_apuesta ASC";
