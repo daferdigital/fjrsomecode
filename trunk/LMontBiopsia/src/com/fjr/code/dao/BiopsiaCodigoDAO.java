@@ -1,5 +1,8 @@
 package com.fjr.code.dao;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.sql.rowset.CachedRowSet;
 
 import org.apache.log4j.Logger;
@@ -25,15 +28,18 @@ public final class BiopsiaCodigoDAO {
 	 * @param year
 	 * @return
 	 */
-	public static int[] getAutomaticYearAndNumber(){
+	public static int[] getAutomaticYearAndNumber(int idTipoEstudio){
 		final String query = "SELECT DATE_FORMAT(NOW(),'%y') AS year, IF(MAX(side2_code_biopsia) IS NULL, 0, MAX(CAST(side2_code_biopsia AS SIGNED)) + 1) AS numeroBiopsia"
 				+ " FROM biopsias"
-				+ " WHERE side1_code_biopsia = DATE_FORMAT(NOW(),'%y')";
+				+ " WHERE side1_code_biopsia = DATE_FORMAT(NOW(),'%y')"
+				+ " AND id_tipo_estudio = ?";
 		
 		int[] result = {-1, -1};
+		List<Object> parameters = new LinkedList<Object>();
+		parameters.add(idTipoEstudio);
 		
 		try {
-			CachedRowSet row = DBUtil.executeSelectQuery(query);
+			CachedRowSet row = DBUtil.executeSelectQuery(query, parameters);
 			if(row.next()){
 				result[0] = row.getInt(1);
 				result[1] = row.getInt(2);

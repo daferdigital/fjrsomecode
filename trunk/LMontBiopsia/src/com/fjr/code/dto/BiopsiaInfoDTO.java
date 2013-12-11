@@ -85,7 +85,7 @@ public class BiopsiaInfoDTO {
 		String code = side1CodeBiopsia + "-" + side2CodeBiopsia;
 		try {
 			code = String.format("%02d-%05d", Integer.parseInt(side1CodeBiopsia), Integer.parseInt(side2CodeBiopsia));
-			code += abreviaturaTipoEstudio;
+			code += abreviaturaTipoEstudio == null ? "" : abreviaturaTipoEstudio;
 		} catch (Exception e) {
 			// TODO: handle exception
 			//e.printStackTrace();
