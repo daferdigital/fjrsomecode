@@ -640,3 +640,12 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2013-12-02  8:37:21
+
+
+ALTER TABLE `lmont_biopsia`.`biopsias` 
+
+DROP INDEX `UQ_CODIGO_BIOPSIA` 
+
+, ADD UNIQUE INDEX `UQ_CODIGO_BIOPSIA` (`side1_code_biopsia` ASC, `side2_code_biopsia` ASC, `id_tipo_estudio` ASC) ;
+
+
