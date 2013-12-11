@@ -17,8 +17,10 @@ import com.fjr.code.dto.BiopsiaMacroFotoDTO;
 import com.fjr.code.dto.BiopsiaMicroLaminasDTO;
 import com.fjr.code.dto.BiopsiaMicroLaminasFileDTO;
 import com.fjr.code.dto.ReactivoDTO;
+import com.fjr.code.pdf.BiopsiaDiagnostico;
 import com.fjr.code.util.Constants;
 import com.fjr.code.util.DBUtil;
+import com.sun.org.apache.bcel.internal.generic.IDIV;
 
 /**
  * 
@@ -156,7 +158,7 @@ public class BiopsiaInfoDAO {
 		
 		int[] result = null;
 		if("-1".equals(biopsiaInfo.getSide1CodeBiopsia())){
-			result = BiopsiaCodigoDAO.getAutomaticYearAndNumber();
+			result = BiopsiaCodigoDAO.getAutomaticYearAndNumber(biopsiaInfo.getIdTipoEstudio());
 			if(result[0] < 0){
 				//no se pudo obtener de manera automatica el valor del codigo de biopsia
 				//debemos salir
@@ -208,6 +210,7 @@ public class BiopsiaInfoDAO {
 		
 		biopsiaInfo.setId(insertedId);
 		
+		biopsiaInfo = BiopsiaInfoDAO.getBiopsiaById(insertedId);
 		return insertedId;
 	}
 

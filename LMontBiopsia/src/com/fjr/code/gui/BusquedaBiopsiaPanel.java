@@ -50,7 +50,7 @@ public class BusquedaBiopsiaPanel extends JPanel implements ActionListener{
 	private JComboBox comboDiaHasta;
 	private JComboBox comboMesHasta;
 	private JTextField textYearHasta;
-	
+
 	/**
 	 * Create the panel.
 	 */
@@ -160,7 +160,7 @@ public class BusquedaBiopsiaPanel extends JPanel implements ActionListener{
 		add(comboMesDesde);
 		
 		textYearDesde = new JTextField();
-		textYearDesde.setBounds(365, 94, 59, 20);
+		textYearDesde.setBounds(377, 94, 47, 20);
 		add(textYearDesde);
 		textYearDesde.setColumns(10);
 		
