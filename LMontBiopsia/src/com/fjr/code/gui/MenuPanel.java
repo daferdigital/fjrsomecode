@@ -77,6 +77,18 @@ public class MenuPanel extends JPanel {
 		menuMaestros.setHorizontalAlignment(SwingConstants.LEFT);
 		menuBar.add(menuMaestros);
 		
+		JMenuItem mntmTiposDeEstudio = new JMenuItem("Tipos de Estudio");
+		menuMaestros.add(mntmTiposDeEstudio);
+		
+		JMenuItem mntmEspecialidades = new JMenuItem("Especialidades");
+		menuMaestros.add(mntmEspecialidades);
+		
+		JMenuItem mntmNewMenuItem = new JMenuItem("Examenes");
+		menuMaestros.add(mntmNewMenuItem);
+		
+		JMenuItem mntmUsuarios = new JMenuItem("Usuarios");
+		menuMaestros.add(mntmUsuarios);
+		
 		JMenu menuBusquedas = new JMenu("Búsquedas");
 		menuBusquedas.setHorizontalAlignment(SwingConstants.LEFT);
 		menuBar.add(menuBusquedas);

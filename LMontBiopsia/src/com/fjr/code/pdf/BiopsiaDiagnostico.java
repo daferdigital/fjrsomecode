@@ -385,6 +385,11 @@ public class BiopsiaDiagnostico implements PDFPageChecker {
 		log.info("writer.getVerticalPosition(true)/document.bottom() " + writer.getVerticalPosition(true) 
 				+ "/" + document.bottom());
 		int espacioFaltante = (int) (writer.getVerticalPosition(true) - document.bottom());
+		int maxSignYPosition = 120;
+		
+		if(espacioFaltante - 50 > maxSignYPosition){
+			maxSignYPosition = espacioFaltante - 50;
+		}
 		
 		int cantidadFirmates = 1;
 		if(firmante2 != null 
@@ -399,14 +404,15 @@ public class BiopsiaDiagnostico implements PDFPageChecker {
                 Element.ALIGN_CENTER, 
                 new Phrase(firmante1, new Font(FuenteInformeUtil.getInformeFontNormal().getBaseFont(), 12)),
                 factor, 
-                120,
+                maxSignYPosition,
                 0);
+		
 		if(cantidadFirmates == 2){
 			ColumnText.showTextAligned(writer.getDirectContent(),
 	                Element.ALIGN_CENTER, 
 	                new Phrase(firmante2, new Font(FuenteInformeUtil.getInformeFontNormal().getBaseFont(), 12)),
 	                factor * 3, 
-	                120,
+	                maxSignYPosition,
 	                0);
 		}
 		/*

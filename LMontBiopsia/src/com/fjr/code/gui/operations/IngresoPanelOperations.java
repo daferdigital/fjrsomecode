@@ -290,8 +290,9 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 									"Actualización realizada",
 									JOptionPane.INFORMATION_MESSAGE);
 							//ventana.setVisible(false);
-							biopsiaInfoDTO = null;
-							loadVentanaFromBiopsiaDTO(biopsiaInfoDTO);
+							biopsiaInfoDTO = new BiopsiaInfoDTO();
+							ventana.setNewBiopsia(true);
+							loadVentanaFromBiopsiaDTO(null);
 						} else {
 							JOptionPane.showMessageDialog(ventana,
 									"No pudo actualizarse la fase de esta biopsia a Macroscopica",
@@ -345,6 +346,13 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 		}
 	}
 
+	/**
+	 * Metodo para realizar la operacion respectiva con la biopsia.
+	 * 
+	 * @param ingreso
+	 * @param goToMacro
+	 * @return
+	 */
 	private boolean whatToDoWithBiopsia(BiopsiaInfoDTO ingreso, boolean goToMacro) {
 		// TODO Auto-generated method stub
 		boolean result = true;

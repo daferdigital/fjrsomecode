@@ -1,11 +1,13 @@
 package com.fjr.code.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JComboBox;
 
 import org.apache.log4j.Logger;
 
+import com.fjr.code.dao.definitions.CriterioBusquedaTipoEstudio;
 import com.fjr.code.dto.TipoEstudioDTO;
 
 /**
@@ -72,5 +74,27 @@ public final class TipoEstudioDAO {
 		}
 		
 		log.info("Agregados elementos al combo-box de los tipos de estudios");
+	}
+	
+	/**
+	 * 
+	 * @param valores
+	 * @return 
+	 */
+	public static List<TipoEstudioDTO> searchAllByCriteria(
+			Map<CriterioBusquedaTipoEstudio, String> valores) {
+		// TODO Auto-generated method stub
+		TipoEstudioDAOListBuilder builder = new TipoEstudioDAOListBuilder();
+		
+		for (CriterioBusquedaTipoEstudio criterio : valores.keySet()) {
+			if(CriterioBusquedaTipoEstudio.NOMBRE.equals(criterio)){
+				builder.searchByLikeNombre(valores.get(criterio));
+			} else if(CriterioBusquedaTipoEstudio.ABREVIATURA.equals(criterio)){
+				builder.searchByLikeAbreviatura(valores.get(criterio));
+			}
+		}
+		
+		//verificamos las fechas desde y hasta
+		return builder.getResults();
 	}
 }

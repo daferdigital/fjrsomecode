@@ -17,10 +17,8 @@ import com.fjr.code.dto.BiopsiaMacroFotoDTO;
 import com.fjr.code.dto.BiopsiaMicroLaminasDTO;
 import com.fjr.code.dto.BiopsiaMicroLaminasFileDTO;
 import com.fjr.code.dto.ReactivoDTO;
-import com.fjr.code.pdf.BiopsiaDiagnostico;
 import com.fjr.code.util.Constants;
 import com.fjr.code.util.DBUtil;
-import com.sun.org.apache.bcel.internal.generic.IDIV;
 
 /**
  * 
@@ -97,6 +95,27 @@ public class BiopsiaInfoDAO {
 		BiopsiaInfoDAOListBuilder builder = new BiopsiaInfoDAOListBuilder();
 		builder.searchByNumeroBiopsia(numero);
 		builder.setTipoEstudioAbreviatura(tipoEstudioAbreviatura);
+		List<BiopsiaInfoDTO> records = builder.getResults();
+		
+		if(records != null && records.size() > 0){
+			biopsia = records.get(0);
+		}
+		
+		return biopsia;
+	}
+	
+	/**
+	 * 
+	 * @param idBiopsia
+	 * @return
+	 */
+	public static BiopsiaInfoDTO getBiopsiaById(int idBiopsia){
+		BiopsiaInfoDTO biopsia = null;
+		
+		log.info("Preparando busqueda de biopsia con id " + idBiopsia);
+		
+		BiopsiaInfoDAOListBuilder builder = new BiopsiaInfoDAOListBuilder();
+		builder.searchByIdBiopsia(idBiopsia);
 		List<BiopsiaInfoDTO> records = builder.getResults();
 		
 		if(records != null && records.size() > 0){
@@ -209,8 +228,9 @@ public class BiopsiaInfoDAO {
 		}
 		
 		biopsiaInfo.setId(insertedId);
+		biopsiaInfo.setAbreviaturaTipoEstudio(
+				TipoEstudioDAO.getById(biopsiaInfo.getIdTipoEstudio()).getAbreviatura());
 		
-		biopsiaInfo = BiopsiaInfoDAO.getBiopsiaById(insertedId);
 		return insertedId;
 	}
 
