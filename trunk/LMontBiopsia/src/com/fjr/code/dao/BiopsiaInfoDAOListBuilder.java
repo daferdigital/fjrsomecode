@@ -87,6 +87,15 @@ class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO> {
 	}
 	
 	/**
+	 * Ajuste para buscar por id de la biopsia
+	 * @param idBiopsia
+	 */
+	public void searchByIdBiopsia(int idBiopsia){
+		customWhere += " AND b.id = ?";
+		parameters.add(idBiopsia);
+	}
+	
+	/**
 	 * Ajuste para buscar por cedula de cliente
 	 * @param cedula
 	 */

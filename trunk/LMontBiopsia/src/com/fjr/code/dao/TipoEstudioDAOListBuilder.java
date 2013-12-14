@@ -52,6 +52,25 @@ final class TipoEstudioDAOListBuilder implements DAOListBuilder<TipoEstudioDTO>{
 		customWhere += " AND te.id = ?";
 		parameters.add(idExamen);
 	}
+	
+	/**
+	 * 
+	 * @param nombre
+	 */
+	public void searchByLikeNombre(String nombre){
+		customWhere += " AND LOWER(te.nombre) = LIKE ?";
+		parameters.add("%" + nombre.toLowerCase() + "%");
+	}
+	
+	/**
+	 * 
+	 * @param abreviatura
+	 */
+	public void searchByLikeAbreviatura(String abreviatura){
+		customWhere += " AND LOWER(te.abreviatura) = LIKE ?";
+		parameters.add("%" + abreviatura.toLowerCase() + "%");
+	}
+	
 	/**
 	 * 
 	 * @return

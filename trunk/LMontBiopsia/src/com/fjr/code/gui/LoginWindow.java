@@ -2,8 +2,6 @@ package com.fjr.code.gui;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -14,7 +12,9 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import com.fjr.code.gui.operations.LoginWindowOperations;
 import com.fjr.code.util.Constants;
+import com.sun.awt.AWTUtilities;
 
 /**
  * 
@@ -25,7 +25,7 @@ import com.fjr.code.util.Constants;
  * @author T&T
  *
  */
-public class LoginWindow extends JDialog implements ActionListener, KeyListener {
+public class LoginWindow extends JDialog implements KeyListener {
 
 	/**
 	 * 
@@ -33,8 +33,8 @@ public class LoginWindow extends JDialog implements ActionListener, KeyListener 
 	private static final long serialVersionUID = -7643090828133305660L;
 	
 	private JButton ok, cancel, help;
-	private JTextField usu;
-	private JPasswordField cla;
+	private JTextField loginTxt;
+	private JPasswordField pwdField;
 	private JLabel fondo = new JLabel();
 	private JLabel name1 = new JLabel(Constants.icoMain);
 	private JLabel name2 = new JLabel(Constants.APP_SOFTWARE_NAME + " " + Constants.APP_SOFTWARE_VERSION);
@@ -55,7 +55,7 @@ public class LoginWindow extends JDialog implements ActionListener, KeyListener 
 		this.setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		
-		com.sun.awt.AWTUtilities.setWindowOpacity(this, 0.9f);
+		AWTUtilities.setWindowOpacity(this, 0.9f);
 		setBackground(new Color(1.0F, 1.0F, 1.0F, 0.25F));
 		getContentPane().setBackground(new Color(1.0F, 1.0F, 1.0F, 0.25F));
 		
@@ -80,45 +80,42 @@ public class LoginWindow extends JDialog implements ActionListener, KeyListener 
 		tit1.setForeground(Color.GRAY);
 		getContentPane().add(tit1);
 
-		usu = new JTextField();
-		usu.setBounds(x, y + 20, 285, 30);
-		usu.setOpaque(false);
-		usu.setFont(new Font("Dialog", Font.BOLD, 19));
-		usu.setBorder(BorderFactory.createLineBorder(Color.blue));
-		usu.addKeyListener(this);
-		getContentPane().add(usu);
+		loginTxt = new JTextField();
+		loginTxt.setBounds(x, y + 20, 285, 30);
+		loginTxt.setOpaque(false);
+		loginTxt.setFont(new Font("Dialog", Font.BOLD, 19));
+		loginTxt.setBorder(BorderFactory.createLineBorder(Color.blue));
+		loginTxt.addKeyListener(this);
+		getContentPane().add(loginTxt);
 
 		tit2.setBounds(x, y + 50, 200, 20);
 		tit2.setForeground(Color.GRAY);
 		getContentPane().add(tit2);
 
-		cla = new JPasswordField();
-		cla.setBounds(x, y + 70, 285, 30);
-		cla.setOpaque(false);
-		cla.setFont(new Font("Dialog", Font.BOLD, 19));
-		cla.setBorder(BorderFactory.createLineBorder(Color.blue));
-		cla.addKeyListener(this);
-		getContentPane().add(cla);
+		pwdField = new JPasswordField();
+		pwdField.setBounds(x, y + 70, 285, 30);
+		pwdField.setOpaque(false);
+		pwdField.setFont(new Font("Dialog", Font.BOLD, 19));
+		pwdField.setBorder(BorderFactory.createLineBorder(Color.blue));
+		pwdField.addKeyListener(this);
+		getContentPane().add(pwdField);
 
 		ok = new JButton("Aceptar");
-		ok.setActionCommand("aceptar");
+		ok.setActionCommand(LoginWindowOperations.ACTION_COMMAND_DO_LOGIN);
 		ok.setBounds(x, y + 105, 85, 20);
 		ok.setBackground(Color.WHITE);
-		ok.addActionListener(this);
 		getContentPane().add(ok);
 
 		cancel = new JButton("Cancelar");
-		cancel.setActionCommand("cancelar");
+		cancel.setActionCommand(LoginWindowOperations.ACTION_COMMAND_CANCEL);
 		cancel.setBounds(x + 100, y + 105, 85, 20);
 		cancel.setBackground(Color.WHITE);
-		cancel.addActionListener(this);
 		getContentPane().add(cancel);
 
 		help = new JButton("Ayuda");
-		help.setActionCommand("ayuda");
+		help.setActionCommand(LoginWindowOperations.ACTION_COMMAND_OPEN_HELP);
 		help.setBounds(x + 200, y + 105, 85, 20);
 		help.setBackground(Color.WHITE);
-		help.addActionListener(this);
 		getContentPane().add(help);
 
 		/*
@@ -135,29 +132,21 @@ public class LoginWindow extends JDialog implements ActionListener, KeyListener 
 		;*/
 		// this.add(ayuda);
 
+		LoginWindowOperations listener = new LoginWindowOperations(this);
+		ok.addActionListener(listener);
+		cancel.addActionListener(listener);
+		help.addActionListener(listener);
+		
 		fondo.setBounds(0, 0, 500, 272);
 		getContentPane().add(fondo);
 
-		usu.requestFocusInWindow();
+		loginTxt.requestFocusInWindow();
 
 		this.setVisible(true);
 		repaint();
 	}
 	
 	
-	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("aceptar")) {
-			//validamos el login del usuario
-			this.setVisible(false);
-			this.dispose();
-			AppWindow.show();
-		} else if (e.getActionCommand().equals("ayuda")) {
-			
-		} else {
-			this.dispose();
-		}
-	}
-
 	public void keyPressed(KeyEvent e) {
 	
 	}
@@ -173,12 +162,20 @@ public class LoginWindow extends JDialog implements ActionListener, KeyListener 
 		} else if(obj instanceof JTextField) {
 			if (e.getKeyCode() == 10) {
 				e.consume();
-				cla.requestFocus();
+				pwdField.requestFocus();
 			}
 		}
 	}
 
 	public void keyTyped(KeyEvent e) {
 	
+	}
+	
+	public JPasswordField getPwdField() {
+		return pwdField;
+	}
+	
+	public JTextField getLoginTxt() {
+		return loginTxt;
 	}
 }

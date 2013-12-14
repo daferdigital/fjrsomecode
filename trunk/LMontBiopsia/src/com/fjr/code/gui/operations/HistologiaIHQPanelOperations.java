@@ -119,7 +119,7 @@ public class HistologiaIHQPanelOperations implements ActionListener, KeyListener
 							|| FasesBiopsia.MACROSCOPICA.equals(biopsiaInfoDTO.getFaseActual())
 							|| FasesBiopsia.HISTOLOGIA.equals(biopsiaInfoDTO.getFaseActual())
 							|| FasesBiopsia.MICROSCOPICA.equals(biopsiaInfoDTO.getFaseActual())
-							|| FasesBiopsia.ENTREGA.equals(biopsiaInfoDTO.getFaseActual())
+							//|| FasesBiopsia.ENTREGA.equals(biopsiaInfoDTO.getFaseActual())
 							|| FasesBiopsia.CONFIRMAR_IHQ.equals(biopsiaInfoDTO.getFaseActual())){
 						ventana.setVisible(false);
 						JOptionPane.showMessageDialog(ventana,
