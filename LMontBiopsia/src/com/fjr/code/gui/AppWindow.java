@@ -25,7 +25,7 @@ public class AppWindow {
 	private JPanel panelMenu = new JPanel();
 	private JPanel panelContenido = new JPanel();
 	private JFrame frmSistemaDeGestion;
-	private JTable tableTodasBiopsias;
+	private JTable tableToPut;
 	private JScrollPane scrollPane;
 	
 	/**
@@ -137,12 +137,21 @@ public class AppWindow {
 	
 	/**
 	 * 
-	 * @param contenido si este panel es null, dejamos intacto el anterior
+	 * @param contenido
 	 * @param faseABuscar
-	 * @param listado
+	 * @param results
 	 */
-	private void setPanelContenido(JPanel contenido, FasesBiopsia faseABuscar,
-			List<BiopsiaInfoDTO> listado){
+	private void setPanelContenido(JPanel contenido, FasesBiopsia faseABuscar, List<BiopsiaInfoDTO> results){
+		JTable tableToPut = new JTableTodasBiopsias(faseABuscar, results).getTable();
+		setPanelContenido(contenido, tableToPut);
+	}
+	
+	/**
+	 * 
+	 * @param contenido si este panel es null, dejamos intacto el anterior
+	 * @param tableToPut
+	 */
+	public void setPanelContenido(JPanel contenido, JTable tableToPut){
 		if(contenido != null){
 			panelContenido.setVisible(false);
 			frmSistemaDeGestion.getContentPane().remove(panelContenido);
@@ -152,8 +161,8 @@ public class AppWindow {
 			panelContenido = contenido;
 		}
 		
-		putTableBiopsiasActivas((int) panelContenido.getSize().getHeight(),
-				faseABuscar, listado);
+		putTableAfterContent((int) panelContenido.getSize().getHeight(),
+				tableToPut);
 		
 		panelContenido.repaint();
 		panelContenido.validate();
@@ -169,32 +178,34 @@ public class AppWindow {
 	 * @param faseABuscar si deseamos buscar por fase
 	 * @param listado si deseamos colocar directo un listado previamente generado
 	 */
-	private void putTableBiopsiasActivas(int startHeight, FasesBiopsia faseABuscar, List<BiopsiaInfoDTO> listado){
-		if(tableTodasBiopsias != null){
+	private void putTableAfterContent(int startHeight, JTable tableToPutAfterContent){
+		if(tableToPut != null){
 			scrollPane.removeAll();
 			frmSistemaDeGestion.getContentPane().remove(scrollPane);
-			frmSistemaDeGestion.getContentPane().remove(tableTodasBiopsias);
-			tableTodasBiopsias = null;
+			frmSistemaDeGestion.getContentPane().remove(tableToPut);
+			tableToPut = null;
 			scrollPane = null;
 			System.gc();
 		}
 		
 		scrollPane = new JScrollPane();
-		tableTodasBiopsias = new JTableTodasBiopsias(faseABuscar, listado).getTable();
+		tableToPut = tableToPutAfterContent;
 		
-		int factorAjuste = 10;
-		Rectangle bounds = new Rectangle(0, 
-				startHeight + panelMenu.getHeight(), 
-				Constants.APP_WINDOW_MAX_X - factorAjuste, 
-				Constants.APP_WINDOW_MAX_Y - (startHeight + panelMenu.getHeight() + (factorAjuste*3)));
-		
-		scrollPane.setBounds(bounds);
-		tableTodasBiopsias.setBounds(0, 
-				startHeight + panelMenu.getHeight(), 
-				Constants.APP_WINDOW_MAX_X - (factorAjuste*2), 
-				Constants.APP_WINDOW_MAX_Y - (startHeight + panelMenu.getHeight() + (factorAjuste*6)));
-		
-		scrollPane.setViewportView(tableTodasBiopsias);
+		if(tableToPut != null){
+			int factorAjuste = 10;
+			Rectangle bounds = new Rectangle(0, 
+					startHeight + panelMenu.getHeight(), 
+					Constants.APP_WINDOW_MAX_X - factorAjuste, 
+					Constants.APP_WINDOW_MAX_Y - (startHeight + panelMenu.getHeight() + (factorAjuste*3)));
+			
+			scrollPane.setBounds(bounds);
+			tableToPut.setBounds(0, 
+					startHeight + panelMenu.getHeight(), 
+					Constants.APP_WINDOW_MAX_X - (factorAjuste*2), 
+					Constants.APP_WINDOW_MAX_Y - (startHeight + panelMenu.getHeight() + (factorAjuste*6)));
+			
+			scrollPane.setViewportView(tableToPut);
+		}
 		
 		frmSistemaDeGestion.getContentPane().add(scrollPane);
 	}

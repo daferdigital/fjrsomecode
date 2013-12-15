@@ -13,7 +13,7 @@ import com.fjr.code.util.DBUtil;
 
 /**
  * 
- * Class: ExamenBiopsiaDAOListBuilder
+ * Class: EspecialidadDAOListBuilder
  * Creation Date: 28/08/2013
  * (c) 2013
  *
@@ -45,15 +45,43 @@ final class EspecialidadDAOListBuilder implements DAOListBuilder<EspecialidadDTO
 		parameters = new LinkedList<Object>();
 		customWhere = "";
 	}
+	
+	/**
+	 * 
+	 * @param nombre
+	 */
+	public void searchByLikeNombre(String nombre){
+		customWhere += " AND LOWER(te.nombre) LIKE(?)";
+		parameters.add("%" + nombre.toLowerCase() + "%");
+	}
 
+	/**
+	 * 
+	 * @param descripcion
+	 */
+	public void searchByLikeDescripcion(String descripcion){
+		customWhere += " AND LOWER(te.descripcion) LIKE(?)";
+		parameters.add("%" + descripcion.toLowerCase() + "%");
+	}
+	
+	/**
+	 * 
+	 * @param codigo
+	 */
+	public void searchByLikeCodigo(String codigo){
+		customWhere += " AND LOWER(te.codigo) LIKE(?)";
+		parameters.add("%" + codigo.toLowerCase() + "%");
+	}
+	
 	/**
 	 * 
 	 * @param idExamen
 	 */
-	public void searchByTipoExamenId(int idExamen){
-		customWhere += " AND eb.id = ?";
-		parameters.add(idExamen);
+	public void searchById(int idEspecialidad){
+		customWhere += " AND te.id = ?";
+		parameters.add(idEspecialidad);
 	}
+	
 	/**
 	 * 
 	 * @return

@@ -2,17 +2,18 @@ package com.fjr.code.dao.definitions;
 
 /**
  * 
- * Class: CriterioBusquedaTipoEstudio
+ * Class: CriterioBusquedaEspecialidad
  * Creation Date: 02/11/2013
  * (c) 2013
  *
  * @author T&T
  *
  */
-public enum CriterioBusquedaTipoEstudio {
+public enum CriterioBusquedaEspecialidad {
 	TODOS("Seleccione"),
 	NOMBRE("Nombre"),
-	ABREVIATURA("Abreviatura"),
+	CODIGO("Código"),
+	DESCRIPCION("Descripción"),
 	ACTIVO("Activo", false),
 	INACTIVO("Inactivo", false);
 	
@@ -23,7 +24,7 @@ public enum CriterioBusquedaTipoEstudio {
 	 * 
 	 * @param textoDelCombo
 	 */
-	private CriterioBusquedaTipoEstudio(String textoDelCombo) {
+	private CriterioBusquedaEspecialidad(String textoDelCombo) {
 		// TODO Auto-generated constructor stub
 		this(textoDelCombo, true);
 	}
@@ -33,7 +34,7 @@ public enum CriterioBusquedaTipoEstudio {
 	 * @param textoDelCombo
 	 * @param showInCombo
 	 */
-	private CriterioBusquedaTipoEstudio(String textoDelCombo, boolean showInCombo) {
+	private CriterioBusquedaEspecialidad(String textoDelCombo, boolean showInCombo) {
 		// TODO Auto-generated constructor stub
 		this.textoDelCombo = textoDelCombo;
 		this.showInCombo = showInCombo;

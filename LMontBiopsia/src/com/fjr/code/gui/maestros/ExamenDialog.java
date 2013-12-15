@@ -1,4 +1,4 @@
-package com.fjr.code.gui;
+package com.fjr.code.gui.maestros;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -14,7 +14,9 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
 import com.fjr.code.dao.EspecialidadDAO;
-import com.fjr.code.gui.operations.ExamenDialogOperations;
+import com.fjr.code.dao.ExamenesDAO;
+import com.fjr.code.dto.ExamenBiopsiaDTO;
+import com.fjr.code.gui.operations.maestros.ExamenDialogOperations;
 
 public class ExamenDialog extends JDialog {
 
@@ -23,6 +25,7 @@ public class ExamenDialog extends JDialog {
 	 */
 	private static final long serialVersionUID = 594491748875506112L;
 	private final JPanel contentPanel = new JPanel();
+	private int idExamen;
 	private JTextField txtCodigo;
 	private JTextField txtCodigoPremium;
 	private JTextField txtNombre;
@@ -34,7 +37,7 @@ public class ExamenDialog extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			ExamenDialog dialog = new ExamenDialog();
+			ExamenDialog dialog = new ExamenDialog(-1);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -44,8 +47,15 @@ public class ExamenDialog extends JDialog {
 
 	/**
 	 * Create the dialog.
+	 * @param idExamen 
 	 */
-	public ExamenDialog() {
+	public ExamenDialog(int idExamen) {
+		this.idExamen = idExamen;
+		ExamenBiopsiaDTO examenDTO = null;
+		if(idExamen != -1){
+			examenDTO = ExamenesDAO.getById(idExamen);
+		}
+		
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setTitle("Examenes");
 		setModal(true);
@@ -64,7 +74,9 @@ public class ExamenDialog extends JDialog {
 		
 		comboEspecialidad = new JComboBox();
 		comboEspecialidad.setBounds(125, 11, 226, 20);
-		EspecialidadDAO.populateJCombo(comboEspecialidad, false);
+		EspecialidadDAO.populateJCombo(comboEspecialidad, 
+				false,
+				examenDTO == null ? -1 : examenDTO.getIdTipoExamen());
 		contentPanel.add(comboEspecialidad);
 		
 		JLabel lblNewLabel_1 = new JLabel("Codigo");
@@ -74,8 +86,9 @@ public class ExamenDialog extends JDialog {
 		
 		txtCodigo = new JTextField();
 		txtCodigo.setBounds(125, 37, 226, 20);
-		contentPanel.add(txtCodigo);
 		txtCodigo.setColumns(10);
+		txtCodigo.setText(examenDTO == null ? "" : examenDTO.getCodigoExamen());
+		contentPanel.add(txtCodigo);
 		/*
 		JLabel lblCodigoPremium = new JLabel("Codigo Premium");
 		lblCodigoPremium.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -95,6 +108,7 @@ public class ExamenDialog extends JDialog {
 		txtNombre = new JTextField();
 		txtNombre.setColumns(10);
 		txtNombre.setBounds(125, 64, 226, 20);
+		txtNombre.setText(examenDTO == null ? "" : examenDTO.getNombreExamen());
 		contentPanel.add(txtNombre);
 		
 		JLabel lblDas = new JLabel("D\u00EDas");
@@ -106,6 +120,11 @@ public class ExamenDialog extends JDialog {
 		comboDias.setBounds(125, 90, 226, 20);
 		for(int i = 1; i < 101; i++){
 			comboDias.addItem((i < 10 ? "0" : "") + i);
+			if(examenDTO != null){
+				if(i == examenDTO.getDiasParaResultado()){
+					comboDias.setSelectedIndex(comboDias.getItemCount()-1);
+				}
+			}
 		}
 		contentPanel.add(comboDias);
 		
@@ -129,6 +148,12 @@ public class ExamenDialog extends JDialog {
 				cancelButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
 				cancelButton.setActionCommand(ExamenDialogOperations.ACTION_COMMAND_BTN_CANCELAR);
 				cancelButton.addActionListener(listener);
+				
+				JButton btnEliminar = new JButton("Eliminar");
+				btnEliminar.setFont(new Font("Tahoma", Font.PLAIN, 12));
+				btnEliminar.setActionCommand(ExamenDialogOperations.ACTION_COMMAND_BTN_ELIMINAR);
+				btnEliminar.addActionListener(listener);
+				buttonPane.add(btnEliminar);
 				buttonPane.add(cancelButton);
 			}
 		}
@@ -154,5 +179,13 @@ public class ExamenDialog extends JDialog {
 
 	public JComboBox getComboDias() {
 		return comboDias;
+	}
+	
+	public int getIdExamen() {
+		return idExamen;
+	}
+	
+	public void setIdExamen(int idExamen) {
+		this.idExamen = idExamen;
 	}
 }

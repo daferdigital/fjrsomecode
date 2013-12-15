@@ -12,11 +12,11 @@ import java.util.Map;
 
 import javax.swing.JComboBox;
 
-import com.fjr.code.dao.TipoEstudioDAO;
-import com.fjr.code.dao.definitions.CriterioBusquedaTipoEstudio;
-import com.fjr.code.dto.TipoEstudioDTO;
+import com.fjr.code.dao.ExamenesDAO;
+import com.fjr.code.dao.definitions.CriterioBusquedaExamenBiopsia;
+import com.fjr.code.dto.ExamenBiopsiaDTO;
 import com.fjr.code.gui.AppWindow;
-import com.fjr.code.gui.tables.maestros.JTableTiposDeEstudio;
+import com.fjr.code.gui.tables.maestros.JTableExamenBiopsia;
 import com.fjr.code.util.Constants;
 
 import javax.swing.JOptionPane;
@@ -25,14 +25,14 @@ import javax.swing.JButton;
 
 /**
  * 
- * Class: BusquedaBiopsiaPanel
+ * Class: BusquedaExamenesPanel
  * Creation Date: 02/11/2013
  * (c) 2013
  *
  * @author T&T
  *
  */
-public class BusquedaTipoEstudioPanel extends JPanel implements ActionListener{
+public class BusquedaExamenesPanel extends JPanel implements ActionListener{
 	/**
 	 * 
 	 */
@@ -47,7 +47,7 @@ public class BusquedaTipoEstudioPanel extends JPanel implements ActionListener{
 	/**
 	 * Create the panel.
 	 */
-	public BusquedaTipoEstudioPanel() {
+	public BusquedaExamenesPanel() {
 		setLayout(null);
 		
 		JLabel lblCriterioDeBsqueda = new JLabel("<html><b>Criterio de B&uacute;squeda 1:</b></html>");
@@ -55,7 +55,7 @@ public class BusquedaTipoEstudioPanel extends JPanel implements ActionListener{
 		lblCriterioDeBsqueda.setBounds(10, 11, 172, 16);
 		add(lblCriterioDeBsqueda);
 		
-		CriterioBusquedaTipoEstudio[] criterios = CriterioBusquedaTipoEstudio.values();
+		CriterioBusquedaExamenBiopsia[] criterios = CriterioBusquedaExamenBiopsia.values();
 		comboBox1 = new JComboBox();
 		comboBox1.setBounds(192, 10, 232, 20);
 		for (int i = 0; i < criterios.length; i++) {
@@ -109,7 +109,7 @@ public class BusquedaTipoEstudioPanel extends JPanel implements ActionListener{
 		txtValor2.setBounds(572, 38, 232, 20);
 		add(txtValor2);
 		
-		JButton btnCrearTipoDe = new JButton("Crear Tipo de Examen");
+		JButton btnCrearTipoDe = new JButton("Crear Examen");
 		btnCrearTipoDe.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnCrearTipoDe.setActionCommand(ACTION_COMMAND_CREAR);
 		btnCrearTipoDe.setBounds(812, 37, 153, 23);
@@ -125,11 +125,11 @@ public class BusquedaTipoEstudioPanel extends JPanel implements ActionListener{
 		if(ACTION_COMMAND_BUSCAR.equals(e.getActionCommand())){
 			//se deben buscar las biopsias bajo el criterio indicado
 			//y el valor dado
-			Map<CriterioBusquedaTipoEstudio, String> valores = new HashMap<CriterioBusquedaTipoEstudio, String>();
-			valores.put((CriterioBusquedaTipoEstudio) comboBox1.getSelectedItem(), txtValor1.getText());
-			valores.put((CriterioBusquedaTipoEstudio) comboBox2.getSelectedItem(), txtValor2.getText());
+			Map<CriterioBusquedaExamenBiopsia, String> valores = new HashMap<CriterioBusquedaExamenBiopsia, String>();
+			valores.put((CriterioBusquedaExamenBiopsia) comboBox1.getSelectedItem(), txtValor1.getText());
+			valores.put((CriterioBusquedaExamenBiopsia) comboBox2.getSelectedItem(), txtValor2.getText());
 			
-			List<TipoEstudioDTO> results = TipoEstudioDAO.searchAllByCriteria(valores);
+			List<ExamenBiopsiaDTO> results = ExamenesDAO.searchAllByCriteria(valores);
 			
 			if(results == null || results.size() == 0){
 				//el listado no trajo resultados
@@ -138,10 +138,10 @@ public class BusquedaTipoEstudioPanel extends JPanel implements ActionListener{
 						JOptionPane.ERROR_MESSAGE);
 			} else {
 				AppWindow.getInstance().setPanelContenido(null, 
-						JTableTiposDeEstudio.getNewInstance(results).getJTable());
+						JTableExamenBiopsia.getNewInstance(results).getJTable());
 			}
 		} else if(ACTION_COMMAND_CREAR.equals(e.getActionCommand())){
-			new TipoEstudioDialog(-1).setVisible(true);
+			new ExamenDialog(-1).setVisible(true);
 		}
 	}
 }

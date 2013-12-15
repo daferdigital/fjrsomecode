@@ -1,4 +1,4 @@
-package com.fjr.code.gui.tables;
+package com.fjr.code.gui.tables.maestros;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -9,7 +9,9 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import com.fjr.code.dto.TipoEstudioDTO;
+import com.fjr.code.dto.EspecialidadDTO;
+import com.fjr.code.gui.maestros.EspecialidadDialog;
+import com.fjr.code.gui.tables.JTableButtonRenderer;
 
 /**
  * 
@@ -20,12 +22,12 @@ import com.fjr.code.dto.TipoEstudioDTO;
  * @author T&T
  *
  */
-public class JTableTiposDeEstudio {
+public class JTableEspecialidad implements JTablePanel{
 	
 	private DefaultTableModel model;
 	private JTable table;
-	private static JTableTiposDeEstudio instance;
-	private List<TipoEstudioDTO> listado;
+	private static JTableEspecialidad instance;
+	private List<EspecialidadDTO> listado;
 	
 	/**
 	 * Si listado es distinto de null, se usa dicho listado
@@ -34,7 +36,7 @@ public class JTableTiposDeEstudio {
 	 * @param faseABuscar
 	 * @param listado
 	 */
-	public JTableTiposDeEstudio(List<TipoEstudioDTO> listado) {
+	public JTableEspecialidad(List<EspecialidadDTO> listado) {
 		// TODO Auto-generated constructor stub
 		this.listado = listado;
 		
@@ -55,10 +57,8 @@ public class JTableTiposDeEstudio {
 				// TODO Auto-generated method stub
 				if(column == 0){
 					return new JButton(super.getValueAt(row, column).toString());
-				} else if(column == 5){
-					return model.getValueAt(row, column);
 				} else {
-					return super.getValueAt(row, column);
+					return model.getValueAt(row, column);
 				}
 			}
 		};
@@ -95,8 +95,8 @@ public class JTableTiposDeEstudio {
 				if(table.getSelectedColumn() == 0 && table.getSelectedRow() > -1){
 					//se desea abrir el registro de determinada biopsia
 					//en su frame correspondiente
-					OpenBiopsiaUtil.openBiopsia(
-							(String) table.getValueAt(table.getSelectedRow(), 1));
+					new EspecialidadDialog(
+							(Integer) table.getValueAt(table.getSelectedRow(), 4)).setVisible(true);
 					e.consume();
 				}
 			}
@@ -110,8 +110,8 @@ public class JTableTiposDeEstudio {
 	 * 
 	 * @return
 	 */
-	public static JTableTiposDeEstudio getNewInstance(FasesBiopsia faseABuscar, List<TipoEstudioDTO> listado){
-		instance = new JTableTiposDeEstudio(faseABuscar, listado);
+	public static JTableEspecialidad getNewInstance(List<EspecialidadDTO> listado){
+		instance = new JTableEspecialidad(listado);
 		
 		return instance;
 	}
@@ -123,13 +123,15 @@ public class JTableTiposDeEstudio {
 	private void buildTable(){
 		model.addColumn("");
 		model.addColumn("Nombre");
-		model.addColumn("Abreviatura");
-		model.addColumn("Id TipoEstudio");
+		model.addColumn("Codigo");
+		model.addColumn("Descripción");
+		model.addColumn("Id Especialidad");
 		
 		table.getColumnModel().getColumn(0).setPreferredWidth(100);
-		table.getColumnModel().getColumn(1).setPreferredWidth(300);
-		table.getColumnModel().getColumn(2).setPreferredWidth(100);
+		table.getColumnModel().getColumn(1).setPreferredWidth(150);
+		table.getColumnModel().getColumn(2).setPreferredWidth(50);
 		table.getColumnModel().getColumn(3).setPreferredWidth(150);
+		table.getColumnModel().getColumn(4).setPreferredWidth(150);
 		table.getColumnModel().removeColumn(table.getColumnModel().getColumn(4));
 		
 		table.setColumnSelectionAllowed(false);
@@ -140,29 +142,33 @@ public class JTableTiposDeEstudio {
 		table.getColumnModel().getColumn(0).setCellRenderer(new JTableButtonRenderer());
 		
 		//buscamos los registros de biopsias activas para mostrarlos aqui
-		for (TipoEstudioDTO tipoEstudioDTO : listado) {
-			addRow(tipoEstudioDTO.getId(),
-					tipoEstudioDTO.getNombre(), 
-					tipoEstudioDTO.getAbreviatura());
+		for (EspecialidadDTO especialidadDTO : listado) {
+			addRow(especialidadDTO.getId(),
+					especialidadDTO.getNombre(), 
+					especialidadDTO.getCodigo(),
+					especialidadDTO.getDescripcion());
 		}
 	}
 	
-	public JTable getTable() {
+	public JTable getJTable() {
 		return table;
 	}
 	
 	/**
 	 * 
-	 * @param idTipoEstudio
+	 * @param idEspecialidad
 	 * @param nombre
-	 * @param abreviatura
+	 * @param codigo
+	 * @param descripcion
 	 */
-	public void addRow(int idTipoEstudio, String nombre, String abreviatura){
+	public void addRow(int idEspecialidad, String nombre, String codigo,
+			String descripcion){
 		Vector<Object> rowData = new Vector<Object>();
 		rowData.add("Abrir");
 		rowData.add(nombre);
-		rowData.add(abreviatura);
-		rowData.add(idTipoEstudio);
+		rowData.add(codigo);
+		rowData.add(descripcion);
+		rowData.add(idEspecialidad);
 		
 		model.addRow(rowData);
 	}
@@ -171,12 +177,14 @@ public class JTableTiposDeEstudio {
 	 * 
 	 * @param row
 	 * @param nombre
-	 * @param abreviatura
+	 * @param codigo
+	 * @param descripcion
 	 */
-	public void updateRow(int row, String nombre, String abreviatura){
+	public void updateRow(int row, String nombre, String codigo, String descripcion){
 		if(row > -1){
 			model.setValueAt(nombre, row, 1);
-			model.setValueAt(abreviatura, row, 2);
+			model.setValueAt(codigo, row, 2);
+			model.setValueAt(descripcion, row, 3);
 		}
 	}
 	
