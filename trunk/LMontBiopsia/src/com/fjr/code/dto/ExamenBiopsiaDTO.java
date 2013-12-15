@@ -17,6 +17,7 @@ public class ExamenBiopsiaDTO {
 	private int idTipoExamen;
 	private String codigoTipoExamen;
 	private String nombreTipoExamen;
+	private String codigoPremium;
 	
 	/**
 	 * 
@@ -27,10 +28,11 @@ public class ExamenBiopsiaDTO {
 	 * @param idTipoExamen
 	 * @param codigoTipoExamen
 	 * @param nombreTipoExamen
+	 * @param codigoPremium
 	 */
 	public ExamenBiopsiaDTO(int id, String codigoExamen, String nombreExamen,
 			int diasParaResultado, int idTipoExamen, String codigoTipoExamen,
-			String nombreTipoExamen) {
+			String nombreTipoExamen, String codigoPremium) {
 		// TODO Auto-generated constructor stub
 		this.id = id;
 		this.codigoExamen = codigoExamen;
@@ -39,6 +41,7 @@ public class ExamenBiopsiaDTO {
 		this.idTipoExamen = idTipoExamen;
 		this.codigoTipoExamen = codigoTipoExamen;
 		this.nombreTipoExamen = nombreTipoExamen;
+		this.codigoPremium = codigoPremium;
 	}
 
 	public ExamenBiopsiaDTO() {
@@ -99,6 +102,14 @@ public class ExamenBiopsiaDTO {
 
 	public void setNombreTipoExamen(String nombreTipoExamen) {
 		this.nombreTipoExamen = nombreTipoExamen;
+	}
+	
+	public String getCodigoPremium() {
+		return codigoPremium;
+	}
+	
+	public void setCodigoPremium(String codigoPremium) {
+		this.codigoPremium = codigoPremium;
 	}
 	
 	@Override

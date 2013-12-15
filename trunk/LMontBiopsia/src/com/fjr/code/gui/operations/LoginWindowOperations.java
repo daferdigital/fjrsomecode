@@ -73,6 +73,9 @@ public class LoginWindowOperations implements ActionListener {
 					}
 				}
 			}
+		} else if(ACTION_COMMAND_CANCEL.equals(e.getActionCommand())){
+			ventana.setVisible(false);
+			ventana.dispose();
 		}
 	}
 	

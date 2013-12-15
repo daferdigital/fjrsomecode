@@ -58,7 +58,7 @@ final class TipoEstudioDAOListBuilder implements DAOListBuilder<TipoEstudioDTO>{
 	 * @param nombre
 	 */
 	public void searchByLikeNombre(String nombre){
-		customWhere += " AND LOWER(te.nombre) = LIKE ?";
+		customWhere += " AND LOWER(te.nombre) LIKE (?)";
 		parameters.add("%" + nombre.toLowerCase() + "%");
 	}
 	
@@ -67,7 +67,7 @@ final class TipoEstudioDAOListBuilder implements DAOListBuilder<TipoEstudioDTO>{
 	 * @param abreviatura
 	 */
 	public void searchByLikeAbreviatura(String abreviatura){
-		customWhere += " AND LOWER(te.abreviatura) = LIKE ?";
+		customWhere += " AND LOWER(te.abreviatura) LIKE (?)";
 		parameters.add("%" + abreviatura.toLowerCase() + "%");
 	}
 	

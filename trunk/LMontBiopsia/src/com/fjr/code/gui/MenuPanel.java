@@ -4,9 +4,13 @@ import javax.swing.JPanel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
 
 import com.fjr.code.dao.definitions.FasesBiopsia;
+import com.fjr.code.gui.maestros.BusquedaEspecialidadPanel;
+import com.fjr.code.gui.maestros.BusquedaExamenesPanel;
+import com.fjr.code.gui.maestros.BusquedaTipoEstudioPanel;
 import com.fjr.code.util.Constants;
 
 import java.awt.event.ActionListener;
@@ -78,12 +82,39 @@ public class MenuPanel extends JPanel {
 		menuBar.add(menuMaestros);
 		
 		JMenuItem mntmTiposDeEstudio = new JMenuItem("Tipos de Estudio");
+		mntmTiposDeEstudio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JPanel panel = new BusquedaTipoEstudioPanel();
+				panel.setVisible(true);
+				AppWindow.getInstance().setExtraTitle("Maestro Tipos de Estudio");
+				AppWindow.getInstance().setPanelContenido(panel, 
+						(JTable) null);
+			}
+		});
 		menuMaestros.add(mntmTiposDeEstudio);
 		
 		JMenuItem mntmEspecialidades = new JMenuItem("Especialidades");
+		mntmEspecialidades.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JPanel panel = new BusquedaEspecialidadPanel();
+				panel.setVisible(true);
+				AppWindow.getInstance().setExtraTitle("Maestro de Especialidades");
+				AppWindow.getInstance().setPanelContenido(panel, 
+						(JTable) null);
+			}
+		});
 		menuMaestros.add(mntmEspecialidades);
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("Examenes");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JPanel panel = new BusquedaExamenesPanel();
+				panel.setVisible(true);
+				AppWindow.getInstance().setExtraTitle("Maestro de Examenes");
+				AppWindow.getInstance().setPanelContenido(panel, 
+						(JTable) null);
+			}
+		});
 		menuMaestros.add(mntmNewMenuItem);
 		
 		JMenuItem mntmUsuarios = new JMenuItem("Usuarios");

@@ -339,7 +339,8 @@ class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO> {
 								rowSet.getInt(24), 
 								rowSet.getInt(26), 
 								rowSet.getString(27),
-								rowSet.getString(28)));
+								rowSet.getString(28),
+								""));
 				
 				//datos especificos de macro
 				BiopsiaMacroscopicaDTO macroDTO = new BiopsiaMacroscopicaDTO();

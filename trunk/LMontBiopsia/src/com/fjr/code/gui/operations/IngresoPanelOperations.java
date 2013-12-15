@@ -31,9 +31,10 @@ import com.fjr.code.dto.TipoCedulaDTO;
 import com.fjr.code.dto.EspecialidadDTO;
 import com.fjr.code.dto.TipoEstudioDTO;
 import com.fjr.code.gui.ClienteFormDialog;
-import com.fjr.code.gui.EspecialidadDialog;
-import com.fjr.code.gui.ExamenDialog;
 import com.fjr.code.gui.IngresoPanel;
+import com.fjr.code.gui.maestros.EspecialidadDialog;
+import com.fjr.code.gui.maestros.ExamenDialog;
+import com.fjr.code.gui.maestros.TipoEstudioDialog;
 import com.fjr.code.util.BiopsiaValidationUtil;
 import com.fjr.code.util.GUIPressedOrTypedNroBiopsia;
 import com.fjr.code.util.KeyEventsUtil;
@@ -338,11 +339,11 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 						JOptionPane.ERROR_MESSAGE);
 			}
 		} else if(ACTION_COMMAND_BTN_ADD_TIPO_ESTUDIO.equals(e.getActionCommand())){
-			
+			new TipoEstudioDialog(-1).setVisible(true);
 		} else if(ACTION_COMMAND_BTN_ADD_ESPECIALIDAD.equals(e.getActionCommand())){
-			new EspecialidadDialog().setVisible(true);
+			new EspecialidadDialog(-1).setVisible(true);
 		} else if(ACTION_COMMAND_BTN_ADD_EXAMEN.equals(e.getActionCommand())){
-			new ExamenDialog().setVisible(true);
+			new ExamenDialog(-1).setVisible(true);
 		}
 	}
 

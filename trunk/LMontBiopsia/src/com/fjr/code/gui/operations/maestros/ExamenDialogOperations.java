@@ -1,14 +1,17 @@
-package com.fjr.code.gui.operations;
+package com.fjr.code.gui.operations.maestros;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
 import com.fjr.code.dao.ExamenesDAO;
 import com.fjr.code.dto.EspecialidadDTO;
 import com.fjr.code.dto.ExamenBiopsiaDTO;
-import com.fjr.code.gui.ExamenDialog;
+import com.fjr.code.gui.AppWindow;
+import com.fjr.code.gui.maestros.ExamenDialog;
+import com.fjr.code.gui.tables.maestros.JTableExamenBiopsia;
 
 /**
  * 
@@ -21,6 +24,7 @@ import com.fjr.code.gui.ExamenDialog;
  */
 public class ExamenDialogOperations implements ActionListener{
 	public static final String ACTION_COMMAND_BTN_GUARDAR = "btnGuardar";
+	public static final String ACTION_COMMAND_BTN_ELIMINAR = "btnEliminar";
 	public static final String ACTION_COMMAND_BTN_CANCELAR = "btnCancelar";
 	
 	private ExamenDialog ventana;
@@ -68,15 +72,6 @@ public class ExamenDialogOperations implements ActionListener{
 	
 	/**
 	 * 
-	 */
-	private void cleanWindow(){
-		ventana.getTxtCodigo().setText("");
-		ventana.getTxtNombre().setText("");
-		ventana.getTxtCodigoPremium().setText("");
-	}
-	
-	/**
-	 * 
 	 * @param especialidad
 	 */
 	private void buildDTOFromWindow(ExamenBiopsiaDTO examenDTO){
@@ -84,6 +79,7 @@ public class ExamenDialogOperations implements ActionListener{
 		examenDTO.setNombreExamen(ventana.getTxtNombre().getText());
 		examenDTO.setDiasParaResultado(ventana.getComboDias().getSelectedIndex() + 1);
 		examenDTO.setIdTipoExamen(((EspecialidadDTO) ventana.getComboEspecialidad().getSelectedItem()).getId());
+		examenDTO.setCodigoPremium("");
 	}
 	
 	@Override
@@ -94,24 +90,65 @@ public class ExamenDialogOperations implements ActionListener{
 				ExamenBiopsiaDTO examenDTO = new ExamenBiopsiaDTO();
 				buildDTOFromWindow(examenDTO);
 				
-				if(ExamenesDAO.insert(examenDTO) > -1){
-					//se inserto bien el registro
-					JOptionPane.showMessageDialog(ventana, 
-							"Examen creado de manera exitosa", 
-							"Examen creada", 
-							JOptionPane.INFORMATION_MESSAGE);
-					cleanWindow();
+				if(ventana.getIdExamen() == -1){
+					int idCreated = ExamenesDAO.insert(examenDTO);
+					if(idCreated > -1){
+						//se inserto bien el registro
+						ventana.setIdExamen(idCreated);
+						JOptionPane.showMessageDialog(ventana, 
+								"Examen creado de manera exitosa", 
+								"Examen creada", 
+								JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						//error creando el registro en la base de datos
+						JOptionPane.showMessageDialog(ventana, 
+								"El examen no pudo ser creado", 
+								"Error en la operación", 
+								JOptionPane.ERROR_MESSAGE);
+					}
 				} else {
-					//error creando el registro en la base de datos
-					JOptionPane.showMessageDialog(ventana, 
-							"El examen no pudo ser creado", 
-							"Error en la operación", 
+					examenDTO.setId(ventana.getIdExamen());
+					if(ExamenesDAO.update(examenDTO)){
+						//se actualizo bien el registro
+						JOptionPane.showMessageDialog(ventana, 
+								"Examen actualizado de manera exitosa", 
+								"Examen actualizado", 
+								JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						//error actualizando el registro en la base de datos
+						JOptionPane.showMessageDialog(ventana, 
+								"El Examen no pudo ser actualizado", 
+								"Error en la operación", 
+								JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}
+		} else if(ACTION_COMMAND_BTN_ELIMINAR.equals(e.getActionCommand())){
+			int option = JOptionPane.showConfirmDialog(ventana, "Está seguro que desea eliminar este registro del Sistema?", 
+					"Desea eliminar el registro?", 
+					JOptionPane.YES_NO_OPTION);
+			if(option == JOptionPane.YES_OPTION){
+				if(ExamenesDAO.delete(ventana.getIdExamen())){
+					JOptionPane.showMessageDialog(ventana, "El registro fue eliminado de manera exitosa", 
+							"Registro eliminado", 
+							JOptionPane.INFORMATION_MESSAGE);
+					ventana.setVisible(false);
+					ventana.dispose();
+				} else {
+					JOptionPane.showMessageDialog(ventana, "El registro no pudo ser eliminado", 
+							"Registro No Eliminado", 
 							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		} else if(ACTION_COMMAND_BTN_CANCELAR.equals(e.getActionCommand())){
 			ventana.setVisible(false);
 			ventana.dispose();
+		}
+		
+		List<ExamenBiopsiaDTO> results = ExamenesDAO.searchAllByCriteria(null);
+		if(results != null){
+			AppWindow.getInstance().setPanelContenido(null, 
+					JTableExamenBiopsia.getNewInstance(results).getJTable());
 		}
 	}
 }

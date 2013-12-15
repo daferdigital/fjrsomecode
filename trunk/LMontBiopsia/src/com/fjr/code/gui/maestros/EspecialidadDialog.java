@@ -1,4 +1,4 @@
-package com.fjr.code.gui;
+package com.fjr.code.gui.maestros;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -12,7 +12,9 @@ import java.awt.Font;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import com.fjr.code.gui.operations.EspecialidadDialogOperations;
+import com.fjr.code.dao.EspecialidadDAO;
+import com.fjr.code.dto.EspecialidadDTO;
+import com.fjr.code.gui.operations.maestros.EspecialidadDialogOperations;
 
 public class EspecialidadDialog extends JDialog {
 
@@ -21,6 +23,7 @@ public class EspecialidadDialog extends JDialog {
 	 */
 	private static final long serialVersionUID = 9061966528955864227L;
 	private final JPanel contentPanel = new JPanel();
+	private int idEspecialidad;
 	private JTextField textNombre;
 	private JTextField textCodigo;
 	private JTextField textDescripcion;
@@ -30,7 +33,7 @@ public class EspecialidadDialog extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			EspecialidadDialog dialog = new EspecialidadDialog();
+			EspecialidadDialog dialog = new EspecialidadDialog(-1);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -40,8 +43,15 @@ public class EspecialidadDialog extends JDialog {
 
 	/**
 	 * Create the dialog.
+	 * @param idEspecialidad 
 	 */
-	public EspecialidadDialog() {
+	public EspecialidadDialog(int idEspecialidad) {
+		this.idEspecialidad = idEspecialidad;
+		EspecialidadDTO especialidad = null;
+		if(idEspecialidad > -1){
+			especialidad = EspecialidadDAO.getById(idEspecialidad);
+		}
+		
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setTitle("Especialidad");
 		setModal(true);
@@ -59,8 +69,9 @@ public class EspecialidadDialog extends JDialog {
 		
 		textNombre = new JTextField();
 		textNombre.setBounds(105, 12, 198, 20);
-		contentPanel.add(textNombre);
 		textNombre.setColumns(10);
+		textNombre.setText(especialidad == null ? "" : especialidad.getNombre());
+		contentPanel.add(textNombre);
 		
 		JLabel lblCdigo = new JLabel("C\u00F3digo");
 		lblCdigo.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -70,6 +81,7 @@ public class EspecialidadDialog extends JDialog {
 		textCodigo = new JTextField();
 		textCodigo.setColumns(10);
 		textCodigo.setBounds(105, 44, 198, 20);
+		textCodigo.setText(especialidad == null ? "" : especialidad.getCodigo());
 		contentPanel.add(textCodigo);
 		
 		JLabel lblDescripcin = new JLabel("Descripci\u00F3n");
@@ -80,6 +92,7 @@ public class EspecialidadDialog extends JDialog {
 		textDescripcion = new JTextField();
 		textDescripcion.setColumns(10);
 		textDescripcion.setBounds(105, 76, 198, 20);
+		textDescripcion.setText(especialidad == null ? "" : especialidad.getDescripcion());
 		contentPanel.add(textDescripcion);
 		
 		EspecialidadDialogOperations listener = new EspecialidadDialogOperations(this);
@@ -100,6 +113,13 @@ public class EspecialidadDialog extends JDialog {
 				cancelButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
 				cancelButton.setActionCommand(EspecialidadDialogOperations.ACTION_COMMAND_BTN_CANCELAR);
 				cancelButton.addActionListener(listener);
+				
+				JButton btnEliminar = new JButton("Eliminar");
+				btnEliminar.setFont(new Font("Tahoma", Font.PLAIN, 12));
+				btnEliminar.setActionCommand(EspecialidadDialogOperations.ACTION_COMMAND_BTN_ELIMINAR);
+				btnEliminar.addActionListener(listener);
+				
+				buttonPane.add(btnEliminar);
 				buttonPane.add(cancelButton);
 			}
 		}
@@ -117,5 +137,13 @@ public class EspecialidadDialog extends JDialog {
 
 	public JTextField getTextDescripcion() {
 		return textDescripcion;
+	}
+	
+	public void setIdEspecialidad(int idEspecialidad) {
+		this.idEspecialidad = idEspecialidad;
+	}
+	
+	public int getIdEspecialidad() {
+		return idEspecialidad;
 	}
 }

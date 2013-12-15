@@ -28,7 +28,7 @@ final class ExamenesDAOListBuilder implements DAOListBuilder<ExamenBiopsiaDTO>{
 	
 	
 	private static final String BEGIN = "SELECT te.id AS idTipoExamen, te.codigo AS codigoTipoExamen, te.nombre AS nombreTipoExamen, "
-			+ " eb.id AS idExamen, eb.codigo AS codigoExamen, eb.nombre AS nombreExamen, eb.dias_resultado "
+			+ " eb.id AS idExamen, eb.codigo AS codigoExamen, eb.nombre AS nombreExamen, eb.dias_resultado, eb.codigo_premium "
 			+ " FROM especialidad te, examenes_biopsias eb"
 			+ " WHERE te.activo='1'"
 			+ " AND eb.activo='1'"
@@ -56,6 +56,43 @@ final class ExamenesDAOListBuilder implements DAOListBuilder<ExamenBiopsiaDTO>{
 		customWhere += " AND eb.id = ?";
 		parameters.add(idExamen);
 	}
+	
+	/**
+	 * 
+	 * @param nombre
+	 */
+	public void searchByLikeNombre(String nombre){
+		customWhere += " AND LOWER(eb.nombre) LIKE(?)";
+		parameters.add("%" + nombre.toLowerCase() + "%");
+	}
+	
+	/**
+	 * 
+	 * @param codigo
+	 */
+	public void searchByLikeCodigo(String codigo){
+		customWhere += " AND LOWER(eb.codigo) LIKE(?)";
+		parameters.add("%" + codigo.toLowerCase() + "%");
+	}
+	
+	/**
+	 * 
+	 * @param codigoPremium
+	 */
+	public void searchByLikeCodigoPremium(String codigoPremium){
+		customWhere += " AND LOWER(eb.codigo_premium) LIKE(?)";
+		parameters.add("%" + codigoPremium.toLowerCase() + "%");
+	}
+	
+	/**
+	 * 
+	 * @param especialidad
+	 */
+	public void searchByLikeEspecialidad(String especialidad){
+		customWhere += " AND LOWER(te.nombre) LIKE(?)";
+		parameters.add("%" + especialidad.toLowerCase() + "%");
+	}
+	
 	/**
 	 * 
 	 * @return
@@ -90,7 +127,8 @@ final class ExamenesDAOListBuilder implements DAOListBuilder<ExamenBiopsiaDTO>{
 						rowSet.getInt(7),
 						rowSet.getInt(1),
 						rowSet.getString(2),
-						rowSet.getString(3)));
+						rowSet.getString(3),
+						rowSet.getString(8)));
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
