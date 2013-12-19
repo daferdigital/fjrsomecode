@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 
 import com.fjr.code.dao.definitions.FasesBiopsia;
 import com.fjr.code.dto.BiopsiaInfoDTO;
+import com.fjr.code.dto.UsuarioDTO;
 import com.fjr.code.gui.tables.JTableTodasBiopsias;
 import com.fjr.code.util.Constants;
 
@@ -21,6 +22,7 @@ import java.util.List;
 import javax.swing.JScrollPane;
 
 public class AppWindow {
+	public static UsuarioDTO loggedUser;
 	private static AppWindow appWindow;
 	private JPanel panelMenu = new JPanel();
 	private JPanel panelContenido = new JPanel();

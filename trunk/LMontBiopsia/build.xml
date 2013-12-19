@@ -7,6 +7,7 @@
             includes="*/*/*/*.class,,
                      */*/*/*/*.class,
         	         */*/*/*/*/*.class,
+                     */*/*/*/*/*/*.class,
         	         resources/*,
         	         resources/*/*,
         	         META-INF/context.properties"
@@ -22,6 +23,7 @@
 	        basedir="./bin/"/>
 	</target>
 	
+	<!-- TARGET PARA CREAR EL JAR QUE SOLO EJECUTARA POR DEBAJO EL JAR QUE INICIA LA APLICACION -->
 	<target name="createJarToLaunchSetUp">
         <jar jarfile="LaunchAppSetUp.jar"
             includes="com/fjr/installer/StartAsBatFile.class"
