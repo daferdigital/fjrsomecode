@@ -210,7 +210,7 @@ class VentasDAO {
 								//este logro no fue indicado especificamente al guardar resultados
 								//no se toma en cuenta
 								BitacoraDAO::registrarComentario("La venta [".$venta["idventa"]
-								."][".$venta["idventa_detalle"]."] no fue indicada en el momento de almacenar los resultados, la dejamos como vendida");
+								."][".$venta["idventa_detalle"]."] no fue indicada en el momento de almacenar los resultados, la dejamos con su estado actual");
 								
 								//dejamos el estado final de esta venta tal cual esta
 								if($venta["edo_venta_detalle"] == 2){
