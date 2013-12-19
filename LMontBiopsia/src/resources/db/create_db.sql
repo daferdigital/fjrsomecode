@@ -630,6 +630,22 @@ INSERT INTO `cliente` (`id`, `id_premium`, `cedula`, `nombres`, `apellidos`, `ed
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
+CREATE  TABLE texto_inteligente (
+  id_usuario INT NOT NULL,
+  key_code VARCHAR(100) NOT NULL,
+  texto LONGTEXT NOT NULL,
+  PRIMARY KEY (id_usuario, key_code))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
+
+ALTER TABLE texto_inteligente 
+  ADD CONSTRAINT FK_TEXTO_USUARIO
+  FOREIGN KEY (id_usuario)
+  REFERENCES lmont_biopsia.usuarios(id)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION
+, ADD INDEX FK_TEXTO_USUARIO (id_usuario ASC) ;
+
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;

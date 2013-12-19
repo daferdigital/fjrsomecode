@@ -109,7 +109,14 @@ final class UsuarioDAOListBuilder implements DAOListBuilder<UsuarioDTO>{
 				usuario.setLogin(rowSet.getString(4));
 				usuario.setClave(rowSet.getString(5));
 				if(addPwdInfo){
-					usuario.setClaveEscrita(rowSet.getString(6));
+					if(rowSet.getObject(6) instanceof String){
+						log.info("Tratando MD5 como String");
+						usuario.setClaveEscrita(rowSet.getString(6));
+					} else {
+						//se trata como array de bytes
+						log.info("Tratando MD5 como Array de bytes?: " + rowSet.getObject(6).getClass().getSimpleName());
+						usuario.setClaveEscrita(new String(rowSet.getBytes(6)));
+					}
 				}
 				
 				results.add(usuario);

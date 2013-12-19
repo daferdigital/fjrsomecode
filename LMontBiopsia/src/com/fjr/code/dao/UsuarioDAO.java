@@ -91,8 +91,11 @@ public final class UsuarioDAO {
 		
 		List<UsuarioDTO> result = builder.getResults();
 		if(result != null && result.size() > 0){
-			if(result.get(0).getClave().equals(
-					result.get(0).getClaveEscrita())){
+			UsuarioDTO dto = result.get(0);
+			
+			log.info("Comparando '" + dto.getClave() + "' y '"
+					+ dto.getClaveEscrita() + "'");
+			if(dto.getClave().equals(dto.getClaveEscrita().toString())){
 				return true;
 			}
 		}

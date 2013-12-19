@@ -63,6 +63,7 @@ public class LoginWindowOperations implements ActionListener {
 							//credenciales correctas
 							ventana.setVisible(false);
 							ventana.dispose();
+							AppWindow.loggedUser = usuario;
 							AppWindow.show();
 						} else {
 							JOptionPane.showMessageDialog(ventana, 
