@@ -23,13 +23,15 @@ foreach($_POST['resultado'] as $idlogro_equipo=>$valor){
 
 //CALCULO DE APUESTAS GANADORAS 
 $imp=0;
-
+$arregloLogrosGuardados = array();
 foreach($_POST['resultado'] as $idlogro_equipo=>$valor){
 	if($imp%2==0):
 		echo "\n<br>idlogro_equipo_: $idlogro_equipo";
 		$equipoA=(int)$idlogro_equipo;
 		$equipoB=(int)$idlogro_equipo+1;
-				
+		$arregloLogrosGuardados[$equipoA]=$equipoA;
+		$arregloLogrosGuardados[$equipoB]=$equipoB;
+		
 		//Seteo a estatus cero las apuestas acertadas previamente cargadas			
 		mysql_debug_query("update vista_aciertos set estatus='0' where idlogro_equipo='".$equipoA."' or idlogro_equipo='".$equipoB."'");
 		//Seteo las jugadas suspendidas
@@ -298,5 +300,5 @@ foreach($_POST['resultado'] as $idlogro_equipo=>$valor){
 		$imp++;
 	}
 	//FUNCION QUE CALCULA LOS TICKETS GANADORES
-	calcula_ticket_ganador($_REQUEST['fecha_res']);
+	calcula_ticket_ganador($_REQUEST['fecha_res'], $arregloLogrosGuardados);
 ?>

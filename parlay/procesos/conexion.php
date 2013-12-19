@@ -357,9 +357,9 @@
 
 	  
 
-	  function calcula_ticket_ganador($fecha){
+	  function calcula_ticket_ganador($fecha, $arregloLogrosGuardados=null){
 		
-	  	VentasDAO::calcularTicketGanador($fecha);
+	  	VentasDAO::calcularTicketGanador($fecha, $arregloLogrosGuardados);
 	  	
 	  	return;
 	  	

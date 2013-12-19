@@ -70,13 +70,12 @@ class VentasDTO{
 }
 
 class VentasDAO {
-	private static $RESULTADO_SUSPENDIDO = 4;
-	private static $RESULTADO_SOLO_VENDIDO = 5;
-	
 	public static $RESULTADO_NO_MAPEADO_AUN = 0;
 	public static $RESULTADO_EMPATADO_DEBE_SUSPENDER = 1;
 	public static $RESULTADO_GANADOR = 2;
 	public static $RESULTADO_PERDEDOR = 3;
+	private static $RESULTADO_SUSPENDIDO = 4;
+	private static $RESULTADO_SOLO_VENDIDO = 5;
 	
 	public static $CATEGORIA_FUTBOL = "1";
 	public static $CATEGORIA_BEISBOL = "2";
@@ -133,9 +132,9 @@ class VentasDAO {
 	 * 
 	 * @param unknown_type $fecha
 	 */
-	public static function calcularTicketGanador($fecha){
+	public static function calcularTicketGanador($fecha, $arregloLogrosGuardados){
 		//obtenemos las ventas que no esten anuladas
-		BitacoraDAO::registrarComentario("En VentasDAO::calcularTicketGanador");
+		BitacoraDAO::registrarComentario("En VentasDAO::calcularTicketGanador (iniciando)");
 		
 		$sql1 = "SELECT MIN(vd.idventa) as idMinimo, MAX(vd.idventa) as idMaximo"
 			." FROM vista_ventas_detalles vd"
@@ -178,26 +177,62 @@ class VentasDAO {
 							$ventaObj->setEstadoFinal(VentasDAO::$RESULTADO_SUSPENDIDO);
 							$ventaDetalle[$venta["idventa"]][$venta["idventa_detalle"]] = $ventaObj;
 						} else {
-							//el juego no esta en suspendido
-							//vemos si fue almacenado el resultado para el mismo
-							$existe= DBUtil::executeSelect("select idlogro_equipo_categoria_resultado from logros_equipos_categorias_resultados where idlogro_equipo='".$venta["idlogro_equipo"]."' and estatus='1' limit 1");
+							//vemos si el logro de este registro fue especificamente guardado su resultado
+							//desde la pagina como tal
+							//si es null el array, se procesa sin discriminar nada
+							
+							if($arregloLogrosGuardados == null || isset($arregloLogrosGuardados[$venta["idlogro_equipo"]])){
+								//o es null el array o se especifico resultado para este logro
+								//en ambos casos se procesa
+								//el juego no esta en suspendido
+								//vemos si fue almacenado el resultado para el mismo
+								$existe= DBUtil::executeSelect("select idlogro_equipo_categoria_resultado from logros_equipos_categorias_resultados where idlogro_equipo='".$venta["idlogro_equipo"]."' and estatus='1' limit 1");
 								
-							if($existe[0]["idlogro_equipo_categoria_resultado"] > 0){
-								//si tenemos resultado
-								//calculamos si es ganador, perdedor o tablas
+								if($existe[0]["idlogro_equipo_categoria_resultado"] > 0){
+									//si tenemos resultado
+									//calculamos si es ganador, perdedor o tablas
+									BitacoraDAO::registrarComentario("La venta [".$venta["idventa"]
+									."][".$venta["idventa_detalle"]."] si tiene resultado guardado");
+										
+									$codeReturn = VentasDAO::verificarSiEsGanador($venta["idventa_detalle"]);
+										
+									$ventaObj->setEstadoFinal($codeReturn);
+									$ventaDetalle[$venta["idventa"]][$venta["idventa_detalle"]] = $ventaObj;
+								}else{
+									//no tenemos resultado, no podemos evaluar nada aun
+									BitacoraDAO::registrarComentario("La venta [".$venta["idventa"]
+									."][".$venta["idventa_detalle"]."] no tiene resultado guardado, lo dejamos como vendida");
+										
+									$ventaObj->setEstadoFinal(VentasDAO::$RESULTADO_SOLO_VENDIDO);
+									$ventaDetalle[$venta["idventa"]][$venta["idventa_detalle"]] = $ventaObj;
+								}
+							} else {
+								//este logro no fue indicado especificamente al guardar resultados
+								//no se toma en cuenta
 								BitacoraDAO::registrarComentario("La venta [".$venta["idventa"]
-										."][".$venta["idventa_detalle"]."] si tiene resultado guardado");
-									
-								$codeReturn = VentasDAO::verificarSiEsGanador($venta["idventa_detalle"]);
-									
-								$ventaObj->setEstadoFinal($codeReturn);
-								$ventaDetalle[$venta["idventa"]][$venta["idventa_detalle"]] = $ventaObj;
-							}else{
-								//no tenemos resultado, no podemos evaluar nada aun
-								BitacoraDAO::registrarComentario("La venta [".$venta["idventa"]
-										."][".$venta["idventa_detalle"]."] no tiene resultado guardado, lo dejamos como vendida");
-									
-								$ventaObj->setEstadoFinal(VentasDAO::$RESULTADO_SOLO_VENDIDO);
+								."][".$venta["idventa_detalle"]."] no fue indicada en el momento de almacenar los resultados, la dejamos como vendida");
+								
+								//dejamos el estado final de esta venta tal cual esta
+								if($venta["edo_venta_detalle"] == 2){
+									//estado solo vendido
+									$ventaObj->setEstadoFinal(VentasDAO::$RESULTADO_SOLO_VENDIDO);
+								} else if($venta["edo_venta_detalle"] == 5){
+									//estado ganador
+									$ventaObj->setEstadoFinal(VentasDAO::$RESULTADO_GANADOR);
+								} else if($venta["edo_venta_detalle"] == 6){
+									//estado perdedor
+									$ventaObj->setEstadoFinal(VentasDAO::$RESULTADO_PERDEDOR);
+								} else if($venta["edo_venta_detalle"] == 1){
+									//estado suspendido
+									$ventaObj->setEstadoFinal(VentasDAO::$RESULTADO_SUSPENDIDO);
+								} else if($venta["edo_venta_detalle"] == 4){
+									//estado empatado
+									$ventaObj->setEstadoFinal(VentasDAO::$RESULTADO_EMPATADO_DEBE_SUSPENDER);
+								} else {
+									//estado por defecto (solo vendido)
+									$ventaObj->setEstadoFinal(VentasDAO::$RESULTADO_SOLO_VENDIDO);
+								} 
+								
 								$ventaDetalle[$venta["idventa"]][$venta["idventa_detalle"]] = $ventaObj;
 							}
 						}
@@ -342,5 +377,7 @@ class VentasDAO {
 		} else {
 			BitacoraDAO::registrarComentario("No se encontraron minimos y maximos.");
 		}
+		
+		BitacoraDAO::registrarComentario("En VentasDAO::calcularTicketGanador (finalizando)");
 	}
 }
