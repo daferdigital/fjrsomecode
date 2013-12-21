@@ -136,84 +136,83 @@ class VentasDAO {
 		//obtenemos las ventas que no esten anuladas
 		BitacoraDAO::registrarComentario("En VentasDAO::calcularTicketGanador (iniciando): ".print_r($arregloLogrosGuardados, true));
 		
-		$sql1 = "SELECT MIN(vd.idventa) as idMinimo, MAX(vd.idventa) as idMaximo"
-			." FROM vista_ventas_detalles vd"
-			." WHERE vd.anulado = 0"
-			." AND vd.fecha_venta='".$fecha."'";
-		$results1 = DBUtil::executeSelect($sql1);
 		
-		if(count($results1) > 0){
-			$results1 = $results1[0];
-			BitacoraDAO::registrarComentario("En VentasDAO::calcularTicketGanador -> minimo/maximo = "
-					.$results1["idMinimo"]."/".$results1["idMaximo"]);
+		$extraWhere = "";
+		if(count($arregloLogrosGuardados) == 0){
+			$extraWhere = " AND vd1.fecha_venta='".$fecha."'";
+		}else{
+			//tenemos logros especificos, buscamos solo esos
+			foreach ($arregloLogrosGuardados as $idLogroEquipo){
+				if($extraWhere == ""){
+					$extraWhere = "AND vd1.idlogro_equipo IN (".$idLogroEquipo;
+				} else{
+					$extraWhere .= ", ".$idLogroEquipo;
+				}
+			}
 			
-			for($i = (int)$results1["idMinimo"]; $i < (((int) $results1["idMaximo"]) + 1) ;$i++){
-				$sql = "SELECT vd.*"
-					." FROM vista_ventas_detalles vd"
-					." WHERE vd.anulado = 0"
-					//." AND vd.fecha_venta='".$fecha."'"
-					." AND vd.idventa = ".$i
-					." ORDER BY vd.idventa";
-				
-				$results = DBUtil::executeSelect($sql);
-				
-				$ventaDetalle = array();
-				$teniaLogro = false;
-				
-				if(count($results) > 0){
-					foreach ($results as $venta){
-						$ventaObj = new VentasDTO($venta["idventa"],
-								$venta["idventa_detalle"],
-								$venta["apuesta"],
-								$venta["total_ganar"],
-								$venta["pago"],
-								NULL);
-						//si es null el array, se procesa sin discriminar nada
-						//vemos si el logro de este registro fue especificamente guardado su resultado
-						//desde la pagina como tal
-						if(count($arregloLogrosGuardados) == 0 || isset($arregloLogrosGuardados[$venta["idlogro_equipo"]])){
-							$teniaLogro = true;
-							if($venta["suspendido"] == 1){
-								//el juego asociado a esta venta fue suspendido
-								//no hacemos calculo de ganador ni nada
-								BitacoraDAO::registrarComentario("La venta [".$venta["idventa"]
-										."][".$venta["idventa_detalle"]."] esta suspendida, no calculamos nada");
+			$extraWhere .= ")";
+		}
+		
+		$sql1 = "SELECT vd1.idventa"
+				." FROM vista_ventas_detalles vd1"
+				." WHERE 1 = 1 "
+				.$extraWhere
+				." GROUP BY vd1.idventa";
+						
+		$sql = "SELECT vd.*"
+		." FROM vista_ventas_detalles vd, (".$sql1.") vd2"
+		." WHERE vd.anulado = 0 "
+		." AND vd.idventa = vd2.idventa"
+		." ORDER BY vd.idventa, vd.idventa_detalle";
+		
+		BitacoraDAO::registrarComentario("En VentasDAO::calcularTicketGanador -> ejecutado '".$sql."'");
+		$results = DBUtil::executeSelect($sql);
+		
+		if(count($results) > 0){
+			$ventaDetalle = array();
+			
+			foreach ($results as $venta){
+				$ventaObj = new VentasDTO($venta["idventa"],
+						$venta["idventa_detalle"],
+						$venta["apuesta"],
+						$venta["total_ganar"],
+						$venta["pago"],
+						NULL);
+				//si es null el array, se procesa sin discriminar nada
+				//vemos si el logro de este registro fue especificamente guardado su resultado
+				//desde la pagina como tal
+				if(count($arregloLogrosGuardados) == 0 || isset($arregloLogrosGuardados[$venta["idlogro_equipo"]])){
+					$teniaLogro = true;
+					if($venta["suspendido"] == 1){
+						//el juego asociado a esta venta fue suspendido
+						//no hacemos calculo de ganador ni nada
+						BitacoraDAO::registrarComentario("La venta [".$venta["idventa"]
+						."][".$venta["idventa_detalle"]."] esta suspendida, no calculamos nada");
 							
-								$ventaObj->setEstadoFinal(VentasDAO::$RESULTADO_SUSPENDIDO);
-								$ventaDetalle[$venta["idventa"]][$venta["idventa_detalle"]] = $ventaObj;
-							} else {
-								//o es null el array o se especifico resultado para este logro
-								//en ambos casos se procesa
-								//el juego no esta en suspendido
-								//vemos si fue almacenado el resultado para el mismo
-								$existe= DBUtil::executeSelect("select idlogro_equipo_categoria_resultado from logros_equipos_categorias_resultados where idlogro_equipo='".$venta["idlogro_equipo"]."' and estatus='1' limit 1");
-								
-								if($existe[0]["idlogro_equipo_categoria_resultado"] > 0){
-									//si tenemos resultado
-									//calculamos si es ganador, perdedor o tablas
-									BitacoraDAO::registrarComentario("La venta [".$venta["idventa"]
-											."][".$venta["idventa_detalle"]."] si tiene resultado guardado");
-								
-									$codeReturn = VentasDAO::verificarSiEsGanador($venta["idventa_detalle"]);
-								
-									$ventaObj->setEstadoFinal($codeReturn);
-									$ventaDetalle[$venta["idventa"]][$venta["idventa_detalle"]] = $ventaObj;
-								}else{
-									//no tenemos resultado, no podemos evaluar nada aun
-									BitacoraDAO::registrarComentario("La venta [".$venta["idventa"]
-											."][".$venta["idventa_detalle"]."] no tiene resultado guardado, lo dejamos como vendida");
-								
-									$ventaObj->setEstadoFinal(VentasDAO::$RESULTADO_SOLO_VENDIDO);
-									$ventaDetalle[$venta["idventa"]][$venta["idventa_detalle"]] = $ventaObj;
-								}
-							}
-						} else {
-							//este logro no fue indicado especificamente al guardar resultados
-							//no se toma en cuenta
-							BitacoraDAO::registrarComentario("La venta [".$venta["idventa"]."][".$venta["idventa_detalle"]
-									."] no fue indicada en el momento de almacenar los resultados ("
-									.$venta["idlogro_equipo"]."), la dejamos con su estado actual ("
-									.$venta["edoVentaDetalle"].")");
+						$ventaObj->setEstadoFinal(VentasDAO::$RESULTADO_SUSPENDIDO);
+						$ventaDetalle[$venta["idventa"]][$venta["idventa_detalle"]] = $ventaObj;
+					} else {
+						//o es null el array o se especifico resultado para este logro
+						//en ambos casos se procesa
+						//el juego no esta en suspendido
+						//vemos si fue almacenado el resultado para el mismo
+						$existe= DBUtil::executeSelect("select idlogro_equipo_categoria_resultado from logros_equipos_categorias_resultados where idlogro_equipo='".$venta["idlogro_equipo"]."' and estatus='1' limit 1");
+			
+						if($existe[0]["idlogro_equipo_categoria_resultado"] > 0){
+							//si tenemos resultado
+							//calculamos si es ganador, perdedor o tablas
+							BitacoraDAO::registrarComentario("La venta [".$venta["idventa"]
+							."][".$venta["idventa_detalle"]."] si tiene resultado guardado");
+			
+							$codeReturn = VentasDAO::verificarSiEsGanador($venta["idventa_detalle"]);
+			
+							$ventaObj->setEstadoFinal($codeReturn);
+							$ventaDetalle[$venta["idventa"]][$venta["idventa_detalle"]] = $ventaObj;
+						}else{
+							//no tenemos resultado, no podemos evaluar nada aun
+							BitacoraDAO::registrarComentario("La venta [".$venta["idventa"]
+							."][".$venta["idventa_detalle"]."] no tiene resultado guardado, dejamos su estado como esta ("
+							.$venta["edoVentaDetalle"].")");
 							
 							//dejamos el estado final de esta venta tal cual esta
 							if($venta["edoVentaDetalle"] == 2){
@@ -240,146 +239,170 @@ class VentasDAO {
 						}
 					}
 				} else {
-					BitacoraDAO::registrarComentario("La consulta inicial para tickets ganadores no trajo resultados para el ticket ".$i);
+					//este logro no fue indicado especificamente al guardar resultados
+					//no se toma en cuenta
+					BitacoraDAO::registrarComentario("La venta [".$venta["idventa"]."][".$venta["idventa_detalle"]
+					."] no fue indicada en el momento de almacenar los resultados ("
+							.$venta["idlogro_equipo"]."), la dejamos con su estado actual ("
+									.$venta["edoVentaDetalle"].")");
+						
+					//dejamos el estado final de esta venta tal cual esta
+					if($venta["edoVentaDetalle"] == 2){
+						//estado solo vendido
+						$ventaObj->setEstadoFinal(VentasDAO::$RESULTADO_SOLO_VENDIDO);
+					} else if($venta["edoVentaDetalle"] == 5){
+						//estado ganador
+						$ventaObj->setEstadoFinal(VentasDAO::$RESULTADO_GANADOR);
+					} else if($venta["edoVentaDetalle"] == 6){
+						//estado perdedor
+						$ventaObj->setEstadoFinal(VentasDAO::$RESULTADO_PERDEDOR);
+					} else if($venta["edoVentaDetalle"] == 1){
+						//estado suspendido
+						$ventaObj->setEstadoFinal(VentasDAO::$RESULTADO_SUSPENDIDO);
+					} else if($venta["edoVentaDetalle"] == 4){
+						//estado empatado
+						$ventaObj->setEstadoFinal(VentasDAO::$RESULTADO_EMPATADO_DEBE_SUSPENDER);
+					} else {
+						//estado por defecto (solo vendido)
+						$ventaObj->setEstadoFinal(VentasDAO::$RESULTADO_SOLO_VENDIDO);
+					}
+						
+					$ventaDetalle[$venta["idventa"]][$venta["idventa_detalle"]] = $ventaObj;
 				}
+			}
+		} else {
+			BitacoraDAO::registrarComentario("La consulta inicial para tickets ganadores no trajo resultados para el ticket ".$i);
+		}
+		
+		//ya con el resultado de cada transaccion
+		//procedemos a colocar un estado a cada venta como tal
+		//tomando en cuenta el estado interno de sus tickets
+		foreach($ventaDetalle as $idVenta => $arrayVentaDetalle){
+			//echo "idVenta=".$idVenta;
+			//print_r($arrayVentaDetalle);
+			//inicializamos contadores para la venta
+			$numeroApuestasEnTicket = count($arrayVentaDetalle);
+			$apuestasGanadoras = 0;
+			$apuestasPerdedoras = 0;
+			$apuestasSuspendidas = 0;
+			$apuestasEmpatadas = 0;
+			$factor = 1;
 				
-				if($teniaLogro){
-					//print_r($ventaDetalle);
-					
-					//ya con el resultado de cada transaccion
-					//procedemos a colocar un estado a cada venta como tal
-					//tomando en cuenta el estado interno de sus tickets
-					foreach($ventaDetalle as $idVenta => $arrayVentaDetalle){
-						//echo "idVenta=".$idVenta;
-						//print_r($arrayVentaDetalle);
-						//inicializamos contadores para la venta
-						$numeroApuestasEnTicket = count($arrayVentaDetalle);
-						$apuestasGanadoras = 0;
-						$apuestasPerdedoras = 0;
-						$apuestasSuspendidas = 0;
-						$apuestasEmpatadas = 0;
-						$factor = 1;
-					
-						reset($arrayVentaDetalle);
-					
-						//la venta tiene mas de una apuesta
-						//debemos evaluar el conjunto para saber el resultado final
-						foreach ($arrayVentaDetalle as $apuesta){
-							if($apuesta->getEstadoFinal() == VentasDAO::$RESULTADO_GANADOR){
-								$apuestasGanadoras++;
-					
-								//actualizamos el estado especifico de la apuesta dentro del ticket
-								$query = "UPDATE ventas_detalles SET edo_venta_detalle=5 WHERE idventa_detalle = ".$apuesta->getIdVentaDetalle();
-								DBUtil::executeQuery($query);
-					
-								//calculo el factor parlay de esta apuesta
-								if($apuesta->getPago() < 0){
-									$factor *= (1 + (100 / abs($apuesta->getPago())));
-									BitacoraDAO::registrarComentario("[".$idVenta."-".$apuesta->getIdVentaDetalle()."] calculando factor=(1 + (100 / ".abs($apuesta->getPago())."))");
-								} else {
-									$factor *= (1 + ($apuesta->getPago()/ 100));
-									BitacoraDAO::registrarComentario("[".$idVenta."-".$apuesta->getIdVentaDetalle()."] calculando factor=(1 + (".$apuesta->getPago()."/100))");
-								}
-					
-								BitacoraDAO::registrarComentario("[".$idVenta."-".$apuesta->getIdVentaDetalle()."] actualizada a estado Ganador con factor ".$factor);
-							} else if($apuesta->getEstadoFinal() == VentasDAO::$RESULTADO_PERDEDOR){
-								$apuestasPerdedoras++;
-								//actualizamos el estado especifico de la apuesta dentro del ticket
-								$query = "UPDATE ventas_detalles SET edo_venta_detalle=6 WHERE idventa_detalle = ".$apuesta->getIdVentaDetalle();
-								DBUtil::executeQuery($query);
-					
-								$factor *= 0;
-					
-								BitacoraDAO::registrarComentario("[".$idVenta."-".$apuesta->getIdVentaDetalle()."] actualizada a estado Perdedor");
-							} else if($apuesta->getEstadoFinal() == VentasDAO::$RESULTADO_SUSPENDIDO){
-								$apuestasSuspendidas++;
-								//actualizamos el estado especifico de la apuesta dentro del ticket
-								$query = "UPDATE ventas_detalles SET edo_venta_detalle=1 WHERE idventa_detalle = ".$apuesta->getIdVentaDetalle();
-								DBUtil::executeQuery($query);
-					
-								$factor *= 1;
-					
-								BitacoraDAO::registrarComentario("[".$idVenta."-".$apuesta->getIdVentaDetalle()."] actualizada a estado Suspendido");
-							} else if ($apuesta->getEstadoFinal() == VentasDAO::$RESULTADO_EMPATADO_DEBE_SUSPENDER){
-								$apuestasEmpatadas++;
-								//actualizamos el estado especifico de la apuesta dentro del ticket
-								$query = "UPDATE ventas_detalles SET edo_venta_detalle=4 WHERE idventa_detalle = ".$apuesta->getIdVentaDetalle();
-								DBUtil::executeQuery($query);
-					
-								$factor *= 1;
-					
-								BitacoraDAO::registrarComentario("[".$idVenta."-".$apuesta->getIdVentaDetalle()."] actualizada a estado Reembolsar");
-							}else{
-								//no es ninguno de los casos esperados, lo dejo como solo vendido
-								//aunque esto no deberia pasar
-								BitacoraDAO::registrarComentario("[".$idVenta."-".$apuesta->getIdVentaDetalle()."] caso atipico con estado final de venta =".$ventaObj->getEstadoFinal());
-							}
-						} //fue procesado todo el detalle de un determinado ticket
-					
-						BitacoraDAO::registrarComentario("[".$idVenta."] tiene lo siguiente: "
-								."numeroApuestasEnTicket=".$numeroApuestasEnTicket
-								.", apuestasGanadoras=".$apuestasGanadoras
-								.", apuestasPerdedoras=".$apuestasPerdedoras
-								.", apuestasEmpatadas=".$apuestasEmpatadas
-								.", apuestasSuspendidas=".$apuestasSuspendidas
-								.", factor=".$factor
-								.", montoApuesta=".$ventaObj->getMontoApuesta());
-					
-						//verificamos si es perdedor
-						if($apuestasPerdedoras > 0){
-							//tiene al menos una apuesta del ticket perdiendo, por lo tanto, el ticket completo pierde
-							$query = "UPDATE ventas SET perdedor='1', reembolsar=0, ganador=0, "
-							." monto_real_pagar=0, recalculado='0' "
-							." WHERE idventa='".$idVenta."' LIMIT 1";
-							DBUtil::executeQuery($query);
-					
-							BitacoraDAO::registrarComentario("[".$idVenta."] actualizada a estado Perdedor");
-						} else {
-							//no es perdedor el ticket, vemos si es totalmente ganador
-							if($apuestasGanadoras == $numeroApuestasEnTicket){
-								//la persona gano todas sus apuestas
-								$query = "UPDATE ventas SET perdedor=0, reembolsar=0, ganador='1', "
-								." monto_real_pagar=apuesta*".$factor.",recalculado='0' "
+			reset($arrayVentaDetalle);
+				
+			//la venta tiene mas de una apuesta
+			//debemos evaluar el conjunto para saber el resultado final
+			foreach ($arrayVentaDetalle as $apuesta){
+				if($apuesta->getEstadoFinal() == VentasDAO::$RESULTADO_GANADOR){
+					$apuestasGanadoras++;
+						
+					//actualizamos el estado especifico de la apuesta dentro del ticket
+					$query = "UPDATE ventas_detalles SET edo_venta_detalle=5 WHERE idventa_detalle = ".$apuesta->getIdVentaDetalle();
+					DBUtil::executeQuery($query);
+						
+					//calculo el factor parlay de esta apuesta
+					if($apuesta->getPago() < 0){
+						$factor *= (1 + (100 / abs($apuesta->getPago())));
+						BitacoraDAO::registrarComentario("[".$idVenta."-".$apuesta->getIdVentaDetalle()."] calculando factor=(1 + (100 / ".abs($apuesta->getPago())."))");
+					} else {
+						$factor *= (1 + ($apuesta->getPago()/ 100));
+						BitacoraDAO::registrarComentario("[".$idVenta."-".$apuesta->getIdVentaDetalle()."] calculando factor=(1 + (".$apuesta->getPago()."/100))");
+					}
+						
+					BitacoraDAO::registrarComentario("[".$idVenta."-".$apuesta->getIdVentaDetalle()."] actualizada a estado Ganador con factor ".$factor);
+				} else if($apuesta->getEstadoFinal() == VentasDAO::$RESULTADO_PERDEDOR){
+					$apuestasPerdedoras++;
+					//actualizamos el estado especifico de la apuesta dentro del ticket
+					$query = "UPDATE ventas_detalles SET edo_venta_detalle=6 WHERE idventa_detalle = ".$apuesta->getIdVentaDetalle();
+					DBUtil::executeQuery($query);
+						
+					$factor *= 0;
+						
+					BitacoraDAO::registrarComentario("[".$idVenta."-".$apuesta->getIdVentaDetalle()."] actualizada a estado Perdedor");
+				} else if($apuesta->getEstadoFinal() == VentasDAO::$RESULTADO_SUSPENDIDO){
+					$apuestasSuspendidas++;
+					//actualizamos el estado especifico de la apuesta dentro del ticket
+					$query = "UPDATE ventas_detalles SET edo_venta_detalle=1 WHERE idventa_detalle = ".$apuesta->getIdVentaDetalle();
+					DBUtil::executeQuery($query);
+						
+					$factor *= 1;
+						
+					BitacoraDAO::registrarComentario("[".$idVenta."-".$apuesta->getIdVentaDetalle()."] actualizada a estado Suspendido");
+				} else if ($apuesta->getEstadoFinal() == VentasDAO::$RESULTADO_EMPATADO_DEBE_SUSPENDER){
+					$apuestasEmpatadas++;
+					//actualizamos el estado especifico de la apuesta dentro del ticket
+					$query = "UPDATE ventas_detalles SET edo_venta_detalle=4 WHERE idventa_detalle = ".$apuesta->getIdVentaDetalle();
+					DBUtil::executeQuery($query);
+						
+					$factor *= 1;
+						
+					BitacoraDAO::registrarComentario("[".$idVenta."-".$apuesta->getIdVentaDetalle()."] actualizada a estado Reembolsar");
+				}else{
+					//no es ninguno de los casos esperados, lo dejo como solo vendido
+					//aunque esto no deberia pasar
+					BitacoraDAO::registrarComentario("[".$idVenta."-".$apuesta->getIdVentaDetalle()."] caso atipico con estado final de venta =".$ventaObj->getEstadoFinal());
+				}
+			} //fue procesado todo el detalle de un determinado ticket
+				
+			BitacoraDAO::registrarComentario("[".$idVenta."] tiene lo siguiente: "
+					."numeroApuestasEnTicket=".$numeroApuestasEnTicket
+					.", apuestasGanadoras=".$apuestasGanadoras
+					.", apuestasPerdedoras=".$apuestasPerdedoras
+					.", apuestasEmpatadas=".$apuestasEmpatadas
+					.", apuestasSuspendidas=".$apuestasSuspendidas
+					.", factor=".$factor
+					.", montoApuesta=".$ventaObj->getMontoApuesta());
+				
+			//verificamos si es perdedor
+			if($apuestasPerdedoras > 0){
+				//tiene al menos una apuesta del ticket perdiendo, por lo tanto, el ticket completo pierde
+				$query = "UPDATE ventas SET perdedor='1', reembolsar=0, ganador=0, "
+						." monto_real_pagar=0, recalculado='0' "
 								." WHERE idventa='".$idVenta."' LIMIT 1";
-								DBUtil::executeQuery($query);
+				DBUtil::executeQuery($query);
 					
-								BitacoraDAO::registrarComentario("[".$idVenta."] actualizada a estado Ganador");
-							}else {
-								//debe ser obligatoramiente un reembolso o un recalculo
-								if($apuestasGanadoras > 0){
-									//la persona gano al menos una, confirmo recalculo
-									if($apuestasGanadoras + $apuestasEmpatadas + $apuestasSuspendidas == $numeroApuestasEnTicket){
-										//es recalculo
-										$query = "UPDATE ventas SET perdedor=0, recalculado=1, ganador=0, "
-										." reembolsar='0', monto_real_pagar=apuesta*".$factor
-										." WHERE idventa='".$idVenta."' LIMIT 1";
-										DBUtil::executeQuery($query);
-					
-										BitacoraDAO::registrarComentario("[".$idVenta."] actualizada a estado Recalculado");
-									} else {
-										//caso extraño
-									}
-								} else {
-									//no gano, aparentemente solo es reembolso
-									if($apuestasEmpatadas + $apuestasSuspendidas == $numeroApuestasEnTicket){
-										//debe ser un reembolso
-										$query = "UPDATE ventas SET perdedor=0, recalculado=0, ganador=0, "
-										." reembolsar='1', monto_real_pagar=apuesta "
-										." WHERE idventa='".$idVenta."' LIMIT 1";
-										DBUtil::executeQuery($query);
-					
-										BitacoraDAO::registrarComentario("[".$idVenta."] actualizada a estado Reembolsar");
-									} else {
-										//caso extraño
-									}
-								}
-							}
+				BitacoraDAO::registrarComentario("[".$idVenta."] actualizada a estado Perdedor");
+			} else {
+				//no es perdedor el ticket, vemos si es totalmente ganador
+				if($apuestasGanadoras == $numeroApuestasEnTicket){
+					//la persona gano todas sus apuestas
+					$query = "UPDATE ventas SET perdedor=0, reembolsar=0, ganador='1', "
+							." monto_real_pagar=apuesta*".$factor.",recalculado='0' "
+									." WHERE idventa='".$idVenta."' LIMIT 1";
+					DBUtil::executeQuery($query);
+						
+					BitacoraDAO::registrarComentario("[".$idVenta."] actualizada a estado Ganador");
+				}else {
+					//debe ser obligatoramiente un reembolso o un recalculo
+					if($apuestasGanadoras > 0){
+						//la persona gano al menos una, confirmo recalculo
+						if($apuestasGanadoras + $apuestasEmpatadas + $apuestasSuspendidas == $numeroApuestasEnTicket){
+							//es recalculo
+							$query = "UPDATE ventas SET perdedor=0, recalculado=1, ganador=0, "
+									." reembolsar='0', monto_real_pagar=apuesta*".$factor
+									." WHERE idventa='".$idVenta."' LIMIT 1";
+							DBUtil::executeQuery($query);
+								
+							BitacoraDAO::registrarComentario("[".$idVenta."] actualizada a estado Recalculado");
+						} else {
+							//caso extraño
+						}
+					} else {
+						//no gano, aparentemente solo es reembolso
+						if($apuestasEmpatadas + $apuestasSuspendidas == $numeroApuestasEnTicket){
+							//debe ser un reembolso
+							$query = "UPDATE ventas SET perdedor=0, recalculado=0, ganador=0, "
+									." reembolsar='1', monto_real_pagar=apuesta "
+											." WHERE idventa='".$idVenta."' LIMIT 1";
+							DBUtil::executeQuery($query);
+								
+							BitacoraDAO::registrarComentario("[".$idVenta."] actualizada a estado Reembolsar");
+						} else {
+							//caso extraño
 						}
 					}
 				}
 			}
-		} else {
-			BitacoraDAO::registrarComentario("No se encontraron minimos y maximos.");
 		}
 		
 		BitacoraDAO::registrarComentario("En VentasDAO::calcularTicketGanador (finalizando): ".print_r($arregloLogrosGuardados, true));
