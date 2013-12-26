@@ -47,9 +47,9 @@ public final class BarCodeHistologia extends BarCodePrint{
 	private static final int anchoMMTransformados = 56;
 	
 	private String nroBiopsia;
-	private String abreviaturaTipoEstudio;
 	private List<BiopsiaCasseteDTO> cassetes;
 	private String labelFileName;
+	private boolean specificPrint;
 	
 	static {
 		Paper p = new Paper();
@@ -69,23 +69,94 @@ public final class BarCodeHistologia extends BarCodePrint{
 	 * @param abreviaturaTipoEstudio
 	 * @param cassetes
 	 */
-	public BarCodeHistologia(String nroBiopsia, String abreviaturaTipoEstudio,
-			List<BiopsiaCasseteDTO> cassetes) {
+	public BarCodeHistologia(String nroBiopsia, List<BiopsiaCasseteDTO> cassetes,
+			boolean specificPrint) {
 		// TODO Auto-generated constructor stub
 		super(log, PAGE_FORMAT);
 		this.nroBiopsia = nroBiopsia;
-		this.abreviaturaTipoEstudio = abreviaturaTipoEstudio;
 		this.cassetes = cassetes;
 		this.labelFileName = "histologia_" + nroBiopsia + ".pdf";
+		this.specificPrint = specificPrint;
 	}
 
+	public void crearEtiquetaHistologia() throws IOException, DocumentException {
+		if(specificPrint){
+			crearEtiquetaHistologiaEspecificas();
+		} else{
+			crearEtiquetaHistologiaCompleta();
+		}
+	}
+	
+	/**
+	 * Etiquetas especificas de los nuevos cortes.
+	 * 
+	 * @throws IOException
+	 * @throws DocumentException
+	 */
+	private void crearEtiquetaHistologiaEspecificas() throws IOException, DocumentException {
+		log.info("Iniciando creacion de etiqueta para la peticion de histologia: "
+    			+ this);
+    	String fileOut = Constants.LABELS_PATH + File.separator + labelFileName;
+		
+		// step 1
+        Document document = new Document(
+    			new Rectangle(largoMMTransformados, anchoMMTransformados), 
+    			5, 
+    			1, 
+    			1, 
+    			1);
+    	
+        // step 2
+        PdfWriter writer = PdfWriter.getInstance(document, 
+        		new FileOutputStream(fileOut));
+        
+        // step 3
+        document.open();
+        
+        // step 4
+        PdfContentByte cb = writer.getDirectContent();
+        
+        Barcode128 barCode = new Barcode128();
+        barCode.setCode(nroBiopsia);
+        barCode.setBarHeight(40);
+        barCode.setAltText("");
+        barCode.setBaseline(0.8F);
+        //barCode.setSize(20);
+        //barCode.setAltText(nroBiopsia + " " + (i+1) + "/" + nroCassetes);
+        
+        Image imgFJR = barCode.createImageWithBarcode(cb, null, null);
+        imgFJR.scaleToFit(new Rectangle(60, 35));
+        log.info("Creado codigo de barras con el valor " + nroBiopsia);
+        
+        for (int cassete = 0; cassete < cassetes.size(); cassete++) {
+        	BiopsiaCasseteDTO casseteDTO = cassetes.get(cassete);
+        	
+        	String chunkText = nroBiopsia;
+        	chunkText += "\n\nC" + casseteDTO.getNumero() + " B" + (casseteDTO.getBloques()) 
+        			+ " L" + (casseteDTO.getLaminaEspecifica()) + "/" + casseteDTO.getLaminas();
+        	Paragraph p = new Paragraph(Paragraph.ALIGN_TOP, 
+        			chunkText,
+        			new Font(FontFamily.COURIER, 8F, Font.BOLD));
+        	p.setSpacingAfter(0F);
+        	document.add(imgFJR);
+        	document.add(p);
+        	document.newPage();
+        }
+	    
+    	//step 5
+        document.close();
+        
+    	log.info("Finalizada creacion de etiqueta para la peticion de ingreso: "
+    			+ this);
+	}
+	
 	/**
      * Creates a PDF document.
      * 
      * @throws    DocumentException 
      * @throws    IOException
      */
-    public void crearEtiquetaHistologia() throws IOException, DocumentException {
+    private void crearEtiquetaHistologiaCompleta() throws IOException, DocumentException {
     	log.info("Iniciando creacion de etiqueta para la peticion de histologia: "
     			+ this);
     	String fileOut = Constants.LABELS_PATH + File.separator + labelFileName;
@@ -109,7 +180,7 @@ public final class BarCodeHistologia extends BarCodePrint{
         PdfContentByte cb = writer.getDirectContent();
         
         Barcode128 barCode = new Barcode128();
-        barCode.setCode(nroBiopsia + abreviaturaTipoEstudio);
+        barCode.setCode(nroBiopsia);
         barCode.setBarHeight(40);
         barCode.setAltText("");
         barCode.setBaseline(0.8F);

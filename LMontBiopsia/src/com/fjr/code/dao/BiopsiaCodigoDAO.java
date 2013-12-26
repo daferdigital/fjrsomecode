@@ -36,7 +36,9 @@ public final class BiopsiaCodigoDAO {
 		
 		int[] result = {-1, -1};
 		List<Object> parameters = new LinkedList<Object>();
-		parameters.add(idTipoEstudio);
+		//si es IHQ calculamos como numeracion de biopsia
+		//sino, se deja el mismo tipo de estudio solicitado
+		parameters.add(idTipoEstudio == 3 ? 1 : idTipoEstudio);
 		
 		try {
 			CachedRowSet row = DBUtil.executeSelectQuery(query, parameters);

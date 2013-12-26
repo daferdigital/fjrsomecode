@@ -12,6 +12,7 @@ import java.util.List;
  *
  */
 public class BiopsiaMicroLaminasDTO {
+	private boolean mustReprocess;
 	private int id;
 	private int cassete;
 	private int bloque;
@@ -25,6 +26,14 @@ public class BiopsiaMicroLaminasDTO {
 		// TODO Auto-generated constructor stub
 	}
 
+	public boolean isMustReprocess() {
+		return mustReprocess;
+	}
+	
+	public void setMustReprocess(boolean mustReprocess) {
+		this.mustReprocess = mustReprocess;
+	}
+	
 	public int getId() {
 		return id;
 	}

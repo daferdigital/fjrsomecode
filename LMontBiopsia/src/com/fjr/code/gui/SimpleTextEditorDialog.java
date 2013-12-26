@@ -14,6 +14,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import com.fjr.code.dao.TextoInteligenteDAO;
+import com.fjr.code.dto.TextoInteligenteDTO;
 import com.fjr.code.gui.operations.SimpleTextEditorDialogOperations;
 
 /**
@@ -56,6 +58,7 @@ public class SimpleTextEditorDialog extends JDialog{
 	public SimpleTextEditorDialog(JTextArea referencia) {
 		setModal(true);
 		this.referencia = referencia;
+		TextoInteligenteDTO textoDTO = getTextoDTOForKeyCode(referencia.getText());
 		
 		setTitle("Editor de texto simple");
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -74,7 +77,7 @@ public class SimpleTextEditorDialog extends JDialog{
 		txtArea.setWrapStyleWord(true);
 		txtArea.setLineWrap(true);
 		scrollPane.setViewportView(txtArea);
-		txtArea.setText(referencia.getText());
+		txtArea.setText(textoDTO.getTexto());
 		
 		JLabel lblCdigo = new JLabel("C\u00F3digo:");
 		lblCdigo.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -88,12 +91,14 @@ public class SimpleTextEditorDialog extends JDialog{
 		
 		textCodigo = new JTextField();
 		textCodigo.setBounds(108, 7, 132, 20);
+		textCodigo.setText(textoDTO.getKeyCode());
 		contentPanel.add(textCodigo);
 		textCodigo.setColumns(10);
 		
 		textAbreviatura = new JTextField();
 		textAbreviatura.setColumns(10);
 		textAbreviatura.setBounds(108, 37, 261, 20);
+		textAbreviatura.setText(textoDTO.getAbreviatura());
 		contentPanel.add(textAbreviatura);
 		
 		SimpleTextEditorDialogOperations listener = new SimpleTextEditorDialogOperations(this);
@@ -163,5 +168,31 @@ public class SimpleTextEditorDialog extends JDialog{
 
 	public void setTextAbreviatura(JTextField textAbreviatura) {
 		this.textAbreviatura = textAbreviatura;
+	}
+	
+	/**
+	 * 
+	 * @param keyCode
+	 * @return
+	 */
+	private TextoInteligenteDTO getTextoDTOForKeyCode(String keyCode){
+		TextoInteligenteDTO textoDTO = null;
+		
+		try {
+			keyCode = keyCode.trim().replaceAll("\n", "");
+			textoDTO = TextoInteligenteDAO.getByKeyCode(keyCode);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		if(textoDTO == null){
+			textoDTO = new TextoInteligenteDTO();
+			textoDTO.setTexto(keyCode);
+			textoDTO.setAbreviatura("");
+			textoDTO.setKeyCode("");
+		}
+		
+		return textoDTO;
 	}
 }

@@ -606,7 +606,7 @@ public class BiopsiaInfoDAO {
 	public static boolean updateMicro(BiopsiaInfoDTO biopsiaInfoDTO, boolean goToIHQ) {
 		final String queryInsertMicro = "INSERT INTO biopsias_microscopicas (id, idx, diagnostico, estudio_ihq) VALUES (?,?,?,?)";
 		final String queryUpdateMicro = "UPDATE biopsias_microscopicas SET idx=?, diagnostico=?, estudio_ihq=? WHERE id=? ";
-		final String queryInsertLaminasReactivos = "INSERT INTO micro_laminas (descripcion, id_reactivo, id, cassete, bloque, lamina) VALUES(?,?,?,?,?,?)";
+		final String queryInsertLaminasReactivos = "INSERT INTO micro_laminas (descripcion, id_reactivo, id, cassete, bloque, lamina, reprocesar) VALUES(?,?,?,?,?,?,?)";
 		final String queryLaminasReactivos = "DELETE FROM micro_laminas WHERE id=? AND cassete=? AND bloque=? AND lamina=?";
 		final String queryDeleteLaminasFiles = "DELETE FROM micro_laminas_files WHERE id=? AND cassete=? AND bloque=? AND lamina=?";
 		final String queryLaminasFiles = "INSERT INTO micro_laminas_files (id, cassete, bloque, lamina, file_name, file_content) VALUES (?,?,?,?,?,?)";
@@ -693,6 +693,7 @@ public class BiopsiaInfoDAO {
 				parameters.add(lamina.getCassete());
 				parameters.add(lamina.getBloque());
 				parameters.add(lamina.getLamina());
+				parameters.add(lamina.isMustReprocess());
 				if(! DBUtil.executeNonSelectQuery(queryInsertLaminasReactivos, parameters)){
 					result = false;
 				}

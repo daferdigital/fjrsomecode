@@ -113,25 +113,25 @@ public class HistologiaPanel extends JPanel {
 		
 		JButton btnGuardar = new JButton("Guardar");
 		btnGuardar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnGuardar.setBounds(10, 258, 91, 37);
+		btnGuardar.setBounds(10, 258, 75, 37);
 		btnGuardar.setActionCommand(HistologiaPanelOperations.ACTION_COMMAND_BTN_GUARDAR);
 		add(btnGuardar);
 		
-		JButton btnPrintLabels = new JButton("Imprimir Etiquetas");
+		JButton btnPrintLabels = new JButton("<html>Imprimir<br />Etiquetas</html>");
 		btnPrintLabels.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnPrintLabels.setBounds(111, 258, 134, 37);
+		btnPrintLabels.setBounds(90, 258, 83, 37);
 		btnPrintLabels.setActionCommand(HistologiaPanelOperations.ACTION_COMMAND_BTN_PRINT_LABELS);
 		add(btnPrintLabels);
 		
 		JButton btnSendToMicroscopica = new JButton("<html>Enviar a <br />Microscopica</html>");
 		btnSendToMicroscopica.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnSendToMicroscopica.setBounds(263, 258, 110, 37);
+		btnSendToMicroscopica.setBounds(297, 258, 99, 37);
 		btnSendToMicroscopica.setActionCommand(HistologiaPanelOperations.ACTION_COMMAND_BTN_SEND_TO_MICROSCOPICA);
 		add(btnSendToMicroscopica);
 		
 		JButton btnCancel = new JButton("Cancelar");
 		btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnCancel.setBounds(383, 258, 91, 37);
+		btnCancel.setBounds(408, 258, 82, 37);
 		btnCancel.setActionCommand(HistologiaPanelOperations.ACTION_COMMAND_BTN_CANCELAR);
 		add(btnCancel);
 		
@@ -163,10 +163,18 @@ public class HistologiaPanel extends JPanel {
 		JLabel lblNewLabel_1 = new JLabel("<html>(doble click en el registro para realizar la edici&oacute;n)</html>");
 		lblNewLabel_1.setBounds(608, 22, 239, 14);
 		add(lblNewLabel_1);
+		
+		JButton btnimprimircortes = new JButton("<html>Imprimir Solo<br />Nuevos Cortes</html>");
+		btnimprimircortes.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnimprimircortes.setActionCommand(HistologiaPanelOperations.ACTION_COMMAND_BTN_JUST_PRINT_NEW_LABELS);
+		btnimprimircortes.setBounds(180, 258, 111, 37);
+		add(btnimprimircortes);
+
 		btnCancel.addActionListener(listener);
 		btnGuardar.addActionListener(listener);
 		btnPrintLabels.addActionListener(listener);
 		btnSendToMicroscopica.addActionListener(listener);
+		btnimprimircortes.addActionListener(listener);
 		textNroBiopsia.addKeyListener(listener);
 		
 		setVisible(true);

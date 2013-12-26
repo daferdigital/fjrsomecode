@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.JCheckBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -43,6 +44,19 @@ public class JTableHistologia {
 				// TODO Auto-generated method stub
 				return false;
 			}
+			
+			@Override
+			public Object getValueAt(int row, int column) {
+				// TODO Auto-generated method stub
+				if(column == 0){
+					JCheckBox check = new JCheckBox();
+					check.setSelected(Boolean.parseBoolean(super.getValueAt(row, column).toString()));
+					check.setEnabled(false);
+					return check;
+				} else {
+					return super.getValueAt(row, column);
+				}
+			}
 		};
 		
 		table.addMouseListener(new MouseListener() {
@@ -79,9 +93,9 @@ public class JTableHistologia {
 					new HistologiaCasseteDialog(instance, 
 							table.getSelectedRow(),
 							table.getSelectedRow() + 1,
-							model.getValueAt(table.getSelectedRow(), 3).toString(),
-							Integer.parseInt(model.getValueAt(table.getSelectedRow(), 1).toString()),
-							Integer.parseInt(model.getValueAt(table.getSelectedRow(), 2).toString())).setVisible(true);
+							model.getValueAt(table.getSelectedRow(), 4).toString(),
+							Integer.parseInt(model.getValueAt(table.getSelectedRow(), 2).toString()),
+							Integer.parseInt(model.getValueAt(table.getSelectedRow(), 3).toString())).setVisible(true);
 				}
 			}
 		});
@@ -105,16 +119,19 @@ public class JTableHistologia {
 	 * 
 	 */
 	private void buildTable(){
+		model.addColumn("");
 		model.addColumn("Nro");
 		model.addColumn("Bloques");
 		model.addColumn("Laminas");
 		model.addColumn("Descripción");
 		
-		table.getColumnModel().getColumn(0).setPreferredWidth(10);
-		table.getColumnModel().getColumn(1).setPreferredWidth(15);
+		table.getColumnModel().getColumn(0).setPreferredWidth(15);
+		table.getColumnModel().getColumn(1).setPreferredWidth(10);
 		table.getColumnModel().getColumn(2).setPreferredWidth(15);
-		table.getColumnModel().getColumn(3).setPreferredWidth(250);
+		table.getColumnModel().getColumn(3).setPreferredWidth(15);
+		table.getColumnModel().getColumn(4).setPreferredWidth(250);
 		
+		table.getColumn("").setCellRenderer(new JTableCheckBoxRenderer());
 		table.setColumnSelectionAllowed(false);
 		table.setRowSelectionAllowed(false);
 		table.setCellSelectionEnabled(false);
@@ -126,14 +143,15 @@ public class JTableHistologia {
 	
 	/**
 	 * 
+	 * @param reprocesar
 	 * @param numero
 	 * @param bloques
 	 * @param laminas
 	 * @param descripcion
-	 * 
 	 */
-	public void addRow(int numero, int bloques, int laminas, String descripcion){
+	public void addRow(boolean reprocesar, int numero, int bloques, int laminas, String descripcion){
 		Vector<Object> rowData = new Vector<Object>();
+		rowData.add(reprocesar);
 		rowData.add("C" + numero);
 		rowData.add(bloques < 0 ? 1 : bloques);
 		rowData.add(laminas < 0 ? 1 : laminas);
@@ -150,8 +168,8 @@ public class JTableHistologia {
 	 */
 	public void updateRow(int row, int bloques, int laminas){
 		if(row > -1){
-			model.setValueAt(bloques, row, 1);
-			model.setValueAt(laminas, row, 2);
+			model.setValueAt(bloques, row, 2);
+			model.setValueAt(laminas, row, 3);
 		}
 	}
 	
@@ -175,10 +193,11 @@ public class JTableHistologia {
 			
 			for (int i = 0; i < model.getRowCount(); i++) {
 				BiopsiaCasseteDTO cassete = new BiopsiaCasseteDTO();
+				cassete.setReprocesar(Boolean.parseBoolean(model.getValueAt(i, 0).toString()));
 				cassete.setNumero(i + 1);
-				cassete.setBloques(Integer.parseInt(model.getValueAt(i, 1).toString()));
-				cassete.setLaminas(Integer.parseInt(model.getValueAt(i, 2).toString()));
-				cassete.setDescripcion(model.getValueAt(i, 3).toString());
+				cassete.setBloques(Integer.parseInt(model.getValueAt(i, 2).toString()));
+				cassete.setLaminas(Integer.parseInt(model.getValueAt(i, 3).toString()));
+				cassete.setDescripcion(model.getValueAt(i, 4).toString());
 				lista.add(cassete);
 			}
 		}
@@ -196,8 +215,8 @@ public class JTableHistologia {
 		
 		if(model.getRowCount() > 0){
 			for (int i = 0; i < model.getRowCount(); i++) {
-				if(Integer.parseInt(model.getValueAt(i, 1).toString()) < 1
-					|| (Integer.parseInt(model.getValueAt(i, 2).toString())) < 1){
+				if(Integer.parseInt(model.getValueAt(i, 2).toString()) < 1
+					|| (Integer.parseInt(model.getValueAt(i, 3).toString())) < 1){
 					result = false;
 					break;
 				}

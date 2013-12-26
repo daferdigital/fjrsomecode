@@ -23,7 +23,7 @@ import com.fjr.code.util.DBUtil;
 final class BiopsiaMicroLaminasDAOListBuilder implements DAOListBuilder<BiopsiaMicroLaminasDTO> {
 	private static final Logger log = Logger.getLogger(BiopsiaMicroLaminasDAOListBuilder.class);
 	
-	private static final String BEGIN = "SELECT ml.id, ml.cassete, ml.bloque, ml.lamina, ml.descripcion"
+	private static final String BEGIN = "SELECT ml.id, ml.cassete, ml.bloque, ml.lamina, ml.descripcion, ml.reprocesar"
 			+ " FROM micro_laminas ml "
 			+ " WHERE 1 = 1";
 	private static final String END = " GROUP BY ml.id, ml.cassete, ml.bloque, ml.lamina"
@@ -77,6 +77,7 @@ final class BiopsiaMicroLaminasDAOListBuilder implements DAOListBuilder<BiopsiaM
 				lamina.setBloque(rowSet.getInt(3));
 				lamina.setLamina(rowSet.getInt(4));
 				lamina.setDescripcion(rowSet.getString(5));
+				lamina.setMustReprocess(rowSet.getBoolean(6));
 				
 				BiopsiaMicroLaminasReactivosDAO.setMicroLaminasReactivos(lamina);
 				BiopsiaMicroLaminasFileDAO.setMicroLaminasFotos(lamina, isIHQ);

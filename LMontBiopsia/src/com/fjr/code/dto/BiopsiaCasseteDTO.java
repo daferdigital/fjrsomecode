@@ -15,6 +15,8 @@ public class BiopsiaCasseteDTO {
 	private String descripcion;
 	private int bloques;
 	private int laminas;
+	private int laminaEspecifica;
+	private boolean reprocesar;
 	
 	public BiopsiaCasseteDTO() {
 		// TODO Auto-generated constructor stub
@@ -58,6 +60,22 @@ public class BiopsiaCasseteDTO {
 
 	public void setLaminas(int laminas) {
 		this.laminas = laminas;
+	}
+	
+	public int getLaminaEspecifica() {
+		return laminaEspecifica;
+	}
+	
+	public void setLaminaEspecifica(int laminaEspecifica) {
+		this.laminaEspecifica = laminaEspecifica;
+	}
+	
+	public boolean isReprocesar() {
+		return reprocesar;
+	}
+	
+	public void setReprocesar(boolean reprocesar) {
+		this.reprocesar = reprocesar;
 	}
 	
 	@Override

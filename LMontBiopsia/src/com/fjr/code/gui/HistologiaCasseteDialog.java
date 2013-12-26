@@ -132,17 +132,25 @@ public class HistologiaCasseteDialog extends JDialog {
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
 		
 		JButton okButton = new JButton("Guardar");
+		okButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		okButton.setActionCommand(HistologiaCasseteDialogOperations.ACTION_COMMAND_BTN_ACEPTAR);
 		buttonPane.add(okButton);
 		getRootPane().setDefaultButton(okButton);
+		
+		JButton btnNewButton = new JButton("Imprimir Etiqueta");
+		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnNewButton.setActionCommand(HistologiaCasseteDialogOperations.ACTION_COMMAND_BTN_PRINT_LABEL);
+		buttonPane.add(btnNewButton);
 	
 		JButton cancelButton = new JButton("Cancelar");
+		cancelButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		cancelButton.setActionCommand(HistologiaCasseteDialogOperations.ACTION_COMMAND_BTN_CANCELAR);
 		buttonPane.add(cancelButton);
 		
 		HistologiaCasseteDialogOperations listener = new HistologiaCasseteDialogOperations(this);
 		okButton.addActionListener(listener);
 		cancelButton.addActionListener(listener);
+		btnNewButton.addActionListener(listener);
 		
 		setLocationRelativeTo(null);
 	}
