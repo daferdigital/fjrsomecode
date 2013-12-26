@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import com.fjr.code.dao.BiopsiaCassetesMacroDAO;
 import com.fjr.code.dao.BiopsiaInfoDAO;
 import com.fjr.code.dao.definitions.FasesBiopsia;
 import com.fjr.code.dto.BiopsiaInfoDTO;
@@ -154,11 +155,18 @@ public class JTableTodasBiopsias {
 		
 		if(biopsias != null){
 			for (BiopsiaInfoDTO biopsiaInfoDTO : biopsias) {
+				String extraInfo = "";
+				if(FasesBiopsia.HISTOLOGIA.equals(biopsiaInfoDTO.getFaseActual())){
+					if(BiopsiaCassetesMacroDAO.checkIfMustReprocessBiopsia(biopsiaInfoDTO.getId())){
+						extraInfo = " (Se solicitaron nuevos cortes)";
+					}
+				}
+				
 				addRow(biopsiaInfoDTO.getId(),
 						biopsiaInfoDTO.getCodigo(), 
 						biopsiaInfoDTO.getExamenBiopsia().getNombreExamen(), 
 						biopsiaInfoDTO.getCliente().getNombres() + " " + biopsiaInfoDTO.getCliente().getApellidos(),
-						biopsiaInfoDTO.getFaseActual().getNombreFase());
+						biopsiaInfoDTO.getFaseActual().getNombreFase() + extraInfo);
 			}
 		}
 	}

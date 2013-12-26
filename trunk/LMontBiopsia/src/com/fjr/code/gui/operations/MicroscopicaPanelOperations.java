@@ -4,12 +4,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import org.apache.log4j.Logger;
 
+import com.fjr.code.dao.BiopsiaCassetesMacroDAO;
 import com.fjr.code.dao.BiopsiaInfoDAO;
 import com.fjr.code.dao.BiopsiaMicroLaminasDAO;
 import com.fjr.code.dao.definitions.FasesBiopsia;
@@ -40,6 +42,7 @@ public class MicroscopicaPanelOperations implements KeyListener, ActionListener{
 	public static final String ACTION_COMMAND_BTN_GUARDAR = "btnGuardar";
 	public static final String ACTION_COMMAND_BTN_SEND_TO_DIAGNOSTICO = "btnSendToDiagnostico";
 	public static final String ACTION_COMMAND_BTN_SEND_TO_IHQ = "btnSendToIHQ";
+	public static final String ACTION_COMMAND_BTN_SOLICITAR_NUEVOS_CORTES = "btnReprocesarLaminas";
 	public static final String ACTION_COMMAND_BTN_CANCELAR = "btnCancelar";
 	public static final String ACTION_COMMAND_BTN_UPDATE_LAMINA = "btnLamina";
 	
@@ -114,6 +117,7 @@ public class MicroscopicaPanelOperations implements KeyListener, ActionListener{
 				}
 				
 				ventana.getTableMicroLaminas().addRow(
+						lamina.isMustReprocess(),
 						Integer.toString(lamina.getCassete()), 
 						Integer.toString(lamina.getBloque()), 
 						Integer.toString(lamina.getLamina()), 
@@ -172,7 +176,52 @@ public class MicroscopicaPanelOperations implements KeyListener, ActionListener{
 				//la informacion esta completa y valida
 				//guardamos la biopsia
 				biopsiaInfoDTO = buildDTOFromVentana();
-				whatToDowithBiopsia(biopsiaInfoDTO, goToDiagnostico, goToIHQ);
+				whatToDoWithBiopsia(biopsiaInfoDTO, goToDiagnostico, goToIHQ);
+			}
+		} else if(ACTION_COMMAND_BTN_SOLICITAR_NUEVOS_CORTES.equals(e.getActionCommand())){
+			log.info("Se estan solicitando nuevos cortes, validamos la tabla de laminas");
+			if(ventana.getTableMicroLaminas().isValidForReprocesoHistologico()){
+				int option = JOptionPane.showConfirmDialog(ventana, 
+						"Esta seguro que desea solicitar nuevos cortes de las laminas indicadas?", 
+						"Solicitud de Nuevos Cortes", 
+						JOptionPane.YES_NO_OPTION, 
+						JOptionPane.QUESTION_MESSAGE);
+				
+				if(option == JOptionPane.YES_OPTION){
+					List<BiopsiaMicroLaminasDTO> listado = ventana.getTableMicroLaminas().getList();
+					for (BiopsiaMicroLaminasDTO biopsiaMicroLaminasDTO : listado) {
+						if(biopsiaMicroLaminasDTO.isMustReprocess()){
+							//debe marcarse este casete en histologia para ser procesado nuevamente
+							//y tambien marcarlo en la propia fase micro
+							if(BiopsiaCassetesMacroDAO.markReprocess(true, 
+									biopsiaInfoDTO.getId(), 
+									biopsiaMicroLaminasDTO.getCassete(), 
+									biopsiaMicroLaminasDTO.getBloque())){
+								//se marco el cassete en la fase anterior
+								//lo marcamos igual en micro
+								
+								BiopsiaMicroLaminasDAO.setReprocesarToMicroLamina(true, 
+										biopsiaInfoDTO.getId(), 
+										biopsiaMicroLaminasDTO.getCassete(),
+										biopsiaMicroLaminasDTO.getBloque(),
+										biopsiaMicroLaminasDTO.getLamina());
+							}
+						}
+					}
+					
+					BiopsiaInfoDAO.moveBiopsiaToFase(biopsiaInfoDTO.getId(), FasesBiopsia.HISTOLOGIA);
+					JOptionPane.showMessageDialog(ventana, 
+							"La biopsia " + biopsiaInfoDTO.getCodigo() + " fue llevada a la fase de Histologia", 
+							"Operación realizada", 
+							JOptionPane.INFORMATION_MESSAGE);
+					
+					loadVentanaFromBiopsiaDTO(null);
+				}
+			} else {
+				JOptionPane.showMessageDialog(ventana, 
+						"Disculpe, no fue marcada ninguna lamina para ser procesada nuevamente.", 
+						"Advertencia",
+						JOptionPane.WARNING_MESSAGE);
 			}
 		}
 	}
@@ -310,7 +359,7 @@ public class MicroscopicaPanelOperations implements KeyListener, ActionListener{
 	 * @param goToDiagnostico
 	 * @param goToIHQ
 	 */
-	private void whatToDowithBiopsia(BiopsiaInfoDTO biopsiaInfoDTO,
+	private void whatToDoWithBiopsia(BiopsiaInfoDTO biopsiaInfoDTO,
 			boolean goToDiagnostico, boolean goToIHQ) {
 		// TODO Auto-generated method stub
 		//ya tenemos verificada la informacion basica de la biopsia

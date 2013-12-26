@@ -23,6 +23,7 @@ import com.fjr.code.gui.SimpleTextEditorDialog;
  */
 public class SimpleTextEditorDialogOperations implements ActionListener{
 	private static final Logger log = Logger.getLogger(SimpleTextEditorDialogOperations.class);
+	
 	public static final String ACTION_COMMAND_OK = "Ok";
 	public static final String ACTION_COMMAND_GUARDAR = "Guardar";
 	public static final String ACTION_COMMAND_BUSCAR = "Buscar";
@@ -63,30 +64,67 @@ public class SimpleTextEditorDialogOperations implements ActionListener{
 				boolean wantUpdate = false;
 				if(TextoInteligenteDAO.getByKeyCode(registro.getKeyCode().trim()) != null){
 					//el registro existe, preguntamos si desea modificarlo
-					recordExists = true;
+					log.info("Existe un registro de texto inteligente para el keyCode = '" 
+							+ registro.getKeyCode().trim() + "'");
 					
+					recordExists = true;
 					int response = JOptionPane.showConfirmDialog(ventana,
 							"El codigo indicado ya existe, desea modificarlo?",
 							"Registro ya existe.",
 							JOptionPane.YES_NO_OPTION);
 					
 					if(response == JOptionPane.YES_OPTION){
+						log.info("El usuario desea modificar registro de texto inteligente con keyCode = '" 
+								+ registro.getKeyCode().trim() + "'");
 						wantUpdate = true;
 					}
 				}
 				
 				if(!recordExists){
+					log.info("No existe registro de texto inteligente con keyCode = '" 
+							+ registro.getKeyCode().trim() + "', se procede a crearlo");
 					if(TextoInteligenteDAO.insert(registro)){
 						// se guardo el registro correctamente
+						log.info("Registro de texto inteligente con keyCode = '" 
+								+ registro.getKeyCode().trim() + "' fue guardado de manera exitosa");
+						
+						JOptionPane.showMessageDialog(ventana, 
+								"El registro indicado, fue almacenado correctamente", 
+								"Registro creado", 
+								JOptionPane.INFORMATION_MESSAGE);
 					} else {
 						//error al almacenar el registro de texto inteligente
+						log.error("Error creando registro de texto inteligente con keyCode = '" 
+								+ registro.getKeyCode().trim() + "'");
+						
+						JOptionPane.showMessageDialog(ventana, 
+								"Se produjo un error intentando almacenar el registro", 
+								"Error", 
+								JOptionPane.ERROR_MESSAGE);
 					}
 				} else {
 					if(wantUpdate){
+						log.info("Se desea actualizar registro de texto inteligente con keyCode = '" 
+								+ registro.getKeyCode().trim() + "'");
+						
 						if(TextoInteligenteDAO.update(registro)){
 							//se modifico el registro
+							log.info("Registro de texto inteligente con keyCode = '" 
+									+ registro.getKeyCode().trim() + "' fue actualizado de manera exitosa");
+							
+							JOptionPane.showMessageDialog(ventana, 
+									"El registro indicado, fue actualizado correctamente", 
+									"Registro actualizado", 
+									JOptionPane.INFORMATION_MESSAGE);
 						} else {
 							//el registro no pudo ser modificado
+							log.error("Error actualizando registro de texto inteligente con keyCode = '" 
+									+ registro.getKeyCode().trim() + "'");
+							
+							JOptionPane.showMessageDialog(ventana, 
+									"Se produjo un error intentando actualizar el registro", 
+									"Error", 
+									JOptionPane.ERROR_MESSAGE);
 						}
 					}
 				}
@@ -95,7 +133,6 @@ public class SimpleTextEditorDialogOperations implements ActionListener{
 		}else if(ACTION_COMMAND_BUSCAR.equals(arg0.getActionCommand())){
 			new BusquedaTextoInteligenteDialog(ventana).setVisible(true);
 		}
-		
 	}
 	
 	/**

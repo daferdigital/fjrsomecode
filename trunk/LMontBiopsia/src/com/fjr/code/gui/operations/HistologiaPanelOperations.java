@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -13,6 +14,8 @@ import org.apache.log4j.Logger;
 import com.fjr.code.barcode.BarCodeHistologia;
 import com.fjr.code.dao.BiopsiaCassetesMacroDAO;
 import com.fjr.code.dao.BiopsiaInfoDAO;
+import com.fjr.code.dao.BiopsiaMicroLaminasDAO;
+import com.fjr.code.dao.BiopsiaNuevosCortesDAO;
 import com.fjr.code.dao.definitions.FasesBiopsia;
 import com.fjr.code.dto.BiopsiaCasseteDTO;
 import com.fjr.code.dto.BiopsiaInfoDTO;
@@ -38,6 +41,7 @@ public class HistologiaPanelOperations implements ActionListener, KeyListener{
 	public static final String ACTION_COMMAND_NRO_BIOPSIA = "nroBiopsia";
 	public static final String ACTION_COMMAND_BTN_GUARDAR = "btnGuardar";
 	public static final String ACTION_COMMAND_BTN_PRINT_LABELS = "btnPrintLabels";
+	public static final String ACTION_COMMAND_BTN_JUST_PRINT_NEW_LABELS = "btnJustPrintNewLabels";
 	public static final String ACTION_COMMAND_BTN_SEND_TO_MICROSCOPICA = "btnSendToMicro";
 	public static final String ACTION_COMMAND_BTN_CANCELAR = "btnCancelar";
 	public static final String ACTION_COMMAND_BTN_MODIFY_CASSETE = "btnCassette";
@@ -115,8 +119,8 @@ public class HistologiaPanelOperations implements ActionListener, KeyListener{
 				log.info("Se desean imprimir las etiquetas de la fase de histologia para la biopsia '" 
 						+ biopsiaInfoDTO.getCodigo()  + "'");
 				BarCodeHistologia histoLabels = new BarCodeHistologia(biopsiaInfoDTO.getCodigo(),
-						biopsiaInfoDTO.getAbreviaturaTipoEstudio(),
-						ventana.getTableHistoCassetes().getList());
+						ventana.getTableHistoCassetes().getList(),
+						false);
 				try {
 					histoLabels.crearEtiquetaHistologia();
 					histoLabels.printLabelFile();
@@ -137,7 +141,6 @@ public class HistologiaPanelOperations implements ActionListener, KeyListener{
 						"Información incompleta", 
 						JOptionPane.ERROR_MESSAGE);
 			}
-			
 		} else if(ACTION_COMMAND_BTN_GUARDAR.equals(e.getActionCommand())
 				|| ACTION_COMMAND_BTN_SEND_TO_MICROSCOPICA.equals(e.getActionCommand())){
 			log.info("Se desea guardar una biopsia, se verifica el contenido del formulario");
@@ -148,6 +151,30 @@ public class HistologiaPanelOperations implements ActionListener, KeyListener{
 				//guardamos la biopsia
 				biopsiaInfoDTO = buildDTOFromVentana();
 				whatToDowithBiopsia(biopsiaInfoDTO, goToMicro);
+			}
+		} else if(ACTION_COMMAND_BTN_JUST_PRINT_NEW_LABELS.equals(e.getActionCommand())){
+			List<BiopsiaCasseteDTO> nuevosCortes = BiopsiaNuevosCortesDAO.getNuevosCortes(biopsiaInfoDTO.getId());
+			if(nuevosCortes == null || nuevosCortes.size() == 0){
+				JOptionPane.showMessageDialog(ventana, 
+						"Disculpe, no se encontró información de nuevos cortes para esta biopsia",
+						"Advertencia",
+						JOptionPane.WARNING_MESSAGE);
+			} else {
+				BarCodeHistologia histoLabels = new BarCodeHistologia(biopsiaInfoDTO.getCodigo(),
+						nuevosCortes,
+						true);
+				try {
+					histoLabels.crearEtiquetaHistologia();
+					histoLabels.printLabelFile();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					log.error("Error creando etiquetas para nuevos cortes. Error fue: " + e1.getLocalizedMessage(), e1);
+					JOptionPane.showMessageDialog(ventana, 
+							"Ocurrio un error durante la creación de las etiquetas de impresión de esta fase.\n"
+							+ "Por favor intente de nuevo.", 
+							"Error creando etiquetas de impresión", 
+							JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		}
 	}
@@ -175,7 +202,8 @@ public class HistologiaPanelOperations implements ActionListener, KeyListener{
 			ventana.getTextADescHistologia().setText(biopsia.getHistologiaDTO().getDescripcion());
 			
 			for (BiopsiaCasseteDTO cassete : biopsia.getHistologiaDTO().getCassetesDTO()) {
-				ventana.getTableHistoCassetes().addRow(cassete.getNumero(),
+				ventana.getTableHistoCassetes().addRow(cassete.isReprocesar(),
+						cassete.getNumero(),
 						cassete.getBloques(),
 						cassete.getLaminas(),
 						cassete.getDescripcion());
@@ -264,6 +292,9 @@ public class HistologiaPanelOperations implements ActionListener, KeyListener{
 				} else {
 					//tenemos todo para pasar a micro
 					if(BiopsiaInfoDAO.moveBiopsiaToFase(biopsiaInfoDTO, FasesBiopsia.MICROSCOPICA)){
+						BiopsiaCassetesMacroDAO.markBiopsiaAsReprocessed(biopsiaInfoDTO.getId());
+						BiopsiaMicroLaminasDAO.setReprocesarToBiopsia(false, biopsiaInfoDTO.getId());
+						
 						JOptionPane.showMessageDialog(ventana, 
 								"La biopsia " + biopsiaInfoDTO.getCodigo() + " fue actualizada correctamente.\n"
 								+ "Y llevada a la fase de Miscroscopica",

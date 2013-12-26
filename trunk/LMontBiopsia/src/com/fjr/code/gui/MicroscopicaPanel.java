@@ -141,19 +141,19 @@ public class MicroscopicaPanel extends JPanel {
 		
 		JButton btnGuardar = new JButton("Guardar");
 		btnGuardar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnGuardar.setBounds(10, 467, 91, 37);
+		btnGuardar.setBounds(10, 467, 75, 37);
 		btnGuardar.setActionCommand(MicroscopicaPanelOperations.ACTION_COMMAND_BTN_GUARDAR);
 		add(btnGuardar);
 		
 		JButton btnSendToDiagnostico = new JButton("<html>Enviar <br />Diagnostico</html>");
 		btnSendToDiagnostico.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnSendToDiagnostico.setBounds(111, 467, 134, 37);
+		btnSendToDiagnostico.setBounds(95, 467, 91, 37);
 		btnSendToDiagnostico.setActionCommand(MicroscopicaPanelOperations.ACTION_COMMAND_BTN_SEND_TO_DIAGNOSTICO);
 		add(btnSendToDiagnostico);
 		
 		JButton btnSendToIHQ = new JButton("<html>Solicitar <br />IHQ</html>");
 		btnSendToIHQ.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnSendToIHQ.setBounds(263, 467, 110, 37);
+		btnSendToIHQ.setBounds(196, 467, 75, 37);
 		btnSendToIHQ.setActionCommand(MicroscopicaPanelOperations.ACTION_COMMAND_BTN_SEND_TO_IHQ);
 		add(btnSendToIHQ);
 		
@@ -224,10 +224,19 @@ public class MicroscopicaPanel extends JPanel {
 		
 		tblLaminasIHQ = tableMicroLaminasIHQ.getTable();
 		scrollPane_3.setViewportView(tblLaminasIHQ);
+		
+		JButton btnReprocesar = new JButton("<html>Nuevos<br />Cortes</html>");
+		btnReprocesar.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnReprocesar.setActionCommand(MicroscopicaPanelOperations.ACTION_COMMAND_BTN_SOLICITAR_NUEVOS_CORTES);
+		btnReprocesar.setBounds(281, 467, 92, 37);
+		
+		add(btnReprocesar);
+		
 		btnCancel.addActionListener(listener);
 		btnGuardar.addActionListener(listener);
 		btnSendToDiagnostico.addActionListener(listener);
 		btnSendToIHQ.addActionListener(listener);
+		btnReprocesar.addActionListener(listener);
 		textNroBiopsia.addKeyListener(listener);
 		
 		setVisible(true);

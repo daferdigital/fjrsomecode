@@ -1,11 +1,13 @@
 package com.fjr.code.dao;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 
 import com.fjr.code.dto.BiopsiaInfoDTO;
 import com.fjr.code.dto.BiopsiaMicroLaminasDTO;
+import com.fjr.code.util.DBUtil;
 
 /**
  * 
@@ -45,5 +47,71 @@ public class BiopsiaMicroLaminasDAO {
 		}
 		
 		return biopsiaInfoDTO;
+	}
+	
+	/**
+	 * 
+	 * @param reprocesar
+	 * @param idBiopsia
+	 * 
+	 * @return
+	 */
+	public static boolean setReprocesarToBiopsia(boolean reprocesar, int idBiopsia){
+		final String query = "UPDATE micro_laminas SET reprocesar=?"
+				+ " WHERE id=?";
+		boolean wasUpdated = false;
+		
+		try {
+			List<Object> parameters = new LinkedList<Object>();
+			parameters.add(reprocesar ? "1" : "0");
+			parameters.add(idBiopsia);
+			
+			wasUpdated = DBUtil.executeNonSelectQuery(query, parameters);
+			log.info("Resultado de actualizar micro_lamina (reprocesar/idBiopsia) "
+					+ reprocesar + "/" + idBiopsia + ", fue: " + wasUpdated);
+		} catch (Exception e) {
+			// TODO: handle exception
+			log.error("Error actualizando micro_lamina (reprocesar/idBiopsia) "
+					+ reprocesar + "/" + idBiopsia + ". Error: " + e.getLocalizedMessage(), e);
+		}
+		
+		return wasUpdated;
+	}
+	
+	/**
+	 * 
+	 * @param reprocesar
+	 * @param idBiopsia
+	 * @param cassete
+	 * @param bloque
+	 * @param lamina
+	 * @return
+	 */
+	public static boolean setReprocesarToMicroLamina(boolean reprocesar, int idBiopsia,
+			int cassete, int bloque, int lamina){
+		final String query = "UPDATE micro_laminas SET reprocesar=?"
+				+ " WHERE id=? AND cassete=? AND bloque=? AND lamina=?";
+		boolean wasUpdated = false;
+		
+		try {
+			List<Object> parameters = new LinkedList<Object>();
+			parameters.add(reprocesar ? "1" : "0");
+			parameters.add(idBiopsia);
+			parameters.add(cassete);
+			parameters.add(bloque);
+			parameters.add(lamina);
+			
+			wasUpdated = DBUtil.executeNonSelectQuery(query, parameters);
+			log.info("Resultado de actualizar micro_lamina (reprocesar/idBiopsia/cassete/bloque/lamina) "
+					+ reprocesar + "/" + idBiopsia + "/" + cassete + "/"
+					+ bloque + "/" + lamina + ", fue: " + wasUpdated);
+		} catch (Exception e) {
+			// TODO: handle exception
+			log.error("Error actualizando micro_lamina (reprocesar/idBiopsia/cassete/bloque/lamina) "
+					+ reprocesar + "/" + idBiopsia + "/" + cassete + "/"
+					+ bloque + "/" + lamina + ". Error: " + e.getLocalizedMessage(), e);
+		}
+		
+		return wasUpdated;
 	}
 }
