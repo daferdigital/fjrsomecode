@@ -114,7 +114,8 @@ public final class BarCodeIngreso extends BarCodePrint {
         PdfContentByte cb = writer.getDirectContent();
         
         Barcode128 barCode = new Barcode128();
-        barCode.setCode(nroBiopsia + abreviaturaTipoEstudio);
+        //barCode.setCode(nroBiopsia + abreviaturaTipoEstudio);
+        barCode.setCode(nroBiopsia);
         
         Image imgFJR = barCode.createImageWithBarcode(cb, null, null);
         imgFJR.setRotationDegrees(90F);
@@ -122,7 +123,7 @@ public final class BarCodeIngreso extends BarCodePrint {
         log.info("Creado codigo de barras con el valor " + nroBiopsia);
         
         Paragraph p = new Paragraph();
-        String chunkText = "Nro: " + nroBiopsia + abreviaturaTipoEstudio;
+        String chunkText = "Nro: " + nroBiopsia;// + abreviaturaTipoEstudio;
         String chunkText1 = "\nPaciente: \n" + nombrePaciente;
         chunkText1 += "\nC.I: " + cedula;
         
@@ -151,7 +152,7 @@ public final class BarCodeIngreso extends BarCodePrint {
 	}
 	
 	public static void main(String[] args) throws IOException, DocumentException {
-		BarCodeIngreso ingreso = new BarCodeIngreso("13-3467", 
+		BarCodeIngreso ingreso = new BarCodeIngreso("13-03467", 
 				"Josefina Carolina\nGonzalez Aristigueta", 
 				"7.958.543",
 				"");

@@ -19,6 +19,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JComboBox;
 
+/**
+ * 
+ * Class: HistologiaCasseteDialog <br />
+ * DateCreated: 27/12/2013 <br />
+ * @author T&T <br />
+ *
+ */
 public class HistologiaCasseteDialog extends JDialog {
 
 	/**

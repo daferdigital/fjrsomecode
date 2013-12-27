@@ -206,7 +206,8 @@ public class HistologiaPanelOperations implements ActionListener, KeyListener{
 						cassete.getNumero(),
 						cassete.getBloques(),
 						cassete.getLaminas(),
-						cassete.getDescripcion());
+						cassete.getDescripcion(),
+						biopsia.getCodigo());
 			}
 		}
 	}
