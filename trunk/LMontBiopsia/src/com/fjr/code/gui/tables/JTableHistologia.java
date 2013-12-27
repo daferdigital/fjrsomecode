@@ -124,12 +124,15 @@ public class JTableHistologia {
 		model.addColumn("Bloques");
 		model.addColumn("Laminas");
 		model.addColumn("Descripción");
+		model.addColumn("CodigoBiopsia");
 		
 		table.getColumnModel().getColumn(0).setPreferredWidth(15);
 		table.getColumnModel().getColumn(1).setPreferredWidth(10);
 		table.getColumnModel().getColumn(2).setPreferredWidth(15);
 		table.getColumnModel().getColumn(3).setPreferredWidth(15);
 		table.getColumnModel().getColumn(4).setPreferredWidth(250);
+		table.getColumnModel().getColumn(5).setPreferredWidth(250);
+		table.getColumnModel().removeColumn(table.getColumnModel().getColumn(5));
 		
 		table.getColumn("").setCellRenderer(new JTableCheckBoxRenderer());
 		table.setColumnSelectionAllowed(false);
@@ -149,13 +152,15 @@ public class JTableHistologia {
 	 * @param laminas
 	 * @param descripcion
 	 */
-	public void addRow(boolean reprocesar, int numero, int bloques, int laminas, String descripcion){
+	public void addRow(boolean reprocesar, int numero, int bloques, int laminas, String descripcion,
+			String codigoBiopsia){
 		Vector<Object> rowData = new Vector<Object>();
 		rowData.add(reprocesar);
 		rowData.add("C" + numero);
 		rowData.add(bloques < 0 ? 1 : bloques);
 		rowData.add(laminas < 0 ? 1 : laminas);
 		rowData.add(descripcion);
+		rowData.add(codigoBiopsia);
 		
 		model.addRow(rowData);
 	}
