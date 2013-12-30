@@ -179,6 +179,20 @@ public class JTableHistologia {
 	}
 	
 	/**
+	 * 
+	 * @param row
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public Vector<Object> getRowData(int row){
+		if(row > -1){
+			return (Vector<Object>) model.getDataVector().get(row);
+		} else {
+			return null;
+		}
+	}
+	
+	/**
 	 * Eliminamos las filas de la tabla
 	 */
 	public void deleteAllRows(){
