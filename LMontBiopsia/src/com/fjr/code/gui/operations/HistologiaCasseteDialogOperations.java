@@ -2,6 +2,7 @@ package com.fjr.code.gui.operations;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 import com.fjr.code.gui.CustomHistologiaPrintDialog;
 import com.fjr.code.gui.HistologiaCasseteDialog;
@@ -52,7 +53,11 @@ public class HistologiaCasseteDialogOperations implements ActionListener{
 			
 			ventana.dispose();
 		} else if(ACTION_COMMAND_BTN_PRINT_LABEL.equals(e.getActionCommand())){
-			new CustomHistologiaPrintDialog(codigoBiopsia, cassete, bloques, maxLaminas);
+			Vector<Object> rowData = ventana.getRelatedTable().getRowData(ventana.getRowOrigin());
+			new CustomHistologiaPrintDialog((String) rowData.get(5),
+					Integer.parseInt(((String) rowData.get(1)).replaceAll("C", "")),
+					Integer.parseInt(ventana.getcBoxNumBloques().getSelectedItem().toString()),
+					Integer.parseInt(ventana.getcBoxNumLaminas().getSelectedItem().toString())).setVisible(true);
 		}
 	}
 }

@@ -19,7 +19,8 @@ public enum FasesBiopsia {
 	CONFIRMAR_IHQ(7, "Confirmar IHQ", "biopsias_ihq"),
 	ENTREGADA_A_PACIENTE(8, "Entregada A Paciente", "biopsias_ingresos"),
 	RECHAZADA_IHQ(9, "Rechazada Peticion IHQ", "biopsias_ihq"),
-	INFORME_IMPRESO(10, "Informe ya Impreso", "");
+	INFORME_IMPRESO(10, "Informe ya Impreso", ""),
+	MATERIAL_ENTREGADO(11, "Material Entregado a Paciente", "");
 	
 	private int codigoFase;
 	private String nombreFase;

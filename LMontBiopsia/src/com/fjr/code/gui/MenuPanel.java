@@ -159,6 +159,21 @@ public class MenuPanel extends JPanel {
 	private void setItemsMenu(JMenuBar menuBar, boolean isLogged, String user){
 		if(isLogged){
 			//valido los permisos del usuario para saber a que menus tiene acceso
+			JMenu menuEntrega = new JMenu("Entregas");
+			menuEntrega.setHorizontalAlignment(SwingConstants.LEFT);
+			
+			JMenuItem mntmEntrega = new JMenuItem("Entregar");
+			mntmEntrega.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					//debemos mostrar el panel de recepcion
+					IngresoPanel panel = new IngresoPanel(true);
+					AppWindow.getInstance().setPanelContenido(panel, (FasesBiopsia) null);
+					AppWindow.getInstance().setExtraTitle("Recepci\u00F3n");
+					panel.setFocusAtDefaultElement();
+				}
+			});
+			menuEntrega.add(mntmEntrega);
+			
 			JMenu menuRecepcion = new JMenu("Recepci\u00F3n");
 			menuRecepcion.setHorizontalAlignment(SwingConstants.LEFT);
 			
@@ -251,6 +266,7 @@ public class MenuPanel extends JPanel {
 			menuIHQ.add(mntmIHQ);
 			
 			//agregamos los menus principales
+			menuBar.add(menuEntrega);
 			menuBar.add(menuRecepcion);
 			menuBar.add(menuMacroscopica);
 			menuBar.add(menuHistologia);
