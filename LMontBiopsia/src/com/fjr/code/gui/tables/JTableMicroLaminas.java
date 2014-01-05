@@ -196,10 +196,10 @@ public class JTableMicroLaminas {
 	 */
 	public void updateRow(int row, String descripcion, String reactivos, String idsReactivo, String pathToPictures){
 		if(row > -1){
-			model.setValueAt(descripcion, row, 3);
-			model.setValueAt(reactivos, row, 4);
-			model.setValueAt(idsReactivo, row, 5);
-			model.setValueAt(pathToPictures, row, 6);
+			model.setValueAt(descripcion, row, 4);
+			model.setValueAt(reactivos, row, 5);
+			model.setValueAt(idsReactivo, row, 6);
+			model.setValueAt(pathToPictures, row, 7);
 		}
 	}
 	

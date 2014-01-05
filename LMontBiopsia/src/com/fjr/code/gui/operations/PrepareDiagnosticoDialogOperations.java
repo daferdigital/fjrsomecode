@@ -5,12 +5,16 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
+import org.apache.log4j.Logger;
+
 import com.fjr.code.dao.BiopsiaFotosMacroDAO;
 import com.fjr.code.dao.BiopsiaInfoDAO;
 import com.fjr.code.dao.definitions.FasesBiopsia;
+import com.fjr.code.dao.definitions.TipoEstudioEnum;
 import com.fjr.code.dto.BiopsiaInfoDTO;
 import com.fjr.code.gui.DiagnosticoWizardDialog;
 import com.fjr.code.gui.PrepareDiagnosticoDialog;
+import com.fjr.code.pdf.BiopsiaDiagnosticoCISH;
 
 /**
  * 
@@ -22,6 +26,8 @@ import com.fjr.code.gui.PrepareDiagnosticoDialog;
  *
  */
 public class PrepareDiagnosticoDialogOperations implements ActionListener{
+	public static final Logger log = Logger.getLogger(PrepareDiagnosticoDialogOperations.class);
+	
 	public static final String ACTION_COMMAND_BTN_VISUALIZAR = "btnVisualizar";
 	public static final String ACTION_COMMAND_BTN_MARCAR_COMO_IMPRESO = "btnMarkAsPrint";
 	public static final String ACTION_COMMAND_BTN_CANCELAR = "btnCancelar";
@@ -46,12 +52,35 @@ public class PrepareDiagnosticoDialogOperations implements ActionListener{
 		} else if (ACTION_COMMAND_BTN_VISUALIZAR.equals(e.getActionCommand())) {
 			BiopsiaInfoDTO biopsia = BiopsiaInfoDAO.getBiopsiaByNumero(
 					ventana.getCodigoBiopsia());
-			BiopsiaFotosMacroDAO.setMacroFotos(biopsia);
 			
-			DiagnosticoWizardDialog wizard = new DiagnosticoWizardDialog(biopsia,
-					ventana.getcBoxFirmante1().getSelectedItem().toString(),
-					ventana.getcBoxFirmante2().getSelectedItem().toString());
-			wizard.setVisible(true);
+			//vemos si es CISH o no
+			log.info(biopsia.getIdTipoEstudio());
+			if(biopsia.getIdTipoEstudio() == TipoEstudioEnum.CISH.getId()){
+				log.info("La biopsia '" + biopsia.getCodigo() + "' SI es del tipo CISH");
+				BiopsiaDiagnosticoCISH diagnostico = new BiopsiaDiagnosticoCISH(
+						biopsia,
+						ventana.getcBoxFirmante1().getSelectedItem().toString(),
+						ventana.getcBoxFirmante2().getSelectedItem().toString());
+				diagnostico.buildDiagnostico();
+				
+				try {
+					diagnostico.open();
+				} catch (Throwable e1) {
+					// TODO: handle exception
+					JOptionPane.showMessageDialog(null, e1.getLocalizedMessage(), 
+							"Error abriendo diagnostico", 
+							JOptionPane.ERROR_MESSAGE);
+					e1.printStackTrace();
+				}
+			} else {
+				log.info("La biopsia '" + biopsia.getCodigo() + "' NO es del tipo CISH");
+				BiopsiaFotosMacroDAO.setMacroFotos(biopsia);
+				
+				DiagnosticoWizardDialog wizard = new DiagnosticoWizardDialog(biopsia,
+						ventana.getcBoxFirmante1().getSelectedItem().toString(),
+						ventana.getcBoxFirmante2().getSelectedItem().toString());
+				wizard.setVisible(true);
+			}
 			
 			ventana.getBtnVisualizar().setVisible(false);
 			ventana.getBtnMarkAsPrint().setVisible(true);

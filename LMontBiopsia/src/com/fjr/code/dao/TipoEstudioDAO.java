@@ -98,7 +98,6 @@ public final class TipoEstudioDAO {
 			}
 		}
 		
-		//verificamos las fechas desde y hasta
 		return builder.getResults();
 	}
 	

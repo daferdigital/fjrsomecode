@@ -8,8 +8,10 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 
 import com.fjr.code.dao.definitions.FasesBiopsia;
+import com.fjr.code.gui.maestros.BusquedaCategoriaReactivoPanel;
 import com.fjr.code.gui.maestros.BusquedaEspecialidadPanel;
 import com.fjr.code.gui.maestros.BusquedaExamenesPanel;
+import com.fjr.code.gui.maestros.BusquedaReactivoPanel;
 import com.fjr.code.gui.maestros.BusquedaTipoEstudioPanel;
 import com.fjr.code.util.Constants;
 
@@ -116,6 +118,30 @@ public class MenuPanel extends JPanel {
 			}
 		});
 		menuMaestros.add(mntmNewMenuItem);
+		
+		JMenuItem mntmCategoriaReactivos = new JMenuItem("Categoria Reactivos");
+		mntmCategoriaReactivos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JPanel panel = new BusquedaCategoriaReactivoPanel();
+				panel.setVisible(true);
+				AppWindow.getInstance().setExtraTitle("Maestro Categoria Reactivos");
+				AppWindow.getInstance().setPanelContenido(panel, 
+						(JTable) null);
+			}
+		});
+		menuMaestros.add(mntmCategoriaReactivos);
+		
+		JMenuItem mntmReactivos = new JMenuItem("Reactivos");
+		mntmReactivos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JPanel panel = new BusquedaReactivoPanel();
+				panel.setVisible(true);
+				AppWindow.getInstance().setExtraTitle("Maestro Reactivos");
+				AppWindow.getInstance().setPanelContenido(panel, 
+						(JTable) null);
+			}
+		});
+		menuMaestros.add(mntmReactivos);
 		
 		JMenuItem mntmUsuarios = new JMenuItem("Usuarios");
 		menuMaestros.add(mntmUsuarios);

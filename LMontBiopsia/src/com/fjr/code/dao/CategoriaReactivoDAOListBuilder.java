@@ -33,7 +33,6 @@ final class CategoriaReactivoDAOListBuilder implements DAOListBuilder<CategoriaR
 	
 	private static final String END = " ORDER BY cr.nombre";
 
-
 	private List<Object> parameters;
 	private String customWhere;
 	
@@ -53,6 +52,15 @@ final class CategoriaReactivoDAOListBuilder implements DAOListBuilder<CategoriaR
 	public void searchById(int id){
 		customWhere += " AND cr.id = ?";
 		parameters.add(id);
+	}
+	
+	/**
+	 * 
+	 * @param nombre
+	 */
+	public void searchByLikeNombre(String nombre){
+		customWhere += " AND LOWER(cr.nombre) LIKE (?)";
+		parameters.add("%" + nombre.toLowerCase() + "%");
 	}
 	
 	/**

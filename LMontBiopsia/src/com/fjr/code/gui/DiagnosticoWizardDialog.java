@@ -65,6 +65,10 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 
 	/**
 	 * Create the dialog.
+	 * 
+	 * @param biopsia
+	 * @param firmante1
+	 * @param firmante2
 	 */
 	public DiagnosticoWizardDialog(BiopsiaInfoDTO biopsia, String firmante1,
 			String firmante2) {
