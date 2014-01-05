@@ -157,6 +157,7 @@ public class LoginWindow extends JDialog implements KeyListener {
 			if (e.getKeyCode() == 10) {
 				e.consume();
 				ok.requestFocus();
+				ok.doClick();
 				//validar();
 			}
 		} else if(obj instanceof JTextField) {

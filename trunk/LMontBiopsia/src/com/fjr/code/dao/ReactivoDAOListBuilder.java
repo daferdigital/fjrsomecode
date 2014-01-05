@@ -68,6 +68,33 @@ final class ReactivoDAOListBuilder implements DAOListBuilder<ReactivoDTO>{
 	
 	/**
 	 * 
+	 * @param nombre
+	 */
+	public void searchByLikeNombre(String nombre){
+		customWhere += " AND LOWER(r.nombre) LIKE (?)";
+		parameters.add("%" + nombre.toLowerCase() + "%");
+	}
+	
+	/**
+	 * 
+	 * @param categoriaNombre
+	 */
+	public void searchByLikeCategoriaNombre(String categoriaNombre){
+		customWhere += " AND LOWER(cr.nombre) LIKE (?)";
+		parameters.add("%" + categoriaNombre.toLowerCase() + "%");
+	}
+	
+	/**
+	 * 
+	 * @param abreviatura
+	 */
+	public void searchByLikeAbreviatura(String abreviatura){
+		customWhere += " AND LOWER(r.abreviatura) LIKE (?)";
+		parameters.add("%" + abreviatura.toLowerCase() + "%");
+	}
+	
+	/**
+	 * 
 	 * @return
 	 */
 	public String getQuery(){

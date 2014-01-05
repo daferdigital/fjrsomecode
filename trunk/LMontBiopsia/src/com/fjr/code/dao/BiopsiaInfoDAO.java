@@ -708,6 +708,7 @@ public class BiopsiaInfoDAO {
 						parameters.add(lamina.getCassete());
 						parameters.add(lamina.getBloque());
 						parameters.add(lamina.getLamina());
+						parameters.add(false);
 						
 						if(!DBUtil.executeNonSelectQuery(queryInsertLaminasReactivos, parameters)){
 							result = false;
