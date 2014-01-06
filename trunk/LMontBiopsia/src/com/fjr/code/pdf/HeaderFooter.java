@@ -32,6 +32,7 @@ class HeaderFooter extends PdfPageEventHelper {
 	private PDFPageChecker pageChecker;
 	private String nroBiopsia;
 	private int fixedNum = 0;
+	private int startYFooter = 40;
 	
 	/**
 	 * 
@@ -42,6 +43,20 @@ class HeaderFooter extends PdfPageEventHelper {
 		// TODO Auto-generated constructor stub
 		this.nroBiopsia = nroBiopsia;
 		this.pageChecker = pageChecker;
+		this.startYFooter = 40;
+	}
+	
+	/**
+	 * 
+	 * @param nroBiopsia
+	 * @param pageChecker
+	 * @param startYFooter
+	 */
+	public HeaderFooter(String nroBiopsia, PDFPageChecker pageChecker, int startYFooter) {
+		// TODO Auto-generated constructor stub
+		this.nroBiopsia = nroBiopsia;
+		this.pageChecker = pageChecker;
+		this.startYFooter = startYFooter;
 	}
 	
 	@Override
@@ -160,21 +175,21 @@ class HeaderFooter extends PdfPageEventHelper {
                 new Phrase("INSTITUTO DE CLINICAS Y UROLOGIA TAMANACO", 
                 		new Font(FuenteInformeUtil.getInformeFontNormal().getBaseFont(), 8)),
                 document.getPageSize().getWidth() / 2, 
-                40,
+                startYFooter,
                 0);
         ColumnText.showTextAligned(writer.getDirectContent(),
                 Element.ALIGN_CENTER, 
                 new Phrase("Calle Chivacoa. Sector San Román. Las Mercedes. Telfs. 999 0542 - 999 0543 - 991 8923", 
                 		new Font(FuenteInformeUtil.getInformeFontNormal().getBaseFont(), 8)),
                 document.getPageSize().getWidth() / 2, 
-                30,
+                startYFooter - 10,
                 0);
         ColumnText.showTextAligned(writer.getDirectContent(),
                 Element.ALIGN_CENTER, 
                 new Phrase("Caracas. RIF: J-31245344-3", 
                 		new Font(FuenteInformeUtil.getInformeFontNormal().getBaseFont(), 8)),
                 document.getPageSize().getWidth() / 2, 
-                20,
+                startYFooter - 20,
                 0);
     }
 }

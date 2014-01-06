@@ -128,6 +128,7 @@ public class BusquedaReactivoPanel extends JPanel implements ActionListener{
 			Map<CriterioBusquedaReactivo, String> valores = new HashMap<CriterioBusquedaReactivo, String>();
 			valores.put((CriterioBusquedaReactivo) comboBox1.getSelectedItem(), txtValor1.getText());
 			valores.put((CriterioBusquedaReactivo) comboBox2.getSelectedItem(), txtValor2.getText());
+			valores.put(CriterioBusquedaReactivo.ACTIVO, "");
 			
 			List<ReactivoDTO> results = ReactivoDAO.searchAllByCriteria(valores);
 			

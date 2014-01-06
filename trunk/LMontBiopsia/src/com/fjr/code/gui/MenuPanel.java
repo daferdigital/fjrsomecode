@@ -162,6 +162,17 @@ public class MenuPanel extends JPanel {
 		});
 		menuBusquedas.add(mntmBiopsias);
 		
+		JMenuItem mntmAuditoria = new JMenuItem("Auditoria");
+		mntmAuditoria.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JPanel panel = new AuditoriaBiopsiaPanel();
+				panel.setVisible(true);
+				AppWindow.getInstance().setExtraTitle("Auditoria");
+				AppWindow.getInstance().setPanelContenido(panel, 
+						(JTable) null);
+			}
+		});
+		menuBusquedas.add(mntmAuditoria);
 		
 		JMenu menuAyuda = new JMenu("Ayuda");
 		menuBar.add(menuAyuda);
@@ -188,17 +199,27 @@ public class MenuPanel extends JPanel {
 			JMenu menuEntrega = new JMenu("Entregas");
 			menuEntrega.setHorizontalAlignment(SwingConstants.LEFT);
 			
-			JMenuItem mntmEntrega = new JMenuItem("Entregar");
+			JMenuItem mntmEntrega = new JMenuItem("De Informes");
 			mntmEntrega.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					//debemos mostrar el panel de recepcion
-					IngresoPanel panel = new IngresoPanel(true);
-					AppWindow.getInstance().setPanelContenido(panel, (FasesBiopsia) null);
-					AppWindow.getInstance().setExtraTitle("Recepci\u00F3n");
-					panel.setFocusAtDefaultElement();
+					EntregaBiopsiaPanel panel = new EntregaBiopsiaPanel(false);
+					AppWindow.getInstance().setPanelContenido(panel, (JTable) null);
+					AppWindow.getInstance().setExtraTitle("Entrega de Informes");
 				}
 			});
 			menuEntrega.add(mntmEntrega);
+			
+			JMenuItem mntmEntregaMaterial = new JMenuItem("De Material");
+			mntmEntregaMaterial.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					//debemos mostrar el panel de recepcion
+					EntregaBiopsiaPanel panel = new EntregaBiopsiaPanel(true);
+					AppWindow.getInstance().setPanelContenido(panel, (JTable) null);
+					AppWindow.getInstance().setExtraTitle("Entrega de Material");
+				}
+			});
+			menuEntrega.add(mntmEntregaMaterial);
 			
 			JMenu menuRecepcion = new JMenu("Recepci\u00F3n");
 			menuRecepcion.setHorizontalAlignment(SwingConstants.LEFT);

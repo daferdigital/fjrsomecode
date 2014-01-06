@@ -125,6 +125,13 @@ public class ReactivoDialog extends JDialog {
 				cancelButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
 				cancelButton.setActionCommand(ReactivoDialogOperations.ACTION_COMMAND_BTN_CANCELAR);
 				cancelButton.addActionListener(listener);
+				
+				JButton btnEliminar = new JButton("Eliminar");
+				btnEliminar.setFont(new Font("Tahoma", Font.PLAIN, 12));
+				btnEliminar.addActionListener(listener);
+				btnEliminar.setActionCommand(ReactivoDialogOperations.ACTION_COMMAND_BTN_ELIMINAR);
+				
+				buttonPane.add(btnEliminar);
 				buttonPane.add(cancelButton);
 			}
 		}

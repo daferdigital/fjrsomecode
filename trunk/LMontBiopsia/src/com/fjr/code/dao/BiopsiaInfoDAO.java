@@ -7,6 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.sql.rowset.CachedRowSet;
+
 import org.apache.log4j.Logger;
 
 import com.fjr.code.dao.definitions.CriterioBusquedaBiopsia;
@@ -891,11 +893,71 @@ public class BiopsiaInfoDAO {
 				builder.searchByFechaDesde(valores.get(criterio));
 			} else if(CriterioBusquedaBiopsia.FECHA_HASTA.equals(criterio)){
 				builder.searchByFechaHasta(valores.get(criterio));
+			} else if(CriterioBusquedaBiopsia.FASES_DE_ENTREGA.equals(criterio)){
+				builder.searchByFasesDeEntrega();
 			}
 		}
 		
 		//verificamos las fechas desde y hasta
 		builder.setOrberByRegistro();
 		return builder.getResults();
+	}
+	
+	/**
+	 * 
+	 * @param idBiopsia
+	 * @return
+	 */
+	public static int getNumBloques(int idBiopsia){
+		int numBloques = 0;
+		final String query = "SELECT MAX(bloque)"
+				+ " FROM micro_laminas"
+				+ " WHERE id = ?"
+				+ " GROUP BY id, cassete";
+		
+		try {
+			List<Object> queryParameters = new LinkedList<Object>();
+			queryParameters.add(idBiopsia);
+			
+			CachedRowSet rows = DBUtil.executeSelectQuery(query, queryParameters);
+			while (rows.next()) {
+				numBloques += rows.getInt(1);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			log.error("Error: " + e.getLocalizedMessage(), e);
+		}
+		
+		log.info("Se tienen " + numBloques + " bloques para la biopsia " + idBiopsia);
+		return numBloques;
+	}
+	
+	/**
+	 * 
+	 * @param idBiopsia
+	 * @return
+	 */
+	public static int getNumLaminas(int idBiopsia){
+		int numLaminas = 0;
+		final String query = "SELECT COUNT(lamina)"
+				+ " FROM micro_laminas"
+				+ " WHERE id = ?"
+				+ " GROUP BY id";
+		
+		try {
+			List<Object> queryParameters = new LinkedList<Object>();
+			queryParameters.add(idBiopsia);
+			
+			CachedRowSet rows = DBUtil.executeSelectQuery(query, queryParameters);
+			while (rows.next()) {
+				numLaminas += rows.getInt(1);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			log.error("Error: " + e.getLocalizedMessage(), e);
+		}
+		
+		log.info("Se tienen " + numLaminas + " laminas para la biopsia " + idBiopsia);
+		return numLaminas;
 	}
 }

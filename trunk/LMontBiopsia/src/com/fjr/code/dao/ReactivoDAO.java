@@ -103,6 +103,8 @@ public final class ReactivoDAO {
 					builder.searchByLikeAbreviatura(valores.get(criterio));
 				} else if(CriterioBusquedaReactivo.CATEGORIA.equals(criterio)){
 					builder.searchByLikeCategoriaNombre(valores.get(criterio));
+				} else if(CriterioBusquedaReactivo.ACTIVO.equals(criterio)){
+					builder.searchByActive(true);
 				}
 			}
 		}

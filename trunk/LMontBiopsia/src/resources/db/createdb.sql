@@ -649,3 +649,5 @@ DROP INDEX `UQ_CODIGO_BIOPSIA`
 , ADD UNIQUE INDEX `UQ_CODIGO_BIOPSIA` (`side1_code_biopsia` ASC, `side2_code_biopsia` ASC, `id_tipo_estudio` ASC) ;
 
 
+ALTER TABLE `lmont_biopsia`.`reactivos` ADD COLUMN `activo` CHAR(1) NOT NULL DEFAULT '1'  AFTER `id_categoria_reactivo` ;
+
