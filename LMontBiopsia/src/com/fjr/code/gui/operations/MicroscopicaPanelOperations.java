@@ -15,6 +15,7 @@ import com.fjr.code.dao.BiopsiaCassetesMacroDAO;
 import com.fjr.code.dao.BiopsiaInfoDAO;
 import com.fjr.code.dao.BiopsiaMicroLaminasDAO;
 import com.fjr.code.dao.definitions.FasesBiopsia;
+import com.fjr.code.dao.definitions.TipoEstudioEnum;
 import com.fjr.code.dto.BiopsiaInfoDTO;
 import com.fjr.code.dto.BiopsiaMicroLaminasDTO;
 import com.fjr.code.dto.BiopsiaMicroLaminasFileDTO;
@@ -391,20 +392,40 @@ public class MicroscopicaPanelOperations implements KeyListener, ActionListener{
 				}
 			} else if(goToIHQ){
 				//tenemos todo para solicitar la confirmacion de IHQ
-				if(BiopsiaInfoDAO.moveBiopsiaToFase(biopsiaInfoDTO, FasesBiopsia.CONFIRMAR_IHQ)){
-					JOptionPane.showMessageDialog(ventana, 
-							"La biopsia " + biopsiaInfoDTO.getCodigo() + " fue actualizada correctamente.\n"
-							+ "Y se esta esperando la aprobación para la petición de IHQ de la misma",
-							"Operación Realizada", 
-							JOptionPane.INFORMATION_MESSAGE);
-					//ventana.setVisible(false);
-					loadVentanaFromBiopsiaDTO(null);
+				//vemos el tipo de examen de esta biopsia
+				//para saber si va directo a IHQ o no
+				if(biopsiaInfoDTO.getIdTipoEstudio() == TipoEstudioEnum.CISH.getId()){
+					if(BiopsiaInfoDAO.moveBiopsiaToFase(biopsiaInfoDTO, FasesBiopsia.IHQ)){
+						JOptionPane.showMessageDialog(ventana, 
+								"La biopsia " + biopsiaInfoDTO.getCodigo() + " fue actualizada correctamente.\n"
+								+ "Y llevada directamente a la fase de IHQ",
+								"Operación Realizada", 
+								JOptionPane.INFORMATION_MESSAGE);
+						//ventana.setVisible(false);
+						loadVentanaFromBiopsiaDTO(null);
+					} else {
+						//tenemos el objeto, pero se desea pasar a info sin fotos ni cassetes
+						JOptionPane.showMessageDialog(ventana, 
+								"No pudo llevarse la biopsia a la fase de IHQ.",
+								"Actualización Incompleta", 
+								JOptionPane.ERROR_MESSAGE);
+					}
 				} else {
-					//tenemos el objeto, pero se desea pasar a info sin fotos ni cassetes
-					JOptionPane.showMessageDialog(ventana, 
-							"No pudo llevarse la biopsia a la fase de IHQ.",
-							"Actualización Incompleta", 
-							JOptionPane.ERROR_MESSAGE);
+					if(BiopsiaInfoDAO.moveBiopsiaToFase(biopsiaInfoDTO, FasesBiopsia.CONFIRMAR_IHQ)){
+						JOptionPane.showMessageDialog(ventana, 
+								"La biopsia " + biopsiaInfoDTO.getCodigo() + " fue actualizada correctamente.\n"
+								+ "Y se esta esperando la aprobación para la petición de IHQ de la misma",
+								"Operación Realizada", 
+								JOptionPane.INFORMATION_MESSAGE);
+						//ventana.setVisible(false);
+						loadVentanaFromBiopsiaDTO(null);
+					} else {
+						//tenemos el objeto, pero se desea pasar a info sin fotos ni cassetes
+						JOptionPane.showMessageDialog(ventana, 
+								"No pudo llevarse la biopsia a la fase de IHQ.",
+								"Actualización Incompleta", 
+								JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			} else {
 				JOptionPane.showMessageDialog(ventana, 

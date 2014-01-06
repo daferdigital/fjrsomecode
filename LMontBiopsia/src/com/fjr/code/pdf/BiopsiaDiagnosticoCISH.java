@@ -332,36 +332,36 @@ public class BiopsiaDiagnosticoCISH implements PDFPageChecker {
 		
 		Phrase pr = new Phrase();
 		pr.add(new Chunk("Información complementaria:", 
-				new Font(informeFontBold.getBaseFont(), 10F, Font.UNDERLINE)));
+				new Font(informeFontBold.getBaseFont(), 8F, Font.UNDERLINE)));
 		pr.add(new Chunk(" La investigación de CISH incluye 4 sondas.", 
-				new Font(informeFontNormal.getBaseFont(), 10F)));
+				new Font(informeFontNormal.getBaseFont(), 8F)));
 		pr.add(chunkEnter);
 		pr.add(chunkEnter);
 		
 		pr.add(tab1);
 		pr.add(new Chunk("1.- Sonda de amplio espectro que permite la identificación de cepas de alto, medio y", 
-				new Font(informeFontNormal.getBaseFont(), 10F)));
+				new Font(informeFontNormal.getBaseFont(), 8F)));
 		pr.add(chunkEnter);
 		
 		pr.add(tab1);
 		pr.add(new Chunk("    bajo riesgo; 6, 11, 16, 18, 31,33, 45, 51 y 52.", 
-				new Font(informeFontNormal.getBaseFont(), 10F)));
+				new Font(informeFontNormal.getBaseFont(), 8F)));
 		pr.add(chunkEnter);
 		
 		
 		pr.add(tab1);
 		pr.add(new Chunk("2.- Sonda para identificar cepas de alto riesgo: 16, 18.", 
-				new Font(informeFontNormal.getBaseFont(), 10F)));
+				new Font(informeFontNormal.getBaseFont(), 8F)));
 		pr.add(chunkEnter);
 		
 		pr.add(tab1);
 		pr.add(new Chunk("3.- Sonda para identificar cepas de medio riesgo: 31/ 33.", 
-				new Font(informeFontNormal.getBaseFont(), 10F)));
+				new Font(informeFontNormal.getBaseFont(), 8F)));
 		pr.add(chunkEnter);
 		
 		pr.add(tab1);
 		pr.add(new Chunk("4.- Sonda para identificar cepas de bajo riesgo: 6/ 11.", 
-				new Font(informeFontNormal.getBaseFont(), 10F)));
+				new Font(informeFontNormal.getBaseFont(), 8F)));
 		
 		table.addCell(new PdfPCell(pr));
 		//document.add(table);
@@ -400,7 +400,7 @@ public class BiopsiaDiagnosticoCISH implements PDFPageChecker {
 		
 		ColumnText.showTextAligned(writer.getDirectContent(),
                 Element.ALIGN_CENTER, 
-                new Phrase(firmante1, new Font(FuenteInformeUtil.getInformeFontNormal().getBaseFont(), 12)),
+                new Phrase(firmante1, new Font(FuenteInformeUtil.getInformeFontNormal().getBaseFont(), 10)),
                 factor, 
                 maxSignYPosition,
                 0);
@@ -408,7 +408,7 @@ public class BiopsiaDiagnosticoCISH implements PDFPageChecker {
 		if(cantidadFirmates == 2){
 			ColumnText.showTextAligned(writer.getDirectContent(),
 	                Element.ALIGN_CENTER, 
-	                new Phrase(firmante2, new Font(FuenteInformeUtil.getInformeFontNormal().getBaseFont(), 12)),
+	                new Phrase(firmante2, new Font(FuenteInformeUtil.getInformeFontNormal().getBaseFont(), 10)),
 	                factor * 3, 
 	                maxSignYPosition,
 	                0);

@@ -229,6 +229,13 @@ class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO> {
 		parameters.add(fechaHasta);
 	}
 	
+	public void searchByFasesDeEntrega(){
+		customWhere += " AND b.id_fase_actual IN(?,?,?)";
+		parameters.add(FasesBiopsia.ENTREGADA_A_PACIENTE.getCodigoFase());
+		parameters.add(FasesBiopsia.INFORME_IMPRESO.getCodigoFase());
+		parameters.add(FasesBiopsia.MATERIAL_ENTREGADO.getCodigoFase());
+	}
+	
 	/**
 	 * 
 	 * @param nroBiopsia

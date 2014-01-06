@@ -19,8 +19,10 @@ import org.apache.log4j.Logger;
 import com.fjr.code.barcode.BarCodeIngreso;
 import com.fjr.code.dao.BiopsiaInfoDAO;
 import com.fjr.code.dao.ClienteDAO;
+import com.fjr.code.dao.EspecialidadDAO;
 import com.fjr.code.dao.ExamenesDAO;
 import com.fjr.code.dao.PatologoDAO;
+import com.fjr.code.dao.TipoEstudioDAO;
 import com.fjr.code.dao.definitions.FasesBiopsia;
 import com.fjr.code.dto.BiopsiaInfoDTO;
 import com.fjr.code.dto.BiopsiaIngresoDTO;
@@ -340,10 +342,16 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 			}
 		} else if(ACTION_COMMAND_BTN_ADD_TIPO_ESTUDIO.equals(e.getActionCommand())){
 			new TipoEstudioDialog(-1).setVisible(true);
+			ventana.getComboTipoEstudio().removeAllItems();
+			TipoEstudioDAO.populateJCombo(ventana.getComboTipoEstudio());
 		} else if(ACTION_COMMAND_BTN_ADD_ESPECIALIDAD.equals(e.getActionCommand())){
 			new EspecialidadDialog(-1).setVisible(true);
+			ventana.getComboEspecialidad().removeAllItems();
+			EspecialidadDAO.populateJCombo(ventana.getComboEspecialidad(), true);
 		} else if(ACTION_COMMAND_BTN_ADD_EXAMEN.equals(e.getActionCommand())){
 			new ExamenDialog(-1).setVisible(true);
+			ventana.getComboExamen().removeAllItems();
+			ExamenesDAO.populateJCombo(ventana.getComboExamen());
 		}
 	}
 

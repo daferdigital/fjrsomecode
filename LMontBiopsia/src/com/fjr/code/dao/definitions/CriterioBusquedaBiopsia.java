@@ -24,7 +24,8 @@ public enum CriterioBusquedaBiopsia {
 	TIPO_DE_ESTUDIO("Tipo de Estudio"),
 	//estos criterios no deben salir en el combo
 	FECHA_DESDE("Tipo de Estudio", false),
-	FECHA_HASTA("Tipo de Estudio", false);
+	FECHA_HASTA("Tipo de Estudio", false),
+	FASES_DE_ENTREGA("Fases de Entrega", false);
 	
 	private String textoDelCombo;
 	private boolean showInCombo;

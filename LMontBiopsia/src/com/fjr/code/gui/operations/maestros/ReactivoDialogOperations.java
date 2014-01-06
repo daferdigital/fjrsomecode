@@ -2,11 +2,14 @@ package com.fjr.code.gui.operations.maestros;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JOptionPane;
 
 import com.fjr.code.dao.ReactivoDAO;
+import com.fjr.code.dao.definitions.CriterioBusquedaReactivo;
 import com.fjr.code.dto.CategoriaReactivoDTO;
 import com.fjr.code.dto.ReactivoDTO;
 import com.fjr.code.gui.AppWindow;
@@ -140,7 +143,10 @@ public class ReactivoDialogOperations implements ActionListener{
 			ventana.dispose();
 		}
 		
-		List<ReactivoDTO> results = ReactivoDAO.searchAllByCriteria(null);
+		Map<CriterioBusquedaReactivo, String> valores = new HashMap<CriterioBusquedaReactivo, String>();
+		valores.put(CriterioBusquedaReactivo.ACTIVO, "");
+		
+		List<ReactivoDTO> results = ReactivoDAO.searchAllByCriteria(valores);
 		if(results != null){
 			AppWindow.getInstance().setPanelContenido(null, 
 					JTableReactivo.getNewInstance(results).getJTable());

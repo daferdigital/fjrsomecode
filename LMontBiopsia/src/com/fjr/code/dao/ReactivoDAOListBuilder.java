@@ -95,6 +95,15 @@ final class ReactivoDAOListBuilder implements DAOListBuilder<ReactivoDTO>{
 	
 	/**
 	 * 
+	 * @param active
+	 */
+	public void searchByActive(boolean activo){
+		customWhere += " AND r.activo = ?";
+		parameters.add(activo);
+	}
+	
+	/**
+	 * 
 	 * @return
 	 */
 	public String getQuery(){
