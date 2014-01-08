@@ -76,6 +76,24 @@ final class UsuarioDAOListBuilder implements DAOListBuilder<UsuarioDTO>{
 	
 	/**
 	 * 
+	 * @param nombre
+	 */
+	public void searchByLikeNombre(String nombre){
+		customWhere += " AND LOWER(u.nombre) LIKE (?)";
+		parameters.add("%" + nombre.toLowerCase() + "%");
+	}
+	
+	/**
+	 * 
+	 * @param activo
+	 */
+	public void searchByActivo(boolean activo){
+		customWhere += " AND u.activo = ?";
+		parameters.add(activo ? "1" : "0");
+	}
+	
+	/**
+	 * 
 	 * @return
 	 */
 	public String getQuery(){
@@ -108,6 +126,8 @@ final class UsuarioDAOListBuilder implements DAOListBuilder<UsuarioDTO>{
 				usuario.setActivo(rowSet.getBoolean(3));
 				usuario.setLogin(rowSet.getString(4));
 				usuario.setClave(rowSet.getString(5));
+				usuario.setPermisos(new PermisosUsuarioDAOListBuilder(rowSet.getInt(1)).getResults());
+				
 				if(addPwdInfo){
 					log.info("El objeto del MD5 propio fue retornado como " + rowSet.getObject(6).getClass().getName());
 					if(rowSet.getObject(6) instanceof String){

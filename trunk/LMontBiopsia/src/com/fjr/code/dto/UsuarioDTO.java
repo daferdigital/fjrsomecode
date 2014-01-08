@@ -1,5 +1,7 @@
 package com.fjr.code.dto;
 
+import java.util.List;
+
 /**
  * 
  * Class: UsuarioDTO
@@ -16,6 +18,7 @@ public class UsuarioDTO {
 	private String nombre;
 	private boolean activo;
 	private String claveEscrita;
+	private List<PermisosUsuarioDTO> permisos;
 	
 	public UsuarioDTO() {
 		// TODO Auto-generated constructor stub
@@ -69,6 +72,14 @@ public class UsuarioDTO {
 		return claveEscrita;
 	}
 
+	public void setPermisos(List<PermisosUsuarioDTO> permisos) {
+		this.permisos = permisos;
+	}
+	
+	public List<PermisosUsuarioDTO> getPermisos() {
+		return permisos;
+	}
+	
 	@Override
 	public String toString() {
 		return "UsuarioDTO [id=" + id + ", login=" + login + ", clave=" + clave

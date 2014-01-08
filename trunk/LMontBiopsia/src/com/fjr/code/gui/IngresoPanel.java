@@ -60,7 +60,9 @@ public class IngresoPanel extends JPanel {
 	private JComboBox comboPatologo;
 	private JTextArea textAreaIDx;
 	private JLabel lblNumeroDias;
+	private JScrollPane scrollPaneDiagnosticos;
 	private JTable tableDiagnosticos;
+	private JScrollPane scrollPaneIHQs;
 	private JTable tableConfirmarIHQ;
 	private JComboBox comboTipoEstudio;
 	
@@ -316,27 +318,27 @@ public class IngresoPanel extends JPanel {
 		lblBiopsiasEntregadasA.setBounds(522, 11, 230, 17);
 		add(lblBiopsiasEntregadasA);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBorder(new LineBorder(new Color(130, 135, 144)));
-		scrollPane.setBounds(546, 40, 425, 180);
-		add(scrollPane);
+		scrollPaneDiagnosticos = new JScrollPane();
+		scrollPaneDiagnosticos.setBorder(new LineBorder(new Color(130, 135, 144)));
+		scrollPaneDiagnosticos.setBounds(546, 40, 425, 180);
+		add(scrollPaneDiagnosticos);
 		
 		tableDiagnosticos = new JTableDiagnosticos().getTable();
-		scrollPane.setViewportView(tableDiagnosticos);
+		scrollPaneDiagnosticos.setViewportView(tableDiagnosticos);
 		
 		JLabel lblBiopsiasEnEspera = new JLabel("Biopsias En Espera de Confirmar IHQ");
 		lblBiopsiasEnEspera.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblBiopsiasEnEspera.setBounds(522, 256, 281, 17);
 		add(lblBiopsiasEnEspera);
 		
-		JScrollPane scrollPane1 = new JScrollPane();
-		scrollPane1.setBorder(new LineBorder(new Color(130, 135, 144)));
-		scrollPane1.setBounds(546, 285, 425, 180);
+		scrollPaneIHQs = new JScrollPane();
+		scrollPaneIHQs.setBorder(new LineBorder(new Color(130, 135, 144)));
+		scrollPaneIHQs.setBounds(546, 285, 425, 180);
 		
 		tableConfirmarIHQ = new JTableIHQSolicitadas().getTable();
-		scrollPane1.setViewportView(tableConfirmarIHQ);
+		scrollPaneIHQs.setViewportView(tableConfirmarIHQ);
 		
-		add(scrollPane1);
+		add(scrollPaneIHQs);
 		
 		textCedula.addKeyListener(listener);
 		if(! isNewBiopsia){
@@ -431,5 +433,20 @@ public class IngresoPanel extends JPanel {
 	
 	public JComboBox getComboTipoEstudio() {
 		return comboTipoEstudio;
+	}
+	
+	public void reloadTables(){
+		tableDiagnosticos = new JTableDiagnosticos().getTable();
+		tableConfirmarIHQ = new JTableIHQSolicitadas().getTable();
+		
+		scrollPaneDiagnosticos.setViewportView(null);
+		scrollPaneDiagnosticos.setVisible(false);
+		scrollPaneDiagnosticos.setViewportView(tableDiagnosticos);
+		scrollPaneDiagnosticos.setVisible(true);
+		
+		scrollPaneIHQs.setViewportView(null);
+		scrollPaneIHQs.setVisible(false);
+		scrollPaneIHQs.setViewportView(tableConfirmarIHQ);
+		scrollPaneIHQs.setVisible(true);
 	}
 }

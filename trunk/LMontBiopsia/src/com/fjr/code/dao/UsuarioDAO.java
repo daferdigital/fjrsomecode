@@ -1,11 +1,13 @@
 package com.fjr.code.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JComboBox;
 
 import org.apache.log4j.Logger;
 
+import com.fjr.code.dao.definitions.CriterioBusquedaUsuario;
 import com.fjr.code.dto.UsuarioDTO;
 
 /**
@@ -115,5 +117,28 @@ public final class UsuarioDAO {
 		}
 		
 		log.info("Agregados elementos al combo-box de los usuarios");
+	}
+	
+	/**
+	 * 
+	 * @param valores
+	 * @return 
+	 */
+	public static List<UsuarioDTO> searchAllByCriteria(
+			Map<CriterioBusquedaUsuario, String> valores) {
+		// TODO Auto-generated method stub
+		UsuarioDAOListBuilder builder = new UsuarioDAOListBuilder();
+		
+		if(valores != null){
+			for (CriterioBusquedaUsuario criterio : valores.keySet()) {
+				if(CriterioBusquedaUsuario.NOMBRE.equals(criterio)
+						|| CriterioBusquedaUsuario.APELLIDO.equals(criterio)){
+					builder.searchByLikeNombre(valores.get(criterio));
+				}
+			}
+		}
+		
+		builder.searchByActivo(true);
+		return builder.getResults();
 	}
 }

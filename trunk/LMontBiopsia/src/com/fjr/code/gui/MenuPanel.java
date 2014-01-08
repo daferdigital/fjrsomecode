@@ -13,11 +13,13 @@ import com.fjr.code.gui.maestros.BusquedaEspecialidadPanel;
 import com.fjr.code.gui.maestros.BusquedaExamenesPanel;
 import com.fjr.code.gui.maestros.BusquedaReactivoPanel;
 import com.fjr.code.gui.maestros.BusquedaTipoEstudioPanel;
+import com.fjr.code.gui.maestros.BusquedaUsuarioPanel;
 import com.fjr.code.util.Constants;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+
 import javax.swing.JSeparator;
 
 /**
@@ -144,7 +146,15 @@ public class MenuPanel extends JPanel {
 		menuMaestros.add(mntmReactivos);
 		
 		JMenuItem mntmUsuarios = new JMenuItem("Usuarios");
-		menuMaestros.add(mntmUsuarios);
+		mntmUsuarios.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JPanel panel = new BusquedaUsuarioPanel();
+				panel.setVisible(true);
+				AppWindow.getInstance().setExtraTitle("Maestro Usuarios");
+				AppWindow.getInstance().setPanelContenido(panel, 
+						(JTable) null);
+			}
+		});menuMaestros.add(mntmUsuarios);
 		
 		JMenu menuBusquedas = new JMenu("Búsquedas");
 		menuBusquedas.setHorizontalAlignment(SwingConstants.LEFT);
