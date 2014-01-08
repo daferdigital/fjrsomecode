@@ -51,7 +51,7 @@ public class AuditoriaBiopsiaPanel extends JPanel implements ActionListener{
 	 */
 	public AuditoriaBiopsiaPanel() {
 		setLayout(null);
-		setSize(1000, 60);
+		setSize(1000, 50);
 		setLocation(0, Constants.APP_MENU_HEIGTH);
 		
 		JButton btnBuscar = new JButton("Buscar");
@@ -120,6 +120,7 @@ public class AuditoriaBiopsiaPanel extends JPanel implements ActionListener{
 		if(ACTION_COMMAND_BUSCAR.equals(e.getActionCommand())){
 			//se deben buscar las biopsias bajo el criterio indicado
 			//y el valor dado
+			
 			Map<CriterioBusquedaBiopsia, String> valores = new HashMap<CriterioBusquedaBiopsia, String>();
 			//verificamos si debemos buscar tambien por fechas
 			if(comboMesDesde.getSelectedIndex() > 0 && !"".equals(textYearDesde.getText())){
@@ -132,7 +133,6 @@ public class AuditoriaBiopsiaPanel extends JPanel implements ActionListener{
 			}
 			
 			List<AuditoriaBiopsiaDTO> results = AuditoriaBiopsiaDAO.searchByDates(valores);
-			
 			if(results == null 
 					|| (results != null && results.size() == 0)){
 				//el listado no trajo resultados

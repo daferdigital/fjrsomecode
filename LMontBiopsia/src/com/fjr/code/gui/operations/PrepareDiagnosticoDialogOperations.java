@@ -12,9 +12,12 @@ import com.fjr.code.dao.BiopsiaInfoDAO;
 import com.fjr.code.dao.definitions.FasesBiopsia;
 import com.fjr.code.dao.definitions.TipoEstudioEnum;
 import com.fjr.code.dto.BiopsiaInfoDTO;
+import com.fjr.code.gui.AppWindow;
 import com.fjr.code.gui.DiagnosticoWizardDialog;
+import com.fjr.code.gui.IngresoPanel;
 import com.fjr.code.gui.PrepareDiagnosticoDialog;
 import com.fjr.code.pdf.BiopsiaDiagnosticoCISH;
+import com.fjr.code.pdf.BiopsiaDiagnosticoCitologia;
 
 /**
  * 
@@ -53,7 +56,7 @@ public class PrepareDiagnosticoDialogOperations implements ActionListener{
 			BiopsiaInfoDTO biopsia = BiopsiaInfoDAO.getBiopsiaByNumero(
 					ventana.getCodigoBiopsia());
 			
-			//vemos si es CISH o no
+			//vemos el tipo de estudio para proceder al armado del informe respectivo
 			log.info(biopsia.getIdTipoEstudio());
 			if(biopsia.getIdTipoEstudio() == TipoEstudioEnum.CISH.getId()){
 				log.info("La biopsia '" + biopsia.getCodigo() + "' SI es del tipo CISH");
@@ -61,9 +64,27 @@ public class PrepareDiagnosticoDialogOperations implements ActionListener{
 						biopsia,
 						ventana.getcBoxFirmante1().getSelectedItem().toString(),
 						ventana.getcBoxFirmante2().getSelectedItem().toString());
-				diagnostico.buildDiagnostico();
 				
 				try {
+					diagnostico.buildDiagnostico();
+					diagnostico.open();
+				} catch (Throwable e1) {
+					// TODO: handle exception
+					JOptionPane.showMessageDialog(null, e1.getLocalizedMessage(), 
+							"Error abriendo diagnostico", 
+							JOptionPane.ERROR_MESSAGE);
+					e1.printStackTrace();
+				}
+			} else if(biopsia.getIdTipoEstudio() == TipoEstudioEnum.CITOLOGIA.getId()){
+				log.info("La biopsia '" + biopsia.getCodigo() + "' es una Citologia");
+				BiopsiaDiagnosticoCitologia diagnostico = new BiopsiaDiagnosticoCitologia(
+						biopsia,
+						ventana.getcBoxFirmante1().getSelectedItem().toString(),
+						ventana.getcBoxFirmante2().getSelectedItem().toString());
+				
+				
+				try {
+					diagnostico.buildDiagnostico();
 					diagnostico.open();
 				} catch (Throwable e1) {
 					// TODO: handle exception
@@ -94,6 +115,16 @@ public class PrepareDiagnosticoDialogOperations implements ActionListener{
 						"La biopsia " + ventana.getCodigoBiopsia() + " fue llevada a la fase de "
 						+ FasesBiopsia.INFORME_IMPRESO.getNombreFase(), 
 						"Operación Realizada", JOptionPane.INFORMATION_MESSAGE);
+				
+				log.info(AppWindow.getInstance().getPanelContenido().getClass().getName());
+				if(AppWindow.getInstance().getPanelContenido() instanceof IngresoPanel){
+					//debemos actualizar la lista de biopsias para impresion
+					//asi se eliminara de ese listado la que acaba de marcarse como impresa
+					 IngresoPanel panel = (IngresoPanel) AppWindow.getInstance().getPanelContenido();
+					 panel.reloadTables();
+				}
+				ventana.setVisible(false);
+				ventana.dispose();
 			} else {
 				JOptionPane.showMessageDialog(ventana, 
 						"La biopsia " + ventana.getCodigoBiopsia() + " no pude ser llevada a la fase de "

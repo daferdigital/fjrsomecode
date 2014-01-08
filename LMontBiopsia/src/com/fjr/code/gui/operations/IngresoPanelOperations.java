@@ -32,6 +32,7 @@ import com.fjr.code.dto.PatologoDTO;
 import com.fjr.code.dto.TipoCedulaDTO;
 import com.fjr.code.dto.EspecialidadDTO;
 import com.fjr.code.dto.TipoEstudioDTO;
+import com.fjr.code.gui.AppWindow;
 import com.fjr.code.gui.ClienteFormDialog;
 import com.fjr.code.gui.IngresoPanel;
 import com.fjr.code.gui.maestros.EspecialidadDialog;
@@ -303,6 +304,12 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 									JOptionPane.ERROR_MESSAGE);
 						}
 					}
+					
+					//refrescamos el panel
+					IngresoPanel panel = new IngresoPanel(true);
+					AppWindow.getInstance().setPanelContenido(panel, (FasesBiopsia) null);
+					AppWindow.getInstance().setExtraTitle("Recepci\u00F3n");
+					panel.setFocusAtDefaultElement();
 				}
 			}
 		} else if(ACTION_COMMAND_BTN_PRINT_LABELS.equals(e.getActionCommand())){

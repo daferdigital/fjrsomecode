@@ -10,14 +10,14 @@ package com.fjr.code.dao.definitions;
  *
  */
 public enum ModulosSistema {
-	INGRESO("ingreso"),
-	MACROSCOPICA("macro"),
-	HISTOLOGIA("histologia"),
-	MICROSCOPICA("micro"),
-	IHQ("ihq"),
-	MAESTROS("maestros"),
-	BUSQUEDA("busqueda"),
-	ENTREGA("entrega");
+	ENTREGA("ENTREGA"),
+	INGRESO("INGRESO"),
+	MACROSCOPICA("MACRO"),
+	HISTOLOGIA("HISTOLOGIA"),
+	MICROSCOPICA("MICRO"),
+	IHQ("IHQ"),
+	MAESTROS("MAESTROS"),
+	BUSQUEDA("BUSQUEDA");
 	
 	private String key;
 	
