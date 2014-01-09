@@ -331,8 +331,7 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 				log.info("Informacion completa para imprimir las etiquetas.");
 				BarCodeIngreso codeIngreso = new BarCodeIngreso(ventana.getTextNroBiopsia().getText(), 
 						ventana.getTextNombrePaciente().getText() + "\n" + ventana.getTextApellido().getText(), 
-						((TipoCedulaDTO) ventana.getComboTipoCedula().getSelectedItem()).getKeyCedula() + ventana.getTextCedula().getText(),
-						getAbreviatura(ventana.getTextNroBiopsia().getText()));
+						((TipoCedulaDTO) ventana.getComboTipoCedula().getSelectedItem()).getKeyCedula() + ventana.getTextCedula().getText());
 				try {
 					codeIngreso.crearEtiquetaIngreso();
 					codeIngreso.printLabelFile();
@@ -604,17 +603,5 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 	public void caretPositionChanged(InputMethodEvent event) {
 		// TODO Auto-generated method stub
 		log.info("inputMethodTextChanged");
-	}
-	
-	private String getAbreviatura(String numeroBiopsia){
-		String abreviatura = ((TipoEstudioDTO) ventana.getComboTipoEstudio().getSelectedItem()).getAbreviatura();
-		
-		try {
-			abreviatura = "-" + numeroBiopsia.split("-")[2]; 
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		
-		return abreviatura;
 	}
 }
