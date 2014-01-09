@@ -17,7 +17,7 @@ public enum ModulosSistema {
 	MICROSCOPICA("MICRO"),
 	IHQ("IHQ"),
 	MAESTROS("MAESTROS"),
-	BUSQUEDA("BUSQUEDA");
+	BUSQUEDA("BUSQUEDAS");
 	
 	private String key;
 	

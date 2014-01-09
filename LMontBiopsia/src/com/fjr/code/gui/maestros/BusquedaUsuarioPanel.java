@@ -12,14 +12,10 @@ import java.util.Map;
 
 import javax.swing.JComboBox;
 
-import com.fjr.code.dao.TipoEstudioDAO;
 import com.fjr.code.dao.UsuarioDAO;
-import com.fjr.code.dao.definitions.CriterioBusquedaTipoEstudio;
 import com.fjr.code.dao.definitions.CriterioBusquedaUsuario;
-import com.fjr.code.dto.TipoEstudioDTO;
 import com.fjr.code.dto.UsuarioDTO;
 import com.fjr.code.gui.AppWindow;
-import com.fjr.code.gui.tables.maestros.JTableTiposDeEstudio;
 import com.fjr.code.gui.tables.maestros.JTableUsuarios;
 import com.fjr.code.util.Constants;
 

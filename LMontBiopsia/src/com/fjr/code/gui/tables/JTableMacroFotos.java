@@ -98,7 +98,7 @@ public class JTableMacroFotos {
 								model.getValueAt(table.getSelectedRow(), 1).toString(),
 								model.getValueAt(table.getSelectedRow(), 2).toString(),
 								table.getSelectedRow(),
-								model.getValueAt(table.getSelectedRow(), 3).toString(),
+								(String) model.getValueAt(table.getSelectedRow(), 3),
 								Boolean.parseBoolean(model.getValueAt(table.getSelectedRow(), 4).toString())).setVisible(true);
 						e.consume();
 					}

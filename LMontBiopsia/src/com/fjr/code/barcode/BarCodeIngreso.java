@@ -48,7 +48,6 @@ public final class BarCodeIngreso extends BarCodePrint {
 	
 	private String nroBiopsia;
 	private String nombrePaciente;
-	private String abreviaturaTipoEstudio;
 	private String cedula;
 	private String labelFileName;
 	private String labelFilePath;
@@ -70,17 +69,15 @@ public final class BarCodeIngreso extends BarCodePrint {
 	 * @param nroBiopsia
 	 * @param nombrePaciente
 	 * @param cedula
-	 * @param abreviaturaTipoEstudio
 	 */
 	public BarCodeIngreso(String nroBiopsia, String nombrePaciente,
-			String cedula, String abreviaturaTipoEstudio) {
+			String cedula) {
 		// TODO Auto-generated constructor stub
 		super(log, PAGE_FORMAT);
 		this.nroBiopsia = nroBiopsia;
 		this.nombrePaciente = nombrePaciente;
 		this.cedula = cedula;
-		this.abreviaturaTipoEstudio = abreviaturaTipoEstudio;
-		this.labelFileName = "ingreso_" + nroBiopsia + abreviaturaTipoEstudio + ".pdf";
+		this.labelFileName = "ingreso_" + nroBiopsia + ".pdf";
 		this.labelFilePath = Constants.LABELS_PATH + File.separator + labelFileName;
 	}
 	
@@ -129,7 +126,7 @@ public final class BarCodeIngreso extends BarCodePrint {
         
         p.add(new Chunk(chunkText, new Font(FontFamily.COURIER, 10F, Font.BOLD)));
         p.add(new Chunk(chunkText1, new Font(FontFamily.COURIER, 8F, Font.BOLD)));
-        p.add(new Chunk(imgFJR, 35F, -10F));
+        p.add(new Chunk(imgFJR, 35F, -15F));
         document.add(p);
         
         //step 5
@@ -154,8 +151,7 @@ public final class BarCodeIngreso extends BarCodePrint {
 	public static void main(String[] args) throws IOException, DocumentException {
 		BarCodeIngreso ingreso = new BarCodeIngreso("13-03467", 
 				"Josefina Carolina\nGonzalez Aristigueta", 
-				"7.958.543",
-				"");
+				"7.958.543");
 		
 		ingreso.crearEtiquetaIngreso();
 		//ingreso.printLabelFile();

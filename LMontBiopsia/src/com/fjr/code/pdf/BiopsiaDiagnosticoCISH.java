@@ -4,8 +4,6 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 import org.apache.log4j.Logger;
 
@@ -13,6 +11,7 @@ import com.fjr.code.dao.BiopsiaInfoDAO;
 import com.fjr.code.dao.BiopsiaMicroLaminasDAO;
 import com.fjr.code.dto.BiopsiaInfoDTO;
 import com.fjr.code.dto.BiopsiaMicroLaminasDTO;
+import com.fjr.code.dto.BiopsiaMicroLaminasFileDTO;
 import com.fjr.code.dto.ReactivoDTO;
 import com.fjr.code.util.Constants;
 import com.itextpdf.text.Chunk;
@@ -20,10 +19,10 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
-import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -37,7 +36,7 @@ import com.itextpdf.text.pdf.PdfWriter;
  * @author T&T
  *
  */
-public class BiopsiaDiagnosticoCISH implements PDFPageChecker {
+public class BiopsiaDiagnosticoCISH extends BiopsiaInformeCommon implements PDFPageChecker {
 	private static final Logger log = Logger.getLogger(BiopsiaDiagnosticoCISH.class);
 	private static final Chunk chunkEnter = new Chunk("\n");
 	private static final Chunk tab1 = new Chunk("        ");
@@ -49,9 +48,6 @@ public class BiopsiaDiagnosticoCISH implements PDFPageChecker {
 	private String filePath;
 	private String firmante1;
 	private String firmante2;
-	
-	Font informeFontNormal = FuenteInformeUtil.getInformeFontNormal();
-	Font informeFontBold = FuenteInformeUtil.getInformeFontBold();
 	
 	/**
 	 * 
@@ -98,7 +94,7 @@ public class BiopsiaDiagnosticoCISH implements PDFPageChecker {
 	        //PdfContentByte cb = writer.getDirectContent();
 	        
 	        //agregamos la tabla de detalle de la biopsia
-	        document.add(addDetailBiopsiaTable());
+	        document.add(addDetailBiopsiaTable(biopsia));
 	        
 	        //agregamos el texto centrado del titulo del informe
 	        addTitle(document);
@@ -116,7 +112,7 @@ public class BiopsiaDiagnosticoCISH implements PDFPageChecker {
 		    addInformacionComplementaria(document);
 		    
 		    //agregamos los firmantes
-		    addFirmantes(writer, document);
+		    addFirmantes(writer, document, firmante1, firmante2);
 		    
 	        //step 5
 	        document.close();
@@ -129,74 +125,6 @@ public class BiopsiaDiagnosticoCISH implements PDFPageChecker {
 				+ ". Duracion=" + (System.currentTimeMillis() - t0) + " ms.");
 	}
 
-	/**
-	 * 
-	 * @param biopsia
-	 * @return
-	 */
-	private PdfPTable addDetailBiopsiaTable(){
-		PdfPTable table = new PdfPTable(new float[]{18, 45, 10, 35});
-		table.setWidthPercentage(100);
-		
-		PdfPCell cell = new PdfPCell(new Phrase("\nDr: ", informeFontNormal));
-		cell.setBorder(0);
-		
-		PdfPCell cell1 = new PdfPCell(new Phrase("\n" + biopsia.getIngresoDTO().getReferidoMedico(), informeFontNormal));
-		cell1.setColspan(3);
-		cell1.setBorder(0);
-		
-		PdfPCell cell2 = new PdfPCell(new Phrase("Paciente: ", new Font(informeFontNormal.getBaseFont(), 10)));
-		cell2.setBorder(0);
-		
-		PdfPCell cell3 = new PdfPCell(new Phrase(biopsia.getCliente().getNombres()
-				+ " " + biopsia.getCliente().getApellidos(), informeFontNormal));
-		cell3.setColspan(3);
-		cell3.setBorder(0);
-		
-		PdfPCell cell4 = new PdfPCell(new Phrase("Procedencia:", new Font(informeFontNormal.getBaseFont(), 10)));
-		cell4.setBorder(0);
-		
-		PdfPCell cell5 = new PdfPCell(new Phrase(biopsia.getIngresoDTO().getProcedencia(), informeFontNormal));
-		cell5.setBorder(0);
-		
-		PdfPCell cell6 = new PdfPCell(new Phrase("Edad:", new Font(informeFontNormal.getBaseFont(), 10)));
-		cell6.setBorder(0);
-		cell6.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-		
-		PdfPCell cell7 = new PdfPCell(new Phrase(biopsia.getCliente().getEdad() + " años C.I. "
-				+ biopsia.getCliente().getCedula(), informeFontNormal));
-		cell7.setBorder(0);
-		
-		PdfPCell cell8 = new PdfPCell(new Phrase("Referencia:", new Font(informeFontNormal.getBaseFont(), 10)));
-		cell8.setBorder(0);
-		
-		PdfPCell cell9 = new PdfPCell(new Phrase(biopsia.getCodigo(), informeFontNormal));
-		cell9.setBorder(0);
-		
-		PdfPCell cell10 = new PdfPCell(new Phrase("Fecha:", new Font(informeFontNormal.getBaseFont(), 10)));
-		cell10.setBorder(0);
-		cell10.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-		
-		DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-		PdfPCell cell11 = new PdfPCell(new Phrase(df.format(biopsia.getFechaRegistro().getTime()), informeFontNormal));
-		cell11.setBorder(0);
-		
-		table.addCell(cell);
-		table.addCell(cell1);
-		table.addCell(cell2);
-		table.addCell(cell3);
-		table.addCell(cell4);
-		table.addCell(cell5);
-		table.addCell(cell6);
-		table.addCell(cell7);
-		table.addCell(cell8);
-		table.addCell(cell9);
-		table.addCell(cell10);
-		table.addCell(cell11);
-		
-		return table;
-	}
-	
 	/**
 	 * 
 	 * @param document
@@ -256,7 +184,7 @@ public class BiopsiaDiagnosticoCISH implements PDFPageChecker {
 		biopsia = BiopsiaMicroLaminasDAO.setMicroLaminas(biopsia, true);
 		
 		if(biopsia.getMicroscopicaDTO().getLaminasDTO() != null){
-			PdfPTable table = new PdfPTable(new float[]{160, 80, 100});
+			PdfPTable table = new PdfPTable(new float[]{170, 80, 120});
 			table.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
 			
 			PdfPCell cell = new PdfPCell(new Phrase("SONDA INVESTIGADA", 
@@ -269,6 +197,25 @@ public class BiopsiaDiagnosticoCISH implements PDFPageChecker {
 			
 			table.addCell(cell);
 			table.addCell(cell1);
+			
+			for (BiopsiaMicroLaminasDTO lamina : biopsia.getMicroscopicaDTO().getLaminasDTO()) {
+				//verificamos si esta lamina tiene foto
+				if(lamina.getMicroLaminasFilesDTO() != null
+						&& lamina.getMicroLaminasFilesDTO().size() > 0){
+					//tenemos una foto, tomamos la misma y la agregamos al cuadro de la tabla
+					BiopsiaMicroLaminasFileDTO microFileDTO = lamina.getMicroLaminasFilesDTO().get(0);
+					log.info("Se colocara en el cuadro, la imagen desde: " 
+							+ microFileDTO.getMediaFile().getAbsolutePath());
+					try {
+						Image img = Image.getInstance(microFileDTO.getMediaFile().getAbsolutePath());
+						img.scaleAbsolute(100, 120);
+						cell2.setImage(img);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						log.error("Error: " + e.getMessage(), e);
+					}
+				}
+			}
 			table.addCell(cell2);
 			
 			int counter = 0;
@@ -301,7 +248,7 @@ public class BiopsiaDiagnosticoCISH implements PDFPageChecker {
 		Chunk title1 = new Chunk("DIAGNOSTICO:", 
 				new Font(informeFontBold.getBaseFont(), 12F, Font.UNDERLINE));
 		Phrase value1 = new Phrase(" " + biopsia.getMicroscopicaDTO().getDiagnostico(), 
-				new Font(informeFontNormal.getBaseFont(), 10F));
+				new Font(informeFontNormal.getBaseFont(), 12F));
 		
 		Paragraph p1 = new Paragraph();
 		p1.setIndentationLeft(50);
@@ -371,48 +318,6 @@ public class BiopsiaDiagnosticoCISH implements PDFPageChecker {
 		p.setAlignment(Paragraph.ALIGN_CENTER);
 		p.add(table);
 		document.add(p);
-	}
-	
-	/**
-	 * 
-	 * @param writer
-	 * @param document
-	 * @throws DocumentException
-	 */
-	private void addFirmantes(PdfWriter writer, Document document) throws DocumentException{
-		log.info("writer.getVerticalPosition(true)/document.bottom() " + writer.getVerticalPosition(true) 
-				+ "/" + document.bottom());
-		int espacioFaltante = (int) (writer.getVerticalPosition(true) - document.bottom());
-		int maxSignYPosition = 120;
-		
-		if(espacioFaltante - 50 > maxSignYPosition){
-			maxSignYPosition = espacioFaltante - 50;
-		}
-		
-		int cantidadFirmates = 1;
-		if(firmante2 != null 
-				&& ! "".equals(firmante2.trim())
-				&& ! "seleccione".equals(firmante2.trim().toLowerCase())){
-			cantidadFirmates++;
-		}
-		
-		int factor = (int) (document.getPageSize().getWidth() / 2) / cantidadFirmates;
-		
-		ColumnText.showTextAligned(writer.getDirectContent(),
-                Element.ALIGN_CENTER, 
-                new Phrase(firmante1, new Font(FuenteInformeUtil.getInformeFontNormal().getBaseFont(), 10)),
-                factor, 
-                maxSignYPosition,
-                0);
-		
-		if(cantidadFirmates == 2){
-			ColumnText.showTextAligned(writer.getDirectContent(),
-	                Element.ALIGN_CENTER, 
-	                new Phrase(firmante2, new Font(FuenteInformeUtil.getInformeFontNormal().getBaseFont(), 10)),
-	                factor * 3, 
-	                maxSignYPosition,
-	                0);
-		}
 	}
 	
 	/**

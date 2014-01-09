@@ -119,7 +119,7 @@ public class MacroFotosDialog extends JDialog {
 		lblFoto = new JLabel("");
 		lblFoto.setBorder(new LineBorder(new Color(0, 0, 0)));
 		lblFoto.setBounds(127, 233, 278, 186);
-		if(! "".equals(pathToPicture)){
+		if(pathToPicture!= null && ! "".equals(pathToPicture)){
 			Icon icon = new ImageIcon(new ImageIcon(pathToPicture).getImage().getScaledInstance(lblFoto.getWidth(),
 					lblFoto.getHeight(),
 					Image.SCALE_AREA_AVERAGING));
