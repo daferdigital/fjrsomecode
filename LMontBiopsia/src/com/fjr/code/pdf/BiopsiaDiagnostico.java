@@ -154,7 +154,6 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 		p1.setIndentationLeft(50);
 		p1.add(chunkEnter);
 		p1.add(chunkEnter);
-		p1.add(chunkEnter);
 		p1.add(title1);
 		p1.add(value1);
 		
@@ -285,7 +284,6 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 		
 		Paragraph p1 = new Paragraph();
 		p1.setIndentationLeft(50);
-		p1.add(chunkEnter);
 		p1.add(chunkEnter);
 		p1.add(title1);
 		p1.add(chunkEnter);
