@@ -109,7 +109,8 @@ public class JTableTextoInteligente implements JTablePanel{
 									(String) table.getValueAt(table.getSelectedRow(), 1));
 							ventanaReferencia.getTextCodigo().setText(texto.getKeyCode());
 							ventanaReferencia.getTextAbreviatura().setText(texto.getAbreviatura());
-							ventanaReferencia.getTxtArea().setText(texto.getTexto());
+							ventanaReferencia.getTxtArea().setText(
+									ventanaReferencia.getTxtArea().getText() + texto.getTexto());
 						}
 					}
 					e.consume();
