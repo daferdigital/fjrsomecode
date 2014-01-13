@@ -306,10 +306,12 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 					}
 					
 					//refrescamos el panel
-					IngresoPanel panel = new IngresoPanel(true);
-					AppWindow.getInstance().setPanelContenido(panel, (FasesBiopsia) null);
-					AppWindow.getInstance().setExtraTitle("Recepci\u00F3n");
-					panel.setFocusAtDefaultElement();
+					if(goToMacro){
+						IngresoPanel panel = new IngresoPanel(true);
+						AppWindow.getInstance().setPanelContenido(panel, (FasesBiopsia) null);
+						AppWindow.getInstance().setExtraTitle("Recepci\u00F3n");
+						panel.setFocusAtDefaultElement();
+					}
 				}
 			}
 		} else if(ACTION_COMMAND_BTN_PRINT_LABELS.equals(e.getActionCommand())){
@@ -552,6 +554,7 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 				if(biopsiaInfoDTO != null){
 					//verificamos el status de la biopsia
 					if(! FasesBiopsia.INGRESO.equals(biopsiaInfoDTO.getFaseActual())){
+						/*
 						String editKey = JOptionPane.showInputDialog(ventana, 
 								"Disculpe, este registro no esta en fase de Ingreso.\nSi desea editarlo debe introducir la clave de edición.", 
 								"Indique la clave para edición", 
@@ -559,6 +562,7 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 						if(! SecurityEditCode.checkIfValueIsTheSecurityCode(editKey)){
 							ventana.setVisible(false);
 						}
+						*/
 					}
 				}
 			}

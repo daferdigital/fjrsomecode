@@ -335,6 +335,7 @@ public class MicroscopicaPanelOperations implements KeyListener, ActionListener{
 								"Biopsia aún en fase de " + biopsiaInfoDTO.getFaseActual().getNombreFase(), 
 								JOptionPane.INFORMATION_MESSAGE);
 					} else if(! FasesBiopsia.MICROSCOPICA.equals(biopsiaInfoDTO.getFaseActual())){
+						/*
 						String editKey = JOptionPane.showInputDialog(ventana, 
 								"Disculpe, este registro no esta en fase de Micro.\nSi desea editarlo debe introducir la clave de edición.", 
 								"Indique la clave para edición", 
@@ -342,6 +343,7 @@ public class MicroscopicaPanelOperations implements KeyListener, ActionListener{
 						if(! SecurityEditCode.checkIfValueIsTheSecurityCode(editKey)){
 							ventana.setVisible(false);
 						}
+						*/
 					}
 				}
 			}

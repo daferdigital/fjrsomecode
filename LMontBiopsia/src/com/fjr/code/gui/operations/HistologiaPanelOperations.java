@@ -85,6 +85,7 @@ public class HistologiaPanelOperations implements ActionListener, KeyListener{
 								"Biopsia en fase de " + biopsiaInfoDTO.getFaseActual().getNombreFase(), 
 								JOptionPane.INFORMATION_MESSAGE);
 					} else if(! FasesBiopsia.HISTOLOGIA.equals(biopsiaInfoDTO.getFaseActual())){
+						/*
 						String editKey = JOptionPane.showInputDialog(ventana, 
 								"Disculpe, este registro no esta en fase de Histología.\nSi desea editarlo debe introducir la clave de edición.", 
 								"Indique la clave para edición", 
@@ -92,6 +93,7 @@ public class HistologiaPanelOperations implements ActionListener, KeyListener{
 						if(! SecurityEditCode.checkIfValueIsTheSecurityCode(editKey)){
 							ventana.setVisible(false);
 						}
+						*/
 					}
 				}
 			}
