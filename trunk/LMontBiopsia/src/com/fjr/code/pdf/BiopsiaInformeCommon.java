@@ -1,6 +1,7 @@
 package com.fjr.code.pdf;
 
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -26,12 +27,48 @@ import com.itextpdf.text.pdf.PdfWriter;
  */
 abstract class BiopsiaInformeCommon {
 	private static final Logger log = Logger.getLogger(BiopsiaInformeCommon.class);
+	private static final NumberFormat nf = NumberFormat.getNumberInstance();
 	
 	protected Font informeFontNormal = FuenteInformeUtil.getInformeFontNormal();
 	protected Font informeFontBold = FuenteInformeUtil.getInformeFontBold();
 	
 	public BiopsiaInformeCommon() {
 		// TODO Auto-generated constructor stub
+		nf.setMaximumFractionDigits(0);
+		nf.setMinimumFractionDigits(0);
+	}
+	
+	/**
+	 * 
+	 * @param cedula
+	 * @return
+	 */
+	private String formatCedula(String cedula){
+		String formattedCedula = cedula;
+		
+		try {
+			//separamos el tipo de cedula del numero
+			String[] pieces = cedula.split("-");
+			String type = pieces[0].concat("-");
+			String number = "";
+			
+			for (int i = 0; i < cedula.toCharArray().length; i++) {
+				try {
+					Integer.parseInt("" + cedula.toCharArray()[i]);
+					number += cedula.toCharArray()[i];
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+			}
+			
+			formattedCedula = type + nf.format(Integer.parseInt(number));
+		} catch (Exception e) {
+			// TODO: handle exception
+			log.error("Error formateando la cedula '" + cedula + "'. Error: " + e.getLocalizedMessage(), e);
+		}
+		
+		log.info("Cedula '" + cedula + "' formateada a '" + formattedCedula + "'");
+		return formattedCedula;
 	}
 	
 	/**
@@ -68,7 +105,7 @@ abstract class BiopsiaInformeCommon {
 		cell6.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 		
 		PdfPCell cell7 = new PdfPCell(new Phrase(biopsia.getCliente().getEdad() + " años C.I. "
-				+ biopsia.getCliente().getCedula(), informeFontNormal));
+				+ formatCedula(biopsia.getCliente().getCedula()), informeFontNormal));
 		cell7.setBorder(0);
 		
 		PdfPCell cell8 = new PdfPCell(new Phrase("Referencia:", new Font(informeFontNormal.getBaseFont(), 10)));

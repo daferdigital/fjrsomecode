@@ -276,6 +276,7 @@ public class MacroscopicaPanelOperations implements KeyListener, ActionListener{
 								"Biopsia aún en fase de ingreso", 
 								JOptionPane.INFORMATION_MESSAGE);
 					} else if(! FasesBiopsia.MACROSCOPICA.equals(biopsiaInfoDTO.getFaseActual())){
+						/*
 						String editKey = JOptionPane.showInputDialog(ventana, 
 								"Disculpe, este registro no esta en fase de Macro.\nSi desea editarlo debe introducir la clave de edición.", 
 								"Indique la clave para edición", 
@@ -283,6 +284,7 @@ public class MacroscopicaPanelOperations implements KeyListener, ActionListener{
 						if(! SecurityEditCode.checkIfValueIsTheSecurityCode(editKey)){
 							ventana.setVisible(false);
 						}
+						*/
 					}
 				}
 			}

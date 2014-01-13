@@ -129,6 +129,7 @@ public class HistologiaIHQPanelOperations implements ActionListener, KeyListener
 								"Biopsia aún en fase de " + biopsiaInfoDTO.getFaseActual().getNombreFase(), 
 								JOptionPane.INFORMATION_MESSAGE);
 					} else if(! FasesBiopsia.IHQ.equals(biopsiaInfoDTO.getFaseActual())){
+						/*
 						String editKey = JOptionPane.showInputDialog(ventana, 
 								"Disculpe, este registro no esta en fase de Micro.\nSi desea editarlo debe introducir la clave de edición.", 
 								"Indique la clave para edición", 
@@ -136,6 +137,7 @@ public class HistologiaIHQPanelOperations implements ActionListener, KeyListener
 						if(! SecurityEditCode.checkIfValueIsTheSecurityCode(editKey)){
 							ventana.setVisible(false);
 						}
+						*/
 					}
 				}
 			}
