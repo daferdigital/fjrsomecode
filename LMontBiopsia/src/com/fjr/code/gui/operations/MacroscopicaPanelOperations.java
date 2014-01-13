@@ -47,6 +47,7 @@ public class MacroscopicaPanelOperations implements KeyListener, ActionListener{
 	public static final String ACTION_COMMAND_BTN_ADD_CASSETE = "btnCassette";
 	public static final String ACTION_COMMAND_BTN_ADD_FOTO = "btnFoto";
 	public static final String ACTION_COMMAND_BTN_ADD_FOTO_PER_OPERATORIA = "btnFotoPerOperatoria";
+	public static final String ACTION_COMMAND_BTN_ADD_X_CASSETES = "btnAddXCassetes";
 	
 	/**
 	 * Ventana asociada con estos listeners
@@ -153,6 +154,22 @@ public class MacroscopicaPanelOperations implements KeyListener, ActionListener{
 						JOptionPane.ERROR_MESSAGE);
 			}
 			
+		} else if(ACTION_COMMAND_BTN_ADD_X_CASSETES.equals(e.getActionCommand())){
+			//se desean generar automaticamente X cassetes, todos con N/A en su descripcion
+			int cassetes = 0;
+			try {
+				cassetes = Integer.parseInt(ventana.getTextXCassetes().getText().trim());
+			} catch (Exception e2) {
+				// TODO: handle exception
+				JOptionPane.showMessageDialog(ventana, 
+						"Debe indicar un valor numerico correcto para los cassetes que desea agregar de manera automatica", 
+						"Número incorrecto", 
+						JOptionPane.ERROR_MESSAGE);
+			}
+			
+			for (int i = 0; i < cassetes; i++) {
+				ventana.getTableMacroCassetes().addRow("N/A");
+			}
 		}
 	}
 

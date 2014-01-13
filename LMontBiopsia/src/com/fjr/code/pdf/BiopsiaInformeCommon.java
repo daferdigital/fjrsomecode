@@ -113,13 +113,15 @@ abstract class BiopsiaInformeCommon {
 			String firmante1, String firmante2) throws DocumentException{
 		log.info("writer.getVerticalPosition(true)/document.bottom() " + writer.getVerticalPosition(true) 
 				+ "/" + document.bottom());
+		//espacio faltante para el margen inferior del documento
 		int espacioFaltante = (int) (writer.getVerticalPosition(true) - document.bottom());
-		int maxSignYPosition = 120;
+		int maxSignYPosition = 60;
 		
-		if(espacioFaltante - 50 > maxSignYPosition){
-			maxSignYPosition = espacioFaltante - 50;
+		if(espacioFaltante > 90){
+			maxSignYPosition = (int) (writer.getVerticalPosition(true) - 90);
 		}
 		
+		log.info("Colocando firmas del informe en la posicion " + maxSignYPosition);
 		int cantidadFirmates = 1;
 		if(firmante2 != null 
 				&& ! "".equals(firmante2.trim())
