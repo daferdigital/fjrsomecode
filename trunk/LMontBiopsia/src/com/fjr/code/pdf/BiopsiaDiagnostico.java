@@ -198,7 +198,6 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 			p1.setIndentationLeft(50);
 			p1.add(chunkEnter);
 			p1.add(chunkEnter);
-			p1.add(chunkEnter);
 			p1.add(title1);
 			p1.add(value1);
 			
@@ -286,7 +285,6 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 		p1.setIndentationLeft(50);
 		p1.add(chunkEnter);
 		p1.add(title1);
-		p1.add(chunkEnter);
 		
 		Paragraph p2 = new Paragraph();
 		p2.setIndentationLeft(100);
@@ -375,7 +373,6 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 						p3.setAlignment(Paragraph.ALIGN_JUSTIFIED);
 						p3.setIndentationLeft(50);
 						p3.add(chunkEnter);
-						p3.add(chunkEnter);
 						p3.add(titlePerOperatorio);
 						p3.add(valuePerOperatorio);
 						p3.add(chunkEnter);
@@ -390,7 +387,6 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 						parrafoFoto.setAlignment(Paragraph.ALIGN_JUSTIFIED);
 						parrafoFoto.setIndentationLeft(50);
 						
-						parrafoFoto.add(chunkEnter);
 						parrafoFoto.add(chunkEnter);
 						parrafoFoto.add(tab1);
 						parrafoFoto.add(phraseFoto);
@@ -452,6 +448,9 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 						}
 					}
 					
+					if(!haveDesc){
+						document.add(chunkEnter);
+					}
 					document.add(table);
 				}
 			}

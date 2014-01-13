@@ -44,6 +44,7 @@ public class MacroscopicaPanel extends JPanel {
 	private JTableMacroCassetes tableMacroCassetes = JTableMacroCassetes.getNewInstance();
 	private JTable tblFotos;
 	private JTableMacroFotos tableMacroFotos = JTableMacroFotos.getNewInstance();
+	private JTextField textXCassetes;
 	
 	/**
 	 * Create the panel.
@@ -193,6 +194,22 @@ public class MacroscopicaPanel extends JPanel {
 		btnAgregarFotoPeroperatoria.setBounds(745, 208, 217, 23);
 		add(btnAgregarFotoPeroperatoria);
 		
+		JButton btnAgregarXCassetes = new JButton("Agregar: ");
+		btnAgregarXCassetes.setActionCommand("btnCassette");
+		btnAgregarXCassetes.setActionCommand(MacroscopicaPanelOperations.ACTION_COMMAND_BTN_ADD_X_CASSETES);
+		btnAgregarXCassetes.setBounds(752, 10, 82, 23);
+		add(btnAgregarXCassetes);
+		
+		textXCassetes = new JTextField();
+		textXCassetes.setBounds(844, 11, 48, 20);
+		add(textXCassetes);
+		textXCassetes.setColumns(10);
+		
+		JLabel lblCassetes = new JLabel("Cassete(s)");
+		lblCassetes.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblCassetes.setBounds(902, 14, 88, 14);
+		add(lblCassetes);
+		
 		btnCancel.addActionListener(listener);
 		btnGuardar.addActionListener(listener);
 		btnPrintLabels.addActionListener(listener);
@@ -200,6 +217,7 @@ public class MacroscopicaPanel extends JPanel {
 		btnAddFoto.addActionListener(listener);
 		btnAgregarCassete.addActionListener(listener);
 		btnAgregarFotoPeroperatoria.addActionListener(listener);
+		btnAgregarXCassetes.addActionListener(listener);
 		textNroBiopsia.addKeyListener(listener);
 		
 		setVisible(true);
@@ -247,5 +265,9 @@ public class MacroscopicaPanel extends JPanel {
 	
 	public JTableMacroFotos getTableMacroFotos() {
 		return tableMacroFotos;
+	}
+	
+	public JTextField getTextXCassetes() {
+		return textXCassetes;
 	}
 }
