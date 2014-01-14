@@ -37,7 +37,7 @@ public final class PortScanManager extends TimerTask {
 	 */
 	public PortScanManager() {
 		// TODO Auto-generated constructor stub
-		final int delayPortRead = 30000;
+		final int delayPortRead = 90000;
 		new Timer().schedule(this, 
 				delayPortRead, 
 				delayPortRead);

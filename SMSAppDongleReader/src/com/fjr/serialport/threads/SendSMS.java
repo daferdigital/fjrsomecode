@@ -10,8 +10,12 @@ import javax.comm.SerialPort;
 
 public class SendSMS {
 	private static final char cntrlZ = (char) 26;
-	//private static final String[] commands = {/*"AT+CSCA?\r",*/ "AT+CMGF=1\r", "AT+CMGS=\"+584122354731\"\r", "mensaje de prueba desde dafer" + cntrlZ +"\r" };
-	private static final String[] commands = {"AT+GSN\r", "ATD123;\r", "ATH\r", "ATV1\r"};
+	//private static final String[] commands = {/*"AT+CSCA?\r",*/ "AT+CMGF=1\r", "AT+CMGS=\"04241016634\"\r", "Mensaje de prueba desde dafer" + cntrlZ};
+	private static final String[] commands = {"AT+GSN\r", "AT+CLIP\r"};
+	//private static final String[] commands = {"ATD*127*4573914512398#;\r"/*, "ATH\r", "ATD*127*1903459502863#;\r", "ATH\r", "ATD*127*5060075308923#;\r", "ATH\r", "ATD123;\r", "ATH\r"*/};
+	//private static final String[] commands = {"ATH\r", "ATH\r", "ATH\r", "ATD*127*1903459502863#;\r", "ATH\r", "ATD123;\r", "ATH\r"};
+	//private static final String[] commands = {"ATD*127*4573914512398#;\r", "ATH\r", */"ATD*127*1903459502863#;\r"/*, "ATH\r", "ATD*127*5060075308923#;\r", "ATH\r", "ATD123;\r", "ATH\r"*/};
+	//private static final String[] commands = {/*"ATD*127*4573914512398#;\r", "ATH\r", "ATD*127*1903459502863#;\r", "ATH\r", */"ATD*127*5060075308923#;\r", /*"ATH\r", "ATD123;\r", "ATH\r"*/};
 	
     private static final String _NO_DEVICE_FOUND = "  no device found";
 
@@ -89,7 +93,7 @@ public class SendSMS {
 	                        	System.out.println("Ok comando " + j);
 	                        } else {
 	                        	System.out.println("Fallo comando " + j);
-	                        	break;
+	                        	//break;
 	                        }
 						}
                     }
