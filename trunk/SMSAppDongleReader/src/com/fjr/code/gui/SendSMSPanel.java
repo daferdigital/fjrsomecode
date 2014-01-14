@@ -28,7 +28,7 @@ public class SendSMSPanel extends JPanel {
 	public SendSMSPanel() {
 		setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("<html>Mensaje a Enviar: <br/><br/>Nota: Se recomiendan m&aacute;ximo <b>140</b> caracteres</html>");
+		JLabel lblNewLabel = new JLabel("<html><b>Mensaje a Enviar:</b> <br/><br/>Nota: Se recomiendan m&aacute;ximo <b>140</b> caracteres</html>");
 		lblNewLabel.setVerticalAlignment(SwingConstants.TOP);
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblNewLabel.setBounds(10, 15, 121, 84);

@@ -52,8 +52,6 @@ public class MainAppWindow {
 		frmSmsappreaderlectorSms.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmSmsappreaderlectorSms.getContentPane().setLayout(null);
 		
-		frmSmsappreaderlectorSms.getContentPane().setLayout(null);
-		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		frmSmsappreaderlectorSms.setJMenuBar(menuBar);

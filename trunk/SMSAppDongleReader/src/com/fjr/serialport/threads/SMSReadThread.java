@@ -72,14 +72,12 @@ public class SMSReadThread implements Runnable{
 			log.info("El puerto [" + portName 
 					+ "] esta ocupado, por lo tanto no puede ser leido (aumentamos sus intentos de lectura fallidos)");
 		} else {
-			log.info("Para el puerto '" + port.getName()
-					+ "' se tiene que su imei es '" + response + "'");
 			String imei = response;
 			imei = imei.replaceAll("\r", "");
 			imei = imei.replaceAll("\n", "");
 			imei = imei.replaceAll("OK", "");
 			
-			log.info("Imei limpiado = " + imei);//comando + imei
+			log.info("Para el puerto '" + port.getName() + "' se tiene que su imei es '" + imei + "'");
 			this.portImei = imei;
 		}
 		
@@ -90,7 +88,7 @@ public class SMSReadThread implements Runnable{
 	 * Verificamos los mensajes del SIM Card
 	 */
 	private void processMessages(){
-		final int maxSMSToRead = 5;
+		final int maxSMSToRead = 10;
 		for (int i = maxSMSToRead - 1; i > -1; i--) {
 			String response = SendCommandUtil.sendCommandToPort(port, 
 					AT_READSMS_AT_INDEX + i);
