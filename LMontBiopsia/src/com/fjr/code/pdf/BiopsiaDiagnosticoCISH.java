@@ -106,7 +106,7 @@ public class BiopsiaDiagnosticoCISH extends BiopsiaInformeCommon implements PDFP
 	        addCepasInfo(document);
 	        
 	        //agregamos el diagnostico de la fase micro
-		    addDiagnostico(document);
+		    addDiagnostico(writer, document, biopsia);
 		    
 		    //se agrega el cuadro fijo de informacion complementaria
 		    addInformacionComplementaria(document);
@@ -236,35 +236,6 @@ public class BiopsiaDiagnosticoCISH extends BiopsiaInformeCommon implements PDFP
 			p.add(table);
 			document.add(p);
 		}
-	}
-	
-	
-	/**
-	 * 
-	 * @param document
-	 * @throws DocumentException
-	 */
-	private void addDiagnostico(Document document) throws DocumentException{
-		Chunk title1 = new Chunk("DIAGNOSTICO:", 
-				new Font(informeFontBold.getBaseFont(), 12F, Font.UNDERLINE));
-		Phrase value1 = new Phrase(" " + biopsia.getMicroscopicaDTO().getDiagnostico(), 
-				new Font(informeFontNormal.getBaseFont(), 12F));
-		
-		Paragraph p1 = new Paragraph();
-		p1.setIndentationLeft(50);
-		p1.add(chunkEnter);
-		p1.add(chunkEnter);
-		p1.add(title1);
-		
-		Paragraph p2 = new Paragraph();
-		p2.setIndentationLeft(100);
-		p2.setAlignment(Element.ALIGN_JUSTIFIED);
-		p2.add(value1);
-		p2.add(chunkEnter);
-		p2.add(chunkEnter);
-		
-		document.add(p1);
-		document.add(p2);
 	}
 	
 	/**

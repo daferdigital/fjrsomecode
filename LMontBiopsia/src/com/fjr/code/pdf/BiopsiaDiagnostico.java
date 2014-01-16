@@ -115,14 +115,14 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 	        //verificamos info de IHQ
 	        if(biopsia.getMicroscopicaDTO().getEstudioIHQ() != null
 					&& ! "".equals(biopsia.getMicroscopicaDTO().getEstudioIHQ().trim())){
-	        	addFirmantes(writer, document, firmante1, firmante2);
+	        	//addFirmantes(writer, document, firmante1, firmante2);
 	        	addInfoIHQ(document, writer);
 	        }
 	        
 	        addFotosMicro(document, writer);
 	        
 	        //agregamos el diagnostico de la fase micro
-		    addDiagnostico(document);
+		    addDiagnostico(writer, document, biopsia);
 		    
 		    //agregamos los firmantes
 		    addFirmantes(writer, document, firmante1, firmante2);
@@ -153,7 +153,6 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 		Paragraph p1 = new Paragraph();
 		p1.setIndentationLeft(50);
 		p1.add(chunkEnter);
-		p1.add(chunkEnter);
 		p1.add(title1);
 		p1.add(value1);
 		
@@ -183,37 +182,36 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 		//verificamos si se debe agregar informacion de IHQ
 		if(biopsia.getMicroscopicaDTO().getEstudioIHQ() != null
 				&& ! "".equals(biopsia.getMicroscopicaDTO().getEstudioIHQ().trim())){
-			fixNumberPage = true;
-			document.newPage();
+			//fixNumberPage = true;
+			//document.newPage();
 			fixNumberPage = false;
+			Chunk title1 = null;
+			Phrase value1 = null;
+			Paragraph p1 = null;
 			
-			document.add(addDetailBiopsiaTable(biopsia));
-			
-			Chunk title1 = new Chunk("PROCEDENCIA DEL MATERIAL:", 
+			//document.add(addDetailBiopsiaTable(biopsia));
+			/*
+			title1 = new Chunk("PROCEDENCIA DEL MATERIAL:", 
 					new Font(informeFontBold.getBaseFont(), 12F, Font.UNDERLINE));
-			Phrase value1 = new Phrase(" " + biopsia.getIngresoDTO().getPiezaRecibida(), 
+			value1 = new Phrase(" " + biopsia.getIngresoDTO().getPiezaRecibida(), 
 					new Font(informeFontNormal.getBaseFont(), 12F));
-			
-			Paragraph p1 = new Paragraph();
+			p1 = new Paragraph();
 			p1.setIndentationLeft(50);
-			p1.add(chunkEnter);
 			p1.add(chunkEnter);
 			p1.add(title1);
 			p1.add(value1);
-			
 			document.add(p1);
+			*/
 			
 			//podemos registrar info IHQ
 			title1 = new Chunk("ESTUDIO INMUNOHISTOQUIMICO:", 
 					new Font(informeFontBold.getBaseFont(), 12F, Font.UNDERLINE));
-			
 			value1 = new Phrase(" " + biopsia.getMicroscopicaDTO().getEstudioIHQ(), 
 					new Font(informeFontNormal.getBaseFont(), 12F));
 			
 			p1 = new Paragraph();
 			p1.setAlignment(Element.ALIGN_JUSTIFIED);
 			p1.setIndentationLeft(50);
-			p1.add(chunkEnter);
 			p1.add(chunkEnter);
 			p1.add(title1);
 			p1.add(value1);
@@ -228,7 +226,6 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 				
 				Paragraph p2 = new Paragraph();
 				p2.setIndentationLeft(50);
-				p2.add(chunkEnter);
 				p2.add(chunkEnter);
 				p2.add(title2);
 				document.add(p2);
@@ -249,6 +246,7 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 							
 							document.add(p);
 						}
+						//document.add(chunkEnter);
 					}
 				}
 			}
@@ -275,36 +273,9 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 	 * @param document
 	 * @throws DocumentException
 	 */
-	private void addDiagnostico(Document document) throws DocumentException{
-		Chunk title1 = new Chunk("DIAGNOSTICO:", 
-				new Font(informeFontBold.getBaseFont(), 12F, Font.UNDERLINE));
-		Phrase value1 = new Phrase(" " + biopsia.getMicroscopicaDTO().getDiagnostico(), 
-				new Font(informeFontNormal.getBaseFont(), 12F));
-		
-		Paragraph p1 = new Paragraph();
-		p1.setIndentationLeft(50);
-		p1.add(chunkEnter);
-		p1.add(title1);
-		
-		Paragraph p2 = new Paragraph();
-		p2.setIndentationLeft(100);
-		p2.setAlignment(Element.ALIGN_JUSTIFIED);
-		p2.add(chunkEnter);
-		p2.add(value1);
-		p2.add(chunkEnter);
-		
-		document.add(p1);
-		document.add(p2);
-	}
-	
-	/**
-	 * 
-	 * @param document
-	 * @throws DocumentException
-	 */
 	private void addMapMacro(Document document, PdfWriter writer) throws DocumentException{
 		//procesamos las posibles fotos del mapa indicado
-		int numeroFoto = 1;
+		//int numeroFoto = 1;
 				
 		for (Integer linea : mapMacro.keySet()) {
 			List<String> mapLinea = mapMacro.get(linea);
@@ -331,7 +302,7 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 					p3.add(chunkEnter);
 					document.add(p3);	
 				} else {
-					Phrase phraseFoto = new Phrase(numeroFoto + ".- " + element0,
+					Phrase phraseFoto = new Phrase(/*numeroFoto + ".- " + */element0,
 							new Font(informeFontNormal.getBaseFont(), 12F));
 					
 					Paragraph parrafoFoto = new Paragraph();
@@ -343,7 +314,7 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 					parrafoFoto.add(chunkEnter);
 					
 					document.add(parrafoFoto);
-					numeroFoto++;
+					//numeroFoto++;
 				}
 			} else {
 				//es una seccion con fotos
@@ -380,7 +351,7 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 						
 						document.add(p3);	
 					} else {
-						Phrase phraseFoto = new Phrase(numeroFoto + ".- " + element0,
+						Phrase phraseFoto = new Phrase(/*numeroFoto + ".- " + */element0,
 								new Font(informeFontNormal.getBaseFont(), 12F));
 						
 						Paragraph parrafoFoto = new Paragraph();
@@ -394,7 +365,7 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 						parrafoFoto.add(chunkEnter);
 						
 						document.add(parrafoFoto);
-						numeroFoto++;
+						//numeroFoto++;
 					}
 				}
 						
@@ -466,7 +437,7 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 	private void addMapToDocument(Map<Integer, List<String>> mapToProcess,
 			Document document, PdfWriter writer) throws DocumentException{
 		//procesamos las posibles fotos del mapa indicado
-		int numeroFoto = 1;
+		//int numeroFoto = 1;
 		Chunk tab1 = new Chunk("        ");
 		Chunk enter = new Chunk("\n");
 		
@@ -475,7 +446,7 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 			
 			if(mapLinea.size() == 1 && (! new File(mapLinea.get(0)).exists())){
 				//es solo la descripcion
-				Phrase phraseFoto = new Phrase(numeroFoto + ".- " + mapLinea.get(0),
+				Phrase phraseFoto = new Phrase(/*numeroFoto + ".- " + */mapLinea.get(0),
 						new Font(informeFontNormal.getBaseFont(), 12F));
 				
 				Paragraph parrafoFoto = new Paragraph();
@@ -487,7 +458,7 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 				parrafoFoto.add(enter);
 				
 				document.add(parrafoFoto);
-				numeroFoto++;
+				//numeroFoto++;
 			} else {
 				//es una seccion con fotos
 				//vemos si tiene descripcion y cuantas fotos
@@ -508,7 +479,7 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 					parrafoFoto.setIndentationLeft(50);
 					//parrafoFoto.setFirstLineIndent(150);
 					
-					Phrase phraseFoto = new Phrase(numeroFoto + ".- " + mapLinea.get(0),
+					Phrase phraseFoto = new Phrase(/*numeroFoto + ".- " + */mapLinea.get(0),
 							new Font(informeFontNormal.getBaseFont(), 12F));
 					parrafoFoto.add(enter);
 					parrafoFoto.add(enter);
@@ -518,7 +489,7 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 					parrafoFoto.add(enter);
 					
 					document.add(parrafoFoto);
-					numeroFoto++;
+					//numeroFoto++;
 				}
 				
 				float[] measures = null;

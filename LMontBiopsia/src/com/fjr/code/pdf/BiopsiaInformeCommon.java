@@ -8,10 +8,12 @@ import java.util.Calendar;
 import org.apache.log4j.Logger;
 
 import com.fjr.code.dto.BiopsiaInfoDTO;
+import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -79,7 +81,7 @@ abstract class BiopsiaInformeCommon {
 		PdfPTable table = new PdfPTable(new float[]{18, 45, 10, 35});
 		table.setWidthPercentage(100);
 		
-		PdfPCell cell = new PdfPCell(new Phrase("\nDr: ", informeFontNormal));
+		PdfPCell cell = new PdfPCell(new Phrase("\nDr: ", new Font(informeFontNormal.getBaseFont(), 10)));
 		cell.setBorder(0);
 		
 		PdfPCell cell1 = new PdfPCell(new Phrase("\n" + biopsia.getIngresoDTO().getReferidoMedico(), informeFontNormal));
@@ -136,6 +138,42 @@ abstract class BiopsiaInformeCommon {
 		table.addCell(cell11);
 		
 		return table;
+	}
+	
+	/**
+	 * @param writer
+	 * @param document
+	 * @param biopsia 
+	 * @throws DocumentException
+	 */
+	protected void addDiagnostico(PdfWriter writer, Document document, 
+			BiopsiaInfoDTO biopsia) throws DocumentException{
+		//dandole al diagnostico al menos 3 lineas, verificamos si debe pasar a la siguiente hoja o no
+		log.info("writer.getVerticalPosition(true)/document.bottom() " + writer.getVerticalPosition(true) 
+				+ "/" + document.bottom());
+		//espacio faltante para el margen inferior del documento
+		int espacioFaltante = (int) (writer.getVerticalPosition(true) - document.bottom());
+		if(espacioFaltante < 50){
+			log.info("El diagnostico no va a caber al final de la hoja actual, se pasa de primero a la siguiente");
+			document.newPage();
+		}
+		
+		Chunk title1 = new Chunk("DIAGNOSTICO:", 
+				new Font(informeFontBold.getBaseFont(), 12F, Font.UNDERLINE));
+		Phrase value1 = new Phrase(biopsia.getMicroscopicaDTO().getDiagnostico(), 
+				new Font(informeFontNormal.getBaseFont(), 12F));
+		
+		Paragraph p1 = new Paragraph();
+		p1.setIndentationLeft(50);
+		p1.add(title1);
+		
+		Paragraph p2 = new Paragraph();
+		p2.setIndentationLeft(100);
+		p2.setAlignment(Element.ALIGN_JUSTIFIED);
+		p2.add(value1);
+		
+		document.add(p1);
+		document.add(p2);
 	}
 	
 	/**

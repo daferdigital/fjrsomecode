@@ -21,13 +21,14 @@ public class Start {
 	
 	public static void main(String[] args) {
 		try {
-			CustomClasspathLoader.addJarsToClasspath(Constants.BASE_PATH + File.separator 
-					+ "libs" + File.separator);
-			CustomClasspathLoader.addJarsToClasspath(Constants.BASE_PATH + File.separator);
-			
 			new File(Constants.LABELS_PATH).mkdirs();
 			new File(Constants.LOGS_PATH).mkdirs();
 			new File(Constants.TMP_PATH).mkdirs();
+			new File(Constants.RESPALDO_PATH).mkdirs();
+			
+			CustomClasspathLoader.addJarsToClasspath(Constants.BASE_PATH + File.separator 
+					+ "libs" + File.separator);
+			CustomClasspathLoader.addJarsToClasspath(Constants.BASE_PATH + File.separator);
 			
 			AfterStart.startProgram(args);
 		} catch (Throwable e) {
