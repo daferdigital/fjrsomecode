@@ -35,9 +35,14 @@ public final class Constants {
 	public static final String LABELS_PATH = BASE_PATH + File.separator + "labels";
 	
 	/**
-	 * Variable para indicar el doirectorio temporal de la aplicacion
+	 * Variable para indicar el directorio temporal de la aplicacion
 	 */
 	public static final String TMP_PATH = BASE_PATH + File.separator + "tmp";
+	
+	/**
+	 * Variable para indicar el directorio de respaldos de codigo (copia de jars viejos)
+	 */
+	public static final String RESPALDO_PATH = BASE_PATH + File.separator + "respaldo";
 	
 	/**
 	 * Variable para indicar el directorio de logs de la aplicacion
