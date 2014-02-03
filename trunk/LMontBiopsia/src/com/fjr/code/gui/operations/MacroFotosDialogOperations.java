@@ -64,10 +64,11 @@ public class MacroFotosDialogOperations implements ActionListener{
 		} else if(ACTION_COMMAND_BTN_GUARDAR.equals(e.getActionCommand())){
 			//debemos validar la ventana para guardarla
 			String errors = "";
-			
+			/*
 			if("".equals(ventana.getTxtNotacion().getText())){
 				errors += "\nLa notación es obligatoria.";
 			}
+			*/
 			/*
 			if(ventana.getLblFoto().getIcon() == null){
 				errors += "\nLa foto es obligatoria";

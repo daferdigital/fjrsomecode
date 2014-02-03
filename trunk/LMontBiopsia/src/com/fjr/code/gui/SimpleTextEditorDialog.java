@@ -74,6 +74,7 @@ public class SimpleTextEditorDialog extends JDialog{
 		contentPanel.add(scrollPane);
 		
 		txtArea = new JTextArea();
+		txtArea.setFont(new Font("Monospaced", Font.PLAIN, 16));
 		txtArea.setWrapStyleWord(true);
 		txtArea.setLineWrap(true);
 		scrollPane.setViewportView(txtArea);

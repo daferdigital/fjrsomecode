@@ -95,6 +95,7 @@ public class BiopsiaDiagnosticoCISH extends BiopsiaInformeCommon implements PDFP
 	        
 	        //agregamos la tabla de detalle de la biopsia
 	        document.add(addDetailBiopsiaTable(biopsia));
+	        document.add(chunkEnter);
 	        
 	        //agregamos el texto centrado del titulo del informe
 	        addTitle(document);
