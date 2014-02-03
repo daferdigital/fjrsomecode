@@ -88,6 +88,7 @@ public class BiopsiaDiagnosticoCitologia extends BiopsiaInformeCommon implements
 	        
 	        //agregamos la tabla de detalle de la biopsia
 	        document.add(addDetailBiopsiaTable(biopsia));
+	        document.add(chunkEnter);
 	        
 	        //agregamos el texto inicial
 	        addDetail(document);

@@ -109,6 +109,8 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 	        
 	        //agregamos la tabla de detalle de la biopsia
 	        document.add(addDetailBiopsiaTable(biopsia));
+	        document.add(chunkEnter);
+	        
 	        //agregamos la info de Macro
 	        addDetailMacro(document, writer);
 
@@ -234,17 +236,23 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 					if(lamina.getReactivosDTO() != null
 							&& lamina.getReactivosDTO().size() > 0){
 						for (ReactivoDTO reactivo : lamina.getReactivosDTO()) {
-							Paragraph p = new Paragraph();
-							p.setIndentationLeft(100);
-							p.setAlignment(Element.ALIGN_JUSTIFIED);
-							p.setSpacingBefore(0);
-							//p.add(chunkEnter);
-							p.add(new Chunk(reactivo.getNombre() + " (" + reactivo.getAbreviatura() + "): ", 
-									new Font(informeFontBold.getBaseFont(), 12F)));
-							p.add(new Chunk(reactivo.getDescripcionIHQ(), 
-									new Font(informeFontNormal.getBaseFont(), 12F)));
-							
-							document.add(p);
+							if("".equals(reactivo.getDescripcionIHQ().trim())){
+								log.info("Descartando reactivo '"
+										+ reactivo.getNombre() + " (" + reactivo.getAbreviatura() + ")'"
+										+ " por no tener resultado registrado");
+							} else {
+								Paragraph p = new Paragraph();
+								p.setIndentationLeft(100);
+								p.setAlignment(Element.ALIGN_JUSTIFIED);
+								p.setSpacingBefore(0);
+								//p.add(chunkEnter);
+								p.add(new Chunk(reactivo.getNombre() + " (" + reactivo.getAbreviatura() + "): ", 
+										new Font(informeFontBold.getBaseFont(), 12F)));
+								p.add(new Chunk(reactivo.getDescripcionIHQ(), 
+										new Font(informeFontNormal.getBaseFont(), 12F)));
+								
+								document.add(p);	
+							}
 						}
 						//document.add(chunkEnter);
 					}
@@ -276,8 +284,10 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 	private void addMapMacro(Document document, PdfWriter writer) throws DocumentException{
 		//procesamos las posibles fotos del mapa indicado
 		//int numeroFoto = 1;
-				
+		boolean addEnter = true;
+		
 		for (Integer linea : mapMacro.keySet()) {
+			addEnter = false;
 			List<String> mapLinea = mapMacro.get(linea);
 			
 			boolean esPerOperatoria = mapLinea.get(0).startsWith(JTableDiagnosticoWizard.SECCION_PER_OPERATORIA);
@@ -422,9 +432,15 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 					if(!haveDesc){
 						document.add(chunkEnter);
 					}
+					
 					document.add(table);
 				}
 			}
+		}
+		
+		if(addEnter){
+			log.info("No se agrego ninguna foto de Macro, se procede a insertar un ENTER para hacer separacion con el diagnostico.");
+			document.add(new Paragraph(chunkEnter));
 		}
 	}
 	

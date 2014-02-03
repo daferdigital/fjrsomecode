@@ -105,6 +105,7 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 		ventana.getTextApellido().setText("");
 		ventana.getTextEdad().setText("");
 		ventana.getTextProcedencia().setText("");
+		
 		ventana.getTextPiezaRecibida().setText("");
 		ventana.getComboEspecialidad().setSelectedIndex(0);
 		ventana.getTextReferido().setText("");
@@ -116,13 +117,18 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 			ventana.getTextNroBiopsia().setText(biopsia.getCodigo());
 			
 			String[] cedula = biopsia.getCliente().getCedula().split("\\-");
-			for(int i = 0; i < ventana.getComboTipoCedula().getItemCount(); i++){
-				if(((TipoCedulaDTO) ventana.getComboTipoCedula().getItemAt(i)).getKeyCedula().startsWith(cedula[0])){
-					ventana.getComboTipoCedula().setSelectedIndex(i);
-					break;
+			if(cedula.length == 2){
+				for(int i = 0; i < ventana.getComboTipoCedula().getItemCount(); i++){
+					if(((TipoCedulaDTO) ventana.getComboTipoCedula().getItemAt(i)).getKeyCedula().startsWith(cedula[0])){
+						ventana.getComboTipoCedula().setSelectedIndex(i);
+						break;
+					}
 				}
+				
+				ventana.getTextCedula().setText(cedula[1]);
+			} else {
+				log.info("No se obtuvo una cedula correcta desde base de datos, se procede a dejarla vacia");
 			}
-			ventana.getTextCedula().setText(cedula[1]);
 			
 			ventana.getTextNombrePaciente().setText(biopsia.getCliente().getNombres());
 			ventana.getTextApellido().setText(biopsia.getCliente().getApellidos());
@@ -181,8 +187,16 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 		}
 		
 		registro.setFaseActual(FasesBiopsia.INGRESO);
-		registro.setCliente(ClienteDAO.getByCedula((
-				(TipoCedulaDTO) ventana.getComboTipoCedula().getSelectedItem()).getKeyCedula() + ventana.getTextCedula().getText()));
+		
+		ClienteDTO cliente = ClienteDAO.getByCedula((
+				(TipoCedulaDTO) ventana.getComboTipoCedula().getSelectedItem()).getKeyCedula() + ventana.getTextCedula().getText());
+		if(cliente == null){
+			//no existe el cliente indicado, colocamos el por defecto
+			log.info("No existe el cliente indicado, colocamos el por defecto");
+			cliente = new ClienteDTO(-2, "", "", "", "", 0, "", "", "", false);
+		}
+		registro.setCliente(cliente);
+		
 		registro.setExamenBiopsia(
 				ExamenesDAO.getById(((ExamenBiopsiaDTO) ventana.getComboExamen().getSelectedItem()).getId()));
 		registro.setIdTipoEstudio(((TipoEstudioDTO) ventana.getComboTipoEstudio().getSelectedItem()).getId());
@@ -241,9 +255,12 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 		
 		//validamos los campos restantes del formulario
 		String errors = "";
+		//ya no se validara la obligatoriedad del cliente
+		/*
 		if(ClienteDAO.getByCedula(((TipoCedulaDTO) ventana.getComboTipoCedula().getSelectedItem()).getKeyCedula() + ventana.getTextCedula().getText()) == null){
 			errors += "La cedula indicada no existe.\n";
 		}
+		*/
 		if("".equals(ventana.getTextProcedencia().getText())){
 			errors += "Debe indicar un valor para la procedencia de esta pieza.\n";
 		}
