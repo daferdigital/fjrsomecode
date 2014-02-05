@@ -72,9 +72,8 @@ public class MicroscopicaPanelOperations implements KeyListener, ActionListener{
 		ventana.getTextNombrePaciente().setText("");
 		ventana.getTextPiezaRecibida().setText("");
 		ventana.getTextExamenARealizar().setText("");
-		ventana.getTextAIDx().setText("");
 		ventana.getTextADiagnostico().setText("");
-		ventana.getTextADiagnosticoIHQ().setText("");
+		ventana.getTextAEstudioIHQ().setText("");
 		ventana.getTableMicroLaminas().deleteAllRows();
 		
 		if(biopsia != null){
@@ -84,9 +83,9 @@ public class MicroscopicaPanelOperations implements KeyListener, ActionListener{
 					+ " " + biopsia.getCliente().getApellidos());
 			ventana.getTextPiezaRecibida().setText(biopsia.getIngresoDTO().getPiezaRecibida());
 			ventana.getTextExamenARealizar().setText(biopsia.getExamenBiopsia().getNombreExamen());
-			ventana.getTextAIDx().setText(biopsia.getIngresoDTO().getIdx());
+			ventana.setIDx(biopsia.getIngresoDTO().getIdx());
 			ventana.getTextADiagnostico().setText(biopsia.getMicroscopicaDTO().getDiagnostico());
-			ventana.getTextADiagnosticoIHQ().setText(biopsia.getMicroscopicaDTO().getEstudioIHQ());
+			ventana.getTextAEstudioIHQ().setText(biopsia.getMicroscopicaDTO().getEstudioIHQ());
 			
 			for (BiopsiaMicroLaminasDTO lamina : biopsia.getMicroscopicaDTO().getLaminasDTO()) {
 				String files = "";
@@ -454,9 +453,10 @@ public class MicroscopicaPanelOperations implements KeyListener, ActionListener{
 		BiopsiaInfoDTO biopsia = null;
 		biopsia = BiopsiaInfoDAO.getBiopsiaByNumero(ventana.getTextNroBiopsia().getText());
 		if(biopsia != null){
-			biopsia.getMicroscopicaDTO().setIdx(ventana.getTextAIDx().getText());
+			biopsia.getMicroscopicaDTO().setIdx(ventana.getIDx());
 			biopsia.getMicroscopicaDTO().setDiagnostico(ventana.getTextADiagnostico().getText());
-			biopsia.getMicroscopicaDTO().setEstudioIHQ(ventana.getTextADiagnosticoIHQ().getText());
+			biopsia.getMicroscopicaDTO().setEstudioIHQ(ventana.getTextAEstudioIHQ().getText());
+			biopsia.getMicroscopicaDTO().setDiagnosticoIHQ(ventana.getTextADiagnosticoIHQ().getText());
 			biopsia.getMicroscopicaDTO().setLaminasDTO(ventana.getTableMicroLaminas().getList());
 		}
 		

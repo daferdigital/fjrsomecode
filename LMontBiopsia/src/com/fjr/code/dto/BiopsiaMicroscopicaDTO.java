@@ -16,6 +16,7 @@ public class BiopsiaMicroscopicaDTO {
 	private String idx;
 	private String diagnostico;
 	private String estudioIHQ;
+	private String diagnosticoIHQ;
 	private List<BiopsiaMicroLaminasDTO> laminasDTO;
 	
 	public BiopsiaMicroscopicaDTO() {
@@ -52,6 +53,14 @@ public class BiopsiaMicroscopicaDTO {
 	
 	public void setEstudioIHQ(String estudioIHQ) {
 		this.estudioIHQ = estudioIHQ;
+	}
+	
+	public String getDiagnosticoIHQ() {
+		return diagnosticoIHQ;
+	}
+	
+	public void setDiagnosticoIHQ(String diagnosticoIHQ) {
+		this.diagnosticoIHQ = diagnosticoIHQ;
 	}
 	
 	public List<BiopsiaMicroLaminasDTO> getLaminasDTO() {

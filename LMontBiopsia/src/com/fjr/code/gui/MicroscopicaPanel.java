@@ -39,13 +39,14 @@ public class MicroscopicaPanel extends JPanel {
 	private JTextField textNombrePaciente;
 	private JTextField textPiezaRecibida;
 	private JTextField textExamenARealizar;
-	private JTextArea textAIDx;
 	private JTextArea textADiagnostico;
-	private JTextArea textADiagnosticoIHQ;
+	private JTextArea textAEstudioIHQ;
 	private JTable tblLaminas;
 	private JTableMicroLaminas tableMicroLaminas = JTableMicroLaminas.getNewInstance();
 	private JTable tblLaminasIHQ;
 	private JTableMicroLaminasIHQ tableMicroLaminasIHQ = JTableMicroLaminasIHQ.getNewInstance();
+	private String IDx;
+	private JTextArea textADiagnosticoIHQ;
 	
 	/**
 	 * Create the panel.
@@ -101,35 +102,15 @@ public class MicroscopicaPanel extends JPanel {
 		textExamenARealizar.setBounds(157, 101, 184, 20);
 		add(textExamenARealizar);
 		
-		JLabel labelDescMacroscopica = new JLabel("<html><b>IDx:</b></html>");
-		labelDescMacroscopica.setVerticalAlignment(SwingConstants.TOP);
-		labelDescMacroscopica.setHorizontalAlignment(SwingConstants.LEFT);
-		labelDescMacroscopica.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		labelDescMacroscopica.setBounds(10, 148, 117, 37);
-		add(labelDescMacroscopica);
-		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(157, 145, 289, 97);
-		add(scrollPane_1);
-		
-		textAIDx = new JTextArea();
-		textAIDx.setEnabled(false);
-		textAIDx.setEditable(false);
-		scrollPane_1.setViewportView(textAIDx);
-		textAIDx.setWrapStyleWord(true);
-		textAIDx.setLineWrap(true);
-		textAIDx.setBorder(new LineBorder(new Color(0, 0, 0)));
-		textAIDx.addMouseListener(new ListenerDobleClickTextArea(textAIDx));
-		
-		JLabel lblDescPeroperatoria = new JLabel("<html><b>Diagnostico:</b></html>");
-		lblDescPeroperatoria.setVerticalAlignment(SwingConstants.TOP);
-		lblDescPeroperatoria.setHorizontalAlignment(SwingConstants.LEFT);
-		lblDescPeroperatoria.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblDescPeroperatoria.setBounds(10, 256, 117, 37);
-		add(lblDescPeroperatoria);
+		JLabel lblDiagnostico = new JLabel("<html><b>Diagnostico:</b></html>");
+		lblDiagnostico.setVerticalAlignment(SwingConstants.TOP);
+		lblDiagnostico.setHorizontalAlignment(SwingConstants.LEFT);
+		lblDiagnostico.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblDiagnostico.setBounds(10, 135, 117, 37);
+		add(lblDiagnostico);
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
-		scrollPane_2.setBounds(157, 253, 289, 97);
+		scrollPane_2.setBounds(157, 132, 289, 97);
 		add(scrollPane_2);
 		
 		textADiagnostico = new JTextArea();
@@ -138,6 +119,42 @@ public class MicroscopicaPanel extends JPanel {
 		textADiagnostico.setLineWrap(true);
 		textADiagnostico.setBorder(new LineBorder(new Color(0, 0, 0)));
 		textADiagnostico.addMouseListener(new ListenerDobleClickTextArea(textADiagnostico));
+		
+		JLabel lblEstudioIHQ = new JLabel("<html><b>Estudio IHQ:</b></html>");
+		lblEstudioIHQ.setVerticalAlignment(SwingConstants.TOP);
+		lblEstudioIHQ.setHorizontalAlignment(SwingConstants.LEFT);
+		lblEstudioIHQ.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblEstudioIHQ.setBounds(10, 242, 117, 37);
+		add(lblEstudioIHQ);
+		
+		textAEstudioIHQ = new JTextArea();
+		textAEstudioIHQ.setWrapStyleWord(true);
+		textAEstudioIHQ.setLineWrap(true);
+		textAEstudioIHQ.setBorder(new LineBorder(new Color(0, 0, 0)));
+		textAEstudioIHQ.addMouseListener(new ListenerDobleClickTextArea(textAEstudioIHQ));
+		
+		JScrollPane scrollPane_4 = new JScrollPane();
+		scrollPane_4.setBounds(158, 240, 287, 95);
+		add(scrollPane_4);
+		scrollPane_4.setViewportView(textAEstudioIHQ);
+		
+		JLabel lblDiagnosticoIHQ = new JLabel("<html><b>Diagnostico IHQ:</b></html>");
+		lblDiagnosticoIHQ.setVerticalAlignment(SwingConstants.TOP);
+		lblDiagnosticoIHQ.setHorizontalAlignment(SwingConstants.LEFT);
+		lblDiagnosticoIHQ.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblDiagnosticoIHQ.setBounds(10, 348, 117, 37);
+		add(lblDiagnosticoIHQ);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(157, 348, 285, 93);
+		add(scrollPane_1);
+		
+		textADiagnosticoIHQ = new JTextArea();
+		textADiagnosticoIHQ.setWrapStyleWord(true);
+		textADiagnosticoIHQ.setLineWrap(true);
+		textADiagnosticoIHQ.setBorder(new LineBorder(new Color(0, 0, 0)));
+		textADiagnosticoIHQ.addMouseListener(new ListenerDobleClickTextArea(textADiagnosticoIHQ));
+		scrollPane_1.setViewportView(textADiagnosticoIHQ);
 		
 		JButton btnGuardar = new JButton("Guardar");
 		btnGuardar.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -191,24 +208,6 @@ public class MicroscopicaPanel extends JPanel {
 		lblNewLabel_1.setBounds(595, 22, 326, 14);
 		add(lblNewLabel_1);
 		
-		JLabel lbldiagnosticoPorIhq = new JLabel("<html><b>Estudio IHQ:</b></html>");
-		lbldiagnosticoPorIhq.setVerticalAlignment(SwingConstants.TOP);
-		lbldiagnosticoPorIhq.setHorizontalAlignment(SwingConstants.LEFT);
-		lbldiagnosticoPorIhq.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lbldiagnosticoPorIhq.setBounds(10, 363, 117, 37);
-		add(lbldiagnosticoPorIhq);
-		
-		textADiagnosticoIHQ = new JTextArea();
-		textADiagnosticoIHQ.setWrapStyleWord(true);
-		textADiagnosticoIHQ.setLineWrap(true);
-		textADiagnosticoIHQ.setBorder(new LineBorder(new Color(0, 0, 0)));
-		textADiagnosticoIHQ.addMouseListener(new ListenerDobleClickTextArea(textADiagnosticoIHQ));
-		
-		JScrollPane scrollPane_4 = new JScrollPane();
-		scrollPane_4.setBounds(158, 361, 287, 95);
-		add(scrollPane_4);
-		scrollPane_4.setViewportView(textADiagnosticoIHQ);
-		
 		JLabel lbllaacuteminasIhq = new JLabel("<html>L&aacute;minas IHQ: </html>:");
 		lbllaacuteminasIhq.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lbllaacuteminasIhq.setBounds(512, 256, 127, 26);
@@ -258,12 +257,20 @@ public class MicroscopicaPanel extends JPanel {
 		return textExamenARealizar;
 	}
 
-	public JTextArea getTextAIDx() {
-		return textAIDx;
+	public String getIDx() {
+		return IDx;
 	}
-
+	
+	public void setIDx(String iDx) {
+		IDx = iDx;
+	}
+	
 	public JTextArea getTextADiagnostico() {
 		return textADiagnostico;
+	}
+	
+	public JTextArea getTextAEstudioIHQ() {
+		return textAEstudioIHQ;
 	}
 	
 	public JTextArea getTextADiagnosticoIHQ() {

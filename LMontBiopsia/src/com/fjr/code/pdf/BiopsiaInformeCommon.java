@@ -47,12 +47,12 @@ abstract class BiopsiaInformeCommon {
 	 */
 	private String formatCedula(String cedula){
 		String formattedCedula = cedula;
+		String number = "";
 		
 		try {
 			//separamos el tipo de cedula del numero
 			String[] pieces = cedula.split("-");
 			String type = pieces[0].concat("-");
-			String number = "";
 			
 			for (int i = 0; i < cedula.toCharArray().length; i++) {
 				try {
@@ -67,6 +67,11 @@ abstract class BiopsiaInformeCommon {
 		} catch (Exception e) {
 			// TODO: handle exception
 			log.error("Error formateando la cedula '" + cedula + "'. Error: " + e.getLocalizedMessage(), e);
+			if("".equals(number)){
+				//la cedula es vacia, debemos colocar el N/I respectivo
+				log.info("Como la cedula es vacia, colocamos el texto N/I");
+				formattedCedula = " N/I";
+			}
 		}
 		
 		log.info("Cedula '" + cedula + "' formateada a '" + formattedCedula + "'");
@@ -106,7 +111,14 @@ abstract class BiopsiaInformeCommon {
 		cell6.setBorder(0);
 		cell6.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 		
-		PdfPCell cell7 = new PdfPCell(new Phrase(biopsia.getCliente().getEdad() + " años C.I. "
+		String edad = "";
+		if(biopsia.getCliente().getEdad() < 1){
+			edad = " N/I ";
+		}else {
+			edad = " " + biopsia.getCliente().getEdad() + " " 
+					+ biopsia.getCliente().getTipoEdad().getNombre().toLowerCase();
+		}
+		PdfPCell cell7 = new PdfPCell(new Phrase(edad + " C.I. "
 				+ formatCedula(biopsia.getCliente().getCedula()), informeFontNormal));
 		cell7.setBorder(0);
 		

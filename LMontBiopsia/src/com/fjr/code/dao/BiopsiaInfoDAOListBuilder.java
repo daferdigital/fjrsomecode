@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 
 import com.fjr.code.dao.definitions.DAOListBuilder;
 import com.fjr.code.dao.definitions.FasesBiopsia;
+import com.fjr.code.dao.definitions.TipoEdadEnum;
 import com.fjr.code.dto.BiopsiaHistologiaDTO;
 import com.fjr.code.dto.BiopsiaInfoDTO;
 import com.fjr.code.dto.BiopsiaIngresoDTO;
@@ -48,8 +49,8 @@ class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO> {
 			+ " bh.descripcion,"
 			//datos basicos de micro 32-34
 			+ " bmi.idx, bmi.diagnostico, bmi.estudio_ihq,"
-			//otros valores 35-38
-			+ " b.fecha_registro, p.genero, b.id_tipo_estudio, tie.abreviatura"
+			//otros valores 35-40
+			+ " b.fecha_registro, p.genero, b.id_tipo_estudio, tie.abreviatura, c.tipo_edad, bmi.diagnostico_ihq"
 			+ " FROM  biopsias b LEFT JOIN biopsias_ingresos bi ON b.id = bi.id"
 			+ " LEFT JOIN biopsias_macroscopicas bm ON b.id = bm.id"
 			+ " LEFT JOIN biopsias_histologias bh ON b.id = bh.id"
@@ -325,6 +326,18 @@ class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO> {
 						rowSet.getString(36)));
 				
 				//datos especificos del cliente
+				TipoEdadEnum tipoEdad;
+				switch (rowSet.getInt(39)) {
+				case 1:
+					tipoEdad = TipoEdadEnum.MESES;
+					break;
+				case 2:
+					tipoEdad = TipoEdadEnum.ANIOS;
+					break;
+				default:
+					tipoEdad = TipoEdadEnum.ANIOS;
+					break;
+				}
 				biopsiaAllInfo.setCliente(
 						new ClienteDTO(rowSet.getInt(12), 
 								rowSet.getString(13), 
@@ -332,6 +345,7 @@ class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO> {
 								rowSet.getString(15), 
 								rowSet.getString(16), 
 								rowSet.getInt(17), 
+								tipoEdad,
 								rowSet.getString(18), 
 								rowSet.getString(19), 
 								rowSet.getString(20), 
@@ -366,6 +380,7 @@ class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO> {
 				microDTO.setIdx(rowSet.getString(32));
 				microDTO.setDiagnostico(rowSet.getString(33));
 				microDTO.setEstudioIHQ(rowSet.getString(34));
+				microDTO.setDiagnosticoIHQ(rowSet.getString(40));
 				
 				//agregamos los DTO
 				biopsiaAllInfo.setIngresoDTO(ingresoDTO);

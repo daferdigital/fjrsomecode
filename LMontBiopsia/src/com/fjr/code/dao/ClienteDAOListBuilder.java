@@ -8,6 +8,7 @@ import javax.sql.rowset.CachedRowSet;
 import org.apache.log4j.Logger;
 
 import com.fjr.code.dao.definitions.DAOListBuilder;
+import com.fjr.code.dao.definitions.TipoEdadEnum;
 import com.fjr.code.dto.ClienteDTO;
 import com.fjr.code.util.DBUtil;
 
@@ -24,7 +25,7 @@ final class ClienteDAOListBuilder implements DAOListBuilder<ClienteDTO>{
 	private static final Logger log = Logger.getLogger(ClienteDAOListBuilder.class);
 	
 	private static final String BEGIN = "SELECT c.id, c.id_premium, c.cedula, c.nombres, c.apellidos, "
-				+ " c.edad, c.telefono, c.correo, c.direccion, c.activo"
+				+ " c.edad, c.telefono, c.correo, c.direccion, c.activo, c.tipo_edad"
 				+ " FROM cliente c"
 				+ " WHERE 1 = 1";
 	private static final String END = " ORDER BY c.nombres, c.apellidos";
@@ -88,12 +89,26 @@ final class ClienteDAOListBuilder implements DAOListBuilder<ClienteDTO>{
 					getParameters());
 			
 			while (rowSet.next()) {
+				TipoEdadEnum tipoEdad;
+				
+				switch (rowSet.getInt(11)) {
+				case 1:
+					tipoEdad = TipoEdadEnum.MESES;
+					break;
+				case 2:
+					tipoEdad = TipoEdadEnum.ANIOS;
+					break;
+				default:
+					tipoEdad = TipoEdadEnum.ANIOS;
+					break;
+				}
 				results.add(new ClienteDTO(rowSet.getInt(1), 
 						rowSet.getString(2), 
 						rowSet.getString(3), 
 						rowSet.getString(4), 
 						rowSet.getString(5), 
-						rowSet.getInt(6), 
+						rowSet.getInt(6),
+						tipoEdad,
 						rowSet.getString(7), 
 						rowSet.getString(8), 
 						rowSet.getString(9),
