@@ -8,7 +8,10 @@ import java.awt.event.KeyListener;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import org.apache.log4j.Logger;
+
 import com.fjr.code.dao.ClienteDAO;
+import com.fjr.code.dao.definitions.TipoEdadEnum;
 import com.fjr.code.dto.ClienteDTO;
 import com.fjr.code.dto.TipoCedulaDTO;
 import com.fjr.code.gui.ClienteFormDialog;
@@ -25,6 +28,7 @@ import com.fjr.code.util.KeyEventsUtil;
  *
  */
 public class ClienteFormDialogOperations implements KeyListener, ActionListener{
+	private static final Logger log = Logger.getLogger(ClienteFormDialogOperations.class);
 	public static final String ACTION_COMMAND_BUTTON_OK = "ok";
 	public static final String ACTION_COMMAND_BUTTON_CANCEL = "cancel";
 	public static final String ACTION_COMMAND_TEXT_CEDULA = "nroCedula";
@@ -53,7 +57,7 @@ public class ClienteFormDialogOperations implements KeyListener, ActionListener{
 			//se desea guardar los datos de la ventana
 			//debemos validarlos
 			String errors = "";
-			
+			/*
 			if("".equals(ventana.getTextNroCedula().getText().trim())){
 				errors += "La cédula es obligatoria.\n";
 			}
@@ -66,6 +70,7 @@ public class ClienteFormDialogOperations implements KeyListener, ActionListener{
 			if("".equals(ventana.getTextTelefono().getText().trim())){
 				errors += "El teléfono es obligatorio.\n";
 			}
+			*/
 			if(! "".equals(ventana.getTextCorreo().getText())){
 				if(! KeyEventsUtil.isAValidEmailAddress(ventana.getTextCorreo().getText())){
 					errors += "La dirección de correo no es válida.\n";
@@ -73,13 +78,20 @@ public class ClienteFormDialogOperations implements KeyListener, ActionListener{
 			}
 			
 			if("".equals(errors)){
+				//verifico si es un insert o una actualizacion
+				if(ventana.getCliente() == null){
+					log.in
+				} else {
+					
+				}
 				//procedo a insertar
 				int newId = ClienteDAO.insertRecord(new ClienteDTO(0, 
 						"", 
-						((TipoCedulaDTO)ventana.getComboTipoCedula().getSelectedItem()).getKeyCedula() + ventana.getTextNroCedula().getText(), 
+						((TipoCedulaDTO) ventana.getComboTipoCedula().getSelectedItem()).getKeyCedula() + ventana.getTextNroCedula().getText(), 
 						ventana.getTextNombre().getText(), 
 						ventana.getTextApellido().getText(), 
-						Integer.parseInt(ventana.getComboEdad().getSelectedItem().toString()), 
+						ventana.getComboEdad().getSelectedIndex(),
+						(TipoEdadEnum) ventana.getcBoxTipoEdad().getSelectedItem(),
 						ventana.getTextTelefono().getText(), 
 						ventana.getTextCorreo().getText(), 
 						ventana.getTextAreaDireccion().getText(), 
@@ -130,7 +142,6 @@ public class ClienteFormDialogOperations implements KeyListener, ActionListener{
 				}
 			}
 		}
-		
 	}
 
 	@Override

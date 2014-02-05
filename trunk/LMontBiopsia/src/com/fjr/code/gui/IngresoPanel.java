@@ -109,6 +109,13 @@ public class IngresoPanel extends JPanel {
 		textCedula.setBounds(237, 40, 118, 20);
 		add(textCedula);
 		
+		JButton btnUpdateClient = new JButton("...");
+		btnUpdateClient.setToolTipText("Click para actualizar el cliente de este estudio");
+		btnUpdateClient.setFont(new Font("Tahoma", Font.BOLD, 13));
+		btnUpdateClient.setBounds(365, 38, 23, 23);
+		btnUpdateClient.setActionCommand(IngresoPanelOperations.ACTION_COMMAND_UPDATE_CLIENT);
+		add(btnUpdateClient);
+		
 		JLabel lblNombrePaciente = new JLabel("<html><b>Nombre del Paciente:</b><html>");
 		lblNombrePaciente.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblNombrePaciente.setBounds(20, 69, 145, 14);
@@ -356,6 +363,7 @@ public class IngresoPanel extends JPanel {
 		btnAddTipoEstudio.addActionListener(listener);
 		btnEspecialidad.addActionListener(listener);
 		btnExamen.addActionListener(listener);
+		btnUpdateClient.addActionListener(listener);
 		setVisible(true);
 	}
 

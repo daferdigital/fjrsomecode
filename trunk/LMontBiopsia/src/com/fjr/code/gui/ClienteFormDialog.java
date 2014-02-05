@@ -8,15 +8,21 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.Toolkit;
+
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
+
 import java.awt.Font;
+
 import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
 
 import com.fjr.code.dao.TipoCedulaDAO;
+import com.fjr.code.dao.definitions.TipoEdadEnum;
+import com.fjr.code.dto.ClienteDTO;
 import com.fjr.code.gui.operations.ClienteFormDialogOperations;
 
 import java.awt.Color;
@@ -48,26 +54,32 @@ public class ClienteFormDialog extends JDialog {
 	private JTextArea textAreaDireccion;
 	private JButton okButton;
 	private JButton cancelButton;
-
+	
 	private Object ventanaReferencia;
+	private JComboBox cBoxTipoEdad;
+	private ClienteDTO cliente;
+	private int idCliente;
 	
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			ClienteFormDialog dialog = new ClienteFormDialog(0, "", null);
+			ClienteFormDialog dialog = new ClienteFormDialog(null, 0, "", null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
+	
 	/**
-	 * Create the dialog.
+	 * @param cliente
+	 * @param indexTipoCedula
+	 * @param cedula
+	 * @param ventanaReferencia
 	 */
-	public ClienteFormDialog(int indexTipoCedula, String cedula, Object ventanaReferencia) {
+	public ClienteFormDialog(ClienteDTO cliente, int indexTipoCedula, String cedula, Object ventanaReferencia) {
 		this.ventanaReferencia = ventanaReferencia;
 		
 		setTitle("Informaci\u00F3n de Paciente");
@@ -82,7 +94,7 @@ public class ClienteFormDialog extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
-		JLabel lblceacutedula = new JLabel("<html><b>C&eacute;dula: (*)</b></html>");
+		JLabel lblceacutedula = new JLabel("<html><b>C&eacute;dula:</b></html>");
 		lblceacutedula.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblceacutedula.setBounds(10, 11, 127, 14);
 		contentPanel.add(lblceacutedula);
@@ -100,7 +112,7 @@ public class ClienteFormDialog extends JDialog {
 		textNroCedula.setName(ClienteFormDialogOperations.ACTION_COMMAND_TEXT_CEDULA);
 		contentPanel.add(textNroCedula);
 		
-		JLabel lblnombreDelPaciente = new JLabel("<html><b>Nombre del Paciente(*):</b><html>");
+		JLabel lblnombreDelPaciente = new JLabel("<html><b>Nombre del Paciente:</b><html>");
 		lblnombreDelPaciente.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblnombreDelPaciente.setBounds(10, 36, 157, 14);
 		contentPanel.add(lblnombreDelPaciente);
@@ -110,7 +122,7 @@ public class ClienteFormDialog extends JDialog {
 		contentPanel.add(textNombre);
 		textNombre.setColumns(10);
 		
-		JLabel lblapellidoDelPaciente = new JLabel("<html><b>Apellido del Paciente(*):</b><html>");
+		JLabel lblapellidoDelPaciente = new JLabel("<html><b>Apellido del Paciente:</b><html>");
 		lblapellidoDelPaciente.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblapellidoDelPaciente.setBounds(10, 61, 170, 14);
 		contentPanel.add(lblapellidoDelPaciente);
@@ -127,12 +139,19 @@ public class ClienteFormDialog extends JDialog {
 		
 		comboEdad = new JComboBox();
 		comboEdad.setBounds(174, 86, 72, 20);
+		comboEdad.addItem("N/I");
 		for(int i = 1; i < 101; i++){
 			comboEdad.addItem((i < 10 ? "0" : "") + i);
 		}
 		contentPanel.add(comboEdad);
 		
-		JLabel lblteleacutefono = new JLabel("<html><b>Tel&eacute;fono(*):</b><html>");
+		cBoxTipoEdad = new JComboBox();
+		cBoxTipoEdad.setBounds(256, 86, 88, 20);
+		cBoxTipoEdad.addItem(TipoEdadEnum.ANIOS);
+		cBoxTipoEdad.addItem(TipoEdadEnum.MESES);
+		contentPanel.add(cBoxTipoEdad);
+		
+		JLabel lblteleacutefono = new JLabel("<html><b>Tel&eacute;fono:</b><html>");
 		lblteleacutefono.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblteleacutefono.setBounds(10, 111, 145, 14);
 		contentPanel.add(lblteleacutefono);
@@ -202,7 +221,7 @@ public class ClienteFormDialog extends JDialog {
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
-	
+
 	public JComboBox getComboTipoCedula() {
 		return comboTipoCedula;
 	}
@@ -242,6 +261,10 @@ public class ClienteFormDialog extends JDialog {
 	public void setComboEdad(JComboBox comboEdad) {
 		this.comboEdad = comboEdad;
 	}
+	
+	public JComboBox getcBoxTipoEdad() {
+		return cBoxTipoEdad;
+	}
 
 	public JTextField getTextTelefono() {
 		return textTelefono;
@@ -269,5 +292,9 @@ public class ClienteFormDialog extends JDialog {
 	
 	public Object getVentanaReferencia() {
 		return ventanaReferencia;
+	}
+	
+	public ClienteDTO getCliente() {
+		return cliente;
 	}
 }

@@ -1,5 +1,7 @@
 package com.fjr.code.dto;
 
+import com.fjr.code.dao.definitions.TipoEdadEnum;
+
 /**
  * 
  * Class: ClienteDTO
@@ -16,6 +18,7 @@ public class ClienteDTO {
 	private String nombres;
 	private String apellidos;
 	private int edad;
+	private TipoEdadEnum tipoEdad;
 	private String telefono;
 	private String correo;
 	private String direccion;
@@ -29,13 +32,14 @@ public class ClienteDTO {
 	 * @param nombres
 	 * @param apellidos
 	 * @param edad
+	 * @param tipoEdad
 	 * @param telefono
 	 * @param correo
 	 * @param direccion
 	 * @param activo
 	 */
 	public ClienteDTO(int id, String idPremium, String cedula, String nombres,
-			String apellidos, int edad, String telefono, String correo, 
+			String apellidos, int edad, TipoEdadEnum tipoEdad, String telefono, String correo, 
 			String direccion, boolean activo) {
 		// TODO Auto-generated constructor stub
 		setId(id);
@@ -96,6 +100,14 @@ public class ClienteDTO {
 
 	public void setEdad(int edad) {
 		this.edad = edad;
+	}
+	
+	public TipoEdadEnum getTipoEdad() {
+		return tipoEdad;
+	}
+	
+	public void setTipoEdad(TipoEdadEnum tipoEdad) {
+		this.tipoEdad = tipoEdad;
 	}
 
 	public String getTelefono() {

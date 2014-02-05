@@ -606,8 +606,8 @@ public class BiopsiaInfoDAO {
 	 * @return
 	 */
 	public static boolean updateMicro(BiopsiaInfoDTO biopsiaInfoDTO, boolean goToIHQ) {
-		final String queryInsertMicro = "INSERT INTO biopsias_microscopicas (id, idx, diagnostico, estudio_ihq) VALUES (?,?,?,?)";
-		final String queryUpdateMicro = "UPDATE biopsias_microscopicas SET idx=?, diagnostico=?, estudio_ihq=? WHERE id=? ";
+		final String queryInsertMicro = "INSERT INTO biopsias_microscopicas (id, idx, diagnostico, estudio_ihq, diagnostico_ihq) VALUES (?,?,?,?,?)";
+		final String queryUpdateMicro = "UPDATE biopsias_microscopicas SET idx=?, diagnostico=?, estudio_ihq=?, diagnostico_ihq=? WHERE id=? ";
 		final String queryInsertLaminasReactivos = "INSERT INTO micro_laminas (descripcion, id_reactivo, id, cassete, bloque, lamina, reprocesar) VALUES(?,?,?,?,?,?,?)";
 		final String queryLaminasReactivos = "DELETE FROM micro_laminas WHERE id=? AND cassete=? AND bloque=? AND lamina=?";
 		final String queryDeleteLaminasFiles = "DELETE FROM micro_laminas_files WHERE id=? AND cassete=? AND bloque=? AND lamina=?";
@@ -622,6 +622,7 @@ public class BiopsiaInfoDAO {
 			parameters.add(biopsiaInfoDTO.getMicroscopicaDTO().getIdx());
 			parameters.add(biopsiaInfoDTO.getMicroscopicaDTO().getDiagnostico());
 			parameters.add(biopsiaInfoDTO.getMicroscopicaDTO().getEstudioIHQ());
+			parameters.add(biopsiaInfoDTO.getMicroscopicaDTO().getDiagnosticoIHQ());
 			parameters.add(biopsiaInfoDTO.getId());
 			
 			if(DBUtil.executeNonSelectQuery(queryUpdateMicro, parameters)){
@@ -634,6 +635,7 @@ public class BiopsiaInfoDAO {
 			parameters.add(biopsiaInfoDTO.getMicroscopicaDTO().getIdx());
 			parameters.add(biopsiaInfoDTO.getMicroscopicaDTO().getDiagnostico());
 			parameters.add(biopsiaInfoDTO.getMicroscopicaDTO().getEstudioIHQ());
+			parameters.add(biopsiaInfoDTO.getMicroscopicaDTO().getDiagnosticoIHQ());
 			
 			if(DBUtil.executeInsertQueryAsBoolean(queryInsertMicro, parameters)){
 				result = true;

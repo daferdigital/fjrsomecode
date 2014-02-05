@@ -24,6 +24,7 @@ import com.fjr.code.dao.ExamenesDAO;
 import com.fjr.code.dao.PatologoDAO;
 import com.fjr.code.dao.TipoEstudioDAO;
 import com.fjr.code.dao.definitions.FasesBiopsia;
+import com.fjr.code.dao.definitions.TipoEdadEnum;
 import com.fjr.code.dto.BiopsiaInfoDTO;
 import com.fjr.code.dto.BiopsiaIngresoDTO;
 import com.fjr.code.dto.ClienteDTO;
@@ -61,6 +62,7 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 	
 	public static final String ACTION_COMMAND_NRO_BIOPSIA = "nroBiopsia";
 	public static final String ACTION_COMMAND_NRO_CEDULA = "nroCedula";
+	public static final String ACTION_COMMAND_UPDATE_CLIENT = "btnUpdateClient";
 	public static final String ACTION_COMMAND_COMBO_TIPO_EXAMEN = "comboTipoExamenChanged";
 	public static final String ACTION_COMMAND_COMBO_EXAMEN = "comboExamenChanged";
 	public static final String ACTION_COMMAND_BTN_ADD_TIPO_ESTUDIO = "btnAddTipoEstudio";
@@ -77,6 +79,7 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 	private IngresoPanel ventana;
 	
 	private BiopsiaInfoDTO biopsiaInfoDTO;
+	private ClienteDTO clienteDTO;
 	
 	/**
 	 * 
@@ -132,7 +135,13 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 			
 			ventana.getTextNombrePaciente().setText(biopsia.getCliente().getNombres());
 			ventana.getTextApellido().setText(biopsia.getCliente().getApellidos());
-			ventana.getTextEdad().setText(Integer.toString(biopsia.getCliente().getEdad()));
+			if(biopsia.getCliente().getEdad() < 1){
+				ventana.getTextEdad().setText(" N/I");
+			} else {
+				ventana.getTextEdad().setText(Integer.toString(biopsia.getCliente().getEdad())
+						+ " " + biopsia.getCliente().getTipoEdad().getNombre().toLowerCase());
+			}
+			
 			ventana.getTextProcedencia().setText(biopsia.getIngresoDTO().getProcedencia());
 			ventana.getTextPiezaRecibida().setText(biopsia.getIngresoDTO().getPiezaRecibida());
 			
@@ -193,7 +202,7 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 		if(cliente == null){
 			//no existe el cliente indicado, colocamos el por defecto
 			log.info("No existe el cliente indicado, colocamos el por defecto");
-			cliente = new ClienteDTO(-2, "", "", "", "", 0, "", "", "", false);
+			cliente = new ClienteDTO(-2, "", "", "", "", 0, TipoEdadEnum.ANIOS, "", "", "", false);
 		}
 		registro.setCliente(cliente);
 		
@@ -377,6 +386,18 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 			new ExamenDialog(-1).setVisible(true);
 			ventana.getComboExamen().removeAllItems();
 			ExamenesDAO.populateJCombo(ventana.getComboExamen());
+		} else if(ACTION_COMMAND_UPDATE_CLIENT.equals(e.getActionCommand())){
+			ClienteDTO cliente = null;
+			if(biopsiaInfoDTO != null){
+				cliente = biopsiaInfoDTO.getCliente();
+			}
+			ClienteFormDialog clienteForm = new ClienteFormDialog(cliente, -1, "", ventana);
+			clienteForm.setVisible(true);
+			clienteDTO = clienteForm.getCliente();
+			//actualizamos el registro de cliente en esta biopsia
+			if(biopsiaInfoDTO != null){
+				biopsiaInfoDTO.setCliente(clienteDTO);
+			}
 		}
 	}
 
@@ -480,7 +501,12 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 						if(cliente.isActivo()){
 							ventana.getTextNombrePaciente().setText(cliente.getNombres());
 							ventana.getTextApellido().setText(cliente.getApellidos());
-							ventana.getTextEdad().setText(Integer.toString(cliente.getEdad()));
+							if(cliente.getEdad() < 1){
+								ventana.getTextEdad().setText(" N/I");
+							} else {
+								ventana.getTextEdad().setText(Integer.toString(cliente.getEdad())
+										+ " " + cliente.getTipoEdad().getNombre().toLowerCase());
+							}
 						} else {
 							JOptionPane.showMessageDialog(ventana,
 									"El cliente relacionado a esa cedula no se encuentra activo en el sistema.",
@@ -543,7 +569,7 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 
 							if(option == JOptionPane.OK_OPTION){
 								//mostramos la ventana para crear clientes
-								new ClienteFormDialog(ventana.getComboTipoCedula().getSelectedIndex(), 
+								new ClienteFormDialog(null, ventana.getComboTipoCedula().getSelectedIndex(), 
 										field.getText(),
 										ventana);
 							}

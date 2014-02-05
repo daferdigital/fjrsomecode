@@ -1,14 +1,23 @@
 INSERT INTO `cliente` (`id`, `cedula`, `nombres`, `apellidos`, `edad`, `telefono`, `correo`, `direccion`, `activo`) VALUES ('-2', '', '', '', '0', '', '', '', '1');
+
 ALTER TABLE `lmont_biopsia`.`biopsias` DROP FOREIGN KEY `FK_BIOPSIA_CLIENTE` ;
+
 ALTER TABLE `lmont_biopsia`.`biopsias` CHANGE COLUMN `id_cliente` `id_cliente` INT(11) NOT NULL DEFAULT -2  , 
   ADD CONSTRAINT `FK_BIOPSIA_CLIENTE`
   FOREIGN KEY (`id_cliente` )
   REFERENCES `lmont_biopsia`.`cliente` (`id` )
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
+
 ALTER TABLE `lmont_biopsia`.`macro_fotos` CHANGE COLUMN `foto` `foto` LONGBLOB NULL  , CHANGE COLUMN `file_name` `file_name` VARCHAR(250) NULL DEFAULT ''  , ADD COLUMN `id_pk` INT NOT NULL AUTO_INCREMENT  AFTER `es_foto_per_operatoria` 
 , DROP PRIMARY KEY 
 , ADD PRIMARY KEY (`id_pk`) ;
+
+ALTER TABLE `lmont_biopsia`.`cliente` DROP INDEX `cedula_UNIQUE` ;
+
+ALTER TABLE `lmont_biopsia`.`cliente` CHANGE COLUMN `direccion` `direccion` TEXT NULL  , ADD COLUMN `tipo_edad` INT NULL DEFAULT 2 COMMENT '1 para meses, 2 para anhos'  AFTER `activo` ;
+
+ALTER TABLE `lmont_biopsia`.`biopsias_microscopicas` CHANGE COLUMN `diagnostico` `diagnostico` TEXT NULL  , ADD COLUMN `diagnostico_ihq` TEXT NULL DEFAULT NULL  AFTER `estudio_ihq` ;
 
 CREATE  TABLE `lmont_biopsia`.`usuario_modulos` (
   `id_modulo` INT NOT NULL ,
