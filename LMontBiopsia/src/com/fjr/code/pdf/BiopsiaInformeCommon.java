@@ -31,6 +31,8 @@ abstract class BiopsiaInformeCommon {
 	private static final Logger log = Logger.getLogger(BiopsiaInformeCommon.class);
 	private static final NumberFormat nf = NumberFormat.getNumberInstance();
 	
+	protected static final Chunk chunkEnter = Chunk.NEWLINE;
+	protected static final Chunk tab1 = Chunk.SPACETABBING;
 	protected Font informeFontNormal = FuenteInformeUtil.getInformeFontNormal();
 	protected Font informeFontBold = FuenteInformeUtil.getInformeFontBold();
 	
@@ -153,39 +155,65 @@ abstract class BiopsiaInformeCommon {
 	}
 	
 	/**
+	 * 
 	 * @param writer
 	 * @param document
-	 * @param biopsia 
+	 * @param biopsia
 	 * @throws DocumentException
 	 */
 	protected void addDiagnostico(PdfWriter writer, Document document, 
 			BiopsiaInfoDTO biopsia) throws DocumentException{
-		//dandole al diagnostico al menos 3 lineas, verificamos si debe pasar a la siguiente hoja o no
-		log.info("writer.getVerticalPosition(true)/document.bottom() " + writer.getVerticalPosition(true) 
-				+ "/" + document.bottom());
-		//espacio faltante para el margen inferior del documento
-		int espacioFaltante = (int) (writer.getVerticalPosition(true) - document.bottom());
-		if(espacioFaltante < 50){
-			log.info("El diagnostico no va a caber al final de la hoja actual, se pasa de primero a la siguiente");
-			document.newPage();
+		addDiagnostico(writer, document, biopsia, false);
+	}
+	
+	/**
+	 * 
+	 * @param writer
+	 * @param document
+	 * @param biopsia
+	 * @param isIHQ
+	 * @throws DocumentException
+	 */
+	protected void addDiagnostico(PdfWriter writer, Document document, 
+			BiopsiaInfoDTO biopsia, boolean isIHQ) throws DocumentException{
+		boolean printDiagnostico = (isIHQ && !"".equals(biopsia.getMicroscopicaDTO().getDiagnosticoIHQ().trim())
+				|| (!isIHQ && !"".equals(biopsia.getMicroscopicaDTO().getDiagnostico().trim())));
+		
+		if(printDiagnostico){
+			//dandole al diagnostico al menos 3 lineas, verificamos si debe pasar a la siguiente hoja o no
+			log.info("writer.getVerticalPosition(true)/document.bottom() " + writer.getVerticalPosition(true) 
+					+ "/" + document.bottom());
+			//espacio faltante para el margen inferior del documento
+			int espacioFaltante = (int) (writer.getVerticalPosition(true) - document.bottom());
+			if(espacioFaltante < 50){
+				log.info("El diagnostico no va a caber al final de la hoja actual, se pasa de primero a la siguiente");
+				document.newPage();
+			}
+			
+			Chunk title1 = new Chunk("DIAGNOSTICO:", 
+					new Font(informeFontBold.getBaseFont(), 12F, Font.UNDERLINE));
+			Phrase value1 = null;
+			if(isIHQ){
+				value1 = new Phrase(biopsia.getMicroscopicaDTO().getDiagnosticoIHQ(), 
+						new Font(informeFontNormal.getBaseFont(), 12F));
+			} else {
+				value1 = new Phrase(biopsia.getMicroscopicaDTO().getDiagnostico(), 
+						new Font(informeFontNormal.getBaseFont(), 12F));
+			}
+			
+			Paragraph p1 = new Paragraph();
+			p1.setIndentationLeft(50);
+			p1.add(chunkEnter);
+			p1.add(title1);
+			
+			Paragraph p2 = new Paragraph();
+			p2.setIndentationLeft(100);
+			p2.setAlignment(Element.ALIGN_JUSTIFIED);
+			p2.add(value1);
+			
+			document.add(p1);
+			document.add(p2);
 		}
-		
-		Chunk title1 = new Chunk("DIAGNOSTICO:", 
-				new Font(informeFontBold.getBaseFont(), 12F, Font.UNDERLINE));
-		Phrase value1 = new Phrase(biopsia.getMicroscopicaDTO().getDiagnostico(), 
-				new Font(informeFontNormal.getBaseFont(), 12F));
-		
-		Paragraph p1 = new Paragraph();
-		p1.setIndentationLeft(50);
-		p1.add(title1);
-		
-		Paragraph p2 = new Paragraph();
-		p2.setIndentationLeft(100);
-		p2.setAlignment(Element.ALIGN_JUSTIFIED);
-		p2.add(value1);
-		
-		document.add(p1);
-		document.add(p2);
 	}
 	
 	/**

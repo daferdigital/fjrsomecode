@@ -79,45 +79,88 @@ public class ClienteFormDialogOperations implements KeyListener, ActionListener{
 			
 			if("".equals(errors)){
 				//verifico si es un insert o una actualizacion
-				if(ventana.getCliente() == null){
-					log.in
-				} else {
+				if(ventana.isNewClient()){
+					log.info("Se desea crear un nuevo registro de cliente");
+					//procedo a insertar
+					ClienteDTO clienteDTO = new ClienteDTO(0, 
+							"", 
+							((TipoCedulaDTO) ventana.getComboTipoCedula().getSelectedItem()).getKeyCedula() + ventana.getTextNroCedula().getText(), 
+							ventana.getTextNombre().getText(), 
+							ventana.getTextApellido().getText(), 
+							ventana.getComboEdad().getSelectedIndex(),
+							(TipoEdadEnum) ventana.getcBoxTipoEdad().getSelectedItem(),
+							ventana.getTextTelefono().getText(), 
+							ventana.getTextCorreo().getText(), 
+							ventana.getTextAreaDireccion().getText(), 
+							true);
 					
-				}
-				//procedo a insertar
-				int newId = ClienteDAO.insertRecord(new ClienteDTO(0, 
-						"", 
-						((TipoCedulaDTO) ventana.getComboTipoCedula().getSelectedItem()).getKeyCedula() + ventana.getTextNroCedula().getText(), 
-						ventana.getTextNombre().getText(), 
-						ventana.getTextApellido().getText(), 
-						ventana.getComboEdad().getSelectedIndex(),
-						(TipoEdadEnum) ventana.getcBoxTipoEdad().getSelectedItem(),
-						ventana.getTextTelefono().getText(), 
-						ventana.getTextCorreo().getText(), 
-						ventana.getTextAreaDireccion().getText(), 
-						true));
-				if(newId > 0){
-					//operacion exitosa
-					JOptionPane.showMessageDialog(ventana, "Cliente agregado con éxito", 
-							"Operación realizada", 
-							JOptionPane.INFORMATION_MESSAGE);
-					//coloco la info de vuelta si aplica
-					if(ventana.getVentanaReferencia() instanceof IngresoPanel){
-						IngresoPanel ref = (IngresoPanel) ventana.getVentanaReferencia();
-						ref.getComboTipoCedula().setSelectedIndex(ventana.getComboTipoCedula().getSelectedIndex());
-						ref.getTextNombrePaciente().setText(ventana.getTextNombre().getText());
-						ref.getTextApellido().setText(ventana.getTextApellido().getText());
-						ref.getTextEdad().setText(ventana.getComboEdad().getSelectedItem().toString());
+					int newId = ClienteDAO.insertRecord(clienteDTO);
+					if(newId > 0){
+						//operacion exitosa
+						clienteDTO.setId(newId);
+						JOptionPane.showMessageDialog(ventana, "Cliente agregado con éxito", 
+								"Operación realizada", 
+								JOptionPane.INFORMATION_MESSAGE);
+						//coloco la info de vuelta si aplica
+						if(ventana.getVentanaReferencia() instanceof IngresoPanel){
+							IngresoPanel ref = (IngresoPanel) ventana.getVentanaReferencia();
+							ref.getComboTipoCedula().setSelectedIndex(ventana.getComboTipoCedula().getSelectedIndex());
+							ref.getTextNombrePaciente().setText(ventana.getTextNombre().getText());
+							ref.getTextApellido().setText(ventana.getTextApellido().getText());
+							ref.getTextEdad().setText(ventana.getComboEdad().getSelectedItem().toString());
+							ref.setIdCliente(newId);
+							ventana.setCliente(clienteDTO);
+						}
+						
+						ventana.setVisible(false);
+						ventana.dispose();
+					} else {
+						//la operacion en base de datos fallo
+						JOptionPane.showMessageDialog(ventana, 
+								"La operación de registro ha fallado.\nPor favor intente de nuevo.", 
+								"Registro fallido", 
+								JOptionPane.ERROR_MESSAGE);
 					}
-					
-					ventana.setVisible(false);
-					ventana.dispose();
 				} else {
-					//la operacion en base de datos fallo
-					JOptionPane.showMessageDialog(ventana, 
-							"La operación de registro ha fallado.\nPor favor intente de nuevo.", 
-							"Registro fallido", 
-							JOptionPane.ERROR_MESSAGE);
+					log.info("Se desea actualizar el registro del cliente con id=" + ventana.getCliente().getId());
+					ClienteDTO clienteDTO = new ClienteDTO(ventana.getCliente().getId(), 
+							"", 
+							((TipoCedulaDTO) ventana.getComboTipoCedula().getSelectedItem()).getKeyCedula() + ventana.getTextNroCedula().getText(), 
+							ventana.getTextNombre().getText(), 
+							ventana.getTextApellido().getText(), 
+							ventana.getComboEdad().getSelectedIndex(),
+							(TipoEdadEnum) ventana.getcBoxTipoEdad().getSelectedItem(),
+							ventana.getTextTelefono().getText(), 
+							ventana.getTextCorreo().getText(), 
+							ventana.getTextAreaDireccion().getText(), 
+							true);
+					
+					boolean wasUpdated = ClienteDAO.updateRecord(clienteDTO);
+					if(wasUpdated){
+						//operacion exitosa
+						JOptionPane.showMessageDialog(ventana, "Cliente actualizado con éxito", 
+								"Operación realizada", 
+								JOptionPane.INFORMATION_MESSAGE);
+						//coloco la info de vuelta si aplica
+						if(ventana.getVentanaReferencia() instanceof IngresoPanel){
+							IngresoPanel ref = (IngresoPanel) ventana.getVentanaReferencia();
+							ref.getComboTipoCedula().setSelectedIndex(ventana.getComboTipoCedula().getSelectedIndex());
+							ref.getTextNombrePaciente().setText(ventana.getTextNombre().getText());
+							ref.getTextApellido().setText(ventana.getTextApellido().getText());
+							ref.getTextEdad().setText(ventana.getComboEdad().getSelectedItem().toString());
+							ref.setIdCliente(ventana.getCliente().getId());
+							ventana.setCliente(clienteDTO);
+						}
+						
+						ventana.setVisible(false);
+						ventana.dispose();
+					} else {
+						//la operacion en base de datos fallo
+						JOptionPane.showMessageDialog(ventana, 
+								"La operación de actualizacion ha fallado.\nPor favor intente de nuevo.", 
+								"Registro fallido", 
+								JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			} else {
 				//faltan campos

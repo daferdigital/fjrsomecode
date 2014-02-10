@@ -66,6 +66,8 @@ public class IngresoPanel extends JPanel {
 	private JTable tableConfirmarIHQ;
 	private JComboBox comboTipoEstudio;
 	
+	private int idCliente = Constants.ID_DEFAULT_CLIENTE;
+	
 	/**
 	 * 
 	 * @param numeroBiopsia
@@ -441,6 +443,14 @@ public class IngresoPanel extends JPanel {
 	
 	public JComboBox getComboTipoEstudio() {
 		return comboTipoEstudio;
+	}
+	
+	public void setIdCliente(int idCliente) {
+		this.idCliente = idCliente;
+	}
+	
+	public int getIdCliente() {
+		return idCliente;
 	}
 	
 	public void reloadTables(){
