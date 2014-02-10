@@ -86,6 +86,7 @@ public class MicroscopicaPanelOperations implements KeyListener, ActionListener{
 			ventana.setIDx(biopsia.getIngresoDTO().getIdx());
 			ventana.getTextADiagnostico().setText(biopsia.getMicroscopicaDTO().getDiagnostico());
 			ventana.getTextAEstudioIHQ().setText(biopsia.getMicroscopicaDTO().getEstudioIHQ());
+			ventana.getTextADiagnosticoIHQ().setText(biopsia.getMicroscopicaDTO().getDiagnosticoIHQ());
 			
 			for (BiopsiaMicroLaminasDTO lamina : biopsia.getMicroscopicaDTO().getLaminasDTO()) {
 				String files = "";
@@ -281,11 +282,11 @@ public class MicroscopicaPanelOperations implements KeyListener, ActionListener{
 					|| "".equals(ventana.getTextExamenARealizar().getText())){
 				errors += "Verifique que el número de biopsia es correcto.\n";
 			}
-			
 		}
 		
 		if(goToDiagnostico){
-			if("".equals(ventana.getTextADiagnostico().getText())){
+			if("".equals(ventana.getTextADiagnostico().getText()) 
+					&& "".equals(ventana.getTextADiagnosticoIHQ().getText())){
 				errors += "Debe indicar un diagnostico (sea el formal o el IHQ).\n";
 			}
 			if(ventana.getTableMicroLaminas().getTable().getRowCount() < 1){

@@ -42,6 +42,7 @@ public final class ClienteDAO {
 		ClienteDTO cliente = null;
 		
 		try {
+			log.info("Intentando obtener datos de cliente de id=" + id);
 			builder.searchById(id);
 			
 			List<ClienteDTO> result = builder.getResults();
@@ -122,8 +123,10 @@ public final class ClienteDAO {
 	 */
 	public static int insertRecord(ClienteDTO clienteDTO) {
 		// TODO Auto-generated method stub
-		final String query = "INSERT INTO cliente (id_premium, cedula, nombres, apellidos, edad, telefono, correo, direccion, activo)"
-				+ "VALUES (?,?,?,?,?,?,?,?,?)";
+		log.info("Solicitando creacion de registro de cliente");
+		
+		final String query = "INSERT INTO cliente (id_premium, cedula, nombres, apellidos, edad, telefono, correo, direccion, activo, tipo_edad)"
+				+ "VALUES (?,?,?,?,?,?,?,?,?,?)";
 		
 		List<Object> parameters = new LinkedList<Object>();
 		parameters.add(clienteDTO.getIdPremium());
@@ -135,7 +138,36 @@ public final class ClienteDAO {
 		parameters.add(clienteDTO.getCorreo());
 		parameters.add(clienteDTO.getDireccion());
 		parameters.add(clienteDTO.isActivo());
+		parameters.add(clienteDTO.getTipoEdad().getId());
 		
 		return DBUtil.executeInsertQuery(query, parameters);
+	}
+
+	/**
+	 * 
+	 * @param clienteDTO
+	 * @return
+	 */
+	public static boolean updateRecord(ClienteDTO clienteDTO) {
+		// TODO Auto-generated method stub
+		log.info("Solicitud para actualizar registro de cliente con id=" + clienteDTO.getId());
+		final String query = "UPDATE cliente SET id_premium=?, cedula=?, nombres=?, apellidos=?, edad=?, "
+				+ "telefono=?, correo=?, direccion=?, activo=?, tipo_edad=? "
+				+ "WHERE id=?";
+		
+		List<Object> parameters = new LinkedList<Object>();
+		parameters.add(clienteDTO.getIdPremium());
+		parameters.add(clienteDTO.getCedula());
+		parameters.add(clienteDTO.getNombres());
+		parameters.add(clienteDTO.getApellidos());
+		parameters.add(clienteDTO.getEdad());
+		parameters.add(clienteDTO.getTelefono());
+		parameters.add(clienteDTO.getCorreo());
+		parameters.add(clienteDTO.getDireccion());
+		parameters.add(clienteDTO.isActivo());
+		parameters.add(clienteDTO.getTipoEdad().getId());
+		parameters.add(clienteDTO.getId());
+		
+		return DBUtil.executeNonSelectQuery(query, parameters);
 	}
 }

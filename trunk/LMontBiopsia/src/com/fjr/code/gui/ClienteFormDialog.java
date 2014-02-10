@@ -24,6 +24,7 @@ import com.fjr.code.dao.TipoCedulaDAO;
 import com.fjr.code.dao.definitions.TipoEdadEnum;
 import com.fjr.code.dto.ClienteDTO;
 import com.fjr.code.gui.operations.ClienteFormDialogOperations;
+import com.fjr.code.util.Constants;
 
 import java.awt.Color;
 
@@ -58,7 +59,7 @@ public class ClienteFormDialog extends JDialog {
 	private Object ventanaReferencia;
 	private JComboBox cBoxTipoEdad;
 	private ClienteDTO cliente;
-	private int idCliente;
+	private boolean isNewClient;
 	
 	/**
 	 * Launch the application.
@@ -81,8 +82,24 @@ public class ClienteFormDialog extends JDialog {
 	 */
 	public ClienteFormDialog(ClienteDTO cliente, int indexTipoCedula, String cedula, Object ventanaReferencia) {
 		this.ventanaReferencia = ventanaReferencia;
+		this.isNewClient = cliente.getId() == Constants.ID_DEFAULT_CLIENTE;
+		this.cliente = cliente;
 		
-		setTitle("Informaci\u00F3n de Paciente");
+		String keyCedula = "";
+		try {
+			if (! this.isNewClient) {
+				try {
+					keyCedula = cliente.getCedula().split("-")[0];
+					cedula = cliente.getCedula().split("-")[1];
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		setTitle("Informaci\u00F3n de Paciente " + (this.isNewClient ? "(nuevo)" : "(actualización)"));
 		setResizable(false);
 		setModal(true);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ClienteFormDialog.class.getResource("/resources/images/iconLogo1.jpg")));
@@ -101,8 +118,17 @@ public class ClienteFormDialog extends JDialog {
 		
 		comboTipoCedula = new JComboBox();
 		comboTipoCedula.setBounds(174, 11, 60, 20);
-		TipoCedulaDAO.populateJCombo(comboTipoCedula);
-		comboTipoCedula.setSelectedIndex(indexTipoCedula);
+		if(this.isNewClient){
+			TipoCedulaDAO.populateJCombo(comboTipoCedula);
+			comboTipoCedula.setSelectedIndex(indexTipoCedula);
+		} else {
+			try {
+				TipoCedulaDAO.populateJCombo(comboTipoCedula, keyCedula);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+		
 		contentPanel.add(comboTipoCedula);
 		
 		textNroCedula = new JTextField();
@@ -119,8 +145,9 @@ public class ClienteFormDialog extends JDialog {
 		
 		textNombre = new JTextField();
 		textNombre.setBounds(174, 36, 170, 20);
-		contentPanel.add(textNombre);
 		textNombre.setColumns(10);
+		textNombre.setText(cliente.getNombres());
+		contentPanel.add(textNombre);
 		
 		JLabel lblapellidoDelPaciente = new JLabel("<html><b>Apellido del Paciente:</b><html>");
 		lblapellidoDelPaciente.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -130,6 +157,7 @@ public class ClienteFormDialog extends JDialog {
 		textApellido = new JTextField();
 		textApellido.setColumns(10);
 		textApellido.setBounds(174, 61, 170, 20);
+		textApellido.setText(cliente.getApellidos());
 		contentPanel.add(textApellido);
 		
 		JLabel label_3 = new JLabel("<html><b>Edad:</b></html>");
@@ -142,6 +170,9 @@ public class ClienteFormDialog extends JDialog {
 		comboEdad.addItem("N/I");
 		for(int i = 1; i < 101; i++){
 			comboEdad.addItem((i < 10 ? "0" : "") + i);
+			if(cliente.getEdad() == i){
+				comboEdad.setSelectedIndex(comboEdad.getItemCount() - 1);
+			}
 		}
 		contentPanel.add(comboEdad);
 		
@@ -149,6 +180,11 @@ public class ClienteFormDialog extends JDialog {
 		cBoxTipoEdad.setBounds(256, 86, 88, 20);
 		cBoxTipoEdad.addItem(TipoEdadEnum.ANIOS);
 		cBoxTipoEdad.addItem(TipoEdadEnum.MESES);
+		if(TipoEdadEnum.ANIOS.equals(cliente.getTipoEdad())){
+			cBoxTipoEdad.setSelectedIndex(0);
+		} else {
+			cBoxTipoEdad.setSelectedIndex(1);
+		}
 		contentPanel.add(cBoxTipoEdad);
 		
 		JLabel lblteleacutefono = new JLabel("<html><b>Tel&eacute;fono:</b><html>");
@@ -159,6 +195,7 @@ public class ClienteFormDialog extends JDialog {
 		textTelefono = new JTextField();
 		textTelefono.setColumns(10);
 		textTelefono.setBounds(174, 111, 170, 20);
+		textTelefono.setText(cliente.getTelefono());
 		contentPanel.add(textTelefono);
 		
 		JLabel lblcorreo = new JLabel("<html><b>Correo:</b><html>");
@@ -170,6 +207,7 @@ public class ClienteFormDialog extends JDialog {
 		textCorreo.setColumns(10);
 		textCorreo.setBounds(174, 136, 170, 20);
 		textCorreo.setName(ClienteFormDialogOperations.ACTION_COMMAND_TEXT_CORREO);
+		textCorreo.setText(cliente.getCorreo());
 		contentPanel.add(textCorreo);
 		
 		JLabel lbldireccioacuten = new JLabel("<html><b>Direcci&oacute;n:</b></html>");
@@ -182,10 +220,11 @@ public class ClienteFormDialog extends JDialog {
 		contentPanel.add(scrollPane);
 		
 		textAreaDireccion = new JTextArea();
-		scrollPane.setViewportView(textAreaDireccion);
 		textAreaDireccion.setWrapStyleWord(true);
 		textAreaDireccion.setLineWrap(true);
 		textAreaDireccion.setBorder(new LineBorder(new Color(0, 0, 0)));
+		textAreaDireccion.setText(cliente.getDireccion());
+		scrollPane.setViewportView(textAreaDireccion);
 		
 		{
 			JPanel buttonPane = new JPanel();
@@ -294,7 +333,19 @@ public class ClienteFormDialog extends JDialog {
 		return ventanaReferencia;
 	}
 	
+	public void setCliente(ClienteDTO cliente) {
+		this.cliente = cliente;
+	}
+	
 	public ClienteDTO getCliente() {
 		return cliente;
+	}
+	
+	public void setNewClient(boolean isNewClient) {
+		this.isNewClient = isNewClient;
+	}
+	
+	public boolean isNewClient() {
+		return isNewClient;
 	}
 }

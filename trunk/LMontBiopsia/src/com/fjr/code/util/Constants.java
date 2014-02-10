@@ -84,6 +84,11 @@ public final class Constants {
 	public static final String APP_WINDOW_TITLE = "Sistema de Gesti\u00F3n de Biopsias";
 	
 	/**
+	 * Id de cliente por defecto para las nuevas biopsias
+	 */
+	public static final int ID_DEFAULT_CLIENTE = -2;
+	
+	/**
 	 * 
 	 */
 	public static void setLookAndFeel() {

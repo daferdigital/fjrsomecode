@@ -268,4 +268,6 @@ public class BarcodeTest {
         // step 5
         document.close();
     }
+    
+    
 }

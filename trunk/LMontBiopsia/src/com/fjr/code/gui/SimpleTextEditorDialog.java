@@ -69,26 +69,10 @@ public class SimpleTextEditorDialog extends JDialog{
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 68, 672, 416);
-		contentPanel.add(scrollPane);
-		
-		txtArea = new JTextArea();
-		txtArea.setFont(new Font("Monospaced", Font.PLAIN, 16));
-		txtArea.setWrapStyleWord(true);
-		txtArea.setLineWrap(true);
-		scrollPane.setViewportView(txtArea);
-		txtArea.setText(textoDTO.getTexto());
-		
 		JLabel lblCdigo = new JLabel("C\u00F3digo:");
 		lblCdigo.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblCdigo.setBounds(10, 11, 88, 16);
 		contentPanel.add(lblCdigo);
-		
-		JLabel lblAbreviatura = new JLabel("Abreviatura");
-		lblAbreviatura.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblAbreviatura.setBounds(10, 38, 88, 16);
-		contentPanel.add(lblAbreviatura);
 		
 		textCodigo = new JTextField();
 		textCodigo.setBounds(108, 7, 132, 20);
@@ -96,11 +80,27 @@ public class SimpleTextEditorDialog extends JDialog{
 		contentPanel.add(textCodigo);
 		textCodigo.setColumns(10);
 		
+		JLabel lblAbreviatura = new JLabel("Abreviatura");
+		lblAbreviatura.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblAbreviatura.setBounds(10, 38, 88, 16);
+		contentPanel.add(lblAbreviatura);
+		
 		textAbreviatura = new JTextField();
 		textAbreviatura.setColumns(10);
 		textAbreviatura.setBounds(108, 37, 261, 20);
 		textAbreviatura.setText(textoDTO.getAbreviatura());
 		contentPanel.add(textAbreviatura);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 68, 672, 416);
+		contentPanel.add(scrollPane);
+		
+		txtArea = new JTextArea();
+		txtArea.setFont(new Font("Monospaced", Font.PLAIN, 20));
+		txtArea.setWrapStyleWord(true);
+		txtArea.setLineWrap(true);
+		scrollPane.setViewportView(txtArea);
+		txtArea.setText(textoDTO.getTexto());
 		
 		SimpleTextEditorDialogOperations listener = new SimpleTextEditorDialogOperations(this);
 		{
@@ -178,10 +178,10 @@ public class SimpleTextEditorDialog extends JDialog{
 	 */
 	private TextoInteligenteDTO getTextoDTOForKeyCode(String keyCode){
 		TextoInteligenteDTO textoDTO = null;
-		
+		String cleanedKeyCode = keyCode;
 		try {
-			keyCode = keyCode.trim().replaceAll("\n", "");
-			textoDTO = TextoInteligenteDAO.getByKeyCode(keyCode);
+			cleanedKeyCode = keyCode.trim().replaceAll("\n", "");
+			textoDTO = TextoInteligenteDAO.getByKeyCode(cleanedKeyCode);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();

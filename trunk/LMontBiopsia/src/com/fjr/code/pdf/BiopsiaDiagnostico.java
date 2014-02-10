@@ -41,8 +41,6 @@ import com.itextpdf.text.pdf.PdfWriter;
  */
 public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageChecker {
 	private static final Logger log = Logger.getLogger(BiopsiaDiagnostico.class);
-	private static final Chunk chunkEnter = new Chunk("\n");
-	private static final Chunk tab1 = new Chunk("        ");
 	
 	private BiopsiaInfoDTO biopsia;
 	private int idBiopsia;
@@ -119,6 +117,7 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 					&& ! "".equals(biopsia.getMicroscopicaDTO().getEstudioIHQ().trim())){
 	        	//addFirmantes(writer, document, firmante1, firmante2);
 	        	addInfoIHQ(document, writer);
+	        	addDiagnostico(writer, document, biopsia, true);
 	        }
 	        
 	        addFotosMicro(document, writer);
@@ -214,7 +213,7 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 			p1 = new Paragraph();
 			p1.setAlignment(Element.ALIGN_JUSTIFIED);
 			p1.setIndentationLeft(50);
-			p1.add(chunkEnter);
+			//p1.add(chunkEnter);
 			p1.add(title1);
 			p1.add(value1);
 			
@@ -454,8 +453,7 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 			Document document, PdfWriter writer) throws DocumentException{
 		//procesamos las posibles fotos del mapa indicado
 		//int numeroFoto = 1;
-		Chunk tab1 = new Chunk("        ");
-		Chunk enter = new Chunk("\n");
+		
 		
 		for (Integer linea : mapToProcess.keySet()) {
 			List<String> mapLinea = mapToProcess.get(linea);
@@ -468,10 +466,10 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 				Paragraph parrafoFoto = new Paragraph();
 				parrafoFoto.setAlignment(Paragraph.ALIGN_JUSTIFIED);
 				parrafoFoto.setIndentationLeft(50);
-				parrafoFoto.add(enter);
+				parrafoFoto.add(chunkEnter);
 				parrafoFoto.add(tab1);
 				parrafoFoto.add(phraseFoto);
-				parrafoFoto.add(enter);
+				parrafoFoto.add(chunkEnter);
 				
 				document.add(parrafoFoto);
 				//numeroFoto++;
@@ -497,12 +495,12 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 					
 					Phrase phraseFoto = new Phrase(/*numeroFoto + ".- " + */mapLinea.get(0),
 							new Font(informeFontNormal.getBaseFont(), 12F));
-					parrafoFoto.add(enter);
-					parrafoFoto.add(enter);
+					parrafoFoto.add(chunkEnter);
+					parrafoFoto.add(chunkEnter);
 					parrafoFoto.add(tab1);
 					parrafoFoto.add(phraseFoto);
-					parrafoFoto.add(enter);
-					parrafoFoto.add(enter);
+					parrafoFoto.add(chunkEnter);
+					parrafoFoto.add(chunkEnter);
 					
 					document.add(parrafoFoto);
 					//numeroFoto++;

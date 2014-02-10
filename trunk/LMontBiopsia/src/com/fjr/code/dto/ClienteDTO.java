@@ -52,6 +52,7 @@ public class ClienteDTO {
 		setCorreo(correo);
 		setDireccion(direccion);
 		setActivo(activo);
+		setTipoEdad(tipoEdad);
 	}
 
 	public int getId() {

@@ -44,10 +44,22 @@ public final class TipoCedulaDAO {
 	 * @param comboBox
 	 */
 	public static void populateJCombo(JComboBox comboBox){
+		populateJCombo(comboBox, null);
+	}
+	
+	/**
+	 * 
+	 * @param comboBox
+	 * @param keyToSelect
+	 */
+	public static void populateJCombo(JComboBox comboBox, String keyToSelect){
 		List<TipoCedulaDTO> items = getAll();
 		
 		for (TipoCedulaDTO tipoCedulaDTO : items) {
 			comboBox.addItem(tipoCedulaDTO);
+			if(tipoCedulaDTO.getKeyCedula().equals(keyToSelect)){
+				comboBox.setSelectedIndex(comboBox.getItemCount() - 1);
+			}
 		}
 		
 		log.info("Agregados elementos al combo-box de los tipos de cedula");
