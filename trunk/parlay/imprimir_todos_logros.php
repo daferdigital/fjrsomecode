@@ -31,13 +31,16 @@ if(!$_REQUEST['fecha']){
 	$dateSrc = date('Y-m-d H:i:s e');
 	$dateTime = new DateTime($dateSrc);
 	$dateTime->setTimeZone(new DateTimeZone($timeZone));
-	$_REQUEST["fecha"] = $dateTime->format('Y-m-d H:i:s');
+	//$_REQUEST["fecha"] = $dateTime->format('Y-m-d H:i:s');
+	//esta fecha es la que va a los encabezados de la hoja de logros
+	$_REQUEST["fecha"] = $dateTime->format('Y-m-d');
 	$extraWhereFecha = " fecha = '".$dateTime->format('Y-m-d')."'";
 	$extraWhereFecha .= " AND hora >= '".$dateTime->format('H:i:s')."'";
 	$extraWhereFecha .= " AND fecha < ADDDATE('".$dateTime->format('Y-m-d')."', 1)";
 } else {
 	$extraWhereFecha = " fecha='".$_REQUEST['fecha']."'";
 }
+
 
 list($ano,$mes,$dia)=explode("-",$_REQUEST['fecha']);
 		//$selectlogros="select * from vista_logros where fecha='".$_REQUEST['fecha']."' and idliga='".$_REQUEST['liga']."' ORDER BY idlogro,que_equipo ASC, nombre_tipo_apuesta ASC";
