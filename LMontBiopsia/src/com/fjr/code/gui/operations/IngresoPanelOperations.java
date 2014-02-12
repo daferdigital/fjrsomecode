@@ -564,9 +564,11 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 
 							if(option == JOptionPane.OK_OPTION){
 								//mostramos la ventana para crear clientes
-								ClienteFormDialog formDialog = new ClienteFormDialog(null, ventana.getComboTipoCedula().getSelectedIndex(), 
+								cliente = new ClienteDTO(Constants.ID_DEFAULT_CLIENTE, "", "", "", "", 0, TipoEdadEnum.ANIOS, "", "", "", false);
+								ClienteFormDialog formDialog = new ClienteFormDialog(cliente, ventana.getComboTipoCedula().getSelectedIndex(), 
 										field.getText(),
 										ventana);
+								
 								if(formDialog.getCliente() != null){
 									ventana.setIdCliente(formDialog.getCliente().getId());
 								}
