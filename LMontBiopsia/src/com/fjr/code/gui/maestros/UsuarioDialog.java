@@ -54,6 +54,7 @@ public class UsuarioDialog extends JDialog {
 	private JCheckBox chBoxBusquedas = new JCheckBox("B\u00FAsquedas");
 	
 	private int idUsuario;
+	private JCheckBox cBoxInformeComplementario;
 	
 	/**
 	 * Launch the application.
@@ -126,20 +127,29 @@ public class UsuarioDialog extends JDialog {
 		}
 		
 		JRadioButton rbtnTodos = new JRadioButton("Todos");
+		rbtnTodos.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		rbtnTodos.setBounds(41, 32, 109, 23);
 		panelPermisos.add(rbtnTodos);
 		
 		JSeparator separator = new JSeparator();
 		separator.setBounds(20, 62, 379, 2);
 		panelPermisos.add(separator);
+		chBoxEntrega.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		
 		chBoxEntrega.setBounds(10, 77, 97, 23);
+		chBoxRecepcion.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		chBoxRecepcion.setBounds(10, 103, 97, 23);
+		chBoxMacro.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		chBoxMacro.setBounds(10, 129, 97, 23);
+		chBoxHistologia.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		chBoxHistologia.setBounds(10, 155, 97, 23);
+		chBoxMicro.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		chBoxMicro.setBounds(10, 181, 97, 23);
+		chBoxIHQ.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		chBoxIHQ.setBounds(10, 207, 97, 23);
+		chBoxMaestros.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		chBoxMaestros.setBounds(109, 77, 97, 23);
+		chBoxBusquedas.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		chBoxBusquedas.setBounds(109, 103, 97, 23);
 		
 		//validamos los posibles permisos
@@ -161,6 +171,8 @@ public class UsuarioDialog extends JDialog {
 					chBoxMaestros.setSelected(true);
 				} else if(ModulosSistema.MICROSCOPICA.getKey().equals(permisos.getKeyModulo())){
 					chBoxMicro.setSelected(true);
+				} else if(ModulosSistema.INFORME_COMPLEMENTARIO.getKey().equals(permisos.getKeyModulo())){
+					cBoxInformeComplementario.setSelected(true);
 				}
 			}
 		}
@@ -173,6 +185,11 @@ public class UsuarioDialog extends JDialog {
 		panelPermisos.add(chBoxIHQ);
 		panelPermisos.add(chBoxMaestros);
 		panelPermisos.add(chBoxBusquedas);
+		
+		cBoxInformeComplementario = new JCheckBox("Informe Complementario");
+		cBoxInformeComplementario.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		cBoxInformeComplementario.setBounds(109, 129, 168, 23);
+		panelPermisos.add(cBoxInformeComplementario);
 		
 		contentPanel.add(tabPanel);
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
