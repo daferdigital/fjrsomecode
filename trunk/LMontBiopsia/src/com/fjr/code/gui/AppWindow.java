@@ -234,7 +234,7 @@ public class AppWindow {
 			appWindow = new AppWindow();
 		}
 		
-		appWindow.setPanelMenu(new MenuPanel(true, ""));
+		appWindow.setPanelMenu(new MenuPanel(true, loggedUser.getLogin()));
 		//obligamos a la ventana a venir al frente
 		appWindow.getFrmSistemaDeGestion().setVisible(true);
 	}
