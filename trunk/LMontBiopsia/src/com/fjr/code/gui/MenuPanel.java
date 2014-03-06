@@ -307,11 +307,12 @@ public class MenuPanel extends JPanel {
 		JMenuItem mntmComp = new JMenuItem("Crear Informe Complementario");
 		mntmComp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//debemos mostrar el panel de recepcion
-				HistologiaIHQPanel panel = new HistologiaIHQPanel();
-				AppWindow.getInstance().setPanelContenido(panel, (FasesBiopsia) null);
+				//debemos mostrar el panel de busqueda para crear informes complementarios
+				JPanel panel = new InformeComplementarioPanel();
+				panel.setVisible(true);
 				AppWindow.getInstance().setExtraTitle("Informe Complementario");
-				panel.setFocusAtDefaultElement();
+				AppWindow.getInstance().setPanelContenido(panel, 
+						(JTable) null);
 			}
 		});
 		menuComp.add(mntmComp);
