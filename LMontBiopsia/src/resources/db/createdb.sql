@@ -55,12 +55,14 @@ INSERT INTO `lmont_biopsia`.`modulos` (`nombre`, `descripcion`, `key`) VALUES ('
 INSERT INTO `lmont_biopsia`.`modulos` (`nombre`, `descripcion`, `key`) VALUES ('IHQ', 'Procesamiento de estudios en su fase de IHQ', 'IHQ');
 INSERT INTO `lmont_biopsia`.`modulos` (`nombre`, `descripcion`, `key`) VALUES ('Maestros', 'Modulo para gestionar las entidades del sistema', 'MAESTROS');
 INSERT INTO `lmont_biopsia`.`modulos` (`nombre`, `descripcion`, `key`) VALUES ('Busquedas', 'Modulo de Busquedas en el sistema', 'BUSQUEDAS');
+INSERT INTO `lmont_biopsia`.`modulos` (`nombre`, `descripcion`, `key`) VALUES ('Informe Complementario', 'Modulo para generar Informes complementarios de Biopsias ya procesadas', 'INFORME_COMPLEMENTARIO');
 
-INSERT INTO `lmont_biopsia`.`usuario_modulos` (`id_modulo`, `id_usuario`) VALUES ('1', '1');
-INSERT INTO `lmont_biopsia`.`usuario_modulos` (`id_modulo`, `id_usuario`) VALUES ('2', '1');
-INSERT INTO `lmont_biopsia`.`usuario_modulos` (`id_modulo`, `id_usuario`) VALUES ('3', '1');
-INSERT INTO `lmont_biopsia`.`usuario_modulos` (`id_modulo`, `id_usuario`) VALUES ('4', '1');
-INSERT INTO `lmont_biopsia`.`usuario_modulos` (`id_modulo`, `id_usuario`) VALUES ('5', '1');
-INSERT INTO `lmont_biopsia`.`usuario_modulos` (`id_modulo`, `id_usuario`) VALUES ('6', '1');
-INSERT INTO `lmont_biopsia`.`usuario_modulos` (`id_modulo`, `id_usuario`) VALUES ('7', '1');
-INSERT INTO `lmont_biopsia`.`usuario_modulos` (`id_modulo`, `id_usuario`) VALUES ('8', '1');
+INSERT INTO `lmont_biopsia`.`usuario_modulos` (`id_modulo`, `id_usuario`) VALUES (3, 1);
+INSERT INTO `lmont_biopsia`.`usuario_modulos` (`id_modulo`, `id_usuario`) VALUES (4, 1);
+INSERT INTO `lmont_biopsia`.`usuario_modulos` (`id_modulo`, `id_usuario`) VALUES (5, 1);
+INSERT INTO `lmont_biopsia`.`usuario_modulos` (`id_modulo`, `id_usuario`) VALUES (6, 1);
+INSERT INTO `lmont_biopsia`.`usuario_modulos` (`id_modulo`, `id_usuario`) VALUES (7, 1);
+INSERT INTO `lmont_biopsia`.`usuario_modulos` (`id_modulo`, `id_usuario`) VALUES (8, 1);
+INSERT INTO `lmont_biopsia`.`usuario_modulos` (`id_modulo`, `id_usuario`) VALUES (9, 1);
+INSERT INTO `lmont_biopsia`.`usuario_modulos` (`id_modulo`, `id_usuario`) VALUES (10, 1);
+INSERT INTO `lmont_biopsia`.`usuario_modulos` (`id_modulo`, `id_usuario`) VALUES (11, 1);
