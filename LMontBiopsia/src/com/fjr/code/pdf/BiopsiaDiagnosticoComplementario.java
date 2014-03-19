@@ -39,8 +39,8 @@ import com.itextpdf.text.pdf.PdfWriter;
  * @author T&T
  *
  */
-public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageChecker {
-	private static final Logger log = Logger.getLogger(BiopsiaDiagnostico.class);
+public class BiopsiaDiagnosticoComplementario extends BiopsiaInformeCommon implements PDFPageChecker {
+	private static final Logger log = Logger.getLogger(BiopsiaDiagnosticoComplementario.class);
 	
 	private BiopsiaInfoDTO biopsia;
 	private int idBiopsia;
@@ -63,7 +63,7 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 	 * @param mapIHQ
 	 * @param mapDiagnostico
 	 */
-	public BiopsiaDiagnostico(BiopsiaInfoDTO biopsia,
+	public BiopsiaDiagnosticoComplementario(BiopsiaInfoDTO biopsia,
 			String firmante1, String firmante2, SortedMap<Integer, List<String>> mapMacro, 
 			SortedMap<Integer, List<String>> mapIHQ, SortedMap<Integer, List<String>> mapDiagnostico) {
 		// TODO Auto-generated constructor stub
@@ -245,11 +245,7 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 								p.setAlignment(Element.ALIGN_JUSTIFIED);
 								p.setSpacingBefore(0);
 								//p.add(chunkEnter);
-								/*
 								p.add(new Chunk(reactivo.getNombre() + " (" + reactivo.getAbreviatura() + "): ", 
-										new Font(informeFontBold.getBaseFont(), 12F)));
-								*/
-								p.add(new Chunk(reactivo.getNombre() + ": ", 
 										new Font(informeFontBold.getBaseFont(), 12F)));
 								p.add(new Chunk(reactivo.getDescripcionIHQ(), 
 										new Font(informeFontNormal.getBaseFont(), 12F)));
