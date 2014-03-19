@@ -92,6 +92,7 @@ public class JTableInformeComplementario {
 					//o se desea reimprimir el diagnostico complementario
 					//o se desea crear uno nuevo
 					final int idBiopsia = (Integer) table.getValueAt(table.getSelectedRow(), 4);
+					//mostramos el panel para crear el informe complementario de esta biopsia
 					
 					e.consume();
 				}
