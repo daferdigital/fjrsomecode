@@ -2,6 +2,7 @@ package com.fjr.code.gui.tables;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Vector;
 
@@ -13,6 +14,7 @@ import com.fjr.code.dao.BiopsiaCassetesMacroDAO;
 import com.fjr.code.dao.BiopsiaInfoDAO;
 import com.fjr.code.dao.definitions.FasesBiopsia;
 import com.fjr.code.dto.BiopsiaInfoDTO;
+import com.fjr.code.util.Constants;
 import com.fjr.code.util.OpenBiopsiaUtil;
 
 /**
@@ -131,14 +133,16 @@ public class JTableTodasBiopsias {
 		model.addColumn("Examen");
 		model.addColumn("Paciente");
 		model.addColumn("Fase");
+		model.addColumn("Fecha Impresión");
 		model.addColumn("Id Biopsia");
 		
 		table.getColumnModel().getColumn(0).setPreferredWidth(100);
-		table.getColumnModel().getColumn(1).setPreferredWidth(100);
-		table.getColumnModel().getColumn(2).setPreferredWidth(100);
+		table.getColumnModel().getColumn(1).setPreferredWidth(150);
+		table.getColumnModel().getColumn(2).setPreferredWidth(150);
 		table.getColumnModel().getColumn(3).setPreferredWidth(150);
-		table.getColumnModel().getColumn(4).setPreferredWidth(150);
-		table.getColumnModel().removeColumn(table.getColumnModel().getColumn(5));
+		table.getColumnModel().getColumn(4).setPreferredWidth(100);
+		table.getColumnModel().getColumn(5).setPreferredWidth(100);
+		table.getColumnModel().removeColumn(table.getColumnModel().getColumn(6));
 		
 		table.setColumnSelectionAllowed(false);
 		table.setRowSelectionAllowed(false);
@@ -166,7 +170,8 @@ public class JTableTodasBiopsias {
 						biopsiaInfoDTO.getCodigo(), 
 						biopsiaInfoDTO.getExamenBiopsia().getNombreExamen(), 
 						biopsiaInfoDTO.getCliente().getNombres() + " " + biopsiaInfoDTO.getCliente().getApellidos(),
-						biopsiaInfoDTO.getFaseActual().getNombreFase() + extraInfo);
+						biopsiaInfoDTO.getFaseActual().getNombreFase() + extraInfo,
+						biopsiaInfoDTO.getFechaImpresionInforme());
 			}
 		}
 	}
@@ -184,7 +189,7 @@ public class JTableTodasBiopsias {
 	 * @param fase
 	 */
 	public void addRow(int idBiopsia, String codigo, String examen, String cliente,
-			String faseActual){
+			String faseActual, Calendar fechaImpresionInforme){
 		Vector<Object> rowData = new Vector<Object>();
 		if(FasesBiopsia.INFORME_IMPRESO.getNombreFase().equals(faseActual)){
 			rowData.add("Reimprimir");
@@ -198,6 +203,7 @@ public class JTableTodasBiopsias {
 		rowData.add(examen);
 		rowData.add(cliente);
 		rowData.add(faseActual);
+		rowData.add(fechaImpresionInforme != null ? Constants.sdfDDMMYYYY.format(fechaImpresionInforme.getTime()) : "");
 		rowData.add(idBiopsia);
 		
 		model.addRow(rowData);

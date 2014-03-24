@@ -66,3 +66,8 @@ INSERT INTO `lmont_biopsia`.`usuario_modulos` (`id_modulo`, `id_usuario`) VALUES
 INSERT INTO `lmont_biopsia`.`usuario_modulos` (`id_modulo`, `id_usuario`) VALUES (9, 1);
 INSERT INTO `lmont_biopsia`.`usuario_modulos` (`id_modulo`, `id_usuario`) VALUES (10, 1);
 INSERT INTO `lmont_biopsia`.`usuario_modulos` (`id_modulo`, `id_usuario`) VALUES (11, 1);
+
+ALTER TABLE `lmont_biopsia`.`biopsias` ADD COLUMN `informe_complementario` MEDIUMBLOB NULL  AFTER `ultimo_informe_impreso` ;
+
+ALTER TABLE `lmont_biopsia`.`biopsias` ADD COLUMN `fecha_impresion_informe` DATE NULL DEFAULT NULL  AFTER `ultimo_informe_impreso` , ADD COLUMN `fecha_impresion_complementario` DATE NULL DEFAULT NULL  AFTER `informe_complementario` ;
+

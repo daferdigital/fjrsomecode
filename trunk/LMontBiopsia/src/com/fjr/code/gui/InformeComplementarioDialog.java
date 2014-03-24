@@ -39,14 +39,14 @@ public class InformeComplementarioDialog extends JDialog implements ActionListen
 	
 	private final JPanel contentPanel = new JPanel();
 	private String pathToDiagnostico;
-	private String codigoBiopsia;
+	private int idBiopsia;
 	
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			InformeComplementarioDialog dialog = new InformeComplementarioDialog(null, null);
+			InformeComplementarioDialog dialog = new InformeComplementarioDialog(null, 0);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -55,11 +55,13 @@ public class InformeComplementarioDialog extends JDialog implements ActionListen
 	}
 
 	/**
-	 * Create the dialog.
+	 * 
+	 * @param pathToDiagnostico
+	 * @param idBiopsia
 	 */
-	public InformeComplementarioDialog(String pathToDiagnostico, String codigoBiopsia) {
+	public InformeComplementarioDialog(String pathToDiagnostico, int idBiopsia) {
 		this.pathToDiagnostico = pathToDiagnostico;
-		this.codigoBiopsia = codigoBiopsia;
+		this.idBiopsia = idBiopsia;
 		
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setTitle("Indique su operaci\u00F3n");
@@ -71,7 +73,7 @@ public class InformeComplementarioDialog extends JDialog implements ActionListen
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		{
-			JLabel lblNewLabel = new JLabel("<html>Si desea imprimir nuevamente el informe complementario de esta biopsia, presione el bot&oacute;n de <b>Reimprimir</b><br /><br />Si por el contrario desea crear un nuevo informe complementario para esta biopsia, por favor haga click en el bot&oacute;n de <b>Editar</b></html>");
+			JLabel lblNewLabel = new JLabel("<html>Si desea imprimir nuevamente el Informe Complementario de esta biopsia, presione el bot&oacute;n de <b>Reimprimir</b><br /><br />Si por el contrario desea crear un nuevo Informe Complementario para esta biopsia, por favor haga click en el bot&oacute;n de <b>Editar</b></html>");
 			lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 13));
 			lblNewLabel.setBounds(10, 11, 414, 102);
 			contentPanel.add(lblNewLabel);
@@ -123,7 +125,7 @@ public class InformeComplementarioDialog extends JDialog implements ActionListen
 			if(SecurityEditCode.checkIfValueIsTheSecurityCode(editKey)){
 				this.setVisible(false);
 				this.dispose();
-				new PrepareDiagnosticoDialog(this.codigoBiopsia).setVisible(true);
+				new PrepareInformeComplementarioDialog(this.idBiopsia).setVisible(true);
 			} else {
 				JOptionPane.showMessageDialog(null, "Clave incorrecta", "Clave incorrecta", JOptionPane.ERROR_MESSAGE);
 			}

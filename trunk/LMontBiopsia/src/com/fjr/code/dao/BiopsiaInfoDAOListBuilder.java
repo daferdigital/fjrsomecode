@@ -49,8 +49,8 @@ class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO> {
 			+ " bh.descripcion,"
 			//datos basicos de micro 32-34
 			+ " bmi.idx, bmi.diagnostico, bmi.estudio_ihq,"
-			//otros valores 35-40
-			+ " b.fecha_registro, p.genero, b.id_tipo_estudio, tie.abreviatura, c.tipo_edad, bmi.diagnostico_ihq"
+			//otros valores 35-42
+			+ " b.fecha_registro, p.genero, b.id_tipo_estudio, tie.abreviatura, c.tipo_edad, bmi.diagnostico_ihq, b.fecha_impresion_informe, b.fecha_impresion_complementario"
 			+ " FROM  biopsias b LEFT JOIN biopsias_ingresos bi ON b.id = bi.id"
 			+ " LEFT JOIN biopsias_macroscopicas bm ON b.id = bm.id"
 			+ " LEFT JOIN biopsias_histologias bh ON b.id = bh.id"
@@ -309,9 +309,18 @@ class BiopsiaInfoDAOListBuilder implements DAOListBuilder<BiopsiaInfoDTO> {
 				biopsiaAllInfo.setIdTipoEstudio(rowSet.getInt(37));
 				biopsiaAllInfo.setAbreviaturaTipoEstudio(rowSet.getString(38));
 				
-				Calendar fechaRegistro = Calendar.getInstance();
-				fechaRegistro.setTimeInMillis(rowSet.getTimestamp(35).getTime());
-				biopsiaAllInfo.setFechaRegistro(fechaRegistro);
+				Calendar fecha = Calendar.getInstance();
+				fecha.setTimeInMillis(rowSet.getTimestamp(35).getTime());
+				biopsiaAllInfo.setFechaRegistro(fecha);
+				
+				if(rowSet.getTimestamp(41) != null){
+					fecha.setTimeInMillis(rowSet.getTimestamp(41).getTime());
+					biopsiaAllInfo.setFechaImpresionInforme(fecha);
+				}
+				if(rowSet.getTimestamp(42) != null){
+					fecha.setTimeInMillis(rowSet.getTimestamp(42).getTime());
+					biopsiaAllInfo.setFechaImpresionComplementario(fecha);
+				}
 				
 				//datos especificos de ingreso
 				BiopsiaIngresoDTO ingresoDTO = new BiopsiaIngresoDTO();

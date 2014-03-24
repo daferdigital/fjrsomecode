@@ -43,6 +43,7 @@ public class BusquedaUsuarioPanel extends JPanel implements ActionListener{
 	private JTextField txtValor1;
 	private JComboBox comboBox2;
 	private JTextField txtValor2;
+	private JButton btnBuscar;
 	
 	/**
 	 * Create the panel.
@@ -78,7 +79,7 @@ public class BusquedaUsuarioPanel extends JPanel implements ActionListener{
 		add(txtValor1);
 		txtValor1.setColumns(10);
 		
-		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar = new JButton("Buscar");
 		btnBuscar.setActionCommand(ACTION_COMMAND_BUSCAR);
 		btnBuscar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnBuscar.setBounds(812, 9, 89, 23);
@@ -138,10 +139,22 @@ public class BusquedaUsuarioPanel extends JPanel implements ActionListener{
 						JOptionPane.ERROR_MESSAGE);
 			} else {
 				AppWindow.getInstance().setPanelContenido(null, 
-						JTableUsuarios.getNewInstance(results).getJTable());
+						JTableUsuarios.getNewInstance(results, this).getJTable());
 			}
 		} else if(ACTION_COMMAND_CREAR.equals(e.getActionCommand())){
 			new UsuarioDialog(-1).setVisible(true);
+		}
+	}
+	
+	/**
+	 * Simulamos el evento de click en el boton de buscar de este panel.
+	 * 
+	 */
+	public void reloadResults(){
+		try {
+			btnBuscar.doClick();
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
 	}
 }

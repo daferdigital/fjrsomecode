@@ -59,7 +59,7 @@ public class OpenBiopsiaUtil {
 				CachedRowSet rows = DBUtil.executeSelectQuery(query, parameters);
 				try {
 					if(rows.next()){
-						File diagnostico = new File(Constants.TMP_PATH + File.separator + "diagnostico_" + biopsia.getId() + ".pdf");
+						File diagnostico = new File(Constants.TMP_PATH + File.separator + Constants.PREFIJO_PDF_INFORME + biopsia.getId() + ".pdf");
 						BLOBToDiskUtil.writeBLOBToDisk(diagnostico, 
 								rows.getBytes(1));
 						
@@ -69,7 +69,6 @@ public class OpenBiopsiaUtil {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
 			} else if(FasesBiopsia.ENTREGA.equals(biopsia.getFaseActual())){
 				new PrepareDiagnosticoDialog(biopsia.getCodigo()).setVisible(true);
 			} else if(FasesBiopsia.INGRESO.equals(biopsia.getFaseActual())){

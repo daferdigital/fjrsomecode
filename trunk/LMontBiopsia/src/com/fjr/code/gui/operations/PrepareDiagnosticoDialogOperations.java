@@ -81,8 +81,7 @@ public class PrepareDiagnosticoDialogOperations implements ActionListener{
 						biopsia,
 						ventana.getcBoxFirmante1().getSelectedItem().toString(),
 						ventana.getcBoxFirmante2().getSelectedItem().toString());
-				
-				
+								
 				try {
 					diagnostico.buildDiagnostico();
 					diagnostico.open();

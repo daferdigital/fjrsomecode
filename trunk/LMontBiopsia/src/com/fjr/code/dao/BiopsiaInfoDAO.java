@@ -827,12 +827,15 @@ public class BiopsiaInfoDAO {
 	 * @param biopsia
 	 */
 	public static void storeDiagnosticoBLob(BiopsiaInfoDTO biopsia){
-		final String query = "UPDATE biopsias SET ultimo_informe_impreso=? WHERE id=?";
+		final boolean mustSetFechaImpresion = biopsia.getFechaImpresionInforme() == null;
+		final String query = "UPDATE biopsias SET ultimo_informe_impreso=? "
+				+ (mustSetFechaImpresion ? ", fecha_impresion_informe=CURRENT_DATE" : "")
+				+ " WHERE id=?";
 		List<Object> parameters = new LinkedList<Object>();
 		FileInputStream fis = null;
 		
 		try {
-			File diagnostico = new File(Constants.TMP_PATH + File.separator + "diagnostico_" + biopsia.getId() + ".pdf");
+			File diagnostico = new File(Constants.TMP_PATH + File.separator + Constants.PREFIJO_PDF_INFORME + biopsia.getId() + ".pdf");
 			byte[] bytesFile = new byte[(int) diagnostico.length()];
 			fis = new FileInputStream(diagnostico); 
 			try {
@@ -856,6 +859,52 @@ public class BiopsiaInfoDAO {
 				// TODO: handle exception
 			}
 		}
+	}
+	
+	/**
+	 * 
+	 * @param biopsia
+	 */
+	public static boolean storeDiagnosticoComplementarioBLob(BiopsiaInfoDTO biopsia){
+		final boolean mustSetFechaImpresion = biopsia.getFechaImpresionComplementario() == null;
+		final String query = "UPDATE biopsias SET ultimo_informe_impreso=? "
+				+ (mustSetFechaImpresion ? ", fecha_impresion_complementario=CURRENT_DATE" : "")
+				+ " WHERE id=?";
+		
+		List<Object> parameters = new LinkedList<Object>();
+		FileInputStream fis = null;
+		boolean result = true;
+		
+		try {
+			File diagnostico = new File(Constants.TMP_PATH + File.separator + Constants.PREFIJO_PDF_INFORME_COMPLEMENTARIO 
+					+ biopsia.getId() + ".pdf");
+			byte[] bytesFile = new byte[(int) diagnostico.length()];
+			fis = new FileInputStream(diagnostico); 
+			try {
+				fis.read(bytesFile);
+			} catch (Exception e) {
+				// TODO: handle exception
+				log.error(e.getLocalizedMessage(), e);
+			}
+			
+			parameters.add(bytesFile);
+			parameters.add(biopsia.getId());
+			
+			result = DBUtil.executeNonSelectQuery(query, parameters);
+			log.info("Almacenado binario del diagnostico complementario " + biopsia.getCodigo() + " = " + result);
+		} catch (Exception e2) {
+			// TODO: handle exception
+			result = false;
+			log.error(e2.getLocalizedMessage(), e2);
+		} finally {
+			try {
+				fis.close();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+		
+		return result;
 	}
 	
 	/**

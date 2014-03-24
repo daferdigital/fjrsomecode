@@ -75,6 +75,7 @@ public class LoginWindow extends JDialog implements KeyListener {
 		name2.setFont(new Font("Dialog", Font.BOLD, 16));
 		name2.setForeground(Color.GRAY);
 		getContentPane().add(name2);
+		tit1.setFont(new Font("Tahoma", Font.BOLD, 12));
 
 		tit1.setBounds(x, y, 300, 20);
 		tit1.setForeground(Color.GRAY);
@@ -87,6 +88,7 @@ public class LoginWindow extends JDialog implements KeyListener {
 		loginTxt.setBorder(BorderFactory.createLineBorder(Color.blue));
 		loginTxt.addKeyListener(this);
 		getContentPane().add(loginTxt);
+		tit2.setFont(new Font("Tahoma", Font.BOLD, 12));
 
 		tit2.setBounds(x, y + 50, 200, 20);
 		tit2.setForeground(Color.GRAY);
@@ -101,18 +103,21 @@ public class LoginWindow extends JDialog implements KeyListener {
 		getContentPane().add(pwdField);
 
 		ok = new JButton("Aceptar");
+		ok.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		ok.setActionCommand(LoginWindowOperations.ACTION_COMMAND_DO_LOGIN);
 		ok.setBounds(x, y + 105, 85, 20);
 		ok.setBackground(Color.WHITE);
 		getContentPane().add(ok);
 
 		cancel = new JButton("Cancelar");
+		cancel.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		cancel.setActionCommand(LoginWindowOperations.ACTION_COMMAND_CANCEL);
 		cancel.setBounds(x + 100, y + 105, 85, 20);
 		cancel.setBackground(Color.WHITE);
 		getContentPane().add(cancel);
 
 		help = new JButton("Ayuda");
+		help.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		help.setActionCommand(LoginWindowOperations.ACTION_COMMAND_OPEN_HELP);
 		help.setBounds(x + 200, y + 105, 85, 20);
 		help.setBackground(Color.WHITE);
