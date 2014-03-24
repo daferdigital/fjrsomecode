@@ -2,15 +2,26 @@ package com.fjr.code.gui.tables;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
+import javax.sql.rowset.CachedRowSet;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import org.apache.log4j.Logger;
+
 import com.fjr.code.dto.BiopsiaInfoDTO;
+import com.fjr.code.gui.InformeComplementarioDialog;
+import com.fjr.code.gui.PrepareInformeComplementarioDialog;
 import com.fjr.code.gui.tables.JTableButtonRenderer;
+import com.fjr.code.util.BLOBToDiskUtil;
+import com.fjr.code.util.Constants;
+import com.fjr.code.util.DBUtil;
 
 /**
  * 
@@ -22,6 +33,7 @@ import com.fjr.code.gui.tables.JTableButtonRenderer;
  *
  */
 public class JTableInformeComplementario {
+	private static final Logger log = Logger.getLogger(JTableInformeComplementario.class);
 	
 	private DefaultTableModel model;
 	private JTable table;
@@ -92,7 +104,31 @@ public class JTableInformeComplementario {
 					//o se desea reimprimir el diagnostico complementario
 					//o se desea crear uno nuevo
 					final int idBiopsia = (Integer) table.getValueAt(table.getSelectedRow(), 4);
-					//mostramos el panel para crear el informe complementario de esta biopsia
+					//validamos la existencia o no de un informe complementario previo
+					//traemos el ultimo informe complementario impreso al disco
+					final String query = "SELECT informe_complementario FROM biopsias WHERE id=?";
+					List<Object> parameters = new LinkedList<Object>();
+					parameters.add(idBiopsia);
+					
+					CachedRowSet rows = DBUtil.executeSelectQuery(query, parameters);
+					try {
+						if(rows.next() && rows.getBytes(1) != null){
+							File diagnostico = new File(Constants.TMP_PATH + File.separator 
+									+ Constants.PREFIJO_PDF_INFORME_COMPLEMENTARIO + idBiopsia + ".pdf");
+							BLOBToDiskUtil.writeBLOBToDisk(diagnostico, 
+									rows.getBytes(1));
+							
+							new InformeComplementarioDialog(diagnostico.getAbsolutePath(), 
+									idBiopsia).setVisible(true);
+						} else {
+							//no se obtuvo informe complementario,
+							//mostramos directo la ventana de preparacion
+							new PrepareInformeComplementarioDialog(idBiopsia).setVisible(true);
+						}
+					} catch (SQLException ex) {
+						// TODO Auto-generated catch block
+						log.error("", ex);
+					}
 					
 					e.consume();
 				}

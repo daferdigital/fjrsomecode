@@ -71,6 +71,7 @@ public class MenuPanel extends JPanel {
 		if(isLogged){
 			//valido los permisos del usuario para saber a que menus tiene acceso
 			UsuarioDTO usuario = UsuarioDAO.getByLogin(user);
+			Constants.USUARIO_LOGUEADO = usuario;
 			List<PermisosUsuarioDTO> permisos = usuario.getPermisos();
 			
 			if (permisos != null && permisos.size() > 0) {

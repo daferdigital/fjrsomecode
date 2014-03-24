@@ -14,6 +14,8 @@ import java.awt.Toolkit;
 import javax.swing.JLabel;
 
 import java.awt.Font;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
@@ -25,6 +27,7 @@ import com.fjr.code.dao.UsuarioDAO;
 import com.fjr.code.dao.definitions.ModulosSistema;
 import com.fjr.code.dto.PermisosUsuarioDTO;
 import com.fjr.code.dto.UsuarioDTO;
+import com.fjr.code.gui.operations.maestros.UsuarioDialogOperations;
 
 /**
  * 
@@ -52,9 +55,10 @@ public class UsuarioDialog extends JDialog {
 	private JCheckBox chBoxIHQ = new JCheckBox("IHQ");
 	private JCheckBox chBoxMaestros = new JCheckBox("Maestros");
 	private JCheckBox chBoxBusquedas = new JCheckBox("B\u00FAsquedas");
+	private JCheckBox cBoxInformeComplementario = new JCheckBox("Informe Complementario");
 	
 	private int idUsuario;
-	private JCheckBox cBoxInformeComplementario;
+	private JRadioButton rbtnAllPermissions;
 	
 	/**
 	 * Launch the application.
@@ -73,6 +77,8 @@ public class UsuarioDialog extends JDialog {
 	 * Create the dialog.
 	 */
 	public UsuarioDialog(int idUsuario) {
+		setModal(true);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		this.idUsuario = idUsuario;
 		UsuarioDTO usuario = UsuarioDAO.getById(idUsuario);
 		
@@ -106,6 +112,7 @@ public class UsuarioDialog extends JDialog {
 		txtLogin = new JTextField(usuario == null ? "" : usuario.getLogin());
 		txtLogin.setColumns(10);
 		txtLogin.setBounds(130, 46, 200, 20);
+		txtLogin.setEditable(usuario == null);
 		panelDatos.add(txtLogin);
 		
 		JLabel lblClave = new JLabel("Clave:");
@@ -126,31 +133,41 @@ public class UsuarioDialog extends JDialog {
 			panelPermisos.add(lblNewLabel);
 		}
 		
-		JRadioButton rbtnTodos = new JRadioButton("Todos");
-		rbtnTodos.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		rbtnTodos.setBounds(41, 32, 109, 23);
-		panelPermisos.add(rbtnTodos);
+		rbtnAllPermissions = new JRadioButton("Todos");
+		rbtnAllPermissions.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		rbtnAllPermissions.setBounds(41, 32, 109, 23);
+		panelPermisos.add(rbtnAllPermissions);
 		
 		JSeparator separator = new JSeparator();
 		separator.setBounds(20, 62, 379, 2);
 		panelPermisos.add(separator);
-		chBoxEntrega.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		
+		chBoxEntrega.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		chBoxEntrega.setBounds(10, 77, 97, 23);
+		
 		chBoxRecepcion.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		chBoxRecepcion.setBounds(10, 103, 97, 23);
+		
 		chBoxMacro.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		chBoxMacro.setBounds(10, 129, 97, 23);
+		
 		chBoxHistologia.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		chBoxHistologia.setBounds(10, 155, 97, 23);
+		
 		chBoxMicro.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		chBoxMicro.setBounds(10, 181, 97, 23);
+		
 		chBoxIHQ.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		chBoxIHQ.setBounds(10, 207, 97, 23);
+		
 		chBoxMaestros.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		chBoxMaestros.setBounds(109, 77, 97, 23);
+		
 		chBoxBusquedas.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		chBoxBusquedas.setBounds(109, 103, 97, 23);
+		
+		cBoxInformeComplementario.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		cBoxInformeComplementario.setBounds(109, 129, 168, 23);
 		
 		//validamos los posibles permisos
 		if(usuario != null){
@@ -185,30 +202,36 @@ public class UsuarioDialog extends JDialog {
 		panelPermisos.add(chBoxIHQ);
 		panelPermisos.add(chBoxMaestros);
 		panelPermisos.add(chBoxBusquedas);
-		
-		cBoxInformeComplementario = new JCheckBox("Informe Complementario");
-		cBoxInformeComplementario.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		cBoxInformeComplementario.setBounds(109, 129, 168, 23);
 		panelPermisos.add(cBoxInformeComplementario);
 		
 		contentPanel.add(tabPanel);
+		UsuarioDialogOperations listener = new UsuarioDialogOperations(this);
+		rbtnAllPermissions.setActionCommand(UsuarioDialogOperations.ACTION_COMMAND_MODIFY_PERMISSIONS);
+		rbtnAllPermissions.addActionListener(listener);
+		
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
-				okButton.setActionCommand("OK");
+				JButton okButton = new JButton("Guardar");
+				okButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
+				okButton.setActionCommand(UsuarioDialogOperations.ACTION_COMMAND_OK);
+				okButton.addActionListener(listener);
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				JButton cancelButton = new JButton("Cancel");
-				cancelButton.setActionCommand("Cancel");
+				JButton cancelButton = new JButton("Cancelar");
+				cancelButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
+				cancelButton.setActionCommand(UsuarioDialogOperations.ACTION_COMMAND_CANCEL);
+				cancelButton.addActionListener(listener);
 				buttonPane.add(cancelButton);
 			}
 		}
+		
+		setLocationRelativeTo(null);
 	}
 
 	public int getIdUsuario() {
@@ -261,5 +284,68 @@ public class UsuarioDialog extends JDialog {
 
 	public JCheckBox getChBoxBusquedas() {
 		return chBoxBusquedas;
+	}
+	
+	public JCheckBox getcBoxInformeComplementario() {
+		return cBoxInformeComplementario;
+	}
+	
+	public JRadioButton getRbtnAllPermissions() {
+		return rbtnAllPermissions;
+	}
+	
+	/**
+	 * 
+	 * @param value
+	 */
+	public void markAllPermissions(boolean value){
+		chBoxEntrega.setSelected(value);
+		chBoxRecepcion.setSelected(value);
+		chBoxMacro.setSelected(value);
+		chBoxHistologia.setSelected(value);
+		chBoxMicro.setSelected(value);
+		chBoxIHQ.setSelected(value);
+		chBoxMaestros.setSelected(value);
+		chBoxBusquedas.setSelected(value);
+		cBoxInformeComplementario.setSelected(value);
+	}
+	
+	/**
+	 * Se obtiene el listado de los permisos actualmente marcados
+	 * 
+	 * @return
+	 */
+	public List<PermisosUsuarioDTO> getPermisosList(){
+		List<PermisosUsuarioDTO> permisos = new LinkedList<PermisosUsuarioDTO>();
+		
+		if(chBoxBusquedas.isSelected()){
+			permisos.add(new PermisosUsuarioDTO(ModulosSistema.BUSQUEDA.getKey()));
+		}
+		if(chBoxEntrega.isSelected()){
+			permisos.add(new PermisosUsuarioDTO(ModulosSistema.ENTREGA.getKey()));
+		}
+		if(chBoxHistologia.isSelected()){
+			permisos.add(new PermisosUsuarioDTO(ModulosSistema.HISTOLOGIA.getKey()));
+		}
+		if(chBoxIHQ.isSelected()){
+			permisos.add(new PermisosUsuarioDTO(ModulosSistema.IHQ.getKey()));
+		}
+		if(chBoxRecepcion.isSelected()){
+			permisos.add(new PermisosUsuarioDTO(ModulosSistema.INGRESO.getKey()));
+		}
+		if(chBoxMacro.isSelected()){
+			permisos.add(new PermisosUsuarioDTO(ModulosSistema.MACROSCOPICA.getKey()));
+		}
+		if(chBoxMaestros.isSelected()){
+			permisos.add(new PermisosUsuarioDTO(ModulosSistema.MAESTROS.getKey()));
+		}
+		if(chBoxMicro.isSelected()){
+			permisos.add(new PermisosUsuarioDTO(ModulosSistema.MICROSCOPICA.getKey()));
+		}
+		if(cBoxInformeComplementario.isSelected()){
+			permisos.add(new PermisosUsuarioDTO(ModulosSistema.INFORME_COMPLEMENTARIO.getKey()));
+		}
+		
+		return permisos;
 	}
 }

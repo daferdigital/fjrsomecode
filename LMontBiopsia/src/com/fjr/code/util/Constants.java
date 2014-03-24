@@ -1,6 +1,7 @@
 package com.fjr.code.util;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -9,6 +10,8 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 
 import org.jvnet.substance.SubstanceLookAndFeel;
+
+import com.fjr.code.dto.UsuarioDTO;
 
 /**
  * 
@@ -89,6 +92,26 @@ public final class Constants {
 	public static final int ID_DEFAULT_CLIENTE = -2;
 	
 	/**
+	 * Prefijo para el nombre del archivo pdf donde debe almacenarse fisicamente el contenido del diagnostico(informe)
+	 */
+	public static final String PREFIJO_PDF_INFORME = "diagnostico_";
+	
+	/**
+	 * Prefijo para el nombre del archivo pdf donde debe almacenarse fisicamente el contenido del diagnostico complementario(informe complementario)
+	 */
+	public static final String PREFIJO_PDF_INFORME_COMPLEMENTARIO = "diagnosticoComplementario_";
+	
+	/**
+	 * Atributo para formatear fechas en el estilo dia-mes-año
+	 */
+	public static final SimpleDateFormat sdfDDMMYYYY = new SimpleDateFormat("dd-MM-yyyy"); 
+	
+	/**
+	 * Constante global para guardar los datos basicos del usuario recien logueado
+	 */
+	public static UsuarioDTO USUARIO_LOGUEADO = null;
+	
+	/**
 	 * 
 	 */
 	public static void setLookAndFeel() {
@@ -99,7 +122,6 @@ public final class Constants {
 				JDialog.setDefaultLookAndFeelDecorated(true);
 
 				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-
 			} else {
 				JFrame.setDefaultLookAndFeelDecorated(true); 
 				JDialog.setDefaultLookAndFeelDecorated(true);

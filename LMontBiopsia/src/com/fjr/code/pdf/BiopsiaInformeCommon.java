@@ -1,13 +1,12 @@
 package com.fjr.code.pdf;
 
-import java.text.DateFormat;
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import org.apache.log4j.Logger;
 
 import com.fjr.code.dto.BiopsiaInfoDTO;
+import com.fjr.code.util.Constants;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -85,6 +84,14 @@ abstract class BiopsiaInformeCommon {
 	 * @return
 	 */
 	protected PdfPTable addDetailBiopsiaTable(BiopsiaInfoDTO biopsia){
+		return addDetailBiopsiaTable(biopsia, false);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	protected PdfPTable addDetailBiopsiaTable(BiopsiaInfoDTO biopsia, boolean esComplementario){
 		PdfPTable table = new PdfPTable(new float[]{18, 45, 10, 35});
 		table.setWidthPercentage(100);
 		
@@ -134,8 +141,18 @@ abstract class BiopsiaInformeCommon {
 		cell10.setBorder(0);
 		cell10.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 		
-		DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-		PdfPCell cell11 = new PdfPCell(new Phrase(df.format(Calendar.getInstance().getTime()), informeFontNormal));
+		Calendar date = Calendar.getInstance();
+		if(esComplementario){
+			if(biopsia.getFechaImpresionComplementario() != null){
+				date = biopsia.getFechaImpresionComplementario();
+			}
+		} else {
+			if(biopsia.getFechaImpresionInforme() != null){
+				date = biopsia.getFechaImpresionInforme();
+			}
+		}
+		
+		PdfPCell cell11 = new PdfPCell(new Phrase(Constants.sdfDDMMYYYY.format(date.getTime()), informeFontNormal));
 		cell11.setBorder(0);
 		
 		table.addCell(cell);
@@ -176,6 +193,7 @@ abstract class BiopsiaInformeCommon {
 	 */
 	protected void addDiagnostico(PdfWriter writer, Document document, 
 			BiopsiaInfoDTO biopsia, boolean isIHQ) throws DocumentException{
+		
 		boolean printDiagnostico = (isIHQ && !"".equals(biopsia.getMicroscopicaDTO().getDiagnosticoIHQ().trim())
 				|| (!isIHQ && !"".equals(biopsia.getMicroscopicaDTO().getDiagnostico().trim())));
 		

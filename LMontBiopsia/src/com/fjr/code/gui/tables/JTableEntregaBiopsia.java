@@ -120,7 +120,7 @@ public class JTableEntregaBiopsia {
 						try {
 							CachedRowSet rows = DBUtil.executeSelectQuery(query, parameters);
 							if(rows.next()){
-								File diagnostico = new File(Constants.TMP_PATH + File.separator + "diagnostico_" + idBiopsia + ".pdf");
+								File diagnostico = new File(Constants.TMP_PATH + File.separator + Constants.PREFIJO_PDF_INFORME + idBiopsia + ".pdf");
 								BLOBToDiskUtil.writeBLOBToDisk(diagnostico, 
 										rows.getBytes(1));
 								

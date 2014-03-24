@@ -20,6 +20,8 @@ public class BiopsiaInfoDTO {
 	private int idTipoEstudio;
 	private String abreviaturaTipoEstudio;
 	private Calendar fechaRegistro;
+	private Calendar fechaImpresionInforme;
+	private Calendar fechaImpresionComplementario;
 	private ExamenBiopsiaDTO examenBiopsia;
 	private ClienteDTO cliente;
 	private FasesBiopsia faseActual;
@@ -79,6 +81,23 @@ public class BiopsiaInfoDTO {
 	
 	public void setFechaRegistro(Calendar fechaRegistro) {
 		this.fechaRegistro = fechaRegistro;
+	}
+	
+	public Calendar getFechaImpresionInforme() {
+		return fechaImpresionInforme;
+	}
+	
+	public void setFechaImpresionInforme(Calendar fechaImpresionInforme) {
+		this.fechaImpresionInforme = fechaImpresionInforme;
+	}
+	
+	public Calendar getFechaImpresionComplementario() {
+		return fechaImpresionComplementario;
+	}
+	
+	public void setFechaImpresionComplementario(
+			Calendar fechaImpresionComplementario) {
+		this.fechaImpresionComplementario = fechaImpresionComplementario;
 	}
 	
 	public String getCodigo() {

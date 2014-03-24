@@ -18,6 +18,11 @@ public class PermisosUsuarioDTO {
 		// TODO Auto-generated constructor stub
 	}
 
+	public PermisosUsuarioDTO(String keyModulo) {
+		// TODO Auto-generated constructor stub
+		this.keyModulo = keyModulo;
+	}
+	
 	public int getIdUsuario() {
 		return idUsuario;
 	}

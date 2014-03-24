@@ -71,7 +71,7 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 		this.idBiopsia = biopsia.getId();
 		this.firmante1 = firmante1;
 		this.firmante2 = firmante2;
-		this.fileName = "diagnostico_" + idBiopsia + ".pdf";
+		this.fileName = Constants.PREFIJO_PDF_INFORME + idBiopsia + ".pdf";
 		this.filePath = Constants.TMP_PATH + File.separator + fileName; 
 		this.mapMacro = mapMacro;
 		this.mapIHQ = mapIHQ;

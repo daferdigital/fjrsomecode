@@ -20,6 +20,15 @@ import javax.swing.JLabel;
 
 import com.fjr.code.util.SecurityEditCode;
 
+/**
+ * 
+ * Class: InformeImpresoDialog
+ * Creation Date: 22/03/2014
+ * (c) 2014
+ *
+ * @author T&T
+ *
+ */
 public class InformeImpresoDialog extends JDialog implements ActionListener{
 	/**
 	 * 
