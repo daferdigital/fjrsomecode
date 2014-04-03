@@ -157,7 +157,7 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 		p1.add(title1);
 		p1.add(value1);
 		
-		Chunk title2 = new Chunk("DESCRIPCION MACROSCOPICA:", 
+		Chunk title2 = new Chunk("DESCRIPCION MACROSCOPICA: ", 
 				new Font(informeFontBold.getBaseFont(), 12F, Font.UNDERLINE));
 		Phrase value2 = new Phrase(biopsia.getMacroscopicaDTO().getDescMacroscopica(), new Font(informeFontNormal.getBaseFont(), 12F));
 		Paragraph p2 = new Paragraph();
@@ -457,7 +457,6 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 			Document document, PdfWriter writer) throws DocumentException{
 		//procesamos las posibles fotos del mapa indicado
 		//int numeroFoto = 1;
-		
 		
 		for (Integer linea : mapToProcess.keySet()) {
 			List<String> mapLinea = mapToProcess.get(linea);

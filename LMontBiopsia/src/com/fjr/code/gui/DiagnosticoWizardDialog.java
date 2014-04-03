@@ -13,8 +13,11 @@ import com.fjr.code.dto.BiopsiaMicroLaminasFileDTO;
 import com.fjr.code.gui.tables.JTableDiagnosticoWizard;
 import com.fjr.code.pdf.BiopsiaDiagnostico;
 import com.fjr.code.util.Constants;
+
 import java.awt.Toolkit;
+
 import javax.swing.border.LineBorder;
+
 import java.awt.Color;
 
 import javax.swing.Icon;
@@ -23,13 +26,16 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
+import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
-
 import javax.swing.JPanel;
+
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JTable;
+
 import java.awt.Font;
 
 public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
@@ -90,11 +96,13 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 		scrollPane.setBounds(0, 0, 465, 662);
 		getContentPane().add(scrollPane);
 		
-		JPanel panel = new JPanel();
-		scrollPane.setViewportView(panel);
-		panel.setLayout(new GridLayout(0, 1, 0, 0));
+		JTabbedPane panelTab = new JTabbedPane();
 		
-		setBiopsiaInfoPanel(biopsia, panel);
+		//JPanel panel = new JPanel();
+		scrollPane.setViewportView(panelTab);
+		//panel.setLayout(new GridLayout(0, 1, 0, 0));
+		
+		setBiopsiaInfoPanel(biopsia, panelTab);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBorder(new LineBorder(Color.BLACK));
@@ -129,12 +137,17 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 	 * @param biopsia
 	 */
 	private void setBiopsiaInfoPanel(BiopsiaInfoDTO biopsia,
-			JPanel panelBiopsia){
+			JTabbedPane panelBiopsia){
+		
+		JPanel perOperatoria = new JPanel(new GridLayout(0, 1, 0, 0));
+		JPanel macro = new JPanel(new GridLayout(0, 1, 0, 0));
+		JPanel micro = new JPanel(new GridLayout(0, 1, 0, 0));
+		JPanel ihq = new JPanel(new GridLayout(0, 1, 0, 0));
 		
 		if(biopsia.getMacroscopicaDTO().getMacroFotosDTO() != null){
 			JLabel label = new JLabel("PER-OPERATORIA");
 			label.setHorizontalAlignment(SwingConstants.LEFT);
-			panelBiopsia.add(label);
+			perOperatoria.add(label);
 			
 			JButton btnDesc = new JButton("");
 			btnDesc.setBorderPainted(false);
@@ -142,7 +155,7 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 			btnDesc.setName(btnDesc.getText());
 			btnDesc.setHorizontalAlignment(SwingConstants.LEFT);
 			btnDesc.addActionListener(this);
-			panelBiopsia.add(btnDesc);
+			perOperatoria.add(btnDesc);
 			
 			for (BiopsiaMacroFotoDTO macroFoto : biopsia.getMacroscopicaDTO().getMacroFotosDTO()) {
 				if(macroFoto.isFotoPerOperatoria()){
@@ -157,7 +170,7 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 					btnDesc.setName(btnDesc.getText());
 					btnDesc.setHorizontalAlignment(SwingConstants.LEFT);
 					btnDesc.addActionListener(this);
-					panelBiopsia.add(btnDesc);
+					perOperatoria.add(btnDesc);
 					
 					Icon icon = new ImageIcon(new ImageIcon(macroFoto.getFotoFile().getAbsolutePath()).getImage().getScaledInstance(
 							150,
@@ -171,15 +184,16 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 					btnImg.setName(macroFoto.getFotoFile().getAbsolutePath());
 					btnImg.setHorizontalAlignment(SwingConstants.LEFT);
 					btnImg.addActionListener(this);
-					panelBiopsia.add(btnImg);
+					perOperatoria.add(btnImg);
 				}
 			}
 		}
+		panelBiopsia.addTab("Per-Operatoria", perOperatoria);
 		
 		if(biopsia.getMacroscopicaDTO().getMacroFotosDTO() != null){
 			JLabel label = new JLabel("FOTOS MACRO");
 			label.setHorizontalAlignment(SwingConstants.LEFT);
-			panelBiopsia.add(label);
+			macro.add(label);
 			
 			JButton btnDesc = new JButton("");
 			btnDesc.setBorderPainted(false);
@@ -187,7 +201,7 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 			btnDesc.setName(btnDesc.getText());
 			btnDesc.setHorizontalAlignment(SwingConstants.LEFT);
 			btnDesc.addActionListener(this);
-			panelBiopsia.add(btnDesc);
+			macro.add(btnDesc);
 			
 			for (BiopsiaMacroFotoDTO macroFoto : biopsia.getMacroscopicaDTO().getMacroFotosDTO()) {
 				if(! macroFoto.isFotoPerOperatoria()){
@@ -198,7 +212,7 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 					btnDesc.setName(btnDesc.getText());
 					btnDesc.setHorizontalAlignment(SwingConstants.LEFT);
 					btnDesc.addActionListener(this);
-					panelBiopsia.add(btnDesc);
+					macro.add(btnDesc);
 					
 					Icon icon = new ImageIcon(new ImageIcon(macroFoto.getFotoFile().getAbsolutePath()).getImage().getScaledInstance(
 							150,
@@ -212,60 +226,17 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 					btnImg.setName(macroFoto.getFotoFile().getAbsolutePath());
 					btnImg.setHorizontalAlignment(SwingConstants.LEFT);
 					btnImg.addActionListener(this);
-					panelBiopsia.add(btnImg);
+					macro.add(btnImg);
 				}
 			}
 		}
-		
-		BiopsiaMicroLaminasDAO.setMicroLaminas(biopsia, true);
-		if(biopsia.getMicroscopicaDTO().getLaminasDTO() != null){
-			JLabel label = new JLabel("FOTOS IHQ");
-			label.setHorizontalAlignment(SwingConstants.LEFT);
-			panelBiopsia.add(label);
-			
-			JButton btnDesc = new JButton("");
-			btnDesc.setBorderPainted(false);
-			btnDesc.setToolTipText(JTableDiagnosticoWizard.SECCION_IHQ);
-			btnDesc.setName(btnDesc.getText());
-			btnDesc.setHorizontalAlignment(SwingConstants.LEFT);
-			btnDesc.addActionListener(this);
-			panelBiopsia.add(btnDesc);
-			
-			for (BiopsiaMicroLaminasDTO microLaminaIHQ : biopsia.getMicroscopicaDTO().getLaminasDTO()) {
-				btnDesc = new JButton(microLaminaIHQ.getDescripcion());
-				btnDesc.setBorderPainted(false);
-				btnDesc.setToolTipText(JTableDiagnosticoWizard.SECCION_IHQ);
-				btnDesc.setName(btnDesc.getText());
-				btnDesc.setHorizontalAlignment(SwingConstants.LEFT);
-				btnDesc.addActionListener(this);
-				panelBiopsia.add(btnDesc);
-				
-				if(microLaminaIHQ.getMicroLaminasFilesDTO() != null){
-					for (BiopsiaMicroLaminasFileDTO microLaminaFile : microLaminaIHQ.getMicroLaminasFilesDTO()) {
-						Icon icon = new ImageIcon(new ImageIcon(microLaminaFile.getMediaFile().getAbsolutePath()).getImage().getScaledInstance(
-								150,
-								120,
-								Image.SCALE_AREA_AVERAGING));
-						//debo colocarla como icono en la etiqueta respectiva
-						
-						JButton btnImg = new JButton(icon);
-						btnImg.setBorderPainted(false);
-						btnImg.setHorizontalAlignment(SwingConstants.LEFT);
-						btnImg.setToolTipText(JTableDiagnosticoWizard.SECCION_IHQ);
-						btnImg.setName(microLaminaFile.getMediaFile().getAbsolutePath());
-						btnImg.addActionListener(this);
-						panelBiopsia.add(btnImg);
-					}
-				}
-			}
-			
-		}
+		panelBiopsia.addTab("Fotos Macro", macro);
 		
 		BiopsiaMicroLaminasDAO.setMicroLaminas(biopsia, false);
 		if(biopsia.getMicroscopicaDTO().getLaminasDTO() != null){
 			JLabel label = new JLabel("FOTOS MICRO");
 			label.setHorizontalAlignment(SwingConstants.LEFT);
-			panelBiopsia.add(label);
+			micro.add(label);
 			
 			JButton btnDesc = new JButton("");
 			btnDesc.setBorderPainted(false);
@@ -273,7 +244,7 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 			btnDesc.setName(btnDesc.getText());
 			btnDesc.setHorizontalAlignment(SwingConstants.LEFT);
 			btnDesc.addActionListener(this);
-			panelBiopsia.add(btnDesc);
+			micro.add(btnDesc);
 			
 			for (BiopsiaMicroLaminasDTO microLaminaIHQ : biopsia.getMicroscopicaDTO().getLaminasDTO()) {
 				btnDesc = new JButton(microLaminaIHQ.getDescripcion());
@@ -282,7 +253,7 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 				btnDesc.setName(btnDesc.getText());
 				btnDesc.setHorizontalAlignment(SwingConstants.LEFT);
 				btnDesc.addActionListener(this);
-				panelBiopsia.add(btnDesc);
+				micro.add(btnDesc);
 				
 				if(microLaminaIHQ.getMicroLaminasFilesDTO() != null){
 					for (BiopsiaMicroLaminasFileDTO microLaminaFile : microLaminaIHQ.getMicroLaminasFilesDTO()) {
@@ -298,11 +269,56 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 						btnImg.setBorderPainted(false);
 						btnImg.setHorizontalAlignment(SwingConstants.LEFT);
 						btnImg.addActionListener(this);
-						panelBiopsia.add(btnImg);
+						micro.add(btnImg);
 					}
 				}
 			}	
 		}
+		panelBiopsia.addTab("Fotos Micro", micro);
+		
+		BiopsiaMicroLaminasDAO.setMicroLaminas(biopsia, true);
+		if(biopsia.getMicroscopicaDTO().getLaminasDTO() != null){
+			JLabel label = new JLabel("FOTOS IHQ");
+			label.setHorizontalAlignment(SwingConstants.LEFT);
+			ihq.add(label);
+			
+			JButton btnDesc = new JButton("");
+			btnDesc.setBorderPainted(false);
+			btnDesc.setToolTipText(JTableDiagnosticoWizard.SECCION_IHQ);
+			btnDesc.setName(btnDesc.getText());
+			btnDesc.setHorizontalAlignment(SwingConstants.LEFT);
+			btnDesc.addActionListener(this);
+			ihq.add(btnDesc);
+			
+			for (BiopsiaMicroLaminasDTO microLaminaIHQ : biopsia.getMicroscopicaDTO().getLaminasDTO()) {
+				btnDesc = new JButton(microLaminaIHQ.getDescripcion());
+				btnDesc.setBorderPainted(false);
+				btnDesc.setToolTipText(JTableDiagnosticoWizard.SECCION_IHQ);
+				btnDesc.setName(btnDesc.getText());
+				btnDesc.setHorizontalAlignment(SwingConstants.LEFT);
+				btnDesc.addActionListener(this);
+				ihq.add(btnDesc);
+				
+				if(microLaminaIHQ.getMicroLaminasFilesDTO() != null){
+					for (BiopsiaMicroLaminasFileDTO microLaminaFile : microLaminaIHQ.getMicroLaminasFilesDTO()) {
+						Icon icon = new ImageIcon(new ImageIcon(microLaminaFile.getMediaFile().getAbsolutePath()).getImage().getScaledInstance(
+								150,
+								120,
+								Image.SCALE_AREA_AVERAGING));
+						//debo colocarla como icono en la etiqueta respectiva
+						
+						JButton btnImg = new JButton(icon);
+						btnImg.setBorderPainted(false);
+						btnImg.setHorizontalAlignment(SwingConstants.LEFT);
+						btnImg.setToolTipText(JTableDiagnosticoWizard.SECCION_IHQ);
+						btnImg.setName(microLaminaFile.getMediaFile().getAbsolutePath());
+						btnImg.addActionListener(this);
+						ihq.add(btnImg);
+					}
+				}
+			}
+		}
+		panelBiopsia.addTab("Fotos IHQ", ihq);
 	}
 
 	@Override
