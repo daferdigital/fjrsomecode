@@ -93,7 +93,7 @@ public class PrepareDiagnosticoDialogOperations implements ActionListener{
 					e1.printStackTrace();
 				}
 			} else {
-				log.info("La biopsia '" + biopsia.getCodigo() + "' NO es del tipo CISH");
+				log.info("La biopsia '" + biopsia.getCodigo() + "' NO es del tipo CISH ni  es una Citologia");
 				BiopsiaFotosMacroDAO.setMacroFotos(biopsia);
 				
 				DiagnosticoWizardDialog wizard = new DiagnosticoWizardDialog(biopsia,
