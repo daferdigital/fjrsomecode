@@ -18,6 +18,7 @@ import com.fjr.code.gui.IngresoPanel;
 import com.fjr.code.gui.PrepareDiagnosticoDialog;
 import com.fjr.code.pdf.BiopsiaDiagnosticoCISH;
 import com.fjr.code.pdf.BiopsiaDiagnosticoCitologia;
+import com.fjr.code.pdf.BiopsiaInformeCommon;
 
 /**
  * 
@@ -58,52 +59,53 @@ public class PrepareDiagnosticoDialogOperations implements ActionListener{
 			
 			//vemos el tipo de estudio para proceder al armado del informe respectivo
 			log.info(biopsia.getIdTipoEstudio());
-			if(biopsia.getIdTipoEstudio() == TipoEstudioEnum.CISH.getId()){
-				log.info("La biopsia '" + biopsia.getCodigo() + "' SI es del tipo CISH");
-				BiopsiaDiagnosticoCISH diagnostico = new BiopsiaDiagnosticoCISH(
-						biopsia,
-						ventana.getcBoxFirmante1().getSelectedItem().toString(),
-						ventana.getcBoxFirmante2().getSelectedItem().toString());
+			if(biopsia.getIdTipoEstudio() == TipoEstudioEnum.CISH.getId()
+					|| biopsia.getIdTipoEstudio() == TipoEstudioEnum.CITOLOGIA.getId()){
+				BiopsiaInformeCommon diagnostico = null;
+				
+				if(biopsia.getIdTipoEstudio() == TipoEstudioEnum.CISH.getId()){
+					log.info("La biopsia '" + biopsia.getCodigo() + "' es del tipo CISH");
+					diagnostico = new BiopsiaDiagnosticoCISH(
+							biopsia,
+							ventana.getcBoxFirmante1().getSelectedItem().toString(),
+							ventana.getcBoxFirmante2().getSelectedItem().toString());
+				} else {
+					log.info("La biopsia '" + biopsia.getCodigo() + "' es una Citologia");
+					diagnostico = new BiopsiaDiagnosticoCitologia(
+							biopsia,
+							ventana.getcBoxFirmante1().getSelectedItem().toString(),
+							ventana.getcBoxFirmante2().getSelectedItem().toString());
+				}
 				
 				try {
 					diagnostico.buildDiagnostico();
 					diagnostico.open();
+					
+					ventana.getBtnVisualizar().setVisible(false);
+					ventana.getBtnMarkAsPrint().setVisible(true);
 				} catch (Throwable e1) {
 					// TODO: handle exception
 					JOptionPane.showMessageDialog(null, e1.getLocalizedMessage(), 
 							"Error abriendo diagnostico", 
 							JOptionPane.ERROR_MESSAGE);
-					e1.printStackTrace();
-				}
-			} else if(biopsia.getIdTipoEstudio() == TipoEstudioEnum.CITOLOGIA.getId()){
-				log.info("La biopsia '" + biopsia.getCodigo() + "' es una Citologia");
-				BiopsiaDiagnosticoCitologia diagnostico = new BiopsiaDiagnosticoCitologia(
-						biopsia,
-						ventana.getcBoxFirmante1().getSelectedItem().toString(),
-						ventana.getcBoxFirmante2().getSelectedItem().toString());
-								
-				try {
-					diagnostico.buildDiagnostico();
-					diagnostico.open();
-				} catch (Throwable e1) {
-					// TODO: handle exception
-					JOptionPane.showMessageDialog(null, e1.getLocalizedMessage(), 
-							"Error abriendo diagnostico", 
-							JOptionPane.ERROR_MESSAGE);
-					e1.printStackTrace();
+					log.error("Error: " + e1.getLocalizedMessage(), e1);
 				}
 			} else {
-				log.info("La biopsia '" + biopsia.getCodigo() + "' NO es del tipo CISH ni  es una Citologia");
+				log.info("La biopsia '" + biopsia.getCodigo() + "' NO es del tipo CISH ni es una Citologia");
 				BiopsiaFotosMacroDAO.setMacroFotos(biopsia);
 				
 				DiagnosticoWizardDialog wizard = new DiagnosticoWizardDialog(biopsia,
 						ventana.getcBoxFirmante1().getSelectedItem().toString(),
 						ventana.getcBoxFirmante2().getSelectedItem().toString());
 				wizard.setVisible(true);
+				
+				if(wizard.wasValidPDFGenerated()){
+					ventana.getBtnVisualizar().setVisible(false);
+					ventana.getBtnMarkAsPrint().setVisible(true);
+				}
+				
+				wizard.dispose();
 			}
-			
-			ventana.getBtnVisualizar().setVisible(false);
-			ventana.getBtnMarkAsPrint().setVisible(true);
 		} else if (ACTION_COMMAND_BTN_MARCAR_COMO_IMPRESO.equals(e.getActionCommand())) {
 			BiopsiaInfoDTO biopsia = BiopsiaInfoDAO.getBiopsiaByNumero(
 					ventana.getCodigoBiopsia());
