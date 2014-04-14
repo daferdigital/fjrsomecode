@@ -55,6 +55,7 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 	private String firmante1;
 	private String firmante2;
 	private boolean isIHQCalle = false;
+	private boolean wasValidPDFGenerated = false;
 	
 	/**
 	 * Launch the application.
@@ -117,21 +118,21 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 		tableWizard = wizard.getTable();
 		scrollPane_1.setViewportView(tableWizard);
 		
-		JButton btnVerDiagnostico = new JButton("Ver Diagnostico");
+		JButton btnVerDiagnostico = new JButton("Generar Diagnostico");
 		btnVerDiagnostico.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnVerDiagnostico.setBounds(475, 11, 123, 23);
+		btnVerDiagnostico.setBounds(475, 11, 143, 23);
 		btnVerDiagnostico.setActionCommand(ACTION_COMMAND_VER);
 		btnVerDiagnostico.addActionListener(this);
 		getContentPane().add(btnVerDiagnostico);
 		
 		JLabel lblparaEliminarUn = new JLabel("<html>Para eliminar una fila haga doble click sobre la misma</html>");
 		lblparaEliminarUn.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblparaEliminarUn.setBounds(706, 0, 268, 34);
+		lblparaEliminarUn.setBounds(726, 0, 247, 34);
 		getContentPane().add(lblparaEliminarUn);
 		
 		JButton btnLimpiar = new JButton("Limpiar");
 		btnLimpiar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnLimpiar.setBounds(605, 11, 91, 23);
+		btnLimpiar.setBounds(625, 11, 91, 23);
 		btnLimpiar.setActionCommand(ACTION_COMMAND_LIMPIAR);
 		btnLimpiar.addActionListener(this);
 		getContentPane().add(btnLimpiar);
@@ -356,6 +357,7 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 			
 			try {
 				diagnostico.open();
+				wasValidPDFGenerated = true;
 			} catch (Throwable e1) {
 				// TODO: handle exception
 				JOptionPane.showMessageDialog(null, e1.getLocalizedMessage(), 
@@ -366,5 +368,16 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 		} else {
 			wizard.addRow((JButton) e.getSource());
 		}
+	}
+
+	/**
+	 * Metodo para saber si con esta instancia de wizard, efectivamente se genero un PDF de manera correcta
+	 * Esto para evitar marcar registros no existentes con fases de ya impreso.
+	 * 
+	 * @return
+	 */
+	public boolean wasValidPDFGenerated() {
+		// TODO Auto-generated method stub
+		return wasValidPDFGenerated ;
 	}
 }
