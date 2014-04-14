@@ -229,10 +229,11 @@ public class MacroscopicaPanelOperations implements KeyListener, ActionListener{
 			}
 			
 		}
+		/*
 		if("".equals(ventana.getTextADescMacroscopica().getText())){
 			errors += "Debe indicar una descripción macroscopica.\n";
 		}
-		
+		*/
 		if(validateTables){
 			if(ventana.getTableMacroCassetes().getTable().getRowCount() < 1){
 				errors += "Falta agregar los cassetes en esta fase.\n";

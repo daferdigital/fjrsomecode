@@ -6,12 +6,15 @@ import java.awt.Image;
 import javax.swing.JDialog;
 
 import com.fjr.code.dao.BiopsiaMicroLaminasDAO;
+import com.fjr.code.dao.definitions.TipoEstudioEnum;
 import com.fjr.code.dto.BiopsiaInfoDTO;
 import com.fjr.code.dto.BiopsiaMacroFotoDTO;
 import com.fjr.code.dto.BiopsiaMicroLaminasDTO;
 import com.fjr.code.dto.BiopsiaMicroLaminasFileDTO;
 import com.fjr.code.gui.tables.JTableDiagnosticoWizard;
 import com.fjr.code.pdf.BiopsiaDiagnostico;
+import com.fjr.code.pdf.BiopsiaDiagnosticoIHQCalle;
+import com.fjr.code.pdf.BiopsiaInformeCommon;
 import com.fjr.code.util.Constants;
 
 import java.awt.Toolkit;
@@ -51,6 +54,7 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 	private BiopsiaInfoDTO biopsia;
 	private String firmante1;
 	private String firmante2;
+	private boolean isIHQCalle = false;
 	
 	/**
 	 * Launch the application.
@@ -81,6 +85,7 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 		this.biopsia = biopsia;
 		this.firmante1 = firmante1;
 		this.firmante2 = firmante2;
+		this.isIHQCalle = (TipoEstudioEnum.IHQ.getId() == biopsia.getIdTipoEstudio());
 		
 		setModal(true);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -232,22 +237,14 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 		}
 		panelBiopsia.addTab("Fotos Macro", macro);
 		
-		BiopsiaMicroLaminasDAO.setMicroLaminas(biopsia, false);
-		if(biopsia.getMicroscopicaDTO().getLaminasDTO() != null){
-			JLabel label = new JLabel("FOTOS MICRO");
-			label.setHorizontalAlignment(SwingConstants.LEFT);
-			micro.add(label);
-			
-			JButton btnDesc = new JButton("");
-			btnDesc.setBorderPainted(false);
-			btnDesc.setToolTipText(JTableDiagnosticoWizard.SECCION_DIAGNOSTICO);
-			btnDesc.setName(btnDesc.getText());
-			btnDesc.setHorizontalAlignment(SwingConstants.LEFT);
-			btnDesc.addActionListener(this);
-			micro.add(btnDesc);
-			
-			for (BiopsiaMicroLaminasDTO microLaminaIHQ : biopsia.getMicroscopicaDTO().getLaminasDTO()) {
-				btnDesc = new JButton(microLaminaIHQ.getDescripcion());
+		if(! isIHQCalle){
+			BiopsiaMicroLaminasDAO.setMicroLaminas(biopsia, false);
+			if(biopsia.getMicroscopicaDTO().getLaminasDTO() != null){
+				JLabel label = new JLabel("FOTOS MICRO");
+				label.setHorizontalAlignment(SwingConstants.LEFT);
+				micro.add(label);
+				
+				JButton btnDesc = new JButton("");
 				btnDesc.setBorderPainted(false);
 				btnDesc.setToolTipText(JTableDiagnosticoWizard.SECCION_DIAGNOSTICO);
 				btnDesc.setName(btnDesc.getText());
@@ -255,26 +252,36 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 				btnDesc.addActionListener(this);
 				micro.add(btnDesc);
 				
-				if(microLaminaIHQ.getMicroLaminasFilesDTO() != null){
-					for (BiopsiaMicroLaminasFileDTO microLaminaFile : microLaminaIHQ.getMicroLaminasFilesDTO()) {
-						Icon icon = new ImageIcon(new ImageIcon(microLaminaFile.getMediaFile().getAbsolutePath()).getImage().getScaledInstance(
-								150,
-								120,
-								Image.SCALE_AREA_AVERAGING));
-						//debo colocarla como icono en la etiqueta respectiva
-						
-						JButton btnImg = new JButton(icon);
-						btnImg.setToolTipText(JTableDiagnosticoWizard.SECCION_DIAGNOSTICO);
-						btnImg.setName(microLaminaFile.getMediaFile().getAbsolutePath());
-						btnImg.setBorderPainted(false);
-						btnImg.setHorizontalAlignment(SwingConstants.LEFT);
-						btnImg.addActionListener(this);
-						micro.add(btnImg);
+				for (BiopsiaMicroLaminasDTO microLaminaIHQ : biopsia.getMicroscopicaDTO().getLaminasDTO()) {
+					btnDesc = new JButton(microLaminaIHQ.getDescripcion());
+					btnDesc.setBorderPainted(false);
+					btnDesc.setToolTipText(JTableDiagnosticoWizard.SECCION_DIAGNOSTICO);
+					btnDesc.setName(btnDesc.getText());
+					btnDesc.setHorizontalAlignment(SwingConstants.LEFT);
+					btnDesc.addActionListener(this);
+					micro.add(btnDesc);
+					
+					if(microLaminaIHQ.getMicroLaminasFilesDTO() != null){
+						for (BiopsiaMicroLaminasFileDTO microLaminaFile : microLaminaIHQ.getMicroLaminasFilesDTO()) {
+							Icon icon = new ImageIcon(new ImageIcon(microLaminaFile.getMediaFile().getAbsolutePath()).getImage().getScaledInstance(
+									150,
+									120,
+									Image.SCALE_AREA_AVERAGING));
+							//debo colocarla como icono en la etiqueta respectiva
+							
+							JButton btnImg = new JButton(icon);
+							btnImg.setToolTipText(JTableDiagnosticoWizard.SECCION_DIAGNOSTICO);
+							btnImg.setName(microLaminaFile.getMediaFile().getAbsolutePath());
+							btnImg.setBorderPainted(false);
+							btnImg.setHorizontalAlignment(SwingConstants.LEFT);
+							btnImg.addActionListener(this);
+							micro.add(btnImg);
+						}
 					}
-				}
-			}	
+				}	
+			}
+			panelBiopsia.addTab("Fotos Micro", micro);
 		}
-		panelBiopsia.addTab("Fotos Micro", micro);
 		
 		BiopsiaMicroLaminasDAO.setMicroLaminas(biopsia, true);
 		if(biopsia.getMicroscopicaDTO().getLaminasDTO() != null){
@@ -327,13 +334,24 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 		if(ACTION_COMMAND_LIMPIAR.equals(e.getActionCommand())){
 			wizard.deleteAllRows();
 		} else if(ACTION_COMMAND_VER.equals(e.getActionCommand())){
-			BiopsiaDiagnostico  diagnostico = new BiopsiaDiagnostico(
-					biopsia,
-					firmante1,
-					firmante2,
-					wizard.getMapMacro(),
-					wizard.getMapIHQ(),
-					wizard.getMapDiagnostico());
+			BiopsiaInformeCommon diagnostico = null;
+			if(isIHQCalle){
+				diagnostico = new BiopsiaDiagnosticoIHQCalle(
+						biopsia,
+						firmante1,
+						firmante2,
+						wizard.getMapMacro(),
+						wizard.getMapIHQ());
+			} else {
+				diagnostico = new BiopsiaDiagnostico(
+						biopsia,
+						firmante1,
+						firmante2,
+						wizard.getMapMacro(),
+						wizard.getMapIHQ(),
+						wizard.getMapDiagnostico());
+			}
+			
 			diagnostico.buildDiagnostico();
 			
 			try {

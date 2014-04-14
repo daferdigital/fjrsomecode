@@ -826,7 +826,8 @@ public class BiopsiaInfoDAO {
 	 * 
 	 * @param biopsia
 	 */
-	public static void storeDiagnosticoBLob(BiopsiaInfoDTO biopsia){
+	public static boolean storeDiagnosticoBLob(BiopsiaInfoDTO biopsia){
+		boolean result = true;
 		final boolean mustSetFechaImpresion = biopsia.getFechaImpresionInforme() == null;
 		final String query = "UPDATE biopsias SET ultimo_informe_impreso=? "
 				+ (mustSetFechaImpresion ? ", fecha_impresion_informe=CURRENT_DATE" : "")
@@ -842,14 +843,17 @@ public class BiopsiaInfoDAO {
 				fis.read(bytesFile);
 			} catch (Exception e) {
 				// TODO: handle exception
+				result = false;
 				log.error(e.getLocalizedMessage(), e);
 			}
 			
-			parameters.add(bytesFile);
-			parameters.add(biopsia.getId());
-			
-			boolean result = DBUtil.executeNonSelectQuery(query, parameters);
-			log.info("Almacenado binario del diagnostico " + biopsia.getCodigo() + " = " + result);
+			if(result){
+				parameters.add(bytesFile);
+				parameters.add(biopsia.getId());
+				
+				result = DBUtil.executeNonSelectQuery(query, parameters);
+				log.info("Almacenado binario del diagnostico " + biopsia.getCodigo() + " = " + result);
+			}
 		} catch (Exception e2) {
 			// TODO: handle exception
 		} finally {
@@ -859,6 +863,8 @@ public class BiopsiaInfoDAO {
 				// TODO: handle exception
 			}
 		}
+		
+		return result;
 	}
 	
 	/**
@@ -867,7 +873,7 @@ public class BiopsiaInfoDAO {
 	 */
 	public static boolean storeDiagnosticoComplementarioBLob(BiopsiaInfoDTO biopsia){
 		final boolean mustSetFechaImpresion = biopsia.getFechaImpresionComplementario() == null;
-		final String query = "UPDATE biopsias SET ultimo_informe_impreso=? "
+		final String query = "UPDATE biopsias SET informe_complementario=? "
 				+ (mustSetFechaImpresion ? ", fecha_impresion_complementario=CURRENT_DATE" : "")
 				+ " WHERE id=?";
 		
