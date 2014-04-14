@@ -3,6 +3,8 @@ package com.fjr.code.pdf;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
+import org.apache.log4j.Logger;
+
 import com.fjr.code.util.Constants;
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.Chunk;
@@ -28,6 +30,8 @@ import com.itextpdf.text.pdf.PdfWriter;
  *
  */
 class HeaderFooter extends PdfPageEventHelper {
+	private static final Logger log = Logger.getLogger(HeaderFooter.class);
+	
 	private static final Chunk chunkEnter = new Chunk("\n");
 	private PDFPageChecker pageChecker;
 	private String nroBiopsia;
@@ -62,7 +66,7 @@ class HeaderFooter extends PdfPageEventHelper {
 	@Override
 	public void onStartPage(PdfWriter writer, Document document) {
 		// TODO Auto-generated method stub
-		System.out.println("document.getPageNumber()/fixedNum = " + document.getPageNumber() + "/" + fixedNum);
+		log.info("document.getPageNumber()/fixedNum = " + document.getPageNumber() + "/" + fixedNum);
 		
 		if(pageChecker.mustFixNumberPage() ){
 			fixedNum = document.getPageNumber() -1;

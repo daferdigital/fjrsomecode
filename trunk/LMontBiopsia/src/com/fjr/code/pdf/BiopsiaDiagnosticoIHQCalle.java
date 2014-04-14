@@ -31,27 +31,28 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 /**
+ * Implementación del informe para el tipo de estudio IHQ (directo a IHQ viniendo de la calle)
+ * Sin biopsia previa.
  * 
- * Class: BiopsiaDiagnostico
+ * Class: BiopsiaDiagnosticoIHQCalle
  * Creation Date: 29/09/2013
  * (c) 2013
  *
  * @author T&T
  *
  */
-public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageChecker {
-	private static final Logger log = Logger.getLogger(BiopsiaDiagnostico.class);
+public class BiopsiaDiagnosticoIHQCalle extends BiopsiaInformeCommon implements PDFPageChecker {
+	private static final Logger log = Logger.getLogger(BiopsiaDiagnosticoIHQCalle.class);
 	
 	private BiopsiaInfoDTO biopsia;
 	private int idBiopsia;
-	private boolean fixNumberPage = true;
+	private boolean fixNumberPage = false;
 	private String fileName;
 	private String filePath;
 	private String firmante1;
 	private String firmante2;
 	private SortedMap<Integer, List<String>> mapMacro;
 	private SortedMap<Integer, List<String>> mapIHQ;
-	private SortedMap<Integer, List<String>> mapDiagnostico;
 	
 	/**
 	 * 
@@ -61,11 +62,10 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 	 * @param mapPerOperatoria
 	 * @param mapMacro
 	 * @param mapIHQ
-	 * @param mapDiagnostico
 	 */
-	public BiopsiaDiagnostico(BiopsiaInfoDTO biopsia,
+	public BiopsiaDiagnosticoIHQCalle(BiopsiaInfoDTO biopsia,
 			String firmante1, String firmante2, SortedMap<Integer, List<String>> mapMacro, 
-			SortedMap<Integer, List<String>> mapIHQ, SortedMap<Integer, List<String>> mapDiagnostico) {
+			SortedMap<Integer, List<String>> mapIHQ) {
 		// TODO Auto-generated constructor stub
 		this.biopsia = biopsia;
 		this.idBiopsia = biopsia.getId();
@@ -75,7 +75,6 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 		this.filePath = Constants.TMP_PATH + File.separator + fileName; 
 		this.mapMacro = mapMacro;
 		this.mapIHQ = mapIHQ;
-		this.mapDiagnostico = mapDiagnostico;
 	}
 	
 	/**
@@ -112,33 +111,12 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 	        //agregamos la info de Macro
 	        addDetailMacro(document, writer);
 	        
-	        //agregamos la descripcion microscopica
-	        addFotosMicro(document, writer);
+	        //agregamos la info IHQ recibida del wizard
+	        addInfoIHQ(document, writer);
+	        addDiagnostico(writer, document, biopsia, true);
 	        
-	        //agregamos el diagnostico de la fase micro
-		    addDiagnostico(writer, document, biopsia);
-		    
-		    //agregamos los firmantes
-		    addFirmantes(writer, document, firmante1, firmante2);
-		    
-		    //verificamos info de IHQ
-	        if(biopsia.getMicroscopicaDTO().getEstudioIHQ() != null
-					&& ! "".equals(biopsia.getMicroscopicaDTO().getEstudioIHQ().trim())
-					|| (biopsia.getMicroscopicaDTO().getDiagnosticoIHQ() != null
-							&& ! "".equals(biopsia.getMicroscopicaDTO().getDiagnosticoIHQ().trim()))){
-	        	//addFirmantes(writer, document, firmante1, firmante2);
-	        	document.newPage();
-	        	//agregamos la tabla de detalle de la biopsia
-		        document.add(addDetailBiopsiaTable(biopsia));
-		        document.add(chunkEnter);
-		        
-		        //agregamos la info IHQ recibida del wizard
-	        	addInfoIHQ(document, writer);
-	        	addDiagnostico(writer, document, biopsia, true);
-	        	
-	        	//agregamos los firmantes
-			    addFirmantes(writer, document, firmante1, firmante2);
-	        }
+	        //agregamos los firmantes
+	        addFirmantes(writer, document, firmante1, firmante2);
 	        
 	        //step 5
 	        document.close();
@@ -193,20 +171,15 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 	 * @throws DocumentException
 	 */
 	private void addInfoIHQ(Document document, PdfWriter writer) throws DocumentException{
-		//verificamos si se debe agregar informacion de IHQ
-		if(biopsia.getMicroscopicaDTO().getEstudioIHQ() != null
-				&& ! "".equals(biopsia.getMicroscopicaDTO().getEstudioIHQ().trim())
-				|| (biopsia.getMicroscopicaDTO().getDiagnosticoIHQ() != null
-						&& ! "".equals(biopsia.getMicroscopicaDTO().getDiagnosticoIHQ().trim()))){
-			//fixNumberPage = true;
-			//document.newPage();
-			fixNumberPage = false;
-			Chunk title1 = null;
-			Phrase value1 = null;
-			Paragraph p1 = null;
+		//fixNumberPage = true;
+		//document.newPage();
+		fixNumberPage = false;
+		Chunk title1 = null;
+		Phrase value1 = null;
+		Paragraph p1 = null;
 			
-			//document.add(addDetailBiopsiaTable(biopsia));
-			/*
+		//document.add(addDetailBiopsiaTable(biopsia));
+		/*
 			title1 = new Chunk("PROCEDENCIA DEL MATERIAL:", 
 					new Font(informeFontBold.getBaseFont(), 12F, Font.UNDERLINE));
 			value1 = new Phrase(" " + biopsia.getIngresoDTO().getPiezaRecibida(), 
@@ -219,90 +192,67 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 			document.add(p1);
 			*/
 			
-			//podemos registrar info IHQ
-			title1 = new Chunk("ESTUDIO INMUNOHISTOQUIMICO:", 
+		//podemos registrar info IHQ
+		title1 = new Chunk("ESTUDIO INMUNOHISTOQUIMICO:", 
+				new Font(informeFontBold.getBaseFont(), 12F, Font.UNDERLINE));
+		value1 = new Phrase(" " 
+				+ ("".equals(biopsia.getMicroscopicaDTO().getEstudioIHQ()) ? " N/A" : biopsia.getMicroscopicaDTO().getEstudioIHQ()), 
+				new Font(informeFontNormal.getBaseFont(), 12F));
+		
+		p1 = new Paragraph();
+		p1.setAlignment(Element.ALIGN_JUSTIFIED);
+		p1.setIndentationLeft(50);
+		//p1.add(chunkEnter);
+		p1.add(title1);
+		p1.add(value1);
+		
+		document.add(p1);
+		
+		//obtenemos las laminas de IHQ para mostrar los resultados de los reactivos
+		biopsia = BiopsiaMicroLaminasDAO.setMicroLaminas(biopsia, true);
+		if(biopsia.getMicroscopicaDTO().getLaminasDTO() != null){
+			Chunk title2 = new Chunk("RESULTADO:", 
 					new Font(informeFontBold.getBaseFont(), 12F, Font.UNDERLINE));
-			value1 = new Phrase(" " 
-					+ ("".equals(biopsia.getMicroscopicaDTO().getEstudioIHQ()) ? " N/A" : biopsia.getMicroscopicaDTO().getEstudioIHQ()), 
-					new Font(informeFontNormal.getBaseFont(), 12F));
 			
-			p1 = new Paragraph();
-			p1.setAlignment(Element.ALIGN_JUSTIFIED);
-			p1.setIndentationLeft(50);
-			//p1.add(chunkEnter);
-			p1.add(title1);
-			p1.add(value1);
-			
-			document.add(p1);
-			
-			//obtenemos las laminas de IHQ para mostrar los resultados de los reactivos
-			biopsia = BiopsiaMicroLaminasDAO.setMicroLaminas(biopsia, true);
-			if(biopsia.getMicroscopicaDTO().getLaminasDTO() != null){
-				Chunk title2 = new Chunk("RESULTADO:", 
-						new Font(informeFontBold.getBaseFont(), 12F, Font.UNDERLINE));
-				
-				Paragraph p2 = new Paragraph();
-				p2.setIndentationLeft(50);
-				p2.add(chunkEnter);
-				p2.add(title2);
-				document.add(p2);
-				
-				for (BiopsiaMicroLaminasDTO lamina : biopsia.getMicroscopicaDTO().getLaminasDTO()) {
-					if(lamina.getReactivosDTO() != null
-							&& lamina.getReactivosDTO().size() > 0){
-						for (ReactivoDTO reactivo : lamina.getReactivosDTO()) {
-							if("".equals(reactivo.getDescripcionIHQ().trim())){
-								log.info("Descartando reactivo '"
-										+ reactivo.getNombre() + " (" + reactivo.getAbreviatura() + ")'"
-										+ " por no tener resultado registrado");
-							} else {
-								Paragraph p = new Paragraph();
-								p.setIndentationLeft(100);
-								p.setAlignment(Element.ALIGN_JUSTIFIED);
-								p.setSpacingBefore(0);
-								//p.add(chunkEnter);
-								/*
-								p.add(new Chunk(reactivo.getNombre() + " (" + reactivo.getAbreviatura() + "): ", 
-										new Font(informeFontBold.getBaseFont(), 12F)));
-								*/
-								p.add(new Chunk(reactivo.getNombre() + ": ", 
-										new Font(informeFontBold.getBaseFont(), 12F)));
-								p.add(new Chunk(reactivo.getDescripcionIHQ(), 
-										new Font(informeFontNormal.getBaseFont(), 12F)));
-								
-								document.add(p);	
-							}
-						}
-						//document.add(chunkEnter);
-					}
-				}
-			}
-			
-			document.add(new Paragraph(chunkEnter));
-        	addMapToDocument(mapIHQ, document, writer);
-		}
-	}
-	
-	/**
-	 * 
-	 * @param document
-	 * @param writer
-	 * @throws DocumentException
-	 */
-	private void addFotosMicro(Document document, PdfWriter writer) throws DocumentException{
-		if(mapDiagnostico != null
-				&& mapDiagnostico.size() > 0){
 			Paragraph p2 = new Paragraph();
-			Chunk title2 = new Chunk("DESCRIPCION MICROSCOPICA:", 
-					new Font(informeFontBold.getBaseFont(), 12F, Font.UNDERLINE));
-			p2.setAlignment(Paragraph.ALIGN_JUSTIFIED);
 			p2.setIndentationLeft(50);
 			p2.add(chunkEnter);
 			p2.add(title2);
 			document.add(p2);
 			
-			addMapToDocument(mapDiagnostico, document, writer);
+			for (BiopsiaMicroLaminasDTO lamina : biopsia.getMicroscopicaDTO().getLaminasDTO()) {
+				if(lamina.getReactivosDTO() != null
+						&& lamina.getReactivosDTO().size() > 0){
+					for (ReactivoDTO reactivo : lamina.getReactivosDTO()) {
+						if("".equals(reactivo.getDescripcionIHQ().trim())){
+							log.info("Descartando reactivo '"
+									+ reactivo.getNombre() + " (" + reactivo.getAbreviatura() + ")'"
+									+ " por no tener resultado registrado");
+						} else {
+							Paragraph p = new Paragraph();
+							p.setIndentationLeft(100);
+							p.setAlignment(Element.ALIGN_JUSTIFIED);
+							p.setSpacingBefore(0);
+							//p.add(chunkEnter);
+							/*
+								p.add(new Chunk(reactivo.getNombre() + " (" + reactivo.getAbreviatura() + "): ", 
+										new Font(informeFontBold.getBaseFont(), 12F)));
+							 */
+							p.add(new Chunk(reactivo.getNombre() + ": ", 
+									new Font(informeFontBold.getBaseFont(), 12F)));
+							p.add(new Chunk(reactivo.getDescripcionIHQ(), 
+									new Font(informeFontNormal.getBaseFont(), 12F)));
+							
+							document.add(p);	
+						}
+					}
+					//document.add(chunkEnter);
+				}
+			}
 		}
+		
+		document.add(new Paragraph(chunkEnter));
+		addMapToDocument(mapIHQ, document, writer);
 	}
 	
 	/**
@@ -441,7 +391,6 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 								} else {
 									cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 								}
-								
 								cell.setBorder(0);
 								cell.setNoWrap(true);
 								cell.setFixedHeight(70 + (90 / numFotos));
@@ -468,10 +417,9 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 			}
 		}
 		
-		
 		if(addEnter){
 			log.info("No se agrego ninguna foto de Macro, se procede a insertar un ENTER para hacer separacion con el diagnostico.");
-			//document.add(new Paragraph(chunkEnter));
+			document.add(new Paragraph(chunkEnter));
 		}
 	}
 	

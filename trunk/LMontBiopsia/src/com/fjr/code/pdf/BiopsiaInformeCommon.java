@@ -26,7 +26,7 @@ import com.itextpdf.text.pdf.PdfWriter;
  * @author T&T <br />
  *
  */
-abstract class BiopsiaInformeCommon {
+public abstract class BiopsiaInformeCommon {
 	private static final Logger log = Logger.getLogger(BiopsiaInformeCommon.class);
 	private static final NumberFormat nf = NumberFormat.getNumberInstance();
 	
@@ -40,6 +40,18 @@ abstract class BiopsiaInformeCommon {
 		nf.setMaximumFractionDigits(0);
 		nf.setMinimumFractionDigits(0);
 	}
+	
+	/**
+	 * Metodo para codificar el armado del archivo de diagnostico
+	 * 
+	 */
+	public abstract void buildDiagnostico();
+	
+	/**
+	 * Metodo para codificar la apertura del archivo de diagnostico generado.
+	 * 
+	 */
+	public abstract void open();
 	
 	/**
 	 * 
@@ -67,7 +79,7 @@ abstract class BiopsiaInformeCommon {
 			formattedCedula = type + nf.format(Integer.parseInt(number));
 		} catch (Exception e) {
 			// TODO: handle exception
-			log.error("Error formateando la cedula '" + cedula + "'. Error: " + e.getLocalizedMessage(), e);
+			log.error("Error formateando la cedula '" + cedula + "'. Error: " + e.getLocalizedMessage());
 			if("".equals(number)){
 				//la cedula es vacia, debemos colocar el N/I respectivo
 				log.info("Como la cedula es vacia, colocamos el texto N/I");
@@ -194,8 +206,13 @@ abstract class BiopsiaInformeCommon {
 	protected void addDiagnostico(PdfWriter writer, Document document, 
 			BiopsiaInfoDTO biopsia, boolean isIHQ) throws DocumentException{
 		
-		boolean printDiagnostico = (isIHQ && !"".equals(biopsia.getMicroscopicaDTO().getDiagnosticoIHQ().trim())
-				|| (!isIHQ && !"".equals(biopsia.getMicroscopicaDTO().getDiagnostico().trim())));
+		final String diagnosticoIHQ = biopsia.getMicroscopicaDTO().getDiagnosticoIHQ() == null ? ""
+				: biopsia.getMicroscopicaDTO().getDiagnosticoIHQ().trim();
+		final String diagnosticoBiopsia = biopsia.getMicroscopicaDTO().getDiagnostico() == null ? ""
+				: biopsia.getMicroscopicaDTO().getDiagnostico().trim();
+		
+		boolean printDiagnostico = (isIHQ && !"".equals(diagnosticoIHQ)
+				|| (!isIHQ && !"".equals(diagnosticoBiopsia)));
 		
 		if(printDiagnostico){
 			//dandole al diagnostico al menos 3 lineas, verificamos si debe pasar a la siguiente hoja o no
@@ -212,10 +229,10 @@ abstract class BiopsiaInformeCommon {
 					new Font(informeFontBold.getBaseFont(), 12F, Font.UNDERLINE));
 			Phrase value1 = null;
 			if(isIHQ){
-				value1 = new Phrase(biopsia.getMicroscopicaDTO().getDiagnosticoIHQ(), 
+				value1 = new Phrase(diagnosticoIHQ, 
 						new Font(informeFontNormal.getBaseFont(), 12F));
 			} else {
-				value1 = new Phrase(biopsia.getMicroscopicaDTO().getDiagnostico(), 
+				value1 = new Phrase(diagnosticoBiopsia, 
 						new Font(informeFontNormal.getBaseFont(), 12F));
 			}
 			
