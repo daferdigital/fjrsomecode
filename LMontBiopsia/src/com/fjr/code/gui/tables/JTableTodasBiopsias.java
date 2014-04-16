@@ -191,7 +191,8 @@ public class JTableTodasBiopsias {
 	public void addRow(int idBiopsia, String codigo, String examen, String cliente,
 			String faseActual, Calendar fechaImpresionInforme){
 		Vector<Object> rowData = new Vector<Object>();
-		if(FasesBiopsia.INFORME_IMPRESO.getNombreFase().equals(faseActual)){
+		if(FasesBiopsia.INFORME_IMPRESO.getNombreFase().equals(faseActual)
+				|| FasesBiopsia.MATERIAL_ENTREGADO.getNombreFase().equals(faseActual)){
 			rowData.add("Reimprimir");
 		} else if(FasesBiopsia.ENTREGA.getNombreFase().equals(faseActual)){
 			rowData.add("Imprimir");
