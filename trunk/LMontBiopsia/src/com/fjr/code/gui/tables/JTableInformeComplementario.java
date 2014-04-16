@@ -4,6 +4,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
@@ -159,13 +160,15 @@ public class JTableInformeComplementario {
 		model.addColumn("N° de Biopsia");
 		model.addColumn("Examen");
 		model.addColumn("Paciente");
+		model.addColumn("Fecha Última Impresión");
 		model.addColumn("Id Biopsia");
 		
-		table.getColumnModel().getColumn(0).setPreferredWidth(100);
-		table.getColumnModel().getColumn(1).setPreferredWidth(350);
-		table.getColumnModel().getColumn(2).setPreferredWidth(200);
+		table.getColumnModel().getColumn(0).setPreferredWidth(150);
+		table.getColumnModel().getColumn(1).setPreferredWidth(70);
+		table.getColumnModel().getColumn(2).setPreferredWidth(280);
 		table.getColumnModel().getColumn(3).setPreferredWidth(150);
-		table.getColumnModel().removeColumn(table.getColumnModel().getColumn(4));
+		table.getColumnModel().getColumn(4).setPreferredWidth(100);
+		table.getColumnModel().removeColumn(table.getColumnModel().getColumn(5));
 		
 		table.setColumnSelectionAllowed(false);
 		table.setRowSelectionAllowed(false);
@@ -180,7 +183,8 @@ public class JTableInformeComplementario {
 				addRow(biopsiaInfoDTO.getId(),
 						biopsiaInfoDTO.getCodigo(), 
 						biopsiaInfoDTO.getExamenBiopsia().getNombreExamen(), 
-						biopsiaInfoDTO.getCliente().getNombres() + " " + biopsiaInfoDTO.getCliente().getApellidos());
+						biopsiaInfoDTO.getCliente().getNombres() + " " + biopsiaInfoDTO.getCliente().getApellidos(),
+						biopsiaInfoDTO.getFechaImpresionComplementario());
 			}
 		}
 	}
@@ -195,14 +199,22 @@ public class JTableInformeComplementario {
 	 * @param codigo
 	 * @param examen
 	 * @param cliente
-	*/
-	public void addRow(int idBiopsia, String codigo, String examen, String cliente){
+	 * @param fechaImpresion
+	 */
+	public void addRow(int idBiopsia, String codigo, String examen, String cliente,
+			Calendar fechaImpresion){
 		Vector<Object> rowData = new Vector<Object>();
 		
-		rowData.add("Crear Informe Complementario");
+		if(fechaImpresion == null){
+			rowData.add("Crear Informe Complementario");
+		} else {
+			rowData.add("Ver Informe Previo");
+		}
+		
 		rowData.add(codigo);
 		rowData.add(examen);
 		rowData.add(cliente);
+		rowData.add(fechaImpresion != null ? Constants.sdfDDMMYYYY.format(fechaImpresion.getTime()) : "");
 		rowData.add(idBiopsia);
 		
 		model.addRow(rowData);

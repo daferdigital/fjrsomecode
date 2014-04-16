@@ -11,6 +11,8 @@ import java.util.List;
 import javax.sql.rowset.CachedRowSet;
 import javax.swing.JOptionPane;
 
+import org.apache.log4j.Logger;
+
 import com.fjr.code.dao.BiopsiaInfoDAO;
 import com.fjr.code.dao.definitions.FasesBiopsia;
 import com.fjr.code.dto.BiopsiaInfoDTO;
@@ -33,7 +35,8 @@ import com.fjr.code.gui.PrepareDiagnosticoDialog;
  *
  */
 public class OpenBiopsiaUtil {
-
+	private static final Logger log = Logger.getLogger(OpenBiopsiaUtil.class);
+	
 	/**
 	 * 
 	 * @param numero
@@ -49,7 +52,8 @@ public class OpenBiopsiaUtil {
 					JOptionPane.ERROR_MESSAGE);
 		} else {
 			//vemos la fase de la biopsia para saber que frame abrir
-			if(FasesBiopsia.INFORME_IMPRESO.equals(biopsia.getFaseActual())){
+			if(FasesBiopsia.INFORME_IMPRESO.equals(biopsia.getFaseActual())
+					|| FasesBiopsia.MATERIAL_ENTREGADO.equals(biopsia.getFaseActual())){
 				//abriendo biopsia en fase de informe ya impreso
 				//traemos el ultimo informe impreso al disco
 				final String query = "SELECT ultimo_informe_impreso FROM biopsias WHERE id=?";
@@ -106,6 +110,9 @@ public class OpenBiopsiaUtil {
 				panel.getTextNroBiopsia().setText(biopsia.getCodigo());
 				panel.setFocusAtDefaultElement();
 				simulateKeyPress(KeyEvent.VK_ENTER);
+			} else {
+				log.error("No se ha realizado el mapeo del tipo de fase "
+						+ biopsia.getFaseActual());
 			}
 		}
 	}

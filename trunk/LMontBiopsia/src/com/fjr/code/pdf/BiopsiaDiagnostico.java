@@ -44,7 +44,7 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 	
 	private BiopsiaInfoDTO biopsia;
 	private int idBiopsia;
-	private boolean fixNumberPage = true;
+	private boolean fixNumberPage = false;
 	private String fileName;
 	private String filePath;
 	private String firmante1;
@@ -200,7 +200,7 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 						&& ! "".equals(biopsia.getMicroscopicaDTO().getDiagnosticoIHQ().trim()))){
 			//fixNumberPage = true;
 			//document.newPage();
-			fixNumberPage = false;
+			fixNumberPage = true;
 			Chunk title1 = null;
 			Phrase value1 = null;
 			Paragraph p1 = null;
