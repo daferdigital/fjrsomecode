@@ -246,16 +246,16 @@ class GanadoresFutbol {
 	 */
 	private static function checkAGanarJuegoCompleto($rowVistaVentasDetalles){
 		$codeReturn = VentasDAO::$RESULTADO_PERDEDOR;
-	
+		
 		//obtenemos el resultado final (completo) de este logro
 		$query = "SELECT le.idlogro_equipo, lecr.idcategoria_resultado, lecr.resultado "
 		."FROM logros_equipos le, logros_equipos_categorias_resultados lecr "
 		."WHERE le.idlogro = ".$rowVistaVentasDetalles["idlogro"]
 		." AND le.idlogro_equipo = lecr.idlogro_equipo "
 		."AND (lecr.idcategoria_resultado = 15 OR lecr.idcategoria_resultado = 16)";
-			
+		
 		$result = DBUtil::executeSelect($query);
-	
+		
 		if(count($result) > 0){
 			//obtenemos el resultado final de cada equipo
 			$resultadoEquipoA = 0;
@@ -268,10 +268,10 @@ class GanadoresFutbol {
 					$resultadoEquipoB = $row["resultado"];
 				}
 			}
-	
+			
 			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
 					."Resultado AGanarJuegoCompleto (equipoA/equipoB) (".$resultadoEquipoA."/".$resultadoEquipoB.") ");
-	
+			
 			if($rowVistaVentasDetalles["idcategoria_apuesta"] == GanadoresFutbol::$FUTBOL_A_GANAR_JC_A){
 				//aposto a ganador para el equipoA, vemos si efectivamente gano
 				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
@@ -294,7 +294,7 @@ class GanadoresFutbol {
 		} else {
 			$codeReturn = VentasDAO::$RESULTADO_NO_MAPEADO_AUN;
 			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
-					."colocamos este resultado de altas-bajas medio juego como no mapeado "
+					."colocamos este resultado de AGanarJuegoCompleto como no mapeado "
 					."porque no esta almacenado aun el resultado final de este juego.");
 		}
 		
@@ -309,15 +309,15 @@ class GanadoresFutbol {
 	private static function checkAGanarMedioJuego($rowVistaVentasDetalles){
 		$codeReturn = VentasDAO::$RESULTADO_PERDEDOR;
 	
-		//obtenemos el resultado final (completo) de este logro
+		//obtenemos el resultado final (ganar medio juego) de este logro
 		$query = "SELECT le.idlogro_equipo, lecr.idcategoria_resultado, lecr.resultado "
 		."FROM logros_equipos le, logros_equipos_categorias_resultados lecr "
 		."WHERE le.idlogro = ".$rowVistaVentasDetalles["idlogro"]
 		." AND le.idlogro_equipo = lecr.idlogro_equipo "
 		."AND (lecr.idcategoria_resultado = 11 OR lecr.idcategoria_resultado = 12)";
-			
+		
 		$result = DBUtil::executeSelect($query);
-	
+		
 		if(count($result) > 0){
 			//obtenemos el resultado final de cada equipo
 			$resultadoEquipoA = 0;
@@ -330,38 +330,33 @@ class GanadoresFutbol {
 					$resultadoEquipoB = $row["resultado"];
 				}
 			}
-			
+		
 			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
-					."Resultado AGanarMedioJuego (equipoA/equipoB) (".$resultadoEquipoA."/".$resultadoEquipoB.") "
-					."Mi multiplicando -> ".$rowVistaVentasDetalles['multiplicando']);
-			
-			//primero vemos si no es tabla
-			if($resultadoEquipoA == $resultadoEquipoB){
+					."Resultado AGanarMedioJuego (equipoA/equipoB) (".$resultadoEquipoA."/".$resultadoEquipoB.") ");
+		
+			if($rowVistaVentasDetalles["idcategoria_apuesta"] == GanadoresFutbol::$FUTBOL_A_GANAR_MJ_A){
+				//aposto a ganador para el equipoA, vemos si efectivamente gano
 				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
-						."Resultados iguales, no gano ni perdio");
-				$codeReturn = VentasDAO::$RESULTADO_EMPATADO_DEBE_SUSPENDER;
-			} else {
-				//vemos que tipo de apuesta tiene este ticket
-				if($rowVistaVentasDetalles["idcategoria_apuesta"] == GanadoresFutbol::$FUTBOL_A_GANAR_MJ_A){
-					BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
-							."Si (".$resultadoEquipoA." > ".$resultadoEquipoB.") soy ganador");
-					if($resultadoEquipoA > $resultadoEquipoB){
-						//gano
-						$codeReturn = VentasDAO::$RESULTADO_GANADOR;
-					}
+						."Si (".$resultadoEquipoA." > ".$resultadoEquipoB.") soy ganador");
+				if($resultadoEquipoA > $resultadoEquipoB){
+					$codeReturn = VentasDAO::$RESULTADO_GANADOR;
 				} else {
-					BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
-							."Si ".$resultadoEquipoB." > ".$resultadoEquipoA." soy ganador");
-					if($resultadoEquipoB > $resultadoEquipoA){
-						//gano
-						$codeReturn = VentasDAO::$RESULTADO_GANADOR;
-					}
+					$codeReturn = VentasDAO::$RESULTADO_PERDEDOR;
+				}
+			} else {
+				//aposto a ganador para el equipoB, vemos si efectivamente gano
+				BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
+						."Si (".$resultadoEquipoB." > ".$resultadoEquipoA.") soy ganador");
+				if($resultadoEquipoB > $resultadoEquipoA){
+					$codeReturn = VentasDAO::$RESULTADO_GANADOR;
+				} else {
+					$codeReturn = VentasDAO::$RESULTADO_PERDEDOR;
 				}
 			}
 		} else {
 			$codeReturn = VentasDAO::$RESULTADO_NO_MAPEADO_AUN;
 			BitacoraDAO::registrarComentario("[".$rowVistaVentasDetalles["idventa"]."][".$rowVistaVentasDetalles["idventa_detalle"]."] "
-					."colocamos este resultado de altas-bajas medio juego como no mapeado "
+					."colocamos este resultado de AGanarMedioJuego como no mapeado "
 					."porque no esta almacenado aun el resultado final de este juego.");
 		}
 		
