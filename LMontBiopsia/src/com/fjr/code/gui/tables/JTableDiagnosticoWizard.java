@@ -29,6 +29,7 @@ public class JTableDiagnosticoWizard {
 	public static final String SECCION_MACRO = "macro";
 	public static final String SECCION_IHQ = "ihq";
 	public static final String SECCION_DIAGNOSTICO = "diagnostico";
+	private static String currentSeccion;
 	
 	private DefaultTableModel model;
 	private JTable table;
@@ -166,6 +167,7 @@ public class JTableDiagnosticoWizard {
 			rowData.add("");
 			rowData.add("");
 			model.addRow(rowData);
+			currentSeccion = data.getToolTipText();
 		} else {
 			//debo dibujar una imagen
 			//verificando la fila actual y la posicion de la misma
@@ -175,28 +177,40 @@ public class JTableDiagnosticoWizard {
 				rowData.add("");
 				rowData.add("");
 				model.addRow(rowData);
+				currentSeccion = data.getToolTipText();
 			} else {
 				//ya la fila tiene imagenes
-				//debo verificar si van 3 o aun no
-				if(! (model.getValueAt(currentRow - 1, 1) instanceof Icon)){
-					//la segunda columna no tiene imagen
-					model.setValueAt(data.getIcon(), currentRow - 1, 1);
-					currentRow--;
-				} else if(! (model.getValueAt(currentRow - 1, 2) instanceof Icon)){
-					//la tercera fila no tiene imagen
-					model.setValueAt(data.getIcon(), currentRow - 1, 2);
-					currentRow--;
-				} else if(! (model.getValueAt(currentRow - 1, 3) instanceof Icon)){
-					//la tercera fila no tiene imagen
-					model.setValueAt(data.getIcon(), currentRow - 1, 3);
-					currentRow--;
-				} else {
-					//ya esta copada la fila de imagenes, debo generar una nueva
+				if(! currentSeccion.equals(data.getToolTipText())){
+					//es una imagen de otra sección, debemos crearla en una nueva linea
 					rowData.add("");
 					rowData.add(data.getIcon());
 					rowData.add("");
 					rowData.add("");
 					model.addRow(rowData);
+					currentSeccion = data.getToolTipText();
+				} else {
+					//estoy en la misma seccion
+					//debo verificar si van 3 o aun no
+					if(! (model.getValueAt(currentRow - 1, 1) instanceof Icon)){
+						//la segunda columna no tiene imagen
+						model.setValueAt(data.getIcon(), currentRow - 1, 1);
+						currentRow--;
+					} else if(! (model.getValueAt(currentRow - 1, 2) instanceof Icon)){
+						//la tercera columna no tiene imagen
+						model.setValueAt(data.getIcon(), currentRow - 1, 2);
+						currentRow--;
+					} else if(! (model.getValueAt(currentRow - 1, 3) instanceof Icon)){
+						//la cuarta columna no tiene imagen
+						model.setValueAt(data.getIcon(), currentRow - 1, 3);
+						currentRow--;
+					} else {
+						//ya esta copada la fila de imagenes, debo generar una nueva
+						rowData.add("");
+						rowData.add(data.getIcon());
+						rowData.add("");
+						rowData.add("");
+						model.addRow(rowData);
+					}
 				}
 			}
 		}
@@ -223,7 +237,6 @@ public class JTableDiagnosticoWizard {
 		listToUse.add(isPerOperatoria ? SECCION_PER_OPERATORIA.concat(data.getName()) : data.getName());
 		
 		mapToUse.put(currentRow, listToUse);
-		
 	}
 	
 	/**
@@ -298,4 +311,3 @@ public class JTableDiagnosticoWizard {
 		return mapDiagnostico;
 	}
 }
-

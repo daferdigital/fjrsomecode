@@ -71,3 +71,35 @@ ALTER TABLE `lmont_biopsia`.`biopsias` ADD COLUMN `informe_complementario` MEDIU
 
 ALTER TABLE `lmont_biopsia`.`biopsias` ADD COLUMN `fecha_impresion_informe` DATE NULL DEFAULT NULL  AFTER `ultimo_informe_impreso` , ADD COLUMN `fecha_impresion_complementario` DATE NULL DEFAULT NULL  AFTER `informe_complementario` ;
 
+
+-- 20140423
+CREATE TABLE `diagnostico_maestro` (
+  `id_biopsia` int(11) NOT NULL,
+  `id_firmante_1` int(11) NOT NULL,
+  `id_firmante_2` int(11) default NULL,
+  `fecha` datetime default NULL,
+  PRIMARY KEY  (`id_biopsia`),
+  KEY `FK_DIAGNOSTICO_BIOPSIA_idx` (`id_biopsia`),
+  KEY `FK_DIAGNOSTICO_FIRMANTE1_idx` (`id_firmante_1`),
+  KEY `FK_DIAGNOSTICO_FIRMANTE2_idx` (`id_firmante_2`),
+  CONSTRAINT `FK_DIAGNOSTICO_BIOPSIA` FOREIGN KEY (`id_biopsia`) REFERENCES `biopsias` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_DIAGNOSTICO_FIRMANTE1` FOREIGN KEY (`id_firmante_1`) REFERENCES `patologos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_DIAGNOSTICO_FIRMANTE2` FOREIGN KEY (`id_firmante_2`) REFERENCES `patologos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1$$
+
+CREATE TABLE `diagnostico_detalle` (
+  `id_maestro` int(11) NOT NULL,
+  `linea` int(11) NOT NULL,
+  `seccion` varchar(45) NOT NULL,
+  `texto_seccion` text,
+  `imagen1_name` varchar(250) default NULL,
+  `imagen1_data` mediumblob,
+  `imagen2_name` varchar(250) default NULL,
+  `imagen2_data` mediumblob,
+  `imagen3_name` varchar(250) default NULL,
+  `imagen3_data` mediumblob,
+  PRIMARY KEY  (`id_maestro`),
+  KEY `FK_DIAGNOSTICO_MAESTRO_idx` (`id_maestro`),
+  CONSTRAINT `FK_DIAGNOSTICO_MAESTRO` FOREIGN KEY (`id_maestro`) REFERENCES `diagnostico_maestro` (`id_biopsia`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1$$
+
