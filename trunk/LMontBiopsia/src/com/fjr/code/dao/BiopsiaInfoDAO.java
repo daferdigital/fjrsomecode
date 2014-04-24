@@ -1,7 +1,6 @@
 package com.fjr.code.dao;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.sql.Timestamp;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,6 +18,7 @@ import com.fjr.code.dto.BiopsiaMacroFotoDTO;
 import com.fjr.code.dto.BiopsiaMicroLaminasDTO;
 import com.fjr.code.dto.BiopsiaMicroLaminasFileDTO;
 import com.fjr.code.dto.ReactivoDTO;
+import com.fjr.code.util.BLOBUtil;
 import com.fjr.code.util.Constants;
 import com.fjr.code.util.DBUtil;
 
@@ -189,6 +189,12 @@ public class BiopsiaInfoDAO {
 				biopsiaInfo.setSide1CodeBiopsia(String.format("%02d", result[0]));
 				biopsiaInfo.setSide2CodeBiopsia(String.format("%05d", result[1]));
 			}
+		} else {
+			//se desea asignar el codigo manual a la biopsia
+			log.info("Se desea asignar de manera automatica el numero de biopsia side1='"
+					+ biopsiaInfo.getSide1CodeBiopsia() + "', side2='"
+					+ biopsiaInfo.getSide2CodeBiopsia() + "', tipoEstudio='"
+					+ biopsiaInfo.getIdTipoEstudio() + "'");
 		}
 		
 		try {
@@ -833,19 +839,10 @@ public class BiopsiaInfoDAO {
 				+ (mustSetFechaImpresion ? ", fecha_impresion_informe=CURRENT_DATE" : "")
 				+ " WHERE id=?";
 		List<Object> parameters = new LinkedList<Object>();
-		FileInputStream fis = null;
 		
 		try {
 			File diagnostico = new File(Constants.TMP_PATH + File.separator + Constants.PREFIJO_PDF_INFORME + biopsia.getId() + ".pdf");
-			byte[] bytesFile = new byte[(int) diagnostico.length()];
-			fis = new FileInputStream(diagnostico); 
-			try {
-				fis.read(bytesFile);
-			} catch (Exception e) {
-				// TODO: handle exception
-				result = false;
-				log.error(e.getLocalizedMessage(), e);
-			}
+			byte[] bytesFile = BLOBUtil.buildBLOBFromFile(diagnostico);
 			
 			if(result){
 				parameters.add(bytesFile);
@@ -856,12 +853,6 @@ public class BiopsiaInfoDAO {
 			}
 		} catch (Exception e2) {
 			// TODO: handle exception
-		} finally {
-			try {
-				fis.close();
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
 		}
 		
 		return result;
@@ -878,20 +869,12 @@ public class BiopsiaInfoDAO {
 				+ " WHERE id=?";
 		
 		List<Object> parameters = new LinkedList<Object>();
-		FileInputStream fis = null;
 		boolean result = true;
 		
 		try {
 			File diagnostico = new File(Constants.TMP_PATH + File.separator + Constants.PREFIJO_PDF_INFORME_COMPLEMENTARIO 
 					+ biopsia.getId() + ".pdf");
-			byte[] bytesFile = new byte[(int) diagnostico.length()];
-			fis = new FileInputStream(diagnostico); 
-			try {
-				fis.read(bytesFile);
-			} catch (Exception e) {
-				// TODO: handle exception
-				log.error(e.getLocalizedMessage(), e);
-			}
+			byte[] bytesFile = BLOBUtil.buildBLOBFromFile(diagnostico);
 			
 			parameters.add(bytesFile);
 			parameters.add(biopsia.getId());
@@ -902,12 +885,6 @@ public class BiopsiaInfoDAO {
 			// TODO: handle exception
 			result = false;
 			log.error(e2.getLocalizedMessage(), e2);
-		} finally {
-			try {
-				fis.close();
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
 		}
 		
 		return result;

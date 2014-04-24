@@ -1,5 +1,6 @@
 package com.fjr.code.dao;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.Types;
@@ -9,6 +10,7 @@ import java.util.SortedMap;
 import org.apache.log4j.Logger;
 
 import com.fjr.code.gui.tables.JTableDiagnosticoWizard;
+import com.fjr.code.util.BLOBUtil;
 import com.fjr.code.util.DBUtil;
 
 /**
@@ -39,7 +41,8 @@ public class DiagnosticoDAO {
 			int idFirmante2, SortedMap<Integer, List<String>> mapMacro,
 			SortedMap<Integer, List<String>> mapIHQ, SortedMap<Integer, List<String>> mapDiagnostico){
 		boolean result = true;
-		final String queryMaestro = "INSERT INTO diagnostico_maestro(?,?,?,NOW())";
+		final String queryMaestro = "INSERT INTO diagnostico_maestro(id_biopsia, id_firmante_1, id_firmante_2, fecha)"
+				+ " VALUES(?, ?, ?, NOW())";
 		
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -112,19 +115,77 @@ public class DiagnosticoDAO {
 			for (List<String> listaLinea : mapToProcess.values()) {
 				ps.setInt(2, linea);
 				
-				for (String valor : listaLinea) {
+				String element0 = listaLinea.get(0);
+
+				if(JTableDiagnosticoWizard.SECCION_MACRO.equals(seccion)){
+					//verifico si es macro o per-operatoria
+					if(element0.startsWith(JTableDiagnosticoWizard.SECCION_PER_OPERATORIA)){
+						//es per operatoria
+						tmpSeccion = JTableDiagnosticoWizard.SECCION_PER_OPERATORIA;
+						element0 = element0.substring(JTableDiagnosticoWizard.SECCION_PER_OPERATORIA.length());
+					} else {
+						tmpSeccion = JTableDiagnosticoWizard.SECCION_MACRO;
+					}
+				}
+				
+				ps.setString(3, tmpSeccion);
+				
+				//veo si el primer elemento es una foto o es una descripcion
+				int fotoIndex = 0;
+				File tmp = new File(element0);
+				if(!tmp.exists()){
+					//es una descripcion
+					ps.setString(4, element0);
+				} else {
+					//no se tienen descripcion, sino posiblemente 3 fotos
+					ps.setString(4, "");
+					
+					//coloco la primera foto
+					ps.setString(5, tmp.getName());
+					ps.setBytes(6, BLOBUtil.buildBLOBFromFile(tmp));
+					fotoIndex++;
+				}
+				
+				fotoIndex++;
+				try {
+					element0 = listaLinea.get(fotoIndex);
 					if(JTableDiagnosticoWizard.SECCION_MACRO.equals(seccion)){
 						//verifico si es macro o per-operatoria
-						if(valor.startsWith(JTableDiagnosticoWizard.SECCION_PER_OPERATORIA)){
+						if(element0.startsWith(JTableDiagnosticoWizard.SECCION_PER_OPERATORIA)){
 							//es per operatoria
-							tmpSeccion = JTableDiagnosticoWizard.SECCION_PER_OPERATORIA;
-						} else {
-							tmpSeccion = JTableDiagnosticoWizard.SECCION_MACRO;
+							element0 = element0.substring(JTableDiagnosticoWizard.SECCION_PER_OPERATORIA.length());
 						}
 					}
 					
-					ps.setString(3, tmpSeccion);
+					tmp = new File(element0);
+					ps.setString(7, tmp.getName());
+					ps.setBytes(8, BLOBUtil.buildBLOBFromFile(tmp));
+					fotoIndex++;
+				} catch (Exception e) {
+					// TODO: handle exception
+					ps.setString(7, "");
+					ps.setNull(8, Types.BLOB);
+				}
+				
+				fotoIndex++;
+				try {
+					element0 = listaLinea.get(fotoIndex);
+					if(JTableDiagnosticoWizard.SECCION_MACRO.equals(seccion)){
+						//verifico si es macro o per-operatoria
+						if(element0.startsWith(JTableDiagnosticoWizard.SECCION_PER_OPERATORIA)){
+							//es per operatoria
+							element0 = element0.substring(JTableDiagnosticoWizard.SECCION_PER_OPERATORIA.length());
+						}
+					}
 					
+					tmp = new File(element0);
+					ps.setString(9, tmp.getName());
+					ps.setBytes(10, BLOBUtil.buildBLOBFromFile(tmp));
+					fotoIndex++;
+				} catch (Exception e) {
+					// TODO: handle exception
+					ps.setString(9, "");
+					ps.setNull(10, Types.BLOB);
 				}
 				
 				linea++;

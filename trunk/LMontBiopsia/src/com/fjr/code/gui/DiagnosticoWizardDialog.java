@@ -6,6 +6,7 @@ import java.awt.Image;
 import javax.swing.JDialog;
 
 import com.fjr.code.dao.BiopsiaMicroLaminasDAO;
+import com.fjr.code.dao.DiagnosticoDAO;
 import com.fjr.code.dao.definitions.TipoEstudioEnum;
 import com.fjr.code.dto.BiopsiaInfoDTO;
 import com.fjr.code.dto.BiopsiaMacroFotoDTO;
@@ -328,7 +329,7 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 		}
 		panelBiopsia.addTab("Fotos IHQ", ihq);
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -358,6 +359,13 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 			try {
 				diagnostico.open();
 				wasValidPDFGenerated = true;
+				
+				DiagnosticoDAO.storeDiagnostico(biopsia.getId(),
+						1,
+						2,
+						wizard.getMapMacro(),
+						wizard.getMapIHQ(),
+						wizard.getMapDiagnostico());
 			} catch (Throwable e1) {
 				// TODO: handle exception
 				JOptionPane.showMessageDialog(null, e1.getLocalizedMessage(), 

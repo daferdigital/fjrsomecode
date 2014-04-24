@@ -64,7 +64,7 @@ public class OpenBiopsiaUtil {
 				try {
 					if(rows.next()){
 						File diagnostico = new File(Constants.TMP_PATH + File.separator + Constants.PREFIJO_PDF_INFORME + biopsia.getId() + ".pdf");
-						BLOBToDiskUtil.writeBLOBToDisk(diagnostico, 
+						BLOBUtil.writeBLOBToDisk(diagnostico, 
 								rows.getBytes(1));
 						
 						new InformeImpresoDialog(diagnostico.getAbsolutePath(), biopsia.getCodigo()).setVisible(true);

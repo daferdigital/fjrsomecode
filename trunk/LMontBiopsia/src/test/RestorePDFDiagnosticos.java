@@ -8,7 +8,7 @@ import javax.sql.rowset.CachedRowSet;
 
 import org.apache.log4j.Logger;
 
-import com.fjr.code.util.BLOBToDiskUtil;
+import com.fjr.code.util.BLOBUtil;
 import com.fjr.code.util.Constants;
 import com.fjr.code.util.DBUtil;
 import com.fjr.code.util.SystemLogger;

@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 
 import com.fjr.code.dao.definitions.DAOListBuilder;
 import com.fjr.code.dto.BiopsiaMicroLaminasFileDTO;
-import com.fjr.code.util.BLOBToDiskUtil;
+import com.fjr.code.util.BLOBUtil;
 import com.fjr.code.util.Constants;
 import com.fjr.code.util.DBUtil;
 
@@ -111,7 +111,7 @@ final class BiopsiaMicroLaminasFileDAOListBuilder implements DAOListBuilder<Biop
 				File destination = new File(Constants.TMP_PATH + File.separator + fileName);
 				
 				laminaFile.setMediaFile(destination);
-				if(! BLOBToDiskUtil.writeBLOBToDisk(destination, rowSet.getBytes(6))){
+				if(! BLOBUtil.writeBLOBToDisk(destination, rowSet.getBytes(6))){
 					log.error("Error escribiendo contenido en el archivo " + destination.getAbsolutePath());
 				}
 				

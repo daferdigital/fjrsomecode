@@ -9,7 +9,7 @@ import java.util.Map;
 
 import javax.sql.rowset.CachedRowSet;
 
-import com.fjr.code.util.BLOBToDiskUtil;
+import com.fjr.code.util.BLOBUtil;
 import com.fjr.code.util.Constants;
 import com.fjr.code.util.DBUtil;
 import com.fjr.code.util.SystemLogger;
@@ -43,7 +43,7 @@ public class SetPDFDates {
 				if(rows.getBytes(2) != null){
 					File dest = new File(Constants.TMP_PATH + File.separator + "diagnostico_" + rows.getInt(1) +".pdf");
 					
-					BLOBToDiskUtil.writeBLOBToDisk(dest,
+					BLOBUtil.writeBLOBToDisk(dest,
 							rows.getBytes(2));
 					
 					//escrito el archivo, se le obtiene la fecha de creacion

@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 
 import com.fjr.code.dao.definitions.DAOListBuilder;
 import com.fjr.code.dto.BiopsiaMacroFotoDTO;
-import com.fjr.code.util.BLOBToDiskUtil;
+import com.fjr.code.util.BLOBUtil;
 import com.fjr.code.util.Constants;
 import com.fjr.code.util.DBUtil;
 
@@ -87,7 +87,7 @@ final class BiopsiaFotosMacroDAOListBuilder implements DAOListBuilder<BiopsiaMac
 				macroFoto.setFotoPerOperatoria(rowSet.getBoolean(6));
 				
 				if(rowSet.getBytes(4) != null){
-					if(! BLOBToDiskUtil.writeBLOBToDisk(destination, rowSet.getBytes(4))){
+					if(! BLOBUtil.writeBLOBToDisk(destination, rowSet.getBytes(4))){
 						log.error("Error escribiendo contenido en el archivo " + destination.getAbsolutePath());
 					}
 				}

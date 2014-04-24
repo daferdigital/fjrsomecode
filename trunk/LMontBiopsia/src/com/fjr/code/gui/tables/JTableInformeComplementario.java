@@ -20,7 +20,7 @@ import com.fjr.code.dto.BiopsiaInfoDTO;
 import com.fjr.code.gui.InformeComplementarioDialog;
 import com.fjr.code.gui.PrepareInformeComplementarioDialog;
 import com.fjr.code.gui.tables.JTableButtonRenderer;
-import com.fjr.code.util.BLOBToDiskUtil;
+import com.fjr.code.util.BLOBUtil;
 import com.fjr.code.util.Constants;
 import com.fjr.code.util.DBUtil;
 
@@ -116,7 +116,7 @@ public class JTableInformeComplementario {
 						if(rows.next() && rows.getBytes(1) != null){
 							File diagnostico = new File(Constants.TMP_PATH + File.separator 
 									+ Constants.PREFIJO_PDF_INFORME_COMPLEMENTARIO + idBiopsia + ".pdf");
-							BLOBToDiskUtil.writeBLOBToDisk(diagnostico, 
+							BLOBUtil.writeBLOBToDisk(diagnostico, 
 									rows.getBytes(1));
 							
 							new InformeComplementarioDialog(diagnostico.getAbsolutePath(), 
