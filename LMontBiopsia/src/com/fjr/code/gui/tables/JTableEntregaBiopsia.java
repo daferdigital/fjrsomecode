@@ -18,7 +18,7 @@ import com.fjr.code.dao.BiopsiaInfoDAO;
 import com.fjr.code.dto.BiopsiaInfoDTO;
 import com.fjr.code.gui.ComprobanteMaterialDialog;
 import com.fjr.code.gui.tables.JTableButtonRenderer;
-import com.fjr.code.util.BLOBToDiskUtil;
+import com.fjr.code.util.BLOBUtil;
 import com.fjr.code.util.Constants;
 import com.fjr.code.util.DBUtil;
 
@@ -121,7 +121,7 @@ public class JTableEntregaBiopsia {
 							CachedRowSet rows = DBUtil.executeSelectQuery(query, parameters);
 							if(rows.next()){
 								File diagnostico = new File(Constants.TMP_PATH + File.separator + Constants.PREFIJO_PDF_INFORME + idBiopsia + ".pdf");
-								BLOBToDiskUtil.writeBLOBToDisk(diagnostico, 
+								BLOBUtil.writeBLOBToDisk(diagnostico, 
 										rows.getBytes(1));
 								
 								Desktop.getDesktop().open(diagnostico);

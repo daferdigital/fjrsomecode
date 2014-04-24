@@ -1,6 +1,7 @@
 package com.fjr.code.util;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
 import org.apache.log4j.Logger;
@@ -14,10 +15,10 @@ import org.apache.log4j.Logger;
  * @author T&T
  *
  */
-public final class BLOBToDiskUtil {
-	private static final Logger log = Logger.getLogger(BLOBToDiskUtil.class);
+public final class BLOBUtil {
+	private static final Logger log = Logger.getLogger(BLOBUtil.class);
 	
-	private BLOBToDiskUtil() {
+	private BLOBUtil() {
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -48,5 +49,32 @@ public final class BLOBToDiskUtil {
 		log.info("Peticion de escribir " + contenido.length + " bytes en el archivo "
 				+ destination.getAbsolutePath() + " dio como resultado: " + result);
 		return result;
+	}
+	
+	/**
+	 * 
+	 * @param fileToLoad
+	 * @return
+	 */
+	public static byte[] buildBLOBFromFile(File fileToLoad){
+		FileInputStream fis = null;
+		byte[] bytesFile = null;
+		
+		try {
+			bytesFile = new byte[(int) fileToLoad.length()];
+			fis = new FileInputStream(fileToLoad); 
+			fis.read(bytesFile);
+		} catch (Exception e) {
+			// TODO: handle exception
+			log.error(e.getLocalizedMessage(), e);
+		} finally {
+			try {
+				fis.close();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+		
+		return bytesFile;
 	}
 }
