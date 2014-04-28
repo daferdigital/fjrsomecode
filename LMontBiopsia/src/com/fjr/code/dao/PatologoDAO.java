@@ -84,4 +84,27 @@ public final class PatologoDAO {
 		
 		log.info("Agregados elementos al combo-box de los patologos");
 	}
+	
+	/**
+	 * 
+	 * @param comboBox
+	 * @param addEmptyValue
+	 */
+	public static void populateJCombo(JComboBox comboBox,
+			boolean addEmptyValue, int idToSelect){
+		List<PatologoDTO> items = getAll();
+		
+		if (addEmptyValue) {
+			comboBox.addItem(new PatologoDTO(0, "Seleccione", false, ""));
+		}
+		
+		for (PatologoDTO patologoDTO : items) {
+			comboBox.addItem(patologoDTO);
+			if(idToSelect == patologoDTO.getId()){
+				comboBox.setSelectedIndex(comboBox.getItemCount()-1);
+			}
+		}
+		
+		log.info("Agregados elementos al combo-box de los patologos");
+	}
 }

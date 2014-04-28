@@ -76,30 +76,34 @@ ALTER TABLE `lmont_biopsia`.`biopsias` ADD COLUMN `fecha_impresion_informe` DATE
 CREATE TABLE `diagnostico_maestro` (
   `id_biopsia` int(11) NOT NULL,
   `id_firmante_1` int(11) NOT NULL,
-  `id_firmante_2` int(11) default NULL,
-  `fecha` datetime default NULL,
-  PRIMARY KEY  (`id_biopsia`),
+  `id_firmante_2` int(11) DEFAULT NULL,
+  `fecha` datetime DEFAULT NULL,
+  PRIMARY KEY (`id_biopsia`),
   KEY `FK_DIAGNOSTICO_BIOPSIA_idx` (`id_biopsia`),
   KEY `FK_DIAGNOSTICO_FIRMANTE1_idx` (`id_firmante_1`),
   KEY `FK_DIAGNOSTICO_FIRMANTE2_idx` (`id_firmante_2`),
   CONSTRAINT `FK_DIAGNOSTICO_BIOPSIA` FOREIGN KEY (`id_biopsia`) REFERENCES `biopsias` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_DIAGNOSTICO_FIRMANTE1` FOREIGN KEY (`id_firmante_1`) REFERENCES `patologos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_DIAGNOSTICO_FIRMANTE2` FOREIGN KEY (`id_firmante_2`) REFERENCES `patologos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1$$
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
 
 CREATE TABLE `diagnostico_detalle` (
-  `id_maestro` int(11) NOT NULL,
+  `id_biopsia` int(11) NOT NULL,
   `linea` int(11) NOT NULL,
   `seccion` varchar(45) NOT NULL,
   `texto_seccion` text,
-  `imagen1_name` varchar(250) default NULL,
+  `imagen1_name` varchar(250) DEFAULT NULL,
   `imagen1_data` mediumblob,
-  `imagen2_name` varchar(250) default NULL,
+  `imagen2_name` varchar(250) DEFAULT NULL,
   `imagen2_data` mediumblob,
-  `imagen3_name` varchar(250) default NULL,
+  `imagen3_name` varchar(250) DEFAULT NULL,
   `imagen3_data` mediumblob,
-  PRIMARY KEY  (`id_maestro`),
-  KEY `FK_DIAGNOSTICO_MAESTRO_idx` (`id_maestro`),
-  CONSTRAINT `FK_DIAGNOSTICO_MAESTRO` FOREIGN KEY (`id_maestro`) REFERENCES `diagnostico_maestro` (`id_biopsia`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1$$
+  PRIMARY KEY (`id_biopsia`,`linea`),
+  KEY `FK_DIAGNOSTICO_MAESTRO_idx` (`id_biopsia`),
+  CONSTRAINT `FK_DIAGNOSTICO_MAESTRO` FOREIGN KEY (`id_biopsia`) REFERENCES `diagnostico_maestro` (`id_biopsia`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
 

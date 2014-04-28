@@ -6,12 +6,13 @@ import java.awt.Image;
 import javax.swing.JDialog;
 
 import com.fjr.code.dao.BiopsiaMicroLaminasDAO;
-import com.fjr.code.dao.DiagnosticoDAO;
+import com.fjr.code.dao.DiagnosticoWizardDAO;
 import com.fjr.code.dao.definitions.TipoEstudioEnum;
 import com.fjr.code.dto.BiopsiaInfoDTO;
 import com.fjr.code.dto.BiopsiaMacroFotoDTO;
 import com.fjr.code.dto.BiopsiaMicroLaminasDTO;
 import com.fjr.code.dto.BiopsiaMicroLaminasFileDTO;
+import com.fjr.code.dto.DiagnosticoWizardDTO;
 import com.fjr.code.gui.tables.JTableDiagnosticoWizard;
 import com.fjr.code.pdf.BiopsiaDiagnostico;
 import com.fjr.code.pdf.BiopsiaDiagnosticoIHQCalle;
@@ -41,6 +42,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JTable;
 
 import java.awt.Font;
+import java.util.List;
 
 public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 	public static final String ACTION_COMMAND_LIMPIAR = "limpiar";
@@ -57,6 +59,7 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 	private String firmante2;
 	private boolean isIHQCalle = false;
 	private boolean wasValidPDFGenerated = false;
+	private List<DiagnosticoWizardDTO> wizardPrevio;
 	
 	/**
 	 * Launch the application.
@@ -65,7 +68,7 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					DiagnosticoWizardDialog dialog = new DiagnosticoWizardDialog(null, "", "");
+					DiagnosticoWizardDialog dialog = new DiagnosticoWizardDialog(null, "", "", null);
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
 				} catch (Exception e) {
@@ -81,13 +84,15 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 	 * @param biopsia
 	 * @param firmante1
 	 * @param firmante2
+	 * @param wizardPrevio 
 	 */
 	public DiagnosticoWizardDialog(BiopsiaInfoDTO biopsia, String firmante1,
-			String firmante2) {
+			String firmante2, List<DiagnosticoWizardDTO> wizardPrevio) {
 		this.biopsia = biopsia;
 		this.firmante1 = firmante1;
 		this.firmante2 = firmante2;
 		this.isIHQCalle = (TipoEstudioEnum.IHQ.getId() == biopsia.getIdTipoEstudio());
+		this.wizardPrevio = wizardPrevio;
 		
 		setModal(true);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -360,7 +365,7 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 				diagnostico.open();
 				wasValidPDFGenerated = true;
 				
-				DiagnosticoDAO.storeDiagnostico(biopsia.getId(),
+				DiagnosticoWizardDAO.storeDiagnostico(biopsia.getId(),
 						1,
 						2,
 						wizard.getMapMacro(),
