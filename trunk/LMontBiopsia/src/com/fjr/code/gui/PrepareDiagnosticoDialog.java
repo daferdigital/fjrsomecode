@@ -9,10 +9,14 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Toolkit;
 import java.awt.Font;
+import java.util.List;
+
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 
+import com.fjr.code.dao.DiagnosticoWizardDAO;
 import com.fjr.code.dao.PatologoDAO;
+import com.fjr.code.dto.DiagnosticoWizardDTO;
 import com.fjr.code.gui.operations.PrepareDiagnosticoDialogOperations;
 
 /**
@@ -36,6 +40,7 @@ public class PrepareDiagnosticoDialog extends JDialog {
 	private JComboBox cBoxFirmante2;
 	private JButton btnMarkAsPrint;
 	private JButton btnVisualizar;
+	private List<DiagnosticoWizardDTO> wizardPrevio;
 	
 	/**
 	 * Launch the application.
@@ -56,8 +61,9 @@ public class PrepareDiagnosticoDialog extends JDialog {
 	 */
 	public PrepareDiagnosticoDialog(String codigoBiopsia) {
 		this.codigoBiopsia = codigoBiopsia;
+		wizardPrevio = DiagnosticoWizardDAO.getWizardPrevio(codigoBiopsia);
 		
-		setTitle("Indique los valores para el diagnostico");
+		setTitle("Indique los valores para el diagnostico '" + codigoBiopsia + "'");
 		setModal(true);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(PrepareDiagnosticoDialog.class.getResource("/resources/images/iconLogo1.jpg")));
 		setBounds(100, 100, 450, 300);
@@ -78,12 +84,16 @@ public class PrepareDiagnosticoDialog extends JDialog {
 		
 		cBoxFirmante1 = new JComboBox();
 		cBoxFirmante1.setBounds(92, 9, 249, 20);
-		PatologoDAO.populateJCombo(cBoxFirmante1, false);
+		PatologoDAO.populateJCombo(cBoxFirmante1,
+				false,
+				wizardPrevio != null ? wizardPrevio.get(0).getIdFirmante1() : -1);
 		contentPanel.add(cBoxFirmante1);
 		
 		cBoxFirmante2 = new JComboBox();
 		cBoxFirmante2.setBounds(92, 34, 249, 20);
-		PatologoDAO.populateJCombo(cBoxFirmante2);
+		PatologoDAO.populateJCombo(cBoxFirmante2,
+				true,
+				wizardPrevio != null ? wizardPrevio.get(0).getIdFirmante2() : -1);
 		contentPanel.add(cBoxFirmante2);
 		
 		PrepareDiagnosticoDialogOperations listener = new PrepareDiagnosticoDialogOperations(this);
@@ -138,5 +148,9 @@ public class PrepareDiagnosticoDialog extends JDialog {
 	
 	public JButton getBtnVisualizar() {
 		return btnVisualizar;
+	}
+	
+	public List<DiagnosticoWizardDTO> getWizardPrevio() {
+		return wizardPrevio;
 	}
 }

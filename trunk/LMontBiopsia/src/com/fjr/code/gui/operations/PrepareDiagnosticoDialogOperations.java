@@ -96,7 +96,8 @@ public class PrepareDiagnosticoDialogOperations implements ActionListener{
 				
 				DiagnosticoWizardDialog wizard = new DiagnosticoWizardDialog(biopsia,
 						ventana.getcBoxFirmante1().getSelectedItem().toString(),
-						ventana.getcBoxFirmante2().getSelectedItem().toString());
+						ventana.getcBoxFirmante2().getSelectedItem().toString(),
+						ventana.getWizardPrevio());
 				wizard.setVisible(true);
 				
 				if(wizard.wasValidPDFGenerated()){

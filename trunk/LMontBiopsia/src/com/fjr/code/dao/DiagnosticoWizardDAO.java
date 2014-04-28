@@ -4,11 +4,13 @@ import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.Types;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.SortedMap;
 
 import org.apache.log4j.Logger;
 
+import com.fjr.code.dto.DiagnosticoWizardDTO;
 import com.fjr.code.gui.tables.JTableDiagnosticoWizard;
 import com.fjr.code.util.BLOBUtil;
 import com.fjr.code.util.DBUtil;
@@ -20,11 +22,56 @@ import com.fjr.code.util.DBUtil;
  * @author T&T <br />
  *
  */
-public class DiagnosticoDAO {
-	private static final Logger log = Logger.getLogger(DiagnosticoDAO.class);
+public class DiagnosticoWizardDAO {
+	private static final Logger log = Logger.getLogger(DiagnosticoWizardDAO.class);
 	
-	private DiagnosticoDAO() {
+	private DiagnosticoWizardDAO() {
 		// TODO Auto-generated constructor stub
+	}
+	
+	/**
+	 * 
+	 * @param codigoBiopsia
+	 * @return
+	 */
+	public static List<DiagnosticoWizardDTO> getWizardPrevio(String codigoBiopsia){
+		DiagnosticoWizardDAOListBuilder builder = new DiagnosticoWizardDAOListBuilder(codigoBiopsia);
+		return builder.getResults();
+	}
+	
+	/**
+	 * 
+	 * @param idBiopsia
+	 * @return
+	 */
+	private static boolean deleteDiagnosticoInfo(int idBiopsia){
+		final String query = "DELETE FROM diagnostico_detalle where id_biopsia = ?";
+		final String query2 = "DELETE FROM diagnostico_maestro where id_biopsia = ?";
+		boolean result = true;
+		
+		try {
+			List<Object> parameters = new LinkedList<Object>();
+			parameters.add(idBiopsia);
+			
+			result = DBUtil.executeNonSelectQuery(query, parameters);
+			log.info("Borrado detalle de diagnostico de la biopsia: " + idBiopsia);
+			if(result){
+				result = DBUtil.executeNonSelectQuery(query2, parameters);
+				if(result){
+					log.info("Borrado maestro de diagnostico de la biopsia: " + idBiopsia);
+				} else {
+					log.info("No pudo ser borrado maestro de diagnostico de la biopsia: " + idBiopsia);
+				}
+			} else {
+				log.info("No pudo ser borrado detalle de diagnostico de la biopsia: " + idBiopsia);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			log.error("Error: " + e.getLocalizedMessage(), e);
+			result = false;
+		}
+		
+		return result;
 	}
 	
 	/**
@@ -48,6 +95,8 @@ public class DiagnosticoDAO {
 		PreparedStatement ps = null;
 		
 		try {
+			deleteDiagnosticoInfo(idBiopsia);
+			
 			con = DBUtil.getConnection();
 			ps = con.prepareStatement(queryMaestro);
 			ps.setInt(1, idBiopsia);
@@ -58,15 +107,12 @@ public class DiagnosticoDAO {
 				ps.setNull(3, Types.INTEGER);
 			}
 			
-			if(ps.execute()){
-				log.info("Fue creado el registro maestro, vamos con el detalle ahora");
-				storeDetalleDiagnostico(idBiopsia, JTableDiagnosticoWizard.SECCION_MACRO, mapMacro);
-				storeDetalleDiagnostico(idBiopsia, JTableDiagnosticoWizard.SECCION_DIAGNOSTICO, mapDiagnostico);
-				storeDetalleDiagnostico(idBiopsia, JTableDiagnosticoWizard.SECCION_IHQ, mapIHQ);
-			} else {
-				log.info("Por algun motivo no pudo crearse el registro maestro");
-				result = false;
-			}
+			ps.execute();
+			log.info("Fue creado el registro maestro, vamos con el detalle ahora");
+			
+			int linea = storeDetalleDiagnostico(idBiopsia, 1, JTableDiagnosticoWizard.SECCION_MACRO, mapMacro);
+			linea = storeDetalleDiagnostico(idBiopsia, linea, JTableDiagnosticoWizard.SECCION_DIAGNOSTICO, mapDiagnostico);
+			linea = storeDetalleDiagnostico(idBiopsia, linea, JTableDiagnosticoWizard.SECCION_IHQ, mapIHQ);
 		} catch (Exception e) {
 			// TODO: handle exception
 			log.error("Error: " + e.getLocalizedMessage(), e);
@@ -94,14 +140,12 @@ public class DiagnosticoDAO {
 	 * @param mapToProcess
 	 * @return
 	 */
-	private static boolean storeDetalleDiagnostico(int idBiopsia, String seccion,
+	private static int storeDetalleDiagnostico(int idBiopsia, int linea, String seccion,
 			SortedMap<Integer, List<String>> mapToProcess){
-		final String queryDetalle = "INSERT INTO diagnostico_detalle(id_maestro, linea, seccion, texto_seccion, imagen1_name, "
+		final String queryDetalle = "INSERT INTO diagnostico_detalle(id_biopsia, linea, seccion, texto_seccion, imagen1_name, "
 				+ "imagen1_data, imagen2_name, imagen2_data, imagen3_name, imagen3_data) "
 				+ "VALUES(?,?,?,?,?,?,?,?,?,?)";
 		
-		boolean result = true;
-		int linea = 1;
 		Connection con = null;
 		PreparedStatement ps = null;
 		String tmpSeccion = seccion;
@@ -136,14 +180,29 @@ public class DiagnosticoDAO {
 				if(!tmp.exists()){
 					//es una descripcion
 					ps.setString(4, element0);
+					fotoIndex++;
 				} else {
 					//no se tienen descripcion, sino posiblemente 3 fotos
 					ps.setString(4, "");
+				}
+				
+				try {
+					element0 = listaLinea.get(fotoIndex);
+					if(JTableDiagnosticoWizard.SECCION_MACRO.equals(seccion)){
+						//verifico si es macro o per-operatoria
+						if(element0.startsWith(JTableDiagnosticoWizard.SECCION_PER_OPERATORIA)){
+							//es per operatoria
+							element0 = element0.substring(JTableDiagnosticoWizard.SECCION_PER_OPERATORIA.length());
+						}
+					}
 					
-					//coloco la primera foto
+					tmp = new File(element0);
 					ps.setString(5, tmp.getName());
 					ps.setBytes(6, BLOBUtil.buildBLOBFromFile(tmp));
-					fotoIndex++;
+				} catch (Exception e) {
+					// TODO: handle exception
+					ps.setNull(5, Types.VARCHAR);
+					ps.setNull(6, Types.BLOB);
 				}
 				
 				fotoIndex++;
@@ -160,10 +219,9 @@ public class DiagnosticoDAO {
 					tmp = new File(element0);
 					ps.setString(7, tmp.getName());
 					ps.setBytes(8, BLOBUtil.buildBLOBFromFile(tmp));
-					fotoIndex++;
 				} catch (Exception e) {
 					// TODO: handle exception
-					ps.setString(7, "");
+					ps.setNull(7, Types.VARCHAR);
 					ps.setNull(8, Types.BLOB);
 				}
 				
@@ -181,19 +239,18 @@ public class DiagnosticoDAO {
 					tmp = new File(element0);
 					ps.setString(9, tmp.getName());
 					ps.setBytes(10, BLOBUtil.buildBLOBFromFile(tmp));
-					fotoIndex++;
 				} catch (Exception e) {
 					// TODO: handle exception
-					ps.setString(9, "");
+					ps.setNull(9, Types.VARCHAR);
 					ps.setNull(10, Types.BLOB);
 				}
 				
+				ps.execute();
 				linea++;
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			log.error("Error: " + e.getLocalizedMessage(), e);
-			result = false;
 		} finally {
 			try {
 				ps.close();
@@ -208,6 +265,6 @@ public class DiagnosticoDAO {
 			}
 		}
 		
-		return result;
+		return linea;
 	}
 }
