@@ -104,7 +104,7 @@ public class JTableInformeComplementario {
 				if(table.getSelectedColumn() == 0 && table.getSelectedRow() > -1){
 					//o se desea reimprimir el diagnostico complementario
 					//o se desea crear uno nuevo
-					final int idBiopsia = (Integer) table.getValueAt(table.getSelectedRow(), 4);
+					final int idBiopsia = (Integer) table.getValueAt(table.getSelectedRow(), 5);
 					//validamos la existencia o no de un informe complementario previo
 					//traemos el ultimo informe complementario impreso al disco
 					final String query = "SELECT informe_complementario FROM biopsias WHERE id=?";

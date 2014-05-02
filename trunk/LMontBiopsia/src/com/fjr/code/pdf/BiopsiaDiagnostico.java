@@ -127,11 +127,12 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 					|| (biopsia.getMicroscopicaDTO().getDiagnosticoIHQ() != null
 							&& ! "".equals(biopsia.getMicroscopicaDTO().getDiagnosticoIHQ().trim()))){
 	        	//addFirmantes(writer, document, firmante1, firmante2);
+	        	fixNumberPage = true;
 	        	document.newPage();
 	        	//agregamos la tabla de detalle de la biopsia
 		        document.add(addDetailBiopsiaTable(biopsia));
 		        document.add(chunkEnter);
-		        
+		        fixNumberPage = false;
 		        //agregamos la info IHQ recibida del wizard
 	        	addInfoIHQ(document, writer);
 	        	addDiagnostico(writer, document, biopsia, true);
@@ -200,7 +201,7 @@ public class BiopsiaDiagnostico extends BiopsiaInformeCommon implements PDFPageC
 						&& ! "".equals(biopsia.getMicroscopicaDTO().getDiagnosticoIHQ().trim()))){
 			//fixNumberPage = true;
 			//document.newPage();
-			fixNumberPage = true;
+			//fixNumberPage = true;
 			Chunk title1 = null;
 			Phrase value1 = null;
 			Paragraph p1 = null;
