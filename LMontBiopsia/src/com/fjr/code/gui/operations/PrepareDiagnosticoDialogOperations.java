@@ -12,6 +12,7 @@ import com.fjr.code.dao.BiopsiaInfoDAO;
 import com.fjr.code.dao.definitions.FasesBiopsia;
 import com.fjr.code.dao.definitions.TipoEstudioEnum;
 import com.fjr.code.dto.BiopsiaInfoDTO;
+import com.fjr.code.dto.PatologoDTO;
 import com.fjr.code.gui.AppWindow;
 import com.fjr.code.gui.DiagnosticoWizardDialog;
 import com.fjr.code.gui.IngresoPanel;
@@ -95,8 +96,8 @@ public class PrepareDiagnosticoDialogOperations implements ActionListener{
 				BiopsiaFotosMacroDAO.setMacroFotos(biopsia);
 				
 				DiagnosticoWizardDialog wizard = new DiagnosticoWizardDialog(biopsia,
-						ventana.getcBoxFirmante1().getSelectedItem().toString(),
-						ventana.getcBoxFirmante2().getSelectedItem().toString(),
+						(PatologoDTO) ventana.getcBoxFirmante1().getSelectedItem(),
+						(PatologoDTO) ventana.getcBoxFirmante2().getSelectedItem(),
 						ventana.getWizardPrevio());
 				wizard.setVisible(true);
 				
