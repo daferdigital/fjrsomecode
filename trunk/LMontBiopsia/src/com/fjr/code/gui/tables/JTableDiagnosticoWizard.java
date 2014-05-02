@@ -26,9 +26,9 @@ import javax.swing.table.DefaultTableModel;
  */
 public class JTableDiagnosticoWizard {
 	public static final String SECCION_PER_OPERATORIA = "perOperatoria_";
-	public static final String SECCION_MACRO = "macro";
-	public static final String SECCION_IHQ = "ihq";
-	public static final String SECCION_DIAGNOSTICO = "diagnostico";
+	public static final String SECCION_MACRO = "macro_";
+	public static final String SECCION_IHQ = "ihq_";
+	public static final String SECCION_DIAGNOSTICO = "diagnostico_";
 	private static String currentSeccion;
 	
 	private DefaultTableModel model;

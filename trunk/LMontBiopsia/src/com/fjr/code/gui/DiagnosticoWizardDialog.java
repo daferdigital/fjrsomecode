@@ -13,6 +13,7 @@ import com.fjr.code.dto.BiopsiaMacroFotoDTO;
 import com.fjr.code.dto.BiopsiaMicroLaminasDTO;
 import com.fjr.code.dto.BiopsiaMicroLaminasFileDTO;
 import com.fjr.code.dto.DiagnosticoWizardDTO;
+import com.fjr.code.dto.PatologoDTO;
 import com.fjr.code.gui.tables.JTableDiagnosticoWizard;
 import com.fjr.code.pdf.BiopsiaDiagnostico;
 import com.fjr.code.pdf.BiopsiaDiagnosticoIHQCalle;
@@ -42,8 +43,18 @@ import java.awt.event.ActionListener;
 import javax.swing.JTable;
 
 import java.awt.Font;
+import java.io.File;
 import java.util.List;
 
+/**
+ * 
+ * Class: DiagnosticoWizardDialog
+ * Creation Date: 01/05/2014
+ * (c) 2014
+ *
+ * @author T&T
+ *
+ */
 public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 	public static final String ACTION_COMMAND_LIMPIAR = "limpiar";
 	public static final String ACTION_COMMAND_VER = "ver";
@@ -55,12 +66,12 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 	private JTableDiagnosticoWizard wizard = JTableDiagnosticoWizard.getNewInstance();
 	private JTable tableWizard;
 	private BiopsiaInfoDTO biopsia;
-	private String firmante1;
-	private String firmante2;
+	private PatologoDTO firmante1;
+	private PatologoDTO firmante2;
 	private boolean isIHQCalle = false;
 	private boolean wasValidPDFGenerated = false;
 	private List<DiagnosticoWizardDTO> wizardPrevio;
-	
+	 
 	/**
 	 * Launch the application.
 	 */
@@ -68,7 +79,7 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					DiagnosticoWizardDialog dialog = new DiagnosticoWizardDialog(null, "", "", null);
+					DiagnosticoWizardDialog dialog = new DiagnosticoWizardDialog(null, null, null, null);
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
 				} catch (Exception e) {
@@ -86,13 +97,14 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 	 * @param firmante2
 	 * @param wizardPrevio 
 	 */
-	public DiagnosticoWizardDialog(BiopsiaInfoDTO biopsia, String firmante1,
-			String firmante2, List<DiagnosticoWizardDTO> wizardPrevio) {
+	public DiagnosticoWizardDialog(BiopsiaInfoDTO biopsia, PatologoDTO firmante1,
+			PatologoDTO firmante2, List<DiagnosticoWizardDTO> wizardPrevio) {
 		this.biopsia = biopsia;
 		this.firmante1 = firmante1;
 		this.firmante2 = firmante2;
 		this.isIHQCalle = (TipoEstudioEnum.IHQ.getId() == biopsia.getIdTipoEstudio());
 		this.wizardPrevio = wizardPrevio;
+		populateTableWithWizard();
 		
 		setModal(true);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -345,15 +357,15 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 			if(isIHQCalle){
 				diagnostico = new BiopsiaDiagnosticoIHQCalle(
 						biopsia,
-						firmante1,
-						firmante2,
+						firmante1.getNombre(),
+						firmante2.getNombre(),
 						wizard.getMapMacro(),
 						wizard.getMapIHQ());
 			} else {
 				diagnostico = new BiopsiaDiagnostico(
 						biopsia,
-						firmante1,
-						firmante2,
+						firmante1.getNombre(),
+						firmante2.getNombre(),
 						wizard.getMapMacro(),
 						wizard.getMapIHQ(),
 						wizard.getMapDiagnostico());
@@ -366,8 +378,8 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 				wasValidPDFGenerated = true;
 				
 				DiagnosticoWizardDAO.storeDiagnostico(biopsia.getId(),
-						1,
-						2,
+						firmante1.getId(),
+						firmante2.getId(),
 						wizard.getMapMacro(),
 						wizard.getMapIHQ(),
 						wizard.getMapDiagnostico());
@@ -392,5 +404,81 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 	public boolean wasValidPDFGenerated() {
 		// TODO Auto-generated method stub
 		return wasValidPDFGenerated ;
+	}
+	
+	/**
+	 * 
+	 */
+	public void populateTableWithWizard(){
+		if(wizardPrevio != null && wizardPrevio.size() > 0){
+			JButton boton = null;
+			for (DiagnosticoWizardDTO filaDiagnostico : wizardPrevio) {
+				//construimos el boton asociado al elemento del wizard
+				/*
+				String prefixSeccion = JTableDiagnosticoWizard.SECCION_PER_OPERATORIA.equals(filaDiagnostico.getSeccion())
+						? JTableDiagnosticoWizard.SECCION_PER_OPERATORIA : "";
+				*/
+				
+				if(filaDiagnostico.getTextoSeccion() != null
+						&& !"".equals(filaDiagnostico.getTextoSeccion().trim())){
+					//tengo texto de la seccion
+					boton = new JButton(filaDiagnostico.getTextoSeccion());
+					boton.setBorderPainted(false);
+					boton.setToolTipText(filaDiagnostico.getSeccion());
+					boton.setName(boton.getText());
+					boton.setHorizontalAlignment(SwingConstants.LEFT);
+					wizard.addRow(boton);
+				}
+				
+				//verificamos las imagenes
+				if(filaDiagnostico.getNameFileImagen1() != null){
+					String path = Constants.TMP_PATH + File.separator + filaDiagnostico.getNameFileImagen1();
+					Icon icon = new ImageIcon(new ImageIcon(path).getImage().getScaledInstance(
+							150,
+							120,
+							Image.SCALE_AREA_AVERAGING));
+					//debo colocarla como icono en la etiqueta respectiva
+					
+					boton = new JButton(icon);
+					boton.setBorderPainted(false);
+					boton.setHorizontalAlignment(SwingConstants.LEFT);
+					boton.setToolTipText(filaDiagnostico.getSeccion());
+					boton.setName(path);
+					wizard.addRow(boton);
+				}
+				
+				if(filaDiagnostico.getNameFileImagen2() != null){
+					String path = Constants.TMP_PATH + File.separator + filaDiagnostico.getNameFileImagen2();
+					Icon icon = new ImageIcon(new ImageIcon(path).getImage().getScaledInstance(
+							150,
+							120,
+							Image.SCALE_AREA_AVERAGING));
+					//debo colocarla como icono en la etiqueta respectiva
+					
+					boton = new JButton(icon);
+					boton.setBorderPainted(false);
+					boton.setHorizontalAlignment(SwingConstants.LEFT);
+					boton.setToolTipText(filaDiagnostico.getSeccion());
+					boton.setName(path);
+					wizard.addRow(boton);
+				}
+				
+				if(filaDiagnostico.getNameFileImagen3() != null){
+					String path = Constants.TMP_PATH + File.separator + filaDiagnostico.getNameFileImagen3();
+					Icon icon = new ImageIcon(new ImageIcon(path).getImage().getScaledInstance(
+							150,
+							120,
+							Image.SCALE_AREA_AVERAGING));
+					//debo colocarla como icono en la etiqueta respectiva
+					
+					boton = new JButton(icon);
+					boton.setBorderPainted(false);
+					boton.setHorizontalAlignment(SwingConstants.LEFT);
+					boton.setToolTipText(filaDiagnostico.getSeccion());
+					boton.setName(path);
+					wizard.addRow(boton);
+				}
+			}
+		}
 	}
 }

@@ -122,22 +122,22 @@ final class DiagnosticoWizardDAOListBuilder implements DAOListBuilder<Diagnostic
 				wizard.setSeccion(rowSet.getString(6));
 				wizard.setTextoSeccion(rowSet.getString(7));
 				
-				if(rowSet.getString(8) != null){
+				if(rowSet.getString(8) != null && !"".equals(rowSet.getString(8))){
 					wizard.setNameFileImagen1(rowSet.getString(8));
 					BLOBUtil.writeBLOBToDisk(
 							new File(Constants.TMP_PATH + File.separator + rowSet.getString(8)),
 							rowSet.getBytes(9));
 				}
 				
-				if(rowSet.getString(10) != null){
-					wizard.setNameFileImagen1(rowSet.getString(10));
+				if(rowSet.getString(10) != null && !"".equals(rowSet.getString(10))){
+					wizard.setNameFileImagen2(rowSet.getString(10));
 					BLOBUtil.writeBLOBToDisk(
 							new File(Constants.TMP_PATH + File.separator + rowSet.getString(10)),
 							rowSet.getBytes(11));
 				}
 				
-				if(rowSet.getString(12) != null){
-					wizard.setNameFileImagen1(rowSet.getString(12));
+				if(rowSet.getString(12) != null && !"".equals(rowSet.getString(12))){
+					wizard.setNameFileImagen3(rowSet.getString(12));
 					BLOBUtil.writeBLOBToDisk(
 							new File(Constants.TMP_PATH + File.separator + rowSet.getString(12)),
 							rowSet.getBytes(13));

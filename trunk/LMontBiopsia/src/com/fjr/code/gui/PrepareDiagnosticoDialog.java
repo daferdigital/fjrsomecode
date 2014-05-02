@@ -86,14 +86,14 @@ public class PrepareDiagnosticoDialog extends JDialog {
 		cBoxFirmante1.setBounds(92, 9, 249, 20);
 		PatologoDAO.populateJCombo(cBoxFirmante1,
 				false,
-				wizardPrevio != null ? wizardPrevio.get(0).getIdFirmante1() : -1);
+				wizardPrevio != null  && wizardPrevio.size() > 0 ? wizardPrevio.get(0).getIdFirmante1() : -1);
 		contentPanel.add(cBoxFirmante1);
 		
 		cBoxFirmante2 = new JComboBox();
 		cBoxFirmante2.setBounds(92, 34, 249, 20);
 		PatologoDAO.populateJCombo(cBoxFirmante2,
 				true,
-				wizardPrevio != null ? wizardPrevio.get(0).getIdFirmante2() : -1);
+				wizardPrevio != null  && wizardPrevio.size() > 0 ? wizardPrevio.get(0).getIdFirmante2() : -1);
 		contentPanel.add(cBoxFirmante2);
 		
 		PrepareDiagnosticoDialogOperations listener = new PrepareDiagnosticoDialogOperations(this);

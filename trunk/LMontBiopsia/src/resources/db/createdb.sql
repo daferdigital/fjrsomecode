@@ -88,7 +88,6 @@ CREATE TABLE `diagnostico_maestro` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
-
 CREATE TABLE `diagnostico_detalle` (
   `id_biopsia` int(11) NOT NULL,
   `linea` int(11) NOT NULL,
@@ -103,7 +102,7 @@ CREATE TABLE `diagnostico_detalle` (
   PRIMARY KEY (`id_biopsia`,`linea`),
   KEY `FK_DIAGNOSTICO_MAESTRO_idx` (`id_biopsia`),
   CONSTRAINT `FK_DIAGNOSTICO_MAESTRO` FOREIGN KEY (`id_biopsia`) REFERENCES `diagnostico_maestro` (`id_biopsia`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin;
 
 
 
