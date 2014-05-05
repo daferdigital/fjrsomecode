@@ -7,14 +7,20 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.Toolkit;
 import java.awt.Font;
+
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 
+import com.fjr.code.dao.DiagnosticoWizardDAO;
 import com.fjr.code.dao.PatologoDAO;
+import com.fjr.code.dao.definitions.TipoDiagnostico;
+import com.fjr.code.dto.DiagnosticoWizardDTO;
 import com.fjr.code.gui.operations.ListenerDobleClickTextArea;
 import com.fjr.code.gui.operations.PrepareInformeComplementarioDialogOperations;
+
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 
@@ -39,6 +45,7 @@ public class PrepareInformeComplementarioDialog extends JDialog {
 	private JButton btnVisualizar;
 	private JTextArea txtAComentarios;
 	private JTextArea txtADiagnostico;
+	private DiagnosticoWizardDTO wizardPrevio;
 	
 	/**
 	 * Launch the application.
@@ -59,6 +66,14 @@ public class PrepareInformeComplementarioDialog extends JDialog {
 	 */
 	public PrepareInformeComplementarioDialog(int idBiopsia) {
 		this.idBiopsia = idBiopsia;
+		//debe tener un unico registro
+		try {
+			wizardPrevio = DiagnosticoWizardDAO.getWizardPrevio(idBiopsia,
+					TipoDiagnostico.COMPLEMENTARIO).get(0);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 		
 		setTitle("Indique los valores para el diagnostico complementario");
 		setModal(true);
@@ -81,12 +96,17 @@ public class PrepareInformeComplementarioDialog extends JDialog {
 		
 		cBoxFirmante1 = new JComboBox();
 		cBoxFirmante1.setBounds(92, 9, 249, 20);
-		PatologoDAO.populateJCombo(cBoxFirmante1, false);
+		PatologoDAO.populateJCombo(cBoxFirmante1,
+				false,
+				wizardPrevio != null ? wizardPrevio.getIdFirmante1() : -1);
+		contentPanel.add(cBoxFirmante1);
 		contentPanel.add(cBoxFirmante1);
 		
 		cBoxFirmante2 = new JComboBox();
 		cBoxFirmante2.setBounds(92, 34, 249, 20);
-		PatologoDAO.populateJCombo(cBoxFirmante2);
+		PatologoDAO.populateJCombo(cBoxFirmante2,
+				true,
+				wizardPrevio != null ? wizardPrevio.getIdFirmante2() : -1);
 		contentPanel.add(cBoxFirmante2);
 		
 		JLabel lblComentarios = new JLabel("Comentarios:");
@@ -99,6 +119,7 @@ public class PrepareInformeComplementarioDialog extends JDialog {
 		contentPanel.add(scrollPane);
 		
 		txtAComentarios = new JTextArea();
+		txtAComentarios.setText(wizardPrevio != null ? wizardPrevio.getComentarioComplementario() : "");
 		txtAComentarios.setWrapStyleWord(true);
 		txtAComentarios.setLineWrap(true);
 		txtAComentarios.addMouseListener(new ListenerDobleClickTextArea(txtAComentarios));
@@ -114,13 +135,13 @@ public class PrepareInformeComplementarioDialog extends JDialog {
 		contentPanel.add(scrollPane_1);
 		
 		txtADiagnostico = new JTextArea();
+		txtADiagnostico.setText(wizardPrevio != null ? wizardPrevio.getDiagnosticoComplementario() : "");
 		txtADiagnostico.setWrapStyleWord(true);
 		txtADiagnostico.setLineWrap(true);
 		txtADiagnostico.addMouseListener(new ListenerDobleClickTextArea(txtADiagnostico));
 		scrollPane_1.setViewportView(txtADiagnostico);
 		
 		PrepareInformeComplementarioDialogOperations listener = new PrepareInformeComplementarioDialogOperations(this);
-		
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));

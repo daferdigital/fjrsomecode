@@ -25,6 +25,8 @@ public class DiagnosticoWizardDTO {
 	private byte[] dataFileImagen2;
 	private String nameFileImagen3;
 	private byte[] dataFileImagen3;
+	private String diagnosticoComplementario;
+	private String comentarioComplementario;
 	
 	public DiagnosticoWizardDTO() {
 		// TODO Auto-generated constructor stub
@@ -132,5 +134,21 @@ public class DiagnosticoWizardDTO {
 
 	public void setDataFileImagen3(byte[] dataFileImagen3) {
 		this.dataFileImagen3 = dataFileImagen3;
+	}
+	
+	public String getDiagnosticoComplementario() {
+		return diagnosticoComplementario;
+	}
+	
+	public void setDiagnosticoComplementario(String diagnosticoComplementario) {
+		this.diagnosticoComplementario = diagnosticoComplementario;
+	}
+	
+	public String getComentarioComplementario() {
+		return comentarioComplementario;
+	}
+	
+	public void setComentarioComplementario(String comentarioComplementario) {
+		this.comentarioComplementario = comentarioComplementario;
 	}
 }
