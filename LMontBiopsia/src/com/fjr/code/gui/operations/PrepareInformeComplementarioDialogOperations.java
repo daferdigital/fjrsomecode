@@ -8,7 +8,9 @@ import javax.swing.JOptionPane;
 import org.apache.log4j.Logger;
 
 import com.fjr.code.dao.BiopsiaInfoDAO;
+import com.fjr.code.dao.DiagnosticoWizardDAO;
 import com.fjr.code.dto.BiopsiaInfoDTO;
+import com.fjr.code.dto.PatologoDTO;
 import com.fjr.code.gui.PrepareInformeComplementarioDialog;
 import com.fjr.code.pdf.BiopsiaDiagnosticoComplementario;
 
@@ -48,6 +50,12 @@ public class PrepareInformeComplementarioDialogOperations implements ActionListe
 		} else if (ACTION_COMMAND_BTN_VISUALIZAR.equals(e.getActionCommand())) {
 			BiopsiaInfoDTO biopsia = BiopsiaInfoDAO.getBiopsiaById(
 					ventana.getIdBiopsia());
+			
+			DiagnosticoWizardDAO.storeDiagnosticoComplementario(ventana.getIdBiopsia(),
+					((PatologoDTO) ventana.getcBoxFirmante1().getSelectedItem()).getId(),
+					((PatologoDTO) ventana.getcBoxFirmante2().getSelectedItem()).getId(),
+					ventana.getTxtADiagnostico().getText(),
+					ventana.getTxtAComentarios().getText());
 			
 			//vemos el tipo de estudio para proceder al armado del informe respectivo
 			BiopsiaDiagnosticoComplementario diagnosticoComplemantario = new BiopsiaDiagnosticoComplementario(biopsia, 

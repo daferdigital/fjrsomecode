@@ -10,6 +10,7 @@ import javax.sql.rowset.CachedRowSet;
 import org.apache.log4j.Logger;
 
 import com.fjr.code.dao.definitions.DAOListBuilder;
+import com.fjr.code.dao.definitions.TipoDiagnostico;
 import com.fjr.code.dto.DiagnosticoWizardDTO;
 import com.fjr.code.util.BLOBUtil;
 import com.fjr.code.util.Constants;
@@ -32,21 +33,38 @@ final class DiagnosticoWizardDAOListBuilder implements DAOListBuilder<Diagnostic
 	
 	private static final String BEGIN = "SELECT b.id, dm.id_firmante_1, dm.id_firmante_2, dm.fecha, dd.linea, dd.seccion,"
 			+ " dd.texto_seccion, dd.imagen1_name, dd.imagen1_data, dd.imagen2_name, dd.imagen2_data,"
-			+ " dd.imagen3_name, dd.imagen3_data"
+			+ " dd.imagen3_name, dd.imagen3_data, dd.diagnostico_complementario, dd.comentario_complementario"
 			+ " FROM tipo_estudio tie, diagnostico_maestro dm, diagnostico_detalle dd, biopsias b"
 			+ " WHERE b.id = dm.id_biopsia"
 			+ " AND dm.id_biopsia = dd.id_biopsia"
 			+ " AND tie.id = b.id_tipo_estudio";
 	private static final String END = " ORDER BY dm.id_biopsia, dd.linea";
-
+	
 	private List<Object> parameters;
 	private String customWhere;
 	
 	/**
 	 * 
-	 * @param codigoBiopsia
+	 * @param idBiopsia
+	 * @param tipoDiagnostico
 	 */
-	public DiagnosticoWizardDAOListBuilder(String codigoBiopsia) {
+	public DiagnosticoWizardDAOListBuilder(int idBiopsia,
+			TipoDiagnostico tipoDiagnostico) {
+		// TODO Auto-generated constructor stub
+		parameters = new LinkedList<Object>();
+		customWhere = "";
+		
+		searchByIdBiopsia(idBiopsia);
+		setTipoDiagnostico(tipoDiagnostico);
+	}
+	
+	/**
+	 * 
+	 * @param codigoBiopsia
+	 * @param tipoDiagnostico
+	 */
+	public DiagnosticoWizardDAOListBuilder(String codigoBiopsia,
+			TipoDiagnostico tipoDiagnostico) {
 		// TODO Auto-generated constructor stub
 		parameters = new LinkedList<Object>();
 		customWhere = "";
@@ -62,6 +80,16 @@ final class DiagnosticoWizardDAOListBuilder implements DAOListBuilder<Diagnostic
 		
 		searchByNumeroBiopsia(codigoBiopsia);
 		setTipoEstudioAbreviatura(tipoEstudioAbreviatura);
+		setTipoDiagnostico(tipoDiagnostico);
+	}
+	
+	/**
+	 * 
+	 * @param idBiopsia
+	 */
+	public void searchByIdBiopsia(int idBiopsia){
+		customWhere += " AND b.id = ?";
+		parameters.add(idBiopsia);
 	}
 	
 	/**
@@ -80,6 +108,18 @@ final class DiagnosticoWizardDAOListBuilder implements DAOListBuilder<Diagnostic
 	public void setTipoEstudioAbreviatura(String tipoEstudioAbreviatura){
 		customWhere += " AND LOWER(tie.abreviatura) = ?";
 		parameters.add(tipoEstudioAbreviatura.toLowerCase());
+	}
+	
+	/**
+	 * 
+	 * @param tipoDiagnostico
+	 */
+	public void setTipoDiagnostico(TipoDiagnostico tipoDiagnostico){
+		customWhere += " AND dm.tipo_diagnostico = ?";
+		customWhere += " AND dd.tipo_diagnostico = ?";
+		
+		parameters.add(tipoDiagnostico.getKey());
+		parameters.add(tipoDiagnostico.getKey());
 	}
 	
 	/**
@@ -142,6 +182,9 @@ final class DiagnosticoWizardDAOListBuilder implements DAOListBuilder<Diagnostic
 							new File(Constants.TMP_PATH + File.separator + rowSet.getString(12)),
 							rowSet.getBytes(13));
 				}
+				
+				wizard.setDiagnosticoComplementario(rowSet.getString(14));
+				wizard.setComentarioComplementario(rowSet.getString(15));
 				
 				results.add(wizard);
 			}

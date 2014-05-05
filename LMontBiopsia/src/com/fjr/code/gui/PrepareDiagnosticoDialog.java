@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.Toolkit;
 import java.awt.Font;
 import java.util.List;
@@ -16,6 +17,7 @@ import javax.swing.JComboBox;
 
 import com.fjr.code.dao.DiagnosticoWizardDAO;
 import com.fjr.code.dao.PatologoDAO;
+import com.fjr.code.dao.definitions.TipoDiagnostico;
 import com.fjr.code.dto.DiagnosticoWizardDTO;
 import com.fjr.code.gui.operations.PrepareDiagnosticoDialogOperations;
 
@@ -61,7 +63,8 @@ public class PrepareDiagnosticoDialog extends JDialog {
 	 */
 	public PrepareDiagnosticoDialog(String codigoBiopsia) {
 		this.codigoBiopsia = codigoBiopsia;
-		wizardPrevio = DiagnosticoWizardDAO.getWizardPrevio(codigoBiopsia);
+		wizardPrevio = DiagnosticoWizardDAO.getWizardPrevio(codigoBiopsia,
+				TipoDiagnostico.DE_BIOPSIA);
 		
 		setTitle("Indique los valores para el diagnostico '" + codigoBiopsia + "'");
 		setModal(true);
