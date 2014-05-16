@@ -305,7 +305,7 @@ public class MenuPanel extends JPanel {
 		JMenu menuComp = new JMenu("Informe Complementario");
 		menuComp.setHorizontalAlignment(SwingConstants.LEFT);
 		
-		JMenuItem mntmComp = new JMenuItem("Crear Informe Complementario");
+		JMenuItem mntmComp = new JMenuItem("Crear/Ver Informe Complementario");
 		mntmComp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//debemos mostrar el panel de busqueda para crear informes complementarios

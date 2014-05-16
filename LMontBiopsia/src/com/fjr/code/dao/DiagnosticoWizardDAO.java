@@ -138,8 +138,13 @@ public class DiagnosticoWizardDAO {
 			log.info("Fue creado el registro maestro, vamos con el detalle ahora");
 			
 			int linea = storeDetalleDiagnostico(idBiopsia, 1, JTableDiagnosticoWizard.SECCION_MACRO, mapMacro);
+			log.info("Guardado el detalle macro del wizard hasta la linea " + linea);
+			
 			linea = storeDetalleDiagnostico(idBiopsia, linea, JTableDiagnosticoWizard.SECCION_DIAGNOSTICO, mapDiagnostico);
+			log.info("Guardado el detalle de diagnostico del wizard hasta la linea " + linea);
+			
 			linea = storeDetalleDiagnostico(idBiopsia, linea, JTableDiagnosticoWizard.SECCION_IHQ, mapIHQ);
+			log.info("Guardado el detalle IHQ del wizard hasta la linea " + linea);
 		} catch (Exception e) {
 			// TODO: handle exception
 			log.error("Error: " + e.getLocalizedMessage(), e);
