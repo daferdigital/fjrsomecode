@@ -388,7 +388,10 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 			ExamenesDAO.populateJCombo(ventana.getComboExamen());
 		} else if(ACTION_COMMAND_UPDATE_CLIENT.equals(e.getActionCommand())){
 			ClienteDTO cliente = ClienteDAO.getById(ventana.getIdCliente());
-			ClienteFormDialog clienteForm = new ClienteFormDialog(cliente, -1, "", ventana);
+			ClienteFormDialog clienteForm = new ClienteFormDialog(cliente,
+					ventana.getComboTipoCedula().getSelectedIndex(),
+					ventana.getTextCedula().getText(),
+					ventana);
 			ClienteDTO clienteDTO = clienteForm.getCliente();
 			
 			ventana.setIdCliente(clienteDTO.getId());
@@ -474,7 +477,7 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 			if(ACTION_COMMAND_NRO_CEDULA.equals(field.getName())){
 				//se tipeo un caracter en el texto de la cedula
 				//vemos si efectivamente debe mantenerse dicho caracter
-				if(! KeyEventsUtil.wasTypedANumber(e)){
+				if(! KeyEventsUtil.wasTypedANumber(e)  && e.getKeyChar() != '\b'){
 					//quemamos el evento para evitar el tipeo real
 					e.consume();
 				} else {
@@ -482,6 +485,12 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 					//para evitar inconsistencias
 					TipoCedulaDTO tipoCedula = (TipoCedulaDTO) ventana.getComboTipoCedula().getSelectedItem();
 					String cedula = tipoCedula.getKeyCedula() + field.getText() + e.getKeyChar();
+					boolean mustSearch = true;
+					
+					if("".equals((field.getText() + e.getKeyChar()).trim())){
+						log.info("No busco pacientes con cedulas vacias");
+						mustSearch = false;
+					}
 					
 					log.info("Debo verificar la cedula '" + cedula + "'");
 					//verificamos los datos basicos del cliente para esa cedula
@@ -490,7 +499,7 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 					ventana.getTextApellido().setText("");
 					ventana.getTextEdad().setText("");
 					
-					if(cliente != null){
+					if(cliente != null && mustSearch){
 						//el cliente existe, cargamos su data
 						if(cliente.isActivo()){
 							ventana.getTextNombrePaciente().setText(cliente.getNombres());
@@ -503,11 +512,14 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 							}
 							ventana.setIdCliente(cliente.getId());
 						} else {
+							ventana.setIdCliente(Constants.ID_DEFAULT_CLIENTE);
 							JOptionPane.showMessageDialog(ventana,
 									"El cliente relacionado a esa cedula no se encuentra activo en el sistema.",
 									"Cliente inactivo",
 									JOptionPane.INFORMATION_MESSAGE);
 						}
+					} else {
+						ventana.setIdCliente(Constants.ID_DEFAULT_CLIENTE);
 					}
 				}
 			} else if(ACTION_COMMAND_NRO_BIOPSIA.equals(field.getName())){

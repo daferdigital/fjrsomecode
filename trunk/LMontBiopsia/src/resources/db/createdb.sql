@@ -103,7 +103,7 @@ CREATE TABLE `diagnostico_detalle` (
   `imagen3_data` mediumblob,
   `diagnostico_complementario` text,
   `comentario_complementario` text,
-  PRIMARY KEY  (`id_biopsia`,`tipo_diagnostico`),
+  PRIMARY KEY  (`id_biopsia`,`tipo_diagnostico`,`linea`),
   KEY `FK_DIAGNOSTICO_MAESTRO_idx` (`id_biopsia`),
   CONSTRAINT `FK_DIAGNOSTICO_MAESTRO` FOREIGN KEY (`id_biopsia`, `tipo_diagnostico`) REFERENCES `diagnostico_maestro` (`id_biopsia`, `tipo_diagnostico`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
