@@ -64,6 +64,7 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 	public static final String ACTION_COMMAND_NRO_BIOPSIA = "nroBiopsia";
 	public static final String ACTION_COMMAND_NRO_CEDULA = "nroCedula";
 	public static final String ACTION_COMMAND_UPDATE_CLIENT = "btnUpdateClient";
+	public static final String ACTION_COMMAND_SEARCH_BY_NAME = "btnSearchByName";
 	public static final String ACTION_COMMAND_COMBO_TIPO_EXAMEN = "comboTipoExamenChanged";
 	public static final String ACTION_COMMAND_COMBO_EXAMEN = "comboExamenChanged";
 	public static final String ACTION_COMMAND_BTN_ADD_TIPO_ESTUDIO = "btnAddTipoEstudio";
