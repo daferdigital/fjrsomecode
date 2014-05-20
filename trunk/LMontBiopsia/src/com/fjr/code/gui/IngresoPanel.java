@@ -349,6 +349,14 @@ public class IngresoPanel extends JPanel {
 		
 		add(scrollPaneIHQs);
 		
+		JButton btnSearchByName = new JButton("...");
+		btnSearchByName.setToolTipText("Click para buscar pacientes por nombre");
+		btnSearchByName.setFont(new Font("Tahoma", Font.BOLD, 13));
+		btnSearchByName.setActionCommand(IngresoPanelOperations.ACTION_COMMAND_SEARCH_BY_NAME);
+		btnSearchByName.addActionListener(listener);
+		btnSearchByName.setBounds(485, 63, 23, 23);
+		add(btnSearchByName);
+		
 		textCedula.addKeyListener(listener);
 		if(! isNewBiopsia){
 			textNroBiopsia.addInputMethodListener(listener);
