@@ -51,7 +51,7 @@ if($fecha_desde=='' && $fecha_hasta=='' && $id_banquero=='' && $id_intermediario
 	//lista taquillas del intermediario..	
 	$select=", i.*, t.*, SUM(CASE vsv.pagado WHEN '1' THEN vsv.monto_real_pagar END) AS pre_pagados, 
 			SUM(CASE vsv.vencido WHEN '1' THEN vsv.monto_real_pagar END) AS pre_no_pagados, 
-			SUM(CASE vsv.reembolsar WHEN '1' THEN vsv.apuesta END) AS devolucion";
+			SUM(CASE vsv.reembolsar WHEN '1' THEN /*vsv.apuesta*/0 END) AS devolucion";
 	$nivel_muestra='3';
 		if($_SESSION['perfil']=='3'){
 			$where="and i.idintermediario='".$_SESSION['datos']['idintermediario']."' ";
