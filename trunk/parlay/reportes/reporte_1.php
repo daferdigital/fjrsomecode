@@ -198,12 +198,9 @@ if($nivel_muestra=='1'){
       <tr>
         <td width="30" bgcolor="#CCCCCC"><div align="center">ID</div></td>
         <td width="271" bgcolor="#CCCCCC"><div align="center">NOMBRE DEL INTERMEDIARIO</div></td>
-        <td width="86" bgcolor="#66FF33"><div align="center"><strong>TOTAL <br />
-        VENTAS</strong></div></td>
-        <td width="91" align="center" bgcolor="#CCCCCC">VENTAS<br />
-PARLAY</td>
-        <td width="94" align="center" bgcolor="#CCCCCC">VENTAS <br />
-        DERECHO</td>
+        <td width="86" bgcolor="#66FF33"><div align="center"><strong>TOTAL <br />VENTAS</strong></div></td>
+        <td width="91" align="center" bgcolor="#CCCCCC">VENTAS<br />PARLAY</td>
+        <td width="94" align="center" bgcolor="#CCCCCC">VENTAS <br />DERECHO</td>
         <td width="100" bgcolor="#CCCCCC"><div align="center">% PARLAY</div></td>
         <td width="111" bgcolor="#CCCCCC"><div align="center">% DERECHO</div></td>
         <td width="109" bgcolor="#CCCCCC"><div align="center">PREMIOS</div></td>
@@ -279,24 +276,19 @@ PARLAY</td>
       <tr>
         <td width="17" bgcolor="#CCCCCC"><div align="center">ID</div></td>
         <td width="118" bgcolor="#CCCCCC"><div align="center">NOMBRE DE LA TAQUILLA</div></td>
-        <td width="76" bgcolor="#66FF33"><div align="center"><strong>TOTAL <br />
-        VENTAS</strong></div></td>
-        <td width="81" bgcolor="#CCCCCC"><div align="center">VENTAS <br />
-        PARLAY</div></td>
+        <td width="76" bgcolor="#66FF33"><div align="center"><strong>TOTAL <br />VENTAS</strong></div></td>
+        <td width="81" bgcolor="#CCCCCC"><div align="center">VENTAS <br />PARLAY</div></td>
         <td width="73" bgcolor="#CCCCCC"><div align="center">VENTAS DERECHO</div></td>
         <td width="61" bgcolor="#CCCCCC"><div align="center">% PARLAY</div></td>
         <td width="85" bgcolor="#CCCCCC"><div align="center">% DERECHO</div></td>
-        <td width="72" bgcolor="#CCCCCC" style="font-size:11px;"><div align="center">DEVOLUCI&Oacute;N</div></td>
+        <!-- <td width="72" bgcolor="#CCCCCC" style="font-size:11px;"><div align="center">DEVOLUCI&Oacute;N</div></td> -->
         <td width="80" bgcolor="#CCCCCC"><div align="center">PREMIOS</div></td>
         <td width="85" bgcolor="#CCCCCC"><div align="center">PREMIOS PAGADOS</div></td>
-        <td width="77" bgcolor="#CCCCCC"><div align="center">PREMIOS <br />
-        SIN PAGAR</div></td>
+        <td width="77" bgcolor="#CCCCCC"><div align="center">PREMIOS <br />SIN PAGAR</div></td>
         <td width="78" bgcolor="#CCCCCC"><div align="center">SUB TOTAL</div></td>
         <td width="81" bgcolor="#CCCCCC"><div align="center">% UTILIDAD</div></td>
-        <td width="80" bgcolor="#CCCCCC"><div align="center">SALDO <br />
-        USUARIO</div></td>
-        <td width="104" bgcolor="#CCCCCC"><div align="center">SALDO <br />
-        BANCA</div></td>
+        <td width="80" bgcolor="#CCCCCC"><div align="center">SALDO <br />USUARIO</div></td>
+        <td width="104" bgcolor="#CCCCCC"><div align="center">SALDO <br />BANCA</div></td>
       </tr>
       <? 
 	if ($row=mysql_fetch_array($res)) {
@@ -326,9 +318,13 @@ PARLAY</td>
         <td style="font-size:11px;"><div align="right"><? if($ventas_derecho<='0'){echo "0";}else{echo $ventas_derecho;}?> Bs.</div></td>
         <td style="font-size:11px;"><div align="right"><? echo $por_parlay=($row["pdv"]/100)*$ventas_parlay;?> Bs.</div></td>
         <td style="font-size:11px;"><div align="right"><? echo $por_derecho=($row["pdvd"]/100)*$ventas_derecho;?> Bs.</div></td>
-        <td style="font-size:11px;"><div align="right">
-          <? if($devolucion>='1'){echo $devolucion;}else{echo "0";} ?> 
-        Bs.</div></td>
+        <!-- 
+        <td style="font-size:11px;">
+        	<div align="right">
+          		<? if($devolucion>='1'){echo $devolucion;}else{echo "0";} ?> Bs.
+          	</div>
+        </td>
+        -->
         <td style="font-size:10px;"><div align="right"><? if($premios>='1'){echo $premios;}else{echo "0";} ?> Bs.</div></td>
         <td style="font-size:10px;"><div align="right">
 
@@ -355,10 +351,6 @@ PARLAY</td>
 	  $totalPremios=$totalPremios+$premios;
 	  $totalSaldo=$totalSaldo+$saldo_total;
 	  $totalDevoluciones=$totalDevoluciones+$devolucion;	  
-	  
-
-	  
-	  
 	}while ($row=mysql_fetch_array($res));?>	
       <tr>
         <td>&nbsp;</td>
@@ -368,8 +360,13 @@ PARLAY</td>
         <td style="font-size:11px;"><div align="right"><strong><? echo number_format($totalVentas_derecho, 2, '.', '');?> Bs.</strong></div></td>
         <td style="font-size:11px;"><div align="right"></div></td>
         <td style="font-size:11px;"><div align="right"></div></td>
-        <td style="font-size:11px;"><div align="right">
-        <strong><span style="font-size:11px;"><? echo number_format($totalDevoluciones, 2, '.', '');?> Bs.</span></strong></div></td>
+        <!--
+        <td style="font-size:11px;">
+        	<div align="right">
+        		<strong><span style="font-size:11px;"><? echo number_format($totalDevoluciones, 2, '.', '');?> Bs.</span></strong>
+        	</div>
+        </td>
+        -->
         <td style="font-size:10px;"><div align="right">
         <strong><span style="font-size:11px;"><? echo number_format($totalPremios, 2, '.', '');?> Bs.</span></strong></div></td>
         <td style="font-size:10px;"><div align="right"></div></td>
