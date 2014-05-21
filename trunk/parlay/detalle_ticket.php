@@ -17,6 +17,8 @@ $multiplicandosPermitidos["30"] = "RL_ALT_JC_A";
 $multiplicandosPermitidos["31"] = "RL_ALT_JC_B";
 $multiplicandosPermitidos["32"] = "RL_ALT_MJ_A";
 $multiplicandosPermitidos["33"] = "RL_ALT_MJ_B";
+$multiplicandosPermitidos["34"] = "ALTAS_6TO_A";
+$multiplicandosPermitidos["35"] = "BAJAS_6TO_A";
 $multiplicandosPermitidos["39"] = "RL_ALT_BASKET_A";
 $multiplicandosPermitidos["40"] = "RL_ALT_BASKET_B";
 
@@ -79,6 +81,7 @@ $concat='';
 					<?Php $cont=0; $apuesta=0;
 					while($var_imp=mysql_fetch_assoc($query_imp)){
 						$recalculado=$var_imp['recalculado'];
+						$reembolsar=$var_imp['reembolsar'];
 						$mrecalculado=$var_imp['monto_real_pagar'];
 						if($cont==0){
 					?>
@@ -142,7 +145,7 @@ $concat='';
 												}
 												*/
 												$var_imp['multiplicando']=str_replace(".0","",$var_imp['multiplicando']);
-												
+												echo "<!-- ".$var_imp["idapuesta"]." -->";
 												echo (isset($multiplicandosPermitidos[$var_imp["idapuesta"]]) ? $var_imp['multiplicando'].' / ' : '').$var_imp['pago'];
 											?>
 	                      	    		</div>
@@ -187,7 +190,7 @@ $concat='';
                       <td bgcolor="#CCCCCC">:</td>
                       <td align="right" bgcolor="#CCCCCC"><strong><?Php echo number_format($acum,2);?></strong></td>
                     </tr>
-                    <?Php if($recalculado):?>
+                    <?Php if($recalculado || $reembolsar):?>
                     	<tr>
                       <td colspan="2"><strong>MONTO RECALCULADO</strong></td>
                       <td>:</td>
