@@ -1,0 +1,52 @@
+
+-- 
+-- Estructura para la vista `vista_operadores_taquillas`
+-- 
+DROP TABLE IF EXISTS `vista_operadores_taquillas`;
+
+CREATE VIEW `vista_operadores_taquillas` AS select  `operadores_taquillas`.`idoperador_taquilla` AS `idoperador_taquilla`, `operadores_taquillas`.`idoperador` AS `idoperador`, `operadores_taquillas`.`idtaquilla` AS `idtaquilla`, `operadores_taquillas`.`estatus` AS `estatus`, `operadores`.`cedula` AS `cedula`, `operadores`.`nombre` AS `nombre`, `operadores`.`telefono` AS `telefono`, `operadores`.`fecha_nacimiento` AS `fecha_nacimiento`, `operadores`.`sexo` AS `sexo`, `operadores`.`email` AS `email`, `operadores`.`direccion` AS `direccion`, `operadores`.`usuario` AS `usuario`, `operadores`.`clave` AS `clave`, `operadores`.`nivel` AS `nivel`, `taquillas`.`iddepartamento` AS `iddepartamento`, `taquillas`.`descripcion` AS `descripcion_taquilla`, `departamentos`.`descripcion` AS `descripcion_departamento` from ((( `operadores_taquillas` join  `operadores`) join  `taquillas`) join  `departamentos`) where (( `operadores_taquillas`.`idoperador` =  `operadores`.`idoperador`) and ( `operadores_taquillas`.`idtaquilla` =  `taquillas`.`idtaquilla`) and ( `taquillas`.`iddepartamento` =  `departamentos`.`iddepartamento`));
+
+-- --------------------------------------------------------
+
+-- 
+-- Estructura para la vista `vista_taquillas_operadores`
+-- 
+DROP TABLE IF EXISTS `vista_taquillas_operadores`;
+
+CREATE VIEW  `vista_taquillas_operadores` AS select  `taquillas`.`idtaquilla` AS `idtaquilla`, `taquillas`.`iddepartamento` AS `iddepartamento`, `taquillas`.`descripcion` AS `descripcion_taquilla`, `taquillas`.`estatus` AS `estatus`, `departamentos`.`descripcion` AS `descripcion_departamento`, `operadores_taquillas`.`idoperador_taquilla` AS `idoperador_taquilla`, `operadores`.`cedula` AS `cedula`, `operadores`.`nombre` AS `nombre`, `operadores`.`telefono` AS `telefono`, `operadores`.`fecha_nacimiento` AS `fecha_nacimiento`, `operadores`.`sexo` AS `sexo`, `operadores`.`email` AS `email`, `operadores`.`direccion` AS `direccion`, `operadores`.`usuario` AS `usuario`, `operadores`.`clave` AS `clave`, `operadores`.`nivel` AS `nivel`, `operadores_taquillas`.`idoperador` AS `idoperador` from ((( `taquillas` left join  `departamentos` on(( `taquillas`.`iddepartamento` =  `departamentos`.`iddepartamento`))) left join  `operadores_taquillas` on(( `taquillas`.`idtaquilla` =  `operadores_taquillas`.`idtaquilla`))) left join  `operadores` on(( `operadores_taquillas`.`idoperador` =  `operadores`.`idoperador`)));
+
+-- --------------------------------------------------------
+
+-- 
+-- Estructura para la vista `vista_tickets_departamentos`
+-- 
+DROP TABLE IF EXISTS `vista_tickets_departamentos`;
+
+CREATE VIEW  `vista_tickets_departamentos` AS select  `tickets_encabezados`.`idticket_encabezado` AS `idticket_encabezado`, `tickets_encabezados`.`iddepartamento` AS `iddepartamento`, `tickets_encabezados`.`numero_tickets` AS `numero_tickets`, `tickets_encabezados`.`fecha` AS `fecha`, `tickets_encabezados`.`estatus` AS `estatus`, `departamentos`.`descripcion` AS `descripcion_departamento` from ( `tickets_encabezados` join  `departamentos`) where ( `tickets_encabezados`.`iddepartamento` =  `departamentos`.`iddepartamento`);
+
+-- --------------------------------------------------------
+
+-- 
+-- Estructura para la vista `vista_tickets_detalles_departamentos`
+-- 
+DROP TABLE IF EXISTS `vista_tickets_detalles_departamentos`;
+
+CREATE VIEW  `vista_tickets_detalles_departamentos` AS select  `tickets_detalles`.`idticket_detalle` AS `idticket_detalle`, `tickets_detalles`.`idticket_encabezado` AS `idticket_encabezado`, `tickets_detalles`.`idoperador_taquilla` AS `idoperador_taquilla`, `tickets_detalles`.`hora` AS `hora`, `tickets_detalles`.`atendiendo` AS `atendiendo`, `tickets_detalles`.`atendido` AS `atendido`, `tickets_detalles`.`llamando` AS `llamando`, `tickets_detalles`.`anulado` AS `anulado`, `tickets_detalles`.`volver_llamar` AS `volver_llamar`, `tickets_detalles`.`estatus` AS `estatus`, `tickets_encabezados`.`iddepartamento` AS `iddepartamento`, `tickets_encabezados`.`fecha` AS `fecha`, `departamentos`.`descripcion` AS `descripcion_departamento`, `operadores_taquillas`.`idoperador` AS `idoperador`, `operadores_taquillas`.`idtaquilla` AS `idtaquilla`, `operadores`.`cedula` AS `cedula`, `operadores`.`nombre` AS `nombre`, `operadores`.`telefono` AS `telefono`, `operadores`.`fecha_nacimiento` AS `fecha_nacimiento`, `operadores`.`sexo` AS `sexo`, `operadores`.`email` AS `email`, `operadores`.`direccion` AS `direccion`, `operadores`.`usuario` AS `usuario`, `operadores`.`clave` AS `clave`, `operadores`.`nivel` AS `nivel`, `taquillas`.`descripcion` AS `descripcion_taquilla`, `tickets_detalles`.`hora_atendido` AS `hora_atendido`, `tickets_detalles`.`correlativo` AS `correlativo` from ((((( `tickets_detalles` left join  `tickets_encabezados` on(( `tickets_detalles`.`idticket_encabezado` =  `tickets_encabezados`.`idticket_encabezado`))) left join  `departamentos` on(( `tickets_encabezados`.`iddepartamento` =  `departamentos`.`iddepartamento`))) left join  `operadores_taquillas` on(( `tickets_detalles`.`idoperador_taquilla` =  `operadores_taquillas`.`idoperador_taquilla`))) left join  `operadores` on(( `operadores_taquillas`.`idoperador` =  `operadores`.`idoperador`))) left join  `taquillas` on(( `operadores_taquillas`.`idtaquilla` =  `taquillas`.`idtaquilla`)));
+
+-- --------------------------------------------------------
+
+-- 
+-- Estructura para la vista `vista_tips`
+-- 
+DROP TABLE IF EXISTS `vista_tips`;
+
+CREATE VIEW  `vista_tips` AS select  `tips`.`idtip` AS `idtip`, `tips`.`fecha` AS `fecha`, `tips`.`hora` AS `hora`, `tips`.`nota` AS `nota`, `tips`.`idusuario` AS `idusuario`, `tips`.`estatus` AS `estatus`, `usuarios`.`cedula` AS `cedula`, `usuarios`.`nombre` AS `nombre`, `usuarios`.`telefono` AS `telefono`, `usuarios`.`fecha_nacimiento` AS `fecha_nacimiento`, `usuarios`.`sexo` AS `sexo`, `usuarios`.`email` AS `email`, `usuarios`.`direccion` AS `direccion`, `usuarios`.`usuario` AS `usuario`, `usuarios`.`clave` AS `clave`, `usuarios`.`nivel` AS `nivel` from ( `tips` left join  `usuarios` on(( `tips`.`idusuario` =  `usuarios`.`idusuario`)));
+
+-- --------------------------------------------------------
+
+-- 
+-- Estructura para la vista `vista_videos`
+-- 
+DROP TABLE IF EXISTS `vista_videos`;
+
+CREATE VIEW  `vista_videos` AS select  `videos`.`idvideo` AS `idvideo`, `videos`.`fecha` AS `fecha`, `videos`.`hora` AS `hora`, `videos`.`descripcion` AS `descripcion`, `videos`.`idusuario` AS `idusuario`, `videos`.`estatus` AS `estatus`, `usuarios`.`cedula` AS `cedula`, `usuarios`.`nombre` AS `nombre`, `usuarios`.`telefono` AS `telefono`, `usuarios`.`fecha_nacimiento` AS `fecha_nacimiento`, `usuarios`.`sexo` AS `sexo`, `usuarios`.`email` AS `email`, `usuarios`.`direccion` AS `direccion`, `usuarios`.`usuario` AS `usuario`, `usuarios`.`nivel` AS `nivel`, `usuarios`.`clave` AS `clave`, `videos`.`duracion` AS `duracion` from ( `videos` left join  `usuarios` on(( `usuarios`.`idusuario` =  `usuarios`.`idusuario`)));
