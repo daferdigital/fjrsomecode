@@ -1,0 +1,243 @@
+@charset "utf-8";
+/* CSS Document */
+
+body{
+		margin:0 auto;
+		font-size:16px;
+		font-family:Arial, Helvetica, sans-serif;
+		color:#666666;
+		margin-top:5px;
+		
+	}
+
+/*PRESENTACION DE NUMEROS EN PANTALLA*/	
+
+.actual1 {
+	color: #000;
+	font-size:54px;
+	}
+	
+.etiqueta_num {/*NOMBRE DEL DEP. ATENDIDO*/
+	height:0px;
+	font-weight:bold;
+	color: #000;
+	font-size:41px;
+	}
+
+.num_actual {
+	font-weight:bold;
+	color:#F00;
+	font-size:48px;
+	}
+
+.etiqueta_siguiente {
+	font-weight:bold;
+	color:#F00;
+	font-size:16px;
+	padding-top:0px;
+	margin-top:0px;
+	}
+	
+.atendiendo {
+	font-size:40px;
+	font-weight:bold;
+	}
+
+/* FIN - PRESENTACION DE NUMEROS EN PANTALLA*/	
+
+
+a{
+	text-decoration:none;
+	font-weight:bold;
+	font-size:12px;
+	color:#003;
+}
+a:hover{
+	color: #900;
+}
+	#terminal{
+		position:relative; margin:0 auto; width: auto;
+	}
+	.todos_disponibles{
+		float:left; width:333px;
+		padding:8px;
+		height:60px;
+		/*margin-bottom:10px;*/
+		margin-top:5px;
+		position:relative;
+		/*border:#000 4px solid;*/
+		color: #FF0206;
+	}
+	#terminal div.taquilla_disp{
+		 background:#fff url(../imagenes/boton_taquilla.jpg) left top no-repeat;
+		
+	}
+	#terminal div.taquilla_disp_ov{
+		 background:#2A1C0F url(../imagenes/fondo_taquillas_ov.jpg) left top repeat-x;
+		
+	}
+	#terminal div.taquilla_disp_d{
+		 background:#172B0C url(../imagenes/fondo_taquillas_d.jpg) left top repeat-x;
+		
+	}
+	#terminal div.taquilla_disp:hover,#terminal div.taquilla_disp_ov:hover,#terminal div.taquilla_disp_d:hover{
+		background:#fff url(../imagenes/boton_taquilla_hover.jpg) left top no-repeat;
+	}
+	
+	.mleft{
+		margin-left:30px;
+	}
+	.advertencia{
+		background-color:#900;
+		color:#FFF;
+		font-weight:bold;
+		padding:4px;
+	}
+	.subtit{
+		font-weight:bold;
+		position:absolute;
+		top:45px;
+		left:22px;
+	}
+	.subtit_form{
+		font-weight:bold;
+		
+	}
+	.tam_tabla td{
+		font-size:12px;
+	}
+	.disponibilidad{
+	font-size:35px;
+	font-weight:bold;
+	font-style:italic;
+	text-align:right;
+	position:absolute;
+	bottom:-3px;
+	right:60px;
+	color: #FF0206;
+	}
+	.anumero{
+		font-size:40px;
+	}
+	.tit_disponibilidad{
+	font-weight:bold;
+	position:absolute;
+	bottom:35px;
+	right:60px;
+	color: #000;
+	}
+	
+	.flecha{		
+		position:absolute;
+		top:15px;
+		right:10px;
+		width:24px;
+		height:47px;
+		background:url(../imagenes/flecha.jpg) left top no-repeat;
+	}
+	.flecha_hover{		
+		position:absolute;
+		top:15px;
+		right:10px;
+		width:24px;
+		height:47px;
+		background:url(../imagenes/flecha_hover.jpg) left top no-repeat;
+	}
+	.imagen_disp{		
+		position:absolute;
+		top:0px;
+		right:0px;		
+	}
+	.imagen_disp img{
+		width:40px;			
+	}
+	.tit_filas{
+		padding:3px;
+		background:#003;
+		color:#CCC;
+		font-weight:bold;
+		text-align:center;
+	}
+	.tr{
+		padding:5px;
+		
+	}
+.tr:nth-child(odd){ background: #ebebeb;}
+.tr:nth-child(even){ background: #f4f4f4;}
+.tit_llamada{
+	background-color:#3E4095;
+	color:#FFF;
+	padding:3px;
+	margin-top:15px;
+	font-size:40px;
+	font-weight:bold;
+}
+
+.aviso_llamando{
+	font-size:42px;
+	color:#900;
+}
+
+#menu_admin{
+	padding:5px;
+	text-align:right;
+}
+#menu_admin a{
+	margin-left:5px;
+	padding:5px;
+	background-color:#033;
+	color:#FFF !important;
+	text-decoration:none;
+	font-weight:bold;
+}
+#menu_admin a:hover{
+	background-color:#000;;
+}
+#titulo{
+	font-size:20px;
+	text-decoration:underline;
+}
+.boton{
+	font-size:10px;
+	font-family:Verdana,Helvetica;
+	font-weight:bold;
+	color:white;
+	background:#003901;
+	border:0px;
+	width: auto;
+	padding:5px;
+	cursor:pointer;
+}
+.boton:hover{
+	background-color:#000;
+}
+
+table.listado{
+	font-size:11px;
+}
+.tit_campo{
+	font-size:11px;
+	font-weight:bold;
+}
+fieldset legend{
+	font-style:italic;
+	font-weight:bold;
+	color: #003;
+}
+fieldset, form input, form textarea, form select{
+	border:#ebebeb 2px solid;
+}
+
+label.error, label.error {
+	/* remove the next line when you have trouble in IE6 with labels in list */
+	padding-left:2px;
+	color: red;
+	font-style: italic;
+	font-size:10px;
+}
+#mensaje_eventos{
+	color:#fff;
+	font-weight:bold;
+	background-color:#900;
+	padding:3px;
+}

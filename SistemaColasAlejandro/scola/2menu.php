@@ -1,0 +1,1 @@
+<div id="menu_admin" style="margin-bottom:3px;"><a href="add_operadores.php">OPERADORES</a><a href="add_departamentos.php">DEPARTAMENTOS</a><a href="add_tips.php">TIPS</a><a href="add_ctickets.php">CANTIDAD TICKETS</a><a href="add_videos.php">VIDEOS</a> <!--<a href="add_taquillas.php">Taquillas</a><a href="add_ataquillas.php">Asignar taquillas</a>--></div>
