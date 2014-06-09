@@ -6,7 +6,7 @@
 -- Tiempo de generación: 07-05-2014 a las 21:58:10
 -- Versión del servidor: 5.0.51
 -- Versión de PHP: 5.2.6
-
+USE satrim;
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 -- 
@@ -45,7 +45,9 @@ CREATE TABLE `departamentos` (
   `descripcion` varchar(100) default NULL,
   `tickets_disponibles` int(4) NOT NULL,
   `estatus` int(1) default '1',
-  PRIMARY KEY  (`iddepartamento`)
+  iddpto_padre int,
+  PRIMARY KEY  (`iddepartamento`),
+  INDEX `FK_PARENT_DPTO` (iddpto_padre)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
 
 -- 
