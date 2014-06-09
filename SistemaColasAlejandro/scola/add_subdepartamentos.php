@@ -3,9 +3,23 @@
 		header("location: index.php");
 	}
 
+
 if($_GET["agregar"]=='1'){
-	$sql_insert=mysql_query("INSERT INTO departamentos (`descripcion`, tickets_disponibles, `iddpto_padre`) 
-														VALUES ('Nuevo', '0', '".$_GET["ido"]."')");
+	$sql_taquillas=mysql_query("SELECT * FROM taquillas where iddepartamento='".$_GET["ido"]."' ");
+	$valor_taquilla=mysql_num_rows($sql_taquillas);
+	$valor_taquilla_new=$valor_taquilla+1;
+		$sql_insert=mysql_query("INSERT INTO taquillas (`iddepartamento` , `descripcion` , `estatus`) 
+														VALUES ('".$_GET["ido"]."', '$valor_taquilla_new', '1')");
+				
+			$lee_reg=mysql_query("SELECT * FROM taquillas where iddepartamento='".$_GET["ido"]."' and descripcion='$valor_taquilla_new' ");
+				if ($row=mysql_fetch_array($lee_reg)) {
+					do { 
+					$idtaquilla1=$row["idtaquilla"];
+					$sql_insert=mysql_query("INSERT INTO operadores_taquillas (`idoperador` , `idtaquilla` , `estatus`) 
+												VALUES ('0', '$idtaquilla1', '1')");
+					} while ($row=mysql_fetch_array($lee_reg));
+				}
+
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -28,7 +42,7 @@ if($_GET["agregar"]=='1'){
 </style>
 <script>
 function verificar (){
-     if(confirm ('Esta seguro de querer agregar un nuevo Sub-departamento?')){
+     if(confirm ('Va Agregar una nueva Taquilla')){
          return true;
      }else{
          return false;
@@ -182,40 +196,39 @@ if(!$_GET['ido'] && !$_GET['new']){
                 </table>
             </fieldset>
             
-            <fieldset><legend>Datos de Sub-Departamentos</legend>
+            <fieldset><legend>Datos de taquillas</legend>
             	<?Php 
-					$query_taq=mysql_query("select *,if(estatus=1,'Activo','Inactivo') as des_estatus from departamentos where iddpto_padre='".$_GET['ido']."' order by iddepartamento");
+					$query_taq=mysql_query("select * from vista_taquillas_operadores where iddepartamento='".$_GET['ido']."' order by idtaquilla");
 					if(mysql_num_rows($query_taq)>0){
 						?><table width="100%" id="adicionales">
 							<tr class="tit_filas">
-							  <td>DESCRIPCI&Oacute;N</td>
-							  <td>ESTATUS</td>
-							  <td id="acciones_b" width="15%"></td>
-							</tr>
+							  <td>TAQUILLA</td><td>OPERADOR</td><td>SELECCIONAR OPERADOR</td></tr>
 						<?Php $cont=0;
 						while($var_taq=mysql_fetch_assoc($query_taq)){
 							?>
-                            	<tr>
-                            		<td>
-                            			<?Php echo $var_taq['descripcion'];?>
-                            		</td>
-                            		<td><?Php echo $vargeneral['des_estatus'];?></td>
-                            		<td id="acciones_b">
-								  		<a href="add_subdepartamentos.php?ido=<?Php echo $var_taq['iddepartamento'];?>">Edit</a> | 
-								  		<a href="javascript: if(confirm('Presione aceptar si desea desactivar este sub-departamento')){location.href='?desactivar=<?Php echo $var_taq['iddepartamento'];?>';}">Elim</a>
-							  		</td>
-							  	</tr>
+                            	<tr><td><input type="hidden" name="taquilla[<?Php echo $cont;?>]" value="<?Php echo $var_taq['idtaquilla'];?>" /><input type="text" name="desc_taq[<?Php echo $cont;?>]" value="<?Php echo $var_taq['descripcion_taquilla'];?>" /></td><td><?Php if($var_taq['nombre']){echo $var_taq['nombre'];?> <a href="javascript:if(confirm('Presione aceptar si desea desvincular este usuario de la taquilla')){location.href='?desv=<?php echo $var_taq['idtaquilla'];?>&ido=<?php echo $_GET['ido'];?>';}">quitar</a><?Php }?></td><td><?Php echo genera_select("select idoperador,nombre from operadores where idoperador not in(select idoperador from operadores_taquillas where estatus=1)",'name="operador['.$cont.']"  id="operador_'.$cont.'" onchange="javascript:comparar_seleccion(this.value,this.id,document.form1);"');?></td></tr>
                             <?Php
 							$cont++;
 						}
 						?></table><?Php
+					}else{
+						?><table width="80%" id="adicionales">
+							<tr class="tit_filas"><td>TAQUILLA</td><td>SELECCIONAR OPERADOR</td></tr>
+						<?Php
+						for($u=0;$u<5;$u++){
+						?>
+                        	<tr><td><input type="text" name="desc_taq[<?Php echo $u;?>]" value="<?Php echo (int)$u+1;?>" /></td><td><?Php echo genera_select("select idoperador,nombre from operadores where idoperador not in(select idoperador from operadores_taquillas where estatus=1)",'name="operador['.$u.']" id="operador_'.$u.'" onchange="javascript:comparar_seleccion(this.value,this.id,document.form1);"');?></td></tr>
+						<?Php
+						}
+						?></table><?Php
 					}
 				?>
+                
             </fieldset><br />
 
             <div>
                 	<table align="center"><tr><td colspan="2" align="center">
-                    <a onClick="return verificar();" href="?ido=<? echo $_GET["ido"];?>&agregar=1" class="boton" >AGREGAR SUB-DEPARTAMENTO</a>
+                    <a onClick="return verificar();" href="?ido=<? echo $_GET["ido"];?>&agregar=1" class="boton" >AGREGAR TAQUILLA</a>
                 	  &nbsp;
                 	  <input type="submit" class="boton" value="GUARDAR" />&nbsp;&nbsp;<input type="button" class="boton" value="LISTADO" onclick="javascript:location.href='add_departamentos.php';" /></td></tr>
                     <tr><td colspan="2" align=""><b>Nota: </b>todos los campos son obligatorios</td></tr></table>
