@@ -304,6 +304,7 @@ CREATE TABLE `usuarios` (
   `cedula` varchar(45) NOT NULL,
   `email` varchar(255) NOT NULL,
   `id_tipo_usuario` int(10) unsigned NOT NULL,
+  `activo` char(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `cedula_UNIQUE` (`cedula`),
   UNIQUE KEY `email_UNIQUE` (`email`),

@@ -211,3 +211,29 @@ border: 1px solid black;
 #tdElement p, #right p, #middle p {
     margin: 1px 1px;
 }
+
+.dptoTitle {
+    height: 50px;
+    margin-bottom: 10px;
+    line-height: 50px;
+}
+
+.dptoTitle > span, .dptoTitle > img {
+    display: inline-block;
+    width: 300px;
+    height: inherit;
+    margin-left: 15px;
+    line-height: inherit;
+    background-color: #00CC66;
+}
+
+.dptoTitle > img {
+    width: auto;
+    height: auto;
+    line-height: normal;
+    cursor: pointer;
+}
+
+.subDptosContainer > div{
+    display: inline-block;
+}
