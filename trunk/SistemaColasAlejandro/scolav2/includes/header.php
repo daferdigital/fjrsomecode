@@ -47,7 +47,7 @@
   				?>
   			</span>
   			<a href="doLogout.php" style="display: inline-block;" title="Cerrar sesion">
-  					<img border="0" src="images/logout.png"/>
+  					<img border="0" src="imagenes/logout.png"/>
   			</a>
   		</td>
   	</tr>

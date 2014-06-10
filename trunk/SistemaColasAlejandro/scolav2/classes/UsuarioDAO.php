@@ -35,8 +35,8 @@ class UsuarioDAO {
 						$login, 
 						$row["clave"],
 						$row["correo"], 
-						$row["tiempo_sesion"],
-						$row["active"],
+						isset($row["tiempo_sesion"]) ? $row["tiempo_sesion"] : 30,
+						$row["activo"],
 						$row["registros_por_pagina"]);
 				
 				$usuarioDTO->setTipoUsuario($row["id_tipo_usuario"]);

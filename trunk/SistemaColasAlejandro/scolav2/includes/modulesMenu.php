@@ -12,7 +12,15 @@
 ?>
 <div id="myjquerymenu" class="jquerycssmenu" style="height: 25px;">
 <ul>
-	
+	<?php
+		if(Constants::$TIPO_USUARIO_TERMINAL == $usuarioDTO->getTipoUsuario()){
+	?>
+			<li>
+				<a href="terminal.php">Mostrar Terminal</a>
+			</li>
+	<?php
+		}
+	?>
 </ul>
 <br style="clear: right;" />
 </div>
