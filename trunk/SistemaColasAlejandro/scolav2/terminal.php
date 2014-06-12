@@ -1,11 +1,17 @@
 <?Php 
 	include_once("includes/header.php");
 	include_once("classes/DBUtil.php");
-	$sql_dptos="select * from departamentos WHERE activo='1' ORDER BY LOWER(descripcion)";
+	$sql_dptos="select * from departamentos WHERE activo='1' ORDER BY LOWER(nombre)";
 	$departamentos = DBUtil::executeSelect($sql_dptos);
 		
 	if(count($departamentos) > 0){
 ?>
+		<script type="text/javascript">
+			$(document).ready(function() {
+		    	$(".btnPrint").printPage();
+		  	});
+		</script>
+		
 		<div id="terminal">
 		<?php 
 			foreach ($departamentos as $dpto){

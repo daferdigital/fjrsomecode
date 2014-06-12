@@ -21,6 +21,8 @@
 	<script type="text/javascript" src="js/jsDatePick.full.1.3.js"></script>
 	<script type="text/javascript" src="js/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="js/site.js"></script>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.printPage.js"></script>
 </head>
 <body>
 
