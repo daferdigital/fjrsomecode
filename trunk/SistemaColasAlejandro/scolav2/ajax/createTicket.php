@@ -34,13 +34,13 @@ if(isset($_GET["id"])){
 	$pdf->Ln(5);
 	$pdf->Cell(50, 10, "______________________________", 0, 0);
 	$pdf->Ln(5);
-	$pdf->Cell(50, 10, "departamento: ", 0, 0);
+	$pdf->Cell(50, 10, "Unidad: ", 0, 0);
 	$pdf->Ln(5);
 	$pdf->Cell(50, 10, "sub departamento: ", 0, 0);
 	$pdf->Ln(5);
 	$pdf->Cell(50, 10, "Hora de Llegada: ".$dateTime->format('g:i:s a'), 0, 0);
 	$pdf->Ln(5);
-	$pdf->Cell(50, 10, "Hora estimada de atención: ".$dateTime->format('g:i:s a'), 0, 0);
+	$pdf->Cell(50, 10, "Atención aproximada: ".$dateTime->format('g:i:s a'), 0, 0);
 	
 	$pdf->Output("../tickets/ticket".$idSubDpto."_".$tickets.".pdf", "F");
 }
