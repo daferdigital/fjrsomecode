@@ -595,25 +595,6 @@ function subDptoInfo(idDpto){
 	}
 }
 
-function subDptoInfo(idDpto){
-	var idElement = "detailDpto" + idDpto;
-	var divElementInfo = document.getElementById(idElement);
-	var imgArrowElement = document.getElementById("imgDpto" + idDpto);
-	
-	//verificamos la tarea a realizar
-	if(divElementInfo.innerHTML == ""){
-		//esta vacio el componente, debemos cargarlo con la info de los sub-dptos
-		imgArrowElement.src = "imagenes/arrowUp.png";
-		divElementInfo.innerHTML = "Informaci&oacute;n de los sub-departamentos: ";
-		divElementInfo.style.display = "";
-		refreshSubDptoInfo(idDpto);
-	} else {
-		divElementInfo.innerHTML = "";
-		divElementInfo.style.display = "none";
-		imgArrowElement.src = "imagenes/arrowDown.png";
-	}
-}
-
 function refreshSubDptoInfo(idDpto){
 	$.ajax({
 		url : 'ajax/disponibilidadSubDptos.php',

@@ -6,12 +6,6 @@
 		
 	if(count($departamentos) > 0){
 ?>
-		<script type="text/javascript">
-			$(document).ready(function() {
-		    	$(".btnPrint").printPage();
-		  	});
-		</script>
-		
 		<div id="terminal">
 		<?php 
 			foreach ($departamentos as $dpto){
