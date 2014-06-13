@@ -31,7 +31,7 @@ if(isset($_POST["id"])){
 					<?php
 						if($cupoActual  > 0){
 					?>
-						<span>
+						<span style="float: right;">
 							<a class="btnPrint" href="ajax/createTicket.php?id=<?php echo $subDpto["id"]?>">
 								<img alt="print" src="imagenes/printer32x32.png" style="display: inline-block; cursor: pointer; border:0px;"/>
 							</a>
