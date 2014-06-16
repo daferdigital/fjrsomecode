@@ -1,7 +1,7 @@
 <?php 
     session_start();
 
-    include 'webClientPrint/WebClientPrint.php';
+    include 'WebClientPrint.php';
 
     // Process request
     // Generate ClientPrintJob? only if clientPrint param is in the query string
@@ -18,9 +18,9 @@
             $printerName = urldecode($qs['printerName']);
 
             //the PDF file to be printed, supposed to be in files folder
-            $filePath = 'files/LoremIpsum.pdf';
+            $filePath = '../tickets/templateTicket.html';
             //create a temp file name for our PDF file...
-            $fileName = uniqid().'.pdf';
+            $fileName = uniqid().'.html';
             
             //Create a ClientPrintJob obj that will be processed at the client side by the WCPP
             $cpj = new ClientPrintJob();
@@ -101,10 +101,8 @@
     <?php
     //Specify the ABSOLUTE URL to the php file that will create the ClientPrintJob object
     //In this case, this same page
-    echo WebClientPrint::createScript(Utils::getRoot().'/PrintPdfSample/PrintPdf.php')
+    echo WebClientPrint::createScript(Utils::getRoot().'/scolav2/webClientPrint/printTicket.php')
     ?>
-       
-
 </body>
 </html>
 

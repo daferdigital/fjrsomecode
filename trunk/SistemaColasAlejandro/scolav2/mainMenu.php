@@ -1,6 +1,7 @@
 <?php 
-	include_once("includes/header.php");
 	include_once("classes/Constants.php");
+	include_once("includes/header.php");
+	include_once("classes/PageAccess.php");
 	
 	if(! PageAccess::userIsLogged()){
 		//intento de acceso sin login
@@ -33,7 +34,6 @@
 			unset($_SESSION[Constants::$KEY_MESSAGE_OPERATION]);
 		}
 	?>
-	
 	<br />
 	<br />
 </div>

@@ -30,7 +30,7 @@ class PageAccess {
 			//el tiempo esta almacenado en minutos, lo llevamos a segundos
 			$maxTime = $userDTO->getTiempoSesion() * 60;
 				
-			if((time() - $time0) > $maxTime) {
+			if($userDTO->getTiempoSesion() > 0 && ((time() - $time0) > $maxTime)) {
 				//tengo inactivo mas tiempo del permitido, limpio la sesion
 				session_unset();
 				$_SESSION[Constants::$KEY_MESSAGE_ERROR] = Constants::$TEXT_SESSION_EXPIRED;
