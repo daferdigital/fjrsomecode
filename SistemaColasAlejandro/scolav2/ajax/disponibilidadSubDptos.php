@@ -26,16 +26,18 @@ if(isset($_POST["id"])){
 						<?php 
 							$cupoActual = $subDpto["cupo_maximo"] - $subDpto["ticketsRegistrados"];
 						?>
-						Disponibilidad: <?php echo $cupoActual < 1 ? "Agotado" : $cupoActual;?>
+						Disponibilidad: <b><?php echo $cupoActual < 1 ? "Agotado" : $cupoActual;?></b>
 					</span>
 					<?php
 						if($cupoActual  > 0){
 					?>
-						<span style="float: right;">
-							<a class="btnPrint" href="ajax/createTicket.php?id=<?php echo $subDpto["id"]?>">
-								<img alt="print" src="imagenes/printer32x32.png" style="display: inline-block; cursor: pointer; border:0px;"/>
-							</a>
-						</span>
+						<br />
+						<a style="margin-left: auto; margin-right: auto;" class="btnPrint" href="javascript:printTicket('<?php echo $_POST["id"]?>','<?php echo $subDpto["id"]?>', false)">
+							<img alt="print" src="imagenes/printer32x32.png" style="display: inline-block; cursor: pointer; border:0px;"/>
+						</a>
+						<a style="margin-left: auto; margin-right: auto;" class="btnPrint" href="javascript:printTicket('<?php echo $_POST["id"]?>','<?php echo $subDpto["id"]?>', true)">
+							<img alt="print" src="imagenes/emergencia32x32.png" style="display: inline-block; cursor: pointer; border:0px;"/>
+						</a>
 					<?php
 						}
 					?>

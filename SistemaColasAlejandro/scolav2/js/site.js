@@ -1,10 +1,15 @@
 //Actualizado al 19 de Agosto de 2013
-
 var ajaxImageName = "ajax.gif";
 
 String.prototype.trim=function(){
 	return this.replace(/^\s+|\s+$/g, '');
 };
+
+String.prototype.endsWith = function(sufijo){
+	var lastIndex = this.lastIndexOf(sufijo);
+	return (lastIndex != -1) && (lastIndex + sufijo.length == this.length);
+}
+
 
 /**
  * 
@@ -582,14 +587,14 @@ function subDptoInfo(idDpto){
 	var imgArrowElement = document.getElementById("imgDpto" + idDpto);
 	
 	//verificamos la tarea a realizar
-	if(divElementInfo.innerHTML == ""){
-		//esta vacio el componente, debemos cargarlo con la info de los sub-dptos
+	if(imgArrowElement.src.endsWith("imagenes/arrowDown.png")){
+		//debemos cargarlo con la info de los sub-dptos y mostrarlos
 		imgArrowElement.src = "imagenes/arrowUp.png";
-		divElementInfo.innerHTML = "Informaci&oacute;n de los sub-departamentos: ";
+		//divElementInfo.innerHTML = "Informaci&oacute;n de los sub-departamentos: ";
+		divElementInfo.innerHTML="<img src=\"imagenes/" + ajaxImageName + "\"/>";
 		divElementInfo.style.display = "";
-		refreshSubDptoInfo(idDpto);
 	} else {
-		divElementInfo.innerHTML = "";
+		//divElementInfo.innerHTML = "";
 		divElementInfo.style.display = "none";
 		imgArrowElement.src = "imagenes/arrowDown.png";
 	}
@@ -604,7 +609,7 @@ function refreshSubDptoInfo(idDpto){
 		success : function(response) {
 			if(response){
 				$('#detailDpto'+idDpto).html(response);
-				$('#detailDpto'+idDpto).show();
+				//$('#detailDpto'+idDpto).show();
 			  }
 		},
 		error : function(xhr, status) {
@@ -613,6 +618,53 @@ function refreshSubDptoInfo(idDpto){
 			$('#detailDpto'+idDpto).html("");
 		}
 	});
+}
+
+/**
+ * 
+ * @param idDpto
+ * @param idSubDpto
+ */
+function printTicket(idDpto, idSubDpto){
+	//invocamos via ajax el proceso de generar el ticket
+	var ticketHTML = null;
+	
+	$.ajax({
+		url : 'ajax/createTicket.php',
+		data : {id : idSubDpto},
+		type : 'POST',
+		async : false,
+		dataType : 'html',
+		success : function(response) {
+			if(response){
+				ticketHTML = response;
+			}
+		},
+		error : function(xhr, status) {
+			alert('Disculpe, No pudo realizarse el proceso de impresión');
+		}
+	});
+	
+	if(ticketHTML != null && ticketHTML.trim() != ""){
+		//el ticket fue generado, debemos disparar la impresion del mismo
+		//debido a que el ticket
+		//$("#pivoteImpresion").attr("src", "tickets/ticket_" + idTicket + ".html");
+		refreshSubDptoInfo(idDpto);
+		
+		$("#pivoteImpresion").contents().find('body').html("");
+		$("#pivoteImpresion").contents().find('body').append(ticketHTML);
+		$("#pivoteImpresion").get(0).contentWindow.print();
+		
+		/*
+		var iFrame = document.getElementById("pivoteImpresion");
+		iFrame.focus();// focus on contentWindow is needed on some ie versions
+		iFrame.style.display = "";
+		iFrame.contentWindow.print();
+		iFrame.style.display = "none";
+		*/
+	} else {
+		alert("Disculpe no pudo ser generado el ticket");
+	}
 }
 
 function imprime_ticket(ido){

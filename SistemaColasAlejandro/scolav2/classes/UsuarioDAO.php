@@ -35,13 +35,15 @@ class UsuarioDAO {
 						$login, 
 						$row["clave"],
 						$row["correo"], 
-						isset($row["tiempo_sesion"]) ? $row["tiempo_sesion"] : 30,
+						isset($row["tiempo_sesion"]) ? $row["tiempo_sesion"] : 0,
 						$row["activo"],
 						$row["registros_por_pagina"]);
 				
 				$usuarioDTO->setTipoUsuario($row["id_tipo_usuario"]);
+				/*
 				$moduloDAO = new ModuloDAO();
 				$usuarioDTO->setModulesAllowed($moduloDAO->getModulosXUser($row["id"]));
+				*/
 			}
 		} catch (Exception $e) {
 			die("Error verificando login");

@@ -8,7 +8,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 	<META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE" />
-	<title>.:: SATRIM ::.</title>
+	<title>.:: Maternidad la Floresta ::.</title>
 	
 	<link rel="stylesheet" type="text/css" href="css/site.css" />
 	<link rel="stylesheet" type="text/css" href="css/jquerycssmenu.css" />
@@ -21,8 +21,6 @@
 	<script type="text/javascript" src="js/jsDatePick.full.1.3.js"></script>
 	<script type="text/javascript" src="js/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="js/site.js"></script>
-	<script type="text/javascript" src="js/jquery.min.js"></script>
-    <script type="text/javascript" src="js/jquery.printPage.js"></script>
 </head>
 <body>
 

@@ -216,9 +216,10 @@ border: 1px solid black;
     height: 50px;
     margin-bottom: 10px;
     line-height: 50px;
+    display: inline-block;
 }
 
-.dptoTitle > span, .dptoTitle > img {
+.dptoTitle > span, .dptoTitle span > img {
     display: inline-block;
     width: 300px;
     height: inherit;
@@ -227,13 +228,18 @@ border: 1px solid black;
     background-color: #00CC66;
 }
 
-.dptoTitle > img {
+.dptoTitle span > img {
     width: auto;
     height: auto;
     line-height: normal;
     cursor: pointer;
+    margin-left: 30%;
 }
 
 .subDptosContainer > div{
     display: inline-block;
+}
+
+.subDptoDiv {
+    line-height: normal;	
 }

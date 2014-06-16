@@ -14,7 +14,7 @@ WebClientPrint::$licenseKey = '';
 WebClientPrint::$webClientPrintAbsoluteUrl = Utils::getRoot().'/scolav2/webClientPrint/WebClientPrint.php';
 //Set wcpcache folder RELATIVE to WebClientPrint.php file
 //FILE WRITE permission on this folder is required!!!
-WebClientPrint::$wcpCacheFolder = '../tickets/';
+WebClientPrint::$wcpCacheFolder = '../wpcache';
 //===================
 
 // Clean built-in Cache

@@ -1,4 +1,5 @@
 <?php
+include_once("../classes/Constants.php");
 include_once("../classes/BitacoraDAO.php");
 include_once("../classes/UsuarioDAO.php");
 include_once("../classes/UsuarioDTO.php");
@@ -20,7 +21,14 @@ if($usuarioDTO != null){
 		$_SESSION[Constants::$KEY_USUARIO_DTO] = $usuarioDTO;
 		
 		BitacoraDAO::registrarComentario("Ejecucion de login exitoso en el sistema para el usuario [".$usuarioDTO->getLogin()."]");
-		header("location: ../mainMenu.php");
+		//vemos si el usuario es del tipo terminal para enviarlo directo a esa pagina
+		if(Constants::$TIPO_USUARIO_OPERADOR == $usuarioDTO->getTipoUsuario()){
+			header("Location: ../operador.php", true);
+		} elseif(Constants::$TIPO_USUARIO_TERMINAL == $usuarioDTO->getTipoUsuario()){
+			header("Location: ../terminal.php", true);
+		} else {
+			header("Location: ../mainMenu.php");
+		}
 	}
 }else {
 	$_SESSION[Constants::$KEY_MESSAGE_ERROR] = "Credenciales inv&aacute;lidas, favor intente de nuevo";
