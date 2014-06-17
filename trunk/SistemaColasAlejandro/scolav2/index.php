@@ -34,7 +34,7 @@
 							}
 						?>
 					</div>
-					</td>
+				</td>
 			</tr>
 			<tr>
 				<td colspan="2" align="center" class="estilo2" bgcolor="#00CC88">

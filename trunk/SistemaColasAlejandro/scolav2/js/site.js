@@ -655,7 +655,7 @@ function printTicket(idDpto, idSubDpto){
 		$("#pivoteImpresion").load(function() {
 			var iFrame = document.getElementById("pivoteImpresion");
 			iFrame.focus();// focus on contentWindow is needed on some ie versions
-			iFrame.contentWindow.print();
+			//iFrame.contentWindow.print();
 		});
 		
 		/*

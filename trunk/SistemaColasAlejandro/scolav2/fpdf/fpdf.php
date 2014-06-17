@@ -1733,6 +1733,8 @@ function _putcatalog()
 {
 	$this->_out('/Type /Catalog');
 	$this->_out('/Pages 1 0 R');
+	//evitar el marcado por defecto de la opcion "fit to page" al imprimir
+	$this->_out("/ViewerPreferences << /PrintScaling /None >>");
 	if($this->ZoomMode=='fullpage')
 		$this->_out('/OpenAction [3 0 R /Fit]');
 	elseif($this->ZoomMode=='fullwidth')
