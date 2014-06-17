@@ -21,7 +21,7 @@
 			
 			<div class="subDptoDiv" id="detailDpto<?php echo $dpto["id"];?>" style="display: none;"></div>
 			<script type="text/javascript">
-				setInterval(function(){refreshSubDptoInfo('<?php echo $dpto["id"];?>')}, 10000);
+				setInterval(function(){refreshSubDptoInfo('<?php echo $dpto["id"];?>')}, 1000);
 			</script>
 		<?php
 				$cuenta++;
@@ -32,7 +32,7 @@
 		?>
 		</div>
 		<div>
-			<iframe id="pivoteImpresion" width="220px" height="170px" src="" style="display: none;">
+			<iframe id="pivoteImpresion" src="" style="display: none;">
 			</iframe>
 		</div>
 	<?php

@@ -648,13 +648,21 @@ function printTicket(idDpto, idSubDpto){
 	if(ticketHTML != null && ticketHTML.trim() != ""){
 		//el ticket fue generado, debemos disparar la impresion del mismo
 		//debido a que el ticket
-		//$("#pivoteImpresion").attr("src", "tickets/ticket_" + idTicket + ".html");
+		//$("#pivoteImpresion").attr("src", "tickets/ticket_" + ticketHTML + ".pdf");
+		$("#pivoteImpresion").attr("src", "ajax/showTicket.php?id=" + ticketHTML);
 		refreshSubDptoInfo(idDpto);
 		
+		$("#pivoteImpresion").load(function() {
+			var iFrame = document.getElementById("pivoteImpresion");
+			iFrame.focus();// focus on contentWindow is needed on some ie versions
+			iFrame.contentWindow.print();
+		});
+		
+		/*
 		$("#pivoteImpresion").contents().find('body').html("");
 		$("#pivoteImpresion").contents().find('body').append(ticketHTML);
 		$("#pivoteImpresion").get(0).contentWindow.print();
-		
+		*/
 		/*
 		var iFrame = document.getElementById("pivoteImpresion");
 		iFrame.focus();// focus on contentWindow is needed on some ie versions

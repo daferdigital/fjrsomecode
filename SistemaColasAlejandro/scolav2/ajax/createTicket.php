@@ -1,6 +1,7 @@
 <?php
 if(isset($_POST["id"])){
 	include_once '../classes/DBUtil.php';
+	include_once '../fpdf/fpdf.php';
 	
 	$idSubDpto = $_POST["id"];
 	$timeZone = "America/Caracas";  // timezone VZLA
@@ -85,7 +86,33 @@ if(isset($_POST["id"])){
 	$ticketHTML = str_replace("{4}", date("g:i a", $fechaAtencion), $ticketHTML);
 	
 	file_put_contents("../tickets/ticket_".$idTicket.".html", $ticketHTML);
+	//echo $ticketHTML;
 	
-	echo $ticketHTML;
+	$pdf = new FPDF('P', 'mm', array(55, 80));
+	$pdf->SetMargins(0.5, 1, 0.5);
+	$pdf->AddPage();
+	
+	//imagen de cabecera
+	$pdf->Image('../imagenes/logoImpresion.jpg', 10);
+	$pdf->Ln();
+	
+	$pdf->SetFont('Arial','', 20);
+	$pdf->Cell(50, 10, $tickets, 0, 0, "C");
+	$pdf->Ln(5);
+	$pdf->SetFont('Arial','',10);
+	$pdf->Cell(50, 10, "Número de atención", 0, 0, "C");
+	$pdf->Ln(3);
+	$pdf->Cell(50, 10, "___________________________", 0, 0);
+	$pdf->Ln(5);
+	$pdf->Cell(50, 10, "Unidad: ".$datos["nombreDpto"], 0, 0);
+	$pdf->Ln(5);
+	$pdf->Cell(50, 10, $datos["nombreSubDpto"], 0, 0);
+	$pdf->Ln(5);
+	$pdf->Cell(50, 10, "Hora de Llegada: ".$dateTime->format('g:i a'), 0, 0);
+	$pdf->Ln(5);
+	$pdf->Cell(50, 10, "Atención aproximada: ".date("g:i a", $fechaAtencion), 0, 0);
+	
+	$pdf->Output("../tickets/ticket_".$idTicket.".pdf", "F");
+	echo $idTicket;
 }
 ?>
