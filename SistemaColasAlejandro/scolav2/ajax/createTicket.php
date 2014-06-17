@@ -2,6 +2,7 @@
 if(isset($_POST["id"])){
 	include_once '../classes/DBUtil.php';
 	include_once '../fpdf/fpdf.php';
+	include_once '../fpdf/PDFAutoPrint.php';
 	
 	$idSubDpto = $_POST["id"];
 	$timeZone = "America/Caracas";  // timezone VZLA
@@ -88,8 +89,8 @@ if(isset($_POST["id"])){
 	file_put_contents("../tickets/ticket_".$idTicket.".html", $ticketHTML);
 	//echo $ticketHTML;
 	
-	$pdf = new FPDF('P', 'mm', array(55, 80));
-	$pdf->SetMargins(0.5, 1, 0.5);
+	$pdf = new PDFAutoPrint('P', 'mm', array(55, 80));
+	$pdf->SetMargins(0.2, 0.5, 0.5);
 	$pdf->AddPage();
 	
 	//imagen de cabecera
@@ -111,6 +112,9 @@ if(isset($_POST["id"])){
 	$pdf->Cell(50, 10, "Hora de Llegada: ".$dateTime->format('g:i a'), 0, 0);
 	$pdf->Ln(5);
 	$pdf->Cell(50, 10, "Atención aproximada: ".date("g:i a", $fechaAtencion), 0, 0);
+	
+	//marcamos el pdf para que al descargarse y mostrarse vaya directo a la impresora por defecto
+	$pdf->AutoPrint(false);
 	
 	$pdf->Output("../tickets/ticket_".$idTicket.".pdf", "F");
 	echo $idTicket;
