@@ -37,7 +37,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td colspan="2" align="center" class="estilo2" bgcolor="#00CC88">
+				<td colspan="2" align="center" class="estilo2" bgcolor="#0066CC">
 					Maternidad la Floresta
 				</td>
 			</tr>
