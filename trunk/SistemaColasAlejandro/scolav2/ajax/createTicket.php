@@ -5,6 +5,8 @@ if(isset($_POST["id"])){
 	include_once '../fpdf/PDFAutoPrint.php';
 	
 	$idSubDpto = $_POST["id"];
+	$emergencia = $_POST["emergencia"];
+	$prioridad = $emergencia ? 100 : 10;
 	$timeZone = "America/Caracas";  // timezone VZLA
 	$dateSrc = date("Y-m-d H:i:s e");
 	$dateTime = new DateTime($dateSrc);
@@ -12,11 +14,12 @@ if(isset($_POST["id"])){
 	$now = $dateTime->format("Y-m-d H:i:s");
 	
 	//inserto el ticket
-	$query =  "INSERT INTO ticket (numero, fecha_creacion, fecha_estimada_atencion, estado, id_sub_departamento) VALUES (";
+	$query =  "INSERT INTO ticket (numero, fecha_creacion, fecha_estimada_atencion, estado, prioridad, id_sub_departamento) VALUES (";
 	$query .= " 0,";
 	$query .= " '".$now."',";
 	$query .= " '".$now."',";
-	$query .= " 4,";
+	$query .= " 4, ";
+	$query .= $prioridad.", ";
 	$query .= $idSubDpto.")";
 	
 	$idTicket = DBUtil::executeQueryAndReturnLastId($query);
