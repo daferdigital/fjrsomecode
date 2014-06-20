@@ -10,6 +10,20 @@ String.prototype.endsWith = function(sufijo){
 	return (lastIndex != -1) && (lastIndex + sufijo.length == this.length);
 }
 
+/**
+ * 
+ * @param mail
+ * @returns {Boolean}
+ */
+function isAValidMail(mail){
+	var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	
+	if(! re.test(mail.trim())){
+		return false;
+	}
+	
+	return true;
+}
 
 /**
  * 
@@ -177,16 +191,19 @@ function callAjax(url, parameters, idAnswerContainer, urlToRefresh){
 function guardarUsuario(newUserForm){
 	var nombre = newUserForm.nombre.value.trim();
 	var apellido = newUserForm.apellido.value.trim();
+	var cedula = newUserForm.cedula.value.trim();
 	var correo = newUserForm.correo.value.trim();
 	var login = newUserForm.login.value.trim();
 	var clave = newUserForm.clave.value.trim();
-	
+	var tipoUsuario = newUserForm.tipoUsuario.value.trim();
 	
 	document.getElementById("formNombre").style.display = "none";
 	document.getElementById("formApellido").style.display = "none";
 	document.getElementById("formCorreo").style.display = "none";
+	document.getElementById("formCedula").style.display = "none";
 	document.getElementById("formLogin").style.display = "none";
 	document.getElementById("formClave").style.display = "none";
+	document.getElementById("formTipoUsuario").style.display = "none";
 	
 	var doSubmit = true;
 	if(nombre == ""){
@@ -197,9 +214,13 @@ function guardarUsuario(newUserForm){
 		doSubmit = false;
 		document.getElementById("formApellido").style.display = "inline";
 	}
-	if(correo == ""){
+	if(! isAValidMail(correo)){
 		doSubmit = false;
 		document.getElementById("formCorreo").style.display = "inline";
+	}
+	if(cedula == ""){
+		doSubmit = false;
+		document.getElementById("formCedula").style.display = "inline";
 	}
 	if(login == ""){
 		doSubmit = false;
@@ -208,6 +229,10 @@ function guardarUsuario(newUserForm){
 	if(clave == ""){
 		doSubmit = false;
 		document.getElementById("formClave").style.display = "inline";
+	}
+	if(tipoUsuario == "0"){
+		doSubmit = false;
+		document.getElementById("formTipoUsuario").style.display = "inline";
 	}
 	
 	if (doSubmit) {
@@ -256,36 +281,28 @@ function modificarUsuario(updateUserForm){
 }
 
 /**
- * Validamos el formulario de perfil y en caso de ser valido, enviamos el formulario
- * @param perfilForm
+ * 
+ * @param newUnitForm
  */
-function guardarPerfil(perfilForm){
-	var nombre = perfilForm.nombre.value.trim();
-	var apellido = perfilForm.apellido.value.trim();
-	var correo = perfilForm.correo.value.trim();
-	
-	//ajustamos el valor de la clave
-	perfilForm.clave.value = perfilForm.clave.value.trim();
+function guardarUnidad(newUnitForm){
+	var nombre = newUnitForm.nombre.value.trim();
+	var descripcion = newUnitForm.descripcion.value.trim();
 	
 	document.getElementById("formNombre").style.display = "none";
-	document.getElementById("formApellido").style.display = "none";
-	document.getElementById("formCorreo").style.display = "none";
+	document.getElementById("formDescripcion").style.display = "none";
 	
 	var doSubmit = true;
 	if(nombre == ""){
 		doSubmit = false;
 		document.getElementById("formNombre").style.display = "inline";
 	}
-	if(apellido == ""){
+	if(descripcion == ""){
 		doSubmit = false;
-		document.getElementById("formApellido").style.display = "inline";
+		document.getElementById("formDescripcion").style.display = "inline";
 	}
-	if(correo == ""){
-		doSubmit = false;
-		document.getElementById("formCorreo").style.display = "inline";
-	}
+	
 	if (doSubmit) {
-		perfilForm.submit();
+		newUnitForm.submit();
 	}
 }
 
@@ -625,54 +642,54 @@ function refreshSubDptoInfo(idDpto){
  * @param idDpto
  * @param idSubDpto
  */
-function printTicket(idDpto, idSubDpto){
+function printTicket(idDpto, idSubDpto, isEmergency){
 	//invocamos via ajax el proceso de generar el ticket
 	var ticketHTML = null;
 	
 	$.ajax({
 		url : 'ajax/createTicket.php',
-		data : {id : idSubDpto},
+		data : {id : idSubDpto, emergencia : isEmergency},
 		type : 'POST',
-		async : false,
+		//async : false,
 		dataType : 'html',
 		success : function(response) {
 			if(response){
 				ticketHTML = response;
+				
+				if(ticketHTML != null && ticketHTML.trim() != ""){
+					//el ticket fue generado, debemos disparar la impresion del mismo
+					//debido a que el ticket
+					//$("#pivoteImpresion").attr("src", "tickets/ticket_" + ticketHTML + ".pdf");
+					$("#pivoteImpresion").attr("src", "ajax/showTicket.php?id=" + ticketHTML);
+					refreshSubDptoInfo(idDpto);
+					
+					$("#pivoteImpresion").load(function() {
+						var iFrame = document.getElementById("pivoteImpresion");
+						iFrame.focus();// focus on contentWindow is needed on some ie versions
+						//iFrame.contentWindow.print();
+					});
+					
+					/*
+					$("#pivoteImpresion").contents().find('body').html("");
+					$("#pivoteImpresion").contents().find('body').append(ticketHTML);
+					$("#pivoteImpresion").get(0).contentWindow.print();
+					*/
+					/*
+					var iFrame = document.getElementById("pivoteImpresion");
+					iFrame.focus();// focus on contentWindow is needed on some ie versions
+					iFrame.style.display = "";
+					iFrame.contentWindow.print();
+					iFrame.style.display = "none";
+					*/
+				} else {
+					alert("Disculpe no pudo ser generado el ticket");
+				}
 			}
 		},
 		error : function(xhr, status) {
 			alert('Disculpe, No pudo realizarse el proceso de impresión');
 		}
 	});
-	
-	if(ticketHTML != null && ticketHTML.trim() != ""){
-		//el ticket fue generado, debemos disparar la impresion del mismo
-		//debido a que el ticket
-		//$("#pivoteImpresion").attr("src", "tickets/ticket_" + ticketHTML + ".pdf");
-		$("#pivoteImpresion").attr("src", "ajax/showTicket.php?id=" + ticketHTML);
-		refreshSubDptoInfo(idDpto);
-		
-		$("#pivoteImpresion").load(function() {
-			var iFrame = document.getElementById("pivoteImpresion");
-			iFrame.focus();// focus on contentWindow is needed on some ie versions
-			//iFrame.contentWindow.print();
-		});
-		
-		/*
-		$("#pivoteImpresion").contents().find('body').html("");
-		$("#pivoteImpresion").contents().find('body').append(ticketHTML);
-		$("#pivoteImpresion").get(0).contentWindow.print();
-		*/
-		/*
-		var iFrame = document.getElementById("pivoteImpresion");
-		iFrame.focus();// focus on contentWindow is needed on some ie versions
-		iFrame.style.display = "";
-		iFrame.contentWindow.print();
-		iFrame.style.display = "none";
-		*/
-	} else {
-		alert("Disculpe no pudo ser generado el ticket");
-	}
 }
 
 function imprime_ticket(ido){

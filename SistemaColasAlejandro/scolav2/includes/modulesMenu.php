@@ -34,7 +34,7 @@
 		if(Constants::$TIPO_USUARIO_ADMIN == $usuarioDTO->getTipoUsuario()){
 	?>
 			<li>
-				<a href="adminOperadores.php">Usuarios</a>
+				<a href="adminUsuarios.php">Usuarios</a>
 			</li>
 			<li>
 				<a href="adminUnidades.php">Unidades</a>
