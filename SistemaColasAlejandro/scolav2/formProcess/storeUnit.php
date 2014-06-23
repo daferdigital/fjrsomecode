@@ -17,5 +17,5 @@
 		$_SESSION[Constants::$KEY_MESSAGE_OPERATION] = "Ocurrio un error en la ejecuci&oacute;n de su solicitud.";
 	}
 	
-	header("Location: ../adminUnidades.php")
+	header("Location: ../createUnidades.php")
 ?>

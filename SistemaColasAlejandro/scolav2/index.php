@@ -1,13 +1,11 @@
 <?php 
 	include_once("includes/header.php");
-	include_once("classes/PageAccess.php");
 	
 	//si el usuario esta logueado, lo llevo a la pagina despues del login
 	if(PageAccess::userIsLogged()){
-		header("Location: mainMenu.php");
+		//header("Location: mainMenu.php", true);
 	}
 ?>
-
 <!-- index.php -->
 	<form action="formProcess/doLogin.php" method="post">
 		<table class="loginTable">
