@@ -34,16 +34,48 @@
 		if(Constants::$TIPO_USUARIO_ADMIN == $usuarioDTO->getTipoUsuario()){
 	?>
 			<li>
-				<a href="adminUsuarios.php">Usuarios</a>
+				<a href="#">Usuarios</a>
+				<ul>
+					<li>
+						<a href="createUsuarios.php">Crear Usuarios</a>
+					</li>
+					<li>
+						<a href="adminUsuarios.php">Actualizar Usuarios</a>
+					</li>
+				</ul>
 			</li>
 			<li>
-				<a href="adminUnidades.php">Unidades</a>
+				<a href="#">Unidades</a>
+				<ul>
+					<li>
+						<a href="createUnidades.php">Crear Unidades</a>
+					</li>
+					<li>
+						<a href="adminUnidades.php">Actualizar Unidades</a>
+					</li>
+				</ul>
 			</li>
 			<li>
-				<a href="adminSubUnidades.php">Sub Unidades</a>
+				<a href="#">Sub Unidades</a>
+				<ul>
+					<li>
+						<a href="createSubUnidades.php">Crear Sub-Unidades</a>
+					</li>
+					<li>
+						<a href="adminSubUnidades.php">Actualizar Sub-Unidades</a>
+					</li>
+				</ul>
 			</li>
 			<li>
-				<a href="adminTaquillas.php">Taquillas</a>
+				<a href="#">Taquillas</a>
+				<ul>
+					<li>
+						<a href="createTaquillas.php">Crear Taquillas</a>
+					</li>
+					<li>
+						<a href="adminTaquillas.php">Actualizar Taquillas</a>
+					</li>
+				</ul>
 			</li>
 			<li>
 				<a href="tips.php">Tips</a>

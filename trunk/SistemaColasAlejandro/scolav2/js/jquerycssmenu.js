@@ -6,8 +6,8 @@
 
 //Specify full URL to down and right arrow images (25 is padding-right to add to top level LIs with drop downs):
 var arrowimages={
-		down:['downarrowclass', 'images/arrow-down.gif', 25], 
-		right:['rightarrowclass', 'images/arrow-right.gif']};
+		down:['downarrowclass', 'imagenes/arrow-down.gif', 25], 
+		right:['rightarrowclass', 'imagenes/arrow-right.gif']};
 
 var jquerycssmenu={
 
