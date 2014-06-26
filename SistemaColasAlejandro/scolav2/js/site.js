@@ -514,3 +514,26 @@ function imprime_ticket(ido){
 		jQuery('#f_'+jQuery(this).attr('id')).removeClass('flecha_hover');
 		jQuery('#f_'+jQuery(this).attr('id')).addClass('flecha');
 	});
+	
+/**
+ * Funcion para realizar la busqueda de usuarios segun criterios
+ * via ajax.
+ * 
+ * @param pageNumber
+ */
+function searchUsuariosAjax(pageNumber){
+	//para permitir la busqueda, debe estar seleccionado al menos un criterio
+		
+	var parameters = "pageNumber="+pageNumber;
+	parameters += "&scriptFunction=searchUsuariosAjax";
+	//indicamos los parametros
+	parameters += "&tipoUsuario=" + document.getElementById("tipoUsuario").value;
+	parameters += "&nombre=" + document.getElementById("nombre").value;
+	parameters += "&apellido=" + document.getElementById("apellido").value;
+	parameters += "&ci=" + document.getElementById("ci").value;
+	
+	callAjax("ajax/getUsuariosListPage.php",
+			parameters,
+			"ajaxPageResult",
+			null);
+}
