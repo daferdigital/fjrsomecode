@@ -108,7 +108,7 @@ if(isset($_POST["id"])){
 	$pdf->Ln(3);
 	$pdf->Cell(50, 10, "___________________________", 0, 0);
 	$pdf->Ln(5);
-	$pdf->Cell(50, 10, "Unidad: ".$datos["nombreDpto"], 0, 0);
+	$pdf->Cell(50, 10, $datos["nombreDpto"], 0, 0);
 	$pdf->Ln(5);
 	$pdf->Cell(50, 10, $datos["nombreSubDpto"], 0, 0);
 	$pdf->Ln(5);
