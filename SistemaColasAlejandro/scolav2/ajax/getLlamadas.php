@@ -18,37 +18,52 @@
 		//se llamo a algun ticket, procedemos a dibujar la pantalla
 		$isFirst = true;
 		$isNone = false;
+		$printedMarquee = false;
+		
 		foreach ($tickets as $ticket){
 			if($isFirst == true){
+				$isFirst = false;
 ?>
-				<div class="currentTicket">
-					<div class="side1">
-						&Uacute;ltima llamada:
-						<br />
-						<?php echo $ticket["dpto"]?>
-						<br />
-						<?php echo $ticket["unidad"]?>
-					</div>
-					<div class="side2">
-						<?php echo str_pad($infoTickets["numero"], 4, "0", STR_PAD_LEFT);?>
-					</div>
-				</div>
+				<table class="currentTicket">
+					<tr>
+						<td class="currentTicketSide1">
+							&Uacute;ltima llamada:
+							<br />
+							<?php echo $ticket["dpto"]?>
+							<br />
+							<?php echo $ticket["unidad"]?>
+						</td>
+						<td class="currentTicketSide2">
+							<?php echo str_pad($infoTickets["numero"], 4, "0", STR_PAD_LEFT);?>
+						</td>
+					</tr>
+				</table>
 <?php
 			} else {
-				$isNone != $isNone;
+				$isNone = !$isNone;
+				if(!$printedMarquee){
+					$printedMarquee = true;
 ?>
-				<marquee direction="up" scrolldelay="200" height="400">
-					<div class="<?php echo $isNone ? "marqueeNone" : "marqueePar" ;?>">
-						<span class="side1">
-							<?php echo $ticket["dpto"].", ".$ticket["unidad"]?>
-						</span>
-						<span class="side2">
-							<?php echo str_pad($infoTickets["numero"], 4, "0", STR_PAD_LEFT);;?>
-						</span>
-					</div>
-				</marquee>
+					<marquee direction="up" scrolldelay="200" height="400">
+<?php
+				}
+?>
+						<div class="<?php echo $isNone ? "marqueeNone" : "marqueePar";?>">
+							<div class="side1">
+								<?php echo $ticket["dpto"].", ".$ticket["unidad"]?>
+							</div>
+							<div class="side2">
+								<?php echo str_pad($infoTickets["numero"], 4, "0", STR_PAD_LEFT);;?>
+							</div>
+						</div>
 <?php
 			}
 		}
+		
+		if($printedMarquee){
+?>
+					</marquee>	
+<?php
+		}		
 	}
 ?>
