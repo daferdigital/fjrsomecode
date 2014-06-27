@@ -302,6 +302,38 @@ function guardarSubUnidad(newSubUnitForm){
 
 /**
  * 
+ * @param newTaquilla
+ */
+function guardarTaquilla(newTaquilla){
+	var idSubDpto = newTaquilla.idSubDpto.value.trim();
+	var idOperador = newTaquilla.idOperador.value.trim();
+	var nombre = newTaquilla.nombre.value.trim();
+	
+	document.getElementById("formIdSubDpto").style.display = "none";
+	document.getElementById("formIdOperador").style.display = "none";
+	document.getElementById("formNombre").style.display = "none";
+	
+	var doSubmit = true;
+	if(idSubDpto == "0"){
+		doSubmit = false;
+		document.getElementById("formIdSubDpto").style.display = "inline";
+	}
+	if(idOperador == "0"){
+		doSubmit = false;
+		document.getElementById("formIdOperador").style.display = "inline";
+	}
+	if(nombre == ""){
+		doSubmit = false;
+		document.getElementById("formNombre").style.display = "inline";
+	}
+	
+	if (doSubmit) {
+		newSubUnitForm.submit();
+	}
+}
+
+/**
+ * 
  * @param loginForm
  */
 function validarLoginForm(loginForm){
