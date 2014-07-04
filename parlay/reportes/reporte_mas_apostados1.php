@@ -66,7 +66,11 @@ $sql="SELECT nombre_categoria, nombre_equipo,
 	SUM(CASE WHEN descripcion_apuesta = 'ACHE' THEN apuesta END) AS ACHE,	
     COUNT(CASE WHEN descripcion_apuesta = 'ACHE' THEN apuesta END) AS cuentaACHE,	
 	SUM(CASE WHEN descripcion_apuesta = 'BCHE' THEN apuesta END) AS BCHE,
-    COUNT(CASE WHEN descripcion_apuesta = 'BCHE' THEN apuesta END) AS cuentaBCHE
+    COUNT(CASE WHEN descripcion_apuesta = 'BCHE' THEN apuesta END) AS cuentaBCHE,
+	SUM(CASE WHEN descripcion_apuesta = 'Empate MJ' THEN apuesta END) AS empateMJ,
+    COUNT(CASE WHEN descripcion_apuesta = 'Empate MJ' THEN apuesta END) AS cuentaEmpateMJ,
+    SUM(CASE WHEN descripcion_apuesta = 'Empate JC' THEN apuesta END) AS empateJC,
+    COUNT(CASE WHEN descripcion_apuesta = 'Empate JC' THEN apuesta END) AS cuentaEmpateJC
 	FROM vista_ventas_detalles 
 	WHERE fecha_venta='$fecha_desde1' $where
 	GROUP BY nombre_equipo
@@ -90,8 +94,8 @@ if ($row=mysql_fetch_array($res)) {
             <td colspan="6" bgcolor="#000000"><div align="center"><strong><span class="color_titu">ALTAS Y BAJAS</span></strong></div></td>
             <td colspan="2" bgcolor="#000000"><div align="center"><strong><span class="color_titu">CHE</span></strong></div></td>
             <td colspan="2" bgcolor="#000000"><div align="center"><strong><span class="color_titu">Primer Inning</span></strong></div></td>
-            <td rowspan="2" bgcolor="#000000"><div align="center"><strong><span class="color_titu">Anota <br />
-Primero</span></strong></div></td>
+            <td colspan="2" bgcolor="#000000"><div align="center"><strong><span class="color_titu">Empate</span></strong></div></td>
+            <td rowspan="2" bgcolor="#000000"><div align="center"><strong><span class="color_titu">Anota <br />Primero</span></strong></div></td>
           </tr>
           <tr>
             <td bgcolor="#000000"><div align="center"><strong><span class="color_titu">JC</span></strong></div></td>
@@ -111,6 +115,8 @@ Primero</span></strong></div></td>
             <td bgcolor="#000000"><div align="center"><strong><span class="color_titu">B</span></strong></div></td>
             <td bgcolor="#000000"><div align="center"><strong><span class="color_titu">Si</span></strong></div></td>
             <td bgcolor="#000000"><div align="center"><strong><span class="color_titu">No</span></strong></div></td>
+            <td bgcolor="#000000"><div align="center"><strong><span class="color_titu">JC</span></strong></div></td>
+            <td bgcolor="#000000"><div align="center"><strong><span class="color_titu">MJ</span></strong></div></td>
           </tr>
           <?
 		do{?>
@@ -145,6 +151,8 @@ Primero</span></strong></div></td>
             <td width="32"><div align="right"><? echo $row["BCHE"].($row["cuentaBCHE"] > 0 ? " (".$row["cuentaBCHE"].")" : "");?></div></td>
             <td width="40"><div align="right"><? echo $row["Si"].($row["cuentaSi"] > 0 ? " (".$row["cuentaSi"].")" : "");?></div></td>
             <td width="37"><div align="right"><? echo $row["No"].($row["cuentaNo"] > 0 ? " (".$row["cuentaNo"].")" : "");?></div></td>
+            <td width="40"><div align="right"><? echo $row["empateMJ"].($row["cuentaEmpateMJ"] > 0 ? " (".$row["cuentaEmpateMJ"].")" : "");?></div></td>
+            <td width="37"><div align="right"><? echo $row["empateJC"].($row["cuentaEmpateJC"] > 0 ? " (".$row["cuentaEmpateJC"].")" : "");?></div></td>
             <td width="60"><div align="right"><? echo $row["1ero"].($row["cuenta1ero"] > 0 ? " (".$row["cuenta1ero"].")" : "");?></div></td>
           </tr>
           <?
@@ -173,6 +181,8 @@ Primero</span></strong></div></td>
             <td bgcolor="#CCCCCC"><div align="right"></div></td>
             <td bgcolor="#CCCCCC"><div align="right"></div></td>
             <td colspan="2" bgcolor="#CCCCCC"><div align="right"></div></td>
+            <td bgcolor="#CCCCCC"><div align="right"></div></td>
+            <td bgcolor="#CCCCCC"><div align="right"></div></td>
             <td bgcolor="#CCCCCC"><div align="right"></div></td>
             <td bgcolor="#CCCCCC"><div align="right"></div></td>
             <td bgcolor="#CCCCCC"><div align="right"></div></td>
@@ -206,7 +216,7 @@ else if($row["nombre_categoria"]=='Futbol'){}?>
 </html>
 <?
 mysql_close($conexion);?>
-<script language="javascript">
+<script type="text/javascript">
 	$(document).ready(function(){
 	   $(".ajax_reporte").click(function(evento){
 		  // alert(this.href);
