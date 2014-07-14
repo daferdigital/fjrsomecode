@@ -25,7 +25,7 @@
 		if(Constants::$TIPO_USUARIO_OPERADOR == $usuarioDTO->getTipoUsuario()){
 	?>
 			<li>
-				<a href="taquillas.php">Taquillas</a>
+				<a href="operador.php">Taquillas</a>
 			</li>
 	<?php
 		}

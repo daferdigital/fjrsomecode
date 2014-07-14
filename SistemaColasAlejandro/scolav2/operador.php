@@ -1,34 +1,7 @@
-<?Php include("procesos/sesiones.php");
-	if($_SESSION['perfil']!=2){
-		header("location: index.php");
-	}
-	//print_r($_SESSION);
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/plantilla.dwt.php" codeOutsideHTMLIsLocked="false" -->
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<!-- InstanceBeginEditable name="doctitle" -->
-<title>.: SATRIM :.</title>
-<!-- InstanceEndEditable -->
-<link rel="stylesheet" type="text/css" href="css/estilos.css"/>
-<script src="js/jquery-1.6.4.min.js" type="text/javascript" language="javascript"></script> 
-<script type="text/javascript" src="js/jquery.alphanumeric.pack.js"></script>
-<script src="js/jquery.validate.js" type="text/javascript"></script>
-<script src="js/funciones.js" type="text/javascript"></script>
-<!-- InstanceBeginEditable name="head" -->
-
-<!-- InstanceEndEditable -->
-</head>
-
-<body>
-<div style="width:800px; margin:0 auto; margin-bottom:15px;">
-<img src="imagenes/header.jpg" width="800" border="0" />
 <?Php 
-	include("cerrar_sesion.php");
+	include_once("classes/DBUtil.php");
+	include_once("includes/header.php");
 ?>
-<!-- InstanceBeginEditable name="contenido" -->
-
 	<?Php
 		if($_GET['habilitar']){
 			mysql_query("update tickets_detalles set anulado=0 where anulado=1 and idticket_detalle='".$_GET['habilitar']."' limit 1");
@@ -77,8 +50,8 @@
         <tr><td align="right"><label class="subtit_form">Operador: </label></td><td><?Php echo $_SESSION['datos']['nombre'];?></td></tr>
         <tr><td align="right"><label class="subtit_form">Cedula: </label></td><td><?Php echo $_SESSION['datos']['cedula'];?></td></tr></table>
         <table width="500px">
-        	<tr><td align="right">Si desea habilitar un ticket anulado presione <label onclick="javascript:jQuery('#hab_ta').show('slow');"><b>AQUÍ</b></label></td></tr>
-            <tr style="display:none;" id="hab_ta"><td align="right" bgcolor="#990000" style="color:#FFF;"><strong>Indique el Nº de serial: </strong><input type="text" name="ticket_anulado" value="" /><input type="button" value="Habilitar" onclick="javascript: if(jQuery('[name=\'ticket_anulado\']').val()){location.href='?habilitar='+jQuery('[name=\'ticket_anulado\']').val();}else{alert('Indique el serial del ticket');}" /></td></tr>
+        	<tr><td align="right">Si desea habilitar un ticket anulado presione <label onclick="javascript:jQuery('#hab_ta').show('slow');"><b>AQU&Iacute;</b></label></td></tr>
+            <tr style="display:none;" id="hab_ta"><td align="right" bgcolor="#990000" style="color:#FFF;"><strong>Indique el N&deg; de serial: </strong><input type="text" name="ticket_anulado" value="" /><input type="button" value="Habilitar" onclick="javascript: if(jQuery('[name=\'ticket_anulado\']').val()){location.href='?habilitar='+jQuery('[name=\'ticket_anulado\']').val();}else{alert('Indique el serial del ticket');}" /></td></tr>
         </table>
 <div style="width:800px; height:40px; position:relative; clear:both;">
         	
@@ -167,6 +140,6 @@
 	?>
 	
 <!-- InstanceEndEditable --> </div>
-
-</body>
-<!-- InstanceEnd --></html>
+<?php 
+	include("includes/footer.php");
+?>

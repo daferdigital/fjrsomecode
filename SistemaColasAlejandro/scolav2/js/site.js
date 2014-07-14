@@ -286,10 +286,6 @@ function guardarSubUnidad(newSubUnitForm){
 		doSubmit = false;
 		document.getElementById("formPromedioAtencion").style.display = "inline";
 	}
-	if(previaCita == ""){
-		doSubmit = false;
-		document.getElementById("formPromedioAtencion").style.display = "inline";
-	}
 	if(!isRadioChecked(newSubUnitForm.previaCita)){
 		doSubmit = false;
 		document.getElementById("formPreviaCita").style.display = "inline";
@@ -328,7 +324,7 @@ function guardarTaquilla(newTaquilla){
 	}
 	
 	if (doSubmit) {
-		newSubUnitForm.submit();
+		newTaquilla.submit();
 	}
 }
 
@@ -419,80 +415,6 @@ function subDptoInfo(idDpto){
 	}
 }
 
-function refreshSubDptoInfo(idDpto){
-	$.ajax({
-		url : 'ajax/disponibilidadSubDptos.php',
-		data : {id : idDpto},
-		type : 'POST',
-		dataType : 'html',
-		success : function(response) {
-			if(response){
-				$('#detailDpto'+idDpto).html(response);
-				//$('#detailDpto'+idDpto).show();
-			  }
-		},
-		error : function(xhr, status) {
-			alert('Disculpe, No pudo obtenerse la informacion');
-			$('#detailDpto'+idDpto).hide();
-			$('#detailDpto'+idDpto).html("");
-		}
-	});
-}
-
-/**
- * 
- * @param idDpto
- * @param idSubDpto
- */
-function printTicket(idDpto, idSubDpto, isEmergency){
-	//invocamos via ajax el proceso de generar el ticket
-	var ticketHTML = null;
-	
-	$.ajax({
-		url : 'ajax/createTicket.php',
-		data : {id : idSubDpto, emergencia : isEmergency},
-		type : 'POST',
-		//async : false,
-		dataType : 'html',
-		success : function(response) {
-			if(response){
-				ticketHTML = response;
-				
-				if(ticketHTML != null && ticketHTML.trim() != ""){
-					//el ticket fue generado, debemos disparar la impresion del mismo
-					//debido a que el ticket
-					//$("#pivoteImpresion").attr("src", "tickets/ticket_" + ticketHTML + ".pdf");
-					$("#pivoteImpresion").attr("src", "ajax/showTicket.php?id=" + ticketHTML);
-					refreshSubDptoInfo(idDpto);
-					
-					$("#pivoteImpresion").load(function() {
-						var iFrame = document.getElementById("pivoteImpresion");
-						iFrame.focus();// focus on contentWindow is needed on some ie versions
-						//iFrame.contentWindow.print();
-					});
-					
-					/*
-					$("#pivoteImpresion").contents().find('body').html("");
-					$("#pivoteImpresion").contents().find('body').append(ticketHTML);
-					$("#pivoteImpresion").get(0).contentWindow.print();
-					*/
-					/*
-					var iFrame = document.getElementById("pivoteImpresion");
-					iFrame.focus();// focus on contentWindow is needed on some ie versions
-					iFrame.style.display = "";
-					iFrame.contentWindow.print();
-					iFrame.style.display = "none";
-					*/
-				} else {
-					alert("Disculpe no pudo ser generado el ticket");
-				}
-			}
-		},
-		error : function(xhr, status) {
-			alert('Disculpe, No pudo realizarse el proceso de impresión');
-		}
-	});
-}
 
 function imprime_ticket(ido){
 	var valor_dis=$("#dis_"+ido).html();
