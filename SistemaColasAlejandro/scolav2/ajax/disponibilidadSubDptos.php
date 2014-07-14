@@ -40,13 +40,13 @@ if(isset($_POST["id"])){
 				}
 			?>
 		</div>
-		<div style="width:10%">
-			
+		<div style="display: inline; width: 10%">
+			&nbsp;
 		</div>
 		<?php 
 			if(isset($subDptos[1])){
 		?>
-				<div style="width:45%; align:center;">
+				<div class="contenedorSubDpto">
 					<?php echo strtoupper($subDptos[1]["nombre"]);?>
 					<br />
 					<?php 
