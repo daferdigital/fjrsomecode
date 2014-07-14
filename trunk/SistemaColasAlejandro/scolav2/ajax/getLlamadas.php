@@ -7,7 +7,7 @@
 	$query .= " AND t.fecha_creacion < DATE_ADD(CURDATE(), INTERVAL 1 DAY)";
 	$query .= " AND t.id_sub_departamento = sd.id";
 	$query .= "  AND sd.id_departamento = d.id";
-	$query .= " AND t.estado=3";
+	$query .= " AND (t.estado=3 OR t.estado=4)";
 	$query .= " ORDER BY t.prioridad DESC, t.fecha_atencion";
 	
 	$tickets = DBUtil::executeSelect($query);
@@ -24,38 +24,66 @@
 			if($isFirst == true){
 				$isFirst = false;
 ?>
+				<div class="lineaSep">
+					&nbsp;
+				</div>
 				<table class="currentTicket">
 					<tr>
 						<td class="currentTicketSide1">
-							&Uacute;ltima llamada:
+							<span id="side1">
+								<?php echo $ticket["dpto"]?>
+							</span>
 							<br />
-							<?php echo $ticket["dpto"]?>
-							<br />
-							<?php echo $ticket["unidad"]?>
+							<span id="side2">
+								<?php echo $ticket["unidad"]?>
+							</span>
+							
 						</td>
 						<td class="currentTicketSide2">
-							<?php echo str_pad($infoTickets["numero"], 4, "0", STR_PAD_LEFT);?>
+							<span id="side1">
+								&Uacute;LTIMO LLAMADO:
+							</span>
+							<br />
+							<span id="side2">
+								<?php echo str_pad($infoTickets["numero"], 4, "0", STR_PAD_LEFT);?>
+							</span>
+							
 						</td>
 					</tr>
 				</table>
+				<div class="lineaSep">
+					&nbsp;
+				</div>
+				
 <?php
 			} else {
 				$isNone = !$isNone;
 				if(!$printedMarquee){
 					$printedMarquee = true;
 ?>
-					<marquee direction="up" scrolldelay="200" height="400">
+					<marquee direction="up" scrolldelay="200" height="200">
 <?php
 				}
 ?>
-						<div class="<?php echo $isNone ? "marqueeNone" : "marqueePar";?>">
-							<div class="side1">
-								<?php echo $ticket["dpto"].", ".$ticket["unidad"]?>
-							</div>
-							<div class="side2">
-								<?php echo str_pad($infoTickets["numero"], 4, "0", STR_PAD_LEFT);;?>
-							</div>
-						</div>
+						<table class="oldsTicket">
+						<tr>
+							<td class="ticketSide1">
+								<span id="side1">
+									<?php echo $ticket["unidad"]?>
+								</span>
+								
+							</td>
+							<td class="ticketSide2">
+								<span id="side1">
+									<?php echo str_pad($infoTickets["numero"], 4, "0", STR_PAD_LEFT);?>
+								</span>
+								
+							</td>
+						</tr>
+					</table>
+					<div class="lineaSep">
+						&nbsp;
+					</div>
 <?php
 			}
 		}
