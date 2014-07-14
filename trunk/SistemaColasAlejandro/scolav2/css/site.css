@@ -243,3 +243,11 @@ border: 1px solid black;
 .subDptoDiv {
     line-height: normal;	
 }
+
+.subtit_form{
+    font-weight:bold;        
+}
+    
+.anumero {
+    font-size:40px;
+}

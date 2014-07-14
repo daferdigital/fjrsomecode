@@ -23,7 +23,7 @@ if($usuarioDTO != null){
 		BitacoraDAO::registrarComentario("Ejecucion de login exitoso en el sistema para el usuario [".$usuarioDTO->getLogin()."]");
 		//vemos si el usuario es del tipo terminal para enviarlo directo a esa pagina
 		if(Constants::$TIPO_USUARIO_OPERADOR == $usuarioDTO->getTipoUsuario()){
-			header("Location: ../taquillas.php", true);
+			header("Location: ../operador.php", true);
 		} elseif(Constants::$TIPO_USUARIO_TERMINAL == $usuarioDTO->getTipoUsuario()){
 			header("Location: ../terminal.php", true);
 		} else {

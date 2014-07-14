@@ -1,36 +1,75 @@
 <?Php 
 	include_once("classes/DBUtil.php");
-	include_once("includes/header.php");
-	$sql_dptos="select * from departamentos WHERE activo='1' ORDER BY LOWER(nombre)";
+	include_once("includes/headerTerminal.php");
+	$sql_dptos="SELECT * FROM departamentos WHERE activo='1' ORDER BY LOWER(nombre)";
 	$departamentos = DBUtil::executeSelect($sql_dptos);
-		
+	
 	if(count($departamentos) > 0){
-		$cuenta = 1;
+		$filas = (int) (count($departamentos) / 2);
+		$resto = (int) (count($departamentos) % 2);
 ?>
-		<div id="terminal">
+		<table id="terminal">
 		<?php 
-			foreach ($departamentos as $dpto){
-				//tenemos el listado de departamentos, los dibujamos
+			for ($i = 0; $i < $filas; $i++){
 		?>
-			<div class="dptoTitle">
-				<span>
-					<?php echo $dpto["nombre"];?>
-					<img src="imagenes/arrowDown.png" id="imgDpto<?php echo $dpto["id"];?>" onclick="subDptoInfo('<?php echo $dpto["id"];?>')"/>
-				</span>
-			</div>
-			
-			<div class="subDptoDiv" id="detailDpto<?php echo $dpto["id"];?>" style="display: none;"></div>
-			<script type="text/javascript">
-				setInterval(function(){refreshSubDptoInfo('<?php echo $dpto["id"];?>')}, 1000);
-			</script>
+				<tr>
+					<td class="terminalTD">
+						<div class="dptoTitleClosed" id="title_<?php echo $departamentos[$i*2]["id"];?>">
+							<?php echo strtoupper($departamentos[$i*2]["nombre"])?>
+						</div>
+						<div id="detailDpto_<?php echo $departamentos[$i*2]["id"];?>" style="display: none;">
+						</div>
+						<div class="actionDpto">
+							<img id="<?php echo $departamentos[$i*2]["id"];?>" src="imagenes/desplegar.png">
+						</div>
+						<script type="text/javascript">
+							setInterval(function(){refreshSubDptoInfo('<?php echo $departamentos[$i*2]["id"];?>')}, 2000);
+						</script>
+					</td>
+					<td class="terminalTD">
+						<?php 
+							if(isset($departamentos[($i*2)+1])){
+						?>
+								<div class="dptoTitleClosed" id="title_<?php echo $departamentos[($i*2)+1]["id"];?>">
+									<?php echo strtoupper($departamentos[($i*2)+1]["nombre"])?>
+								</div>
+								<div id="detailDpto_<?php echo $departamentos[($i*2)+1]["id"];?>" style="display: none;">
+								</div>
+								<div class="actionDpto"">
+									<img id="<?php echo $departamentos[($i*2)+1]["id"];?>" src="imagenes/desplegar.png">
+								</div>
+								<script type="text/javascript">
+									setInterval(function(){refreshSubDptoInfo('<?php echo $departamentos[($i*2)+1]["id"];?>')}, 2000);
+								</script>
+						<?php
+							}
+						?>
+					</td>
+				</tr>
 		<?php
-				$cuenta++;
-				if($cuenta % 2 == 0){
-					echo "<br />";
-				}
-			} //fin del foreach
+			}
+			
+			if($resto > 0){
 		?>
-		</div>
+				<tr>
+					<td class="terminalTD">
+						<div class="dptoTitleClosed" id="title_<?php echo $departamentos[$i*2]["id"];?>">
+							<?php echo strtoupper($departamentos[$i*2]["nombre"])?>
+						</div>
+						<div id="detailDpto_<?php echo $departamentos[$i*2]["id"];?>" style="display: none;">
+						</div>
+						<div class="actionDpto">
+							<img id="<?php echo $departamentos[$i*2]["id"];?>" src="imagenes/desplegar.png">
+						</div>
+						<script type="text/javascript">
+							setInterval(function(){refreshSubDptoInfo('<?php echo $departamentos[($i*2)]["id"];?>')}, 2000);
+						</script>
+					</td>
+				</tr>
+		<?php
+			}
+		?>
+		</table>
 		<div>
 			<iframe id="pivoteImpresion" src="" style="display: none;">
 			</iframe>
@@ -44,5 +83,5 @@
 <?Php
 	}
 	
-	include("includes/footer.php");
+	include("includes/footerV2.php");
 ?>

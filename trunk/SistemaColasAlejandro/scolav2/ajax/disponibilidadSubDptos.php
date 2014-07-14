@@ -15,38 +15,64 @@ if(isset($_POST["id"])){
 		echo "<b>Este departamento no tiene informaci&oacute;n de sub-departamentos</b>";
 	} else {
 ?>	
-		<div class="subDptosContainer">
+		<div class="contenedorSubDpto">
+			<?php echo strtoupper($subDptos[0]["nombre"]);?>
+			<br />
+			<?php 
+				$cupoActual = $subDptos[0]["cupo_maximo"] - $subDptos[0]["ticketsRegistrados"];
+			?>
+			&nbsp;DISPONIBILIDAD:&nbsp;<b><?php echo $cupoActual < 1 ? "AGOTADO" : $cupoActual;?></b>&nbsp;
+			<br />
+			<?php
+				if($cupoActual  > 0){
+			?>
+				<div style="width: 50%; display: inline; margin-right: 25px;">
+					<a style="margin-left: auto; margin-right: auto; text-decoration: none;" class="btnPrint" href="javascript:printTicket('<?php echo $_POST["id"]?>','<?php echo $subDptos[0]["id"]?>', false)">
+						<img alt="print" src="imagenes/printer.png" style="display: inline-block; cursor: pointer; border:0px;"/>
+					</a>
+				</div>
+				<div style="width: 50%; display: inline;">
+					<a style="margin-left: auto; margin-right: auto; text-decoration: none;" class="btnPrint" href="javascript:printTicket('<?php echo $_POST["id"]?>','<?php echo $subDptos[0]["id"]?>', true)">
+						<img alt="print" src="imagenes/emergencia.png" style="display: inline-block; cursor: pointer; border:0px;"/>
+					</a>
+				</div>
+			<?php
+				}
+			?>
+		</div>
+		<div style="width:10%">
+			
+		</div>
 		<?php 
-			foreach($subDptos as $subDpto){
+			if(isset($subDptos[1])){
 		?>
-				<div>
-					<span>
-						<?php echo $subDpto["nombre"];?>
-						<br />
-						<?php 
-							$cupoActual = $subDpto["cupo_maximo"] - $subDpto["ticketsRegistrados"];
-						?>
-						Disponibilidad: <b><?php echo $cupoActual < 1 ? "Agotado" : $cupoActual;?></b>
-					</span>
+				<div style="width:45%; align:center;">
+					<?php echo strtoupper($subDptos[1]["nombre"]);?>
+					<br />
+					<?php 
+						$cupoActual = $subDptos[1]["cupo_maximo"] - $subDptos[1]["ticketsRegistrados"];
+					?>
+					&nbsp;DISPONIBILIDAD:&nbsp;<b><?php echo $cupoActual < 1 ? "AGOTADO" : $cupoActual;?></b>&nbsp;
+					<br />
 					<?php
 						if($cupoActual  > 0){
 					?>
-						<br />
-						<a style="margin-left: auto; margin-right: auto;" class="btnPrint" href="javascript:printTicket('<?php echo $_POST["id"]?>','<?php echo $subDpto["id"]?>', false)">
-							<img alt="print" src="imagenes/printer32x32.png" style="display: inline-block; cursor: pointer; border:0px;"/>
-						</a>
-						<a style="margin-left: auto; margin-right: auto;" class="btnPrint" href="javascript:printTicket('<?php echo $_POST["id"]?>','<?php echo $subDpto["id"]?>', true)">
-							<img alt="print" src="imagenes/emergencia32x32.png" style="display: inline-block; cursor: pointer; border:0px;"/>
-						</a>
+						<div style="width: 50%; display: inline; margin-right: 25px;">
+							<a style="margin-left: auto; margin-right: auto; text-decoration: none;" class="btnPrint" href="javascript:printTicket('<?php echo $_POST["id"]?>','<?php echo $subDptos[0]["id"]?>', false)">
+								<img alt="print" src="imagenes/printer.png" style="display: inline-block; cursor: pointer; border:0px;"/>
+							</a>
+						</div>
+						<div style="width: 50%; display: inline;">
+							<a style="margin-left: auto; margin-right: auto; text-decoration: none;" class="btnPrint" href="javascript:printTicket('<?php echo $_POST["id"]?>','<?php echo $subDptos[0]["id"]?>', true)">
+								<img alt="print" src="imagenes/emergencia.png" style="display: inline-block; cursor: pointer; border:0px;"/>
+							</a>
+						</div>
 					<?php
 						}
 					?>
 				</div>
-		<?php
+		<?php	
 			}
-		?>
-		</div>
-<?php
+		}
 	}
-}
 ?>
