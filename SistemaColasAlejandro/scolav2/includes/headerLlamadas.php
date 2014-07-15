@@ -17,7 +17,6 @@
 	<script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
 	<script type="text/javascript" src="js/jquerycssmenu.js"></script>
 	<script type="text/javascript" src="js/jquery.bpopup-0.9.0.min.js"></script>
-	<script type="text/javascript" src="js/llamadas.js"></script>
 </head>
 <body>
 

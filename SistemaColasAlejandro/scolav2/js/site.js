@@ -491,3 +491,30 @@ function searchUsuariosAjax(pageNumber){
 			"ajaxPageResult",
 			null);
 }
+
+function llamarTicket(idTaquilla){
+	$.ajax({
+		// la URL para la peticion
+		url : 'ajax/llamarTicket.php',
+		// (también es posible utilizar una cadena de datos)
+		data : {taquilla : idTaquilla},
+		// especifica si será una peticion POST o GET
+		type : 'POST',
+		// el tipo de información que se espera de respuesta
+		//dataType : 'json',
+		dataType : 'html',
+		// código a ejecutar si la petición es satisfactoria;
+		// la respuesta es pasada como argumento a la función
+		success : function(response) {
+			if(response){
+				$('#anumero_'+idTaquilla).html(response);
+			}
+		},
+		// codigo a ejecutar si la peticion falla;
+		// son pasados como argumentos a la funcion
+		// el objeto de la peticion en crudo y codigo de estatus de la peticion
+		error : function(xhr, status) {
+			alert('Disculpe, no pudo ejecutarse su solicitud. Intente de nuevo.');
+		},
+	});
+}
