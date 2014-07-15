@@ -45,8 +45,8 @@
 			});
 		}
 
-		//setInterval("refreshMarquee()", 10000);
-		setTimeout("refreshMarquee()", 10000);
+		setInterval("refreshMarquee()", 10000);
+		//setTimeout("refreshMarquee()", 10000);
 	</script>
 <?php 
 	include_once "includes/footerV2.php";
