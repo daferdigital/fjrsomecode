@@ -24,6 +24,6 @@ if(isset($_POST["taquilla"])){
 		
 		echo str_pad($ticket[0]["numero"], 4, "0", STR_PAD_LEFT);
 	} else {
-		echo "0";
+		echo "No hay tickets en la cola";
 	}
 }

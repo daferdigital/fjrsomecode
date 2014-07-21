@@ -518,3 +518,40 @@ function llamarTicket(idTaquilla){
 		},
 	});
 }
+
+function llamarTicket(idTaquilla){
+	$('#anumero_'+idTaquilla).hide();
+	$("#imgAnumero_"+idTaquilla).css("display", "inline");
+	$("#imgAnumero_"+idTaquilla).show();
+	
+	$.ajax({
+		// la URL para la peticion
+		url : 'ajax/llamarTicket.php',
+		// (también es posible utilizar una cadena de datos)
+		data : {taquilla : idTaquilla},
+		// especifica si será una peticion POST o GET
+		type : 'POST',
+		// el tipo de información que se espera de respuesta
+		//dataType : 'json',
+		dataType : 'html',
+		// código a ejecutar si la petición es satisfactoria;
+		// la respuesta es pasada como argumento a la función
+		success : function(response) {
+			if(response){
+				$("#imgAnumero_"+idTaquilla).hide();
+				$('#anumero_'+idTaquilla).html(response);
+				$('#anumero_'+idTaquilla).show();
+			}
+		},
+		// codigo a ejecutar si la peticion falla;
+		// son pasados como argumentos a la funcion
+		// el objeto de la peticion en crudo y codigo de estatus de la peticion
+		error : function(xhr, status) {
+			alert('Disculpe, no pudo ejecutarse su solicitud. Intente de nuevo.');
+		},
+	});
+}
+
+function transferirTicket(){
+	loadAjaxPopUp("ajax/ticketTansfer.php");
+}
