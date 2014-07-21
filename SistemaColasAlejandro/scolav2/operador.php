@@ -40,6 +40,7 @@
         		<td>
         			<label class="subtit_form" style="color:#00F;">Atendiendo al ticket n&uacute;mero: </label>
         			<label id="anumero_<?php echo $taquilla[id];?>" class="anumero" style="color:#F00;">0</label>
+        			<img id="imgAnumero_<?php echo $taquilla[id];?>" src="imagenes/ajax.gif" style="display: none;" />
                 </td>
                 <td>
                 	<input type="button" value="LLAMAR SIGUIENTE" border="0" style="cursor:pointer; background-color:#030; color:#CCC; font-weight:bold; padding:3PX; border:#000 2px solid;" onclick="javascript:llamarTicket(<?php echo $taquilla[id];?>);" />

@@ -9,7 +9,7 @@ include_once("includes/header.php");
 ?>
 
 <div class="seccionTitle">
-	Crear Unidades
+	Administrar Unidades
 </div>
 
 <div class="seccionDetail">
@@ -25,7 +25,7 @@ include_once("includes/header.php");
 <?php	
 	} 
 ?>
-<form action="formProcess/storeUnit.php" method="post">
+<form action="formProcess/updateUnit.php" method="post">
     <table class="borderCollapse">
     	<tr>
     		<td>Nombre:</td>
