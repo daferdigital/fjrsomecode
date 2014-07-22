@@ -553,5 +553,57 @@ function llamarTicket(idTaquilla){
 }
 
 function transferirTicket(){
-	loadAjaxPopUp("ajax/ticketTansfer.php");
+	loadAjaxPopUp("ajax/ticketTransfer.php");
+}
+
+function doTransferTicket(){
+	//validamos los datos de transferencia
+	var subUnidadOrigen = $("#subUnidadOrigen").attr("value").trim();
+	var numeroTicketOrigen = $("#numTicketOrigen").attr("value").trim();
+	var subUnidadDestino = $("#subUnidadDestino").attr("value").trim();
+	var callAjax = true;
+	
+	$("#formSubUnidadOrigen").hide();
+	$("#formNumTicketOrigen").hide();
+	$("#formSubUnidadDestino").hide();
+	
+	if(subUnidadOrigen == ""){
+		callAjax = false;
+		$("#formSubUnidadOrigen").show();
+	}
+	if(numeroTicketOrigen == ""){
+		callAjax = false;
+		$("#formNumTicketOrigen").show();
+	}
+	if(subUnidadDestino == ""){
+		callAjax = false;
+		$("#formSubUnidadDestino").show();
+	}
+	
+	if(callAjax){
+		$.ajax({
+			// la URL para la peticion
+			url : 'ajax/doTicketTransfer.php',
+			// (también es posible utilizar una cadena de datos)
+			data : {sUO: subUnidadOrigen, nTO: numeroTicketOrigen, sUD: subUnidadDestino},
+			// especifica si será una peticion POST o GET
+			type : 'POST',
+			// el tipo de información que se espera de respuesta
+			//dataType : 'json',
+			dataType : 'html',
+			// código a ejecutar si la petición es satisfactoria;
+			// la respuesta es pasada como argumento a la función
+			success : function(response) {
+				alert("Ticket " + numeroTicketOrigen + " fue transferido.");
+				//cerramos la ventana modal
+				$('#darkContainer').click();
+			},
+			// codigo a ejecutar si la peticion falla;
+			// son pasados como argumentos a la funcion
+			// el objeto de la peticion en crudo y codigo de estatus de la peticion
+			error : function(xhr, status) {
+				alert('Disculpe, no pudo ejecutarse su solicitud. Intente de nuevo.');
+			},
+		});
+	}
 }
