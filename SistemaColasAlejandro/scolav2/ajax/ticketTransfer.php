@@ -16,8 +16,10 @@
 <title></title>
 </head>
 <body>
-    <fieldset>
-        <legend>Origen del ticket</legend>
+	<br />
+	<br />
+	<fieldset>
+        <legend><b>Origen del ticket</b></legend>
         <table>
             <tr>
                 <td>Sub-Unidad: </td>
@@ -34,20 +36,36 @@
 							}
                 		?>
                 	</select>
+                	<br />
+                	<span class="smallError" id="formSubUnidadOrigen" style="display: none">
+						Disculpe, debe indicar la Sub-Unidad de origen.
+					</span>
+                </td>
+            </tr>
+            <tr>
+                <td>N&uacute;mero del Ticket: </td>
+                <td>
+                	<input type="text" name="numTicketOrigen" id="numTicketOrigen"/>
+                	<br />
+                	<span class="smallError" id="formNumTicketOrigen" style="display: none">
+						Disculpe, debe indicar el n&uacute;mero del ticket.
+					</span>
                 </td>
             </tr>
         </table>
     </fieldset>
     
+    <br />
     <hr></hr>
+    <br />
     
     <fieldset>
-        <legend>Destino del ticket</legend>
+        <legend><b>Destino del ticket</b></legend>
         <table>
             <tr>
                 <td>Sub-Unidad: </td>
                 <td>
-                	<select name="subUnidad" id="subUnidad">
+                	<select name="subUnidadDestino" id="subUnidadDestino">
                 		<option value="">--</option>
                 		<?php 
                 			foreach ($subUnidades as $subUnidad){
@@ -59,10 +77,24 @@
 							}
                 		?>
                 	</select>
+                	<br />
+                	<span class="smallError" id="formSubUnidadDestino" style="display: none">
+						Disculpe, debe indicar la Sub-Unidad de destino.
+					</span>
                 </td>
             </tr>
         </table>
     </fieldset>
-    
+    <br />
+	<br />
+	<table style="width: 100%;">
+		<tr>
+			<td align="center">
+				<input type="button" name="doTransfer" onclick="javascript:doTransferTicket();" value="Transferir" />			
+			</td>
+		</tr>
+	</table>
+	<br />
+	<br />
 </body>
 </html>
