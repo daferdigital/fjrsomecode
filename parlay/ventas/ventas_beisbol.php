@@ -251,7 +251,7 @@ Hora <?Php echo date("H:i:s");?><br /><br />-->
 </p>-->
 <input type="hidden" name="fecha" value="<?Php echo $ano.'-'.$mes.'-'.$dia;?>" />
 </form>
-<script language="javascript">
+<script type="text/javascript">
 var sep_idapuestas='',sep_logro_apuestas_='',acum=1;
 	$(":checkbox").click(function(){
 		
@@ -263,30 +263,48 @@ var sep_idapuestas='',sep_logro_apuestas_='',acum=1;
 			comb_permitida($(this).attr('combinacion'));
 			if(permitida_c=='no'){
 				quitar_combinacion($(this).attr('combinacion'));
-				alert("La Combinación no está permitida");
 				$(this).attr('checked',false);				
+				try {
+					alert("La Combinación no está permitida");
+				} catch(err) {
+				    console.log("La Combinación no está permitida");
+				}
 				return false;
 			}
 			
 			
 			//Verifico la cantidad de apuestas
 			if($('#num_apuestas').val()==cmlp){
-				alert("Cantidad Máxima de combinaciones alcanzada el cual es de "+cmlp);
 				$(this).attr('checked',false);
+				try {
+					alert("Cantidad Máxima de combinaciones alcanzada el cual es de "+cmlp);
+				} catch(err) {
+				    console.log("Cantidad Máxima de combinaciones alcanzada el cual es de "+cmlp);
+				}
 				return false;
 			}
 			
 			//Controlo machos y hembras
 			if($(this).attr('pago')>0){ /*alert('hembra');*/ hembras++; }else{ /*alert('macho');*/ machos++;}
 				if(hembras>phembras){
-					alert("Máximo de hembras permitido alcanzado");
 					$(this).attr('checked',false);
-					hembras--; return false;
+					hembras--;
+					try {
+						alert("Máximo de hembras permitido alcanzado");
+					} catch(err) {
+					    console.log("Máximo de hembras permitido alcanzado");
+					}
+					return false;
 				} //alert(machos+' > '+pmachos);
 					if(machos>pmachos){
-						alert("Máximo de machos permitido alcanzado");
 						$(this).attr('checked',false);
-						machos--; return false;
+						machos--;
+						try {
+							alert("Máximo de machos permitido alcanzado");
+						} catch(err) {
+						    console.log("Máximo de machos permitido alcanzado");
+						}
+						return false;
 					}
 				
 			$('#num_apuestas').val(parseInt($('#num_apuestas').val())+1);
@@ -400,10 +418,14 @@ var sep_idapuestas='',sep_logro_apuestas_='',acum=1;
 					 setTimeout('$("#estatus_anulado").hide("slow");',5000);
 			   },
 			   error:function(a,b,c){
-				   alert('Error al anular el ticket '+c);
-				   location.href='';
-				   return false;
-				   /*$("#carga").css("display", "none");
+				    try {
+					   alert('Error al anular el ticket '+c);
+					} catch(err) {
+					    console.log('Error al anular el ticket '+c);
+					}
+				    location.href='';
+				    return false;
+				    /*$("#carga").css("display", "none");
 					$("#carga_load3").css("display", "none");	*/				
 			   }
 			 });
