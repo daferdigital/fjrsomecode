@@ -58,12 +58,12 @@ if(isset($_POST["id"])){
 						if($cupoActual  > 0){
 					?>
 						<div style="width: 50%; display: inline; margin-right: 25px;">
-							<a style="margin-left: auto; margin-right: auto; text-decoration: none;" class="btnPrint" href="javascript:printTicket('<?php echo $_POST["id"]?>','<?php echo $subDptos[0]["id"]?>', false)">
+							<a style="margin-left: auto; margin-right: auto; text-decoration: none;" class="btnPrint" href="javascript:printTicket('<?php echo $_POST["id"]?>','<?php echo $subDptos[1]["id"]?>', false)">
 								<img alt="print" src="imagenes/printer.png" style="display: inline-block; cursor: pointer; border:0px;"/>
 							</a>
 						</div>
 						<div style="width: 50%; display: inline;">
-							<a style="margin-left: auto; margin-right: auto; text-decoration: none;" class="btnPrint" href="javascript:printTicket('<?php echo $_POST["id"]?>','<?php echo $subDptos[0]["id"]?>', true)">
+							<a style="margin-left: auto; margin-right: auto; text-decoration: none;" class="btnPrint" href="javascript:printTicket('<?php echo $_POST["id"]?>','<?php echo $subDptos[1]["id"]?>', true)">
 								<img alt="print" src="imagenes/emergencia.png" style="display: inline-block; cursor: pointer; border:0px;"/>
 							</a>
 						</div>
