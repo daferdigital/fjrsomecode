@@ -63,6 +63,10 @@ public class PatologoDTO {
 		return genero;
 	}
 	
+	public String getFirmaInforme(){
+		return genero + " " + nombre;
+	}
+	
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
