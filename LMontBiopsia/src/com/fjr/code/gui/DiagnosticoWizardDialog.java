@@ -357,15 +357,15 @@ public class DiagnosticoWizardDialog extends JDialog implements ActionListener{
 			if(isIHQCalle){
 				diagnostico = new BiopsiaDiagnosticoIHQCalle(
 						biopsia,
-						firmante1.getNombre(),
-						firmante2.getNombre(),
+						firmante1.getFirmaInforme(),
+						firmante2.getFirmaInforme(),
 						wizard.getMapMacro(),
 						wizard.getMapIHQ());
 			} else {
 				diagnostico = new BiopsiaDiagnostico(
 						biopsia,
-						firmante1.getNombre(),
-						firmante2.getNombre(),
+						firmante1.getFirmaInforme(),
+						firmante2.getFirmaInforme(),
 						wizard.getMapMacro(),
 						wizard.getMapIHQ(),
 						wizard.getMapDiagnostico());
