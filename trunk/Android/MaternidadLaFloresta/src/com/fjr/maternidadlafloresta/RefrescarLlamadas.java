@@ -13,6 +13,7 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 /**
@@ -40,12 +41,11 @@ public class RefrescarLlamadas extends AsyncTask<Void, Void, Void> {
 		this.parentView = parentView;
 	}
 	
-	
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
 		// Showing progress dialog
-		pDialog = new ProgressDialog(parentView.getBaseContext());
+		pDialog = new ProgressDialog(parentView);
 		pDialog.setMessage("Refrescando...");
 		pDialog.setCancelable(false);
 		pDialog.show();
@@ -60,14 +60,16 @@ public class RefrescarLlamadas extends AsyncTask<Void, Void, Void> {
 				JSONObject jsonObj = new JSONObject(jsonStr);
 				// Getting JSON Array node
 				llamadas = jsonObj.getJSONArray(TAG_LLAMADAS);
+				parentView.getListaLlamadas().clear();
 				
 				// looping through All Contacts
 				for (int i = 0; i < llamadas.length(); i++) {
 					JSONObject c = llamadas.getJSONObject(i);
 					// tmp hashmap for single contact
 					HashMap<String, String> llamada = new HashMap<String, String>();
-					llamada.put(TAG_LINEA_LLAMADA, c.getString(TAG_UNIDAD) + ": " + c.getString(TAG_NUMERO));
-
+					llamada.put(TAG_LINEA_LLAMADA, c.getString(TAG_UNIDAD)
+							+ ("".equals(c.getString(TAG_NUMERO)) ? "" : ": " + c.getString(TAG_NUMERO)));
+					
 					// adding contact to contact list
 					parentView.getListaLlamadas().add(llamada);
 				}
@@ -95,14 +97,13 @@ public class RefrescarLlamadas extends AsyncTask<Void, Void, Void> {
 		 */
 		
 		ListAdapter adapter = new SimpleAdapter(
-				parentView.getBaseContext(), 
+				parentView, 
 				parentView.getListaLlamadas(),
 				R.layout.list_item,
 				new String[] {TAG_LINEA_LLAMADA},
 				new int[] { R.id.llamada_item});
 		
-		parentView.setListAdapter(adapter);
-		
+		((ListView) parentView.findViewById(R.id.listaLLamadas)).setAdapter(adapter);
 		MediaPlayerUtil.playSound(R.raw.timbre, parentView.getBaseContext());
 	}
 }
