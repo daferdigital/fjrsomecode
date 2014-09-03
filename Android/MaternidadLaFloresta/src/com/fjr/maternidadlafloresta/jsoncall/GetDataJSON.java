@@ -20,7 +20,7 @@ import android.util.Log;
  *
  */
 public class GetDataJSON{
-	private static final String JSON_URL = "http://cola.distritohosting.com/scolav2/json/llamadas.php";
+	private static final String JSON_URL = "http://www.cola.distritohosting.com/scolav2/json/llamadas.php";
 	
 	/**
 	 * 
@@ -55,6 +55,8 @@ public class GetDataJSON{
 	    		while ((jsonResult = reader.readLine()) != null) {
 	    			builder.append(jsonResult);
 	    		}
+	    		
+	    		jsonResult = builder.toString();
 	    	} else {
 	    		Log.e(GetDataJSON.class.toString(), "Failed to download file");
 	    	}

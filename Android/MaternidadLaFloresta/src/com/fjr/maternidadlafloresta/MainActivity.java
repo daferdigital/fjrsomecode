@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import android.os.Bundle;
 import android.app.Activity;
-import android.app.ListActivity;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,7 +18,7 @@ import android.widget.Toast;
  * @author FJR
  *
  */
-public class MainActivity extends ListActivity implements OnClickListener {
+public class MainActivity extends Activity implements OnClickListener {
 	// Hashmap for ListView
     private ArrayList<HashMap<String, String>> listaLlamadas;
     
@@ -30,7 +29,7 @@ public class MainActivity extends ListActivity implements OnClickListener {
         
         Button refrescar = (Button) findViewById(R.id.botonRefrescarMain);
         refrescar.setOnClickListener(this);
-        refrescar.callOnClick();
+        //refrescar.callOnClick();
     }
 
     @Override
@@ -39,13 +38,15 @@ public class MainActivity extends ListActivity implements OnClickListener {
         return true;
     }
     
+    
+    /*
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
     	String item = (String) getListAdapter().getItem(position);
     	Toast.makeText(this, item + " selected",
     			Toast.LENGTH_LONG).show();
     }
-    
+    */
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
@@ -61,6 +62,10 @@ public class MainActivity extends ListActivity implements OnClickListener {
 	 * @return
 	 */
 	public ArrayList<HashMap<String, String>> getListaLlamadas() {
+		if(listaLlamadas == null){
+			listaLlamadas = new ArrayList<HashMap<String,String>>();
+		}
+		
 		return listaLlamadas;
 	}
 }
