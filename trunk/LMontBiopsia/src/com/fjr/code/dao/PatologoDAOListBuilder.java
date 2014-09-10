@@ -57,6 +57,25 @@ final class PatologoDAOListBuilder implements DAOListBuilder<PatologoDTO>{
 	
 	/**
 	 * 
+	 * @param nombre
+	 */
+	public void searchByLikeNombre(String nombre){
+		customWhere += " AND LOWER(p.nombre) LIKE ?";
+		parameters.add("%" + nombre.toLowerCase() + "%");
+	}
+	
+	/**
+	 * 
+	 * @param active
+	 */
+	public void searchByActivo(boolean active) {
+		// TODO Auto-generated method stub
+		customWhere += " AND p.active=?";
+		parameters.add(active);
+	}
+	
+	/**
+	 * 
 	 * @return
 	 */
 	public String getQuery(){

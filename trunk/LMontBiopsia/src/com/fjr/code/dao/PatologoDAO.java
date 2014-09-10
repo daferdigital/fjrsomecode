@@ -1,11 +1,14 @@
 package com.fjr.code.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JComboBox;
 
 import org.apache.log4j.Logger;
 
+import com.fjr.code.dao.definitions.CriterioBusquedaPatologo;
+import com.fjr.code.dao.definitions.CriterioBusquedaUsuario;
 import com.fjr.code.dto.PatologoDTO;
 
 /**
@@ -106,5 +109,27 @@ public final class PatologoDAO {
 		}
 		
 		log.info("Agregados elementos al combo-box de los patologos");
+	}
+	
+	/**
+	 * 
+	 * @param valores
+	 * @return
+	 */
+	public static List<PatologoDTO> searchAllByCriteria(
+			Map<CriterioBusquedaUsuario, String> valores) {
+		// TODO Auto-generated method stub
+		PatologoDAOListBuilder builder = new PatologoDAOListBuilder();
+		
+		if(valores != null){
+			for (CriterioBusquedaUsuario criterio : valores.keySet()) {
+				if(CriterioBusquedaPatologo.NOMBRE.equals(criterio)){
+					builder.searchByLikeNombre(valores.get(criterio));
+				}
+			}
+		}
+		
+		builder.searchByActivo(true);
+		return builder.getResults();
 	}
 }

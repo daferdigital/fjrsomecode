@@ -12,10 +12,13 @@ import java.util.Map;
 
 import javax.swing.JComboBox;
 
+import com.fjr.code.dao.PatologoDAO;
 import com.fjr.code.dao.UsuarioDAO;
 import com.fjr.code.dao.definitions.CriterioBusquedaUsuario;
+import com.fjr.code.dto.PatologoDTO;
 import com.fjr.code.dto.UsuarioDTO;
 import com.fjr.code.gui.AppWindow;
+import com.fjr.code.gui.tables.maestros.JTablePatologos;
 import com.fjr.code.gui.tables.maestros.JTableUsuarios;
 import com.fjr.code.util.Constants;
 
@@ -130,7 +133,7 @@ public class BusquedaPatologosPanel extends JPanel implements ActionListener{
 			valores.put((CriterioBusquedaUsuario) comboBox1.getSelectedItem(), txtValor1.getText());
 			valores.put((CriterioBusquedaUsuario) comboBox2.getSelectedItem(), txtValor2.getText());
 			
-			List<UsuarioDTO> results = UsuarioDAO.searchAllByCriteria(valores);
+			List<PatologoDTO> results = PatologoDAO.searchAllByCriteria(valores);
 			
 			if(results == null || results.size() == 0){
 				//el listado no trajo resultados
@@ -139,10 +142,10 @@ public class BusquedaPatologosPanel extends JPanel implements ActionListener{
 						JOptionPane.ERROR_MESSAGE);
 			} else {
 				AppWindow.getInstance().setPanelContenido(null, 
-						JTableUsuarios.getNewInstance(results, this).getJTable());
+						JTablePatologos.getNewInstance(results, this).getJTable());
 			}
 		} else if(ACTION_COMMAND_CREAR.equals(e.getActionCommand())){
-			new UsuarioDialog(-1).setVisible(true);
+			new PatologoDialog(-1).setVisible(true);
 		}
 	}
 	

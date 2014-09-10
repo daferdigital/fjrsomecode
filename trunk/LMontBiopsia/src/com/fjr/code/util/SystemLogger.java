@@ -21,15 +21,6 @@ public final class SystemLogger {
 	
 	/**
 	 * 
-	 */
-	public static void init() {
-        // Lee el directorio donde va a ser colocado el archivo de logs
-        String directory = AppProperties.getLog4jDirectory();
-        init(directory);
-    }
-	
-	/**
-	 * 
 	 * @param logDir
 	 */
 	public static void init(String logDir) {
