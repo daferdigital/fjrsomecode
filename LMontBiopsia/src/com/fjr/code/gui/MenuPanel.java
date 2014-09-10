@@ -15,6 +15,7 @@ import com.fjr.code.dto.UsuarioDTO;
 import com.fjr.code.gui.maestros.BusquedaCategoriaReactivoPanel;
 import com.fjr.code.gui.maestros.BusquedaEspecialidadPanel;
 import com.fjr.code.gui.maestros.BusquedaExamenesPanel;
+import com.fjr.code.gui.maestros.BusquedaPatologosPanel;
 import com.fjr.code.gui.maestros.BusquedaReactivoPanel;
 import com.fjr.code.gui.maestros.BusquedaTipoEstudioPanel;
 import com.fjr.code.gui.maestros.BusquedaUsuarioPanel;
@@ -399,6 +400,18 @@ public class MenuPanel extends JPanel {
 			}
 		});
 		menuMaestros.add(mntmUsuarios);
+		
+		JMenuItem mntmPatologos = new JMenuItem("Patologos");
+		mntmPatologos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JPanel panel = new BusquedaPatologosPanel();
+				panel.setVisible(true);
+				AppWindow.getInstance().setExtraTitle("Maestro Patologos");
+				AppWindow.getInstance().setPanelContenido(panel, 
+						(JTable) null);
+			}
+		});
+		menuMaestros.add(mntmPatologos);
 		
 		menuBar.add(menuMaestros);
 	}
