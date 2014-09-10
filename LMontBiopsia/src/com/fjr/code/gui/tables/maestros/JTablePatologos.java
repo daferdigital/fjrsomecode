@@ -11,9 +11,9 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import com.fjr.code.dao.UsuarioDAO;
+import com.fjr.code.dto.PatologoDTO;
 import com.fjr.code.dto.UsuarioDTO;
 import com.fjr.code.gui.maestros.BusquedaPatologosPanel;
-import com.fjr.code.gui.maestros.BusquedaUsuarioPanel;
 import com.fjr.code.gui.maestros.UsuarioDialog;
 import com.fjr.code.gui.tables.JTableButtonRenderer;
 import com.fjr.code.util.Constants;
@@ -32,7 +32,7 @@ public class JTablePatologos implements JTablePanel{
 	private DefaultTableModel model;
 	private JTable table;
 	private static JTablePatologos instance;
-	private List<UsuarioDTO> listado;
+	private List<PatologoDTO> listado;
 	private final BusquedaPatologosPanel busquedaPatologosPanel;
 	
 	/**
@@ -42,7 +42,7 @@ public class JTablePatologos implements JTablePanel{
 	 * @param listado
 	 * @param busquedaUsuarioPanel
 	 */
-	private JTablePatologos(List<UsuarioDTO> listado, final BusquedaPatologosPanel busquedaPatologosPanel) {
+	private JTablePatologos(List<PatologoDTO> listado, final BusquedaPatologosPanel busquedaPatologosPanel) {
 		// TODO Auto-generated constructor stub
 		this.listado = listado;
 		this.busquedaPatologosPanel = busquedaPatologosPanel;
@@ -145,8 +145,8 @@ public class JTablePatologos implements JTablePanel{
 	 * @param busquedaUsuarioPanel
 	 * @return
 	 */
-	public static JTablePatologos getNewInstance(List<UsuarioDTO> listado, BusquedaUsuarioPanel busquedaUsuarioPanel){
-		instance = new JTablePatologos(listado, busquedaUsuarioPanel);
+	public static JTablePatologos getNewInstance(List<PatologoDTO> listado, BusquedaPatologosPanel busquedaPatologosPanel){
+		instance = new JTablePatologos(listado, busquedaPatologosPanel);
 		
 		return instance;
 	}
@@ -175,9 +175,9 @@ public class JTablePatologos implements JTablePanel{
 		table.getColumnModel().getColumn(1).setCellRenderer(new JTableButtonRenderer());
 		
 		//buscamos los registros de biopsias activas para mostrarlos aqui
-		for (UsuarioDTO usuarioDTO : listado) {
-			addRow(usuarioDTO.getId(),
-					usuarioDTO.getNombre());
+		for (PatologoDTO patologoDTO : listado) {
+			addRow(patologoDTO.getId(),
+					patologoDTO.getNombre());
 		}
 	}
 	

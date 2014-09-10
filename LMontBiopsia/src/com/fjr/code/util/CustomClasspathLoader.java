@@ -34,7 +34,7 @@ public final class CustomClasspathLoader {
 				for (File jarFile : jars) {
 					URL u = jarFile.toURI().toURL();
 					URLClassLoader urlClassLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
-				    Class<URLClassLoader> urlClass = URLClassLoader.class;
+					Class<URLClassLoader> urlClass = URLClassLoader.class;
 				    Method method = urlClass.getDeclaredMethod("addURL", new Class[]{URL.class});
 				    method.setAccessible(true);
 				    method.invoke(urlClassLoader, new Object[]{u});
