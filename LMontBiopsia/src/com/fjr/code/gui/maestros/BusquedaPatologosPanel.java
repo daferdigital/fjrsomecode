@@ -13,13 +13,10 @@ import java.util.Map;
 import javax.swing.JComboBox;
 
 import com.fjr.code.dao.PatologoDAO;
-import com.fjr.code.dao.UsuarioDAO;
 import com.fjr.code.dao.definitions.CriterioBusquedaUsuario;
 import com.fjr.code.dto.PatologoDTO;
-import com.fjr.code.dto.UsuarioDTO;
 import com.fjr.code.gui.AppWindow;
 import com.fjr.code.gui.tables.maestros.JTablePatologos;
-import com.fjr.code.gui.tables.maestros.JTableUsuarios;
 import com.fjr.code.util.Constants;
 
 import javax.swing.JOptionPane;
@@ -113,7 +110,7 @@ public class BusquedaPatologosPanel extends JPanel implements ActionListener{
 		txtValor2.setBounds(572, 38, 232, 20);
 		add(txtValor2);
 		
-		JButton btnCrearTipoDe = new JButton("Crear Usuario");
+		JButton btnCrearTipoDe = new JButton("Crear Patologo");
 		btnCrearTipoDe.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnCrearTipoDe.setActionCommand(ACTION_COMMAND_CREAR);
 		btnCrearTipoDe.setBounds(812, 37, 153, 23);
@@ -145,7 +142,7 @@ public class BusquedaPatologosPanel extends JPanel implements ActionListener{
 						JTablePatologos.getNewInstance(results, this).getJTable());
 			}
 		} else if(ACTION_COMMAND_CREAR.equals(e.getActionCommand())){
-			new PatologoDialog(-1).setVisible(true);
+			new PatologoDialog(-1, this).setVisible(true);
 		}
 	}
 	

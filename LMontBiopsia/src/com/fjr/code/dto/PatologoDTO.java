@@ -17,6 +17,13 @@ public class PatologoDTO {
 	
 	/**
 	 * 
+	 */
+	public PatologoDTO(){
+		
+	}
+	
+	/**
+	 * 
 	 * @param id
 	 * @param nombre
 	 * @param activo

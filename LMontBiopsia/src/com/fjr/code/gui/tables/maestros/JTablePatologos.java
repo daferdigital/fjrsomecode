@@ -10,13 +10,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import com.fjr.code.dao.UsuarioDAO;
+import com.fjr.code.dao.PatologoDAO;
 import com.fjr.code.dto.PatologoDTO;
-import com.fjr.code.dto.UsuarioDTO;
 import com.fjr.code.gui.maestros.BusquedaPatologosPanel;
-import com.fjr.code.gui.maestros.UsuarioDialog;
+import com.fjr.code.gui.maestros.PatologoDialog;
 import com.fjr.code.gui.tables.JTableButtonRenderer;
-import com.fjr.code.util.Constants;
 
 /**
  * 
@@ -100,32 +98,23 @@ public class JTablePatologos implements JTablePanel{
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
 				if((table.getSelectedColumn() == 0 || table.getSelectedColumn() == 1) && table.getSelectedRow() > -1){
-					int idUsuario = (Integer) table.getValueAt(table.getSelectedRow(), 3);
+					int idPatologo = (Integer) table.getValueAt(table.getSelectedRow(), 3);
 					
 					if(table.getSelectedColumn() == 0){
 						//se desea abrir el registro del usuario correspondiente
-						new UsuarioDialog(idUsuario).setVisible(true);
+						new PatologoDialog(idPatologo, busquedaPatologosPanel).setVisible(true);
 					} else {
-						//se desea eliminar el registro del usuario
-						if(idUsuario == Constants.USUARIO_LOGUEADO.getId()){
-							//se desea eliminar a si mismo, no lo permitimos
-							JOptionPane.showMessageDialog(table,
-									"El usuario " + table.getValueAt(table.getSelectedRow(), 2) + " no puede eliminarse desde su propia cuenta.",
-									"Usuario eliminado",
-									JOptionPane.WARNING_MESSAGE);
-						} else {
-							//preguntamos si se esta seguro
-							int respuesta = JOptionPane.showConfirmDialog(table,
-									"Esta ud seguro de que desea eliminar al usuario " + table.getValueAt(table.getSelectedRow(), 2),
-									"Esta Ud. seguro?",
-									JOptionPane.YES_NO_OPTION);
-							if(respuesta == JOptionPane.OK_OPTION){
-								if(UsuarioDAO.setActiveUsuario(idUsuario, false)){
-									busquedaPatologosPanel.reloadResults();
-									JOptionPane.showMessageDialog(table, "El usuario " + table.getValueAt(table.getSelectedRow(), 2) + " fue eliminado.",
-											"Usuario eliminado",
-											JOptionPane.INFORMATION_MESSAGE);
-								}
+						//preguntamos si se esta seguro
+						int respuesta = JOptionPane.showConfirmDialog(table,
+								"Esta ud seguro de que desea eliminar al patologo " + table.getValueAt(table.getSelectedRow(), 2),
+								"Esta Ud. seguro?",
+								JOptionPane.YES_NO_OPTION);
+						if(respuesta == JOptionPane.OK_OPTION){
+							if(PatologoDAO.setActivePatologo(idPatologo, false)){
+								busquedaPatologosPanel.reloadResults();
+								JOptionPane.showMessageDialog(table, "El patologo " + table.getValueAt(table.getSelectedRow(), 2) + " fue eliminado.",
+										"Patologo eliminado",
+										JOptionPane.INFORMATION_MESSAGE);
 							}
 						}
 					}
