@@ -70,7 +70,7 @@ final class PatologoDAOListBuilder implements DAOListBuilder<PatologoDTO>{
 	 */
 	public void searchByActivo(boolean active) {
 		// TODO Auto-generated method stub
-		customWhere += " AND p.active=?";
+		customWhere += " AND p.activo=?";
 		parameters.add(active);
 	}
 	
