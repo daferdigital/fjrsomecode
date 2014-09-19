@@ -36,7 +36,7 @@
 		$clave=Constants::$DB_USER_PWD;
 		$base=Constants::$DB_SCHEMA;
 		
-		$conexion=mysql_connect($servidor,$usuario,$clave) or die(mysql_error());
+		$conexion=mysql_connect($servidor,$usuario,$clave,true) or die(mysql_error());
 		mysql_select_db($base) or die (mysql_error()."Problema");
 	}
 	prepareConnection();
