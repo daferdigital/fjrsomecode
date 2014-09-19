@@ -1,0 +1,10 @@
+Ajustes en los logros de basket.
+	1.- Cambiar los "1H" por MJ
+	2.- Dejar apuestas: A Ganar JC y MJ, RunLine JC, MJ y Alternativo, Altas y Bajas JC y MJ.
+	3.- En la carga de logros dice RunLine MJ cuando se va a cargar A Ganar MJ, debe decir, Logro MJ.
+	4.- Tratar de organizar mejor el orden de los elementos en la carga de los logros de basket.
+
+Archivos:
+
+parlay/procesos/deportes_est/basket.php
+
