@@ -85,7 +85,8 @@ public final class GUIPressedOrTypedNroBiopsia {
 		
 		if(doProcess){
 			try {
-				log.info("Debo verificar la biopsia '" + nroBiopsia + "'");
+				log.info("Debo verificar la biopsia '" + nroBiopsia + "'"
+						+ ("".equals(abreviatura) ? "" : abreviatura));
 				
 				//verificamos los datos basicos del cliente para esa cedula
 				biopsia = BiopsiaInfoDAO.getBiopsiaByNumero(nroBiopsia, abreviatura);
