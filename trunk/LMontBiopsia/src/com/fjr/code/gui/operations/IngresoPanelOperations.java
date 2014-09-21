@@ -60,6 +60,7 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 	 */
 	private static final Logger log = Logger.getLogger(IngresoPanelOperations.class);
 	private List<ExamenBiopsiaDTO> examenes = ExamenesDAO.getAll();
+	private int idEstudio = -1;
 	
 	public static final String ACTION_COMMAND_NRO_BIOPSIA = "nroBiopsia";
 	public static final String ACTION_COMMAND_NRO_CEDULA = "nroCedula";
@@ -439,22 +440,58 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 		} else {
 			log.info("Se desea actualizar una biopsia ya existente");
 			if(ingreso.getId() > 0){
-				if(BiopsiaInfoDAO.updateIngreso(ingreso)){
-					log.info("Biopsia '" + ingreso.getCodigo() + "' actualizada con exito.");
-					
-					if(!goToMacro){
-						JOptionPane.showMessageDialog(ventana, 
-								"La biopsia " + ingreso.getCodigo() + " fue actualizada de manera exitosa.", 
-								"Biopsia " + ingreso.getCodigo() + " actualizada", 
-								JOptionPane.INFORMATION_MESSAGE);
+				//verifico si hubo cambio en el tipo de estudio
+				int confirm = JOptionPane.YES_OPTION;
+				boolean mustClone = false;
+				
+				if(this.idEstudio != ingreso.getIdTipoEstudio()){
+					mustClone = true;
+					confirm = JOptionPane.showConfirmDialog(null,
+							"Se detectó un cambio en el tipo de estudio original para esta Biopsia.\n"
+							+ "Desea renumerar esta nueva Biopsia? La anterior sera marcada como Anulada.",
+							"Advertencia",
+							JOptionPane.YES_NO_OPTION);
+				}
+				
+				if(confirm == JOptionPane.YES_OPTION){
+					if(mustClone){
+						//preparamos el DTO para permitir el clonado
+						ingreso.setSide1CodeBiopsia("-1");
+						int originalBiopsiaId = ingreso.getId();
+						
+						if(BiopsiaInfoDAO.insertBiopsiaInfo(ingreso) > 0){
+							BiopsiaInfoDAO.moveBiopsiaToFase(originalBiopsiaId,  FasesBiopsia.ANULADA);
+							JOptionPane.showMessageDialog(null,
+									"La biopsia fue almacenada con el valor del nuevo tipo de estudio.\n"
+									+ "El registro anterior fue anulado del sistema.",
+									"Registro Clonado",
+									JOptionPane.INFORMATION_MESSAGE);
+						} else {
+							JOptionPane.showMessageDialog(null,
+									"La biopsia fue almacenada con el valor del nuevo tipo de estudio.\n"
+									+ "El registro anterior fue anulado del sistema.",
+									"Registro Clonado",
+									JOptionPane.ERROR_MESSAGE);
+						}
+					} else {
+						if(BiopsiaInfoDAO.updateIngreso(ingreso)){
+							log.info("Biopsia '" + ingreso.getCodigo() + "' actualizada con exito.");
+							
+							if(!goToMacro){
+								JOptionPane.showMessageDialog(ventana, 
+										"La biopsia " + ingreso.getCodigo() + " fue actualizada de manera exitosa.", 
+										"Biopsia " + ingreso.getCodigo() + " actualizada", 
+										JOptionPane.INFORMATION_MESSAGE);
+							}
+						} else {
+							log.error("Biopsia '" + ingreso.getCodigo() + "' no pudo ser actualizada");
+							result = false;
+							JOptionPane.showMessageDialog(ventana, 
+									"Se produjo un error al actualizar la biopsia.\nPor favor, intente de nuevo.", 
+									"Error al actualizar", 
+									JOptionPane.ERROR_MESSAGE);
+						}
 					}
-				} else {
-					log.error("Biopsia '" + ingreso.getCodigo() + "' no pudo ser actualizada");
-					result = false;
-					JOptionPane.showMessageDialog(ventana, 
-							"Se produjo un error al actualizar la biopsia.\nPor favor, intente de nuevo.", 
-							"Error al actualizar", 
-							JOptionPane.ERROR_MESSAGE);
 				}
 			} else {
 				JOptionPane.showMessageDialog(ventana, 
@@ -606,8 +643,12 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 					}
 				}
 			} else if(ACTION_COMMAND_NRO_BIOPSIA.equals(field.getName())){
-				biopsiaInfoDTO = GUIPressedOrTypedNroBiopsia.manageKeyEvent(ventana, e, field, biopsiaInfoDTO); 
+				biopsiaInfoDTO = GUIPressedOrTypedNroBiopsia.manageKeyEvent(ventana, e, field, biopsiaInfoDTO);
 				loadVentanaFromBiopsiaDTO(biopsiaInfoDTO);
+				
+				this.idEstudio = biopsiaInfoDTO.getIdTipoEstudio();
+				log.info("TipoEstudio original de la biopsia " + biopsiaInfoDTO.getCodigo()
+						+ "= " + this.idEstudio);
 				if(biopsiaInfoDTO != null){
 					//verificamos el status de la biopsia
 					if(! FasesBiopsia.INGRESO.equals(biopsiaInfoDTO.getFaseActual())){
