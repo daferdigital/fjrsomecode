@@ -11,11 +11,10 @@
 				}
 			}
 		if(!$_POST['idliga']){
-			$cadena=sprintf("insert into ligas() values('','%s','%s','".$_POST['estatus']."','".$_POST['liga_padre']."','".$oligas."')",mysql_escape_string($_POST['nombre']),mysql_escape_string($_POST['categoria']));
+			$cadena=sprintf("insert into ligas() values('','%s','%s','".$_POST['estatus']."','".$_POST['liga_padre']."','".$oligas."', ".$_POST["orden_visual"].")",mysql_escape_string($_POST['nombre']),mysql_escape_string($_POST['categoria']));
 			mysql_query($cadena)or die(mysql_error());// exit;
 		}else{
-			$cadena=sprintf("update ligas set nombre='%s', idcategoria='%s',liga_padre='".$_POST['liga_padre']."', otras_ligas='".$oligas."', estatus='".$_POST['estatus']."' where idliga='%s' limit 1",mysql_escape_string($_POST['nombre']),mysql_escape_string($_POST['categoria']),mysql_escape_string($_POST['idliga']));
+			$cadena=sprintf("update ligas set nombre='%s', idcategoria='%s',liga_padre='".$_POST['liga_padre']."', otras_ligas='".$oligas."', estatus='".$_POST['estatus']."', orden_visual=".$_POST["orden_visual"]." where idliga='%s' limit 1",mysql_escape_string($_POST['nombre']),mysql_escape_string($_POST['categoria']),mysql_escape_string($_POST['idliga']));
 			mysql_query($cadena);
-		}
-		
+		}	
 ?>

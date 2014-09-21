@@ -1,0 +1,22 @@
+Ajustes en la seccion administrativa de ligas.
+	1.- Permitir crear ligas nuevas.
+    2.- Permitir la actualizacion del valor "orden_visual" de las ligas
+
+BD:
+    -- actualizacion de la vista de ligas
+    CREATE VIEW `vista_ligas` AS 
+        select `ligas`.`idliga` AS `idliga`,
+            `ligas`.`nombre` AS `nombre`,
+            `ligas`.`idcategoria` AS `idcategoria`,
+            `ligas`.`estatus` AS `estatus`,
+            `categorias`.`nombre` AS `nombre_categoria`,
+            `ligas`.`liga_padre` AS `liga_padre`,
+            `ligas`.`otras_ligas` AS `otras_ligas`,
+            `ligas`.`orden_visual` AS `orden_visual` 
+        from (`ligas` join `categorias`) 
+        where (`ligas`.`idcategoria` = `categorias`.`idcategoria`);
+            
+Archivos:
+    parlay/ingreso_ligas.php
+    parlay/procesos/guardar_ligas.php
+    parlay/procesos/listar_ligas.php
