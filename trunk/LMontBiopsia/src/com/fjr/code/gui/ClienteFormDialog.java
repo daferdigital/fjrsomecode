@@ -24,7 +24,6 @@ import com.fjr.code.dao.TipoCedulaDAO;
 import com.fjr.code.dao.definitions.TipoEdadEnum;
 import com.fjr.code.dto.ClienteDTO;
 import com.fjr.code.gui.operations.ClienteFormDialogOperations;
-import com.fjr.code.util.Constants;
 
 import java.awt.Color;
 
@@ -59,7 +58,7 @@ public class ClienteFormDialog extends JDialog {
 	private Object ventanaReferencia;
 	private JComboBox cBoxTipoEdad;
 	private ClienteDTO cliente;
-	private boolean isNewClient;
+	private final boolean isNewClient = true;
 	
 	/**
 	 * Launch the application.
@@ -82,7 +81,7 @@ public class ClienteFormDialog extends JDialog {
 	 */
 	public ClienteFormDialog(ClienteDTO cliente, int indexTipoCedula, String cedula, Object ventanaReferencia) {
 		this.ventanaReferencia = ventanaReferencia;
-		this.isNewClient = cliente.getId() == Constants.ID_DEFAULT_CLIENTE;
+		//this.isNewClient = cliente.getId() == Constants.ID_DEFAULT_CLIENTE;
 		this.cliente = cliente;
 		
 		String keyCedula = "";
@@ -341,10 +340,11 @@ public class ClienteFormDialog extends JDialog {
 		return cliente;
 	}
 	
+	/*
 	public void setNewClient(boolean isNewClient) {
 		this.isNewClient = isNewClient;
 	}
-	
+	 */	
 	public boolean isNewClient() {
 		return isNewClient;
 	}
