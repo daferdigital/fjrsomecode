@@ -30,6 +30,11 @@ public class SerialPortDTO {
 		this.commPort = commPort;
 		
 		serialPortId = SendCommandUtil.sendCommandToPort(commPort, Commands.AT_GET_IMEI_COMMAND);
+		if(serialPortId != null 
+				&& serialPortId.length() > (Commands.AT_GET_IMEI_COMMAND.length() + 2)){
+			serialPortId = serialPortId.replaceAll("\n", "").replaceAll("\r", "");
+			serialPortId = serialPortId.substring(Commands.AT_GET_IMEI_COMMAND.length(), serialPortId.lastIndexOf("OK"));
+		}
 	}
 
 	public String getSerialPortName() {
