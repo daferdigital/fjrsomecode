@@ -66,7 +66,27 @@ public final class PreparePortsManager {
 		}
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public Map<String, SerialPortDTO> getAvailablePorts() {
 		return availablePorts;
+	}
+	
+	/**
+	 * 
+	 */
+	public Map<String, SerialPortDTO> getAvailablePortsById(){
+		Map<String, SerialPortDTO> clone = new HashMap<String, SerialPortDTO>();
+		
+		for (String portKey: availablePorts.keySet()) {
+			SerialPortDTO port = availablePorts.get(portKey);
+			if(port.getSerialPortId() != null && !"".equals(port.getSerialPortId())){
+				clone.put(availablePorts.get(portKey).getSerialPortId(), port);
+			}
+		}
+		
+		return clone;
 	}
 }

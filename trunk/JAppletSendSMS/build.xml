@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="modules" default="prepareJars" basedir="./">
+	
+	<!-- TARGET PARA CREAR EL JAR QUE CONTIENE LA APLICACION COMO TAL -->
+	<target name="makejar"> 
+        <jar jarfile="JAppletSendSMS.jar"
+            includes="*/*/*/*/*/*.class,,
+                     */*/*/*/*/*/*.class"
+        	basedir="./bin/"/>
+    </target>
+	
+	<target name="signJars">
+        <signjar
+            alias="QWDs4"
+            storepass="qwebdocuments"
+            keystore="./focuskey2"
+            keypass="qwebdocuments4"
+            lazy="true">
+            
+            <path>
+                <fileset file="JAppletSendSMS.jar" />
+                <fileset dir="./libs" includes="**/*.jar" />
+            </path>
+        </signjar>
+    </target>
+    
+	<target name="prepareJars">
+		<antcall target="makejar"></antcall>
+		<antcall target="signJars"></antcall>
+	</target>
+</project>
