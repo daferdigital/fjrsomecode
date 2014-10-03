@@ -118,7 +118,10 @@ public class Main extends JApplet{
 			
 			if(portsManager.getAvailablePortsById().size() < 1){
 				JOptionPane.showMessageDialog(null,
-						"El escaneo de su sistema en busca del dispositivo BAM no encontró nada.",
+						"El escaneo de su sistema en busca del dispositivo BAM no encontró nada.\n"
+								+ "Recuerde que es necesario que instale el software que viene con su dispositivo.\n"
+								+ "Lo que no es necesario es que al conectar el dispositivo ejecute dicho software.\n\n"
+								+ "Si acaba de instalar el software es recomendable que reinicie su equipo para que los cambios surtan efecto.",
 						"BAM no detectado",
 						JOptionPane.WARNING_MESSAGE);
 			} else {
