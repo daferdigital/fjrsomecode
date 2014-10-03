@@ -2,10 +2,13 @@ package com.dafer.sms.send.japplet.util;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
 
 import javax.comm.CommPortIdentifier;
 import javax.comm.PortInUseException;
 import javax.comm.SerialPort;
+
+import com.dafer.sms.send.japplet.dto.ATCommandDTO;
 
 /**
  * 
@@ -110,7 +113,7 @@ public final class SendCommandUtil {
 	 * @param port Puerto en el cual se ejecutara el comando indicado
 	 * @param command Comandos AT a ejecutar
 	 */
-	public static String sendCommandToPort(CommPortIdentifier port, String[] commands){
+	public static String sendCommandsToPort(CommPortIdentifier port, List<ATCommandDTO> commands){
 		String response = null;
 		SerialPort serialPort = null;
 		InputStream is = null;
@@ -139,15 +142,21 @@ public final class SendCommandUtil {
 				c = is.read();
 			}
 			
-			for (String atCommand : commands) {
+			for (ATCommandDTO atCommand : commands) {
 				//escribimos el comando en el puerto
-				String fixedCommand = atCommand;
+				String fixedCommand = atCommand.getCommand();
 				
-				if(!atCommand.endsWith("\r")){
-					fixedCommand = atCommand + "\r";
+				if(!fixedCommand.endsWith("\r")){
+					fixedCommand = fixedCommand + "\r";
 				}
 	    			
-				byte[] bytes = fixedCommand.getBytes();
+				byte[] bytes = null;
+				if(atCommand.getCharset() != null && !"".equals(atCommand.getCharset())){
+					bytes = fixedCommand.getBytes(atCommand.getCharset());
+				} else {
+					bytes = fixedCommand.getBytes();
+				}
+				
 				os.write(bytes, 0, bytes.length);
 				os.flush();
 				DebugLog.info("Enviado comando [" + atCommand + "] al puerto [" + port.getName() + "] de manera exitosa");

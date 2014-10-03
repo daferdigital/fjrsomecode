@@ -13,10 +13,10 @@
 	
 	<target name="signJars">
         <signjar
-            alias="QWDs4"
-            storepass="qwebdocuments"
-            keystore="./focuskey2"
-            keypass="qwebdocuments4"
+            alias="dafer"
+            storepass="changeit"
+            keystore="./dafer.jks"
+            keypass="changeit"
             lazy="true">
             
             <path>
@@ -27,6 +27,23 @@
     </target>
     
 	<target name="prepareJars">
+	     <exec executable="keytool" failonerror="true">
+            <arg value="-delete"/>
+            <arg line="-keystore dafer.jks" />
+            <arg line="-alias dafer" />
+            <arg line="-storepass changeit" />
+        </exec>
+        <exec executable="keytool" failonerror="true">
+			<arg value="-v" />
+			<arg value="-genkey"/>
+			<arg line="-alias dafer" />
+			<arg line="-validity 3600" />
+			<arg line='-dname "CN=Sistemas, OU=SMS, O=Dafer Digital, L=Caracas, ST=Caracas,C=VE" ' />
+			<arg line="-keypass changeit"/>
+			<arg line="-keystore dafer.jks"/>
+			<arg line="-storepass changeit"/>
+		</exec>
+		
 		<antcall target="makejar"></antcall>
 		<antcall target="signJars"></antcall>
 	</target>
