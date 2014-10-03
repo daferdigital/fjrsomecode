@@ -3,11 +3,13 @@ package com.dafer.sms.send.japplet.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+import com.dafer.sms.send.japplet.dto.ATCommandDTO;
 import com.dafer.sms.send.japplet.dto.SerialPortDTO;
 import com.dafer.sms.send.japplet.util.ContactsUtil;
 import com.dafer.sms.send.japplet.util.DebugLog;
@@ -62,11 +64,18 @@ public final class SendSMSPanelOperations implements ActionListener{
 				if(contactos != null){
 					SerialPortDTO port = parent.getSerialPorts().values().iterator().next();
 					for (String numero : contactos) {
+						//"AT+CMGF=0\r" PDU Mode
+						//"AT+CMGF=1\r" TEXT Mode
 						SendCommandUtil.sendCommandToPort(port.getCommPort(),
 								"AT+CMGF=1\r");
 						
-						String[] comandos = {"AT+CMGS=\"" + numero + "\"\r", parent.getTextAreaSMS().getText() + ctrlZ};
-						SendCommandUtil.sendCommandToPort(port.getCommPort(), comandos);
+						List<ATCommandDTO> comandos = new LinkedList<ATCommandDTO>();
+						comandos.add(new ATCommandDTO("AT+CMGS=\"" + numero + "\"\r"));
+						comandos.add(new ATCommandDTO(
+								parent.getTextAreaSMS().getText() + ctrlZ,
+								null));
+						
+						SendCommandUtil.sendCommandsToPort(port.getCommPort(), comandos);
 					}
 				}
 			}
