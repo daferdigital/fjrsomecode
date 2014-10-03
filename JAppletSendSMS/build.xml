@@ -6,7 +6,9 @@
         <jar jarfile="JAppletSendSMS.jar"
             includes="*/*/*/*/*/*.class,,
                      */*/*/*/*/*/*.class"
-        	basedir="./bin/"/>
+        	basedir="./bin/"
+        	manifest="./bin/META-INF/MANIFEST.MF"
+        	/>
     </target>
 	
 	<target name="signJars">
