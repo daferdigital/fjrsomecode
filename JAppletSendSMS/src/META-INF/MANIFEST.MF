@@ -1,4 +1,4 @@
 Manifest-Version: 1.0
 Codebase: *.daferdigital.com.ve
-Permisions: all-permissions
+Permissions: all-permissions
 Application-Name: JAppletSendSMS
