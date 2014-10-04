@@ -1,0 +1,7 @@
+Ajustes en la seccion administrativa de ligas.
+	1.- Permitir que las ligas nuevas que sean creadas, su encabezado sea verificado en base a su id de categoria en el sistema.
+
+BD:
+            
+Archivos:
+    parlay/procesos/conexion.php
