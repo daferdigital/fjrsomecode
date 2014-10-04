@@ -353,11 +353,17 @@
 
 	  }
 
-	
-
+	/**
+	 * 
+	 * @param unknown $fecha
+	 * @param string $arregloLogrosGuardados
+	 */
+	function calcula_ticket_ganador($fecha, $arregloLogrosGuardados=null){
+		VentasDAO::calcularTicketGanador($fecha, $arregloLogrosGuardados);
+	}
 	  
-
-	  function calcula_ticket_ganador($fecha, $arregloLogrosGuardados=null){
+	
+	function calcula_ticket_ganadorOLD($fecha, $arregloLogrosGuardados=null){
 		
 	  	VentasDAO::calcularTicketGanador($fecha, $arregloLogrosGuardados);
 	  	
@@ -679,43 +685,50 @@
 		return $acum;
 
 	}	  
-
 	
-
-	
-
+	/**
+	 * 
+	 * @param unknown_type $que_muestro
+	 * @param unknown_type $categoria
+	 * @param unknown_type $deporte
+	 */
 	function genera_encabezado($que_muestro,$categoria,$deporte=''){
-
+	
 		global $array_datos,$idliga,$equipoA,$equipoB,$hora,$color,$cuenta_juego,$varlogros,$imagenA,$imagenB,$total_juegos,$refA,$refB,$pitcherA,$pitcherB,$ancho,$soloimp,$nombre_liga;
-
-		if($ancho=='')$ancho='100%';
-
+	
+		if($ancho==''){
+			$ancho='100%';
+		}
+	
 		///switch($idliga){
-
-			if($idliga=='4' or $idliga=='5' or $idliga=='7' or ($idliga>=12 && $idliga<=15) or $idliga=='17' or ($idliga>=20 && $idliga<=28) or ($idliga>=30 && $idliga<=43)  or $idliga=='48' or $idliga=='49' or $idliga=='50' or $idliga=='51'){
-				///Futbol ///padre=1
-
-				include ("deportes_est/futbol.php");
-				
-			}else if($idliga=='2' or $idliga=='16' or $idliga=='18' or $idliga=='47'){ //Basket ///padre=3
-				include ("deportes_est/basket.php");
+		if($idliga=='4' or $idliga=='5' or $idliga=='7' or ($idliga>=12 && $idliga<=15) or $idliga=='17' or ($idliga>=20 && $idliga<=28) or ($idliga>=30 && $idliga<=43)  or $idliga=='48' or $idliga=='49' or $idliga=='50' or $idliga=='51'){
+			///Futbol ///padre=1
+			include ("deportes_est/futbol.php");
+		} else if($idliga=='2' or $idliga=='16' or $idliga=='18' or $idliga=='47'){ //Basket ///padre=3
+			include ("deportes_est/basket.php");
+		} else if($idliga=='11' or $idliga=='3' or $idliga=='1' or $idliga=='44' or $idliga=='45' or $idliga=='52'){ //Beisbol ///padre=2
+			include ("deportes_est/beisbol.php");
+		} else if($idliga=='10' or $idliga=='46'){ //Futbol AMERICANO ///padre=6
+			include ("deportes_est/famericano.php");
+		} else {
+			//no se encontro el id de la liga
+			//probamos con el id de su deporte
+			$categoriaInfo = DBUtil::executeSelect("SELECT * from ligas where idliga=".$idliga);
+			if(count($categoriaInfo) > 0){
+				$categoriaInfo = $categoriaInfo[0];
+				if($categoriaInfo["idcategoria"] == "1"){
+					include ("deportes_est/futbol.php");
+				} else if($categoriaInfo["idcategoria"] == "3"){
+					include ("deportes_est/basket.php");
+				} else if($categoriaInfo["idcategoria"] == "2"){
+					include ("deportes_est/beisbol.php");
+				} else if($categoriaInfo["idcategoria"] == "6"){
+					include ("deportes_est/famericano.php");
+				}
 			}
-
-			else if($idliga=='11' or $idliga=='3' or $idliga=='1' or $idliga=='44' or $idliga=='45' or $idliga=='52'){ //Beisbol ///padre=2
-				include ("deportes_est/beisbol.php");
-			}
-
-			else if($idliga=='10' or $idliga=='46'){ //Futbol AMERICANO ///padre=6
-				include ("deportes_est/famericano.php");
-			}
-
-	//	}
-
+		}
+		//	}
 	}
-
-
-
-
 
 	function agregar_logros_banqueros($fecha,$idb){
 
