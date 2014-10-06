@@ -1,0 +1,10 @@
+@CHARSET "ISO-8859-1";
+
+body {
+	font-family: verdana;
+	font-size: 14px;
+}
+.mainTable {
+	margin-left: auto;
+	margin-right: auto;
+}
