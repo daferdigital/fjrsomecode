@@ -830,14 +830,15 @@ function checkIfUserHaveNotPendingPay(){
 			type: "POST", 
 			success: function(response){
 				//solo recibimos uno de los posibles envios no encontrados que posea
-				if(response != "IS_OK"){
-					$.map(response, function(valor, clave){
+				//en caso de no tener nada pendiente, recibimos un IS_OK
+				$.map(response, function(valor, clave){
+					if(valor != "IS_OK"){
 						alert("Disculpe, usted posee un registro en estado de \"Pago no encontrado\".\n"
 								+ "Será redirigido a una página donde podrá modificarlo antes de poder crear nuevas solicitudes");
 						result = true;
 						window.location = "actualizarEnvio.php?id=" + valor;
-					});
-				}
+					}
+				});
 			},
 			error: function(response){
 				try{
