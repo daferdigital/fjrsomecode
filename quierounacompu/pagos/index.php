@@ -141,13 +141,13 @@
     			</span>
     		</td>
    	 		<td width="270px">
-   	 			<select style="FONT-SIZE: 10pt" size="1" name="ci" onchange="setMaxLengthCI()">
+   	 			<select style="FONT-SIZE: 10pt" size="1" id="ci" name="ci" onchange="setMaxLengthCI()">
 			        <option value="V" selected>V</option>
 			        <option value="E">E</option>
 			        <option value="J">J</option>
 			        <option value="G">G</option>
       			</select>
-    			<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)"  maxlength="9" size="23" name="cii" onkeypress="return textInputOnlyNumbers(event)">
+    			<input style="FONT-SIZE: 10pt; BACKGROUND-COLOR: rgb(255,255,255)" maxlength="9" size="23" id="cii" name="cii" onkeypress="return textInputOnlyNumbers(event)">
     			<span class="isMandatory" id="spanCii" style="display: none;">
     				<br/>
     				Disculpe su C&eacute;dula es obligatoria.

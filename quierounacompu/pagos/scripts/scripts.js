@@ -488,6 +488,57 @@ function validarDatosDelCliente(payForm){
 	return doSubmit;
 }
 
+/**
+ * 
+ * @param payForm
+ * @returns {Boolean}
+ */
+function wasTouchedDatosDelCliente(payForm){
+	var wasTouched = false;
+	//datos del cliente
+	var nombre = payForm.nombre.value.trim();
+	var nombreHidden = payForm.nombre_hidden.value.trim();
+	var seudonimo = payForm.seudonimo.value.trim();
+	var seudonimoHidden = payForm.seudonimo_hidden.value.trim();
+	var cedula = payForm.cii.value.trim();
+	var cedulaHidden = payForm.ci_hidden.value.trim() + "-" + payForm.cii_hidden.value.trim();
+	var email = payForm.email.value.trim();
+	var emailHidden = payForm.email_hidden.value.trim();
+	var tlfCelularCliente = payForm.codCelCliente.value.trim() + "-" + payForm.tlfCelularCliente.value.trim();
+	var tlfCelularClienteHidden = payForm.codCelCliente_hidden.value.trim() + "-" + payForm.tlfCelularCliente_hidden.value.trim();
+	var tlfLocalCliente = payForm.codLocalCliente.value.trim() + "-" + payForm.tlfLocalCliente.value.trim();
+	var tlfLocalClienteHidden = payForm.codLocalCliente_hidden.value.trim() + "-" + payForm.tlfLocalCliente_hidden.value.trim();
+	
+	if(seudonimo != seudonimoHidden){
+		wasTouched = wasTouched || true;
+	}
+	if(nombre != nombreHidden){
+		wasTouched = wasTouched || true;
+	}
+	if((payForm.ci.value + "-" + cedula) != cedulaHidden){
+		wasTouched = wasTouched || true;
+	}
+	if(email != emailHidden){
+		wasTouched = wasTouched || true;
+	}
+	if("-" == tlfCelularClienteHidden){
+		if(payForm.tlfCelularCliente.value.trim() != payForm.tlfCelularCliente_hidden.value.trim()){
+			wasTouched = wasTouched || true;
+		}
+	} else if(tlfCelularCliente != tlfCelularClienteHidden){
+		wasTouched = wasTouched || true;
+	}
+	if("-" == tlfLocalClienteHidden){
+		if(payForm.tlfLocalCliente.value.trim() != payForm.tlfLocalCliente_hidden.value.trim()){
+			wasTouched = wasTouched || true;
+		}
+	} else if(tlfLocalCliente != tlfLocalClienteHidden){
+		wasTouched = wasTouched || true;
+	}
+	
+	return wasTouched;
+}
+
 function validarDatosDelPago(payForm){
 	var doSubmit = true;
 	
@@ -566,6 +617,59 @@ function validarDatosDelPago(payForm){
 	return doSubmit;
 }
 
+/**
+ * 
+ * @param payForm
+ * @returns {Boolean}
+ */
+function wasTouchedDatosDelPago(payForm){
+	var wasTouched = false;
+	
+	//datos de pago
+	var medioDePago = payForm.medio.value.trim();
+	var medioDePagoHidden = payForm.medio_hidden.value.trim();
+	var bancoDestino = payForm.banco.value.trim();
+	var bancoDestinoHidden = payForm.banco_hidden.value.trim();
+	var bancoOrigen = payForm.bancoOrigen.value.trim();
+	var bancoOrigenHidden = payForm.bancoOrigen_hidden.value.trim();
+	var voucher = payForm.bauche.value.trim();
+	var voucherHidden = payForm.bauche_hidden.value.trim();
+	var fechaPago = payForm.fechaPagoHidden.value.trim();
+	var fechaPagoHidden = payForm.fechaPago_hidden.value.trim();
+	var montoPago = payForm.monto.value.trim();
+	var montoPagoHidden = payForm.monto_hidden.value.trim();
+	var descArticulo = payForm.articulo.value.trim();
+	var descArticuloHidden = payForm.articulo_hidden.value.trim();
+	
+	if(medioDePago =! medioDePagoHidden){
+		wasTouched = wasTouched || true;
+	}
+	if(document.getElementById("trBancoOrigen").style.display != "none"){
+		if(bancoOrigen != bancoOrigenHidden){
+			wasTouched = wasTouched || true;
+		}
+	}
+	if(descArticulo != descArticuloHidden){
+		wasTouched = wasTouched || true;
+	}
+	if(voucher != voucherHidden){
+		wasTouched = wasTouched || true;
+	}
+	if(fechaPago != fechaPagoHidden){
+		wasTouched = wasTouched || true;
+	}
+	if(montoPago != montoPagoHidden){
+		wasTouched = wasTouched || true;
+	}
+	
+	return wasTouched;
+}
+
+/**
+ * 
+ * @param payForm
+ * @returns {Boolean}
+ */
 function validarDatosDelEnvio(payForm){
 	var doSubmit = true;
 	
@@ -648,30 +752,159 @@ function validarDatosDelEnvio(payForm){
 /**
  * 
  * @param payForm
+ * @returns {Boolean}
+ */
+function wasTouchedDatosDelEnvio(payForm){
+	var wasTouched = false;
+	
+	//datos del envio
+	var ciaEnvio = payForm.envio.value.trim();
+	var ciaEnvioHidden = payForm.envio_hidden.value.trim();
+	var destinatario = payForm.destinatario.value.trim();
+	var destinatarioHidden = payForm.destinatario_hidden.value.trim();
+	var ciDestinatario = payForm.ciDest.value.trim() + "-" + payForm.ciDestinatario.value.trim();
+	var ciDestinatarioHidden = payForm.ciDest_hidden.value.trim() + "-" + payForm.ciDestinatario_hidden.value.trim();
+	var dirDestino = payForm.dir1.value.trim();
+	var dirDestinoHidden = payForm.dir1_hidden.value.trim();
+	var ciudadDestino = payForm.ciudad.value.trim();
+	var ciudadDestinoHidden = payForm.ciudad_hidden.value.trim();
+	var estadoDestino = payForm.estado.value.trim();
+	var estadoDestinoHidden = payForm.estado_hidden.value.trim();
+	var celularDestino = payForm.codcel.value.trim() + "-" + payForm.celular.value.trim();
+	var celularDestinoHidden = payForm.codcel_hidden.value.trim() + "-" + payForm.celular_hidden.value.trim();
+	var tlfLocalDestino = payForm.codLocalDestinatario.value.trim() + "-" + payForm.tlfLocalDestinatario.value.trim();
+	var tlfLocalDestinoHidden = payForm.codLocalDestinatario_hidden.value.trim() + "-" + payForm.tlfLocalDestinatario_hidden.value.trim();
+	
+	if(ciaEnvio != ciaEnvioHidden){
+		wasTouched = wasTouched || true;
+	}
+	if(destinatario != destinatarioHidden){
+		wasTouched = wasTouched || true;
+	}
+	if(ciDestinatario != ciDestinatarioHidden){
+		wasTouched = wasTouched || true;
+	}
+	if(dirDestino != dirDestinoHidden){
+		wasTouched = wasTouched || true;
+	}
+	if(ciudadDestino != ciudadDestinoHidden){
+		wasTouched = wasTouched || true;
+	}
+	if(estadoDestino != estadoDestinoHidden){
+		wasTouched = wasTouched || true;
+	}
+	if("-" == celularDestinoHidden){
+		if (payForm.celular.value.trim() != payForm.celular_hidden.value.trim()){
+			wasTouched = wasTouched || true;
+		}
+	} else if(celularDestino != celularDestinoHidden){
+		wasTouched = wasTouched || true;
+	}
+	if("-" == tlfLocalDestinoHidden){
+		if (payForm.tlfLocalDestinatario.value.trim() != payForm.tlfLocalDestinatario_hidden.value.trim()){
+			wasTouched = wasTouched || true;
+		}
+	} else if(tlfLocalDestino != tlfLocalDestinoHidden){
+		wasTouched = wasTouched || true;
+	}
+	
+	return wasTouched;
+}
+
+/**
+ * 
+ */
+function checkIfUserHaveNotPendingPay(){
+	//si el usuario quiere registrar un nuevo envio
+	//pero ya tiene uno en status "No Encontrado"
+	//debe indicarsele que no puede registrar nada nuevo
+	//hasta que no termine de actualizar el de "No Encontrado"
+	var result = false;
+	
+	try {
+		$.ajax({
+			url: "checkIfUserHaveNotPendingPay.php",
+			dataType: "json",
+			data: {ci: $("#ci").val() + "-" + $("#cii").val()},
+			async : false,
+			type: "POST", 
+			success: function(response){
+				//solo recibimos uno de los posibles envios no encontrados que posea
+				if(response != "IS_OK"){
+					$.map(response, function(valor, clave){
+						alert("Disculpe, usted posee un registro en estado de \"Pago no encontrado\".\n"
+								+ "Será redirigido a una página donde podrá modificarlo antes de poder crear nuevas solicitudes");
+						result = true;
+						window.location = "actualizarEnvio.php?id=" + valor;
+					});
+				}
+			},
+			error: function(response){
+				try{
+					alert("Hubo un error en la verificación de sus posibles pagos pendientes.\n"
+							+ "El error que mostro el sistema fue: " + response 
+							+ "\n. Por favor tome un print de esta pantalla y envienoslo.\n"
+							+ "Muchas Gracias");
+				}catch(err){
+					
+				}
+			}
+		});
+	} catch (e) {
+		// TODO: handle exception
+		try{
+			alert("Hubo un error en la verificación de sus posibles pagos pendientes.\n"
+					+ "El error que mostro el sistema fue: " + e.message 
+					+ "\n. Por favor tome un print de esta pantalla y envienoslo.\n"
+					+ "Muchas Gracias");
+		}catch(err){
+			
+		}
+	}
+	
+	return result;
+}
+/**
+ * 
+ * @param payForm
+ * @returns
  */
 function validarFormularioDePago(payForm){
-	//inhabilitamos el boton de envio para prevenir multiples envios del mismo form
+	var doSubmit = false;
+	
 	document.getElementById("Enviar").style.display = "none";
 	document.getElementById("ajaxLoading").style.display = "inline";
 	
-	var doSubmitCliente = validarDatosDelCliente(payForm);
-	var doSubmitPago = validarDatosDelPago(payForm);
-	var doSubmitEnvio = validarDatosDelEnvio(payForm);
-	
-	var checkTerminosCondiciones = payForm.terminos.checked;
-	
-	document.getElementById("spanTerminos").style.display = "none";
-	
-	if(checkTerminosCondiciones == false){
-		document.getElementById("spanTerminos").style.display = "inline";
-		payForm.terminos.focus();
+	try {
+		if(! checkIfUserHaveNotPendingPay()){
+			//inhabilitamos el boton de envio para prevenir multiples envios del mismo form
+			var doSubmitCliente = validarDatosDelCliente(payForm);
+			var doSubmitPago = validarDatosDelPago(payForm);
+			var doSubmitEnvio = validarDatosDelEnvio(payForm);
+			var checkTerminosCondiciones = payForm.terminos.checked;
+			
+			document.getElementById("spanTerminos").style.display = "none";
+			
+			if(checkTerminosCondiciones == false){
+				document.getElementById("spanTerminos").style.display = "inline";
+				payForm.terminos.focus();
+			}
+			
+			doSubmit = doSubmitCliente && doSubmitPago && doSubmitEnvio && checkTerminosCondiciones;
+			if(doSubmit){
+				payForm.submit();
+			}
+		}
+	}catch(err){
+		try {
+			alert("Disculpe, hubo un error procesando su envio.\n"
+					+ "El error fue: " + err.message
+					+ "\n. Por favor, tome un print de esta pantalla y envienoslo para nosotros poder prestarle un mejor servicio.");
+		} catch(err){
+			
+		}
 	}
-	
-	var doSubmit = doSubmitCliente && doSubmitPago && doSubmitEnvio && checkTerminosCondiciones;
-	if(doSubmit){
-		payForm.submit();
-	}
-	
+		
 	document.getElementById("ajaxLoading").style.display = "none";
 	document.getElementById("Enviar").style.display = "";
 	
@@ -682,14 +915,36 @@ function validarFormularioDePago(payForm){
  * 
  * @param payForm
  */
-function validarFormularioNotifNoEnc(payForm){
-	var doSubmitCliente = validarDatosDelCliente(payForm);
-	var doSubmitPago = validarDatosDelPago(payForm);
-	var doSubmitEnvio = validarDatosDelEnvio(payForm);
+function wasTouchedFormularioNotifNoEnc(payForm){
+	var wasTouchedCliente = wasTouchedDatosDelCliente(payForm);
+	var wasTouchedPago = wasTouchedDatosDelPago(payForm);
+	var wasTouchedEnvio = wasTouchedDatosDelEnvio(payForm);
 	
-	var doSubmit = doSubmitCliente && doSubmitPago && doSubmitEnvio;
-	if(doSubmit){
-		payForm.submit();
+	return wasTouchedCliente || wasTouchedPago || wasTouchedEnvio;
+}
+
+/**
+ * 
+ * @param payForm
+ */
+function validarFormularioNotifNoEnc(payForm){
+	//primero vemos si el usuario modifico algun campo del formulario
+	//en caso de que solo hizo un guardar sin tocar nada
+	//debemos frenar la validacion y envio del formulario
+	//y alertar al usuario para que haga al menos un ajuste
+	var doSubmit = false;
+	
+	if(wasTouchedFormularioNotifNoEnc(payForm)){
+		var doSubmitCliente = validarDatosDelCliente(payForm);
+		var doSubmitPago = validarDatosDelPago(payForm);
+		var doSubmitEnvio = validarDatosDelEnvio(payForm);
+		
+		doSubmit = doSubmitCliente && doSubmitPago && doSubmitEnvio;
+		if(doSubmit){
+			payForm.submit();
+		}
+	} else {
+		alert("Disculpe, no se detectó ningún cambio en los valores de este envío.\nPor favor actualize dicho registro e intente de nuevo.");
 	}
 	
 	return doSubmit;
