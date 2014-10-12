@@ -12,7 +12,7 @@
 		if(count($results) > 0){
 			echo "{\"envio\": \"" .$results[0]["id_encriptado"]."\"}";
 		} else {
-			echo "IS_OK";
+			echo "{\"envio\": \"IS_OK\"}";
 		}
 	}
 ?>
