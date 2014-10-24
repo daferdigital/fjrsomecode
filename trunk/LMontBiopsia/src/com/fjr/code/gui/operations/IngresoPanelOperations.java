@@ -427,6 +427,7 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 							"Almacenada biopsia " + ingreso.getCodigo(), 
 							JOptionPane.INFORMATION_MESSAGE);
 					ventana.setNewBiopsia(false);
+					this.idEstudio = ingreso.getIdTipoEstudio();
 					ventana.getTextNroBiopsia().setText(ingreso.getCodigo());
 				} else {
 					log.error("No pudo guardarse la biopsia");
