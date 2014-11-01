@@ -422,6 +422,7 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 						JOptionPane.ERROR_MESSAGE);
 			} else {
 				if(BiopsiaInfoDAO.insertBiopsiaInfo(ingreso) > 0){
+					this.idEstudio = ingreso.getIdTipoEstudio();
 					JOptionPane.showMessageDialog(ventana, 
 							"La biopsia de código " + ingreso.getCodigo() + " fue creada de manera exitosa.", 
 							"Almacenada biopsia " + ingreso.getCodigo(), 
@@ -467,6 +468,14 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 									+ "El registro anterior fue anulado del sistema.",
 									"Registro Clonado",
 									JOptionPane.INFORMATION_MESSAGE);
+							//debemos hacer reload para obtener el ultimo registro.
+							this.idEstudio = ingreso.getIdTipoEstudio();
+							ventana.getTextNroBiopsia().setText(biopsiaInfoDTO.getCodigo());
+							biopsiaInfoDTO = GUIPressedOrTypedNroBiopsia.manageKeyEvent(ventana,
+									new KeyEvent(ventana.getTextNroBiopsia(), KeyEvent.KEY_TYPED, System.currentTimeMillis(), 0, KeyEvent.VK_UNDEFINED, 'Z'),
+									ventana.getTextNroBiopsia(),
+									biopsiaInfoDTO);
+							loadVentanaFromBiopsiaDTO(biopsiaInfoDTO);
 						} else {
 							JOptionPane.showMessageDialog(null,
 									"La biopsia fue almacenada con el valor del nuevo tipo de estudio.\n"
@@ -647,11 +656,11 @@ public class IngresoPanelOperations implements ActionListener, KeyListener, Item
 				biopsiaInfoDTO = GUIPressedOrTypedNroBiopsia.manageKeyEvent(ventana, e, field, biopsiaInfoDTO);
 				loadVentanaFromBiopsiaDTO(biopsiaInfoDTO);
 				
-				this.idEstudio = biopsiaInfoDTO.getIdTipoEstudio();
-				log.info("TipoEstudio original de la biopsia " + biopsiaInfoDTO.getCodigo()
-						+ "= " + this.idEstudio);
 				if(biopsiaInfoDTO != null){
 					//verificamos el status de la biopsia
+					this.idEstudio = biopsiaInfoDTO.getIdTipoEstudio();
+					log.info("TipoEstudio original de la biopsia " + biopsiaInfoDTO.getCodigo()
+							+ "= " + this.idEstudio);
 					if(! FasesBiopsia.INGRESO.equals(biopsiaInfoDTO.getFaseActual())){
 						/*
 						String editKey = JOptionPane.showInputDialog(ventana, 
