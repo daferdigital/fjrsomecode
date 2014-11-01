@@ -10,6 +10,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import org.apache.log4j.Logger;
+
 import com.fjr.code.dao.BiopsiaInfoDAO;
 import com.fjr.code.dao.definitions.FasesBiopsia;
 import com.fjr.code.dto.BiopsiaInfoDTO;
@@ -24,6 +26,7 @@ import com.fjr.code.dto.BiopsiaInfoDTO;
  *
  */
 public class JTableIHQSolicitadas {
+	private static final Logger log = Logger.getLogger(JTableIHQSolicitadas.class);
 	
 	private DefaultTableModel model;
 	private JTable table;
@@ -131,6 +134,8 @@ public class JTableIHQSolicitadas {
 	 * 
 	 */
 	private void buildTable(){
+		log.info("Llenando tabla de IHQs solicitadas");
+		
 		model.addColumn("");
 		model.addColumn("");
 		model.addColumn("N° de Biopsia");

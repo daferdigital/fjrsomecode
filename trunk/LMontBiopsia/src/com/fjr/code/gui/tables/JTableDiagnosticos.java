@@ -9,6 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import org.apache.log4j.Logger;
+
 import com.fjr.code.dao.BiopsiaInfoDAO;
 import com.fjr.code.dao.definitions.FasesBiopsia;
 import com.fjr.code.dto.BiopsiaInfoDTO;
@@ -24,6 +26,7 @@ import com.fjr.code.gui.PrepareDiagnosticoDialog;
  *
  */
 public class JTableDiagnosticos {
+	private static final Logger log = Logger.getLogger(JTableDiagnosticos.class);
 	
 	private DefaultTableModel model;
 	private JTable table;
@@ -118,6 +121,7 @@ public class JTableDiagnosticos {
 	 * 
 	 */
 	private void buildTable(){
+		log.info("Llenando tabla de diagnosticos");
 		model.addColumn("");
 		model.addColumn("N° de Biopsia");
 		model.addColumn("Examen");
