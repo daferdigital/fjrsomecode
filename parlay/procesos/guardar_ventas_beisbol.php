@@ -1,5 +1,27 @@
 <?php 
 session_start();
+$multiplicandosPermitidos = array();
+//ids de apuestas
+$multiplicandosPermitidos["9"] = "ALTA_JC_A";
+$multiplicandosPermitidos["10"] = "BAJA_JC_A";
+$multiplicandosPermitidos["11"] = "ALTA_MJ_A";
+$multiplicandosPermitidos["12"] = "BAJA_MJ_A";
+$multiplicandosPermitidos["17"] = "RL_JC_A";
+$multiplicandosPermitidos["18"] = "RL_JC_B";
+$multiplicandosPermitidos["19"] = "RL_MJ_A";
+$multiplicandosPermitidos["20"] = "RL_MJ_B";
+$multiplicandosPermitidos["21"] = "SRL_A";
+$multiplicandosPermitidos["22"] = "SRL_B";
+$multiplicandosPermitidos["28"] = "ALTAS_CHE_A";
+$multiplicandosPermitidos["29"] = "BAJAS_CHE_A";
+$multiplicandosPermitidos["30"] = "RL_ALT_JC_A";
+$multiplicandosPermitidos["31"] = "RL_ALT_JC_B";
+$multiplicandosPermitidos["32"] = "RL_ALT_MJ_A";
+$multiplicandosPermitidos["33"] = "RL_ALT_MJ_B";
+$multiplicandosPermitidos["34"] = "ALTAS_6TO_A";
+$multiplicandosPermitidos["35"] = "BAJAS_6TO_A";
+$multiplicandosPermitidos["39"] = "RL_ALT_BASKET_A";
+$multiplicandosPermitidos["40"] = "RL_ALT_BASKET_B";
 ?>
 <!--
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -40,6 +62,7 @@ session_start();
 			/**
 			* validamos que los eventos respectivos no hayan empezado, antes de procesar la propia venta del ticket
 			**/
+			$apuestaEnTiempo = true;
 			foreach($_POST['apuesta'] as $valor){
 				$query = "SELECT l.fecha, l.hora "
 						."FROM logros l, logros_equipos le, logros_equipos_categorias_apuestas_banqueros lecab "
@@ -52,7 +75,7 @@ session_start();
 				
 				echo date_default_timezone_get()."<br />";
 				$minutosToAdjust = 5;
-				$sysdate = (int) (time() + (60*$minutosToAdjust));
+				$sysdate = (int) (time() + (60 * $minutosToAdjust));
 				if($sysdate > strtotime($selectResults["fecha"]." ".$selectResults["hora"])){
 					//este logro (evento) (apuesta) esta relacionada con un evento cuya hora de inicio
 					//es menor a la fecha del sistema, lo que quiere decir que dicho evento ya inicio
@@ -63,7 +86,8 @@ session_start();
 							."y la hora actual + ".$minutosToAdjust." minutoses  [".date("Y-m-d H:i:s", $sysdate)
 							."] lo que quiere decir que ya inicio. Finalizamos este proceso");
 					*/
-					die("No esta permitido apostar en juegos ya iniciados, suspendemos este intento de insert");
+					//die("No esta permitido apostar en juegos ya iniciados, suspendemos este intento de insert");
+					$apuestaEnTiempo = false;
 				} else {
 					/*
 					BitacoraDAO::registrarComentario("Evento [".$valor."] inicia "
@@ -123,7 +147,7 @@ session_start();
                                     <td align="left" class="td_bottom">DEPORTE</td><td class="td_bottom">EQUIPO</td><td class="td_bottom">LOGRO</td><td align="right" class="td_bottom">MONTO</td>
                                   </tr>
                                   <tr>
-                                    <td align="left" colspan="3">INVERSIÓN INICIAL:</td>
+                                    <td align="left" colspan="3">INVERSI&Oacute;N INICIAL:</td>
                                     <td align="right"><?Php $ap2=$var_imp['apuesta']; echo $apuesta=number_format($var_imp['apuesta'],2);?></td>
                                   </tr>
                             <?Php
@@ -136,7 +160,9 @@ session_start();
                       	  </tr>-->
                         	<tr>
                               <td><?Php echo $var_imp['hora_juego'];?></td>
-                        	  <td colspan="2" align="center"><?Php 
+                        	  <td colspan="2" align="center">
+							  <?Php
+								/*
 							  	if($var_imp["idcategoria_apuesta"]==102 || $var_imp["idcategoria_apuesta"]==103){
 									$multi_ale=dame_datos("select * from logros_equipos_categorias_apuestas where idlogro_equipo='".$var_imp['idlogro_equipo']."' and idcategoria_apuesta='109' limit 1");
 									$var_imp['multiplicando']=$multi_ale['pago'];
@@ -145,7 +171,12 @@ session_start();
 									$multi_ale=dame_datos("select * from logros_equipos_categorias_apuestas where idlogro_equipo='".$var_imp['idlogro_equipo']."' and idcategoria_apuesta='110' limit 1");
 									$var_imp['multiplicando']=$multi_ale['pago'];
 								}
-							  $var_imp['multiplicando']=str_replace(".0","",$var_imp['multiplicando']);echo ($var_imp['multiplicando']!='1'?$var_imp['multiplicando'].' / ':'').$var_imp['pago'];?></td>
+								$var_imp['multiplicando']=str_replace(".0","",$var_imp['multiplicando']);echo ($var_imp['multiplicando']!='1'?$var_imp['multiplicando'].' / ':'').$var_imp['pago'];
+								*/
+								$var_imp['multiplicando']=str_replace(".0","",$var_imp['multiplicando']);
+								echo (isset($multiplicandosPermitidos[$var_imp["idapuesta"]]) ? $var_imp['multiplicando'].' / ' : '').$var_imp['pago'];
+							  ?>
+							  </td>
                               <td align="right"><?Php
 							  		if($var_imp['pago']>0){
 										//acum=acum*parseFloat(1+parseFloat(sep_logro_apuestas_[j])/100);
@@ -162,7 +193,7 @@ session_start();
 					}
 					?>
                     <tr>
-                    	<td colspan="2" class="td_top">INVERSIÓN BsF</td><td class="td_top">:</td><td align="right" class="td_top"><?Php echo $apuesta;?></td>
+                    	<td colspan="2" class="td_top">INVERSI&Oacute;N BsF</td><td class="td_top">:</td><td align="right" class="td_top"><?Php echo $apuesta;?></td>
                     </tr>
                     <tr>
                       <td colspan="2">TOTAL DE GANANCIA BsF</td>
@@ -203,12 +234,9 @@ session_start();
 					$arch=fopen('../impresiones/imprimir_'.session_id().'.html','w');
 					fwrite($arch,$lectura);
 					fclose($arch);
-					
 				}
 			
 		}
 		//calculo la cantidad de jugadas por logro 1,2,3,4,5,6,7,8,9,10 para una determinada taquilla
-		jugadas_cantidad();
-		
+		jugadas_cantidad();	
 ?>
-<!--</body></html>-->
