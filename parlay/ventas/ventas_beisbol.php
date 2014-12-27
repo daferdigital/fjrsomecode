@@ -16,7 +16,7 @@
 		parasetear='',
 		imprimir_html='<?Php echo 'impresiones/imprimir_'.session_id().'.html';?>';
 		permitir_imprimir='si';
-  //la variable "paraitemapuestas" me permitirá controlar los tr ocultos de la calculadora
+  //la variable "paraitemapuestas" me permitir� controlar los tr ocultos de la calculadora
   //la variable para setear carga un array de los id html que se blanquearan al momento de setear el formulario
   $(document).ready(function() {
     $("#calculadora").draggable();
@@ -38,7 +38,7 @@ $banquero=$_SESSION['datos']['idbanquero'];
 list($ano,$mes,$dia)=explode("-",$_REQUEST['fecha']);
 ?>
 
-<div class="titulo">Logros del día</div>
+<div class="titulo">Logros del d�a</div>
 <form name="form1" method="post" action="procesos/guardar_ventas_beisbol.php">
 <div>
 <strong>Monto de la apuesta:</strong> <input type="text" name="monto_apuesta" id="monto_apuesta" class="numeric" onkeyup="javascript: calcular_monto_pagar();" required size="5" maxlength="6" value="" style="text-align: right;" />
@@ -251,7 +251,7 @@ Hora <?Php echo date("H:i:s");?><br /><br />-->
 </p>-->
 <input type="hidden" name="fecha" value="<?Php echo $ano.'-'.$mes.'-'.$dia;?>" />
 </form>
-<script type="text/javascript">
+<script language="javascript">
 var sep_idapuestas='',sep_logro_apuestas_='',acum=1;
 	$(":checkbox").click(function(){
 		
@@ -263,23 +263,23 @@ var sep_idapuestas='',sep_logro_apuestas_='',acum=1;
 			comb_permitida($(this).attr('combinacion'));
 			if(permitida_c=='no'){
 				quitar_combinacion($(this).attr('combinacion'));
-				$(this).attr('checked',false);				
+				$(this).attr('checked',false);
 				try {
-					alert("La Combinación no está permitida");
-				} catch(err) {
-				    console.log("La Combinación no está permitida");
+					alert("La Combinaci\u00f3n no est\u00e1 permitida");
+				}catch(err) {
+					/**/
 				}
+				
 				return false;
 			}
 			
 			
 			//Verifico la cantidad de apuestas
-			if($('#num_apuestas').val()==cmlp){
-				$(this).attr('checked',false);
+			if($('#num_apuestas').val()==cmlp){				$(this).attr('checked',false);
 				try {
-					alert("Cantidad Máxima de combinaciones alcanzada el cual es de "+cmlp);
-				} catch(err) {
-				    console.log("Cantidad Máxima de combinaciones alcanzada el cual es de "+cmlp);
+					alert("Cantidad M\u00e1xima de combinaciones alcanzada el cual es de "+cmlp);
+				}catch(err) {
+					/**/
 				}
 				return false;
 			}
@@ -290,9 +290,9 @@ var sep_idapuestas='',sep_logro_apuestas_='',acum=1;
 					$(this).attr('checked',false);
 					hembras--;
 					try {
-						alert("Máximo de hembras permitido alcanzado");
-					} catch(err) {
-					    console.log("Máximo de hembras permitido alcanzado");
+						alert("M\u00e1ximo de hembras permitido alcanzado");
+					}catch(err) {
+						/**/
 					}
 					return false;
 				} //alert(machos+' > '+pmachos);
@@ -300,10 +300,11 @@ var sep_idapuestas='',sep_logro_apuestas_='',acum=1;
 						$(this).attr('checked',false);
 						machos--;
 						try {
-							alert("Máximo de machos permitido alcanzado");
-						} catch(err) {
-						    console.log("Máximo de machos permitido alcanzado");
+							alert("M\u00e1ximo de machos permitido alcanzado");
+						}catch(err) {
+							/**/
 						}
+						
 						return false;
 					}
 				
@@ -311,7 +312,6 @@ var sep_idapuestas='',sep_logro_apuestas_='',acum=1;
 			$("#apuestaitem_"+$(this).val()).show('slow');
 			//alert($(this).val());
 		}else{
-			
 			//Quitar combinacion
 			quitar_combinacion($(this).attr('combinacion'));
 			
@@ -321,7 +321,6 @@ var sep_idapuestas='',sep_logro_apuestas_='',acum=1;
 		}
 		
 		calcular_monto_pagar();
-		
 	});
 	
 	$(":checkbox").css('cursor','pointer');
@@ -418,14 +417,10 @@ var sep_idapuestas='',sep_logro_apuestas_='',acum=1;
 					 setTimeout('$("#estatus_anulado").hide("slow");',5000);
 			   },
 			   error:function(a,b,c){
-				    try {
-					   alert('Error al anular el ticket '+c);
-					} catch(err) {
-					    console.log('Error al anular el ticket '+c);
-					}
-				    location.href='';
-				    return false;
-				    /*$("#carga").css("display", "none");
+				   alert('Error al anular el ticket '+c);
+				   location.href='';
+				   return false;
+				   /*$("#carga").css("display", "none");
 					$("#carga_load3").css("display", "none");	*/				
 			   }
 			 });
