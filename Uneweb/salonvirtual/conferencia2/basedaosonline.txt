@@ -1,0 +1,100 @@
+-- phpMyAdmin SQL Dump
+-- version 2.10.3
+-- http://www.phpmyadmin.net
+-- 
+-- Host: localhost
+-- Generation Time: Mar 17, 2014 at 09:52 PM
+-- Server version: 5.0.51
+-- PHP Version: 5.2.6
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+-- 
+-- Database: `online`
+-- 
+CREATE DATABASE `online` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `online`;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `chat`
+-- 
+
+CREATE TABLE `chat` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `usu` varchar(11) NOT NULL,
+  `cuento` varchar(255) NOT NULL,
+  `estatus` int(11) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=24 ;
+
+-- 
+-- Dumping data for table `chat`
+-- 
+
+INSERT INTO `chat` VALUES (1, '0', '¨dfdffddf', 1);
+INSERT INTO `chat` VALUES (2, '0', 'udfdffddf', 1);
+INSERT INTO `chat` VALUES (3, '0', 'udfdffddf', 1);
+INSERT INTO `chat` VALUES (4, '0', 'udfdffddf', 1);
+INSERT INTO `chat` VALUES (5, '1', 'hola', 1);
+INSERT INTO `chat` VALUES (6, '1', 'hola', 1);
+INSERT INTO `chat` VALUES (7, '1', 'hola hhff', 1);
+INSERT INTO `chat` VALUES (8, '1', 'guajjdd', 1);
+INSERT INTO `chat` VALUES (9, '1', 'chat\n', 1);
+INSERT INTO `chat` VALUES (10, '1', 'chat fgfgh\n', 1);
+INSERT INTO `chat` VALUES (11, '1', 'chat fgfgh\nvcvccvxcvx', 1);
+INSERT INTO `chat` VALUES (12, '1', 'chat fgfgh\nvcvccvxcvxgtgg', 1);
+INSERT INTO `chat` VALUES (13, '1', 're', 1);
+INSERT INTO `chat` VALUES (14, '1', 'yyy', 1);
+INSERT INTO `chat` VALUES (15, '1', 'que paso desig\n', 1);
+INSERT INTO `chat` VALUES (16, '1', 'gfgfg', 1);
+INSERT INTO `chat` VALUES (17, '1', 'gfgfgf', 1);
+INSERT INTO `chat` VALUES (18, '1', 'ffff', 1);
+INSERT INTO `chat` VALUES (19, '1', 'perdio el control', 1);
+INSERT INTO `chat` VALUES (20, '1', 'frrrr', 1);
+INSERT INTO `chat` VALUES (21, '1', 'rrrr', 1);
+INSERT INTO `chat` VALUES (22, '1', 'kerla', 1);
+INSERT INTO `chat` VALUES (23, '1', 'hola kerla', 1);
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `chutos`
+-- 
+
+CREATE TABLE `chutos` (
+  `id` int(11) NOT NULL auto_increment,
+  `lo` varchar(20) NOT NULL,
+  `cl` varchar(12) NOT NULL,
+  `co` varchar(50) NOT NULL,
+  `status` tinyint(4) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- 
+-- Dumping data for table `chutos`
+-- 
+
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `pizarra`
+-- 
+
+CREATE TABLE `pizarra` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `texto` text NOT NULL,
+  `imagen` varchar(255) NOT NULL,
+  `status` tinyint(4) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+-- 
+-- Dumping data for table `pizarra`
+-- 
+
+INSERT INTO `pizarra` VALUES (1, '<p>holalalddssadsadsadsadsadsad kjdghhj</p>\r\n', '1', 1);
+INSERT INTO `pizarra` VALUES (2, '<html xmlns="http://www.w3.org/1999/xhtml">\r\n<head>\r\n<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />\r\n<title>Documento sin título</title>\r\n</head>\r\n\r\n<body>\r\n</body>\r\n</html>', '1', 1);
+INSERT INTO `pizarra` VALUES (3, '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">\r\n<html xmlns="http://www.w3.org/1999/xhtml">\r\n  <head>\r\n    <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />\r\n    <script type="text/javascript" src="jquery.js"></script>\r\n    <script type="text/javascript" src="migracion.js"></script>\r\n    <title>Documento sin título</title>\r\n    <style>\r\n.radio{\r\n	width:96%;\r\n	height:80px;\r\n	border:1px solid #006;\r\n	margin:5px;\r\n}\r\n.pizarra{\r\n	width:70%;\r\n	height:500px;\r\n	border:1px solid #006;\r\n	margin:5px;\r\n	float:left\r\n}\r\n.chat{\r\n	width:25%;\r\n	height:500px;\r\n	margin:5px;\r\n	border:1px solid #006;\r\n	float:left;\r\n}\r\n</style>\r\n\r\n\r\n <script>var x;\r\nx=$(document);\r\nx.ready(inicializarEventos);\r\n\r\nfunction inicializarEventos()\r\n{\r\n  var x;\r\n  x=$("#enviar");\r\n  x.click(presionSubmit);\r\n}\r\n\r\nfunction presionSubmit()\r\n{\r\n  var v=$("#men").attr("value");\r\n  \r\n  $.post("pag.php",{numero:v},llegadaDatos); \r\n  $("#men").attr("value","");\r\n  return false;\r\n  \r\n}\r\n\r\nfunction llegadaDatos(datos)\r\n{\r\n $("#habla").html(datos);\r\n}\r\n function actualiza(){\r\n    $(".pizarra").load("pizarra.php");\r\n  }\r\n  setInterval( "actualiza()", 5000 );\r\n</script>\r\n  </head>', '1', 1);

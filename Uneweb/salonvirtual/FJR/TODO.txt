@@ -1,0 +1,41 @@
+Bueno sobre el desarrollo
+Subir mp3, no sé si es mejor por FTP y se visualice en la pizarra o algo así (cuando te refieres a mp3 son solo archivos de sonido)
+Subir y descargar archivos (esto lo tengo claro, solo necesitaria aclarar el proposito de estos archivos)
+Mejorar el chat (ok, debes indicarme que mejoras quieres agregar)
+Crear usuarios (ok, este sera un modulo de acceso me imagino)
+
+
+Hola Felipe Anexo los archivos y base de datos, tienes que revisarla publicada aquí:
+
+http://cursoenvivo.com/conferencia/    
+usuario profesor
+clave 4321
+
+http://cursoenvivo.com/conferencia/admin.php Administrador
+usuario javier
+clave 4321
+
+En el Administrador  encontraras Modo actual:Diapositiva se puede cambiar a Pizarra, Diapositiva y Video, solo usan pizarra y diapositiva, 
+
+En pizarra puedes ingresar textos o códigos, esto si esta bien. Arriba puedes cargar un embebido de youtube o vocaroo no es muy útil. Me gustaría solo dejar el Youtube pero que se cuadre mejor
+
+Cargar Diapositivas, luego debes ir a Diapositivas a colocarla en la pizarra aqui esta muy desordenado porque se hace una lista muy larga y los profesores se quejan
+
+En la base de datos 
+chutos son los usuarios
+jefes son los profesores
+embed y embebidos son vocaroo y youtube
+dida y diapositivas para cargar las diapositivas en distintos cursos
+cual 
+chat
+cambio
+
+Hay muchas cosas que organizar, los usuarios registrarlos en el admin, las diapositivas que esten mejor al cargar por curso y que no se visualicen en listas tan largas.
+
+El chat falta que el profesor pueda participar desde el admin.php y la pizarra estan bien ingresa código y textos.
+
+El audio son archivos mp3 cargar que se visualicen encima de la pizarra. Puesto que el Ustream esta dando muchos problemas consume mucho internet.  También encima de la pizarra que se viasualice el youtube pero más organizado tengo una profesora que ha grabado sus clases en youtube.
+
+Quiero decirle a los profesores que graben la clase y la suban como mp3
+
+Y los archivos tipo html, txt, psd, word, jpg, zip, rar otro archivo para que el profesor lo suba por el admin y los alumnos lo vean en la pizarra para descargar
