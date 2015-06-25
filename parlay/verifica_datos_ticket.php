@@ -42,6 +42,9 @@
 					}elseif($tick['reembolsar']==1){						
 						$jsondata['estatus_ticket'] =  "El ticket se tiene que Reembolsar, debe reembolsar un total de ".$tick['monto_real_pagar'].' BsF.<br><center><input type="button" class="boton" value="Pagar" onclick="javascript: mostrarmens=\'si\';comentario=\'Indique tanto código del ticket como código del cliente\'; nolistado=\'no\'; validar(document.pagar,\'pagar_ticket.php\');">  <input type="reset" class="boton" value="Limpiar campo" onclick="javascript:$(\'#bot_cons\').show(\'slow\');$(\'#detalle_del_ticket\').html(\'\');">';
 						$jsondata['nestatus_ticket']='ganador';
+					}elseif($tick['recalculado']==1){						
+						$jsondata['estatus_ticket'] =  "Ticket recalculado, debe pagarse un total de ".$tick['monto_real_pagar'].' BsF.<br><center><input type="button" class="boton" value="Pagar" onclick="javascript: mostrarmens=\'si\';comentario=\'Indique tanto código del ticket como código del cliente\'; nolistado=\'no\'; validar(document.pagar,\'pagar_ticket.php\');">  <input type="reset" class="boton" value="Limpiar campo" onclick="javascript:$(\'#bot_cons\').show(\'slow\');$(\'#detalle_del_ticket\').html(\'\');">';
+						$jsondata['nestatus_ticket']='ganador';
 					}
 					$jsondata['ticket_conseguido'] = 'si';
 					

@@ -261,12 +261,12 @@
 				  jQuery('#monto_indicado').html('0');//utilizado en ventas
 			   },
 			   error:function(a,b,c){
-				   alert("AjaxError [" + b + "/" + c + "] llamando al archivo: " + archivo_guarda);
+				   alert("AjaxError [" + a.responseText + "/" + b + "/" + c + "] llamando al archivo: " + archivo_guarda);
 				   $("#carga").css("display", "none");
-					$("#carga_load3").css("display", "none");
-					if(noreset==''){
-						form.reset();
-					}
+				   $("#carga_load3").css("display", "none");
+				   if(noreset==''){
+				       form.reset();
+				   }
 			   }
 			 });
 			 

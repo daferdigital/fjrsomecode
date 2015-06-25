@@ -238,5 +238,7 @@ $multiplicandosPermitidos["40"] = "RL_ALT_BASKET_B";
 			
 		}
 		//calculo la cantidad de jugadas por logro 1,2,3,4,5,6,7,8,9,10 para una determinada taquilla
-		jugadas_cantidad();	
+		jugadas_cantidad();
+		
 ?>
+<!--</body></html>-->

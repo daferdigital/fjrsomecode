@@ -134,8 +134,8 @@ class VentasDAO {
 	 */
 	public static function calcularTicketGanador($fecha, $arregloLogrosGuardados){
 		//obtenemos las ventas que no esten anuladas
+		ini_set('memory_limit', '1024M');
 		BitacoraDAO::registrarComentario("En VentasDAO::calcularTicketGanador (iniciando): ".print_r($arregloLogrosGuardados, true));
-		
 		
 		$extraWhere = "";
 		if(count($arregloLogrosGuardados) == 0){
@@ -165,8 +165,8 @@ class VentasDAO {
 		." AND vd.idventa = vd2.idventa"
 		." ORDER BY vd.idventa, vd.idventa_detalle";
 		
-		BitacoraDAO::registrarComentario("En VentasDAO::calcularTicketGanador -> ejecutado '".$sql."'");
 		$results = DBUtil::executeSelect($sql);
+		BitacoraDAO::registrarComentario("En VentasDAO::calcularTicketGanador -> ejecutado '".$sql."'");
 		
 		if(count($results) > 0){
 			$ventaDetalle = array();

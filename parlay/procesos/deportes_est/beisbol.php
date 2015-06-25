@@ -105,7 +105,7 @@ if($que_muestro=='encabezado'):
 
                         <td align="center"><?Php if($array_datos[29][1]):?><?php echo ($array_datos[29][0]>0?'&nbsp;'.$array_datos[29][0]:$array_datos[29][0]).'  '.$array_datos[29][1] ?><?php endif;?></td>
 
-                        <!--RLA-->
+                        <!--RLA <?php echo $array_datos[73][1]."-".$array_datos[73][0];?>-->
 
                         <td align="center"><?Php if($array_datos[73][1]):?><?php echo ($array_datos[73][0]>0?'&nbsp;'.$array_datos[73][0]:$array_datos[73][0]).'  '.$array_datos[73][1]; ?><?php endif;?></td>
 

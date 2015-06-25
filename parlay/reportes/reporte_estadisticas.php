@@ -1,4 +1,6 @@
 <?Php 
+session_start();
+
 include('../procesos/conexion.php');
 include_once('fechas.php'); 
 //	$fecha_desde=formato_sql($_GET['fdesde'],'/');
@@ -32,6 +34,7 @@ $sql .= " GROUP BY IF(valorlogroA.pago < valorlogroB.pago, valorlogroA.pago, val
 $sql .= " HAVING macho IS NOT NULL AND macho <> ''";
 $sql .= " ORDER BY 2 DESC, 1";
 
+echo "<!-- ".$sql." -->";
 $results = DBUtil::executeSelect($sql);
 ?>
 
@@ -39,7 +42,7 @@ $results = DBUtil::executeSelect($sql);
 	<tr>
     	<td colspan="2" style="color:#03F; font-size:16px; height:40px; font-weight:bold; text-align:right">
         	<br />
-        	Estadisticas (empates 0-0 y 1-1)
+        	Estadisticas
         </td>
     </tr>
     <tr>

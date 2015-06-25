@@ -1,5 +1,5 @@
 <?Php include_once("procesos/conexion.php");?>
-<script language="javascript">	
+<script type="text/javascript">	
 	$(document).ready(function(){
 		$("#carga_formulario").click(function(evento){
 			if($("#scategorias").val()!='' && $("#sligas").val()!='' && $("#fecha_ld").val()!=''){
@@ -35,6 +35,6 @@
 </script>
 	<?Php include("logro_dia.php");?>
 	<div id="contenido_parley" style="margin-top:10px;"></div>
-<script language="javascript">
+<script type="text/javascript">
 $("#fecha_ld").datepicker();
 </script>

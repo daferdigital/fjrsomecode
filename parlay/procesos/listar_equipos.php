@@ -64,6 +64,7 @@ if(mysql_num_rows($queryequipos)>0){
 	}
 ?>
 <script language="javascript">
+/*
 	$(document).ready(function(){
 	   $(".ajax_contenido").click(function(evento){
 		   evento.preventDefault();
@@ -78,4 +79,5 @@ if(mysql_num_rows($queryequipos)>0){
 			});
 	   });	   
 	})
+	*/
 </script>

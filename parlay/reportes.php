@@ -1,12 +1,8 @@
 <?Php
-	$fechas=getdate(mktime(0, 0, 0, date("m")  , date("d")+1, date("Y")));
-	
-	
-	$fecha_desde=date("d/m/Y");
-	
-	$can_dias = 1;
-	$fec_emision = date('m/d/Y');
-	$fecha_hasta= date("d/m/Y");///, strtotime("$fec_emision + $can_dias day"));  
+	include_once "./classes/DateUtil.php";
+	$fecha_desde = DateUtil::getDateUnderVzlaTZDayMonthYear();
+	$fec_emision = DateUtil::getDateUnderVzlaTZDayMonthYear();
+	$fecha_hasta = DateUtil::getDateUnderVzlaTZDayMonthYear();
 ?>
 <br>
             <div align="center" class="titulo">Reporte de Ganancias y Perdidas</div>
@@ -14,7 +10,7 @@
 <div id="rep_dinamico">
 
 </div>
-<script language="javascript">
+<script type="text/javascript">
 	$(document).ready(function() {
            $(".fecha").datepicker();
 		   $("#carga_formulario").click(function(evento){

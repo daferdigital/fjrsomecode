@@ -17,24 +17,27 @@
 		return false;
 	}
 	
+	checkIfCanInclude("./classes/BitacoraDAO.php");
 	checkIfCanInclude("./classes/Constants.php");
+	checkIfCanInclude("./classes/DateUtil.php");
 	checkIfCanInclude("./classes/DBConnection.php");
 	checkIfCanInclude("./classes/DBUtil.php");
-	checkIfCanInclude("./classes/VentasDAO.php");
-	checkIfCanInclude("./classes/BitacoraDAO.php");
-	checkIfCanInclude("./classes/GanadoresFutbol.php");
-	checkIfCanInclude("./classes/GanadoresFutbolAmericano.php");
 	checkIfCanInclude("./classes/GanadoresBasket.php");
 	checkIfCanInclude("./classes/GanadoresBeisbol.php");
+	checkIfCanInclude("./classes/GanadoresFutbol.php");
+	checkIfCanInclude("./classes/GanadoresFutbolAmericano.php");
+	checkIfCanInclude("./classes/VentasDAO.php");
+	
+	checkIfCanInclude("../classes/BitacoraDAO.php");
 	checkIfCanInclude("../classes/Constants.php");
+	checkIfCanInclude("../classes/DateUtil.php");
 	checkIfCanInclude("../classes/DBConnection.php");
 	checkIfCanInclude("../classes/DBUtil.php");
-	checkIfCanInclude("../classes/VentasDAO.php");
-	checkIfCanInclude("../classes/BitacoraDAO.php");
-	checkIfCanInclude("../classes/GanadoresFutbol.php");
-	checkIfCanInclude("../classes/GanadoresFutbolAmericano.php");
 	checkIfCanInclude("../classes/GanadoresBasket.php");
 	checkIfCanInclude("../classes/GanadoresBeisbol.php");
+	checkIfCanInclude("../classes/GanadoresFutbol.php");
+	checkIfCanInclude("../classes/GanadoresFutbolAmericano.php");
+	checkIfCanInclude("../classes/VentasDAO.php");
 	
 	$conexion = null;
 	function prepareConnection(){

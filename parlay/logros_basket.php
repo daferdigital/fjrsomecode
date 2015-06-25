@@ -29,7 +29,7 @@ $array_lanzadores=dame_array_js("select idequipo,idroster,nombre,efectividad fro
                 	<td class="linesep"><label class="tit_campos">Ref.:</label><br /><input type="text" value="" name="referenciaA" id="referenciaA" size="3" maxlength="4" required="required" />
                     	</td>
                         <td align="center" class="linesep td_left"><!--<label class="tit_campos">Logro<br />
-                          1M:</label>-->Run Line a Mitad</td><td class="linesep"><div style="display:none;"><input type="text" name="idapuesta57" id="idapuesta57" value="" size="4" /></div></td>                        
+                          1M:</label>-->Run Line MJ</td><td class="linesep"><div style="display:inline;"><input type="text" name="idapuesta57" id="idapuesta57" value="" size="4" /></div></td>                        
                         
                         <td align="center" class="linesep td_left">
                         	<label class="tit_campos">-</label><input type="radio" value="-2" checked="checked" name="m62" id="idm621" onclick="javascript: document.getElementById('idm632').checked='true';" /><label class="tit_campos">+</label><input type="radio" value="2" name="m62" id="idm622" onclick="javascript: document.getElementById('idm631').checked='true';" /><br /><input type="text" value="" size="3" maxlength="4" name="vm62" id="vm62" onkeyup="javascript:jQuery('#vm63').val(this.value);" />
@@ -72,7 +72,7 @@ $array_lanzadores=dame_array_js("select idequipo,idroster,nombre,efectividad fro
                     	</td>
                         <td align="center" class="linesep td_left"><!--<label class="tit_campos">Logro<br />
                         1M</label>-->
-                        Run Line a Mitad</td><td class="linesep"><div style="display:none;"><input type="text" name="idapuesta59" id="idapuesta59" value="" size="4" /></div></td>                        
+                        Run Line MJ</td><td class="linesep"><div style="display:inline;"><input type="text" name="idapuesta59" id="idapuesta59" value="" size="4" /></div></td>                        
                         
                         <td align="center" class="linesep td_left">
                         	<label class="tit_campos">-</label><input type="radio" checked="checked" value="-2" name="m63" id="idm631" onclick="javascript: document.getElementById('idm622').checked='true';"  /><label class="tit_campos">+</label><input type="radio" value="2" name="m63" id="idm632" onclick="javascript: document.getElementById('idm621').checked='true';"  /><br /><input type="text" value="" size="3" maxlength="4" name="vm63" id="vm63" onkeyup="javascript:jQuery('#vm62').val(this.value);" />

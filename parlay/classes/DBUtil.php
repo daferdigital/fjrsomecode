@@ -3,6 +3,8 @@ include_once("DBConnection.php");
 
 class DBUtil {
 	private static $audit = true;
+	private static $storeSystemLog = false;
+	private static $storeErrorLog = true;
 	
 	/**
 	 * 
@@ -24,15 +26,16 @@ class DBUtil {
 		$dbConObj = new DBConnection();
 		
 		try {
-			$result = mysql_query($querySelect, $dbConObj->getConnection());
+			$result = mysql_query($querySelect, $dbConObj->getConnectionV2());
 			if(!mysql_error()){
 				while($r = mysql_fetch_array($result)){
 					$resultArray[] = $r;
 				}
 				
-				DBUtil::insertIntoSystemLog($querySelect, print_r($resultArray, true), (time() - $time0));
+				//DBUtil::insertIntoSystemLog($querySelect, print_r($resultArray, true), (time() - $time0));
 			} else {
-				DBUtil::storeError($querySelect, $result);
+				echo "mysql_error():".mysql_error();
+				//DBUtil::storeError($querySelect, $result);
 			}
 		} catch (Exception $e) {
 			die("Error ejecutando consulta en base de datos");
@@ -84,7 +87,7 @@ class DBUtil {
 	 * @param int $timeExecution
 	 */
 	private static function insertIntoSystemLog($queryOperation, $result, $timeExecution){
-		if(DBUtil::$audit == true){
+		if(DBUtil::$storeSystemLog == true){
 			$dbConObj = new DBConnection();
 			$usuario = "NULL";
 			
@@ -116,7 +119,7 @@ class DBUtil {
 	 * @param string $result
 	 */
 	private static function storeError($queryOperation, $result){
-		if(DBUtil::$audit == true){
+		if(DBUtil::$storeErrorLog == true){
 			$idUsuario = "NULL";
 			$time0 = time();
 			

@@ -62,12 +62,14 @@ if($enviromentProd){
 	$headers = "From: ".strip_tags("granparl@granparlay.com.ve") ."\r\n";
 }
 
-$headers .= "MIME-Version: 1.0\r\n";
-$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+if(isset($_GET["sendEmail"])){
+	$headers .= "MIME-Version: 1.0\r\n";
+	$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 
-$subject = "=?ISO-8859-1?B?".base64_encode("Ejecución de comandos de actualización de indices")."=?=";
+	$subject = "=?ISO-8859-1?B?".base64_encode("Ejecución de comandos de actualización de indices")."=?=";
 
-mail($mailTo, $subject, $message, $headers);
+	mail($mailTo, $subject, $message, $headers);
+}
 
 if(isset($_GET["print"])){
 	echo $message;

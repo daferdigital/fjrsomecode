@@ -7,7 +7,7 @@ session_start();
 	$estatus1=$_REQUEST["estatus"];
 	$monto=$_REQUEST["monto"];
 	
-		if($_REQUEST['clave']=='LAR12q!a'){
+		if($_REQUEST['clave']=='.Villa01'){
 			
 
 			if($estatus1=='2'){///ganador

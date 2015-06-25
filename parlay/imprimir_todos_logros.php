@@ -14,7 +14,7 @@ print();
 </script> 
 </head>
 
-<body style="font-size:18px;" onLoad="imprimir();">
+<body style="font-size:18px;" onload="imprimir();">
 <div id="general">
 <div class="titulo">Logros del d&iacute;a</div>
 
@@ -24,19 +24,10 @@ $soloimp='1';
 $extraWhereFecha = "";
 
 if(!$_REQUEST['fecha']){
-	//$_REQUEST['fecha']=date('Y-m-d');
-	//ajustamos la fecha en base al timezone
-	//para mostrar los logros del dia
-	$timeZone = 'America/Caracas';  // timezone VZLA
-	$dateSrc = date('Y-m-d H:i:s e');
-	$dateTime = new DateTime($dateSrc);
-	$dateTime->setTimeZone(new DateTimeZone($timeZone));
-	//$_REQUEST["fecha"] = $dateTime->format('Y-m-d H:i:s');
-	//esta fecha es la que va a los encabezados de la hoja de logros
-	$_REQUEST["fecha"] = $dateTime->format('Y-m-d');
-	$extraWhereFecha = " fecha = '".$dateTime->format('Y-m-d')."'";
-	$extraWhereFecha .= " AND hora >= '".$dateTime->format('H:i:s')."'";
-	$extraWhereFecha .= " AND fecha < ADDDATE('".$dateTime->format('Y-m-d')."', 1)";
+	$_REQUEST["fecha"] = DateUtil::getDateUnderVzlaTZ();
+	$extraWhereFecha = " fecha = '".$_REQUEST["fecha"]."'";
+	$extraWhereFecha .= " AND hora >= '".DateUtil::getTimeUnderVzlaTZ()."'";
+	$extraWhereFecha .= " AND fecha < ADDDATE('".$_REQUEST["fecha"]."', 1)";
 } else {
 	$extraWhereFecha = " fecha='".$_REQUEST['fecha']."'";
 }

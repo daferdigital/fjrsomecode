@@ -1,14 +1,14 @@
-<?Php session_start();
-	$fechas=getdate(mktime(0, 0, 0, date("m")  , date("d")+1, date("Y")));
+<?Php 
+	session_start();
+	include_once "./classes/DateUtil.php";
 	
 	if($_GET['fdesde']){
 		$fecha_desde=$_GET['fdesde'];
 		$fecha_hasta= $_GET['fhasta'];
 	}else{
-		$fecha_desde=date("d/m/Y");	
-		$can_dias = 1;
-		$fec_emision = date('m/d/Y');
-		$fecha_hasta= date("d/m/Y"); ///, strtotime("$fec_emision + $can_dias day"));  
+		$fecha_desde = DateUtil::getDateUnderVzlaTZDayMonthYear();
+		$fec_emision = DateUtil::getDateUnderVzlaTZDayMonthYear();
+		$fecha_hasta = DateUtil::getDateUnderVzlaTZDayMonthYear();
 	}
 	
 	$numTicket = "";

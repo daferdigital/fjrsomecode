@@ -1,14 +1,8 @@
-<?Php include_once("procesos/conexion.php");?>
-<script language="javascript">
-	/*$(document).ready(function() {
-					$("#contenido_parley").html(
-					 $.ajax({
-					  url: "logros_beisbol.php",
-					  contentType:"application/x-www-form-urlencoded",
-					  async: false
-					 }).responseText 
-					);
-	});*/
+<?Php 
+	include_once("procesos/conexion.php");
+?>
+<script type="text/javascript">
+	
 	$(document).ready(function(){
 		$("#carga_formulario").click(function(evento){
 			if($("#scategorias").val()!='' && $("#sligas").val()!='' && $("#fecha_ld").val()!=''){
@@ -47,6 +41,6 @@
 	<?Php include("resultado_dia.php");?>
 	<div id="contenido_parley" style="margin-top:10px;"></div>
    
-<script language="javascript">
+<script type="text/javascript">
 $("#fecha_ld").datepicker();
 </script>
